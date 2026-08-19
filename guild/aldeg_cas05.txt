@@ -1,0 +1,139 @@
+//===== rAthena Script =======================================
+//= War of Emperium (Al De Baran) - Rothenburg
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= NPCs that relate to Al De Baran Guild Castle 5
+//===== Additional Comments: =================================
+//= 1.0 First Version. No longer uses functions. [L0ne_W0lf]
+//= 1.1 Removed dialog from interior flags. [L0ne_W0lf]
+//= 1.2 Partially rewrote Script. [Masao]
+//============================================================
+
+// Bandeiras das Guildas (Fora do Castelo)
+//============================================================
+-	script	Acrux#1::OutsideFlagsA5	722,{
+
+	set .@GID, GetCastleData("aldeg_cas05",1);
+
+	if (.@GID == 0) {
+		mes "[ Decreto Divino do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme o pacto divino do Reino de Rune-Midgard,";
+		mes "nós declaramos que";
+		mes "não há um mestre formal neste castelo.";
+		mes " ";
+		mes "2. Para aquele que conseguir";
+		mes "superar todas as provações";
+		mes "e destruir o Emperium,";
+		mes "o rei o dotará com a";
+		mes "posse deste castelo.";
+		close;
+	}
+	if (getcharid(2) == .@GID) {
+		mes "[ Voz Ecoando ]";
+		mes "Bravo guerreiro...";
+		mes "Você deseja retornar ao seu lugar de honra?";
+		next;
+		if(select("Retornar ao Castelo do Clã.:Sair.") == 1) {
+			close2;
+			if (getcharid(2) == GetCastleData("aldeg_cas05",1)) {
+				warp "aldeg_cas05",167,225;
+				end;
+			}
+			end;
+		}
+		close;
+	}
+	mes "[ Decreto Divino do Reino de Rune-Midgard ]";
+	mes " ";
+	mes "1. Conforme o pacto divino do Reino de Rune-Midgard,";
+	mes "nós declaramos que esse castelo";
+	mes "pertence ao Clã ^ff0000"+GetGuildName(.@GID)+"^000000.";
+	mes " ";
+	mes "2. O Líder do clã ^ff0000"+GetGuildName(.@GID)+"^000000 se chama";
+	mes "^ff0000"+GetGuildMaster(.@GID)+"^000000";
+	mes "Se houver alguém que se oponha a esse decreto,";
+	mes "prove sua força e honra com uma lâmina de aço em suas mãos.";
+	close;
+
+OnRecvCastleA05:
+	FlagEmblem GetCastleData("aldeg_cas05",1);
+	end;
+}
+
+alde_gld,265,93,6	duplicate(OutsideFlagsA5)	Acrux#1-2	722
+alde_gld,265,87,6	duplicate(OutsideFlagsA5)	Acrux#2	722
+
+// Bandeiras das Guildas (Dentro do Castelo)
+//============================================================
+-	script	Acrux#3::InsideFlagsA5	722,{
+	end;
+
+OnRecvCastleA05:
+	FlagEmblem GetCastleData("aldeg_cas05",1);
+	end;
+}
+
+aldeg_cas05,170,85,2	duplicate(InsideFlagsA5)	Acrux#3-2	722
+aldeg_cas05,142,212,2	duplicate(InsideFlagsA5)	Acrux#4	722
+aldeg_cas05,149,196,2	duplicate(InsideFlagsA5)	Acrux#5	722
+aldeg_cas05,41,180,2	duplicate(InsideFlagsA5)	Acrux#6	722
+aldeg_cas05,38,201,2	duplicate(InsideFlagsA5)	Acrux#7	722
+aldeg_cas05,65,182,2	duplicate(InsideFlagsA5)	Acrux#8	722
+aldeg_cas05,65,205,2	duplicate(InsideFlagsA5)	Acrux#9	722
+aldeg_cas05,10,218,2	duplicate(InsideFlagsA5)	Acrux#10	722
+aldeg_cas05,10,218,2	duplicate(InsideFlagsA5)	Acrux#11	722
+aldeg_cas05,164,201,2	duplicate(InsideFlagsA5)	Acrux#12	722
+aldeg_cas05,14,117,2	duplicate(InsideFlagsA5)	Acrux#13	722
+aldeg_cas05,10,225,2	duplicate(InsideFlagsA5)	Acrux#14	722
+aldeg_cas05,187,59,2	duplicate(InsideFlagsA5)	Acrux#15	722
+aldeg_cas05,154,51,2	duplicate(InsideFlagsA5)	Acrux#16	722
+aldeg_cas05,22,211,2	duplicate(InsideFlagsA5)	Acrux#17	722
+aldeg_cas05,150,202,2	duplicate(InsideFlagsA5)	Acrux#18	722
+
+// Bandeiras das Guildas (Cidade)
+//============================================================
+aldebaran,128,97,4	duplicate(InsideFlagsA5)	Acrux#19	722
+
+// Funcionária Kafra
+//============================================================
+aldeg_cas05,31,190,0	duplicate(guildkafra)	Funcionária Kafra#aldeg_cas05	117
+
+// Mordomo
+//============================================================
+aldeg_cas05,51,179,0	duplicate(cm)	Esmarehk#aldeg_cas05	55
+
+// Saída da Sala do Tesouro
+//============================================================
+aldeg_cas05,64,8,0	script	#lever_A05	111,{
+	mes " ";
+	mes "Há uma pequena alavanca. Você deseja puxá-la?";
+	next;
+	if (select("Puxar.:Não Puxar.") == 1) {
+		close2;
+		warp "aldeg_cas05",51,179;
+		end;
+	}
+	close;
+}
+
+// Alavanca da Masmorra da Guilda
+//============================================================
+aldeg_cas05,22,205,0	duplicate(gdlever)	#aldeg_cas05	111
+
+// Invocações de Baús do Tesouro
+//============================================================
+aldeg_cas05,62,12,0	duplicate(Gld_Trea_Spawn)	Tesouro#aldeg_cas05	-1
+
+// Gerenciador Automático
+//============================================================
+aldeg_cas05,28,102,0	duplicate(Gld_Agit_Manager)	Agit#aldeg_cas05	-1
+
+// Guardiões
+//============================================================
+aldeg_cas05,52,179,0	duplicate(Gld_Guard_Template)	Guardião#aldeg_cas05	-1

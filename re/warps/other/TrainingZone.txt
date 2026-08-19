@@ -1,0 +1,91 @@
+//===== rAthena Script =======================================
+//= Training Zone
+//===== Description: =========================================
+//= NPC warp related to the training zone.
+//===== Changelog: ===========================================
+//= 1.0 Initial Release [Capuche]
+//============================================================
+
+prontera,246,62,3	script	Instrutor de Treinamento#sol1	8W_SOLDIER,{
+	mes "[Instrutor de Treinamento]";
+	mes "Se quiser treinar em uma área mais ampla, eu deixarei você entrar.";
+	next;
+	mes "[Instrutor de Treinamento]";
+	mes "O campo de treinamento é dividido em duas áreas principais.";
+	next;
+	mes "[Instrutor de Treinamento]";
+	mes "Área superior, onde você pode testar a força aplicada com base no tamanho dos monstros.";
+	next;
+	mes "[Instrutor de Treinamento]";
+	mes "Área inferior, onde você pode testar a força aplicada de acordo com o atributo e forma do monstro.";
+	next;
+	mes "[Instrutor de Treinamento]";
+	mes "Para qual área você gostaria de ir?";
+	next;
+	switch( select( "Área Superior.", "Área Inferior.", "Não entrar." ) ) {
+	case 1:
+		mes "[Instrutor de Treinamento]";
+		mes "Então eu irei guiá-lo.";
+		close2;
+		warp "tra_fild",112,167;
+		end;
+	case 2:
+		mes "[Instrutor de Treinamento]";
+		mes "Então eu irei guiá-lo.";
+		close2;
+		warp "tra_fild",111,74;
+		end;
+	case 3:
+		mes "[Instrutor de Treinamento]";
+		mes "Se precisar de orientação, fale comigo.";
+		close;
+	}
+}
+
+tra_fild,111,79,3	script	Instrutor de Treinamento#sol3	8W_SOLDIER,{
+	mes "[Instrutor de Treinamento]";
+	mes "Tem certeza de que deseja ir para a seção superior?";
+	next;
+	switch( select( "Mover-se.", "Não ir.", "Teleportar para Prontera." ) ) {
+	case 1:
+		mes "[Instrutor de Treinamento]";
+		mes "Vá para a seção superior!!!";
+		close2;
+		warp "tra_fild",112,167;
+		end;
+	case 2:
+		mes "[Instrutor de Treinamento]";
+		mes "Fale comigo se precisar se mover.";
+		close;
+	case 3:
+		mes "[Instrutor de Treinamento]";
+		mes "Irei teletransportá-lo.";
+		close2;
+		warp "prontera",246,60;
+		end;
+	}
+}
+
+tra_fild,112,171,3	script	Instrutor de Treinamento#sol2	8W_SOLDIER,{
+	mes "[Instrutor de Treinamento]";
+	mes "Tem certeza de que deseja ir para a seção inferior?";
+	next;
+	switch( select( "Mover-se.", "Não ir.", "Teleportar para Prontera." ) ) {
+	case 1:
+		mes "[Instrutor de Treinamento]";
+		mes "Vá para a seção inferior!!!";
+		close2;
+		warp "tra_fild",111,74;
+		end;
+	case 2:
+		mes "[Instrutor de Treinamento]";
+		mes "Fale comigo se precisar se mover.";
+		close;
+	case 3:
+		mes "[Instrutor de Treinamento]";
+		mes "Irei teletransportá-lo.";
+		close2;
+		warp "prontera",246,60;
+		end;
+	}
+}

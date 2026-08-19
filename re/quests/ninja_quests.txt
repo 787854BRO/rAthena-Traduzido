@@ -1,0 +1,361 @@
+//===== rAthena Script =======================================
+//= Kagerou/Oboro Equipment Quests
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Quests for Kagerou/Oboro weapons and armor.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//= 1.1 Little clean-up. [Capuche]
+//============================================================
+
+// NPCs de Armas e Armaduras :: kaboro_gearmix
+//============================================================
+que_ng,21,72,6	script	Artesão de Armaduras	4_M_RASWORD,{
+	mes "[Gyo]";
+	mes "Como você definiria a vitória?";
+	mes "Para derrubar o inimigo...";
+	mes "No entanto, o mais importante é...";
+	mes "Nunca cair!";
+	next;
+	mes "[Gyo]";
+	mes "Para isso, você deve se proteger melhor.";
+	mes "Você não pode proteger 'outros' enquanto isso impede sua 'própria' proteção.";
+	next;
+	if(select("Combinar armadura.:Finalizar Conversa.") == 2) {
+		mes "[Gyo]";
+		mes "A prudência também é uma virtude importante na batalha.";
+		close;
+	}
+	switch(select("Proteção de Braço do Lobo[1]:Proteção de Braço da Lua Crescente[1]:Armadura de Escamas do Ninja[1]:Armadura do Rei das Sombras[1]:Sair.")) {
+	case 1:
+		mes "[Gyo]";
+		mes "Proteção de Braço do Lobo... Uma armadura bestial.";
+		next;
+		callsub L_Select,2172;
+		if (countitem(2171) > 0 && countitem(6252) > 9) {  //tradução personalizada
+			delitem 2171,1; //Proteção de Braço da Raposa
+			delitem 6252,10; //Sangue de Lobo
+			getitem 2172,1; //Proteção de Braço do Lobo
+			mes "[Gyo]";
+			mes "Você sente a natureza do lobo?";
+			mes "Selvagem e charmoso...";
+			close;
+		}
+		break;
+	case 2:
+		mes "[Gyo]";
+		mes "Proteção de Braço da Lua Crescente... algo de beleza e força... como ninguém viu.";
+		next;
+		callsub L_Select,2173;
+		if (countitem(2171) > 0 && countitem(7321) > 99) {  //tradução personalizada
+			delitem 2171,1; //Proteção de Braço da Raposa
+			delitem 7321,100; //Fragmento de Cristal
+			getitem 2173,1; //Proteção de Braço da Lua Crescente
+			mes "[Gyo]";
+			mes "Tanta beleza...";
+			mes "Como se todo o corpo estivesse transbordando magia.";
+			close;
+		}
+		break;
+	case 3:
+		mes "[Gyo]";
+		mes "A Armadura de Escamas do Ninja... diz que um ninja lendário uma vez a usou.";
+		next;
+		callsub L_Select,15054;
+		if (countitem(7451) > 29 && countitem(7562) > 29 && countitem(6091) > 29) {  //tradução personalizada
+			delitem 7451,30; //Escama de Dragão de Fogo
+			delitem 7562,30; //Escama de Gelo
+			delitem 6091,30; //Escama Vermelha-Escura
+			getitem 15054,1; //Armadura de Escamas do Ninja
+			mes "[Gyo]";
+			mes "Esta é realmente uma armadura lendária...";
+			mes "Mesmo que eu não acredite em lendas...";
+			close;
+		}
+		break;
+	case 4:
+		mes "[Gyo]";
+		mes "A Armadura do Rei das Sombras... foi feita para proteger os outros.";
+		next;
+		callsub L_Select,15055;
+		if (countitem(15056) > 0 && countitem(6089) > 9) {  //tradução personalizada
+			delitem 15056,1; //Indumentária Ninja Especial
+			delitem 6089,10; //Fragmento Sombrio
+			getitem 15055,1; //Armadura do Rei das Sombras
+			mes "[Gyo]";
+			mes "Como é?";
+			mes "A armadura não parece que foi usada?";
+			close;
+		}
+		break;
+	case 5:
+		close;
+	}
+	mes "[Gyo]";
+	mes "Você não tem ingredientes suficientes.";
+	mes "Olhe de novo...";
+	close;
+
+L_Select:
+	.@string1$ = "Verificar os Ingredientes.";
+	.@string2$ = "Verificar os Atributos.";
+	while(1) {
+		switch(select(.@string1$,.@string2$,"Combinar.","Sair.")) {
+		case 1:
+			.@string1$ = "";
+			callsub L_Ingredients, getarg(0);
+			break;
+		case 2:
+			.@string2$ = "";
+			callsub L_Stats, getarg(0);
+			break;
+		case 3:
+			callsub L_Combine;
+			return;
+		case 4:
+			mes "[Gyo]";
+			mes "Parece que você precisa de mais tempo para decidir.";
+			close;
+		}
+	}
+
+L_Ingredients:
+	mes "[Gyo]";
+	switch (getarg(0)) {
+	case 2172: //Proteção de Braço do Lobo
+		mes "Para fazer uma ^ff0000Proteção de Braço do Lobo, você precisará de 1 Proteção de Braço da Raposa e 10 Sangue de Lobo^000000.";
+		mes "Você pode sentir isso? O pulsar do sangue do lobo...";
+		break;
+	case 2173: //Proteção de Braço da Lua Crescente
+		mes "Para fazer uma ^ff0000Proteção de Braço da Lua Crescente, você precisará de 1 Proteção de Braço da Raposa e 100 Fragmentos de Cristal^000000.";
+		mes "Um crescente tão belo e claro quanto um cristal gravado nele.";
+		break;
+	case 15054:	//Armadura de Escamas do Ninja
+		mes "Para fazer uma ^ff0000Armadura de Escamas do Ninja, você precisará de 30 Escamas de Dragão de Fogo, 30 Escamas de Gelo, e 30 Escamas Vermelha-Escura^000000.";
+		mes "Você pode sentir seus poderes lendários.";
+		break;
+	case 15055:	//Armadura do Rei das Sombras
+		mes "Para fazer uma ^ff0000Armadura do Rei das Sombras, você precisará de uma Indumentária Ninja Especial com um slot e 10 Fragmentos Sombrios^000000.";
+		mes "Com a escuridão ele apaga a própria existência...";
+		break;
+	}
+	next;
+	return;
+
+L_Stats:
+	mes "[[" + getitemname(getarg(0)) + "]";
+	switch (getarg(0)) {
+	case 2172: //Proteção de Braço do Lobo
+		mes "Chance de ter ATQ +100 por 5 seg., e ESQUIVA -50 em ataques corpo a corpo.";
+		mes "Tipo Escudo, Defesa 45, Slot 1";
+		mes "Nível Necessário 100, Apenas Ninja";
+		break;
+	case 2173: //Proteção de Braço da Lua Crescente
+		mes "Diminui o atraso pós-habilidade em 2% para cada refino.";
+		mes "Tipo Escudo, Defesa 70, Slot 1";
+		mes "Nível Necessário 100, Apenas Ninja";
+		break;
+	case 15054:	//Armadura de Escamas do Ninja
+		mes "HPM+15%, SPM-30%";
+		mes "Tipo Armadura, Defesa 90, Slot 1";
+		mes "Nível Necessário 100, Apenas Ninja";
+		break;
+	case 15055:	//Armadura do Rei das Sombras
+		mes "Chance de ativar a habilidade ''Genjutsu: Clone das Sombras'' quando atacado por ataques corpo a corpo.";
+		mes "Tipo Armadura, Defesa 60, Slot 1";
+		mes "Nível Necessário 100, Apenas Ninja";
+		break;
+	}
+	next;
+	return;
+
+L_Combine:
+	mes "[Gyo]";
+	mes "Certifique-se de que ^ff0000você tem os ingredientes e equipamentos corretos em mãos^000000.";
+	mes "Não adianta chorar por isso depois.";
+	next;
+	switch(select("Combinar.:Sair.")) {
+	case 1:
+		if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+			mes "- Aguentar!! -";
+			mes "- Você não pode receber mais itens -";
+			mes "- Porque você está carregando itens demais. -";
+			mes "- Por favor, tente novamente -";
+			mes "- depois de iluminar algum peso. -";
+			close;
+		}
+		return;
+	case 2:
+		mes "[Gyo]";
+		mes "Parece que você precisa de mais tempo para decidir.";
+		close;
+	}
+	end;
+}
+
+que_ng,23,70,3	script	Mestre Artesão de Armas	4_DST_SOLDIER,{
+	mes "[Ki]";
+	mes "Atacar é o melhor meio de defesa.";
+	mes "Uma arma poderosa o tornará verdadeiramente completo.";
+	next;
+	mes "[Ki]";
+	mes "Claro que seria melhor ter algo especial em mãos.";
+	next;
+	if(select("Combinar Armas.:Finalizar Conversa.") == 2) {
+		mes "[Ki]";
+		mes "Às vezes, ser muito cuidadoso pode ser letal.";
+		close;
+	}
+	switch(select("Adaga Raksasa[1]:Mikatsuki[1]:Shuriken de Pétalas[2]:Sair.")) {
+	case 1:
+		mes "[Ki]";
+		mes "A Adaga Raksasa só pode ser usada após muito treinamento.";
+		next;
+		callsub L_Select,13076;
+		if (countitem(13013) > 0 && countitem(718) > 0) {  //tradução personalizada
+			delitem 13013,1; //Murasame
+			delitem 718,1; //Granada
+			getitem 13076,1; //Adaga Raksasa
+			mes "[Ki]";
+			mes "Ah...";
+			mes "Que brilho lindo...";
+			close;
+		}
+		mes "[Ki]";
+		mes "Hmm... Você não tem material o suficiente para fazer um Adaga Raksasa.";
+		break;
+	case 2:
+		mes "[Ki]";
+		mes "Mikatsuki... Tem uma bela curva como a lua crescente...";
+		mes "Não há muitos que conseguem fazê-la.";
+		next;
+		callsub L_Select,13078;
+		if (countitem(13015) > 0 && countitem(727) > 0) {  //tradução personalizada
+			delitem 13015,1; //Hakujin
+			delitem 727,1; //Opala
+			getitem 13078,1; //Mikatsuki
+			mes "[Ki]";
+			mes "Verdadeiramente lindo...";
+			mes "Sou muito sortudo por poder ver uma adaga tão magnífica.";
+			close;
+		}
+		mes "[Ki]";
+		mes "Hmm... Você não tem material o suficiente para fazer uma Mikatsuki.";
+		break;
+	case 3:
+		mes "[Ki]";
+		mes "Shuriken de Pétalas... Você já viu pétalas girando?";
+		next;
+		callsub L_Select,13313;
+		if (countitem(13304) > 0 && countitem(7156) > 99) {  //tradução personalizada
+			delitem 13304,1; //Huuma da Calmaria
+			delitem 7156,100; //Shuriken Despedaçado
+			getitem 13313,1; //Shuriken de Pétalas
+			mes "[Ki]";
+			mes "Voando... pétalas!!";
+			close;
+		}
+		mes "[Ki]";
+		mes "Hmm... Você não tem material o suficiente para fazer uma Shuriken de Pétalas.";
+		break;
+	case 4:
+		close;
+	}
+	mes "Por que você não verifica novamente?";
+	mes "Alguns simplesmente não conseguem desistir daquilo que possuem.";
+	close;
+
+L_Select:
+	.@string1$ = "Verificar Ingredientes.";
+	.@string2$ = "Verificar Atributos.";
+	while(1) {
+		switch(select(.@string1$,.@string2$,"Combinar.","Sair.")) {
+		case 1:
+			.@string1$ = "";
+			callsub L_Ingredients, getarg(0);
+			break;
+		case 2:
+			.@string2$ = "";
+			callsub L_Stats, getarg(0);
+			break;
+		case 3:
+			callsub L_Combine;
+			return;
+		case 4:
+			mes "[Ki]";
+			mes "Pense com cuidado~~";
+			close;
+		}
+	}
+
+L_Ingredients:
+	mes "[Ki]";
+	switch (getarg(0)) {
+	case 13076:	//Adaga Raksasa
+		mes "Para fazer uma ^ff0000Adaga Raksasa, você precisará de 1 Murasame com 2 slots e 1 Granada^000000.";
+		mes "A granada dá à Adaga Raksasa sua cor única.";
+		break;
+	case 13078:	//Mikatsuki
+		mes "Para fazer uma ^ff0000Mikatsuki, você precisará de um Hakujin com um Slot e uma Opala^000000.";
+		mes "A Opala é o que emite o brilho translúcido.";
+		break;
+	case 13313:	//Shuriken de Pétalas
+		mes "Para fazer uma ^ff0000Shuriken de Pétalas, você precisará de uma Huuma da Calmaria e 100 Shurikens Despedaçados^000000.";
+		mes "Pode parecer que muitas shurikens são necessárias... Mas é essencial para o lindo efeito de vibração.";
+		break;
+	}
+	next;
+	return;
+
+L_Stats:
+	mes "[[" + getitemname(getarg(0)) + "]";
+	switch (getarg(0)) {
+	case 13076:	//Adaga Raksasa
+		mes "INT+3 ATQM+100.";
+		mes "Tipo Adaga, ATQ 120, Slot 1";
+		mes "Nível Necessário 110, Apenas Ninja";
+		break;
+	case 13078:	//Mikatsuki
+		mes "ATQM + 120, tempo de Conjuração e uso de SP são reduzidos em 5% ao usar habilidades.";
+		mes "Tipo Adaga, ATQ 50, Arma Nv.4, Slot 1";
+		mes "Nível Necessário 100, Apenas Ninja";
+		break;
+	case 13313:	//Shuriken de Pétalas
+		mes "ATQM + 50, O dano da habilidade ''Turbilhão de Pétalas'' é aumentado em 20%.";
+		mes "Tipo Shuriken, ATQ 150";
+		mes "Arma nv.3, Slots 2";
+		mes "Nível Necessário 110, Apenas Ninja";
+		break;
+	}
+	next;
+	return;
+
+L_Combine:
+	mes "[Ki]";
+	mes "Certifique-se de que ^ff0000você tenha os ingredientes e equipamentos corretos em mãos^000000.";
+	mes "Uma vez feito, não pode ser desfeito.";
+	next;
+	switch(select("Combinar.:Sair.")) {
+	case 1:
+		if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+			mes "- Aguentar!! -";
+			mes "- Você não pode receber mais itens -";
+			mes "- porque está carregando itens de demais. -";
+			mes "- Por favor, tente novamente -";
+			mes "- depois de eluminar algum peso. -";
+			close;
+		}
+		return;
+	case 2:
+		mes "[Ki]";
+		mes "Pense com cuidado~~";
+		close;
+	}
+	end;
+}

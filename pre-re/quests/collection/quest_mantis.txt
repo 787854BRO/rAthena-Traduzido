@@ -1,0 +1,101 @@
+//===== rAthena Script =======================================
+//= iRO Repeatable EXP Quests.
+//===== By: ==================================================
+//= Masao
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Custom Version.
+//= Repeatable EXP Quest : Kill 50 Mantis.
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+lou_fild01,240,354,4	script	Pesquisador de Mantis	878,{
+
+	if (checkquest(60179) != -1) {
+		if (checkquest(60179,HUNTING) != 2 ) {
+			mes "[Pesquisador de Mantis]";
+			mes "Você terminou de caçar os 50 Louva-a-Deus?";
+			next;
+			switch(select("Sim.:Não.:Quero sair.")) {
+			case 1:
+				mes "[Pesquisador de Mantis]";
+				mes "Hmm, eu não acho que você tenha caçado 50 ainda.";
+				close;
+			case 2:
+				mes "[Pesquisador de Mantis]";
+				mes "Lembre-se, eu preciso de ajuda para caçar o Louva-a-Deus então vá caçar 50 deles.";
+				close;
+			case 3:
+				mes "[Pesquisador de Mantis]";
+				mes "Você tem certeza que quer parar de caçar?";
+				mes "Qualquer progresso que você tenha feito será apagado.";
+				next;
+				switch(select("Sim.:Não.")) {
+				case 1:
+					mes "[Pesquisador de Mantis]";
+					mes "Ok, então volte aqui se você mudar de idéia.";
+					erasequest 60179;
+					close;
+				case 2:
+					mes "[Pesquisador de Mantis]";
+					mes "Por favor, mate 50 Louva-a-Deus para fazer deste um lugar onde as pessoas possam ir e coletar Experiência com segurança.";
+					close;
+				}
+			}
+		}
+		mes "[Pesquisador de Mantis]";
+		mes "Incrível, você fez isso com velocidade.";
+		getexp 18818,7527;
+		erasequest 60179;
+		close;
+	}
+	if ((BaseLevel > 34) && (BaseLevel < 71)) {
+		mes "[Pesquisador de Mantis]";
+		mes "Oh ótimo!";
+		mes "Você está aqui para me ajudar né?";
+		mes "Se não, eu não sei o que fazer com os monstros neste lugar!";
+		next;
+		switch(select("Claro:Não")) {
+		case 1:
+			mes "[Pesquisador de Mantis]";
+			mes "Ótimo! Eu soube no momento em que te vi que posso contar com você!";
+			mes "Eu preciso que você reduza a quantidade de monstros que estão atacando neste Mapa!";
+			mes "Existem muitos Louva-a-deus por perto, o que torna impossível para os jogadores de nível mais baixo ganharem boa experiência aqui.";
+			next;
+			mes "[Pesquisador de Mantis]";
+			mes "Então, você ainda gostaria de me ajudar?";
+			next;
+			switch(select("Claro:Cancelar")) {
+			case 1:
+				if (BaseLevel > 70) {
+					mes "[Pesquisador de Mantis]";
+					mes "Obrigado pela sua grande ajuda com o Louva-a-Deus!";
+					mes "Atualmente a situação está estável e eu não preciso mais da sua ajuda para matá-los.";
+					close;
+				}
+				mes "[Pesquisador de Mantis]";
+				mes "Mate 50 daqueles Louva-a-Deus e me avise quando terminar. Eu recompensarei você pelos seus esforços.";
+				setquest 60179;
+				close;
+			case 2:
+				mes "[Pesquisador de Mantis]";
+				mes "Se você mudar de idéia, por favor, volte.";
+				close;
+			}
+		case 2:
+			mes "[Pesquisador de Mantis]";
+			mes "Se você mudar de idéia, por favor, volte.";
+			close;
+		}
+	}
+	mes "[Pesquisador de Mantis]";
+	mes "Oh garoto, oh garoto!";
+	next;
+	mes "[Pesquisador de Mantis]";
+	mes "Desculpe, mas eu não posso falar agora, eu estou em um mundo de dor aqui, esses malditos Louva-a-Deus vão me matar.";
+	close;
+}

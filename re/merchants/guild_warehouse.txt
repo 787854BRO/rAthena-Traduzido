@@ -1,0 +1,112 @@
+//===== rAthena Script =======================================
+//= Guild Warehouse Manager
+//===== Description: =========================================
+//= [Walkthrough Conversion]
+//= Gives players access to their guild storage and log.
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Lemongrass]
+//============================================================
+
+-	script	GuildWarehouse	-1,{
+	mes "[Gerente do Armazém]";
+	mes "Como vai você? Somos especializados em Armazéns de ClãS. Esta é a nossa ^0000cdHistória^000000:";
+	mes "Por que os membros do Clã não podem compartilhar o mesmo Armazém?";
+	next;
+	mes "[Gerente do Armazém]";
+	mes "Você poderá abrir o armazém por 1.000 Zeny ou consultar o histórico de uso pelo Clã.";
+	mes "Como posso ajudá-lo?";
+	next;
+	if( select( "Abrir Armazém do Clã.:Ver histórico de uso do Armazém." ) == 1 ){
+		.@guildid = getcharid( 2 );
+
+		if( .@guildid == 0 ){
+			mes "[Gerente do Armazém]";
+			mes "O Armazém do Clã está disponível apenas para membros de um Clã.";
+			close;
+		}
+
+		if( getgdskilllv( .@guildid, "GD_GUILD_STORAGE" ) == 0 || !guild_has_permission( GUILD_PERM_STORAGE ) ){
+			mes "[Gerente do Armazém]";
+			mes "Parece que ainda não é possível para seu Clã usar o armazém ou você não tem as permissões de acesso a ele.";
+			mes "Por favor, volte depois de verificar se o Clã tem a habilidade necessária e a permissão para acessar o armazém.";
+			close;
+		}
+
+		if( Zeny < 1000 ){
+			mes "[Gerente do Armazém]";
+			mes "Receio que você não tenha dinheiro suficiente para pagar a taxa.";
+			mes "A taxa é de 1.000 Zenys.";
+			close;
+		}
+
+		mes "[Gerente do Armazém]";
+		mes "Vou abrir o Armazém do Clã para você então!";
+		close2;
+
+		if( Zeny < 1000 ){
+			// Previne trapaças
+			end;
+		}
+
+		if( guildopenstorage() == GSTORAGE_OPEN ){
+			Zeny -= 1000;
+			end;
+		}else{
+			mes "[Gerente do Armazém]";
+			mes "Receio que outra pessoa esteja usando o armazém nesse momento.";
+			mes "Por favor, tente novamente depois de um tempo.";
+			close;
+		}
+	}else{
+		.@guildid = getcharid( 2 );
+
+		if( .@guildid == 0 ){
+			mes "[Gerente do Armazém]";
+			mes "O Armazém do Clã está disponível apenas para membros de um Clã.";
+			close;
+		}
+
+		if( getgdskilllv( .@guildid, "GD_GUILD_STORAGE" ) == 0 || !guild_has_permission( GUILD_PERM_STORAGE ) ){
+			mes "[Gerente do Armazém]";
+			mes "Parece que ainda não é possível para seu Clã usar o Armazém ou você não tem as permissões de acesso a ele.";
+			mes "Por favor, volte depois de verificar se o Clã tem a habilidade necessária e a permissão para acessar o armazém.";
+			close;
+		}
+
+		mes "[Gerente do Armazém]";
+		mes "Vou lhe mostrar o histórico de uso do Armazém.";
+		mes "Tenha um momento memorável!";
+		close2;
+		guildopenstorage_log();
+		end;
+	}
+}
+
+alberta,114,65,5	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#alberta	896
+aldebaran,146,122,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#aldebaran	896
+amatsu,100,156,5	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#amatsu	896
+ayothaya,203,173,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#ayothaya	896
+brasilis,204,227,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#brasilis	896
+comodo,204,153,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#comodo	896
+dewata,196,193,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#dewata	896
+einbech,182,124,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#einbech	896
+einbroch,238,203,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#einbroch	896
+geffen,128,68,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#geffen	896
+gonryun,164,127,5	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#gonryun	896
+harboro1,288,212,5	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#harboro1	896
+hugel,91,158,5	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#hugel	896
+izlude,133,149,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#izlude	896
+lighthalzen,162,102,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#lighthalzen	896
+louyang,210,111,5	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#louyang	896
+malaya,238,206,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#malaya	896
+morocc,168,107,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#morocc	896
+moscovia,211,200,5	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#moscovia	896
+niflheim,200,184,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#niflheim	896
+payon,180,106,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#payon	896
+//prontera,150,191,3	duplicate(GuildWarehouse)	Guild Warehouse Manager#prontera	896  //Coordenadas Original
+prontera,157,187,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#prontera	896
+rachel,123,145,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#rachel	896
+umbala,106,160,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#umbala	896
+veins,205,130,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#veins	896
+xmas,155,140,5	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#xmas	896
+yuno,176,187,3	duplicate(GuildWarehouse)	Ger. do Armazém do Clã#yuno	896

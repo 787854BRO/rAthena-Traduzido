@@ -1,0 +1,73 @@
+//===== rAthena Script =======================================
+//= Mergician
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Merges items taking up multiple slots in a player's
+//= inventory.
+//===== Additional Comments: =================================
+//= 1.0 First version, currently useless/disabled.
+//= 1.1 Implemented the 'mergeitem' script command. [Cydh]
+//= 1.2 Updated and moved to Cash Mall [Lemongrass]
+//============================================================
+
+prontera,146,95,3	script	Mergiciano#pron	64,{
+	if (checkweight(1301,1) == 0) {
+		mes "- Espere um segundo!! -";
+		mes "- Você está carregando muitos itens -";
+		mes "- e está muito peso para prosseguir. -";
+		mes "- Volte até mim depois -";
+		mes "- que eliminmar algum peso no seu inventário. -";
+		close;
+	}
+	mes "[Mergiciano]";
+	mes "Você acredita no milagre do deus Mesclar? Se sim, repita meu feitiço em voz alta enquanto eu o pronuncio!!!";
+	mes "Mesclar Mesclar, Messssclar!!!";
+	next;
+	switch(select("Qual é o milagre de Mesclar?:Messssclar!!!!:Abandon...")) {
+	case 1:
+		mes "[Mergiciano]";
+		mes "Existe uma força e ordem que governa e mantém o mundo funcionando bem.";
+		next;
+		mes "[Mergician]";
+		mes "Mas apareceu um fator negativo que pôs totalmente em risco este equilíbrio!!";
+		next;
+		mes "[Mergiciano]";
+		mes "Aquelas coisas que estão separadas mesmo sendo compostas pelo mesmo material!!";
+		next;
+		mes "[Mergiciano]";
+		mes "Você nunca experimentou esse incidente ruim?";
+		mes "O fato de eu ter ^3131FFa mesma Poção, mas aparecendo mais de duas vezes no seu inventário!!^000000 É tão desagradável!!!";
+		next;
+		mes "[Mergiciano]";
+		mes "Acredite no Mesclarismo. Essa é a verdade.";
+		mes "Então, eu posso ajudá-lo a ficar contente e ser feliz.";
+		close;
+	case 2:
+		mes "[Mergiciano]";
+		mes "Este é o ritual sagrado para orar ao Grande Deus, Mesclar! Estarei tomando emprestado o seu poder por um tempo!!";
+		next;
+		mes "[Mergiciano]";
+		mes "E se você deseja ser abençoado pelo Mesclar, seja humilde e grite bem alto! Mesclar Mesclar, Messssclar!!!";
+		next;
+		switch(select("Messssclar!:Não seguir o que ele diz.")) {
+		case 1:
+			mergeitem;
+			mes "[Mergiciano]";
+			mes "o deus Mesclar acabou de ouvir o seu desejo e o realizou!";
+			mes "Abra seu inventário para ver o milagre!";
+			close;
+		case 2:
+			mes "[Mergiciano]";
+			mes "Seu idiota!!! Você acabou de quebrar a conexão! Por que você não conseguiu pegar meu fluxo e me seguir?! Idiota!";
+			close;
+		}
+	case 3:
+		close;
+	}
+}

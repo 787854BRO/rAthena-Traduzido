@@ -1,0 +1,258 @@
+//===== rAthena Script =======================================
+//= Mapflag: Party lock.
+//===== Description: ========================================= 
+//= Blocks all party modifications on a map:
+//=   /organize, /leave, /invite, @changeleader
+//===== Additional Comments: ================================= 
+//= 1.0 Renewal split. [Euphy]
+//============================================================
+
+//============================================================
+// Labirinto da Floresta Nebulosa
+//============================================================
+1@mist	mapflag	partylock
+
+//============================================================
+// Caverna do Polvo
+//============================================================
+1@cash	mapflag	partylock
+
+//============================================================
+// Esgoto
+//============================================================
+1@pump	mapflag	partylock
+2@pump	mapflag	partylock
+
+//============================================================
+// Laboratório de Somatologia
+//============================================================
+1@lhz	mapflag	partylock
+
+//============================================================
+// Hospital Bangungot - 2º Andar
+//============================================================
+1@ma_h	mapflag	partylock
+
+//============================================================
+// Caverna Buwaya
+//============================================================
+1@ma_c	mapflag	partylock
+
+//============================================================
+// Esconderijo Bakonawa
+//============================================================
+1@ma_b	mapflag	partylock
+
+//============================================================
+// Interior de Eclage
+//============================================================
+1@ecl	mapflag	partylock
+
+//============================================================
+// Calabouço Memorial de Glastheim
+//============================================================
+1@gl_k	mapflag	partylock
+2@gl_k	mapflag	partylock
+
+//============================================================
+// Calabouço Memorial - Modo Onda
+//============================================================
+1@def01	mapflag	partylock
+1@def02	mapflag	partylock
+1@def03	mapflag	partylock
+
+//============================================================
+// Trilha do Herói - Parte 1
+//============================================================
+1@face	mapflag	partylock
+1@sara	mapflag	partylock
+
+//============================================================
+// Trilha do Herói - Parte 2
+//============================================================
+1@ge_st	mapflag	partylock
+1@gef	mapflag	partylock
+1@gef_in	mapflag	partylock
+1@spa	mapflag	partylock
+1@tnm1	mapflag	partylock
+1@tnm2	mapflag	partylock
+1@tnm3	mapflag	partylock
+
+//============================================================
+// Calabouço Memorial - Fábrica do Terror
+//============================================================
+1@xm_d	mapflag	partylock
+
+//============================================================
+// Trilha do Herói - Parte 3
+//============================================================
+1@glast	mapflag	partylock
+1@air1	mapflag	partylock
+1@air2	mapflag	partylock
+
+//============================================================
+// Batalha Decisiva - Parte 1
+//============================================================
+1@dth1	mapflag	partylock
+1@dth2	mapflag	partylock
+1@dth3	mapflag	partylock
+1@rev	mapflag	partylock
+
+//============================================================
+// Batalha Decisiva - Parte 2
+//============================================================
+1@eom	mapflag	partylock
+1@jtb	mapflag	partylock
+
+//============================================================
+// Episódio 15 - Fantasmagórica
+//============================================================
+1@lab	mapflag	partylock
+1@uns	mapflag	partylock
+1@mcd	mapflag	partylock
+
+//============================================================
+// Episódio 16.1 - Banquete Real
+//============================================================
+1@mir	mapflag	partylock
+2@mir	mapflag	partylock
+1@sthb	mapflag	partylock
+1@sthc	mapflag	partylock
+1@sthd	mapflag	partylock
+1@slw	mapflag	partylock
+1@swat	mapflag	partylock
+
+//============================================================
+// Dia Memorial
+//============================================================
+1@md_gef	mapflag	partylock
+1@md_pay	mapflag	partylock
+
+//============================================================
+// Pesadelo de Glastheim - Modo Galinha
+//============================================================
+1@gl_k2	mapflag	partylock
+2@gl_k2	mapflag	partylock
+
+//============================================================
+// Fábrica do Terror - Modo Galinha
+//============================================================
+1@xm_d2	mapflag	partylock
+
+//============================================================
+// Naufrágio Suspeito
+//============================================================
+1@tre	mapflag	partylock
+
+//============================================================
+// Vila Poring
+//============================================================
+1@begi	mapflag	partylock
+
+//============================================================
+// Ilha Vulcânica Korodo
+//============================================================
+1@crd	mapflag	partylock
+
+//============================================================
+// Festival de Macarrão de Julho
+//============================================================
+1@drdo	mapflag	partylock
+
+//============================================================
+// Mapas de Mudança de Classe para Ceifador de Almas
+//============================================================
+1@soul	mapflag	partylock
+
+//============================================================
+// Episódio 17.1
+//============================================================
+1@cor	mapflag	partylock
+1@os_a	mapflag	partylock
+1@os_b	mapflag	partylock
+1@rgsr	mapflag	partylock
+
+//============================================================
+// Episódio 17.2
+//============================================================
+1@bamn	mapflag	partylock
+1@bamq	mapflag	partylock
+1@ghg	mapflag	partylock
+1@herbs	mapflag	partylock
+1@lost	mapflag	partylock
+1@odin	mapflag	partylock
+
+//============================================================
+// Mapas de Mudança de Classe para as 4º Classes
+//============================================================
+1@4win	mapflag	partylock
+1@4mag	mapflag	partylock
+1@4mst	mapflag	partylock
+1@4sac	mapflag	partylock
+1@4tro	mapflag	partylock
+1@4inq	mapflag	partylock
+1@4cdn	mapflag	partylock
+1@4igd	mapflag	partylock
+1@4drk	mapflag	partylock
+
+//============================================================
+// Arena Noturna de Geffen
+//============================================================
+1@ge_sn	mapflag	partylock
+
+// Traces of Heroes
+1@mjo1	mapflag	partylock
+1@mjo2	mapflag	partylock
+1@spa2	mapflag	partylock
+
+//============================================================
+// Calabouço Memorial da Torre de Thanatos
+//============================================================
+1@thts	mapflag	partylock
+2@thts	mapflag	partylock
+3@thts	mapflag	partylock
+4@thts	mapflag	partylock
+5@thts	mapflag	partylock
+6@thts	mapflag	partylock
+7@thts	mapflag	partylock
+8@thts	mapflag	partylock
+
+//============================================================
+// Glastheim - Modo Desafio
+//============================================================
+1@gl_he	mapflag	partylock
+1@gl_he2	mapflag	partylock
+
+//============================================================
+// EDDA
+//============================================================
+1@gl_prq	mapflag	partylock
+1@gol1	mapflag	partylock
+1@gol2	mapflag	partylock
+
+//============================================================
+// Halloween 2018
+//============================================================
+1@halo	mapflag	partylock
+
+//============================================================
+// Torre da Constelação
+//============================================================
+1@ch_t	mapflag	partylock
+2@ch_t	mapflag	partylock
+3@ch_t	mapflag	partylock
+
+//============================================================
+// Episódio 18 - Direção da Oração
+//============================================================
+1@adv	mapflag	partylock
+1@advs	mapflag	partylock
+1@nyr	mapflag	partylock
+1@oz	mapflag	partylock
+1@tcamp	mapflag	partylock
+2@nyr	mapflag	partylock
+
+//============================================================
+// Torre Submersa
+//============================================================
+1@ch_u	mapflag	partylock

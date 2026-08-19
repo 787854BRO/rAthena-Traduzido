@@ -1,0 +1,12 @@
+//===== rAthena Script =======================================
+//= Monsters from Varmundt's Mansion
+//===== Changelog: ===========================================
+//= 1.0 First version. [JohnnyPlayy]
+//============================================================
+
+//= ba_lib - Biblioteca - Salão das Memórias
+//==================================================
+ba_lib,0,0	monster	Beta Quebrada	20630,10,5000
+ba_lib,0,0	monster	Escaramuçador	20680,15,5000
+ba_lib,0,0	monster	Verme de Livro	20683,80,5000
+ba_lib,0,0	monster	Livro de Feitiços	20684,70,5000

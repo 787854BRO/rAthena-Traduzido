@@ -1,0 +1,144 @@
+//===== rAthena Script =======================================
+//= Merchant WoE TE
+//===== Description: =========================================
+//= [Official Conversion]
+//= Merchants and Rental merchant template for WoE TE
+//	(duplicates in re/woe_te/<castle file>).
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+te_prt_gld,114,153,4	shop	Comerciante de Poções TE#prt	4_M_TELEPORTER,11557:-1,11558:-1
+te_alde_gld,215,184,4	duplicate(Comerciante de Poções TE#prt)	Comerciante de Poções TE#alde	4_M_TELEPORTER
+
+// Gerente de Itens de Aluguel
+//=======================================
+-	script	rental_woe_TE	-1,{
+	mes "[Gerente de Itens de Aluguel]";
+	if (jobcanentermap("te_prtcas01") == 1) {
+		.@list01$ = "[Escudo] [Armadura] [Vestuário]";
+		.@list02$ = "[Capacete] [Acessório] [Sapatos]";
+		.@list03$ = "[Espada] [Lança] [Machado] [Katar]";
+		.@list04$ = "[Maça] [Cajado] [Punho] [Livro]";
+		.@list05$ = "[Arco] [Arma de Fogo] [Instrumento Musical] [Chicote]";
+
+		mes "^4d4dffOferecemos vários equipamentos de batalha que você poderá usar nas regiões de Gloria e Kafragarten com base nas regras da GdE TE.^000000";
+		next;
+		mes "[Gerente de Itens de Aluguel]";
+		mes "^4d4dffOferecemos períodos de aluguel de 1 dia gratuitamente.^000000";
+		mes "No entanto, os itens de aluguel fornecidos aqui ^4d4dffnão serão efetivos fora da área da GdE TE.^000000";
+		next;
+		mes "[Gerente de Itens de Aluguel]";
+		mes "^4d4dffVocê precisa ter nível de base 40 ou superior para alugar um item.^000000";
+		mes "Selecione o equipamento desejado:";
+		next;
+		while(1) {
+			switch( select( "Ver equipes para locação.", .@list01$, .@list02$, .@list03$, .@list04$, .@list05$, "Sair" ) ) {
+			case 1:
+				mes "[Gerente de Itens de Aluguel]";
+				mes "Aqui está uma lista dos itens de aluguel e suas descrições.";
+				close2;
+				readbook 11059,1;// Lista de Equipes de Aluguel da GdE TE
+				end;
+			case 2:
+				callsub( S_Rent, "escudos, armaduras, e vestuário",
+					 2178,"Broquel TE",		        // TE_Woe_Buckler
+					 2179,"Escudo TE",		        // TE_Woe_Shield
+					 2180,"Vembrassa Mágica TE",	// TE_Woe_Magic_Guard
+					15062,"Casaco TE",		        // TE_Woe_Coat
+					15063,"Cota de Malha TE",	    // TE_Woe_Chain_Mail
+					15064,"Casaco Mágico TE",	    // TE_Woe_Mage_Coat
+					20702,"Sobrepeliz TE",		    // TE_Woe_Muffler
+					20703,"Manteau TE",			    // TE_Woe_Manteau
+					20704,"Manteau Mágico TE" );	// TE_Woe_Magic_Manteau
+				break;
+			case 3:
+				callsub( S_Rent, "elmos, acessórios, e sapatos",
+					2496,"Sapatos TE",			    // TE_Woe_Shoes
+					2497,"Botas TE",			    // TE_Woe_Boots
+					2498,"Sandálias Mágicas TE",	// TE_Woe_Magic_Sandal
+					2944,"Anel de Proteção TE",		// TE_Ring_Of_Protection
+					2945,"Anel da Fúria TE",		// TE_Ring_Of_Rage
+					2946,"Anel do Desafio TE",	    // TE_Ring_Of_Defiance
+					18732,"Barrete TE",			    // TE_Woe_Cap
+					18733,"Elmo TE",		        // TE_Woe_Bone_Helm
+					18734,"Olho Mágico TE" );    	// TE_Woe_Magic_Eyes
+				break;
+			case 4:
+				callsub( S_Rent, "espadas, lanças, machados, e katars",
+					1299,"Katar TE",				    // TE_Woe_Katar
+					1399,"Machado de Duas Mãos TE",		// TE_Woe_Two_Handed_Axe
+					1495,"Lança TE",			    	// TE_Woe_Lance
+					13317,"Shuriken Huuma TE",	        // TE_Woe_Huuma
+					21006,"Espada de Duas Mãos TE",  	// TE_Woe_Two_Hand_Sword
+					1319,"Machado TE",				    // TE_Woe_Axe
+					1437,"Pique TE",				    // TE_Woe_Pike
+					13083,"Adaga TE",				    // TE_Woe_Knife
+					13439,"Espada TE" );			    // TE_Woe_Sword
+				break;
+			case 5:
+				callsub( S_Rent, "cajados, maças, livros, e soqueiras",
+					2019,"Cajado de Duas Mãos TE",  // TE_Woe_Two_Hand_Staff
+					1591,"Livro TE",			    // TE_Woe_Book
+					1667,"Cajado TE",			    // TE_Woe_Staff
+					1834,"Punho TE",			    // TE_Woe_Fist
+					16025,"Maça TE" );		        // TE_Woe_Mace
+				break;
+			case 6:
+				callsub( S_Rent, "arcos, armas de fogo, instrumentos musicais, e chicotes",
+					18118,"Arco TE",			// TE_Woe_Bow
+					13117,"Pistola TE",		    // TE_Woe_Pistol
+					13184,"Rifle TE",			// TE_Woe_Rifle
+					13185,"Metralhadora TE",	// TE_Woe_Gatling
+					13186,"Espingarda TE",		// TE_Woe_Shotgun
+					13187,"Lança Granadas TE",	// TE_Woe_Grenade
+					1932,"Violão TE",			// TE_Woe_Guitar
+					1987,"Chicote TE" );		// TE_Woe_Rope
+				break;
+			case 7:
+				mes "[Gerente de Itens de Aluguel]";
+				mes "Volte a qualquer hora então.";
+				close;
+			}
+		}
+	}
+	mes "Oferecemos vários equipamentos de batalha que você poderá usar nas regiões de Gloria e Kafragarten com base nas regras da GdE TE.";
+	next;
+	mes "[Gerente de Itens de Aluguel]";
+	mes "Sinto muito, mas sua classe não tem permissão para participar da GdE TE.";
+	mes "Receio não poder oferecer nenhum item para você.";
+	close;
+
+S_Rent:
+	mes "[Gerente de Itens de Aluguel]";
+	if (checkweight(1304,3) == 0) {
+		mes "Você já tem muitos itens para receber um novo equipamento de aluguel.";
+		mes "Organize seus itens e tente novamente.";
+		close;
+	}
+	mes "Nós temos "+ getarg(0) +" pronto para você.";
+	mes "Selecione o item desejado:";
+	next;
+	for ( .@i = 1; .@i < getargcount(); .@i += 2 ) {
+		if (rentalcountitem(getarg(.@i)) > isequippedcnt(getarg(.@i))) //quando não conta o item equipado
+			.@menu$ = .@menu$ + "^4d4dff"+ getarg(.@i+1) +"- Verificado^000000:";
+		else
+			.@menu$ = .@menu$ + getarg(.@i+1) + ":";
+	}
+	.@total_item = (getargcount() -1) /2;
+	.@s = select( .@menu$ + ":Ver outros itens." ) -1;
+	if (.@s <= .@total_item) {
+		.@index = .@s *2 +1;
+		mes "[Gerente de Itens de Aluguel]";
+		if (rentalcountitem(getarg(.@index)) > isequippedcnt(getarg(.@index)))
+			mes "Você já tem "+ getarg(.@index+1) +".";
+		else {
+			mes "Aqui está "+ getarg(.@index+1) +".";
+			mes "^4d4dffEste item é válido pelas próximas 24 horas^000000 e depois disso irá expirar.";
+			rentitem getarg(.@index),86400;
+		}
+		mes "Você precisa de mais alguma coisa?";
+		next;
+	}
+	return;
+}

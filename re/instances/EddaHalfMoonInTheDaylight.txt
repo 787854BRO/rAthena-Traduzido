@@ -1,0 +1,3894 @@
+//===== rAthena Script =======================================
+//= Edda Half Moon In The Daylight
+//===== Description: =========================================
+//= [Walkthrough Conversion]
+//= Episode 16.1 - Edda Half Moon In The Daylight
+//===== Changelog: ===========================================
+//= 1.0 Initial Release [Everade]
+//= 1.1 Clean-up [Capuche]
+//============================================================
+
+rachel,174,138,6	script	Suma Sacerdotisa Niren#HM	4_F_MADAME,{
+	cutin "ra_gwoman",2;
+
+	if (BaseLevel < 80) {
+		mes "[Niren]";
+		mes "Desculpe. Estou ocupada no momento.";
+		next;
+		mes "[Niren]";
+		mes "Que a benção de Freya esteja com você.";
+		close3;
+	}
+	switch (isbegin_quest(14594)) {
+	case 0:
+		mes "[Niren]";
+		mes "Aventureiro, você veio. Muito obrigada por tirar um tempo mesmo estando ocupado.";
+		next;
+		mes "[Niren]";
+		mes "Pedi para encontrá-lo assim porque tenho algo para pedir ao aventureiro.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Se for um pedido longo... aconteceu alguma coisa com a Papisa?";
+		next;
+		mes "[Niren]";
+		mes "Antes de tudo, perdoe-me por lhe fazer esse pedido.";
+		next;
+		mes "[Niren]";
+		mes "Quanto à Papisa, é estritamente proibido fazer qualquer anúncio público, exceto que isso é permitido ser revelado dentro do templo. É uma punição criminal para qualquer um que fale ou ouça sobre isso.";
+		next;
+		mes "[Niren]";
+		mes "No entanto, mesmo sendo essa a situação e você me vendo como uma pessoa confiável, escute o que tenho a dizer a partir de agora e, aceite o pedido ou não, você deve manter o diálogo de hoje absolutamente em sigilo.";
+		next;
+		mes "[Niren]";
+		mes "Você entendeu?";
+		next;
+		select( "Eu não entendo muito bem." );
+		mes "[Niren]";
+		mes "Afinal, acredito que você seja confiável, então vou confiar em você e contar.";
+		next;
+		mes "[Niren]";
+		mes "Como você suspeita, recentemente ocorreu um pequeno problema com a Papisa.";
+		next;
+		mes "[Niren]";
+		mes "O ^0000cdtempo de sono da Papisa^000000 está anormal, e está aumentando cada vez mais.";
+		next;
+		mes "[Niren]";
+		mes "No começo, ela começou a dormir mais cedo à noite, depois começou a acordar muito mais tarde pela manhã e, agora, ela dorme com ainda mais frequência.";
+		next;
+		mes "[Niren]";
+		mes "Neste exato momento, ela ainda está dormindo.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Há algo de errado com a saúde dela?";
+		next;
+		mes "[Niren]";
+		mes "Não é isso. Também fizemos todos os tipos de exames, pensando que a saúde da Papisa poderia estar anormal, mas sua condição física estava extremamente boa, exceto por ficar dormindo o tempo todo.";
+		next;
+		mes "[Niren]";
+		mes "Mas...";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Mas?";
+		next;
+		mes "[Niren]";
+		mes "Depois de acordar, ela fica com uma expressão triste, muitas vezes imersa em outros pensamentos e demonstra falta de concentração. E então volta a dormir.";
+		next;
+		mes "[Niren]";
+		mes "Conforme essa situação continua, boatos estão começando a se espalhar pouco a pouco até mesmo dentro do templo.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Se não é a saúde dela, então qual é o problema?";
+		next;
+		mes "[Niren]";
+		mes "Deve ser um problema psicológico. Na minha opinião, parece estar ligado ao que ela vê em seus ^0000cdSonhos^000000.";
+		next;
+		mes "[Niren]";
+		mes "Apenas uma vez, ela acordou e perguntou sobre seu ^0000cdirmão Luwmin^000000.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Então a Papisa tem uma família...?";
+		next;
+		mes "[Niren]";
+		mes "Sim. Porém, é uma regra de nossa religião que, antes de vir ao templo e se tornar Papisa, tudo deve ser apagado e esquecido.";
+		next;
+		mes "[Niren]";
+		mes "Isso inclui qualquer ligação com a família.";
+		next;
+		mes "[Niren]";
+		mes "É uma chance única na vida: nascer como uma criança escolhida e entrar no templo para renascer como um corpo para venerar a deusa.";
+		next;
+		mes "[Niren]";
+		mes "Portanto, oficialmente, a Papisa não tem família secular.";
+		next;
+		mes "[Niren]";
+		mes "Quando a Papisa, que sabe desse fato, pergunta sobre assuntos de sua família depois de sonhar, significa que ela está vendo algo em seus sonhos.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Mas é só um sonho, não é?";
+		next;
+		mes "[Niren]";
+		mes "Sim, é apenas um sonho, claro, mas eu não vejo dessa forma. E foi por isso que recrutamos aventureiros.";
+		next;
+		mes "[Niren]";
+		mes "A Papisa não tem permissão para tocar em ninguém no templo e, se alguém tivesse que se aproximar da Papisa, essa pessoa teria que subornar alguém dentro do templo ou usar outro método.";
+		next;
+		mes "[Niren]";
+		mes "No entanto, esse método é bastante improvável devido à grande chance de ser pego.";
+		next;
+		mes "[Niren]";
+		mes "A única maneira de entrar em contato sem levantar suspeitas é através de um sonho. Parece que alguém está burlando a vigilância e interferindo no sonho da Papisa.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Isso é possível?";
+		next;
+		mes "[Niren]";
+		mes "Não podemos confirmar, mas é possível.";
+		next;
+		mes "[Niren]";
+		mes "E há uma pessoa de quem suspeitamos.";
+		next;
+		mes "[Niren]";
+		mes "O ^0000cdirmão gêmeo^000000 da Papisa, que foi selado no gelo por ^0000ffKthullanax^000000 nas profundezas da ^0000ffCaverna de Gelo^000000.";
+		next;
+		mes "[Niren]";
+		mes "De acordo com um relatório de investigação recente, foi devido à influência de Kthullanax que lhe foi concedido um fraco poder mágico.";
+		next;
+		mes "[Niren]";
+		mes "Em certa medida, deve haver uma conexão especial entre gêmeos nascidos no mesmo dia e na mesma hora.";
+		next;
+		mes "[Niren]";
+		mes "Se de alguma forma, através de um sonho, a consciência entrasse em contato com a Papisa, seria possível interferir em tudo relacionado à Papisa através do sonho.";
+		next;
+		mes "[Niren]";
+		mes "De forma inconsciente.";
+		next;
+		mes "[Niren]";
+		mes "Como o tempo de sono da Papisa está ficando cada vez maior, suspeita-se que alguém esteja tentando prendê-la ou que a própria Papisa não queira despertar.";
+		next;
+		mes "[Niren]";
+		mes "Por isso, espero que você possa entrar no sonho da Papisa e ver o que está acontecendo e, se encontrar algum problema, resolvê-lo.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Mas como entrar no sonho de outra pessoa?";
+		next;
+		mes "[Niren]";
+		mes "Isso é possível através de um ^0000cddispositivo especial^000000 que atravessa sonhos.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Mas por que eu tenho que ir, e não os oficiais do templo?";
+		next;
+		mes "[Niren]";
+		mes "Não posso lhe dar mais detalhes, mas a situação em Arunafelz não está muito boa, especialmente dentro do templo.";
+		next;
+		mes "[Niren]";
+		mes "É uma situação em que o estado atual da Papisa pode ser explorado politicamente.";
+		next;
+		mes "[Niren]";
+		mes "Por isso, a Papisa recrutou secretamente um aventureiro, tentando encontrar alguém que fosse aberto aos dois lados e confiável.";
+		next;
+		mes "[Niren]";
+		mes "Fui inevitavelmente encarregada disso, pois precisava manter minha posição e cuidar da Papisa.";
+		next;
+		mes "[Niren]";
+		mes "A Papisa é a esperança e o sonho de Arunafelz.";
+		next;
+		mes "[Niren]";
+		mes "Se o tempo em que ela sonha continuar aumentando, então um dia ela não irá acordar e dormirá para sempre...";
+		next;
+		mes "[Niren]";
+		mes "Proteja a Papisa em seus sonhos e vá o mais longe possível para descobrir o que está acontecendo.";
+		next;
+		mes "[Niren]";
+		mes "Porém, como é um sonho, eu não sei o que pode haver. Ninguém sabe o que a Papisa irá mostrar ou como ela irá reagir.";
+		next;
+		mes "[Niren]";
+		mes "Talvez seja realmente perigoso. Então, por favor, tome cuidado.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Certo.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Você gostaria de entrar no sonho dela agora? Ou precisa de tempo para se preparar?";
+		next;
+		select( "Deixe-me fazer alguns preparativos." );
+		mes "[Niren]";
+		mes "Tudo bem. Então, por favor, prepare-se e fale comigo novamente quando estiver pronto para trilhar o caminho dos sonhos.";
+		setquest 14594;
+		close3;
+	}
+	if (checkquest(14585,HUNTING) == 2) {
+		mes "[Niren]";
+		mes "Aventureiro, como era o estado do sonho da Papisa?";
+		next;
+		mes "- Você descreve em detalhes o sonho da Papisa e de Luwmin -";
+		next;
+		mes "[Niren]";
+		mes "Que estranho. Então você descobriu que o sonho dela era causado pela ansiedade no dia a dia?";
+		next;
+		mes "[Niren]";
+		mes "Tenho certeza de que ela recuperou a lucidez.";
+		next;
+		mes "[Niren]";
+		mes "Aventureiro, você se importaria se eu lhe pedisse mais um favor?";
+		next;
+		mes "[Niren]";
+		mes "Você poderia acompanhar a Papisa em seu sonho novamente? Ela... precisa de companhia.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Claro. Eu também prometi isso à própria Papisa.";
+		next;
+		mes "[Niren]";
+		mes "Muito obrigada. Ela está sendo assombrada por seus demônios internos...";
+		next;
+		mes "[Niren]";
+		mes "Por hoje, é hora de você descansar confortavelmente.";
+		completequest 14585;
+		getexp 126000,90000;
+		close3;
+	}
+	if (checkquest(14587,HUNTING) == 2) {
+		mes "[Niren]";
+		mes "Aventureiro, como era o estado do sonho da Papisa?";
+		next;
+		mes "- Você descreve o sonho da Papisa e de Luwmin em detalhes -";
+		next;
+		mes "[Niren]";
+		mes "Isso é bizarro. Então você descobriu que o sonho dela era devido à sua ansiedade na vida diária?";
+		next;
+		mes "[Niren]";
+		mes "Tenho certeza de que ela caiu em si.";
+		next;
+		mes "[Niren]";
+		mes "Aventureiro, você se importa se eu te pedir outro favor?";
+		next;
+		mes "[Niren]";
+		mes "Você poderia acompanhar a Papisa durante o seu sonho novamente? Ela... precisa de companhia.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Claro. Eu também prometi isso a própria Papisa.";
+		next;
+		mes "[Niren]";
+		mes "Muito obrigado. Ela é assombrada por seus demônios interiores...";
+		next;
+		mes "[Niren]";
+		mes "Quanto ao dia de hoje, é hora de você relaxar confortavelmente.";
+		completequest 14587;
+		getexp 1260000,900000;
+		close3;
+	}
+	switch (checkquest(14586,PLAYTIME)) {
+	case -1:
+		if (is_party_leader()) {
+		mes "[Niren]";
+		mes "Preciso da sua ajuda.";
+		mes "Recentemente, a Papisa começou a ter sonhos longos. E eles ficaram mais longos conforme os dias passavam.";
+		next;
+		mes "[Niren]";
+		mes "Talvez entrando no sonho dela, possamos identificar a causa por trás disso e resolvê-la com segurança.";
+		next;
+		switch ( select("Entrarei nos sonhos da Papisa.:Cancelar") ) {
+			case 1:
+		if (isbegin_quest(14594) == 1)
+			completequest 14594;
+		if (isbegin_quest(14585) == 2)
+			erasequest 14585;
+		if (isbegin_quest(14587) == 2)
+			erasequest 14587;
+		.@md_name$ = "Edda do Quarto Crescente";
+		instance_create(.@md_name$);
+			case 2:
+				close3;
+			}
+		}
+		mes "[Niren]";
+		mes "...Eu não acho que isso esteja certo..";
+		next;
+		mes "[Niren]";
+		mes "Você deve criar um grupo antes de prosseguirmos.";
+		close3;
+	case 0:
+	case 1:
+		mes "[Niren]";
+		mes "A Papisa ainda não caiu no sono.";
+		close3;
+	case 2:
+		mes "^0000ffO rastro de viagem pelo espaço dimensional desapareceu. Agora você pode se mover entre dimensões.^000000";
+		erasequest 14586;
+		close3;
+	}
+}
+
+rachel,176,145,6	script	Portal dos Sonhos#poent	PORTAL,{
+	switch (checkquest(14586,PLAYTIME)) {
+	case -1:
+		if (is_party_leader()) {
+				mes "[Caminho dos Sonhos]";
+				mes "Olá, eu sou um caminho para os sonhos. Como posso ajudar você?";
+				next;
+			switch ( select("Deixe-me entrar em seus sonhos.:Cancelar") ) {
+			case 1:
+				break;
+			case 2:
+				mes "[Caminho dos Sonhos]";
+				mes "Certo, entendi. Por favor, volte novamente se mudar de ideia.";
+				close;
+			}
+		} else {
+			mes "[Caminho dos Sonhos]";
+			mes "Apenas líderes de grupo podem entrar.";
+			close;
+		}
+	case 0:
+	case 1:
+		mes "[Caminho dos Sonhos]";
+		mes "A fissura no tempo não é segura o suficiente para ir e voltar. Por favor, volte novamente quando o tempo do efeito colateral tiver passado.";
+		close;
+	case 2:
+		mes "^0000ffO rastro da viagem pelo espaço dimensional desapareceu. Agora você pode se mover entre as dimensões.^000000";
+		erasequest 14586;
+		close;
+	}
+	.@md_name$ = "Edda do Quarto Crescente";
+	switch( instance_enter(.@md_name$) ) {
+	case IE_NOMEMBER:
+		end;
+	case IE_NOINSTANCE:
+		mes "A passagem ainda não foi ativada.";
+		close;
+	case IE_OTHER:
+		mes "Ocorreu um erro desconhecido.";
+		close;
+	case IE_OK:
+		mes "[Caminho dos Sonhos]";
+		mes "Eu abrirei meus sonhos.";
+		mes "Espero que você tenha um sonho agradável.";
+		mapannounce "rachel", "" + strcharinfo(0) + " do grupo " + getpartyname( getcharid(1) ) + " está entrando na " + .@md_name$ + ".", bc_map, 0xFF99;
+		if (BaseLevel < 130) {
+				if (checkquest(14585) == -1)
+					setquest 14585;
+			} else {
+				if (checkquest(14587) == -1)
+					setquest 14587;
+			}
+			setquest 14586;
+			end;
+	}
+	end;
+}
+
+//============================================================
+//== Mapa 1
+//============================================================
+1@pop1,50,137,3	script	Papisa#1hmoon01	4_F_ARUNA_POP,{
+	'pname = getcharid(3);
+	if (BaseLevel > 129)
+		'mode = 1;
+	cutin "pop_sim",2;
+	mes "[Papisa]";
+	mes ".... Niren?";
+	npctalk ".... Niren?";
+	next;
+	mes "[Papisa]";
+	mes "Niren ...?";
+	next;
+	mes "[Papisa]";
+	mes "Não consigo encontrar a Tilibi.";
+	mes "Está muito... escuro aqui...";
+	npctalk "Não consigo ver nada ...";
+	next;
+	mes "[Papisa]";
+	mes "Niren ...?";
+	next;
+	mes "[Papisa]";
+	mes ".... Onde você está ...?";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Papisa, estou aqui com você.";
+	next;
+	mes "[Papisa]";
+	mes "...........";
+	mes "...........";
+	next;
+	mes "[" + .@player_name$ + "]";
+	mes "Papisa, por favor se acalme. Fui enviado pela Niren.";
+	next;
+	mes "[Papisa]";
+	mes "Quem ...?";
+	npctalk "Pela Niren ...?";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Eu sou o aventureiro, " + .@player_name$ + ".";
+	next;
+	mes "[Papisa]";
+	mes "" + strcharinfo(0) + "?";
+	next;
+	mes "[Papisa]";
+	mes "Niren ... foi ela que te enviou?";
+	next;
+	mes "[Papisa]";
+	mes "Onde está a Niren?";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "A Niren está ocupada há algum tempo e me enviou no lugar dela.";
+	next;
+	mes "[Papisa]";
+	mes "Sim ... eu me lembro agora. Aventureiro ...";
+	npctalk "Eu me lembro ...";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "O que você estava fazendo?";
+	next;
+	mes "[Papisa]";
+	mes "Tilibi ... sumiu. Não importa o quanto eu procurei...";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Quem é Tilibi?";
+	next;
+	mes "[Papisa]";
+	mes "A Niren me deu a boneca. Eu a tinha até pouco tempo atrás.";
+	next;
+	mes "[Papisa]";
+	mes "Acho que perdi a boneca aqui.";
+	npctalk "Para onde você foi ...";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Vamos encontrá-la.";
+	next;
+	mes "[Papisa]";
+	mes "Não, agora é tarde demais..";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Tudo bem. Você vai conseguir encontrá-la.";
+	next;
+	mes "[Papisa]";
+	mes "Não ... eu tenho uma promessa.";
+	mes "Tenho alguém para encontrar.";
+	npctalk "Estou atrasada.";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Promessa? É aqui?";
+	next;
+	mes "[Papisa]";
+	mes "É fora do templo... mas não parece ser a Tilibi.";
+	next;
+	mes "[Papisa]";
+	mes "Está tarde demais para procurar a Tilibi.";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Tilibi não parece estar aqui, então que tal procurarmos em outro lugar?";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Vamos procurar juntos.";
+	next;
+	cutin "POP_nor", 2;
+	mes "[Papisa]";
+	mes "... certo.";
+	next;
+	mes "[Papisa]";
+	mes "Seu nome, qual era mesmo?";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "" + strcharinfo(0) + ".";
+	next;
+	mes "[Papisa]";
+	mes "Vamos, vamos juntos.";
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#1hmoon01");
+	donpcevent instance_npcname("#1hmoond01")+"::OnEnable";
+	'progress = 1;
+	close3;
+
+OnInstanceInit:
+	disablenpc instance_npcname("Papisa#1hmoon05");
+	disablenpc instance_npcname("Crente#1hmoon11");
+	disablenpc instance_npcname("Crente#1hmoon12");
+	disablenpc instance_npcname("Crente#1hmoon12");
+	disablenpc instance_npcname("Crente#1hmoon13");
+	disablenpc instance_npcname("Crente#1hmoon14");
+	disablenpc instance_npcname("Crente#1hmoon15");
+	disablenpc instance_npcname("Crente#1hmoon16");
+	disablenpc instance_npcname("Sacerdote#1hmoon21");
+	disablenpc instance_npcname("Sacerdote#1hmoon22");
+	disablenpc instance_npcname("Crente#1hmoon23");
+	disablenpc instance_npcname("Crente#1hmoon24");
+	disablenpc instance_npcname("Crente#1hmoon25");
+	disablenpc instance_npcname("Crente#1hmoon26");
+	disablenpc instance_npcname("Crente#1hmoon27");
+	disablenpc instance_npcname("Crente#1hmoon28");
+	disablenpc instance_npcname("Guarda#1hmoon21");
+	disablenpc instance_npcname("Guarda#1hmoon22");
+	disablenpc instance_npcname("Guarda#1hmoon23");
+	disablenpc instance_npcname("Guarda#1hmoon24");
+	disablenpc instance_npcname("Guarda#1hmoon25");
+	disablenpc instance_npcname("Guarda#1hmoon26");
+	disablenpc instance_npcname("Guarda#1hmoon27");
+	disablenpc instance_npcname("Guarda#1hmoon28");
+	disablenpc instance_npcname("Guarda#1hmoon29");
+	disablenpc instance_npcname("Guarda#1hmoon30");
+	disablenpc instance_npcname("Papisa#1hmoon02");
+	disablenpc instance_npcname("Papisa#1hmoon07");
+	disablenpc instance_npcname("Papisa#1hmoon08");
+	disablenpc instance_npcname("Papisa#1hmoon09");
+	disablenpc instance_npcname("Papisa#1hmoon10");
+	disablenpc instance_npcname("Papisa#1hmoon11");
+	for (.@i=2; .@i<=8; .@i++)
+		disablenpc instance_npcname("Luwmin#2hmoon0"+.@i);
+	for (.@i=1; .@i<=8; .@i++)
+		disablenpc instance_npcname("Guarda#2hmoon0"+.@i);
+	for (.@i=10; .@i<=17; .@i++)
+		disablenpc instance_npcname("Guarda#2hmoon"+.@i);
+	for (.@i=21; .@i<=28; .@i++)
+		disablenpc instance_npcname("Guarda#2hmoon"+.@i);
+	for (.@i=30; .@i<=37; .@i++)
+		disablenpc instance_npcname("Guarda#2hmoon"+.@i);
+	for (.@i=41; .@i<=49; .@i++)
+		disablenpc instance_npcname("Guarda#2hmoon"+.@i);
+	for (.@i=1; .@i<=5; .@i++)
+		disablenpc instance_npcname("Puppy#2hmoon0"+.@i);
+	for (.@i=1; .@i<=9; .@i++)
+		disablenpc instance_npcname("Amigo#2hmoon0"+.@i);
+	for (.@i=1; .@i<=3; .@i++)
+		disablenpc instance_npcname("Crente#2hmoon0"+.@i);
+	for (.@i=1; .@i<=4; .@i++)
+		disablenpc instance_npcname("Morador#2hmoon0"+.@i);
+	for (.@i=11; .@i<=18; .@i++)
+		disablenpc instance_npcname("Morador#2hmoon"+.@i);
+	for (.@i=21; .@i<=27; .@i++)
+		disablenpc instance_npcname("Morador#2hmoon"+.@i);
+	for (.@i=10; .@i<=13; .@i++)
+		disablenpc instance_npcname("Papisa#2hmoon"+.@i);
+	disablenpc instance_npcname("Sumo Sacerdote Zhed#2hmoon");
+	disablenpc instance_npcname("Mamãe#2hmoon01");
+	disablenpc instance_npcname("Papai#2hmoon01");
+	disablenpc instance_npcname("Sacerdote#2hmoon01");
+	disablenpc instance_npcname("Sacerdote#2hmoon02");
+	disablenpc instance_npcname("#2hmoon05");
+	disablenpc instance_npcname("#2hmoon06");
+	disablenpc instance_npcname("#2hmoon07");
+	disablenpc instance_npcname("#2hmoon08");
+	disablenpc instance_npcname("#2hmoon09");
+	disablenpc instance_npcname("#2hmoon10");
+	disablenpc instance_npcname("Papisa#2hmoon02");
+	disablenpc instance_npcname("Papisa#2hmoon03");
+	disablenpc instance_npcname("Papisa#2hmoon04");
+	disablenpc instance_npcname("Papisa#2hmoon05");
+	disablenpc instance_npcname("Papisa#2hmoon06");
+	disablenpc instance_npcname("Papisa#2hmoon07");
+	disablenpc instance_npcname("Papisa#2hmoon08");
+	disablenpc instance_npcname("Papisa#2hmoon09");
+	disablenpc instance_npcname("#1hmoond01");
+	disablenpc instance_npcname("#1hmoond03");
+	disablenpc instance_npcname("#1hmoond05");
+	disablenpc instance_npcname("#1hmoond07");
+	disablenpc instance_npcname("#2hmoond01");
+	disablenpc instance_npcname("#2hmoond03");
+	disablenpc instance_npcname("#3hmoond01");
+	disablenpc instance_npcname("Ktullanux#3hmoon01");
+	disablenpc instance_npcname("Papisa#3hmoon02");
+	disablenpc instance_npcname("#dollbox01");
+	disablenpc instance_npcname("#dollbox02");
+	disablenpc instance_npcname("#dollbox03");
+	for (.@i=3; .@i<=6; .@i++)
+		disablenpc instance_npcname("Papisa#3hmoon0"+.@i);
+	disablenpc instance_npcname("Luwmin#3hmoon02");
+	end;
+}
+
+1@pop1,100,142,3	script	Papisa#1hmoon03	4_F_ARUNA_POP,5,5,{
+	end;
+
+OnTouch:
+	'progress = 2;
+	npctalk "Virar para o sul...",instance_npcname("Papisa#1hmoon03");
+	donpcevent instance_npcname("Papisa#1hmoon03")+"::OnDisable";
+	donpcevent instance_npcname("#1hmoond03")+"::OnEnable";
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#1hmoon03");
+	end;
+}
+
+1@pop1,100,98,3	script	Papisa#1hmoon04	4_F_ARUNA_POP,{
+	mes "[Sacerdote]";
+	mes "Vossa Santidade.";
+	npctalk "Vossa Santidade", instance_npcname("Sacerdote#1hmoon01");
+	next;
+	mes "[Sacerdote]";
+	mes "A Papisa chegou.";
+	npctalk "A Papisa chegou.", instance_npcname("Sacerdote#1hmoon02");
+	next;
+	mes "[Crente]";
+	mes "Estávamos esperando.";
+	npctalk "Estávamos esperando.", instance_npcname("Crente#1hmoon01");
+	next;
+	mes "[Crente]";
+	mes "Também é uma blasfêmia contra Freya não honrar o próprio tempo. Por favor, aja com discrição.";
+	npctalk "Também é uma blasfêmia contra Freya não honrar o próprio tempo. Por favor, aja com discrição.", instance_npcname("Crente#1hmoon03");
+	next;
+	mes "[Crente]";
+	mes "Papisa, por favor, comporte-se em público.";
+	npctalk "Papisa, por favor, comporte-se em público.", instance_npcname("Crente#1hmoon02");
+	next;
+	mes "[Crente]";
+	mes "Que desrespeito à Papisa! Olhe para você!";
+	npctalk "Que desrespeito à Papisa! Olhe para você!", instance_npcname("Crente#1hmoon04");
+	next;
+	mes "[Crente]";
+	mes "A Papisa é divina! Vamos manter esse ideal. Não levante a voz!";
+	npctalk "A Papisa é divina! Vamos manter esse ideal. Não levante a voz!", instance_npcname("Crente#1hmoon05");
+	next;
+	mes "[Crente]";
+	mes "A Papisa é um receptáculo para a Deusa, que um dia irá despertar. Não é natural que o Avatar seja puro?";
+	npctalk "A Papisa é um receptáculo para a Deusa, que um dia irá despertar. Não é natural que o Avatar seja puro?", instance_npcname("Crente#1hmoon06");
+	next;
+	mes "[Sacerdote]";
+	mes "Parem com essa confusão! A Papisa é quem nos dá alegria e esperança apenas por existir!";
+	npctalk "Parem com essa confusão! A Papisa é quem nos dá alegria e esperança apenas por existir!", instance_npcname("Sacerdote#1hmoon01");
+	next;
+	cutin "pop_sim",2;
+	mes "[Papisa]";
+	mes "..... Eu, eu sou.... a Papisa...";
+	next;
+	mes "[Papisa]";
+	mes "..... Eu preciso ir....";
+	next;
+	mes "[Papisa]";
+	mes "........ tenho uma promessa...";
+	mes "para cumprir............";
+	next;
+	cutin "pop_sim",255;
+	mes "[Crente]";
+	mes "Uma promessa? A Papisa não deve deixar o templo.";
+	npctalk "Uma promessa? A Papisa não deve deixar o templo.", instance_npcname("Crente#1hmoon02");
+	next;
+	mes "[Crente]";
+	mes "Ela não deve ter contato com forasteiros!";
+	npctalk "Forasteiros são imundos", instance_npcname("Sacerdote#1hmoon01");
+	next;
+	mes "[Crente]";
+	mes "A Papisa só pode encontrar pessoas autorizadas dentro do templo.";
+	npctalk "A Papisa só pode encontrar pessoas autorizadas dentro do templo.", instance_npcname("Crente#1hmoon01");
+	next;
+	mes "[Crente]";
+	mes "A Papisa deve agir de acordo com nossos objetivos.";
+	npctalk "A Papisa deve agir de acordo com nossos objetivos.", instance_npcname("Crente#1hmoon03");
+	next;
+	mes "[Sacerdote]";
+	mes "As ações da Papisa não são da sua conta.";
+	npctalk "As ações da Papisa não são da sua conta.", instance_npcname("Sacerdote#1hmoon02");
+	next;
+	mes "[Crente]";
+	mes "Renuncie se discordar.";
+	npctalk "Renuncie se discordar.", instance_npcname("Crente#1hmoon06");
+	next;
+	mes "[Crente]";
+	mes "Silêncio! Você ousa nos desobedecer?";
+	npctalk "Silêncio! Você ousa nos desobedecer?", instance_npcname("Crente#1hmoon01");
+	next;
+	mes "[Crente]";
+	mes "Por favor, me escute. Você deve parar o que quer que esteja fazendo!";
+	npctalk "Por favor, me escute. Você deve parar o que quer que esteja fazendo!", instance_npcname("Sacerdote#1hmoon02");
+	next;
+	mes "[Crente]";
+	mes "Porém, é verdade que a Papisa atual carece de qualidades.";
+	npctalk "Porém, é verdade que a Papisa atual carece de qualidades.", instance_npcname("Sacerdote#1hmoon01");
+	next;
+	mes "[Crente]";
+	mes "Se ela não for suficiente, podemos substituí-la. Não existe outra candidata perfeita?";
+	npctalk "Se ela não for suficiente, podemos substituí-la. Não existe outra candidata perfeita?", instance_npcname("Crente#1hmoon04");
+	next;
+	mes "[Crente]";
+	mes "O segundo Avatar, nascido ao mesmo tempo...!";
+	npctalk "O segundo Avatar, nascido ao mesmo tempo...!", instance_npcname("Crente#1hmoon05");
+	next;
+	mes "[Crente]";
+	mes "Talvez tenhamos feito a escolha errada.";
+	npctalk "Talvez tenhamos feito a escolha errada.", instance_npcname("Crente#1hmoon06");
+	next;
+	mes "[Crente]";
+	mes "Se eu pudesse mudar minha escolha agora...!";
+	npctalk "Se eu pudesse mudar minha escolha agora...!", instance_npcname("Crente#1hmoon02");
+	next;
+	mes "[Sacerdote]";
+	mes "A Papisa imperfeita precisa ser substituída.";
+	npctalk "A Papisa imperfeita precisa ser substituída.", instance_npcname("Sacerdote#1hmoon02");
+	next;
+	mes "[Crente]";
+	mes "Eu preciso de uma Papisa que escute minhas preocupações.";
+	npctalk "Eu preciso de uma Papisa que escute minhas preocupações.", instance_npcname("Crente#1hmoon03");
+	next;
+	mes "[Sacerdote]";
+	mes "Não precisamos da Papisa atual.";
+	npctalk "Não precisamos da Papisa atual.", instance_npcname("Sacerdote#1hmoon01");
+	next;
+	mes "[Crente]";
+	mes "Não fique parada, Papisa, reaja!";
+	npctalk "Não fique parada, Papisa, reaja!", instance_npcname("Crente#1hmoon01");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Papisa, Papisa! Reaja!!";
+	unittalk getcharid(3), "" + strcharinfo(0) + ": Papisa, Papisa! Não perca a força!!";
+	next;
+	donpcevent instance_npcname("Papisa#1hmoon04")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#1hmoon09")+"::OnEnable";
+	cutin "pop_sim",2;
+	mes "[Papisa]";
+	mes ".... Eu... eu sou... eu...";
+	npctalk ".... Eu... eu sou... eu...", .@pop_npc$;
+	next;
+	mes "[Papisa]";
+	mes ".......... Eu não sou necessária....?";
+	next;
+	mes "[Papisa]";
+	mes "O que eu sou... para essas pessoas?";
+	next;
+	mes "[Papisa]";
+	mes "Um receptáculo sagrado da Deusa.";
+	next;
+	mes "[Papisa]";
+	mes "Um ser imperfeito.";
+	next;
+	mes "[Papisa]";
+	mes "Eu sou incompleta.";
+	next;
+	mes "[Papisa]";
+	mes "Fui o resultado de uma decisão errada.";
+	next;
+	mes "[Papisa]";
+	mes "Eu não tinha nenhuma qualificação desde o começo.";
+	next;
+	mes "[Papisa]";
+	mes "Este não é o meu lugar.";
+	npctalk "Este não é o meu lugar.",instance_npcname("Papisa#1hmoon09");
+	specialeffect EF_MAGICCRASHER,AREA, instance_npcname("Papisa#1hmoon09");
+	next;
+	mes "[Papisa]";
+	mes "Mas isso não é o que eu quero.";
+	npctalk "Mas isto não é o que eu quero.",instance_npcname("Papisa#1hmoon09");
+	specialeffect EF_MAGICCRASHER,AREA, instance_npcname("Papisa#1hmoon09");
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Papisa, acalme-se. Isso é apenas um sonho.";
+	mes "Sua ansiedade distorce o sonho. Fora do sonho, todos esperam por você como Papisa!";
+	next;
+	mes "[Papisa]";
+	mes "Sonho...?";
+	next;
+	mes "[Papisa]";
+	mes "Mas... eu... eu fiz uma promessa.";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Isso é um sonho!";
+	next;
+	donpcevent instance_npcname("Papisa#1hmoon09")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#1hmoon10")+"::OnEnable";
+	mes "[Papisa]";
+	mes "Eu tenho um compromisso. Eu preciso encontrar alguém.";
+	mes "Vamos, temos que sair daqui.";
+	npctalk "Eu tenho um compromisso. Eu preciso encontrar alguém. Vamos, temos que sair daqui.","Papisa#1hmoon10";
+	cutin "pop_sim",255;
+	specialeffect EF_MAGICCRASHER,AREA, instance_npcname("Papisa#1hmoon10");
+	sleep2 1000;
+	specialeffect EF_MAGICCRASHER,AREA, instance_npcname("Papisa#1hmoon10");
+	sleep2 1000;
+	specialeffect EF_MAGICCRASHER,AREA, instance_npcname("Papisa#1hmoon10");
+	sleep2 1000;
+	specialeffect EF_4WAYBODY,AREA, instance_npcname("Papisa#1hmoon10");
+	specialeffect EF_ELECTRIC,AREA, instance_npcname("Papisa#1hmoon10");
+	sleep2 500;
+	specialeffect 1065,AREA, instance_npcname("Papisa#1hmoon10");
+	sleep2 1000;
+	next;
+	mes "[Crente]";
+	mes "Papisa! Onde você está?";
+	npctalk "Papisa! Onde você está??","Papisa#1hmoon10";
+	next;
+	donpcevent instance_npcname("Crente#1hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon02")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon03")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon04")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon05")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon06")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon11")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon12")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon13")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon14")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon15")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon16")+"::OnEnable";
+	mes "[Crente]";
+	mes "Papisa, não deixe seu assento!";
+	npctalk "Pope, não saia de seu assento!","Crente#1hmoon16";
+	next;
+	mes "[Crente]";
+	mes "É aqui que a Papisa deve permanecer!";
+	npctalk "Este é o lugar onde a Papisa deve permanecer!","Crente#1hmoon12";
+	next;
+	cutin "pop_sim",2;
+	mes "[Papisa]";
+	mes "Ninguém realmente precisa de mim!";
+	next;
+	mes "[Papisa]";
+	mes "Ninguém me trata direito!";
+	next;
+	donpcevent instance_npcname("Papisa#1hmoon10")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#1hmoon11")+"::OnEnable";
+	mes "[Papisa]";
+	mes "Eu não tenho um lugar aqui!";
+	npctalk "Eu não tenho um lugar aqui!",instance_npcname("Papisa#1hmoon11");
+	cutin "pop_sim",255;
+	specialeffect EF_MAGICCRASHER,AREA, instance_npcname("Papisa#1hmoon11");
+	emotion ET_THINK, instance_npcname("Papisa#1hmoon11");
+	next;
+	sleep2 500;
+	donpcevent instance_npcname("Sacerdote#1hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Sacerdote#1hmoon02")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon11")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon12")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon13")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon14")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon15")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon16")+"::OnDisable";
+	donpcevent instance_npcname("Sacerdote#1hmoon21")+"::OnEnable";
+	donpcevent instance_npcname("Sacerdote#1hmoon22")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon23")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon24")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon25")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon26")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon27")+"::OnEnable";
+	donpcevent instance_npcname("Crente#1hmoon28")+"::OnEnable";
+	mes "[Crente]";
+	mes "Papisa! Por favor, permaneça sentada, para o seu próprio bem!";
+	npctalk "Papa! por favor, permaneça sentado, para o seu próprio bem!","Crente#1hmoon27";
+	next;
+	cutin "pop_sim",2;
+	mes "[Papisa]";
+	mes "Eu realmente preciso ir...";
+	next;
+	mes "[Crente]";
+	mes "Todos vocês, contenham a Papisa!";
+	next;
+	mes "[Papisa]";
+	mes "Aventureiro, por favor.... me ajude.";
+	cutin "pop_sim",255;
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Certamente, Papisa. Por favor, fique atrás de mim.";
+	if ('mode == 1)
+		mercenary_create 3569,1800000; //POPE_MD_H_MERC_NORMAL
+	else
+		mercenary_create 3570,1800000; //POPE_MD_H_MERC_CASUAL
+	sleep2 1000;
+	pcblockmove getcharid(3),1;
+	close2;
+	donpcevent instance_npcname("Papisa#1hmoon11")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon21")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#1hmoon22")+"::OnEnable";
+	npctalk "Estamos aqui por um propósito maior!", instance_npcname("Guarda#1hmoon21");
+	donpcevent instance_npcname("Guarda#1hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon02")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon03")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon04")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon05")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon06")+"::OnDisable";
+	donpcevent instance_npcname("Sacerdote#1hmoon21")+"::OnDisable";
+	donpcevent instance_npcname("Sacerdote#1hmoon22")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon23")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon24")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon25")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon26")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon27")+"::OnDisable";
+	donpcevent instance_npcname("Crente#1hmoon28")+"::OnDisable";
+	sleep2 1500;
+	npctalk "Nós superamos você em número, aventureiro.", instance_npcname("Guarda#1hmoon21");
+	sleep2 1000;
+	npctalk "Pare!!", instance_npcname("Guarda#1hmoon22");
+	npctalk "Pare!!", instance_npcname("Guarda#1hmoon22");
+	sleep2 1000;
+	donpcevent instance_npcname("Guarda#1hmoon07")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon08")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon09")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon10")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon24")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#1hmoon25")+"::OnEnable";
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon24");
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon25");
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon24");
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon25");
+	sleep2 500;
+	donpcevent instance_npcname("Guarda#1hmoon23")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#1hmoon26")+"::OnEnable";
+	npctalk "Alto!!", instance_npcname("Guarda#1hmoon23");
+	npctalk "Alto!!", instance_npcname("Guarda#1hmoon26");
+	npctalk "Alto!!", instance_npcname("Guarda#1hmoon23");
+	npctalk "Alto!!", instance_npcname("Guarda#1hmoon26");
+	sleep2 500;
+	donpcevent instance_npcname("Guarda#1hmoon27")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#1hmoon30")+"::OnEnable";
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon27");
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon30");
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon27");
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon30");
+	sleep2 500;
+	donpcevent instance_npcname("Guarda#1hmoon28")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#1hmoon29")+"::OnEnable";
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon28");
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon29");
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon28");
+	npctalk "Alto!", instance_npcname("Guarda#1hmoon29");
+	sleep2 1000;
+	npctalk "Vocês não sairão do templo!", instance_npcname("Guarda#1hmoon21");
+	npctalk "Vocês não sairão do templo!", instance_npcname("Guarda#1hmoon21");
+	sleep2 2000;
+	npctalk "Por favor, recuem. Caso contrário, usaremos força.", instance_npcname("Guarda#1hmoon21");
+	npctalk "Por favor, recuem. Caso contrário, usaremos força.", instance_npcname("Guarda#1hmoon21");
+	sleep2 1000;
+	npctalk "Três !!", instance_npcname("Guarda#1hmoon21");
+	npctalk "Três !!", instance_npcname("Guarda#1hmoon21");
+	sleep2 1000;
+	npctalk "Dois !!", instance_npcname("Guarda#1hmoon21");
+	npctalk "Dois !!", instance_npcname("Guarda#1hmoon21");
+	sleep2 1000;
+	npctalk "Um !!!", instance_npcname("Guarda#1hmoon21");
+	npctalk "Um !!!", instance_npcname("Guarda#1hmoon21");
+	instance_announce 0, "Capitão da Guarda: A partir de agora, o aventureiro é considerado nosso inimigo!", bc_map, "0xFFFF00";
+	npctalk "A partir de agora, o aventureiro é considerado nosso inimigo!", instance_npcname("Guarda#1hmoon21");
+	sleep2 1000;
+	instance_announce 0, "Capitão da Guarda: Protejam a Papisa e eliminem o aventureiro!", bc_map, "0xFFFF00";
+	npctalk "Protejam a Papisa e eliminem o aventureiro!", instance_npcname("Guarda#1hmoon21");
+	sleep2 1000;
+	npctalk "Protejam a Papisa e eliminem o aventureiro!", instance_npcname("Guarda#1hmoon21");
+	sleep2 1000;
+	npctalk "Protejam a Papisa e eliminem o aventureiro!", instance_npcname("Guarda#1hmoon22");
+	sleep2 1000;
+	npctalk "Protejam a Papisa e eliminem o aventureiro!", instance_npcname("Guarda#1hmoon22");
+	sleep2 1000;
+	npctalk "Aye Aye Sir !!",instance_npcname("Guarda#1hmoon23");
+	npctalk "Aye Aye Sir !!",instance_npcname("Guarda#1hmoon24");
+	npctalk "Aye Aye Sir !!",instance_npcname("Guarda#1hmoon25");
+	npctalk "Aye Aye Sir !!",instance_npcname("Guarda#1hmoon26");
+	npctalk "Aye Aye Sir !!",instance_npcname("Guarda#1hmoon27");
+	npctalk "Aye Aye Sir !!",instance_npcname("Guarda#1hmoon28");
+	npctalk "Aye Aye Sir !!",instance_npcname("Guarda#1hmoon29");
+	npctalk "Aye Aye Sir !!",instance_npcname("Guarda#1hmoon30");
+	sleep2 500;
+	donpcevent instance_npcname("Guarda#1hmoon21")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon22")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon23")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon24")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon25")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon26")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon27")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon28")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon29")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#1hmoon30")+"::OnDisable";
+	donpcevent instance_npcname("#mob1hmoon")+"::OnEnable";
+	pcblockmove getcharid(3),0;
+	'progress = 3;
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#1hmoon04");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Papisa#1hmoon04");
+	end;
+}
+
+1@pop1,0,0,0	script	#mob1hmoon	139,{
+OnEnable:
+OnMyMobDead:
+	.@map$ = instance_mapname("1@pop1");
+	if (mobcount(.@map$,instance_npcname("#mob1hmoon")+"::OnMyMobDead"))
+		end;
+	if (!'mode) {
+		.@guard = 3510; //Fácil
+		.@fbel = 3511;
+		.@mbel = 3512;
+		.@priest = 3514;
+	} else {
+		.@guard = 3518; //Difícil
+		.@fbel = 3519;
+		.@mbel = 3520;
+		.@priest = 3522;
+	}
+	switch ('1hmoon) {
+	case 0:
+		monster .@map$,99,89,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		monster .@map$,100,81,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		monster .@map$,96,87,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		monster .@map$,98,87,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		monster .@map$,101,87,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		monster .@map$,103,87,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		monster .@map$,96,84,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		monster .@map$,98,84,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		monster .@map$,101,84,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		monster .@map$,103,84,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		monster .@map$,101,81,"Guarda do Templo",.@guard,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		'1hmoon++;
+		end;
+	case 1:
+		instance_announce -1, "Guardas: Façam o possível para impedir a Papisa!!", bc_map, "0xFFFF00";
+		sleep2 1000;
+		instance_announce 0, "Guardas: Certifiquem-se de parar a Papisa!!", bc_map, "0xFFFF00";
+		areamonster .@map$,60,90,90,100,"Crente Agressiva",.@fbel,8,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		areamonster .@map$,139,90,104,90,"Crente Agressivo",.@mbel,7,instance_npcname("#mob1hmoon")+"::OnMyMobDead";
+		'1hmoon++;
+		end;
+	case 2:
+		instance_announce -1, "Sinto uma presença bastante poderosa...",bc_map,"0xFFFF00";
+		sleep2 2000;
+		.@mobGID = monster(.@map$,99,96,"Sacerdote Violento",.@priest,1,instance_npcname("#mob1hmoon")+"::OnMyMobDead");
+		'1hmoon++;
+		unittalk .@mobGID, "Como você se atreve...!";
+		sleep2 1500;
+		unittalk .@mobGID, "Você não entende onde estamos...?!";
+		end;
+	case 3:
+		if (playerattached()) {
+			.@merc = getmercinfo(8,getcharid(0));
+			if (.@merc)
+				unitkill .@merc;
+		}
+		if (!countitem(25087) && rand(3) == 0) {	// #todo! chance desconhecida
+			instance_announce -1, "O som de algo caindo pode ser ouvido quando o Sacerdote apareceu.", bc_map, "0xFFFF00";
+			donpcevent instance_npcname("#dollbox01")+"::OnEnable";
+			sleep2 1000;
+		}
+		instance_announce -1, "As ameaças desapareceram. Agora é hora de sairmos deste lugar.", bc_map, "0xFFFF00";
+		donpcevent instance_npcname("Papisa#1hmoon05")+"::OnEnable";
+		end;
+	}
+}
+
+1@pop1,101,91,3	script	Papisa#1hmoon05	4_F_ARUNA_POP,{
+	if ('progress >= 4) end;
+	'progress = 4;
+	pcblockmove getcharid(3),1;
+	unittalk getcharid(3), "Isso é perigoso. Você tem certeza de que devemos sair...?";
+	sleep2 2000;
+	npctalk "Já é tarde demais, você sabe.",instance_npcname(strnpcinfo(0));
+	sleep2 2000;
+	npctalk "Vamos, temos que sair daqui.",instance_npcname(strnpcinfo(0));
+	sleep2 2000;
+	unittalk getcharid(3), "... Vamos seguir a Papisa.";
+	donpcevent instance_npcname("Papisa#1hmoon05")+"::OnDisable";
+	donpcevent instance_npcname("#1hmoond05")+"::OnEnable";
+	pcblockmove getcharid(3),0;
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#1hmoon05");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Papisa#1hmoon05");
+	end;
+}
+
+1@pop1,100,16,3	script	Papisa#1hmoon06	4_F_ARUNA_POP,{
+	mes "[???]";
+	mes "Oh, agora é minha chance.";
+	npctalk "Eu estava esperando.", instance_npcname("Luwmin#1hmoon01");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Ele tem cabelo branco...";
+	mes "Um garoto de cabelos brancos e pele pálida apareceu.";
+	unittalk getcharid(3), "Ele se parece com a Papisa.";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "Irmão.";
+	unittalk getcharid(3), "Irmão...?";
+	next;
+	mes "[Esse garoto parece ser Luwmin, mencionado pela Suma Sacerdotisa Niren.]";
+	next;
+	cutin "loo_nor",0;
+	mes "[Luwmin]";
+	mes "Ouvi você chorando, então vim aqui ver o que estava acontecendo.";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "Eu não consegui sair escondida.";
+	next;
+	cutin "loo_sim",0;
+	mes "[Luwmin]";
+	mes "Você está bem? O que aconteceu?";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "Sim. Estou bem agora. Os aventureiros me ajudaram.";
+	next;
+	cutin "loo_nor",0;
+	mes "[Luwmin]";
+	mes "Obrigado por ajudar minha irmã. A partir daqui, eu cuido disso.";
+	npctalk "A partir daqui, apenas observe.", instance_npcname("Luwmin#1hmoon01");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Estou encarregado do bem-estar da Papisa até que ela retorne em segurança.";
+	mes "Eu irei acompanhá-la.";
+	unittalk getcharid(3), "Eu irei acompanhá-la.";
+	next;
+	cutin "loo_sim",0;
+	mes "[Luwmin]";
+	mes "......";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "Vamos.";
+	npctalk "Irmão...", instance_npcname("Papisa#1hmoon06");
+	next;
+	cutin "loo_nor",0;
+	mes "[Luwmin]";
+	mes "Essas roupas chamam atenção. Vamos arrumar outra vestimenta para você.";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "Trocar de roupa ...?";
+	next;
+	cutin "loo_nor",0;
+	mes "[Luwmin]";
+	mes "É o que crianças normais geralmente... usam.";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "Roupas comuns?";
+	next;
+	mes "[Papisa]";
+	mes "Certo.";
+	next;
+	cutin "pop_nor", 255;
+	donpcevent instance_npcname("Papisa#1hmoon06")+"::OnDisable";
+	sleep2 2000;
+	donpcevent instance_npcname("Papisa#1hmoon07")+"::OnEnable";
+	cutin "pops_bug", 2;
+	mes "[Papisa]";
+	mes "Quentinho ...";
+	next;
+	mes "[Papisa]";
+	mes "Isso parece bem estranho...";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Não, nem um pouco.";
+	next;
+	cutin "Loo_smi",0;
+	mes "[Luwmin]";
+	mes "Ficou muito bonito.";
+	next;
+	cutin "pops_lau", 2;
+	mes "[Papisa]";
+	mes "Que bom.";
+	next;
+	cutin "Loo_smi",0;
+	mes "[Luwmin]";
+	mes "Vamos agora. Mamãe e papai estão esperando.";
+	next;
+	cutin "pops_lau", 2;
+	mes "[Papisa]";
+	mes "Sim.";
+	close2;
+	cutin "pops_lau", 255;
+	pcblockmove getcharid(3),1;
+	donpcevent instance_npcname("Papisa#1hmoon07")+"::OnDisable";
+	donpcevent instance_npcname("Luwmin#1hmoon01")+"::OnDisable";
+	sleep2 2000;
+	donpcevent instance_npcname("Papisa#1hmoon08")+"::OnEnable";
+	emotion ET_THINK,"Papisa#1hmoon08";
+	sleep2 2000;
+	unittalk getcharid(3), "Papisa? Você não tinha acabado de sair?";
+	sleep2 2000;
+	emotion ET_THINK,"Papisa#1hmoon08";
+	sleep2 2000;
+	specialeffect EF_HITBODY, AREA, instance_npcname("Papisa#1hmoon08");
+	donpcevent instance_npcname("#1hmoond07")+"::OnEnable";
+	donpcevent instance_npcname("Papisa#1hmoon08")+"::OnDisable";
+	unittalk getcharid(3), "Posso estar enganado... mas preciso seguir a Papisa.";
+	'progress = 5;
+	pcblockmove getcharid(3),0;
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#1hmoon06");
+	end;
+}
+
+1@pop1,95,99,6	script	Sacerdote#1hmoon01	4_M_TRAINEE,{
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc();
+	end;
+}
+
+1@pop1,104,99,4	duplicate(Sacerdote#1hmoon01)	Sacerdote#1hmoon02	4_M_TRAINEE
+1@pop1,93,97,6	duplicate(Sacerdote#1hmoon01)	Crente#1hmoon01	4_M_MASK
+1@pop1,106,97,4	duplicate(Sacerdote#1hmoon01)	Crente#1hmoon02	4_F_MASK
+1@pop1,91,95,6	duplicate(Sacerdote#1hmoon01)	Crente#1hmoon03	4_M_MASK
+1@pop1,108,95,4	duplicate(Sacerdote#1hmoon01)	Crente#1hmoon04	4_M_MASK1
+1@pop1,91,92,6	duplicate(Sacerdote#1hmoon01)	Crente#1hmoon05	4_M_MASK
+1@pop1,108,92,4	duplicate(Sacerdote#1hmoon01)	Crente#1hmoon06	4_M_MASK1
+1@pop1,89,103,5	duplicate(Sacerdote#1hmoon01)	Guarda#1hmoon01	4_M_RASWORD
+1@pop1,110,103,3	duplicate(Sacerdote#1hmoon01)	Guarda#1hmoon02	4_M_RASWORD
+1@pop1,96,83,5	duplicate(Sacerdote#1hmoon01)	Guarda#1hmoon03	4_M_RASWORD
+1@pop1,103,83,3	duplicate(Sacerdote#1hmoon01)	Guarda#1hmoon04	4_M_RASWORD
+1@pop1,96,80,5	duplicate(Sacerdote#1hmoon01)	Guarda#1hmoon05	4_M_RASWORD
+1@pop1,103,80,3	duplicate(Sacerdote#1hmoon01)	Guarda#1hmoon06	4_M_RASWORD
+1@pop1,96,77,5	duplicate(Sacerdote#1hmoon01)	Guarda#1hmoon07	4_M_RASWORD
+1@pop1,103,77,3	duplicate(Sacerdote#1hmoon01)	Guarda#1hmoon08	4_M_RASWORD
+1@pop1,96,74,5	duplicate(Sacerdote#1hmoon01)	Guarda#1hmoon09	4_M_RASWORD
+1@pop1,103,74,3	duplicate(Sacerdote#1hmoon01)	Guarda#1hmoon10	4_M_RASWORD
+1@pop1,98,17,6	duplicate(Sacerdote#1hmoon01)	Luwmin#1hmoon01	4_M_CHILD
+
+1@pop1,97,97,6	script	Crente#1hmoon11	4_M_MASK,{
+	end;
+
+OnInstanceInit:
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc();
+	end;
+
+OnEnable:
+	enablenpc();
+	end;
+}
+
+1@pop1,102,97,4	duplicate(Crente#1hmoon11)	Crente#1hmoon12	4_F_MASK
+1@pop1,97,95,6	duplicate(Crente#1hmoon11)	Crente#1hmoon13	4_M_MASK
+1@pop1,102,95,4	duplicate(Crente#1hmoon11)	Crente#1hmoon14	4_M_MASK1
+1@pop1,97,92,6	duplicate(Crente#1hmoon11)	Crente#1hmoon15	4_M_MASK
+1@pop1,102,92,4	duplicate(Crente#1hmoon11)	Crente#1hmoon16	4_M_MASK1
+1@pop1,101,94,3	duplicate(Crente#1hmoon11)	Sacerdote#1hmoon21	4_M_TRAINEE
+1@pop1,98,94,5	duplicate(Crente#1hmoon11)	Sacerdote#1hmoon22	4_M_TRAINEE
+1@pop1,96,92,6	duplicate(Crente#1hmoon11)	Crente#1hmoon23	4_M_MASK
+1@pop1,103,92,4	duplicate(Crente#1hmoon11)	Crente#1hmoon24	4_F_MASK
+1@pop1,96,90,7	duplicate(Crente#1hmoon11)	Crente#1hmoon25	4_M_MASK
+1@pop1,103,90,1	duplicate(Crente#1hmoon11)	Crente#1hmoon26	4_M_MASK1
+1@pop1,101,89,1	duplicate(Crente#1hmoon11)	Crente#1hmoon27	4_M_MASK
+1@pop1,98,89,7	duplicate(Crente#1hmoon11)	Crente#1hmoon28	4_M_MASK1
+1@pop1,99,89,7	duplicate(Crente#1hmoon11)	Guarda#1hmoon21	4_M_RASWORD
+1@pop1,100,82,1	duplicate(Crente#1hmoon11)	Guarda#1hmoon22	4_M_RASWORD
+1@pop1,96,87,7	duplicate(Crente#1hmoon11)	Guarda#1hmoon23	4_M_RASWORD
+1@pop1,98,87,7	duplicate(Crente#1hmoon11)	Guarda#1hmoon24	4_M_RASWORD
+1@pop1,101,87,1	duplicate(Crente#1hmoon11)	Guarda#1hmoon25	4_M_RASWORD
+1@pop1,103,87,1	duplicate(Crente#1hmoon11)	Guarda#1hmoon26	4_M_RASWORD
+1@pop1,96,84,7	duplicate(Crente#1hmoon11)	Guarda#1hmoon27	4_M_RASWORD
+1@pop1,98,84,7	duplicate(Crente#1hmoon11)	Guarda#1hmoon28	4_M_RASWORD
+1@pop1,101,84,1	duplicate(Crente#1hmoon11)	Guarda#1hmoon29	4_M_RASWORD
+1@pop1,103,84,1	duplicate(Crente#1hmoon11)	Guarda#1hmoon30	4_M_RASWORD
+1@pop1,100,98,3	duplicate(Crente#1hmoon11)	Papisa#1hmoon02	4_F_ARUNA_POP
+1@pop1,100,16,3	duplicate(Crente#1hmoon11)	Papisa#1hmoon07	3528
+1@pop1,101,16,3	duplicate(Crente#1hmoon11)	Papisa#1hmoon08	4_F_ARUNA_POP
+1@pop1,100,96,3	duplicate(Crente#1hmoon11)	Papisa#1hmoon09	4_F_ARUNA_POP
+1@pop1,99,94,3	duplicate(Crente#1hmoon11)	Papisa#1hmoon10	4_F_ARUNA_POP
+1@pop1,100,92,3	duplicate(Crente#1hmoon11)	Papisa#1hmoon11	4_F_ARUNA_POP
+
+//============================================================
+//== Mapa 2
+//============================================================
+1@pop2,117,221,3	script	Papisa#2hmoon01	3528,{
+	if ('progress >= 6)
+		end;
+	'progress = 6;
+	pcblockmove getcharid(3),1;
+	npctalk "Onde está... Onde está?", instance_npcname("Luwmin#2hmoon01");
+	sleep2 2000;
+	unittalk getcharid(3), "...Isso é perto da residência do Sumo Sacerdote Zhed.";
+	sleep2 2000;
+	npctalk "Zhed? Então eu estarei seguro aqui.", instance_npcname("Papisa#2hmoon01");
+	sleep2 2000;
+	npctalk "Está tarde demais. Precisamos nos apressar.", instance_npcname("Luwmin#2hmoon01");
+	sleep2 2000;
+	donpcevent instance_npcname("Luwmin#2hmoon01")+"::OnDisable";
+	sleep2 1000;
+	npctalk "Vamos irmão.", instance_npcname("Papisa#2hmoon01");
+	sleep2 500;
+	enablenpc instance_npcname("Papisa#2hmoon02");
+	enablenpc instance_npcname("Luwmin#2hmoon02");
+	donpcevent instance_npcname("Papisa#2hmoon01")+"::OnDisable";
+	pcblockmove getcharid(3),0;
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc();
+	end;
+}
+
+1@pop2,63,237,3	script	Papisa#2hmoon02	4_F_ARUNA_POP2,{
+	mes "[Luwmin]";
+	mes "Esta é a residência do Sacerdote, certo?";
+	next;
+	cutin "loo_nor", 255;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Vou verificar o perímetro da residência desse sujeito.";
+	next;
+	donpcevent instance_npcname("Guarda#2hmoon01")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon02")+"::OnEnable";
+	mes "[Guardas]";
+	mes "Alto lá! Quem vem aí?";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Não temos intenção de causar mal algum.";
+	next;
+	mes "[Guardas]";
+	mes "Ah é? Identifique-se!";
+	npctalk "Quem está aí?!", instance_npcname("Guarda#2hmoon02");
+	next;
+	mes "[Guardas]";
+	mes "Encontramos intrusos no jardim!";
+	next;
+	donpcevent instance_npcname("Sumo Sacerdote Zhed#2hmoon")+"::OnEnable";
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "M-maldição, que barulho é esse? O que está acontecendo..?";
+	next;
+	cutin "RA_GMAN2", 255;
+	mes "[Guardas]";
+	mes "Sumo Sacerdote, seus inimigos enviaram crianças assassinas para te ferir!";
+	next;
+	mes "[Guardas]";
+	mes "Intrusos invadiram o terreno da mansão!!";
+	next;
+	mes "[Guardas]";
+	mes "Nós cuidaremos desta situação.";
+	next;
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "P-Papisa, você não é a Papisa?";
+	npctalk "P-Papisa, você não é a Papisa?", instance_npcname("Sumo Sacerdote Zhed#2hmoon");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Ah ...";
+	npctalk "Ah ...", instance_npcname("Papisa#2hmoon02");
+	next;
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "De onde você veio? Do templo? O que você fez com a Papisa?";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Eu estou escoltando a Papisa.";
+	unittalk getcharid(3), "Eu estou encarregado.";
+	next;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Você é um... aventureiro?";
+	next;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Mesmo assim, a Papisa não deveria ter saído do templo. Temos protocolos rígidos.";
+	next;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Em muitos casos, os Crentes fanáticos fazem justiça com as próprias mãos... Agora, antes que seja tarde demais, por favor, retorne ao templo.";
+	next;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Niren não teria desejado isso..";
+	next;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Se algo acontecer com a Papisa, não será apenas um problema dela como indivíduo. Será um problema de todos os cidadãos de Arunafeltz!";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu sou apenas um receptáculo da Deusa?";
+	next;
+	mes "[Papisa]";
+	mes "Você está me tratando como um mero receptáculo?";
+	next;
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Os cidadãos de Arunafeltz encontram conforto, inspiração e esperança na Papisa.";
+	next;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "É o dever de nós, sacerdotes, garantir a segurança da Papisa.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Mas Zhed... Por um tempo, nem que seja só por um tempo.";
+	next;
+	mes "[Papisa]";
+	mes "Por favor, me ajude. Por favor, me entenda...";
+	npctalk "Vou pedir mais uma vez...", instance_npcname("Papisa#2hmoon02");
+	next;
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Não colocarei sua segurança em risco. Permita-me escoltá-la de volta ao templo.";
+	next;
+	cutin "LOO_ANG", 0;
+	mes "[Luwmin]";
+	mes "O verdadeiro perigo é você... Prendendo uma garotinha num templo assustador..!";
+	next;
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Este rosto... e esses olhos. Você é Luwmin?";
+	next;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "C-Como... você saiu de lá?";
+	npctalk "C-Como... você saiu de lá?", instance_npcname("Sumo Sacerdote Zhed#2hmoon");
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Eu ...";
+	next;
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Guardas, prendam esse garoto!";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "É melhor nos separarmos aqui para despistá-los. Vamos nos encontrar novamente na vila.";
+	sleep2 1000;
+	cutin "loo_smi", 255;
+	donpcevent instance_npcname("Luwmin#2hmoon02")+"::OnDisable";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Isso é igual a...";
+	npctalk "Isso é igual a...", instance_npcname("Papisa#2hmoon02");
+	next;
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Papisa, aquele garoto estava ali..?";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Aquela pessoa...";
+	next;
+	cutin "pops_sim", 255;
+	instance_announce -1, "Guarda: A Papisa está aqui!", bc_map, "0xFFFF00";
+	sleep2 1000;
+	instance_announce -1, "Guarda: Por aqui! Rápido!!!", bc_map, "0xFFFF00";
+	sleep2 3000;
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Papisa, Niren aprovou você sair escondida do templo?";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Zhed! Eu não estou abandonando meus deveres. É só por um curto período... Por favor! Só por um curto período...";
+	next;
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Não podemos perder mais tempo fora dos limites do templo. Eu mesmo vou levá-la.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu odeio isso.";
+	next;
+	cutin "ra_gman2", 0;
+	mes "[Sumo Sacerdote Zhed]";
+	mes "Papisa, você deve ir.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu odeio isso! Eu não vou !!!";
+	npctalk "Eu odeio isso!", instance_npcname("Papisa#2hmoon02");
+	next;
+	cutin "pops_sim", 255;
+	donpcevent instance_npcname("Guarda#2hmoon03")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon04")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon05")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon06")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon07")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon08")+"::OnEnable";
+	mes "[Guardas]";
+	mes "A Papisa está aqui!";
+	npctalk "A Papisa está aqui", instance_npcname("Guarda#2hmoon03");
+	next;
+	mes "[Guardas]";
+	mes "Papisa, por favor, não resista. Estamos apenas fazendo nosso trabalho.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Não, eu não vou agora!";
+	next;
+	cutin "pops_sim", 255;
+	mes "[Guardas]";
+	mes "Papisa! Você deve vir conosco!";
+	npctalk "Papisa! Você tem que vir conosco!", instance_npcname("Guarda#2hmoon03");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu odeio, odeio isso!!";
+	npctalk "Eu odeio, odeio isso!!", instance_npcname("Papisa#2hmoon02");
+	specialeffect EF_MAGICCRASHER, AREA, instance_npcname("Papisa#2hmoon02");
+	next;
+	cutin "pops_sim", 255;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Deixem a Papisa sair em paz. Caso contrário, usarei a força.";
+	next;
+	mes "[Guardas]";
+	mes "Renda-se! Você é apenas um mero aventureiro!";
+	npctalk "Você é apenas um mero aventureiro!", instance_npcname("Guarda#2hmoon07");
+	next;
+	mes "[Guardas]";
+	mes "Forasteiros não devem se meter em nossos assuntos!";
+	npctalk "Forasteiros não devem se meter em nossos assuntos!", instance_npcname("Guarda#2hmoon05");
+	sleep2 500;
+	npctalk "Todos vocês! Calem a boca!", instance_npcname("Guarda#2hmoon04");
+	next;
+	mes "[Guardas]";
+	mes "O aventureiro é um alvo hostil. Eliminem-no sem piedade!";
+	next;
+	mes "[Guardas]";
+	mes "Lembrem-se, não machuquem a Papisa!";
+	next;
+	mes "[Guardas]";
+	mes "Prontos?";
+	next;
+	mes "[Guardas]";
+	mes "Parado !!";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Papisa, venha aqui.";
+	for (.@i=1; .@i<=8; .@i++) {
+		npctalk "Pare !!",instance_npcname("Guarda#2hmoon0"+.@i);
+		donpcevent instance_npcname("Guarda#2hmoon0"+.@i)+"::OnDisable";
+	}
+	donpcevent instance_npcname("Sumo Sacerdote Zhed#2hmoon")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#2hmoon02")+"::OnDisable";
+	if ('mode == 1)
+		mercenary_create 3569,1800000; //POPE_MD_H_MERC_NORMAL
+	else
+		mercenary_create 3570,1800000; //POPE_MD_H_MERC_CASUAL
+	sleep2 1000;
+	instance_announce -1, "Guarda: Papisa, você deve voltar conosco!", bc_map, "0xFFFF00";
+	donpcevent instance_npcname("#mob2hmoon")+"::OnEnable";
+	'progress = 7;
+	close3;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc();
+	end;
+}
+
+1@pop2,69,158,3	script	Papisa#2hmoon03	4_F_ARUNA_POP2,{
+	if ('progress >= 8)
+		end;
+	'progress = 8;
+	pcblockmove getcharid(3),1;
+	npctalk "Muito obrigada.", instance_npcname("Papisa#2hmoon03");
+	sleep2 1000;
+	unittalk getcharid(3), "Não foi nada. Já vi coisa pior.";
+	sleep2 1000;
+	npctalk "Hã? Eu vou esperar por você lá.", instance_npcname("Papisa#2hmoon03");
+	sleep2 1000;
+	unittalk getcharid(3), "Certo. Espero que você não tenha se abalado com o incidente de antes.";
+	sleep2 1000;
+	npctalk "Não se preocupe. Estou bem.", instance_npcname("Papisa#2hmoon03");
+	sleep2 1000;
+	donpcevent instance_npcname("#2hmoond01")+"::OnEnable";
+	donpcevent instance_npcname("Papisa#2hmoon03")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#2hmoon04")+"::OnEnable";
+	donpcevent instance_npcname("Luwmin#2hmoon03")+"::OnEnable";
+	donpcevent instance_npcname("Puppy#2hmoon01")+"::OnEnable";
+	pcblockmove getcharid(3),0;
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc();
+	end;
+
+OnEnable:
+	enablenpc();
+	end;
+}
+
+1@pop2,56,116,5	script	Papisa#2hmoon04	4_F_ARUNA_POP2,{
+	mes "[Luwmin]";
+	mes "Por que você demorou tanto?";
+	npctalk "Au au!!", instance_npcname("Puppy#2hmoon01");
+	next;
+	cutin "pops_smi", 2;
+	mes "[Papisa]";
+	mes "Cachorrinho?";
+	next;
+	cutin "loo_nor", 0;
+	mes "[Luwmin]";
+	mes "Sim, eu encontrei ele vagando por aí sem dono...";
+	next;
+	cutin "pops_lau", 2;
+	mes "[Papisa]";
+	mes "Que fofo!";
+	next;
+	cutin "LOO_SMI", 0;
+	mes "[Luwmin]";
+	mes "Eu pensei que talvez você tivesse interesse em criar um?";
+	next;
+	cutin "pops_lau", 2;
+	mes "[Papisa]";
+	mes "Com certeza! Vamos criá-lo juntos como nosso bichinho de estimação?";
+	next;
+	cutin "loo_nor", 0;
+	mes "[Luwmin]";
+	mes "Vamos pedir para Mamãe e Papai aprovarem.";
+	next;
+	cutin "pops_lau", 2;
+	mes "[Papisa]";
+	mes "Isso!";
+	npctalk "Qual é o seu nome?", instance_npcname("Papisa#2hmoon04");
+	next;
+	cutin "pops_lau", 255;
+	donpcevent instance_npcname("Amigo#2hmoon01")+"::OnEnable";
+	mes "[Amigo]";
+	mes "Vocês vão vir?";
+	npctalk "Vocês vão vir?", instance_npcname("Amigo#2hmoon01");
+	next;
+	donpcevent instance_npcname("Amigo#2hmoon02")+"::OnEnable";
+	sleep2  1000;
+	donpcevent instance_npcname("Amigo#2hmoon03")+"::OnEnable";
+	mes "[Amigo]";
+	mes "Achei que você não viria hoje.";
+	npctalk "Achei que você não viria hoje.", instance_npcname("Amigo#2hmoon02");
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Nós... estávamos no meio de algo.";
+	next;
+	cutin "loo_smi", 255;
+	mes "[Amigo]";
+	mes "Como essa é uma oportunidade rara, vamos brincar juntos. Depois visitamos a casa um do outro~";
+	next;
+	mes "[Amigo]";
+	mes "Claro, vamos fazer isso.";
+	npctalk "Claro, vamos fazer isso.", instance_npcname("Amigo#2hmoon03");
+	next;
+	mes "[Amigo]";
+	mes "Que tal irmos para casa primeiro?";
+	next;
+	cutin "pops_lau", 2;
+	mes "[Papisa]";
+	mes "Sim !!!";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Tenho que me apressar. Mamãe e Papai devem estar esperando por nós..";
+	sleep2 500;
+	cutin "loo_smi", 255;
+	donpcevent instance_npcname("Papisa#2hmoon04")+"::OnDisable";
+	donpcevent instance_npcname("Luwmin#2hmoon03")+"::OnDisable";
+	donpcevent instance_npcname("Amigo#2hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Amigo#2hmoon02")+"::OnDisable";
+	donpcevent instance_npcname("Amigo#2hmoon03")+"::OnDisable";
+	donpcevent instance_npcname("Puppy#2hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#2hmoon05")+"::OnEnable";
+	donpcevent instance_npcname("Luwmin#2hmoon04")+"::OnEnable";
+	donpcevent instance_npcname("Amigo#2hmoon04")+"::OnEnable";
+	donpcevent instance_npcname("Amigo#2hmoon05")+"::OnEnable";
+	donpcevent instance_npcname("Amigo#2hmoon06")+"::OnEnable";
+	donpcevent instance_npcname("Puppy#2hmoon02")+"::OnEnable";
+	unittalk getcharid(3), "Eles estão indo em direção à Loja de Armas, preciso alcançá-los.";
+	navigateto instance_mapname("1@pop2"),48,86;
+	'progress = 9;
+	close3;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#2hmoon04");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Papisa#2hmoon04");
+	end;
+}
+
+1@pop2,48,86,7	script	Papisa#2hmoon05	4_F_ARUNA_POP2,{
+	if ('progress >= 10)
+		end;
+	'progress = 10;
+	setpcblock PCBLOCK_NPC, true;
+	npctalk "Seu pai está fazendo armas para viver agora?", instance_npcname("Papisa#2hmoon05");
+	sleep2 2000;
+	npctalk "Sim. Você quer ver ele trabalhando?", instance_npcname("Amigo#2hmoon06");
+	sleep2 2000;
+	npctalk "Não... eu tenho medo.", instance_npcname("Papisa#2hmoon05");
+	sleep2 2000;
+	npctalk "Bem, que tipo de armas ele faz?", instance_npcname("Luwmin#2hmoon04");
+	sleep2 2000;
+	npctalk "Acho que são algumas espadas comuns e coisas do tipo, para os guardas.", instance_npcname("Amigo#2hmoon05");
+	sleep2 2000;
+	npctalk "Isso é interessante.", instance_npcname("Amigo#2hmoon06");
+	sleep2 2000;
+	npctalk "Por quê? Você se interessa por esse tipo de coisa?", instance_npcname("Amigo#2hmoon05");
+	sleep2 2000;
+	npctalk "Eu realmente não sei o que dizer...", instance_npcname("Amigo#2hmoon04");
+	sleep2 2000;
+	npctalk "Bem, se você quiser, vá em frente.", instance_npcname("Amigo#2hmoon06");
+	sleep2 2000;
+	npctalk "Ei, que tal irmos para a casa do Ra depois?", instance_npcname("Amigo#2hmoon05");
+	sleep2 2000;
+	npctalk "Eu não vou lá faz um tempo.", instance_npcname("Papisa#2hmoon05");
+	sleep2 2000;
+	npctalk "Hehe. Vamos~.", instance_npcname("Amigo#2hmoon06");
+	sleep2 2000;
+	npctalk "Sério? Mas acabamos de chegar....", instance_npcname("Papisa#2hmoon05");
+	sleep2 2000;
+	npctalk "Crianças, não esqueçam de ir para casa antes do anoitecer!", instance_npcname("#2mum01");
+	sleep2 2000;
+	npctalk "Vocês podem ir. Meu toque de recolher começa agora...", instance_npcname("Amigo#2hmoon06");
+	sleep2 2000;
+	npctalk "Foi divertido encontrar vocês depois de tanto tempo.", instance_npcname("Amigo#2hmoon06");
+	sleep2 2000;
+	npctalk "Sim. Então nos vemos amanhã.", instance_npcname("Papisa#2hmoon05");
+	sleep2 2000;
+	npctalk "Sim! Amanhã vamos brincar igual hoje! Não esqueçam de brincar de esconde-esconde!", instance_npcname("Amigo#2hmoon06");
+	sleep2 2000;
+	npctalk "Sim! E brincar de esconde-esconde!";
+	sleep2 2000;
+	npctalk "Tchau ~", instance_npcname("Amigo#2hmoon06");
+	sleep2 2000;
+	npctalk "Tchau ~", instance_npcname("Amigo#2hmoon04");
+	sleep2 2000;
+	npctalk "Tchau ~", instance_npcname("Amigo#2hmoon05");
+	sleep2 2000;
+	npctalk "Tchau ~", instance_npcname("Papisa#2hmoon05");
+	disablenpc instance_npcname("Amigo#2hmoon06");
+	npctalk "Vamos, pessoal?", instance_npcname("Luwmin#2hmoon04");
+	sleep2 2000;
+	npctalk "Isso!", instance_npcname("Papisa#2hmoon05");
+	sleep2 2000;
+	donpcevent instance_npcname("Papisa#2hmoon05")+"::OnDisable";
+	donpcevent instance_npcname("Luwmin#2hmoon04")+"::OnDisable";
+	donpcevent instance_npcname("Amigo#2hmoon04")+"::OnDisable";
+	donpcevent instance_npcname("Amigo#2hmoon05")+"::OnDisable";
+	donpcevent instance_npcname("Puppy#2hmoon02")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#2hmoon08")+"::OnEnable";
+	donpcevent instance_npcname("Luwmin#2hmoon07")+"::OnEnable";
+	donpcevent instance_npcname("Amigo#2hmoon07")+"::OnEnable";
+	donpcevent instance_npcname("Amigo#2hmoon08")+"::OnEnable";
+	donpcevent instance_npcname("Puppy#2hmoon04")+"::OnEnable";
+	unittalk getcharid(3), "A Papisa está indo em direção ao mercado, vou ter que segui-la.";
+	navigateto instance_mapname("1@pop2"),89,44;
+	pcblockmove getcharid(3),0;
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#2hmoon05");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Papisa#2hmoon05");
+	end;
+}
+
+1@pop2,89,44,7	script	Papisa#2hmoon08	4_F_ARUNA_POP2,{
+	if ('progress >= 12)
+		end;
+	'progress = 12;
+	pcblockmove getcharid(3),1;
+	npctalk "Sua casa está bastante limpa.",instance_npcname("Papisa#2hmoon08");
+	sleep2 2000;
+	npctalk "Não é bonita?", instance_npcname("Amigo#2hmoon08");
+	sleep2 2000;
+	npctalk "Sim. Está bem cuidada.";
+	sleep2 2000;
+	npctalk "Vamos brincar de algum jogo enquanto estamos aqui.", instance_npcname("Luwmin#2hmoon07");
+	sleep2 1000;
+	npctalk "Boa ideia!";
+	sleep2 2000;
+	npctalk "Vamos brincar de Acerte o Poring?", instance_npcname("Amigo#2hmoon08");
+	sleep2 2000;
+	npctalk "Ou esconde-esconde?", instance_npcname("Amigo#2hmoon07");
+	sleep2 1000;
+	npctalk "Vamos brincar de Faz de Conta!", instance_npcname("Amigo#2hmoon08");
+	sleep2 2000;
+	npctalk "Isso é mais divertido do que esconde-esconde.", instance_npcname("Amigo#2hmoon07");
+	sleep2 1000;
+	npctalk "Está decidido!! Eu serei a Papisa.", instance_npcname("Amigo#2hmoon08");
+	sleep2 2000;
+	npctalk "Não, eu quero ser a Papisa.", instance_npcname("Amigo#2hmoon07");
+	sleep2 2000;
+	npctalk "Só pode ter uma Papisa...", instance_npcname("Amigo#2hmoon08");
+	sleep2 2000;
+	npctalk "Bem, temos outros papéis como o Sacerdote, o Guarda...", instance_npcname("Amigo#2hmoon07");
+	sleep2 2000;
+	npctalk "Vocês duas podem ser Papisas!";
+	sleep2 2000;
+	npctalk "Hora de comer, venham pegar sua comida deliciosa!", instance_npcname("#2mum02");
+	sleep2 1000;
+	npctalk "Siiim ~", instance_npcname("Amigo#2hmoon08");
+	sleep2 2000;
+	npctalk "Que tal brincarmos de esconde-esconde amanhã?",instance_npcname("Papisa#2hmoon08");
+	sleep2 2000;
+	npctalk "Concordo, assim é mais fácil~", instance_npcname("Amigo#2hmoon08");
+	sleep2 2000;
+	npctalk "Tchau ~",instance_npcname("Papisa#2hmoon08");
+	sleep2 2000;
+	npctalk "Tchau ~", instance_npcname("Amigo#2hmoon08");
+	sleep2 2000;
+	npctalk "Tchau ~", instance_npcname("Amigo#2hmoon07");
+	sleep2 2000;
+	npctalk "Amanhã então ~",instance_npcname("Papisa#2hmoon08");
+	donpcevent instance_npcname("Amigo#2hmoon08")+"::OnDisable";
+	npctalk "Vamos rápido e pegar nossa comida!!", instance_npcname("Luwmin#2hmoon07");
+	sleep2 1000;
+	donpcevent instance_npcname("Papisa#2hmoon08")+"::OnDisable";
+	donpcevent instance_npcname("Luwmin#2hmoon07")+"::OnDisable";
+	donpcevent instance_npcname("Amigo#2hmoon07")+"::OnDisable";
+	donpcevent instance_npcname("Puppy#2hmoon04")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#2hmoon09")+"::OnEnable";
+	donpcevent instance_npcname("Luwmin#2hmoon08")+"::OnEnable";
+	donpcevent instance_npcname("Amigo#2hmoon09")+"::OnEnable";
+	donpcevent instance_npcname("Puppy#2hmoon05")+"::OnEnable";
+	unittalk getcharid(3), "Agora eles estão se movendo para a direita, vou apenas seguir.";
+	navigateto instance_mapname("1@pop2"),136,47;
+	pcblockmove getcharid(3),0;
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#2hmoon08");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Papisa#2hmoon08");
+	end;
+}
+
+1@pop2,136,47,5	script	Papisa#2hmoon09	4_F_ARUNA_POP2,{
+	if ('progress >= 13)
+		end;
+	'progress = 13;
+	pcblockmove getcharid(3),1;
+	npctalk "Irmão! Vejam aquilo! Parece delicioso.",instance_npcname("Papisa#2hmoon09");
+	sleep2 2000;
+	npctalk "Você quer comer um pouco?", instance_npcname("Amigo#2hmoon09");
+	sleep2 2000;
+	npctalk "Não, está tudo bem..",instance_npcname("Papisa#2hmoon09");
+	sleep2 2000;
+	npctalk "É sempre bom receber visitas para uma refeição.", instance_npcname("Amigo#2hmoon09");
+	sleep2 2000;
+	npctalk "Bem... Ainda assim...",instance_npcname("Papisa#2hmoon09");
+	sleep2 2000;
+	npctalk "Obrigado. Vou comer bem.", instance_npcname("Luwmin#2hmoon08");
+	sleep2 2000;
+	npctalk "Irmão?",instance_npcname("Papisa#2hmoon09");
+	sleep2 2000;
+	npctalk "Oh~ Minha fome foi satisfeita~", instance_npcname("Luwmin#2hmoon08");
+	sleep2 2000;
+	npctalk "Sim. Vá, vá comer o jantar.", instance_npcname("Amigo#2hmoon09");
+	sleep2 2000;
+	npctalk "Sim. Então nos vemos amanhã.",instance_npcname("Papisa#2hmoon09");
+	sleep2 2000;
+	npctalk "Sim. - vamos nos encontrar novamente amanhã! Não esqueçam de brincar de esconde-esconde!", instance_npcname("Amigo#2hmoon09");
+	sleep2 2000;
+	npctalk "Sim! E brincar de esconde-esconde!",instance_npcname("Papisa#2hmoon09");
+	sleep2 2000;
+	npctalk "Tchau ~", instance_npcname("Amigo#2hmoon09");
+	sleep2 2000;
+	npctalk "Tchau !!",instance_npcname("Papisa#2hmoon09");
+	donpcevent instance_npcname("Amigo#2hmoon09")+"::OnDisable";
+	npctalk "O que temos para esta noite?",instance_npcname("Papisa#2hmoon09");
+	sleep2 2000;
+	cutin "pops_smi", 2;
+	npctalk "Vamos.", instance_npcname("Luwmin#2hmoon08");
+	sleep2 1000;
+	donpcevent instance_npcname("Papisa#2hmoon09")+"::OnDisable";
+	donpcevent instance_npcname("Luwmin#2hmoon08")+"::OnDisable";
+	donpcevent instance_npcname("Puppy#2hmoon05")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#2hmoon06")+"::OnEnable";
+	donpcevent instance_npcname("Luwmin#2hmoon05")+"::OnEnable";
+	donpcevent instance_npcname("Puppy#2hmoon03")+"::OnEnable";
+	donpcevent instance_npcname("Mamãe#2hmoon01")+"::OnEnable";
+	donpcevent instance_npcname("Papai#2hmoon01")+"::OnEnable";
+	unittalk getcharid(3), "A Papisa está indo para o norte, vou seguir.";
+	sleep2 2000;
+	cutin "", 255;
+	navigateto instance_mapname("1@pop2"),124,81;
+	pcblockmove getcharid(3),0;
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#2hmoon09");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Papisa#2hmoon09");
+	end;
+}
+
+1@pop2,124,81,5	script	Papisa#2hmoon06	4_F_ARUNA_POP2,{
+	mes "[Papisa]";
+	mes "Mamãe!";
+	npctalk "Mamãe!", instance_npcname("Papisa#2hmoon06");
+	next;
+	cutin "pops_smi", 255;
+	mes "[Mamãe]";
+	mes "Onde você foi? Eu disse para voltar antes da hora da refeição.";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Desculpe. Vamos voltar mais cedo da próxima vez.";
+	next;
+	cutin "pops_smi", 2;
+	mes "[Papisa]";
+	mes "Mamãe, nós trouxemos esse cachorrinho para casa!";
+	next;
+	cutin "pops_smi", 255;
+	mes "[Mamãe]";
+	mes "Que cachorrinho fofo.";
+	next;
+	cutin "pops_smi", 2;
+	mes "[Papisa]";
+	mes "Eu posso criar ele?";
+	next;
+	cutin "pops_smi", 255;
+	mes "[Papai]";
+	mes "Não sei se isso é uma boa ideia...";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "É.";
+	npctalk "É.", instance_npcname("Luwmin#2hmoon05");
+	next;
+	cutin "loo_smi", 255;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Será que essa é a fantasia da Papisa - viver uma vida normal.";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "É muito diferente da rotina diária dela como Papisa.";
+	next;
+	mes "[???]";
+	mes "Ela está ali.";
+	npctalk "Ela está ali.", instance_npcname("Sacerdote#2hmoon01");
+	next;
+	mes "[???]";
+	mes "Você está certo. É ela mesmo..";
+	npctalk "Você está certo. É ela mesmo.", instance_npcname("Sacerdote#2hmoon02");
+	next;
+	mes "[Mamãe]";
+	mes "O que é todo esse barulho...?";
+	next;
+	donpcevent instance_npcname("Sacerdote#2hmoon01")+"::OnEnable";
+	sleep2 2000;
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "Essa busca foi proveitosa no fim das contas.";
+	npctalk "Essa busca foi proveitosa no fim das contas.", instance_npcname("Sacerdote#2hmoon01");
+	next;
+	donpcevent instance_npcname("Sacerdote#2hmoon02")+"::OnEnable";
+	sleep2 2000;
+	cutin "ra_gman2", 2;
+	mes "[Sacerdote]";
+	mes "Esta é a casa da nossa nova Papisa.";
+	npctalk "Esta é a casa da nossa nova Papisa.", instance_npcname("Sacerdote#2hmoon02");
+	next;
+	cutin "ra_gman2", 255;
+	donpcevent instance_npcname("Crente#2hmoon01")+"::OnEnable";
+	mes "[Crente]";
+	mes "Contemplem, o nascimento da nossa nova Papisa!";
+	next;
+	donpcevent instance_npcname("Crente#2hmoon03")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon41")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon42")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon43")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon44")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon45")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon46")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon47")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon48")+"::OnEnable";
+	donpcevent instance_npcname("Guarda#2hmoon49")+"::OnEnable";
+	sleep2 500;
+	npctalk "Vocês devem impedir que forasteiros se aproximem daqui!", instance_npcname("Crente#2hmoon03");
+	npctalk "Sim, senhor!", instance_npcname("Guarda#2hmoon41");
+	npctalk "Sim, senhor!", instance_npcname("Guarda#2hmoon42");
+	npctalk "Sim, senhor!", instance_npcname("Guarda#2hmoon43");
+	npctalk "Sim, senhor!", instance_npcname("Guarda#2hmoon44");
+	npctalk "Sim, senhor!", instance_npcname("Guarda#2hmoon45");
+	npctalk "Sim, senhor!", instance_npcname("Guarda#2hmoon46");
+	npctalk "Sim, senhor!", instance_npcname("Guarda#2hmoon47");
+	npctalk "Sim, senhor!", instance_npcname("Guarda#2hmoon48");
+	npctalk "Sim, senhor!", instance_npcname("Guarda#2hmoon49");
+	sleep2 2000;
+	donpcevent instance_npcname("Crente#2hmoon03")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon41")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon42")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon43")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon44")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon45")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon46")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon47")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon48")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon49")+"::OnDisable";
+	sleep2 500;
+	donpcevent instance_npcname("Crente#2hmoon02")+"::OnEnable";
+	npctalk "A Papisa, nossa Glória!", instance_npcname("Crente#2hmoon02");
+	mes "[Morador]";
+	mes "Você ouviu?";
+	npctalk "Você ouviu?", instance_npcname("Morador#2hmoon02");
+	next;
+	mes "[Morador]";
+	mes "Quem diria que a Papisa teria nascido no nosso bairro!";
+	npctalk "Quem diria que a Papisa teria nascido no nosso bairro!", instance_npcname("Morador#2hmoon03");
+	next;
+	donpcevent instance_npcname("Morador#2hmoon01")+"::OnEnable";
+	mes "[Morador]";
+	mes "O quê? Papisa?";
+	npctalk "O quê? Papisa ??", instance_npcname("Morador#2hmoon01");
+	next;
+	donpcevent instance_npcname("Morador#2hmoon02")+"::OnEnable";
+	mes "[Morador]";
+	mes "Fomos abençoados com um presente desses...!";
+	npctalk "Fomos abençoados com um presente desses...!", instance_npcname("Morador#2hmoon02");
+	next;
+	donpcevent instance_npcname("Morador#2hmoon03")+"::OnEnable";
+	mes "[Morador]";
+	mes "Parece ser uma criança que vive perto da nossa casa. Eu já encontrei com ela antes.... Cof cof!";
+	npctalk "Parece ser uma criança que vive perto da nossa casa. Eu já encontrei com ela antes.... Cof cof!", instance_npcname("Morador#2hmoon03");
+	next;
+	donpcevent instance_npcname("Morador#2hmoon04")+"::OnEnable";
+	mes "[Morador]";
+	mes "Papisa? Estou sonhando...?";
+	npctalk "Papisa? Estou sonhando...?", instance_npcname("Morador#2hmoon04");
+	next;
+	donpcevent instance_npcname("Morador#2hmoon17")+"::OnEnable";
+	npctalk "Esta é a casa de onde veio a nova Papisa....?", instance_npcname("Morador#2hmoon17");
+	mes "[Mamãe]";
+	mes "Do que se trata isso?";
+	next;
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "Eu vim procurar uma criança que cumpra os critérios para uma nova Papisa.";
+	next;
+	donpcevent instance_npcname("Morador#2hmoon12")+"::OnEnable";
+	donpcevent instance_npcname("Morador#2hmoon23")+"::OnEnable";
+	npctalk "Esta é a casa de onde veio a nova Papisa....?", instance_npcname("Morador#2hmoon12");
+	sleep2 500;
+	cutin "ra_gman2", 2;
+	mes "[Sacerdote]";
+	mes "Pele clara, cabelo branco, olhos de cores diferentes. Não há dúvida.";
+	next;
+	npctalk "A Papisa, a escolhida vinda de um bairro tão miserável?", instance_npcname("Morador#2hmoon23");
+	sleep2 500;
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "Esperamos por este momento especial!!";
+	npctalk "Esperamos por este momento especial!!", instance_npcname("Sacerdote#2hmoon01");
+	next;
+	donpcevent instance_npcname("Morador#2hmoon14")+"::OnEnable";
+	npctalk "Sem dúvida. Ela é realmente a Papisa.", instance_npcname("Morador#2hmoon14");
+	mes "[Papai]";
+	mes "Papisa? Nossos filhos são apenas crianças.";
+	next;
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "Se ela será ou não o receptáculo da Deusa, isso será determinado no templo.";
+	next;
+	donpcevent instance_npcname("Morador#2hmoon27")+"::OnEnable";
+	donpcevent instance_npcname("Morador#2hmoon22")+"::OnEnable";
+	npctalk "Então... esses são os novos candidatos?", instance_npcname("Morador#2hmoon22");
+	sleep2 500;
+	cutin "ra_gman2", 2;
+	mes "[Sacerdote]";
+	mes "Se ela falhar, nós a enviaremos de volta para cá.";
+	next;
+	npctalk "Mais alto, por favor, eu não consigo ouvir o que está acontecendo!!", instance_npcname("Morador#2hmoon27");
+	sleep2 500;
+	cutin "ra_gman2", 255;
+	mes "[Mamãe]";
+	mes "São apenas crianças comuns.";
+	next;
+	donpcevent instance_npcname("Morador#2hmoon16")+"::OnEnable";
+	npctalk "Eu não posso perder esse momento!", instance_npcname("Morador#2hmoon16");
+	sleep2 500;
+	cutin "ra_gman2", 2;
+	mes "[Sacerdote]";
+	mes "Essas crianças têm os mesmos sinais?";
+	npctalk "Essas crianças têm os mesmos sinais?", instance_npcname("Sacerdote#2hmoon02");
+	next;
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "Nunca houve um precedente assim..!";
+	next;
+	donpcevent instance_npcname("Morador#2hmoon25")+"::OnEnable";
+	npctalk "Abram espaço, eu preciso ver!", instance_npcname("Morador#2hmoon25");
+	donpcevent instance_npcname("Morador#2hmoon18")+"::OnEnable";
+	npctalk "Louvem o nascimento de uma nova Papisa!", instance_npcname("Morador#2hmoon18");
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Niren? É você, Niren? Não me separe da minha família!";
+	next;
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "Como você sabe o meu... nome? Isso é vontade de Freyja?";
+	next;
+	mes "[Sacerdote]";
+	mes "Essa garota é, sem dúvida, a verdadeira Papisa.";
+	npctalk "Essa garota é, sem dúvida, a verdadeira Papisa.", instance_npcname("Sacerdote#2hmoon01");
+	next;
+	donpcevent instance_npcname("Morador#2hmoon21")+"::OnEnable";
+	npctalk "Eu conheço essa criança! Eu conheço!!", instance_npcname("Morador#2hmoon21");
+	mes "[Sacerdote]";
+	mes "É vontade de Freyja reencarnar em tal receptáculo.";
+	npctalk "É vontade de Freyja reencarnar em tal receptáculo.", instance_npcname("Sacerdote#2hmoon01");
+	next;
+	donpcevent instance_npcname("Morador#2hmoon11")+"::OnEnable";
+	npctalk "Este é um momento histórico!", instance_npcname("Morador#2hmoon11");
+	cutin "ra_gwoman", 255;
+	mes "[Crente]";
+	mes "Oh, louvem o nascimento de uma nova Papisa!";
+	npctalk "Oh, louvem o nascimento de uma nova Papisa!", instance_npcname("Crente#2hmoon01");
+	next;
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon11");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon12");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon13");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon14");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon15");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon16");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon17");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon18");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon21");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon22");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon23");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon24");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon25");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon26");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon27");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon01");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon02");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon03");
+	npctalk "Louvem a Papisa!", instance_npcname("Morador#2hmoon04");
+	sleep2 500;
+	donpcevent instance_npcname("Morador#2hmoon15")+"::OnEnable";
+	npctalk "Hmmm, isso é realmente minha sorte testemunhar tal evento!", instance_npcname("Morador#2hmoon15");
+	donpcevent instance_npcname("Morador#2hmoon24")+"::OnEnable";
+	npctalk "A Papisa finalmente desceu!", instance_npcname("Morador#2hmoon24");
+	mes "[Crente]";
+	mes "Louvem a Deusa!";
+	npctalk "Louvem a Deusa!", instance_npcname("Crente#2hmoon02");
+	next;
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon11");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon12");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon13");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon14");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon15");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon16");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon17");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon18");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon21");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon22");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon23");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon24");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon25");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon26");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon27");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon01");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon02");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon03");
+	npctalk "Vida longa à Deusa!!", instance_npcname("Morador#2hmoon04");
+	sleep2 500;
+	donpcevent instance_npcname("Morador#2hmoon13")+"::OnEnable";
+	npctalk "Tenho medo de ir! Papisa, eu te amo!", instance_npcname("Morador#2hmoon13");
+	mes "[Mamãe]";
+	mes "Nossa filha é a Papisa...? Isso é mesmo verdade?";
+	next;
+	donpcevent instance_npcname("Morador#2hmoon26")+"::OnEnable";
+	npctalk "Sem dúvida. Eu vou levar a garota.", instance_npcname("Morador#2hmoon26");
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "Sem dúvida. Eu vou levar a garota.";
+	next;
+	cutin "ra_gman2", 2;
+	mes "[Sacerdote]";
+	mes "A vida no templo será segura e confortável.";
+	next;
+	cutin "ra_gman2", 255;
+	mes "[Papai]";
+	mes "E quanto ao nosso filho então?";
+	next;
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "Um garoto com os mesmos critérios, mas que não sabe de nada, é inútil...";
+	next;
+	cutin "ra_gman2", 2;
+	mes "[Sacerdote]";
+	mes "A Papisa foi escolhida apenas com um minuto de diferença entre gerações. E nenhum garoto foi selecionado.";
+	next;
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "O que isso significa? Ou será que Freyja quer comunicar suas palavras através desse garoto?.";
+	next;
+	cutin "ra_gman2", 2;
+	mes "[Sacerdote]";
+	mes "Precisamos estudar isso melhor. Os especialistas devem ser os responsáveis por decidir essa questão.";
+	next;
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "...Precisamos tomar uma decisão logo.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu não quero ir. Eu odeio isso. Por favor! Mamãe...? Papai...? Aventureiro...? Me salve...!!";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Escute bem. Nós nunca vamos nos separar um do outro.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Sim!";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Lembra da terra dos sonhos sobre a qual nós dois sempre falávamos?";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Sim, o 'Jardim Secreto'! Eu me lembro.";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Você pode chegar lá pelo portão sul. Eu vou te encontrar lá. Lá estaremos protegidos de qualquer ameaça.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Você vai me deixar agora?";
+	npctalk "Você vai me deixar agora?", instance_npcname("Papisa#2hmoon06");
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "É melhor nos separarmos aqui. Eu vou te encontrar no portão sul.";
+	sleep2 1000;
+	cutin "loo_smi", 255;
+	donpcevent instance_npcname("Luwmin#2hmoon05")+"::OnDisable";
+	next;
+	specialeffect EF_MAGICCRASHER, AREA, instance_npcname("Papisa#2hmoon06");
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Não vá! Não me deixe assim...";
+	npctalk "Não vá! Não me deixe assim...", instance_npcname("Papisa#2hmoon06");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Papisa, Papisa! Calma! Isso é um sonho! É só um sonho, acorde!";
+	next;
+	mes "[Papisa]";
+	mes "Mãe! Pai!! ...Não me chamem de Papisa!";
+	npctalk "Mãe! Pai !!", instance_npcname("Papisa#2hmoon06");
+	cutin "pops_sim", 255;
+	next;
+	mes "[Pai]";
+	mes "Estou muito feliz por ter uma criança assim!";
+	npctalk "Estou muito feliz por ter uma criança assim!", instance_npcname("Papai#2hmoon01");
+	next;
+	mes "[Mãe]";
+	mes "É uma honra termos nossa filha como a Papisa, receptáculo da Deusa!";
+	npctalk "É uma honra termos nossa filha como a Papisa, receptáculo da Deusa!", instance_npcname("Mamãe#2hmoon01");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Mãe...? Pai...? Vocês vão me abandonar?";
+	next;
+	cutin "pops_sim", 255;
+	mes "[Pai]";
+	mes "Papisa, vamos. Siga com eles.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu odeio despedidas, não!";
+	next;
+	cutin "pops_sim", 255;
+	mes "[Mãe]";
+	mes "Não é uma grande honra, minha filha...?";
+	next;
+	cutin "ra_gwoman", 0;
+	mes "[Sacerdote]";
+	mes "Nós garantiremos a segurança da nossa Papisa.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Não !!";
+	npctalk "Eu odeio isso !!", instance_npcname("Papisa#2hmoon06");
+	next;
+	cutin "ra_gman2", 2;
+	mes "[Sacerdote]";
+	mes "Não temos escolha a não ser usar a força.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu odeio isso! Eu não vou !!";
+	next;
+	cutin "ra_gman2", 2;
+	mes "[Sacerdote]";
+	mes "Isso não cabe a você decidir. Já está determinado.";
+	next;
+	cutin "ra_gman2", 255;
+	mes "["+strcharinfo(0)+"]";
+	mes "É inútil usar a força!";
+	next;
+	mes "[Crente]";
+	mes "Como ousa interferir nisso...!";
+	next;
+	mes "[Crente]";
+	mes "É imperdoável desafiar a vontade da Deusa!";
+	npctalk "É imperdoável desafiar a vontade da Deusa!", instance_npcname("Crente#2hmoon01");
+	instance_announce -1, "Cidadãos: Papisa, todos estamos ansiosos para vê-la no templo...", bc_map, "0xFFFF00";
+	sleep2 500;
+	donpcevent instance_npcname("#mob2hmoon")+"::OnEnable";
+	donpcevent instance_npcname("Papisa#2hmoon06")+"::OnDisable";
+	donpcevent instance_npcname("Puppy#2hmoon03")+"::OnDisable";
+	donpcevent instance_npcname("Mamãe#2hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Papai#2hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Sacerdote#2hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Sacerdote#2hmoon02")+"::OnDisable";
+	donpcevent instance_npcname("Crente#2hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Crente#2hmoon02")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon02")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon03")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon04")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon21")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon22")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon23")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon24")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon25")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon26")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon27")+"::OnDisable";
+	donpcevent instance_npcname("Guarda#2hmoon28")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon11")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon12")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon13")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon14")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon15")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon16")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon17")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon18")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon21")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon22")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon23")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon24")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon25")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon26")+"::OnDisable";
+	donpcevent instance_npcname("Morador#2hmoon27")+"::OnDisable";
+	if ('mode == 1)
+		mercenary_create 3569,1800000; //POPE_MD_H_MERC_NORMAL
+	else
+		mercenary_create 3570,1800000; //POPE_MD_H_MERC_CASUAL
+	'progress = 14;
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#2hmoon06");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Papisa#2hmoon06");
+	end;
+}
+
+1@pop2,64,75,3	script	Papisa#2hmoon07	4_F_ARUNA_POP2,{
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#2hmoon07");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Papisa#2hmoon07");
+	end;
+}
+
+1@pop2,66,206,0	script	#2hmoon05	139,5,5,{
+	donpcevent instance_npcname(strnpcinfo(0))+"::OnDisable";
+	donpcevent instance_npcname("#mob2hmoon")+"::OnEnable";
+	end;
+
+OnDisable:
+	disablenpc();
+	end;
+
+OnEnable:
+	enablenpc();
+	end;
+}
+
+1@pop2,66,156,0	duplicate(#2hmoon05)	#2hmoon06	139,5,5
+1@pop2,119,123,0	duplicate(#2hmoon05)	#2hmoon07	139,5,5
+1@pop2,48,126,0	duplicate(#2hmoon07)	#2hmoon08	139,5,5
+1@pop2,57,83,0	duplicate(#2hmoon07)	#2hmoon09	139,5,5
+1@pop2,129,38,0	duplicate(#2hmoon07)	#2hmoon10	139,5,5
+1@pop2,116,219,1	duplicate(Sacerdote#1hmoon01)	Luwmin#2hmoon01	4_M_CHILD
+1@pop2,42,87,0	duplicate(Sacerdote#1hmoon01)	#2mum01	111
+1@pop2,94,47,0	duplicate(Sacerdote#1hmoon01)	#2mum02	111
+1@pop2,66,236,3	duplicate(Crente#1hmoon11)	Luwmin#2hmoon02	4_M_CHILD
+1@pop2,55,114,6	duplicate(Crente#1hmoon11)	Luwmin#2hmoon03	4_M_CHILD
+1@pop2,60,237,5	duplicate(Crente#1hmoon11)	Guarda#2hmoon01	4_M_RASWORD
+1@pop2,62,234,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon02	4_M_RASWORD
+1@pop2,65,232,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon03	4_M_RASWORD
+1@pop2,62,240,5	duplicate(Crente#1hmoon11)	Guarda#2hmoon04	4_M_RASWORD
+1@pop2,66,240,3	duplicate(Crente#1hmoon11)	Guarda#2hmoon05	4_M_RASWORD
+1@pop2,68,239,3	duplicate(Crente#1hmoon11)	Guarda#2hmoon06	4_M_RASWORD
+1@pop2,68,234,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon07	4_M_RASWORD
+1@pop2,70,236,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon08	4_M_RASWORD
+1@pop2,66,206,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon10	4_M_RASWORD
+1@pop2,60,204,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon11	4_M_RASWORD
+1@pop2,62,202,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon12	4_M_RASWORD
+1@pop2,64,200,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon13	4_M_RASWORD
+1@pop2,66,198,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon14	4_M_RASWORD
+1@pop2,68,200,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon15	4_M_RASWORD
+1@pop2,70,202,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon16	4_M_RASWORD
+1@pop2,72,204,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon17	4_M_RASWORD
+1@pop2,124,84,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon21	4_M_RASWORD
+1@pop2,127,83,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon22	4_M_RASWORD
+1@pop2,128,81,5	duplicate(Crente#1hmoon11)	Guarda#2hmoon23	4_M_RASWORD
+1@pop2,128,77,5	duplicate(Crente#1hmoon11)	Guarda#2hmoon24	4_M_RASWORD
+1@pop2,127,73,5	duplicate(Crente#1hmoon11)	Guarda#2hmoon25	4_M_RASWORD
+1@pop2,124,71,5	duplicate(Crente#1hmoon11)	Guarda#2hmoon26	4_M_RASWORD
+1@pop2,121,72,3	duplicate(Crente#1hmoon11)	Guarda#2hmoon27	4_M_RASWORD
+1@pop2,119,74,3	duplicate(Crente#1hmoon11)	Guarda#2hmoon28	4_M_RASWORD
+1@pop2,66,156,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon30	4_M_RASWORD
+1@pop2,60,154,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon31	4_M_RASWORD
+1@pop2,62,152,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon32	4_M_RASWORD
+1@pop2,64,150,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon33	4_M_RASWORD
+1@pop2,66,148,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon34	4_M_RASWORD
+1@pop2,68,150,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon35	4_M_RASWORD
+1@pop2,70,152,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon36	4_M_RASWORD
+1@pop2,72,154,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon37	4_M_RASWORD
+1@pop2,128,81,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon41	4_M_RASWORD
+1@pop2,130,81,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon42	4_M_RASWORD
+1@pop2,128,79,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon43	4_M_RASWORD
+1@pop2,130,79,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon44	4_M_RASWORD
+1@pop2,128,77,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon45	4_M_RASWORD
+1@pop2,130,77,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon46	4_M_RASWORD
+1@pop2,128,75,7	duplicate(Crente#1hmoon11)	Guarda#2hmoon47	4_M_RASWORD
+1@pop2,130,75,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon48	4_M_RASWORD
+1@pop2,129,73,1	duplicate(Crente#1hmoon11)	Guarda#2hmoon49	4_M_RASWORD
+1@pop2,59,235,7	duplicate(Crente#1hmoon11)	Sumo Sacerdote Zhed#2hmoon	4_M_RACHOLD1
+1@pop2,49,84,1	duplicate(Crente#1hmoon11)	Luwmin#2hmoon04	4_M_CHILD
+1@pop2,123,78,7	duplicate(Crente#1hmoon11)	Luwmin#2hmoon05	4_M_CHILD
+1@pop2,62,76,5	duplicate(Crente#1hmoon11)	Luwmin#2hmoon06	4_M_CHILD
+1@pop2,88,43,7	duplicate(Crente#1hmoon11)	Luwmin#2hmoon07	4_M_CHILD
+1@pop2,135,46,5	duplicate(Crente#1hmoon11)	Luwmin#2hmoon08	4_M_CHILD
+1@pop2,58,114,4	duplicate(Crente#1hmoon11)	Puppy#2hmoon01	4_DOG01
+1@pop2,50,85,1	duplicate(Crente#1hmoon11)	Puppy#2hmoon02	4_DOG01
+1@pop2,124,79,1	duplicate(Crente#1hmoon11)	Puppy#2hmoon03	4_DOG01
+1@pop2,90,42,1	duplicate(Crente#1hmoon11)	Puppy#2hmoon04	4_DOG01
+1@pop2,135,49,5	duplicate(Crente#1hmoon11)	Puppy#2hmoon05	4_DOG01
+1@pop2,59,118,3	duplicate(Crente#1hmoon11)	Amigo#2hmoon01	4_F_CHILD
+1@pop2,60,117,3	duplicate(Crente#1hmoon11)	Amigo#2hmoon02	4_M_MIKID
+1@pop2,60,115,1	duplicate(Crente#1hmoon11)	Amigo#2hmoon03	4_F_KID2
+1@pop2,46,88,7	duplicate(Crente#1hmoon11)	Amigo#2hmoon04	4_F_CHILD
+1@pop2,46,85,6	duplicate(Crente#1hmoon11)	Amigo#2hmoon05	4_M_MIKID
+1@pop2,49,88,3	duplicate(Crente#1hmoon11)	Amigo#2hmoon06	4_F_KID2
+1@pop2,91,43,1	duplicate(Crente#1hmoon11)	Amigo#2hmoon07	4_F_CHILD
+1@pop2,92,44,3	duplicate(Crente#1hmoon11)	Amigo#2hmoon08	4_M_MIKID
+1@pop2,136,45,7	duplicate(Crente#1hmoon11)	Amigo#2hmoon09	4_F_CHILD
+1@pop2,121,80,5	duplicate(Crente#1hmoon11)	Mamãe#2hmoon01	4_F_GODEMOM
+1@pop2,121,78,7	duplicate(Crente#1hmoon11)	Papai#2hmoon01	4_M_RACHMAN1
+1@pop2,125,78,1	duplicate(Crente#1hmoon11)	Sacerdote#2hmoon01	4_F_MADAME
+1@pop2,123,76,7	duplicate(Crente#1hmoon11)	Sacerdote#2hmoon02	4_M_RACHOLD1
+1@pop2,126,80,3	duplicate(Crente#1hmoon11)	Crente#2hmoon01	4_F_MASK
+1@pop2,122,81,5	duplicate(Crente#1hmoon11)	Crente#2hmoon02	4_M_MASK
+1@pop2,129,83,3	duplicate(Crente#1hmoon11)	Crente#2hmoon03	4_M_MASK
+1@pop2,130,80,1	duplicate(Crente#1hmoon11)	Morador#2hmoon01	4_F_CAVE1
+1@pop2,132,76,3	duplicate(Crente#1hmoon11)	Morador#2hmoon02	4_F_EINOLD
+1@pop2,129,74,1	duplicate(Crente#1hmoon11)	Morador#2hmoon03	4_M_MIDDLE1
+1@pop2,130,85,3	duplicate(Crente#1hmoon11)	Morador#2hmoon04	4_M_MIDDLE
+1@pop2,127,89,3	duplicate(Crente#1hmoon11)	Morador#2hmoon11	1_F_01
+1@pop2,131,87,3	duplicate(Crente#1hmoon11)	Morador#2hmoon12	1_M_SIGNMONK
+1@pop2,130,84,3	duplicate(Crente#1hmoon11)	Morador#2hmoon13	1_M_04
+1@pop2,133,81,3	duplicate(Crente#1hmoon11)	Morador#2hmoon14	1_M_SIGNMONK
+1@pop2,136,83,3	duplicate(Crente#1hmoon11)	Morador#2hmoon15	1_M_JOBTESTER
+1@pop2,135,76,1	duplicate(Crente#1hmoon11)	Morador#2hmoon16	4_M_MASK
+1@pop2,132,72,1	duplicate(Crente#1hmoon11)	Morador#2hmoon17	4_F_04
+1@pop2,129,68,1	duplicate(Crente#1hmoon11)	Morador#2hmoon18	4_KID01
+1@pop2,131,68,1	duplicate(Crente#1hmoon11)	Morador#2hmoon21	1_F_01
+1@pop2,125,67,1	duplicate(Crente#1hmoon11)	Morador#2hmoon22	4_F_RACHOLD
+1@pop2,119,69,7	duplicate(Crente#1hmoon11)	Morador#2hmoon23	4_M_04
+1@pop2,123,84,7	duplicate(Crente#1hmoon11)	Morador#2hmoon24	4_M_DESERT
+1@pop2,116,73,7	duplicate(Crente#1hmoon11)	Morador#2hmoon25	4_M_CAVE1
+1@pop2,117,75,7	duplicate(Crente#1hmoon11)	Morador#2hmoon26	4_F_SHABBY
+1@pop2,114,78,7	duplicate(Crente#1hmoon11)	Morador#2hmoon27	101
+1@pop2,119,123,5	duplicate(Crente#1hmoon11)	Papisa#2hmoon10	4_F_ARUNA_POP
+1@pop2,48,126,5	duplicate(Crente#1hmoon11)	Papisa#2hmoon11	4_F_ARUNA_POP
+1@pop2,57,83,7	duplicate(Crente#1hmoon11)	Papisa#2hmoon12	4_F_ARUNA_POP
+1@pop2,129,38,1	duplicate(Crente#1hmoon11)	Papisa#2hmoon13	4_F_ARUNA_POP
+
+1@pop2,0,0,0	script	#mob2hmoon	139,{
+	end;
+
+OnEnable:
+OnMyMobDead:
+	attachrid 'pname;
+	.@map$ = instance_mapname("1@pop2");
+	if (mobcount(.@map$,instance_npcname("#mob2hmoon")+"::OnMyMobDead"))
+		end;
+	if (!'mode) {
+		.@guard = 3510; //Fácil
+		.@fbel = 3511;
+		.@mbel = 3512;
+		.@dog = 3513;
+		.@priest = 3514;
+	} else {
+		.@guard = 3518; //Difícil
+		.@fbel = 3519;
+		.@mbel = 3520;
+		.@dog = 3521;
+		.@priest = 3522;
+	}
+	switch( '2hmoon ) {
+	case 0:
+		monster .@map$,59,235,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,60,237,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,62,234,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,65,232,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,62,240,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,66,240,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,68,239,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,68,234,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,70,236,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		'2hmoon++;
+		end;
+	case 1:
+		instance_announce -1, "Guardas: Ela está indo para o sul, parem ela!", bc_map, "0xFFFF00";
+		donpcevent instance_npcname("Guarda#2hmoon10")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon11")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon12")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon13")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon14")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon15")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon16")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon17")+"::OnEnable";
+		donpcevent instance_npcname("#2hmoon05")+"::OnEnable";
+		'2hmoon++;
+		end;
+	case 2:
+		pcblockmove getcharid(3),1;
+		npctalk "Vamos garantir a segurança da nossa nova Papisa.", instance_npcname("Guarda#2hmoon10");
+		sleep2 1500;
+		npctalk "Qualquer um que discordar será contido à força.", instance_npcname("Guarda#2hmoon10");
+		sleep2 1500;
+		donpcevent instance_npcname("Guarda#2hmoon10")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon11")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon12")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon13")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon14")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon15")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon16")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon17")+"::OnDisable";
+		monster .@map$,66,206,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,60,204,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,62,202,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,64,200,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,66,198,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,68,200,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,70,202,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,72,204,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,63,195,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,65,195,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,69,195,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,71,195,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		'2hmoon++;
+		pcblockmove getcharid(3),0;
+		end;
+	case 3:
+		instance_announce -1, "Guardas: Avancem! Os dois foram para o sul!!!!", bc_map, "0xFFFF00";
+		donpcevent instance_npcname("Guarda#2hmoon30")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon31")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon32")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon33")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon34")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon35")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon36")+"::OnEnable";
+		donpcevent instance_npcname("Guarda#2hmoon37")+"::OnEnable";
+		donpcevent instance_npcname("#2hmoon06")+"::OnEnable";
+		'2hmoon++;
+		end;
+	case 4:
+		pcblockmove getcharid(3),1;
+		npctalk "Devemos tomar cuidado para não ferir a Papisa!", instance_npcname("Guarda#2hmoon30");
+		sleep2 1500;
+		npctalk "Vamos garantir a segurança dela.", instance_npcname("Guarda#2hmoon30");
+		sleep2 1500;
+		donpcevent instance_npcname("Guarda#2hmoon30")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon31")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon32")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon33")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon34")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon35")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon36")+"::OnDisable";
+		donpcevent instance_npcname("Guarda#2hmoon37")+"::OnDisable";
+		monster .@map$,66,156,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,60,154,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,62,152,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,64,150,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,66,148,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,68,150,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,70,152,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,72,154,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,61,145,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,63,145,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,65,145,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,67,145,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,69,145,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,71,145,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,73,145,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		'2hmoon++;
+		pcblockmove getcharid(3),0;
+		end;
+	case 5:
+		if (playerattached()) {
+			.@merc = getmercinfo(8,getcharid(0));
+			if (.@merc)
+				unitkill .@merc;
+		}
+		instance_announce -1, "Os guardas se foram. Precisamos nos apressar!", bc_map, "0xFFFF00";
+		donpcevent instance_npcname("Papisa#2hmoon03")+"::OnEnable";
+		'2hmoon++;
+		end;
+	case 6:
+		monster .@map$,124,84,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,127,83,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,128,81,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,128,77,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,127,73,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,124,71,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,121,72,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,119,74,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,118,77,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		'2hmoon++;
+		end;
+	case 7:
+		instance_announce -1, "Guardas: O inimigo é forte demais!", bc_map, "0xFFFF00";
+		sleep2 1000;
+		instance_announce -1, "Guardas: Impedir que a Papisa saia!",bc_map,"0xFFFF00";
+		monster .@map$,126,80,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,129,80,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,132,80,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,126,83,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,129,83,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,132,83,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,126,82,"Cachorro",.@dog,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,135,83,"Cachorro",.@dog,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,130,84,"Cachorro",.@dog,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,134,85,"Cachorro",.@dog,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		'2hmoon++;
+		end;
+	case 8:
+		instance_announce -1, "Guardas: Cuidado, eles foram para o norte!", bc_map, "0xFFFF00";
+		donpcevent instance_npcname("Papisa#2hmoon10")+"::OnEnable";
+		donpcevent instance_npcname("#2hmoon07")+"::OnEnable";
+		navigateto instance_mapname("1@pop2"),119,123;
+		'2hmoon++;
+		end;
+	case 9:
+		pcblockmove getcharid(3),1;
+		npctalk "Fugir não vai resolver nada.", instance_npcname("Papisa#2hmoon10");
+		sleep2 1000;
+		npctalk "De qualquer forma, teremos que enfrentá-los...", instance_npcname("Papisa#2hmoon10");
+		sleep2 1000;
+		unittalk getcharid(3), "Papisa...?";
+		sleep2 1500;
+		npctalk "......", instance_npcname("Papisa#2hmoon10");
+		sleep2 1500;
+		specialeffect EF_MAGICCRASHER, AREA, instance_npcname("Papisa#2hmoon10");
+		donpcevent instance_npcname("Papisa#2hmoon10")+"::OnDisable";
+		sleep2 1000;
+		instance_announce -1, "Crentes: O nascimento da Papisa é a vontade da Deusa. Vocês entendem?.", bc_map, "0xFFFF00";
+		monster .@map$,116,126,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,119,126,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,122,126,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,116,123,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,119,123,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,122,123,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,116,120,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,119,120,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,122,120,"Guarda",.@guard,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,112,114,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,113,115,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,121,111,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,114,115,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,120,117,"Crente Agressivo",.@mbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,114,120,"Crente Agressivo",.@mbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,120,112,"Crente Agressivo",.@mbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,112,117,"Crente Agressivo",.@mbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		'2hmoon++;
+		pcblockmove getcharid(3),0;
+		end;
+	case 10:
+		instance_announce -1, "Guardas: Não a percam de vista!", bc_map, "0xFFFF00";
+		donpcevent instance_npcname("Papisa#2hmoon11")+"::OnEnable";
+		donpcevent instance_npcname("#2hmoon08")+"::OnEnable";
+		navigateto instance_mapname("1@pop2"),48,126;
+		'2hmoon++;
+		end;
+	case 11:
+		pcblockmove getcharid(3),1;
+		npctalk "Sinto falta da mamãe, da Papisai e do Luwmin.", instance_npcname("Papisa#2hmoon11");
+		sleep2 1000;
+		npctalk "Sinto como se eu quisesse escapar da realidade.", instance_npcname("Papisa#2hmoon11");
+		sleep2 1000;
+		npctalk "......", instance_npcname("Papisa#2hmoon11");
+		sleep2 1000;
+		specialeffect EF_MAGICCRASHER, AREA, instance_npcname("Papisa#2hmoon11");
+		donpcevent instance_npcname("Papisa#2hmoon11")+"::OnDisable";
+		sleep2 1000;
+		instance_announce -1, "Crentes: Papisa, nós iremos recebê-la de braços abertos.", bc_map, "0xFFFF00";
+		monster .@map$,46,122,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,35,127,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,51,124,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,46,127,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,49,122,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,52,126,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,46,125,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,42,122,"Crente Agressiva",.@fbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,54,113,"Crente Agressivo",.@mbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,52,116,"Crente Agressivo",.@mbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,56,116,"Crente Agressivo",.@mbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,58,119,"Crente Agressivo",.@mbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		monster .@map$,51,112,"Crente Agressivo",.@mbel,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead";
+		'2hmoon++;
+		pcblockmove getcharid(3),0;
+		end;
+	case 12:
+		instance_announce -1, "Guardas: O portão sul, eles estão indo para o portão sul!!!", bc_map, "0xFFFF00";
+		donpcevent instance_npcname("Papisa#2hmoon12")+"::OnEnable";
+		donpcevent instance_npcname("#2hmoon09")+"::OnEnable";
+		navigateto instance_mapname("1@pop2"),57,83;
+		'2hmoon++;
+		end;
+	case 13:
+		pcblockmove getcharid(3),1;
+		npctalk "Não se incomode comigo.", instance_npcname("Papisa#2hmoon12");
+		sleep2 1500;
+		npctalk "Volte para onde você pertence!", instance_npcname("Papisa#2hmoon12");
+		sleep2 1000;
+		specialeffect EF_MAGICCRASHER, AREA, instance_npcname("Papisa#2hmoon12");
+		donpcevent instance_npcname("Papisa#2hmoon12")+"::OnDisable";
+		sleep2 1500;
+		.@mobGID = monster(.@map$,57,80,"Sacerdote Violento",.@priest,1,instance_npcname("#mob2hmoon")+"::OnMyMobDead");
+		'2hmoon++;
+		pcblockmove getcharid(3),0;
+		end;
+	case 14:
+		if (playerattached()) {
+			.@merc = getmercinfo(8,getcharid(0));
+			if (.@merc)
+				unitkill .@merc;
+		}
+		if (!countitem(25087) && rand(3) == 0) {
+			instance_announce -1, "O som de algo caindo foi ouvido quando o Sacerdote apareceu.", bc_map, "0xFFFF00";
+			donpcevent instance_npcname("#dollbox02")+"::OnEnable";
+			sleep2 1000;
+		}
+		pcblockmove getcharid(3),1;
+		instance_announce -1, "Papisa: Eles se foram. Vamos, eu preciso sair daqui.", bc_map, "0xFFFF00";
+		donpcevent instance_npcname("Papisa#2hmoon07")+"::OnEnable";
+		sleep2 2000;
+		donpcevent instance_npcname("Luwmin#2hmoon06")+"::OnEnable";
+		npctalk "Não vou esperar. Eu vim buscá-la. Vamos antes que eles voltem. Depressa!", instance_npcname("Luwmin#2hmoon06");
+		sleep2 2000;
+		donpcevent instance_npcname("Luwmin#2hmoon06")+"::OnDisable";
+		npctalk "Aventureiro, venha conosco.", instance_npcname("Papisa#2hmoon07");
+		sleep2 2000;
+		donpcevent instance_npcname("Papisa#2hmoon07")+"::OnDisable";
+		donpcevent instance_npcname("#2hmoon10")+"::OnEnable";
+		donpcevent instance_npcname("Papisa#2hmoon13")+"::OnEnable";
+		unittalk getcharid(3), "Eu preciso segui-las!";
+		'2hmoon++;
+		pcblockmove getcharid(3),0;
+		end;
+	case 15:
+		pcblockmove getcharid(3),1;
+		npctalk "Aventureiro ...", instance_npcname("Papisa#2hmoon13");
+		sleep2 2000;
+		unittalk getcharid(3), "Quem é você?";
+		sleep2 2000;
+		unittalk getcharid(3), "Por que você tem a aparência da Papisa e por que está nos seguindo?";
+		sleep2 2000;
+		npctalk "Eu ... eu ... eu ... eu sou ...", instance_npcname("Papisa#2hmoon13");
+		sleep2 2000;
+		unittalk getcharid(3), "Papisa?";
+		sleep2 2000;
+		npctalk "Aventureiro, por favor, me siga ...", instance_npcname("Papisa#2hmoon13");
+		donpcevent instance_npcname("Papisa#2hmoon13")+"::OnDisable";
+		donpcevent instance_npcname("#2hmoond03")+"::OnEnable";
+		pcblockmove getcharid(3),0;
+		end;
+	}
+}
+
+//============================================================
+//== Bonecas
+//============================================================
+1@pop1,95,99,4	script	#dollbox01	10046,5,5,{
+	end;
+
+OnTouch:
+	getitem 25087,1;
+	donpcevent instance_npcname(strnpcinfo(0))+"::OnDisable";
+	end;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc();
+	end;
+
+OnEnable:
+	enablenpc();
+	end;
+}
+
+1@pop2,43,81,4	duplicate(#dollbox01)	#dollbox02	10046,5,5
+1@pop3,55,61,4	duplicate(#dollbox01)	#dollbox03	10046,5,5
+
+//============================================================
+//== Portais
+//============================================================
+1@pop1,63,139,0	script	#1hmoond01	45,2,2,{
+	end;
+
+OnTouch:
+	switch (atoi(replacestr(strnpcinfo(2),"1hmoond0",""))) {
+		case 1: warp instance_mapname("1@pop1"),92,143; break;
+		case 3: warp instance_mapname("1@pop1"),99,111; break;
+		case 5: warp instance_mapname("1@pop1"),99,54; break;
+		case 7: warp instance_mapname("1@pop2"),124,218; break;
+	}
+	end;
+
+OnEnable:
+	enablenpc();
+	end;
+
+OnInstanceInit:
+	disablenpc();
+	end;
+}
+
+1@pop1,100,134,0	duplicate(#1hmoond01)	#1hmoond03	45,2,2
+1@pop1,99,68,0	duplicate(#1hmoond01)	#1hmoond05	45,2,2
+1@pop1,100,8,0	duplicate(#1hmoond01)	#1hmoond07	45,2,2
+
+1@pop2,66,134,0	script	#2hmoond01	45,2,2,{
+	end;
+
+OnTouch:
+	switch (atoi(replacestr(strnpcinfo(2),"2hmoond0",""))) {
+	case 1:
+		warp instance_mapname("1@pop2"),66,125;
+		break;
+	case 3:
+		warp instance_mapname("1@pop3"),46,62;
+	}
+	end;
+
+OnEnable:
+	enablenpc();
+	end;
+}
+
+1@pop2,130,22,0	duplicate(#2hmoond01)	#2hmoond03	45,2,2
+
+1@pop3,79,67,0	script	#3hmoond01	45,2,2,{
+	end;
+
+OnTouch:
+	warp "rachel",177,134;
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("#3hmoond01");
+	end;
+}
+
+//============================================================
+//== Parte 3
+//============================================================
+1@pop3,45,66,3	script	Papisa#3hmoon01	4_F_ARUNA_POP2,{
+	mes "[Pope]";
+	mes "Irmão, este é o lugar...?";
+	next;
+	cutin "loo_nor", 0;
+	mes "[Luwmin]";
+	mes "Agora está tudo bem. Estamos seguros.";
+	next;
+	cutin "pops_nor", 2;
+	mes "[Papisa]";
+	mes "O lugar dos sonhos sobre o qual sempre falávamos? Como?";
+	next;
+	cutin "loo_nor", 0;
+	mes "[Luwmin]";
+	mes "Eu desejei, eu desejei. Eu queria transformar meu sonho em realidade.";
+	next;
+	cutin "pops_nor", 2;
+	mes "[Papisa]";
+	mes "Eu pensei que este era um lugar que existia apenas nos sonhos.";
+	next;
+	mes "[Papisa]";
+	mes "Esta fonte é igual à que eu imaginava. Aquela árvore também. E... aquela boneca!";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Se estivermos escondidos aqui, ninguém poderá nos encontrar.";
+	next;
+	cutin "pops_nor", 2;
+	mes "[Papisa]";
+	mes "Ninguém nunca vai nos encontrar?";
+	npctalk "Ninguém?", instance_npcname("Papisa#3hmoon01");
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Sim, você já pode mandar aquele aventureiro de volta.";
+	npctalk "Vamos voltar agora.", instance_npcname("Luwmin#3hmoon01");
+	next;
+	mes "[Luwmin]";
+	mes "Ele não é mais necessário, agora que estamos seguros.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Aventureiro? Mas ...";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Eu ficarei com a Papisa até o fim.";
+	unittalk getcharid(3), "Eu ficarei com a Papisa até o fim.";
+	next;
+	cutin "loo_ang", 0;
+	mes "[Luwmin]";
+	mes "Protegê-la de quê? Estávamos bem até você aparecer!";
+	next;
+	mes "[Luwmin]";
+	mes "Depois que você apareceu, tivemos sumos sacerdotes e guardas vindo atrás de nós.... Até nos separamos dos nossos pais!!";
+	next;
+	mes "[Luwmin]";
+	mes "Você é um risco para nós!";
+	npctalk "Você é um risco para nós!", instance_npcname("Luwmin#3hmoon01");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Irmão, não diga isso. O Aventureiro tem sido um companheiro confiável.";
+	next;
+	cutin "loo_ang", 0;
+	mes "[Luwmin]";
+	mes "Sério? É sério mesmo? Mesmo depois de todo mundo lá fora ter nos traído?";
+	next;
+	cutin "pops_smi", 2;
+	mes "[Papisa]";
+	mes "Sim. Eu confio no aventureiro.";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Eu pensei que este lugar era só para nós dois... e agora isso?";
+	next;
+	cutin "loo_ang", 0;
+	mes "[Luwmin]";
+	mes "Você acha que esse aventureiro poderia te proteger melhor do que eu?";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Mas ...";
+	npctalk "Mas ...", instance_npcname("Papisa#3hmoon01");
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Vamos ficar escondidos aqui para sempre. Livres dos sacerdotes, dos guardas... até da mamãe e da Papisai.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "... Ninguém nunca vai nos encontrar! Eu aposto minha vida nisso..!";
+	npctalk "Para sempre ... Ninguém vai encontrar ...", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Papisa! Você não pode ficar aqui para sempre, você precisa acordar algum dia!";
+	next;
+	cutin "pops_nor", 2;
+	mes "[Papisa]";
+	mes "Sonho ...?";
+	npctalk "Sonho ...?", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Na realidade, muitas pessoas estão aguardando a sua presença. Isso é apenas um sonho, que pode não refletir o que aconteceu no passado.";
+	next;
+	cutin "loo_ang", 0;
+	mes "[Luwmin]";
+	mes "Não escute ele! É tudo mentira!";
+	npctalk "Não escute ele! É tudo mentira!", instance_npcname("Luwmin#3hmoon01");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Isso é um sonho ...?";
+	npctalk "Isso é um sonho ...?", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Sim, é isso mesmo. Isso é apenas um sonho. É uma manifestação de toda a sua ansiedade e da ansiedade do Luwmin. Nem tudo o que você viu era real.";
+	next;
+	cutin "loo_ang", 0;
+	mes "[Luwmin]";
+	mes "Mentira! É tudo mentira!!";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu perdi Tilibi na escuridão, e... então, eu encontrei o aventureiro.";
+	next;
+	cutin "pops_sim", 255;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Sua ansiedade foi terrivelmente distorcida neste sonho.";
+	next;
+	cutin "loo_ang", 0;
+	mes "[Luwmin]";
+	mes "Não escute isso. Nem pense nisso!";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Mamãe e papai me abandonaram...";
+	next;
+	cutin "pops_sim", 255;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Aquelas pessoas não eram seus verdadeiros pais...";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu... eu preciso voltar para lá...";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Você quer voltar? Você pode ficar aqui para sempre sem a interferência de ninguém. Você me disse que a vida lá fora é... sufocante.";
+	next;
+	cutin "pops_smi", 2;
+	mes "[Papisa]";
+	mes "Eu posso suportar, irmão. Eu posso suportar.";
+	npctalk "Vamos juntos.", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Não faça isso. Luwmin está congelado e não pode se mover.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Ele está congelado?";
+	npctalk "Ele está congelado?", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Antes de vir para cá, eu fui informado por Niren.";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Que o irmão gêmeo da Papisa, Luwmin, foi selado nas profundezas da Caverna de Gelo.";
+	next;
+	cutin "loo_ang", 0;
+	mes "[Luwmin]";
+	mes "O que você sabe...! As pessoas são más até o âmago! Nós nunca tivemos escolha!";
+	next;
+	mes "[Luwmin]";
+	mes "Só porque nascemos com essa aparência, fomos arrancados e levados ao templo. Eu fui aprisionado no gelo justamente por isso!";
+	next;
+	mes "[Luwmin]";
+	mes "Nós nem sequer recebemos uma explicação adequada!";
+	next;
+	mes "[Luwmin]";
+	mes "Por que eu sequer nasci para ter um destino assim...";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Selado? Meu irmão... selado?";
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Isso não importa mais agora. Nós sempre estaremos juntos de agora em diante.";
+	npctalk "Nós estaremos sempre juntos.", instance_npcname("Luwmin#3hmoon01");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Isso foi há muito tempo...";
+	npctalk "Isso foi há muito tempo...", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[Papisa]";
+	mes "Meu irmão desapareceu de repente.";
+	npctalk "Meu irmão desapareceu de repente.", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[Papisa]";
+	mes "Selamento ... Caverna de Gelo ... Está frio agora.";
+	npctalk "Está frio agora.", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[Papisa]";
+	mes "Com o que você sonha agora, irmão?";
+	npctalk "Com o que você sonha agora, irmão?", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[Papisa]";
+	mes "É por isso que meu irmão quer compartilhar um sonho comigo?";
+	npctalk "É por isso que meu irmão quer compartilhar um sonho comigo?", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[Papisa]";
+	mes "Sobre o que você quer sonhar?";
+	npctalk "Sobre o que você quer sonhar?", instance_npcname("Papisa#3hmoon01");
+	next;
+	cutin "loo_smi", 0;
+	mes "[Luwmin]";
+	mes "Em ficar juntos como antes.";
+	npctalk "Em ficar juntos como antes.", instance_npcname("Luwmin#3hmoon01");
+	next;
+	mes "[Luwmin]";
+	mes "Aqui.";
+	npctalk "Aqui.", instance_npcname("Luwmin#3hmoon01");
+	next;
+	mes "[Luwmin]";
+	mes "Para sempre.";
+	npctalk "Para sempre.", instance_npcname("Luwmin#3hmoon01");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Isso não está certo.";
+	next;
+	cutin "loo_ang", 0;
+	mes "[Luwmin]";
+	mes "Não ouse interferir!";
+	specialeffect2 EF_FROSTDIVER2;
+	next;
+	mes "[Luwmin]";
+	mes "Esse aventureiro irritante vai sumir logo!!!!";
+	npctalk "Esse aventureiro irritante vai sumir logo!!!!", instance_npcname("Luwmin#3hmoon01");
+	cutin "loo_ang", 255;
+	specialeffect2 EF_ICEWALL;
+	unittalk getcharid(3), "?? ....";
+	sleep2 1000;
+	cutin "loo_ang", 0;
+	next;
+	mes "[Luwmin]";
+	mes "Suma!";
+	next;
+	cutin "loo_ang", 255;
+	mes "[Papisa]";
+	mes "Irmão...?";
+	npctalk "Irmão...?", instance_npcname("Papisa#3hmoon01");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Papisa, é perigoso!";
+	mes "Chegue mais perto de mim...!!!";
+	donpcevent instance_npcname("Luwmin#3hmoon01")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#3hmoon01")+"::OnDisable";
+	if ('mode == 1)
+		mercenary_create 3569,1800000; //POPE_MD_H_MERC_NORMAL
+	else
+		mercenary_create 3570,1800000; //POPE_MD_H_MERC_CASUAL
+	instance_announce -1, "Parece haver uma presença arrepiante...", bc_map, "0xFFFF00";
+	donpcevent instance_npcname("#mob3hmoon")+"::OnEnable";
+	close3;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Papisa#3hmoon01");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Papisa#3hmoon01");
+	end;
+}
+
+1@pop3,42,64,7	duplicate(Sacerdote#1hmoon01)	Luwmin#3hmoon01	4_M_CHILD
+1@pop3,51,65,7	duplicate(Crente#1hmoon11)	Papisa#3hmoon03	4_F_ARUNA_POP
+1@pop3,51,65,7	duplicate(Crente#1hmoon11)	Papisa#3hmoon04	4_F_ARUNA_POP2
+1@pop3,57,68,3	duplicate(Crente#1hmoon11)	Papisa#3hmoon05	4_F_ARUNA_POP2
+1@pop3,57,68,3	duplicate(Crente#1hmoon11)	Papisa#3hmoon06	4_F_ARUNA_POP
+1@pop3,54,69,6	duplicate(Crente#1hmoon11)	Luwmin#3hmoon02	925
+
+1@pop3,54,69,6	script	Ktullanux#3hmoon01	1779,5,5,{
+	mes "[?????]";
+	mes "É um humano insignificante.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Quem é você?";
+	next;
+	cutin "pops_sim", 255;
+	mes "[Ktullanux]";
+	mes "Eu sou o dono da Caverna de Gelo.";
+	npctalk "Você não me reconhece?", instance_npcname("Ktullanux#3hmoon01");
+	sleep2 1000;
+	unittalk getcharid(3), "Quem sabe?";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "O dono da Caverna de Gelo? Isso não era o sonho da Papisa e do Luwmin?";
+	next;
+	mes "[Ktullanux]";
+	mes "Irmãos podem compartilhar um sonho, por pura determinação.";
+	npctalk "Irmãos podem compartilhar um sonho, por pura determinação.", instance_npcname("Ktullanux#3hmoon01");
+	next;
+	mes "[Ktullanux]";
+	mes "Uma simples criança que se tornou a Papisa e seu irmão gêmeo Luwmin que foi selado?";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Por que meu irmão...";
+	npctalk "Por que ...", instance_npcname("Papisa#3hmoon04");
+	next;
+	cutin "pops_sim", 255;
+	mes "[Ktullanux]";
+	mes "Por quê? Por que você pergunta?";
+	next;
+	mes "[Ktullanux]";
+	mes "Luwmin, o irmão mais novo, foi forçado para o fundo da caverna e acabou congelado.";
+	npctalk "......", instance_npcname("Papisa#3hmoon04");
+	next;
+	mes "[Ktullanux]";
+	mes "Humanos carregando o fogo de Odin me ameaçaram para manter essa criança congelada aqui...";
+	next;
+	mes "[Ktullanux]";
+	mes "Ainda sou capaz de ter um pouco de compaixão pelos humanos.";
+	next;
+	mes "[Ktullanux]";
+	mes "Por isso, eu olhei para a consciência de Luwmin.";
+	next;
+	mes "[Ktullanux]";
+	mes "Eu pude ver o que aconteceu naquela época...";
+	next;
+	mes "[Ktullanux]";
+	mes "As memórias eram principalmente relacionadas à sua gêmea.";
+	next;
+	mes "[Ktullanux]";
+	mes "Lembre-se de que você costumava brincar com seu irmão, conversar na cama, e chorar e rir juntos.";
+	npctalk "Era uma memória preciosa.", instance_npcname("Ktullanux#3hmoon01");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Irmão ...";
+	next;
+	cutin "pops_sim", 255;
+	mes "[Ktullanux]";
+	mes "Eu decidi ajudar Luwmin. Era uma forma de ajudá-lo.";
+	next;
+	mes "[Ktullanux]";
+	mes "Nós encontramos um jeito de nos libertar. E não foi difícil.";
+	next;
+	mes "[Ktullanux]";
+	mes "Luwmin tinha o poder de compartilhar um sonho com sua irmã.";
+	next;
+	mes "[Ktullanux]";
+	mes "Para fazer sua irmã, sentada no trono da Papisa, ficar presa para sempre em um sonho.";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "E como isso ajudou você?";
+	next;
+	mes "[Ktullanux]";
+	mes "Os homens que ameaçaram a Papisa e me prenderam em um sono eterno devem estar preocupados agora. Nós dois temos um inimigo em comum.";
+	next;
+	mes "[Ktullanux]";
+	mes "Como deve ser perturbador ver sua líder em sono profundo... um sono profundo.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Então você poderia compartilhar essa vingança com Luwmin?";
+	next;
+	cutin "pops_sim", 255;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Que sonho você tem...";
+	unittalk getcharid(3), "Este é um sonho instável.";
+	sleep2 2000;
+	npctalk "Você é rude!", instance_npcname("Ktullanux#3hmoon01");
+	next;
+	mes "[Ktullanux]";
+	mes "Se você não tivesse interferido !!!";
+	next;
+	mes "[Ktullanux]";
+	mes "Eu vou me livrar tanto da Papisa quanto do Luwmin.";
+	next;
+	mes "[Ktullanux]";
+	mes "Papisa, venha aqui!";
+	disablenpc instance_npcname("Ktullanux#3hmoon01");
+	disablenpc instance_npcname("Papisa#3hmoon04");
+	if ('mode == 1)
+		mercenary_create 3569,1800000; //POPE_MD_H_MERC_NORMAL
+	else
+		mercenary_create 3570,1800000; //POPE_MD_H_MERC_CASUAL
+	instance_announce -1, "Ktullanux: Eu lhe concederei uma morte sem dor!", bc_map, "0xFFFF00";
+	donpcevent instance_npcname("#mob3hmoon")+"::OnEnable";
+	close3;
+
+OnDisable:
+	specialeffect EF_BASH;
+	disablenpc instance_npcname("Ktullanux#3hmoon01");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Ktullanux#3hmoon01");
+	end;
+}
+
+1@pop3,57,68,1	script	Papisa#3hmoon02	4_F_ARUNA_POP2,{
+	mes "[" + strcharinfo(0) + "]";
+	mes "Papisa, você está bem?";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Meu irmão... estava congelado na Caverna de Gelo.";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "A consciência de Luwmin não está mais neste sonho.";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Este era um reino dos sonhos criado por Luwmin, compartilhado pela Papisa. O destino dos gêmeos tornou este sonho possível.";
+	next;
+	mes "[Papisa]";
+	mes "Eu desejo salvar meu irmão. Eu quero ficar com ele aqui..";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Se a Papisa não retornar, muitas pessoas ficarão tristes.";
+	next;
+	mes "[Papisa]";
+	mes "Eu não quero voltar. É aqui que eu pertenço.";
+	next;
+	donpcevent instance_npcname("Papisa#3hmoon03")+"::OnEnable";
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "Volte.";
+	npctalk "Volte para onde você pertence.", instance_npcname("Papisa#3hmoon03");
+	next;
+	mes "[Papisa]";
+	mes "O lugar dos sonhos cuja passagem se abre à noite...";
+	next;
+	mes "[Papisa]";
+	mes "Eu não posso me esconder.";
+	next;
+	donpcevent instance_npcname("Papisa#3hmoon02")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#3hmoon05")+"::OnEnable";
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Quem é você, quem é você?";
+	npctalk "Quem é você, quem é você?", instance_npcname("Papisa#3hmoon05");
+	next;
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "Você sabe quem você é?";
+	npctalk "Quem é você?", instance_npcname("Papisa#3hmoon03");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu... eu...";
+	next;
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "Você já sabe a resposta.";
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu não sei a resposta... Eu vou ficar com meu irmão, aqui.";
+	npctalk "... Eu vou ficar com meu irmão, aqui.", instance_npcname("Papisa#3hmoon05");
+	next;
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "Eu sempre quis estar com meu irmão.";
+	npctalk "Eu sempre quis estar com meu irmão.", instance_npcname("Papisa#3hmoon03");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Mamãe e papai não teriam querido isso...";
+	npctalk "Mamãe e papai não teriam querido isso...", instance_npcname("Papisa#3hmoon05");
+	next;
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "Nossa mãe, nosso pai. Eles se sentiram 'honrados' em nos oferecer.";
+	npctalk "Nossa mãe, nosso pai. Eles se sentiram 'honrados' em nos oferecer.", instance_npcname("Papisa#3hmoon03");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Ninguém me quis desde o começo.";
+	npctalk "Ninguém me quis desde o começo.", instance_npcname("Papisa#3hmoon05");
+	next;
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "Então e as pessoas que estão esperando por você na realidade?";
+	npctalk "Então e as pessoas que estão esperando por você na realidade?", instance_npcname("Papisa#3hmoon03");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "...Eu não sou substituta de ninguém, eu não queria que nada disso acontecesse!";
+	npctalk "...Eu não sou substituta de ninguém, eu não queria que nada disso acontecesse!", instance_npcname("Papisa#3hmoon05");
+	next;
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "A vida é uma bênção. Às vezes, você não pode escolher o que quer na vida.";
+	npctalk "A vida é uma bênção. Às vezes, você não pode escolher o que quer na vida.", instance_npcname("Papisa#3hmoon03");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Mesmo assim, isso... me deixaria muito feliz.";
+	npctalk "Mesmo assim, isso... me deixaria muito feliz.", instance_npcname("Papisa#3hmoon05");
+	next;
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "Você é quem pode dar a si mesma uma chance ao dar uma chance aos outros. Você é uma existência especial, como uma lua na escuridão.";
+	npctalk "Você é quem pode dar a si mesma uma chance ao dar uma chance aos outros. Você é uma existência especial, como uma lua na escuridão.", instance_npcname("Papisa#3hmoon03");
+	next;
+	cutin "pops_sim", 2;
+	mes "[Papisa]";
+	mes "Eu, eu...";
+	next;
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "Quem é você?";
+	next;
+	cutin "pops_smi", 2;
+	mes "[Papisa]";
+	mes "Eu sou a Papisa de Arunafeltz.";
+	npctalk "Eu sou a Papisa de Arunafeltz.", instance_npcname("Papisa#3hmoon05");
+	next;
+	cutin "pops_smi", 2;
+	mes "[Papisa]";
+	mes "Você é eu.";
+	npctalk "Você é eu.", instance_npcname("Papisa#3hmoon05");
+	next;
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "Eu sou você.";
+	npctalk "Eu sou você.", instance_npcname("Papisa#3hmoon03");
+	next;
+	cutin "pops_smi", 2;
+	mes "[Papisa]";
+	mes "Eu sou a Papisa de Arunafeltz.";
+	npctalk "Eu sou a Papisa de Arunafeltz.", instance_npcname("Papisa#3hmoon05");
+	next;
+	cutin "pop_nor", 0;
+	mes "[Papisa]";
+	mes "Eu sou a Papisa de Arunafeltz.";
+	npctalk "Eu sou a Papisa de Arunafeltz.", instance_npcname("Papisa#3hmoon03");
+	cutin "pop_nor", 255;
+	sleep2 2000;
+	specialeffect EF_CONCENTRATION2, AREA, instance_npcname("Papisa#3hmoon03");
+	specialeffect EF_CONCENTRATION2, AREA, instance_npcname("Papisa#3hmoon03");
+	sleep2 1000;
+	specialeffect EF_BASH3D6, AREA, instance_npcname("Papisa#3hmoon05");
+	specialeffect EF_ITEM315, AREA, instance_npcname("Papisa#3hmoon05");
+	specialeffect EF_BASH3D6, AREA, instance_npcname("Papisa#3hmoon03");
+	specialeffect EF_ITEM315, AREA, instance_npcname("Papisa#3hmoon03");
+	specialeffect 1044, AREA, instance_npcname("Papisa#3hmoon03");
+	specialeffect 1044, AREA, instance_npcname("Papisa#3hmoon03");
+	donpcevent instance_npcname("Papisa#3hmoon03")+"::OnDisable";
+	sleep2 2000;
+	specialeffect EF_PRIMECHARGE4, AREA, instance_npcname("Papisa#3hmoon05");
+	donpcevent instance_npcname("Papisa#3hmoon05")+"::OnDisable";
+	donpcevent instance_npcname("Papisa#3hmoon06")+"::OnEnable";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Você está bem?";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "Eu finalmente entendi...";
+	next;
+	mes "[Papisa]";
+	mes "As pessoas me amam. Dar o meu melhor... é ser eu mesma.";
+	next;
+	mes "[Papisa]";
+	mes "Está na hora de acordar deste sonho.";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Como foi seu sonho?";
+	next;
+	mes "[Papisa]";
+	mes "Foi divertido, eu nunca vou querer esquecê-lo. Eu estava tão feliz. Ainda assim, foi um sonho feliz... e também pode ser um terrível pesadelo.";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "... Mas eu fiquei feliz por encontrar meu irmão assim.";
+	next;
+	mes "[Papisa]";
+	mes "Faz muito tempo.";
+	next;
+	mes "[Papisa]";
+	mes "Se eu puder ter esse sonho novamente, eu quero salvar meu irmão.";
+	npctalk "Se você puder ...", instance_npcname("Papisa#3hmoon06");
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Porém...";
+	next;
+	mes "[Papisa]";
+	mes "Não se preocupe, não é como se eu fosse dormir para sempre.";
+	next;
+	mes "[Papisa]";
+	mes "Eu ainda... talvez eu tenha esse sonho novamente.";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "...é um sonho de ter meu irmão ao meu lado...";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Nós vamos enfrentar isso juntos.";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "Obrigada... você.";
+	next;
+	cutin "pop_nor", 2;
+	mes "[Papisa]";
+	mes "Esperar por uma Meia Lua à Luz do Dia.";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Aliás, eu encontrei esta bonequinha.";
+	next;
+	mes "[Papisa]";
+	mes "Tilibi!";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "A bonequinha perdida... ela tem algum significado especial para você?";
+	next;
+	mes "[Papisa]";
+	mes "Meu irmão me deu a bonequinha para me confortar.";
+	next;
+	mes "[Papisa]";
+	mes "Agora eu não preciso mais dela, desde que eu tenha meu irmão. Eu não estou sozinha.";
+	next;
+	mes "[Papisa]";
+	mes "Eu vou voltar para onde eu pertenço.";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Bem, eu te vejo amanhã.";
+	next;
+	mes "[Papisa]";
+	mes "Obrigada por me ajudar.";
+	if (countitem(25087)) {
+		delitem 25087,1; //Bonequinha de Pelúcia
+		getexp 350000,350000;
+		getitem 25088,2; //Fragmento de Sonho
+	}
+	donpcevent instance_npcname("Papisa#3hmoon06")+"::OnDisable";
+	instance_announce -1, "Uma saída apareceu na direção leste.", bc_map, "0xFFFF00";
+	donpcevent instance_npcname("#3hmoond01")+"::OnEnable";
+	cutin "pop_nor",255;
+	navigateto instance_mapname("1@pop3"),79,67;
+	close3;
+
+OnDisable:
+	specialeffect EF_BASH;
+	hideonnpc instance_npcname("Papisa#3hmoon02");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("Papisa#3hmoon02");
+	end;
+}
+
+1@pop3,0,0,0	script	#mob3hmoon	139,{
+OnEnable:
+OnMyMobDead:
+	.@map$ = instance_mapname("1@pop3");
+	if (mobcount(.@map$,instance_npcname("#mob3hmoon")+"::OnMyMobDead"))
+		end;
+	killmonsterall .@map$;
+	if (!'mode) {
+		.@ice = 3515; //Fácil
+		.@loo = 3516;
+	} else {
+		.@ice = 3523; //Difícil
+		.@loo = 3524;
+	}
+	switch( '3hmoon ) {
+	case 0:
+		monster .@map$,55,61,"Luwmin Enfurecido",.@loo,1,instance_npcname("#mob3hmoon")+"::OnMyMobDead";
+		monster .@map$,50,62,"Coração Congelado",.@ice,1;
+		monster .@map$,49,65,"Coração Congelado",.@ice,1;
+		monster .@map$,60,62,"Coração Congelado",.@ice,1;
+		monster .@map$,44,56,"Coração Congelado",.@ice,1;
+		monster .@map$,42,60,"Coração Congelado",.@ice,1;
+		monster .@map$,42,51,"Coração Congelado",.@ice,1;
+		'3hmoon++;
+		end;
+	case 1:
+		if (playerattached()) {
+			.@merc = getmercinfo(8,getcharid(0));
+			if (.@merc)
+				unitkill .@merc;
+		}
+		if (!countitem(25087)) {
+			instance_announce -1, "O som de algo caindo quando Luwmin apareceu pode ser ouvido.", bc_map, "0xFFFF00";
+			donpcevent instance_npcname("#dollbox03")+"::OnEnable";
+			sleep2 1000;
+		}
+		instance_announce -1, "... Solitário... Sozinho... Eu odeio esse frio...", bc_map, "0xFFFF00";
+		if (!'mode) {
+			donpcevent instance_npcname("Papisa#3hmoon02")+"::OnEnable";
+			donpcevent instance_npcname("Luwmin#3hmoon02")+"::OnEnable";
+			end;
+		}
+		sleep2 1000;
+		instance_announce -1, "Algum dia você será abandonada, como eu!!", bc_map, "0xFFFF00";
+		donpcevent instance_npcname("Ktullanux#3hmoon01")+"::OnEnable";
+		donpcevent instance_npcname("Papisa#3hmoon04")+"::OnEnable";
+		'3hmoon++;
+		end;
+	case 2:
+		monster .@map$,54,69,"Espectro de Ktullanux",3526,1,instance_npcname("#mob3hmoon")+"::OnMyMobDead";
+		monster .@map$,62,57,"Coração Congelado",.@ice,1;
+		monster .@map$,49,62,"Coração Congelado",.@ice,1;
+		monster .@map$,63,54,"Coração Congelado",.@ice,1;
+		monster .@map$,59,51,"Coração Congelado",.@ice,1;
+		monster .@map$,59,55,"Coração Congelado",.@ice,1;
+		monster .@map$,53,61,"Coração Congelado",.@ice,1;
+		monster .@map$,53,58,"Coração Congelado",.@ice,1;
+		monster .@map$,48,61,"Coração Congelado",.@ice,1;
+		monster .@map$,54,53,"Coração Congelado",.@ice,1;
+		monster .@map$,44,68,"Coração Congelado",.@ice,1;
+		monster .@map$,51,54,"Coração Congelado",.@ice,1;
+		'3hmoon++;
+		end;
+	case 3:
+		if (playerattached()) {
+			.@merc = getmercinfo(8,getcharid(0));
+			if (.@merc)
+				unitkill .@merc;
+		}
+		instance_announce -1, "Arghh...... Pensar que isso era apenas um mero mortal...! Que vergonha...!!!", bc_map, "0xFFFF00";
+		donpcevent instance_npcname("Papisa#3hmoon02")+"::OnEnable";
+		donpcevent instance_npcname("Luwmin#3hmoon02")+"::OnEnable";
+		end;
+	}
+}
+
+//===== rAthena Script =======================================
+//= Encantamentos da Instância Edda do Quarto Crescente.
+//===== Description: =========================================
+//= [Diálogos passo a passo]
+//= Encantamentos relacionados a Instância 
+//= Edda do Quarto Crescente.
+//===== Changelog: ===========================================
+//= 1.0 Script Inicial por [Everade]
+//============================================================
+
+rachel,177,139,3	script	Cientista#0hmoon	4_M_TRAINEE,{
+	disable_items;
+	if (MaxWeight - Weight < 1000 || checkweight(5819,1) == 0) {
+		npctalk "Reduza seu peso, por favor.",getnpcid(0),bc_self;
+		end;
+	}
+	mes "[Cientista]";
+	mes "Se você tiver 1 ^0000cdColar da Papisa^000000 e um ^0000cdFragmento de Sonho^000000, eu poderei lhe conceder o Poder da Deusa.";
+	next;
+	mes "[Cientista]";
+	mes "Eu farei um bom trabalho. Deixe comigo.";
+	next;
+	switch (select("Qual o Poder da Deusa?:Bem, então, por favor.:Não é nada.")) {
+	case 1:
+		mes "[Cientista]";
+		mes "Qual é o poder de uma Deusa? Você acabou de perguntar sobre o poder de uma Deusa?";
+		next;
+		switch (select("Não.","Sim. Eu perguntei.")) {
+		case 1:
+			 mes "[Cientista]";
+			 mes "Eu gostaria de falar com você, por favor, ouça.";
+			 close;
+		case 2:
+			mes "[Cientista]";
+			mes "Eu gostaria de falar com você, por favor, ouça!!!";
+			next;
+			mes "[Cientista]";
+			mes "Há uma história que precisa ser contada primeiro.";
+			next;
+			mes "[Cientista]";
+			mes "Eu sempre fui um fã da ^0000cdDeusa^000000. Ao entrar no templo e começar minha vida como um seguidor dedicado, minha vida começou a desabrochar.";
+			next;
+			mes "[Cientista]";
+			mes "Um dia antes de ir dormir, enquanto rezava à Deusa eu adormeci e tive um ^0000cdsonho^000000 com ela.";
+			next;
+			mes "[Cientista]";
+			mes "Eu ouvi a ^0000cdvoz^000000 da Deusa Freya vinda de uma luz intensa.";
+			next;
+			mes "[Cientista]";
+			mes "Mas infelizmente, assim que acordei, esqueci tudo sobre esse meu sonho. É assim que são os sonhos.";
+			next;
+			mes "[Cientista]";
+			mes "Eu chorava sem parar porque sentia pena desse fato. Mas se a Deusa me deixasse ouvir sua voz através de um sonho, será que não somos capazes de alcançar a Deusa através do sonho?";
+			next;
+			mes "[Cientista]";
+			mes "Comecei a estudar sonhos com toda a minha paixão. Pensei que esta era a vontade da Deusa, que está tentando me transmitir alguma coisa através deles.";
+			next;
+			mes "[Cientista]";
+			mes "Enquanto eu estava trabalhando duro em minha pesquisa, eu criei o ^0000cdPortal dos Sonhos^000000 a pedido de nossa tia, a Suma Sacerdotisa Niren, que está bem ao meu lado. É o resultado do que eu dediquei minha vida.";
+			next;
+			mes "[Cientista]";
+			mes "Ainda não consigo alcançar a Deusa... Mas não há muitas pessoas que encontram a Deusa em seus sonhos... Como eu...";
+			next;
+			mes "[Cientista]";
+			mes "De qualquer forma, quando ouvi pela primeira vez o pedido de nossa tia, Suma Sacerdotisa Niren, fiquei surpreso.";
+			next;
+			mes "[Cientista]";
+			mes "Você ousaria entrar no sonho da Papisa...? A Suma Sacerdotisa Niren me convenceu a entrar em seu sonho, mas não havia nada que eu pudesse fazer para ajudá-la no final.";
+			next;
+			mes "[Cientista]";
+			mes "E a persuasão foi surpreendentemente convincente.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Então qual é o Poder da Deusa?";
+			next;
+			mes "[Cientista]";
+			mes "Quando entrei no sonho da Papisa pela primeira vez, fiquei espantado.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Por que?";
+			next;
+			mes "[Cientista]";
+			mes "Sobre minha ^0000cdgênialidade^000000.";
+			emotion ET_SWEAT;
+			next;
+			mes "[Cientista]";
+			mes "Qualquer outra pessoa no mundo pode criar um dispositivo que lhes permita entrar nos sonhos de outras pessoas e vivenciá-los vividamente? Kya- Afinal de contas, o querido cordeiro da Deusa.";
+			emotion ET_SWEAT;
+			next;
+			mes "[Cientista]";
+			mes "Enquanto caminhava através do sonho da Papisa, acidentalmente encontrei o ^0000cdColar da Papisa^000000 e um ^0000cdFragmento^000000 especial do santuário.";
+			next;
+			mes "[Cientista]";
+			mes "E eu andei por aí tentando descobrir o máximo que pude em meus sonhos, mas quando a Papisa me encontrou, ela me rejeitou ferozmente com medo.";
+			next;
+			mes "[Cientista]";
+			mes "Eu não sou o confidente mais próximo da Papisa, então eu devo ter sido apenas um estranho para ela.";
+			next;
+			mes "[Cientista]";
+			mes "Então, fui expulso do sonho da Papisa.";
+			next;
+			mes "[Cientista]";
+			mes "A propósito. Quando acordei de meu sonho, eu tinha o Colar da Papisa do santuário e o estranho Fragmento ainda em minhas mãos. O que você acha disso?";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Incrível.";
+			next;
+			mes "[Cientista]";
+			mes "Oh Deusa, por favor, tenha pena da sensibilidade bruta de um aventureiro que pode expressar estes tremendos resultados em uma palavra que é simplesmente incrível.";
+			emotion ET_SWEAT;
+			next;
+			mes "[Cientista]";
+			mes "Fui capaz de trazer à tona as coisas que recebi dos sonhos de outras pessoas. Isto é um grande negócio! Vamos ao que interessa, porque você não parece ter empatia.";
+			emotion ET_SWEAT;
+			next;
+			mes "[Cientista]";
+			mes "Comecei a estudar o Colar e o estranho Fragmento do santuário. O estranho Fragmento foi chamado de ^0000cdFragmento de Sonho^000000, ou seja, o fragmento obtido em um sonho. Kyah- o Nome faz Sentido!";
+			next;
+			mes "[Cientista]";
+			mes "Eles pareciam normais ao serem separados, mas eu senti uma energia sutil quando os empilhei um sobre o outro.";
+			next;
+			mes "[Cientista]";
+			mes "A partir daí, entrei no sonho da Papisa e comecei a estudar, recolhendo-os um a um, sem ser notado pela Papisa.";
+			next;
+			mes "[Cientista]";
+			mes "Descobri que ao coletar ^0000cd100 Fragmento de Sonho^000000, comprimindo-os com força, e colocando-os no ^0000cdColar da Papisa^000000, pode-se obter ^0000cdpoderes especiais^000000.";
+			next;
+			mes "[Cientista]";
+			mes "E ao pesquisar e pesquisar continuamente, consegui separar esse poder em três categorias.";
+			next;
+			mes "[Cientista]";
+			mes "Este poder pode ajudar nos ataques ^0000cdFísicos^000000, ^0000cdMágicos^000000, e na ^0000cdPercepção^000000. Sem nenhum efeito colateral!";
+			next;
+			mes "[Cientista]";
+			mes "Eu dei a esses poderes os nomes de ^0000cdDeusa da Justiça, Deusa do Amor, Deusa da Visão^000000, respectivamente. Isso não é plausível??";
+			next;
+			mes "[Cientista]";
+			mes "Mas o que é ainda mais surpreendente é que se você colocar uma quantidade maior de ^0000cdFragmento de Sonho^000000, por exemplo ^0000cd1.000^000000 ou mais, você pode ficar ainda mais ^0000cdpoderoso^000000.";
+			next;
+			mes "[Cientista]";
+			mes "Mais infelizmente não consegui isso, o Colar da Papisa não conseguiu resistir, então todos os itens que reuni foram destruídos. Ainda estou trabalhando nisso, por isso estou certo de que um dia terei sucesso.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Portanto, me dê um resumo em três linhas.";
+			next;
+			mes "[Cientista]";
+			mes "Oh meu Deus, o que devo fazer com esta pessoa? Ainda assim, sou um cordeiro bondoso da deusa, então vou lhe dizer brevemente.";
+			next;
+			mes "[Cientista]";
+			mes "Se você trouxer me ^0000cd1 Colar da Papisa e 100 Fragmento de Sonho^000000 obtido em um sonho, o seu ^0000cdColar da Papisa ficará encantado com o Poder da Deusa^000000.";
+			next;
+			mes "[Cientista]";
+			mes "E se você trouxer um ^0000ffColar da Papisa encantado com o Poder da Deusa^000000 e ^0000ff1.000 Fragmento de Sonho^000000, você terá ainda mais poder.";
+			next;
+			mes "[Cientista]";
+			mes "É isso aí.!";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Oh, obrigado.";
+			next;
+			mes "[Cientista]";
+			mes "Você gostaria de ouvi-lo mais uma vez?";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Oh não, isso é suficiente. Tudo bem.";
+			next;
+			mes "[Cientista]";
+			mes "É uma vergonha. Eu ia entrar em mais detalhes desta vez.";
+			close;
+		}
+	case 2:
+		mes "[Cientista]";
+		mes "Grande decisão! Você o quer no seu lado ^0000cdesquerdo^000000? Ou no lado ^0000cdireito^000000? Estou confiante de qualquer maneira!...";
+		next;
+		switch (select("Esquerdo:Direito:Cancelar")) {
+		case 1:
+			.@part = EQI_ACC_L;
+			break;
+		case 2:
+			.@part = EQI_ACC_R;
+			break;
+		case 3:
+			mes "Oh, por que!!! Eu estou sendo simpático com você!!!";
+			close;
+		}
+		.@itemid = getequipid(.@part);
+		if (.@itemid != 28387) {
+			mes "Uh, espere! Isso não é o ^0000cd<ITEM>"+getitemname(28387)+"<INFO>"+28387+"</INFO></ITEM>^000000, é isso? Você pode verificar novamente?";
+			close;
+		}
+		.@card = getequipcardid(.@part,3);
+		if (getiteminfo(.@card, ITEMINFO_SUBTYPE) == CARD_ENCHANT) {
+			npctalk "Este seu colar já tem um encanto.";
+			close;
+		}
+		mes "Com que habilidades especiais você gostaria de encantar seu colar?";
+		next;
+		.@menu$ = "";
+		setarray .@enhance_n$,"Deusa da Justiça","Deusa do Amor","Deusa da Visão";
+		for (.@i=0; .@i<getarraysize(.@enhance_n$); .@i++) {
+			.@menu$ += .@enhance_n$[.@i]+":";
+		}
+		.@menu$ += "Cancelar";
+		.@select = select(.@menu$) -1;
+		if (.@select==getarraysize(.@enhance_n$)+1) {
+			callsub S_Cancel;
+		}
+		setarray .@enhance_a,29121,29123,29125;
+		setarray .@enhance_s,29122,29124,29126;
+		mes "[Cientista]";
+		mes "Você selecionou o encantamento "+.@enhance_n$[.@select]+".";
+		mes "Por favor, selecione a classe:";
+		mes "<ITEM>"+getitemname(.@enhance_a[.@select])+"<INFO>"+.@enhance_a[.@select]+"</INFO></ITEM>";
+		mes "<ITEM>"+getitemname(.@enhance_s[.@select])+"<INFO>"+.@enhance_s[.@select]+"</INFO></ITEM>";
+		next;
+		.@class = select("Classe A:Classe S");
+		.@enchant = .@class==1?.@enhance_a[.@select]:.@enhance_s[.@select];
+		.@cost = .@class==1?100:1000;
+		mes "[Cientista]";
+		mes "O colar será encantado com a <ITEM>"+getitemname(.@enchant)+"<INFO>"+.@enchant+"</INFO></ITEM>";
+		mes "Você está realmente certo de prosseguir com este processo de encantamento?";
+		next;
+		if (select("Não, preciso de tempo para pensar.","Sim, por favor, prossiga.") == 1) {
+			callsub S_Cancel;
+		}
+		mes "[Cientista]";
+		if (!getequipisequiped(.@part) || isequipped(28387) < 1) {
+			mes "Você não está usando o <ITEM>"+getitemname(28387)+"<INFO>"+28387+"</INFO></ITEM>...!";
+			close;
+		}
+		if (.@enchant == .@card) {
+			mes "Seu <ITEM>"+getitemname(28387)+"<INFO>"+28387+"</INFO></ITEM> já tem um encanto.";
+			close;
+		}
+		if (countitem(25088) < .@cost) {
+			mes "Você não trouxe <ITEM>"+getitemname(25088)+"<INFO>"+25088+"</INFO></ITEM> o suficiente!";
+			close;
+		}
+		if (.@class == 2) {
+			if (.@enchant == 29122 && .@card != 29121 ||.@enchant == 29124 && .@card != 29123 || .@enchant == 29126 && .@card != 29125 ) {
+				mes "Você precisa primeiro ter seu colar encantado com <ITEM>"+getitemname(.@enhance_a[.@select])+"<INFO>"+.@enhance_a[.@select]+"</INFO></ITEM>.";
+				close;
+			}
+		}
+		specialeffect2 182;
+		specialeffect2 205;
+		specialeffect2 102;
+		specialeffect2 104;
+		mes "O colar foi encantado de acordo com suas especificações.";
+		delitem 25088,.@cost; //Fragmento de Sonho
+		delequip .@part;
+		getitem2 28387,1,1,0,0,0,0,0,.@enchant; //Colar da Papisa
+		close;
+	case 3:
+		callsub S_Cancel;
+	}
+
+S_Cancel:
+	mes "[Cientista]";
+	mes "Nada? Você esqueceu o que dizer?";
+	next;
+	mes "[Cientista]";
+	mes "Se você não está ocupado no momento, gostaria de comer comigo?";
+	next;
+	mes "[Cientista]";
+	mes "Por que você não vem ficar um tempo comigo para falar sobre sonhos, ciência e a deusa?";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Bem, eu estou ocupado, então...";
+	next;
+	mes "[Cientista]";
+	mes "Mesmo que você não tenha nada a dizer, apenas me escute!!!";
+	close;
+}

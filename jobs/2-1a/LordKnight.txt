@@ -1,0 +1,84 @@
+//===== rAthena Script ======================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== By: ==================================================
+//= Nana
+//= finished, optimized and tested by Lupus
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== Additional Comments: ================================= 
+//= 1.1 Made all into functions, additional checks, etc. [Lupus]
+//= 1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus]
+//============================================================ 
+
+valkyrie,44,39,5	script	Lorde#Valkyrie	56,{
+	if (ADVJOB == 0 || Upper != 1) {
+		set .@karma_d,rand(1,10);
+		if (.@karma_d > 4) {
+			mes "[Lorde]";
+			mes "Parabéns!";
+			mes "Honra aos guerreiros!";
+			close;
+		}
+		mes "[Lorde]";
+		mes "Nós Cavaleiros temos uma";
+		mes "enorme responsabilidade...";
+		mes "Servir e proteger.";
+		next;
+		mes "[Lorde]";
+		mes "Mesmo se for ao custo";
+		mes "de nossas próprias vidas,";
+		mes "teremos que preservar o";
+		mes "bem-estar de nossos companheiros.";
+		close;
+	}
+	else if (ADVJOB == Job_Lord_Knight && Class == Job_Swordman_High && JobLevel > 39) {
+		mes "[Lorde]";
+		mes "É chegada a hora!";
+		mes "O mundo precisa de você.";
+		mes "Por favor, continue sua vida";
+		mes "de herói com uma nova aparência.";
+		next;
+		mes "[Lorde]";
+		mes "Você gostaria de";
+		mes "se tornar um Lorde?";
+		next;
+		if (select("Não.:Sim.") == 1) {
+			mes "[Lorde]";
+			mes "Quando estiver pronto,";
+			mes "sinta-se a vontade para voltar.";
+			mes "Honra aos guerreiros!";
+			close;
+		}
+		if (SkillPoint) {
+			mes "[Lorde]";
+			mes "Ainda é possível aprender mais habilidades. Por favor, use";
+			mes "todos os seus Pontos de Habilidade antes de voltar a falar comigo.";
+			close;
+		}
+		jobchange Job_Lord_Knight;
+		set ADVJOB,0;
+		mes "[Lorde]";
+		mes "Parabéns!";
+		mes "Sendo um Lorde,";
+		mes "eu acredito que você vai";
+		mes "estar na frente da batalha,";
+		mes "levando seus aliados a vitória!";
+		close;
+	}
+	mes "[Lorde]";
+	mes "Bem-vind"+((Sex) ? "o":"a")+"";
+	mes "à Valhalla,";
+	mes "o Salão de Honras.";
+	next;
+	mes "[Lorde]";
+	mes "Por favor, sinta-se";
+	mes "a vontade enquanto";
+	mes "estiver por aqui.";
+	mes "Honra aos guerreiros.";
+	close;
+}

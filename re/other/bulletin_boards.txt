@@ -1,0 +1,40 @@
+//===== rAthena Script =======================================
+//= Bulletin Boards
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: ========================================= 
+//= Bulletin Boards for beginners.
+//===== Additional Comments: =================================
+//= 1.0 Moved Izlude NPCs to Pre-RE/RE paths.
+//=     Disabled until proper coordinates are found.
+//============================================================
+
+/*
+-	script	::Quadro de Avisos	-1,{
+	mes "[A Cidade Satélite, Izlude]";
+	mes "Bem-vind"+(Sex?"o":"a")+" a Izlude, a cidade satélite de Prontera. Izlude foi construída para apoiar a defesa de Prontera e para acomodar sua crescente população.";
+	next;
+	mes "[A Cidade Satélite, Izlude]";
+	mes "Os Edifíceis principais aqui são o Hotel do Crescimento e a Academia da Criação.";
+	next;
+	mes "[A Cidade Satélite, Izlude]";
+	mes "Pontos interessantes de Izlude incluem: A Associação de Espadachins, lugar onde Aprendizes podem mudar de classe e se tornarem um Espadachim, e há também a Arena de Batalha que está localizada ao Norte de Izlude.";
+	next;
+	mes "[A Cidade Satélite, Izlude]";
+	mes "Nas estações de barco, você poderá alugar um barco para ir até ^123972Alberta^000000 ou a ^2F0400Ilha de Byalan^000000.";
+	next;
+	mes "[A Cidade Satélite, Izlude]";
+	mes "De Izlude, ^6D6FE0Prontera^000000 está localizada a Noroeste, e ^1F3A11Payon^000000 está localizada ao Sul. Aproveite sua viagem no Reino de Rune-Midgard.";
+	close;
+}
+
+izlude,45,102,0	duplicate(Quadro de Avisos)	Quadro de Avisos#5	837
+izlude_a,25,103,0	duplicate(Quadro de Avisos)	Quadro de Avisos#5_a	837
+izlude_b,25,103,0	duplicate(Quadro de Avisos)	Quadro de Avisos#5_b	837
+izlude_c,25,103,0	duplicate(Quadro de Avisos)	Quadro de Avisos#5_c	837
+izlude_d,25,103,0	duplicate(Quadro de Avisos)	Quadro de Avisos#5_d	837
+*/

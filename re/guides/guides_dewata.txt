@@ -1,0 +1,84 @@
+//===== rAthena Script ======================================= 
+//= Dewata Guide
+//===== By: ================================================== 
+//= Muad_Dib
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guide for the city of Dewata.
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [Lemongrass]
+//= 1.1 Navigation system update. [Euphy]
+//============================================================ 
+
+dewata,202,106,4	script	Guia de Dewata#dewata01	4_M_DEWWOMAN,{
+	mes "[Guia de Dewata]";
+	mes "Bem vind"+((Sex) ? "o":"a")+" a ^8B4513Ilha de Dewata^000000,";
+	mes "um lugar com ondas deslumbrantes e uma vista encantadora, é um ótimo lugar para relaxar.";
+	mes "Se você tiver alguma dúvida, por favor, me pergunte.";
+	next;
+	mes "[Guia de Dewata]";
+	mes "Para onde posso te guiar?";
+	F_Navi("[Guia de Dewata]");
+	while (1) {
+		next;
+		switch(select("[ Funcionária Kafra ]:[ Loja de Armas ]:[ Loja de Armaduras ]:[ Loja de Utilidades ]:[ Chefe do Restaurante ]:[ Porteiro de Krakatau ]:[ Marinheiro de Alberta ]:Remover Marcações do Mini-mapa:Cancelar")) {
+		case 1:
+			callsub L_Mark, "^0000FFFuncionária Kafra^000000";
+			viewpoint 1,202,184,0,0x000FFF;
+			break;
+		case 2:
+			callsub L_Mark, F_Navi("Loja de Armas","dewata,218,164","^008080");
+			viewpoint 1,218,163,1,0x008080;
+			break;
+		case 3:
+			callsub L_Mark, F_Navi("Loja de Armaduras","dewata,158,182","^008080");
+			viewpoint 1,158,182,2,0x008080;
+			break;
+		case 4:
+			callsub L_Mark, F_Navi("Loja de Utilidades","dewata,182,164","^FF1493");
+			viewpoint 1,182,164,3,0xFF1493;
+			break;
+		case 5:
+			callsub L_Mark, F_Navi("Chefe do Restaurante","dewata,146,109","^FF1493");
+			viewpoint 1,146,109,4,0xFF1493;
+			break;
+		case 6:
+			callsub L_Mark, F_Navi("Porteiro de Krakau","dewata,235,56","^8A2BE2");
+			viewpoint 1,235,56,5,0x8A2BE2;
+			break;
+		case 7:
+			callsub L_Mark, F_Navi("Marinheiro de Alberta","dewata,229,49","^00BFFF");
+			viewpoint 1,229,49,6,0x00BFFF;
+			break;
+		case 8:
+			mes "[Guia de Dewata]";
+			mes "Eu removerei todas as marcações do seu Mini-mapa.";
+			mes "Há mais alguma coisa que eu possa fazer por você?";
+			viewpoint 2,202,184,0,0xFFFFFF;
+			viewpoint 2,218,163,1,0xFFFFFF;
+			viewpoint 2,158,182,2,0xFFFFFF;
+			viewpoint 2,182,164,3,0xFFFFFF;
+			viewpoint 2,232,59,4,0xFFFFFF;
+			viewpoint 2,195,235,5,0xFFFFFF;
+			viewpoint 2,230,52,6,0xFFFFFF;
+			break;
+		case 9:
+			mes "[Guia de Dewata]";
+			mes "Aproveite sua viagem!!";
+			close;
+		}
+	}
+
+L_Mark:
+	mes "[Guia de Dewata]";
+	mes "A localização do(a) "+getarg(0)+" está";
+	mes "marcada em seu Mini-mapa.";
+	mes "Verifique seu Mini-mapa.";
+	mes "Há mais alguma coisa que eu possa fazer por você?";
+	return;
+}
+dewata,197,184,4	duplicate(Guia de Dewata#dewata01)	Guia de Dewata#dewata02	535

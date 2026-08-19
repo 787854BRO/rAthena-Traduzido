@@ -1,0 +1,132 @@
+//===== rAthena Script =======================================
+//= War of Emperium (Geffen) - Eeyorbriggar
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= NPCs that relate to Geffen Guild Castle 2
+//===== Additional Comments: =================================
+//= 1.0 First Version. No longer uses functions. [L0ne_W0lf]
+//= 1.1 Removed dialog from interior flags. [L0ne_W0lf]
+//= 1.2 Partially rewrote Script. [Masao]
+//============================================================
+
+// Bandeiras das Guildas (Fora do Castelo)
+//============================================================
+-	script	Trapesac#1::OutsideFlagsG2	722,{
+
+	set .@GID, GetCastleData("gefg_cas02",1);
+
+	if (.@GID == 0) {
+		mes "[ Decreto Divino do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme o pacto divino do Reino de Rune-Midgard,";
+		mes "nós declaramos que";
+		mes "não há um mestre formal neste castelo.";
+		mes " ";
+		mes "2. Para aquele que conseguir";
+		mes "superar todas as provações";
+		mes "e destruir o Emperium,";
+		mes "o rei o dotará com a";
+		mes "posse deste castelo.";
+		close;
+	}
+	if (getcharid(2) == .@GID) {
+		mes "[ Voz Ecoando ]";
+		mes "Bravo guerreiro...";
+		mes "Você deseja retornar ao seu lugar de honra?";
+		next;
+		if(select("Retornar ao Castelo do Clã.:Sair.") == 1) {
+			close2;
+			if (getcharid(2) == GetCastleData("gefg_cas02",1)) {
+				warp "gefg_cas02",178,43;
+				end;
+			}
+			end;
+		}
+		close;
+	}
+	mes "[ Decreto Divino do Reino de Rune-Midgard ]";
+	mes " ";
+	mes "1. Conforme o pacto divino do Reino de Rune-Midgard,";
+	mes "nós declaramos que esse castelo";
+	mes "pertence ao Clã ^ff0000"+GetGuildName(.@GID)+"^000000.";
+	mes " ";
+	mes "2. O Líder do clã ^ff0000"+GetGuildName(.@GID)+"^000000 se chama";
+	mes "^ff0000"+GetGuildMaster(.@GID)+"^000000";
+	mes "Se houver alguém que se oponha a esse decreto,";
+	mes "prove sua força e honra com uma lâmina de aço em suas mãos.";
+	close;
+
+OnRecvCastleG02:
+	FlagEmblem GetCastleData("gefg_cas02",1);
+	end;
+}
+
+gef_fild13,303,243,4	duplicate(OutsideFlagsG2)	Trapesac#1-2	722
+gef_fild13,312,243,4	duplicate(OutsideFlagsG2)	Trapesac#2	722
+gef_fild13,290,243,4	duplicate(OutsideFlagsG2)	Trapesac#3	722
+gef_fild13,324,243,4	duplicate(OutsideFlagsG2)	Trapesac#4	722
+
+// Bandeiras das Guildas (Dentro do Castelo)
+//============================================================
+-	script	Trapesac#5::InsideFlagsG2	722,{
+	end;
+
+OnRecvCastleG02:
+	FlagEmblem GetCastleData("gefg_cas02",1);
+	end;
+}
+
+gefg_cas02,65,130,5	duplicate(InsideFlagsG2)	Trapesac#5-2	722
+gefg_cas02,30,123,5	duplicate(InsideFlagsG2)	Trapesac#6	722
+gefg_cas02,65,139,6	duplicate(InsideFlagsG2)	Trapesac#7	722
+gefg_cas02,37,177,6	duplicate(InsideFlagsG2)	Trapesac#8	722
+gefg_cas02,37,168,6	duplicate(InsideFlagsG2)	Trapesac#9	722
+gefg_cas02,68,47,2	duplicate(InsideFlagsG2)	Trapesac#10	722
+gefg_cas02,68,36,2	duplicate(InsideFlagsG2)	Trapesac#11	722
+
+// Bandeiras das Guildas (Cidade)
+//============================================================
+geffen,112,129,1	duplicate(InsideFlagsG2)	Trapesac#12	722
+
+// Funcionária Kafra
+//============================================================
+gefg_cas02,23,66,3	duplicate(guildkafra)	Funcionária Kafra#gefg_cas02	117
+
+// Mordomo
+//============================================================
+gefg_cas02,12,66,5	duplicate(cm)	Esmarehk#gefg_cas02	55
+
+// Saída da Sala do Tesouro
+//============================================================
+gefg_cas02,145,114,0	script	#lever_G02	111,{
+	mes " ";
+	mes "Há uma pequena alavanca. Você deseja puxá-la?";
+	next;
+	if (select("Puxar.:Não Puxar.") == 1) {
+		close2;
+		warp "gefg_cas02",12,67;
+		end;
+	}
+	close;
+}
+
+// Alavanca da Masmorra da Guilda
+//============================================================
+gefg_cas02,167,40,0	duplicate(gdlever)	#gefg_cas02	111
+
+// Invocações de Baús do Tesouro
+//============================================================
+gefg_cas02,140,116,0	duplicate(Gld_Trea_Spawn)	Tesouro#gefg_cas02	-1
+
+// Gerenciador Automático
+//============================================================
+gefg_cas02,176,178,0	duplicate(Gld_Agit_Manager)	Agit#gefg_cas02	-1
+
+// Guardiões
+//============================================================
+gefg_cas02,12,66,5	duplicate(Gld_Guard_Template)	Guardião#gefg_cas02	-1

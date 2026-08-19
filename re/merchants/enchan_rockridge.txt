@@ -1,0 +1,520 @@
+//===== rAthena Script =======================================
+//= Rock Ridge npcs
+//===== Description: =========================================
+//= [Official Conversion]
+//= Enchant npcs on Rockridge.
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Capuche]
+//============================================================
+
+// NPC Encantador
+har_in01,17,74,7	script	Contrabandista#pa	4_DR_SOLDIER,{
+	if (checkweight(1201,1) == 0) {
+	mes "Estou carregando muitos tipos de itens. É melhor eu esvaziar minha bolsa primeiro.";
+	close;
+	}
+	if ((MaxWeight - Weight) < 10000) {
+		mes "Estou sobrecarregado. É melhor eu aliviar a bagagem primeiro.";
+		close;
+	}
+	disable_items;
+	mes "[Contrabandista]";
+	mes "Você tentou comprar alguns itens contrabandeados com Moedas Pedra Cume? Posso melhorar seus itens contrabandeados.";
+	next;
+	.@reset = select( "Melhorar eles? Como?", "Encantar Itens Contrabandeados.", "Resetar nível de encantamento de item contrabandeado." ) - 2;
+	if (.@reset == -1) {
+		mes "[Contrabandista]";
+		mes "Ah, já nos vimos antes? Eu vejo tanta gente todos os dias que não consigo lembrar de todos os rostos. Deixe-me te atualizar.";
+		next;
+		mes "[Contrabandista]";
+		mes "Posso encantar os equipamentos que você compra com Moedas Pedra Cume, com até 3 encantamentos para Armaduras e Vestimentas, e até 2 para Acessórios.";
+		next;
+		mes "[Contrabandista]";
+		mes "Cobro 2 Moedas Pedra Cume por encantamento ou redefinição.";
+		next;
+		mes "[Contrabandista]";
+		mes "Ah, e observe que esses itens contrabandeados têm chances de serem destruídos, especialmente ao serem redefinidos.";
+		close;
+	}
+	switch( select( "Cancelar.", "Armadura.", "Vestimenta.", "Acessório (Slot Direito)" ) ) {
+	case 1:
+		mes "[Contrabandista]";
+		mes "Você está brincando.";
+		close;
+	case 2:
+		.@part = EQI_ARMOR;
+		break;
+	case 3:
+		.@part = EQI_GARMENT;
+		break;
+	case 4:
+		.@part = EQI_ACC_R;
+		break;
+	}
+	.@equip_id = getequipid(.@part);
+	switch( .@equip_id ) {
+	case 15176:	// Traje de Vigilante
+	case 15177:	// Robe Elemental
+	case 15178:	// Traje Ninja Dourado
+	case 15179:	// Colete de Mineiro
+	case 15180:	// Roupas Hippies
+
+	case 20820:	// Manto Elemental
+	case 20821:	// Cachecol Dourado
+	case 20822:	// Mochila de Mineiro
+
+	case 28441:	// Distintivo de Vigilante
+	case 28442:	// Pena Hippie
+		break;
+	case -1:
+		mes "[Contrabandista]";
+		mes "Por que está perdendo meu tempo? Equipe o item primeiro.";
+		close;
+	default:
+		mes "[Contrabandista]";
+		mes "Não trabalho com esse tipo de item.";
+		close;
+	}
+	.@refine = getequiprefinerycnt(.@part);
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+	copyarray .@tmp_card[0], .@card[0], 4;
+	if ((.@card[1] && getiteminfo(.@card[1], ITEMINFO_SUBTYPE) == CARD_NORMAL) || (.@card[2] && getiteminfo(.@card[2], ITEMINFO_SUBTYPE) == CARD_NORMAL) || (.@card[3] && getiteminfo(.@card[3], ITEMINFO_SUBTYPE) == CARD_NORMAL)) {// verificação customizada de encantamento de armadura
+		mes "[Contrabandista]";
+		mes "Algo de errado aconteceu.";
+		close;
+	}
+	switch( .@reset ) {
+	case TRUE:
+	if (.@card[3] == 0) {
+		mes "[Contrabandista]";
+		mes "O item não está encantado. O que você espera que eu resete?";
+		close;
+	}
+	mes "[Contrabandista]";
+	mes "Ah, quer mesmo redefinir? Como já te disse, Distintivos de Vigilante contrabandeados são propensos à destruição.";
+	if (select( "Vou pensar melhor.", "Vamos fazer isso." ) == 1) {
+		mes "[Contrabandista]";
+		mes "Certo, volte se mudar de ideia.";
+		close;
+	}
+	if (.@part == EQI_ACC_R)
+		.@chance_of_breaking_on_reset = 45;
+	else
+		.@chance_of_breaking_on_reset = 30;
+	.@card[1] = .@card[2] = .@card[3] = 0;
+	break;
+	case FALSE:
+		switch( .@part ) {
+		case EQI_ARMOR:
+		case EQI_GARMENT:
+			if (.@card[1] > 0) {
+				mes "[Contrabandista]";
+				mes "Este item já foi encantado até o limite. Talvez seja hora de redefinir.";
+				close;
+			}
+		if (.@card[3] == 0)
+			.@enchant_slot = 3;
+		else if (.@card[2] == 0)
+			.@enchant_slot = 2;
+		else
+			.@enchant_slot = 1;
+		if (.@refine >= 9) {
+			.@r = rand(1,215);
+			if (.@r < 16) .@card[.@enchant_slot] = getiteminfo("Agilidade 2", ITEMINFO_ID);
+			else if (.@r < 31) .@card[.@enchant_slot] = getiteminfo("Destreza 2", ITEMINFO_ID);
+			else if (.@r < 46) .@card[.@enchant_slot] = getiteminfo("Força 2", ITEMINFO_ID);
+			else if (.@r < 61) .@card[.@enchant_slot] = getiteminfo("Inteligência 2", ITEMINFO_ID);
+			else if (.@r < 76) .@card[.@enchant_slot] = getiteminfo("DEF+20", ITEMINFO_ID);
+			else if (.@r < 91) .@card[.@enchant_slot] = getiteminfo("DEFM+5", ITEMINFO_ID);
+			else if (.@r < 106) .@card[.@enchant_slot] = getiteminfo("Crítico+3", ITEMINFO_ID);
+			else if (.@r < 121) .@card[.@enchant_slot] = getiteminfo("Esquiva+6", ITEMINFO_ID);
+			else if (.@r < 135) .@card[.@enchant_slot] = getiteminfo("Ataque Preciso 1", ITEMINFO_ID);
+			else if (.@r < 149) .@card[.@enchant_slot] = getiteminfo("Pedra de Crítico 1", ITEMINFO_ID);
+			else if (.@r < 163) .@card[.@enchant_slot] = getiteminfo("Pedra de Encantamento 1", ITEMINFO_ID);
+			else if (.@r < 173) .@card[.@enchant_slot] = getiteminfo("Ataque Preciso 2", ITEMINFO_ID);
+			else if (.@r < 183) .@card[.@enchant_slot] = getiteminfo("Pedra de Crítico 2", ITEMINFO_ID);
+			else if (.@r < 193) .@card[.@enchant_slot] = getiteminfo("Pedra de Encantamento 2", ITEMINFO_ID);
+			else if (.@r < 197) .@card[.@enchant_slot] = getiteminfo("Ataque Preciso 3", ITEMINFO_ID);
+			else if (.@r < 201) .@card[.@enchant_slot] = getiteminfo("Pedra de Crítico 3", ITEMINFO_ID);
+			else if (.@r < 205) .@card[.@enchant_slot] = getiteminfo("Pedra de Encantamento 3", ITEMINFO_ID);
+			else if (.@r < 209) .@card[.@enchant_slot] = getiteminfo("Anti-Atraso 1", ITEMINFO_ID);
+			else if (.@r < 210) .@card[.@enchant_slot] = getiteminfo("Ataque Preciso 4", ITEMINFO_ID);
+			else if (.@r < 211) .@card[.@enchant_slot] = getiteminfo("Pedra de Crítico 4", ITEMINFO_ID);
+			else if (.@r < 212) .@card[.@enchant_slot] = getiteminfo("Pedra de Encantamento 4", ITEMINFO_ID);
+			else .@card[.@enchant_slot] = getiteminfo("Anti-Atraso 2", ITEMINFO_ID);
+			}
+			else {
+				.@r = rand(1,206);
+			if (.@r < 14) .@card[.@enchant_slot] = getiteminfo("Agilidade 1", ITEMINFO_ID);
+			else if (.@r < 27) .@card[.@enchant_slot] = getiteminfo("Destreza 1", ITEMINFO_ID);
+			else if (.@r < 40) .@card[.@enchant_slot] = getiteminfo("Força 1", ITEMINFO_ID);
+			else if (.@r < 53) .@card[.@enchant_slot] = getiteminfo("Inteligência 1", ITEMINFO_ID);
+			else if (.@r < 66) .@card[.@enchant_slot] = getiteminfo("DEF+15", ITEMINFO_ID);
+			else if (.@r < 79) .@card[.@enchant_slot] = getiteminfo("DEFM+2", ITEMINFO_ID);
+			else if (.@r < 92) .@card[.@enchant_slot] = getiteminfo("Crítico+1", ITEMINFO_ID);
+			else if (.@r < 105) .@card[.@enchant_slot] = getiteminfo("Esquiva+3", ITEMINFO_ID);
+			else if (.@r < 114) .@card[.@enchant_slot] = getiteminfo("Agilidade 2", ITEMINFO_ID);
+			else if (.@r < 123) .@card[.@enchant_slot] = getiteminfo("Destreza 2", ITEMINFO_ID);
+			else if (.@r < 132) .@card[.@enchant_slot] = getiteminfo("Força 2", ITEMINFO_ID);
+			else if (.@r < 141) .@card[.@enchant_slot] = getiteminfo("Inteligência 2", ITEMINFO_ID);
+			else if (.@r < 150) .@card[.@enchant_slot] = getiteminfo("DEF+20", ITEMINFO_ID);
+			else if (.@r < 159) .@card[.@enchant_slot] = getiteminfo("DEFM+5", ITEMINFO_ID);
+			else if (.@r < 168) .@card[.@enchant_slot] = getiteminfo("Crítico+3", ITEMINFO_ID);
+			else if (.@r < 177) .@card[.@enchant_slot] = getiteminfo("Esquiva+6", ITEMINFO_ID);
+			else if (.@r < 184) .@card[.@enchant_slot] = getiteminfo("Ataque Preciso 1", ITEMINFO_ID);
+			else if (.@r < 191) .@card[.@enchant_slot] = getiteminfo("Pedra de Crítico 1", ITEMINFO_ID);
+			else if (.@r < 198) .@card[.@enchant_slot] = getiteminfo("Pedra de Encantamento 1", ITEMINFO_ID);
+			else if (.@r < 201) .@card[.@enchant_slot] = getiteminfo("Ataque Preciso 2", ITEMINFO_ID);
+			else if (.@r < 204) .@card[.@enchant_slot] = getiteminfo("Pedra de Crítico 2", ITEMINFO_ID);
+			else .@card[.@enchant_slot] = getiteminfo("Pedra de Encantamento 2", ITEMINFO_ID);
+		}
+		break;
+	case EQI_ACC_R:
+		if (.@card[2] > 0) {
+			mes "[Contrabandista]";
+			mes "Este item já foi encantado até o limite. Talvez seja hora de redefinir.";
+			close;
+		}
+
+			if (.@card[3] == 0)
+				.@enchant_slot = 3;
+			else
+				.@enchant_slot = 2;
+			.@r = rand(1,236);
+		if (.@r < 16) .@card[.@enchant_slot] = getiteminfo("Agilidade 1", ITEMINFO_ID);
+		else if (.@r < 31) .@card[.@enchant_slot] = getiteminfo("Destreza 1", ITEMINFO_ID);
+		else if (.@r < 46) .@card[.@enchant_slot] = getiteminfo("Força 1", ITEMINFO_ID);
+		else if (.@r < 61) .@card[.@enchant_slot] = getiteminfo("Inteligência 1", ITEMINFO_ID);
+		else if (.@r < 76) .@card[.@enchant_slot] = getiteminfo("Vitalidade 1", ITEMINFO_ID);
+		else if (.@r < 91) .@card[.@enchant_slot] = getiteminfo("Sorte 1", ITEMINFO_ID);
+		else if (.@r < 106) .@card[.@enchant_slot] = getiteminfo("HP+100", ITEMINFO_ID);
+		else if (.@r < 121) .@card[.@enchant_slot] = getiteminfo("SP+50", ITEMINFO_ID);
+		else if (.@r < 131) .@card[.@enchant_slot] = getiteminfo("Agilidade 2", ITEMINFO_ID);
+		else if (.@r < 141) .@card[.@enchant_slot] = getiteminfo("Destreza 2", ITEMINFO_ID);
+		else if (.@r < 151) .@card[.@enchant_slot] = getiteminfo("Força 2", ITEMINFO_ID);
+		else if (.@r < 161) .@card[.@enchant_slot] = getiteminfo("Inteligência 2", ITEMINFO_ID);
+		else if (.@r < 171) .@card[.@enchant_slot] = getiteminfo("Vitalidade 2", ITEMINFO_ID);
+		else if (.@r < 181) .@card[.@enchant_slot] = getiteminfo("Sorte 2", ITEMINFO_ID);
+		else if (.@r < 191) .@card[.@enchant_slot] = getiteminfo("HP+200", ITEMINFO_ID);
+		else if (.@r < 201) .@card[.@enchant_slot] = getiteminfo("SP+100", ITEMINFO_ID);
+		else if (.@r < 208) .@card[.@enchant_slot] = getiteminfo("Ataque Preciso 1", ITEMINFO_ID);
+		else if (.@r < 215) .@card[.@enchant_slot] = getiteminfo("Pedra de Encantamento 1", ITEMINFO_ID);
+		else if (.@r < 222) .@card[.@enchant_slot] = getiteminfo("Espírito de Luta 1", ITEMINFO_ID);
+		else if (.@r < 229) .@card[.@enchant_slot] = getiteminfo("Anti-Atraso 1", ITEMINFO_ID);
+		else if (.@r < 236) .@card[.@enchant_slot] = getiteminfo("Pedra de Crítico 1", ITEMINFO_ID);
+		else .@card[.@enchant_slot] = getiteminfo("Vel. de Ataque 1", ITEMINFO_ID);
+		break;
+	default:
+		mes "[Contrabandista]";
+		mes "Você tentou trocar de equipamento, não foi?";
+		close;
+	}
+	break;
+	}
+	if (countitem(25250) < 2) {
+		mes "[Contrabandista]";
+		mes "Cobro 2 Moedas Pedra Cume por este serviço. Traga-as para mim.";
+		close;
+	}
+	delitem 25250,2;// Moeda Pedra Cume
+
+// anti-roubo
+if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipRefineHack", .@part, .@refine) || callfunc("F_IsEquipCardHack", .@part, .@tmp_card[0], .@tmp_card[1], .@tmp_card[2], .@tmp_card[3]))
+	close;
+
+	delequip .@part;
+	if (rand(100) < .@chance_of_breaking_on_reset) {
+		specialeffect2 EF_LORD;
+		mes "[Contrabandista]";
+		mes "Ah, isso não terminou bem.";
+		mes "Bom, faz parte da sorte.";
+		close;
+	}
+	specialeffect2 EF_REPAIRWEAPON;
+	getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+	mes "[Contrabandista]";
+	mes "Pronto. Veja com seus próprios olhos.";
+	close;
+}
+
+
+har_in01,24,69,3	script	Mulher Simpática#rockridge0	1_F_MERCHANT_02,{
+	if (checkweight(1301,3) == 0) {
+		mes "[Mulher Simpática]";
+		mes "Você deve ser muito forte para carregar tanta coisa.";
+		next;
+		mes "[Mulher Simpática]";
+		mes "Se quiser aliviar a carga, há uma funcionária da Kafra na direção do escritório do xerife.";
+		close;
+	}
+	mes "[Mulher Simpática]";
+	mes "Você é um aventureiro. Gosto de pessoas como você, que têm paixão.";
+	mes "Então, veio aqui por causa daquilo?";
+	next;
+	if (select( "Por causa do quê?", "Sim, vim." ) == 1) {
+		mes "[Mulher Simpática]";
+		mes "Hmpf, não finja que não sabe. Estou falando dos equipamentos especiais que podem ser comprados em Pedra Cume.";
+		next;
+		mes "[Mulher Simpática]";
+		mes "O vendedor de armaduras recebe novos estoques toda sexta-feira, e tudo é vendido quase instantaneamente.";
+		close;
+	}
+	mes "[Mulher Simpática]";
+	mes "*Risos* Qual você quer: algo para os ^0000CDombros^000000, ^0000CDpescoço ou peito^000000?";
+	next;
+	switch( select( "Ahm, qualquer coisa.", "Para os ombros.", "Para o pescoço ou peito." ) ) {
+	case 1:
+		mes "[Mulher Simpática]";
+		mes "*Risos* Claro, os jovens sempre ficam bem, não importa o que vistam.";
+		mes "Mas se quiser algo especial, vá até a loja de armaduras.";
+		close;
+	case 2:
+		mes "[Mulher Simpática]";
+		mes "Escolha o que preferir e eu te conto sobre ele.";
+		mes "Todos os equipamentos custam ^0000CD3.000.000 de Zeny^000000, independentemente do tipo.";
+		next;
+		.@cost = 3000000;
+		setarray .@item_id[0],20820,20821,20822;
+		setarray .@item_name$[0], "Manto Elemental", "Cachecol Dourado", "Mochila de Mineiro";
+		.@s = select( "Manto Elemental", "Cachecol Dourado", "Mochila de Mineiro", "Não faço ideia do que está falando." ) - 1;
+		break;
+	case 3:
+		mes "[Mulher Simpática]";
+		mes "Escolha o que preferir e eu te conto sobre ele.";
+		mes "Todos os equipamentos custam ^0000CD1.500.000 de Zeny^000000, independentemente do tipo.";
+		next;
+		.@cost = 1500000;
+		setarray .@item_id[0],28441,28442;
+		setarray .@item_name$[0], "Distintivo de Vigilante", "Pena Hippie";
+		.@s = select( "Distintivo de Vigilante", "Pena Hippie", "Não faço ideia do que está falando." ) - 1;
+		break;
+	}
+	if (.@item_id[.@s] == 0) {
+		mes "[Mulher Simpática]";
+		mes "Ops, acho que você é inocente demais para ouvir isso.";
+		mes "É melhor esquecer, por seu próprio bem.";
+		close;
+	}
+	mes "[Mulher Simpática]";
+	mes "Ah, então você se interessou pelo";
+	mes "[<ITEM>" + .@item_name$[.@s] + "<INFO>" + .@item_id[.@s] + "</INFO></ITEM>].";
+	mes "Clique no nome para ver a descrição detalhada.";
+	mes "Como disse, custa ^0000CD" + .@cost + " de Zeny^000000. Deseja comprá-lo?";
+	next;
+	if (select( "Sim.", "Não." ) == 2) {
+		mes "[Mulher Simpática]";
+		mes "Huh. Então desperdicei minha lábia com alguém que não quer comprar.";
+		mes "Cada peça desse equipamento tem uma história a contar, e pode guardar rancor se não for levada.";
+		next;
+		mes "[Mulher Simpática]";
+		mes "Sugiro que não conte isso a mais ninguém,";
+		mes "e me prometa que voltará. Guardarei o equipamento para você.";
+		close;
+	}
+	if (Zeny < .@cost) {
+		mes "[Mulher Simpática]";
+		mes "Eita, você não tem Zeny suficiente.";
+		mes "Por que não volta depois? Sempre estarei por aqui.";
+		close;
+	}
+	mes "[Mulher Simpática]";
+	mes "Claro. Aqui está seu(a) " + .@item_name$[.@s] + ".";
+	Zeny = Zeny - .@cost;
+	getitem .@item_id[.@s],1;
+	next;
+	mes "[Mulher Simpática]";
+	mes "As pessoas costumam se deixar enganar por ideias preconcebidas. A maioria não acha que uma senhora como eu venderia itens tão especiais.";
+	mes "Volte se quiser mais equipamentos. Estarei sempre por aqui. *Risos*";
+	close;
+}
+
+har_in01,34,81,5	script	Howard#rr	4_M_TATIO,{
+	if (checkweight(1301,1) == 0) {
+		mes "[Howard]";
+		mes "Err, você está carregando muitas coisas.";
+		mes "Que tal aliviar sua bagagem primeiro?";
+		close;
+	}
+	mes "[Howard]";
+	mes "Olá. Como posso ajudá-lo hoje?";
+	next;
+	if (countitem(25250) < 1) {
+		mes "[Howard]";
+		mes "Hm, você não tem as moedas.";
+		mes "Por que não junta algumas primeiro?";
+		close;
+	}
+	mes "[Howard]";
+	mes "Ah, você tem as moedas.";
+	mes "Obrigado por ajudar Pedra Cume.";
+	mes "Dê uma olhada e veja se algo te interessa.";
+	next;
+	mes "[Howard]";
+	mes "O que você gostaria de adquirir?";
+	next;
+	setarray .@data$[0],
+		 24, 15176, "Traje de Vigilante",
+		 24, 15177, "Manto Elemental",
+		 24, 15178, "Traje Ninja Dourado",
+		 24, 15179, "Colete de Mineiro",
+		 24, 15180, "Roupas Hippies",
+		150, 20834, "Casaco do Andarilho",
+		150, 22131, "Botas com Esporas",
+		180, 16060, "Frasco",
+		300, 26107, "Cajado do Ancião",
+		100, 31140, "Chapéu de Cowboy Preto [Visual]",
+		100, 31141, "Corpete de Flor de Cacto [Visual]";
+
+	.@size = getarraysize(.@data$);
+	for ( .@i = 0; .@i < .@size; .@i += 3 )
+		.@menu$ += .@data$[.@i+2] + ":";
+	.@s = ( select(.@menu$) - 1 ) * 3;
+
+	mes "[Howard]";
+	mes "<ITEM>" + .@data$[.@s+2] + "<INFO>" + .@data$[.@s+1] + "</INFO></ITEM>, entendi.";
+	mes "Isso custará " + .@data$[.@s] + " Moeda(s) Pedra Cume.";
+	mes "Tem certeza que deseja este item?";
+	next;
+	if (select( "Sim.", "Não." ) == 2) {
+		mes "[Howard]";
+		mes "Se mudar de ideia, por favor, fale comigo novamente.";
+		close;
+	}
+	if (countitem(25250) < atoi(.@data$[.@s])) {
+		mes "[Howard]";
+		mes "Você não tem moedas suficientes.";
+		mes "Por favor, traga mais.";
+		close;
+	}
+	mes "[Howard]";
+	mes "Aqui está. Aproveite!";
+	delitem 25250, atoi(.@data$[.@s]);// Moeda Pedra Cume
+	getitem atoi(.@data$[.@s+1]),1;
+	close;
+}
+
+-	shop	shotguns_rockridge	-1,13154:-1,13155:-1,13192:-1,13193:-1,13194:-1
+-	shop	revolvers_rockridge	-1,13102:-1,13120:-1,13122:-1
+-	shop	bullets_rockridge	-1,13200:-1,13221:-1,13222:-1,13228:-1,13229:-1,13230:-1,13231:-1,13232:-1
+
+har_in01,19,86,4	script	Vendedor de Armas#rockridge01	1_F_02,{
+	if (checkweight(1301,3) == 0) {
+		mes "[Vendedor de Armas]";
+		mes "Você está carregando muitos itens para comprar armas.";
+		mes "Por favor, alivie sua carga primeiro.",
+		close;
+	}
+	mes "[Vendedor de Armas]";
+	mes "Tenho Espingardas, Revólveres e Balas.";
+	mes "Diga o tipo de item que deseja e eu mostrarei a lista.";
+	next;
+	switch( select( "Espingardas", "Revólveres", "Balas", "Vender itens.", "Cancelar." ) ) {
+	case 1:
+		mes "[Vendedor de Armas]";
+		mes "Quer ver Espingardas? Entendido.";
+		mes "Deixe-me mostrar alguns bons modelos.";
+		close2;
+		callshop "shotguns_rockridge", 1;
+		end;
+	case 2:
+		mes "[Vendedor de Armas]";
+		mes "Quer ver Revólveres? Entendido.";
+		mes "Acabei de receber alguns bons modelos.";
+		close2;
+		callshop "revolvers_rockridge", 1;
+		end;
+	case 3:
+		mes "[Vendedor de Armas]";
+		mes "Você quer Balas, entendi.";
+		mes "Todas minhas balas são da mais alta qualidade.";
+		close2;
+		callshop "bullets_rockridge", 1;
+		end;
+	case 4:
+		mes "[Vendedor de Armas]";
+		mes "Claro, se você tiver algo que eu possa comprar.";
+		mes "Mostre-me o que você tem.";
+		close2;
+		callshop "armor_rockridge", 2;
+		end;
+	case 5:
+		mes "[Vendedor de Armas]";
+		mes "Volte sempre.";
+		close;
+	}
+}
+
+-	marketshop	armor_rockridge_1	-1,2247:500000:10,2248:500000:10,5018:700000:10
+-	marketshop	armor_rockridge_2	-1,5067:700000:10,5071:700000:10,5075:700000:10
+-	marketshop	armor_rockridge_3	-1,2267:100000:10,2268:500000:10,2241:5000:10
+-	marketshop	armor_rockridge_4	-1,5067:700000:10,5071:700000:10,5075:700000:10,31144:1500000:3
+
+har_in01,16,86,4	script	Vendedor de Armaduras#rockridge02	1_M_04,{
+	if (checkweight(1301,3) == 0) {
+		mes "[Vendedor de Armaduras]";
+		mes "Você está carregando muitos itens para comprar algo.";
+		mes "Por favor, alivie sua bagagem primeiro.";
+		close;
+	}
+	.@day = gettime(DT_DAYOFWEEK);
+	if (.@day == SUNDAY) {
+		mes "[Vendedor de Armaduras]";
+		mes "Hoje estou fechado.";
+		mes "Uma vez por semana, fecho a loja e passo o dia agradecendo pelo que tenho.";
+		next;
+		mes "[Vendedor de Armaduras]";
+		mes "... E é justamente o dia em que não chegam entregas.";
+		close;
+	}
+	if (.@day == MONDAY)
+		.@string$ = "Chapéus Românticos, Chapéu do Velho Oeste e Chapéus com Pluma";
+	else if (.@day == TUESDAY)
+		.@string$ = "Sombreros, Faixas Indígenas e Chapéus de Cowboy";
+	else if (.@day == WEDNESDAY)
+		.@string$ = "Cigarros, Cachimbos e Bigode Grisalho";
+	else if (.@day == THURSDAY)
+		.@string$ = "Chapéus Românticos, Chapéu do Velho Oeste e Chapéus com Pluma";
+	else if (.@day == FRIDAY)
+		.@string$ = "Sombreros, Faixas Indígenas, Chapéus de Cowboy e Tiara de Penas Indígena, os últimos visuais raros disponíveis em quantidade limitada toda semana,";
+	else
+		.@string$ = "Cigarros, Cachimbos e Bigode Grisalho";
+	mes "[Vendedor de Armaduras]";
+	mes "Olá. Bem-vindo à Loja de Armaduras de Pedra Cume.";
+	mes "Hoje, " + .@string$ + " estão em estoque.";
+	next;
+	mes "[Vendedor de Armaduras]";
+	mes "Armaduras são mais volumosas que armas, então só posso receber um número limitado de produtos por semana.";
+	mes "Vou te mostrar a lista. ^0000CDSe estiver vazia, é porque tudo foi vendido^000000.";
+	next;
+	mes "[Vendedor de Armaduras]";
+	mes "E por isso também, ^0000CDnão posso oferecer descontos especiais^000000.";
+	mes "Mas ^0000CDtodos os meus produtos são difíceis de encontrar em outro lugar^000000. Que tal dar uma olhada?";
+	close2;
+	if (.@day == MONDAY || .@day == THURSDAY)
+		callshop "armor_rockridge_1", 1;
+	else if (.@day == TUESDAY)
+		callshop "armor_rockridge_2", 1;
+	else if (.@day == WEDNESDAY || .@day == SATURDAY)
+		callshop "armor_rockridge_3", 1;
+	else if (.@day == FRIDAY)
+		callshop "armor_rockridge_4", 1;
+	end;
+	
+OnSun0000:	// reposição personalizada, sem info oficial
+	npcshopupdate "armor_rockridge_1",2247,0,10;
+	npcshopupdate "armor_rockridge_1",2248,0,10;
+	npcshopupdate "armor_rockridge_1",5018,0,10;
+	npcshopupdate "armor_rockridge_2",5067,0,10;
+	npcshopupdate "armor_rockridge_2",5071,0,10;
+	npcshopupdate "armor_rockridge_2",5075,0,10;
+	npcshopupdate "armor_rockridge_3",2267,0,10;
+	npcshopupdate "armor_rockridge_3",2268,0,10;
+	npcshopupdate "armor_rockridge_3",2241,0,10;
+	npcshopupdate "armor_rockridge_4",5067,0,10;
+	npcshopupdate "armor_rockridge_4",5071,0,10;
+	npcshopupdate "armor_rockridge_4",5075,0,10;
+	npcshopupdate "armor_rockridge_4",31144,0,3;
+	end;
+}
+
+har_in01,34,84,3	shop	Vendedor de Ferramentas#rockridge00	1_F_03,611:-1,645:-1,656:-1,601:-1,602:-1,1065:-1,610:-1

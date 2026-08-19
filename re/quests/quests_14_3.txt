@@ -1,0 +1,239 @@
+//===== rAthena Script =======================================
+//= Quest NPCs related to episode 14.3
+//===== Description: =========================================
+//= [Walkthrough Conversion]
+//- Others NPCs related to ep14.3
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Capuche]
+//= 1.1 Move the Dimensional Travel Quest npcs in another
+//		file. [Capuche]
+//============================================================
+
+moro_vol,91,105,1	script	Teleportador de Eclage#143_1	PORTAL,{
+	mes "[Dophe]";
+	mes "Este teletransportador está conectado a Eclage.";
+	mes "Ele será destruído quando nossa operação terminar, mas por enquanto é algo sem o qual não podemos viver.";
+	next;
+	mes "Use o teletransportador para ir até Eclage.";
+	next;
+	if (select( "Ir para Eclage.", "Cancelar." ) == 2) {
+		mes "Não use o teletransportador.";
+		close;
+	}
+	mes "Mover para Eclage.";
+	close2;
+	warp "ecl_in01",38,96;
+	end;
+}
+
+ecl_in01,38,98,1	script	Dispositivo Interdimensional#ecl	PORTAL,{
+	if (ep14_3_newerabs < 10) {
+		mes "[Guarda de Eclage]";
+		mes "Este teletransportador está conectado ao esconderijo recentemente descoberto do Deus Demônio.";
+		mes "Somente aqueles autorizados a entrar no esconderijo podem usar este teletransportador.";
+		close;
+	}
+	mes "Este teletransportador está conectado ao esconderijo recentemente descoberto do Deus Demônio.";
+	mes "Você quer usá-lo?";
+	next;
+	if (select( "Mover-se para o esconderijo do Deus Demônio.", "Sair." ) == 2) {
+		mes "Não use o teletransportador.";
+		close;
+	}
+	mes "Use o teletransportador para ir até o esconderijo do Deus Demônio.";
+	close2;
+	warp "moro_vol",91,102;
+	end;
+}
+
+ecl_in01,40,96,3	script	Guarda de Eclage#143_6	4_M_FAIRYSOLDIER,{
+	mes "[Guarda de Eclage]";
+	mes "Como posso ajudar você?";
+	next;
+	switch( select( "Teletransportador?", "Por que está tão lotado aqui?", "Esconderijo do Deus Demônio?", "Adeus." ) ) {
+	case 1:
+		mes "[Guarda de Eclage]";
+		mes "Ele está conectado ao esconderijo recentemente descoberto do Deus Demônio.";
+		mes "Ele foi projetado cientificamente para enviar seu usuário diretamente para a Fenda Dimensional onde seu esconderijo está.";
+		next;
+		mes "[Guarda de Eclage]";
+		mes "Muitos guerreiros já partiram para o esconderijo.";
+		mes "Enquanto Morroc existir, Yggdrasil não estará segura. Vou me juntar à Expedição.";
+		close;
+	case 2:
+		mes "[Guarda de Eclage]";
+		mes "Acontece que o Deus Demônio fugiu de Morroc para se esconder em nossa dimensão.";
+		mes "Ele tem que ser banido de volta para seu reino ou destruído.";
+		next;
+		mes "[Guarda de Eclage]";
+		mes "Se você quiser se juntar à Expedição para derrotar o Deus Demônio, então use este teletransportador.";
+		mes "Ele o enviará diretamente para o Acampamento da Expedição.";
+		close;
+	case 3:
+		mes "[Guarda de Eclage]";
+		mes "Você conhece a Fenda Dimensional, não é? Recentemente foi revelado que a Fenda é feita de passagens dimensionais.";
+		mes "Agora podemos usar essas passagens para explorar o interior da Fenda.";
+		next;
+		mes "[Guarda de Eclage]";
+		mes "Originalmente, a Fenda foi criada pelo Deus Demônio para ajudar em sua fuga,";
+		mes "então pensava-se que investigar a Fenda poderia localizá-lo.";
+		next;
+		mes "[Guarda de Eclage]";
+		mes "E foi; finalmente seu esconderijo foi descoberto.";
+		mes "Seus rastros e seus soldados demoníacos são avistados principalmente ao redor da colina gigante no centro.";
+		next;
+		mes "[Guarda de Eclage]";
+		mes "Se você quiser mais detalhes, então você deve visitar o local atual.";
+		mes "Basta usar o teletransportador ali.";
+		close;
+	case 4:
+		mes "[Guarda de Eclage]";
+		mes "Que Yggdrasil te abençoe.";
+		close;
+	}
+}
+
+// Outros
+ecl_in01,44,99,1	script	Laphine Combatente#143_4	4_M_FAIRYSOLDIER2,{
+	mes "[Laphine Combatente]";
+	mes "Estou nervoso.";
+	close;
+}
+
+ecl_in01,46,99,1	script	Laphine Combatente#143_5	4_M_FAIRYSOLDIER2,{
+	mes "[Laphine Combatente]";
+	mes "Espero poder retornar inteiro.";
+	close;
+}
+
+ecl_in01,48,99,1	script	Laphine Combatente#143_6	4_M_FAIRYSOLDIER2,{
+	mes "[Laphine Combatente]";
+	mes "Hmm...";
+	close;
+}
+ecl_in01,44,97,1	script	Laphine Combatente#143_7	4_F_FAIRYSOLDIER,{
+	mes "[Laphine Combatente]";
+	mes "Silêncio.";
+	close;
+}
+
+ecl_in01,46,97,1	script	Laphine Combatente#143_8	4_F_FAIRYSOLDIER,{
+	mes "[Laphine Combatente]";
+	mes "Mwa hah hah, é hora de eu brilhar!";
+	close;
+}
+
+ecl_in01,48,97,1	script	Laphine Combatente#143_9	4_F_FAIRYSOLDIER,{
+	mes "[Laphine Combatente]";
+	mes "Eu devia estar louco quando decidi entrar para o exército. Suspiro, por que a 'Porta para Verities' tem que ser tão alta lá em cima?";
+	close;
+}
+
+ecl_in01,46,102,3	script	Laphine Comandante#143_1	4_M_FAIRYSOLDIER,5,5,{
+	mes "[Laphine Comandante]";
+	mes "O mal deve ser mordido na bunda.";
+	mes "Vocês são visitantes inesperados do Continente de Midgard.";
+	next;
+	mes "[Laphine Comandante]";
+	mes "Se você é a causa da ruína para nós OU para Yggdrasil, então não hesitaremos em lutar com você.";
+	close;
+
+OnTouch_:
+	if (.talk == 0) {
+		.talk = 1;
+		npctalk "Comandante: Soldados, finalmente é hora de colocar seu treinamento em prática!";
+		sleep 2000;
+		npctalk "Argh!", "Laphine Combatente#143_4";
+		npctalk "Argh!", "Laphine Combatente#143_5";
+		npctalk "Argh!", "Laphine Combatente#143_6";
+		npctalk "Ah!", "Laphine Combatente#143_7";
+		npctalk "Argh!", "Laphine Combatente#143_8";
+		npctalk "Argh!", "Laphine Combatente#143_9";
+		sleep 2000;
+		npctalk "Comandante: Alguém acabou de choramingar?";
+		sleep 3000;
+		npctalk "Comandante: Não decepcione seus camaradas na base avançada de Esplendor!";
+		sleep 3000;
+		npctalk "Comandante: Mantenha o foco! Vamos acabar com o Deus Demônio!";
+		sleep 2000;
+		npctalk "Yeah, yeah.", "Laphine Combatente#143_7";
+		sleep 2000;
+		npctalk "...", "Laphine Combatente#143_4";
+		npctalk "Ah...", "Laphine Combatente#143_5";
+		npctalk "...", "Laphine Combatente#143_6";
+		npctalk "...", "Laphine Combatente#143_8";
+		sleep 3000;
+		npctalk "Comandante: Ah, de repente não consigo ver...";
+		.talk = 0;
+	}
+	end;
+}
+
+ecl_in01,37,90,3	script	Aluno de Magia Lemony#14	4_F_FAIRY2,{
+	mes "[Lemony]";
+	mes "Você leu a última edição da revista 'Porta para Verities'?";
+	mes "O novo teletransportador de Avant realmente apareceu nela?";
+	next;
+	mes "[Armandi]";
+	mes "Sim, apenas os princípios básicos e as informações relevantes para os humanos.";
+	mes "Eu não entendi tudo.";
+	next;
+	mes "[Lemony]";
+	mes "Eu me pergunto se isso significa que Avant finalmente decidiu perseguir seu interesse em atividades de pesquisa.";
+	next;
+	mes "[Lemony]";
+	mes "Ei, humano.";
+	mes "Você estava nos espionando? Bem, embora não estivéssemos discutindo sobre certos segredos.";
+	next;
+	mes "[Lemony]";
+	mes "Ah, certo. Você também vai lá?";
+	mes "Você sabe, o esconderijo do Deus Demônio que criou algumas das Fendas Dimensionais do Espaço-Tempo foi descoberto recentemente.";
+	next;
+	mes "[Lemony]";
+	mes "Se você está curioso, então use aquele teletransportador para o esconderijo ali.";
+	mes "Haverá um espetáculo para assistir.";
+	mes "Ah, só para você saber, você pode estar jogando sua vida fora. *Risada*";
+	next;
+	mes "[Armandi]";
+	mes "Lemony, você realmente precisa trabalhar para melhorar sua personalidade.";
+	mes "Tsk, tsk.";
+	close;
+}
+
+ecl_in01,35,89,6	script	Aluno de Magia Armandi#1	4_M_FAIRYKID6,{
+	mes "[Armandi]";
+	mes "Espero que o Dispositivo Interdimensional não cause um grande estrago no mundo.";
+	mes "A propósito, Avant nunca deixa de me surpreender.";
+	next;
+	mes "[Lemony]";
+	mes "Ah, eu odeio esse cara.";
+	next;
+	mes "[Armandi]";
+	mes "Avant pode ser repulsivo,";
+	mes "mas ele é o melhor no que faz.";
+	next;
+	mes "[Lemony]";
+	mes "Com isso, eu concordo.";
+	mes "Só ele poderia fazer esse tipo de teletransporte.";
+	mes "Por que ele está ajudando o prefeito, afinal?";
+	next;
+	mes "[Armandi]";
+	mes "Quando perguntei a ele, ele murmurou algo sobre arrependimento.";
+	mes "Só posso imaginar que tenha algo a ver com o nascimento do prefeito.";
+	next;
+	mes "[Armandi]";
+	mes "Eu queria perguntar mais, mas ele olhou para mim com desprezo.";
+	mes "Suspiro, é injusto que um idiota desses seja considerado o melhor em ciência mágica.";
+	next;
+	mes "[Lemony]";
+	mes "Você sempre pode estudar bastante para tentar vencê-lo.";
+	close;
+}
+
+// Espaço reservado (scripts desconhecidos)
+// ecl_in01,47,92,0	script	#ecl_buff_N	HIDDEN_WARP_NPC
+// ecl_in01,48,44,0	script	#ecl_buff_S	HIDDEN_WARP_NPC
+// ecl_in01,23,68,0	script	#ecl_buff_W	HIDDEN_WARP_NPC
+// ecl_in01,48,67,0	script	#ecl_orb_buff	HIDDEN_WARP_NPC
+// ecl_in01,71,67,0	script	#ecl_buff_E	HIDDEN_WARP_NPC
+// ecl_in01,47,27,0	script	#mgate03	HIDDEN_WARP_NPC

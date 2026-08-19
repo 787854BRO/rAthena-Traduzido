@@ -1,0 +1,15 @@
+function	script	AssertTrue	{
+	if (!getarg(0)) {
+		errormes "AssertTrue falhou para " + getarg(1) + ".";
+		return false;
+	}
+	return true;
+}
+
+function	script	AssertEquals	{
+	if (getarg(0) != getarg(1)) {
+		errormes "AssertEquals falhou para " + getarg(2) + ": esperava " + getarg(0) + ", obteve " + getarg(1) + ".";
+		return false;
+	}
+	return true;
+}

@@ -1,0 +1,93 @@
+//===== rAthena Script ======================================= 
+//= Amatsu Guide
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.2
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guide for the city of Amatsu.
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal guide.
+//= 1.1 Optimized. [Euphy]
+//= 1.2 Navigation system update. [Euphy]
+//============================================================ 
+
+amatsu,202,91,3	script	Guia de Amatsu#amatsu	758,{
+	mes "[Amachang]";
+	mes "Bem-vind"+((Sex) ? "o":"a")+" à ^8B4513Amatsu^000000,";
+	mes "a cidade dos cidadãos gentis";
+	mes "e das belas flores de cerejeira.";
+	next;
+	mes "[Amachang]";
+	mes "Eu sou Amachang,";
+	mes "a 13ª Miss Amatsu.";
+	mes "Eu vou te guiar pela cidade";
+	mes "como a Miss Amatsu.";
+	mes "Por favor, me avise";
+	mes "se você quiser saber sobre algo.";
+	F_Navi("[Amachang]");
+	while (1) {
+		next;
+		switch(select("[ Funcionária Kafra ]:[ Bar ]:[ Loja de Armas ]:[ Loja de Utilidades ]:[ Palácio de Amatsu ]:[ Chefe Assistente ]:[ Guilda dos Ninjas ]:[ Capitão do Mar ]:Remover Marcações do Mini-mapa:Cancelar")) {
+		case 1:
+			callsub L_Mark, "^0000FFFuncionária Kafra^000000";
+			viewpoint 1,102,149,0,0x0A82FF;
+			break;
+		case 2:
+			callsub L_Mark, F_Navi("Bar","amatsu,215,116","^006400");
+			viewpoint 1,215,116,1,0xAAFF00;
+			break;
+		case 3:
+			callsub L_Mark, F_Navi("Loja de Armas","amatsu,129,117","^008080");
+			viewpoint 1,129,117,2,0x008080;
+			break;
+		case 4:
+			callsub L_Mark, F_Navi("Loja de Utilidades","amatsu,97,117","^FF1493");
+			viewpoint 1,97,117,3,0xFF1493;
+			break;
+		case 5:
+			callsub L_Mark, F_Navi("Palácio de Amatsu","amatsu,87,235","^8B4513");
+			viewpoint 1,87,235,4,0x8B4513;
+			break;
+		case 6:
+			callsub L_Mark, F_Navi("Chefe Assistente","amatsu,206,150","^8A2BE2");
+			viewpoint 1,206,150,5,0x8A2BE2;
+			break;
+		case 7:
+			callsub L_Mark, F_Navi("Guilda dos Ninjas","amatsu,148,137","^4B0082");
+			viewpoint 1,148,137,6,0x4B0082;
+			break;
+		case 8:
+			callsub L_Mark, F_Navi("Capitão do Mar","amatsu,195,79","^00BFFF");
+			viewpoint 1,195,79,7,0x00BFFF;
+			break;
+		case 9:
+			mes "[Amachang]";
+			mes "Eu removerei todas as marcações do seu Mini-mapa.";
+			mes "Há mais alguma coisa que eu possa fazer por você?";
+			viewpoint 2,1,1,0,0xFFFFFF;
+			viewpoint 2,1,1,1,0xFFFFFF;
+			viewpoint 2,1,1,2,0xFFFFFF;
+			viewpoint 2,1,1,3,0xFFFFFF;
+			viewpoint 2,1,1,4,0xFFFFFF;
+			viewpoint 2,1,1,5,0xFFFFFF;
+			viewpoint 2,1,1,6,0xFFFFFF;
+			viewpoint 2,1,1,7,0xFFFFFF;
+			break;
+		case 10:
+			mes "[Amachang]";
+			mes "Aproveite sua viagem~!!";
+			close;
+		}
+	}
+	end;
+L_Mark:
+	mes "[Amachang]";
+	mes "A localização da(o) "+getarg(0)+" está";
+	mes "marcada em seu Mini-mapa.";
+	mes "Há mais alguma coisa que eu possa fazer por você?";
+	return;
+}

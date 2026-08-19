@@ -1,0 +1,1091 @@
+//===== rAthena Script =======================================
+//= Instances Werner Laboratory central room.
+//===== Description: =========================================
+//- [Walkthrough conversion]
+//- Require Terra Gloria main quest.
+//- Note: For now there are 2 instances (officially one) to
+//  avoid exploit, the warp entry being the same. The first
+//  (main quest) is a solo instance and the 2nd (daily) a
+//  a party instance. The instance is a basic version,
+//  KRO added Seyren boss fight in the next updates.
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Capuche]
+//============================================================
+
+slabw01,232,91,5	duplicate(dummy_cloaked_npc)	Skia#ep162_06	4_EP16_SKIA
+slabw01,233,92,3	duplicate(dummy_cloaked_npc)	Pesquisador Assustado#ep162	4_M_ALCHE_A
+
+// Sala Central do Laboratório Werner (instância solo)
+slabw01,236,91,3	script	Rookie#ep162_04	4_M_ROOKIE,{
+	if (terra_gloria_main == 20) {
+		mes "[Rookie]";
+		mes "Dá uma olhada nisso.";
+		mes "De acordo com o projeto, esta parte está conectada à sala central... Mas eu só vejo um portão suspeito.";
+		next;
+		mes "[Rookie]";
+		mes "Não é à toa que parecia que eles tinham algo pra se garantir.";
+		mes "Vamos usar um explosivo e mandar isso pelos ares?";
+		next;
+		cloakoffnpc( "Skia#ep162_06", getcharid(0) );
+		cloakoffnpc( "Pesquisador Assustado#ep162", getcharid(0) );
+		npctalk "Espere!", "Skia#ep162_06", bc_self;
+		mes "[Skia]";
+		mes "Não de um jeito tão grosseiro!";
+		mes "Bem, eu tomei uma ótima decisão ao vir aqui.";
+		mes "Mande ele abrir isso.";
+		next;
+		npctalk "Uau! Essa moça é bem esperta!", "", bc_self;
+		npctalk "P... por que vocês... por que estão fazendo isso comigo?!", "Pesquisador Assustado#ep162", bc_self;
+		mes "[Skia]";
+		mes "Eu perguntei se ele conhecia os caminhos daqui, e ele disse que sim. Então eu trouxe ele até aqui.";
+		mes "Ele vai ativar o portão para a sala central.";
+		next;
+		npctalk "E... é assim que se faz.", "Pesquisador Assustado#ep162", bc_self;
+		mes "[Rookie]";
+		mes "Hmm, entendi. Então é assim que funciona.";
+		mes "Ótimo, agora eu saquei.";
+		mes "E a gente não precisa mais dele.";
+		next;
+		npctalk "O... o quê?! Por favor, não me matem!", "Pesquisador Assustado#ep162", bc_self;
+		mes "[Skia]";
+		mes "Sério? Então eu vou levar este pesquisador para o esquadrão lá fora.";
+		mes "Sobre a sala central, " + strcharinfo(0) + ", conto com você!";
+		next;
+		cloakonnpc( "Skia#ep162_06", getcharid(0) );
+		cloakonnpc( "Pesquisador Assustado#ep162", getcharid(0) );
+		mes "[Rookie]";
+		mes "Haha, eles deixaram a gente abrir o portão da sala central!";
+		mes "Por favor, fale comigo novamente quando estiver pronto para entrar.";
+		next;
+		mes "[Rookie]";
+		mes "Depois de ativar o portão, temos que guardá-lo do lado de fora.";
+		mes "Então eu não posso entrar aí com você.";
+		terra_gloria_main = 21;
+		close;
+	}
+	if (terra_gloria_main == 21) {
+		if (is_party_leader() == false) {
+			mes "^4d4dffEste evento é realizado na Instância.";
+			mes "Por favor, tente novamente após organizar um grupo.^000000";
+			close;
+		}
+		mes "[Rookie]";
+		mes "Você está pronto?";
+		mes "Se você entrar agora, eu vou ativar o portão.";
+		next;
+		if (select( "Entrar agora.", "Não entrar." ) == 2) {
+			mes "[Rookie]";
+			mes "Nós dois sabemos que não temos tempo pra isso, não é?";
+			close;
+		}
+		mes "[Rookie]";
+		mes "Uau! É isso! Eu sempre aprendo as coisas rápido!";
+		mes "Bem, pode entrar agora!";
+		cloakoffnpc( "Central_room#evt_gate01", getcharid(0) );
+		instance_create("Laboratório Werner#1");	// oficialmente existe apenas uma instância 'Laboratório Werner'
+		close;
+	}
+	if (terra_gloria_main == 22) {
+		mes "[Rookie]";
+		mes "Você recuperou as coisas?";
+		close;
+	}
+	switch( checkquest(7742,HUNTING) ) {
+	case -1:
+		mes "[Rookie]";
+		mes "Encontramos um fenômeno estranho na sala central. Ainda não estamos investigando.";
+		mes "Talvez tenha ficado algum experimento poderoso lá dentro.";
+		next;
+		mes "[Rookie]";
+		mes "Que tipo de instalação é esta?";
+		mes "Ssss.";
+		mes "Assim que for identificado corretamente, talvez eu peça um acerto de contas...";
+		mes "Vou ter que voltar a guardar o portão da sala central.";
+		close;
+	case 0:
+	case 1:
+		if (getcharid(1) < 1) {
+			mes "^4d4dffEste evento é realizado na Instância.";
+			mes "Por favor, tente novamente após organizar um grupo.^000000";
+			close;
+		}
+		if (is_party_leader() == false) {
+			mes "[Rookie]";
+			mes "Se já houver um portão ativado, você vai conseguir vê-lo.";
+			next;
+			mes "[Rookie]";
+			mes "Caso contrário, peça ao líder do grupo para permitir a entrada.";
+			close;
+		}
+		mes "[Rookie]";
+		mes "Você está pronto?";
+		mes "Se você entrar agora, eu vou ativar o portão.";
+		next;
+		if (select( "Entrar agora.", "Não entrar." ) == 2) {
+			mes "[Rookie]";
+			mes "Nós dois sabemos que não temos tempo pra isso, não é?";
+			close;
+		}
+		mes "[Rookie]";
+		mes "Uau! É isso! Eu sempre aprendo as coisas rápido!";
+		mes "Bem, pode entrar agora!";
+		cloakoffnpc( "Central_room#evt_gate01", getcharid(0) );
+		instance_create("Laboratório Werner#2");
+		close;
+	case 2:
+		mes "[Rookie]";
+		mes "Não sabemos quantos outros cobaias ainda existem, criadas e abandonadas por aquele Eisen Werner.";
+		next;
+		mes "[Rookie]";
+		mes "Mas por hoje, vamos encerrar por aqui.";
+		close;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, " checkquest(7742,HUNTING) == 0 || checkquest(7742,HUNTING) == 1 " );
+	end;
+}
+
+slabw01,246,88,3	script	Central_room#evt_gate01	PORTAL,{
+	if (terra_gloria_main != 21 && terra_gloria_main < 23)
+		end;
+	if (getcharid(1) < 1 || (terra_gloria_main == 21 && is_party_leader() == false)) {
+		mes "^4d4dffMD Apenas o líder do grupo pode entrar na [Sala Central] agora.^000000";
+		close;
+	}
+	mes "Você pode se mover para a sala central.";
+	next;
+	if (select( "Entrar.", "Não entrar." ) == 2) {
+		mes "[Rookie]";
+		mes "Ah... eu tenho que ligar isso toda vez. Que inconveniente!";
+		close;
+	}
+	if (terra_gloria_main == 21)
+		.@md_name$ = "Laboratório Werner#1";
+	else
+		.@md_name$ = "Laboratório Werner#2";	// oficialmente, jogadores sem a missão diária de caça podem entrar na instância, permitindo repetir sem demora
+	switch( instance_enter(.@md_name$) ) {
+	case IE_NOMEMBER:
+		end;
+	case IE_NOINSTANCE:
+		mes "[Rookie]";
+		mes "O portão está com defeito agora. É perigoso desse jeito...";
+		mes "Por favor, espere um pouco.";
+		close;
+	case IE_OTHER:
+		mes "Ocorreu um erro desconhecido.";
+		close;
+	case IE_OK:
+		mapannounce "slabw01", "" + strcharinfo(0) + " do grupo " + getpartyname( getcharid(1) ) + ", está entrando no " + .@md_name$ + ".", bc_map, 0xFF99;
+		// warp "1@slw",187,24;
+		end;
+	}
+	end;
+
+OnInit:
+	cloakonnpc( strnpcinfo(0) );
+	end;
+}
+
+// Portais
+1@slw,187,170,0	warp	#slwwarp01	1,1,1@slw,71,32
+1@slw,71,77,0	warp	#slwwarp02	1,1,1@slw,54,134
+1@slw,55,150,0	warp	Saída de Emergência#exit_war	1,1,que_swat,155,58
+
+// Entrada - tipo evento
+1@slw,187,25,0	script	#sl_evt01	HIDDEN_WARP_NPC,2,2,{
+	end;
+OnTouch:
+	if (is_party_leader() == false)
+		end;
+	disablenpc instance_npcname("#sl_evt01");
+	if (instance_live_info(ILI_NAME) == "Laboratório Werner#1")	// terra_gloria_main == 21
+		enablenpc instance_npcname("Eisen Werner#werner01");
+	else {
+		enablenpc instance_npcname("Guarda#gard01");
+		enablenpc instance_npcname("Guarda#gard02");
+		enablenpc instance_npcname("Guarda#gard03");
+		enablenpc instance_npcname("Guarda#gard04");
+	}
+	end;
+
+OnInstanceInit:
+	'device_state[0] = 'device_state[1] = 0;
+	'event_final = 0;
+
+	'map_slw$ = instance_mapname("1@slw");
+
+	disablenpc instance_npcname("#slwwarp01");
+	disablenpc instance_npcname("#slwwarp02");
+	disablenpc instance_npcname("Entrada Central#door");
+	disablenpc instance_npcname("Saída de Emergência#exit_war");
+
+	disablenpc instance_npcname("Eisen Werner#werner01");
+	disablenpc instance_npcname("Eisen Werner#werner02");
+	disablenpc instance_npcname("Eisen Werner#werner03");
+	disablenpc instance_npcname("Eisen Werner#werner04");
+	disablenpc instance_npcname("Eisen Werner#werner05");
+
+	disablenpc instance_npcname("Dispositivo de Segurança#switch01");
+	disablenpc instance_npcname("Dispositivo de Segurança#switch02");
+	disablenpc instance_npcname("Dispositivo de Segurança#switch11");
+	disablenpc instance_npcname("Dispositivo de Segurança#switch12");
+
+	disablenpc instance_npcname("Guarda#gard01");
+	disablenpc instance_npcname("Guarda#gard02");
+	disablenpc instance_npcname("Guarda#gard03");
+	disablenpc instance_npcname("Guarda#gard04");
+	disablenpc instance_npcname("Guarda#gard05");
+	disablenpc instance_npcname("Guarda#gard06");
+	disablenpc instance_npcname("Guarda#gard07");
+
+	disablenpc instance_npcname("Seyren Windsor#seiren");
+	disablenpc instance_npcname("Fofinho#boss_master");
+	disablenpc instance_npcname("#boss_master_dummy");
+	end;
+}
+
+// Sala 1
+// * Amostras e dispositivos
+1@slw,174,145,3	script	Amostra de Exibição#01	CLEAR_NPC,{
+	setarray .@sample$[0],
+		"^ff0000Pureza^000000", "MT-Wxx0s57b",
+		"^4d4dffRosa^000000", "MT-Wxx00b21",
+		"^4d4dffContradição^000000", "MT-Wxx023-f1",
+		"^4d4dffAlegria^000000", "OT-Wxx01-c",
+		"^4d4dffMar^000000", "MT-Wxc1c1b",
+		"^ff0000Eternidade^000000", "MT-Wx267b",
+		"^4d4dffRetorno^000000", "OTM-Wxff01",
+		"^4d4dffSolidão^000000", "MT-Wxx00c46",
+		"^4d4dffBrilho^000000", "OT-Wxx4d4dff",
+		"^ff0000Aurora ^000000", "MT-Wff_01v",
+		"^4d4dffCrepúsculo^000000", "OT-Wxx00c3b",
+		"^4d4dffSonho^000000", "MT-Wxx0ax2-1";
+	.@num = (atoi(strnpcinfo(2)) - 1) * 2;
+	mes "[" + .@sample$[.@num] + "]";
+	mes "Número_do_Experimento: " + .@sample$[.@num+1] + "";
+	close;
+}
+1@slw,201,145,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#02	CLEAR_NPC
+1@slw,174,132,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#03	CLEAR_NPC
+1@slw,201,132,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#04	CLEAR_NPC
+1@slw,174,118,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#05	CLEAR_NPC
+1@slw,201,118,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#06	CLEAR_NPC
+1@slw,174,104,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#07	CLEAR_NPC
+1@slw,201,104,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#08	CLEAR_NPC
+1@slw,174,90,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#09	CLEAR_NPC
+1@slw,201,90,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#10	CLEAR_NPC
+1@slw,174,76,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#11	CLEAR_NPC
+1@slw,201,76,3	duplicate(Amostra de Exibição#01)	Amostra de Exibição#12	CLEAR_NPC
+
+// * Eventos - Primeira entrada
+1@slw,188,42,3	script	Eisen Werner#werner01	4_M_EISEN,{
+	if (is_party_leader() == false)
+		end;
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Aí vem o personagem principal.";
+	mes "Sinceramente, estou impressionado. Nunca imaginei que você chegaria até aqui.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Bem, tanto faz.";
+	mes "Seja bem-vindo.";
+	mes "Bem-vindo ao mundo de Eisen Werner.";
+	next;
+	cutin "ep16_eisen02.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Eu nunca imaginei que tudo isso seria feito de repente assim.";
+	mes "Tanto faz. Quem se importa?";
+	next;
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "De qualquer forma, eu já desisti de salvar este laboratório.";
+	mes "Quer dar uma olhada?";
+	next;
+	mes "[Eisen Werner]";
+	mes "Havia muitas coisas, incluindo rachaduras em dimensões e tudo mais.";
+	mes "Em alguns mundos, o fluxo do tempo é distorcido.";
+	next;
+	mes "[Eisen Werner]";
+	mes "É um mundo paralelo?";
+	mes "Ou alguém foi até um certo ponto no passado?";
+	next;
+	mes "[Eisen Werner]";
+	mes "O que o tempo significa? Você já pensou nisso?";
+	mes "Seu fluxo é relativo.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Aquele cara parou agora.";
+	mes "Se o tempo segue biologicamente, significa que alguém envelhece.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Isso foi interrompido à força.";
+	mes "Nesse caso, usamos uma expressão como esta.";
+	next;
+	cutin "ep16_eisen02.bmp",1;
+	mes "[Eisen Werner]";
+	mes "O tempo parou.";
+	next;
+	mes "[Eisen Werner]";
+	mes "....";
+	next;
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Quer dar uma olhada lá dentro?";
+	mes "Vá com calma e observe pelo corredor.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Eu vou guiá-lo.";
+	close2;
+	cutin "",255;
+	if (is_party_leader() == true) {
+		disablenpc instance_npcname("Eisen Werner#werner01");
+		enablenpc instance_npcname("Eisen Werner#werner02");
+	}
+	end;
+}
+
+1@slw,189,164,3	script	Eisen Werner#werner02	4_M_EISEN,{
+	if (is_party_leader() == false)
+		end;
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Gostou do meu trabalho?";
+	mes "Eu mandei aqueles idiotas de volta para começar tudo de novo.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Bem, não foi nada fácil.";
+	mes "......";
+	next;
+	cutin "ep16_eisen02.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Se ao menos aquele garoto tivesse voltado, não teria terminado daquele jeito...";
+	next;
+	mes "[Eisen Werner]";
+	mes "Quer dizer, se ao menos ele tivesse parado...";
+	next;
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "O presidente... quer dizer, aquela pessoa é obcecada pelo passado.";
+	mes "Graças ao presidente, eu posso fazer minha pesquisa como eu quiser.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Você não tem curiosidade?";
+	mes "Por que ele é tão obcecado pelo passado?";
+	next;
+	mes "[Eisen Werner]";
+	mes "Aliás, você precisa operar os instrumentos da direita e da esquerda se quiser ir além daqui... Você consegue fazer isso?";
+	next;
+	mes "[Eisen Werner]";
+	mes "Como é um dispositivo simples, eu acho que você consegue.";
+	mes "Mude ^ff0000vermelho^000000 para ^4d4dffazul^000000.";
+	mes "E mude ^4d4dffazul^000000 para ^ff0000vermelho^000000. Só isso.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Se você observou meu trabalho direito, vai entender o que eu estou dizendo.";
+	mes "Então eu te vejo na próxima área.";
+	close2;
+	cutin "",255;
+	if (is_party_leader() == true) {
+		disablenpc instance_npcname("Eisen Werner#werner02");
+		enablenpc instance_npcname("Dispositivo de Segurança#switch01");
+		enablenpc instance_npcname("Dispositivo de Segurança#switch02");
+	}
+	end;
+}
+
+1@slw,155,191,3	script	Dispositivo de Segurança#switch01	CLEAR_NPC,{
+	if (is_party_leader() == false)
+		end;
+	.@number = atoi( replacestr( strnpcinfo(2), "switch", "" ) );
+	.@type = (.@number < 10) ? 0 : 1;
+	.@npc_num = (.@number < 10) ? .@number : (.@number-10);
+	if ('device_state[.@type] & .@npc_num) {
+		mes "Já está ativado.";
+		close;
+	}
+	callsub S_Code, .@string$, .@answer;
+	mes "Há códigos de segurança anotados.";
+	mes "[" + .@string$ + "]";
+	mes "O que você vai inserir?";
+	next;
+	if (select( "^ff0000" + .@string$ + "^000000", "^4d4dff" + .@string$ + "^000000" ) != .@answer) {
+		'device_state[.@type] = 0;
+		mes "O dispositivo foi inicializado.";
+		close;
+	}
+	if (is_party_leader() == false)
+		end;
+	'device_state[.@type] = 'device_state[.@type] | .@npc_num;
+	if ('device_state[.@type] != 3) {
+		mes "O Dispositivo de Segurança foi operado.";
+		mes "Parece que há mais um Dispositivo de Segurança.";
+		close;
+	}
+	mes "O Dispositivo de Segurança foi operado.";
+	mes "O portão foi ativado.";
+	switch( .@type ) {
+	case 0:
+		enablenpc instance_npcname("#slwwarp01");
+		if (instance_live_info(ILI_NAME) == "Laboratório Werner#1")	// terra_gloria_main == 21
+			enablenpc instance_npcname("Eisen Werner#werner03");
+		else {
+			enablenpc instance_npcname("Guarda#gard05");
+			enablenpc instance_npcname("Guarda#gard06");
+			enablenpc instance_npcname("Guarda#gard07");
+		}
+		break;
+	case 1:
+		if (instance_live_info(ILI_NAME) == "Laboratório Werner#1")
+			enablenpc instance_npcname("Eisen Werner#werner04");
+		else
+			enablenpc instance_npcname("Entrada Central#door");
+		enablenpc instance_npcname("#slwwarp02");
+		break;
+	}
+	close;
+
+S_Code:
+	setarray .@sample$[0],
+		"Pureza", 2,
+		"Eternidade", 2,
+		"Amanhecer", 2,
+		"Rosa", 1,
+		"Contradição", 1,
+		"Alegria", 1,
+		"Mar", 1,
+		"Retorno", 1,
+		"Solidão", 1,
+		"Brilho", 1,
+		"Crepúsculo", 1;
+	.@size = getarraysize(.@sample$) / 2;
+	.@r = rand(.@size) * 2;
+	set getarg(0), .@sample$[.@r];
+	set getarg(1), .@sample$[.@r+1];
+	return;
+}
+1@slw,220,191,3	duplicate(Dispositivo de Segurança#switch01)	Dispositivo de Segurança#switch02	CLEAR_NPC
+1@slw,22,61,3	duplicate(Dispositivo de Segurança#switch01)	Dispositivo de Segurança#switch11	CLEAR_NPC
+1@slw,122,61,3	duplicate(Dispositivo de Segurança#switch01)	Dispositivo de Segurança#switch12	CLEAR_NPC
+
+
+// * Eventos - Diário
+1@slw,188,58,3	script	Guarda#gard01	3622,4,4,{
+	end;
+OnTouch:
+	.@num = atoi( replacestr( strnpcinfo(2), "gard0", "" ) );
+	getmapxy .@map$,.@x,.@y, BL_NPC;
+	switch( .@num ) {
+	case 1:	// área de invocação 2
+		npctalk ".. Droga, como vocês entraram aqui?";
+		areamonster .@map$, 186,92,190,94, "Caça-Coração Guarda", 3622,3;	// EP16_2_MM_S_GUARDS
+		.@mob_count = 3;
+		break;
+	case 2:	// área de invocação 3
+		npctalk ".. Droga, como vocês entraram aqui?";
+		areamonster .@map$, 186,142,190,143, "Caça-Coração Guarda", 3622,3;	// EP16_2_MM_S_GUARDS
+		areamonster .@map$, 186,160,190,162, "Caça-Coração Guarda", 3622,3;
+		.@mob_count = 3;
+		break;
+	case 5:
+		npctalk "... Droga, como vocês entraram aqui?";
+		.@mob_count = 3;
+		break;
+	case 3:
+		npctalk ".. Droga, como vocês entraram aqui?";
+		.@mob_count = 1;
+		.@label$ = instance_npcname("#security_device_lab") + "::OnLeft1";
+		break;
+	case 4:
+		npctalk ".. Droga, como vocês entraram aqui?";
+		.@mob_count = 3;
+		.@label$ = instance_npcname("#security_device_lab") + "::OnRight1";
+		break;
+	case 6:
+		npctalk "Quem está aí?";
+		.@mob_count = 3;
+		.@label$ = instance_npcname("#security_device_lab") + "::OnLeft2";
+		break;
+	case 7:
+		npctalk "Vou acabar com vocês!";
+		.@mob_count = 3;
+		.@label$ = instance_npcname("#security_device_lab") + "::OnRight2";
+		break;
+	}
+	disablenpc();
+	areamonster .@map$, (.@x-2), (.@y-2), (.@x+2), (.@y+2), "Caça-Coração Guarda", 3622, .@mob_count, .@label$;	// EP16_2_MM_S_GUARDS
+	end;
+}
+1@slw,189,117,3	duplicate(Guarda#gard01)	Guarda#gard02	3622,4,4
+1@slw,171,167,3	duplicate(Guarda#gard01)	Guarda#gard03	3622,4,4
+1@slw,206,167,3	duplicate(Guarda#gard01)	Guarda#gard04	3622,4,4
+1@slw,70,38,5	duplicate(Guarda#gard01)	Guarda#gard05	3622,4,4
+1@slw,33,52,3	duplicate(Guarda#gard01)	Guarda#gard06	3622,4,4
+1@slw,111,52,3	duplicate(Guarda#gard01)	Guarda#gard07	3622,4,4
+
+1@slw,1,1,3	script	#security_device_lab	HIDDEN_WARP_NPC,{
+	end;
+OnLeft1:
+	if (mobcount( 'map_slw$, instance_npcname("#security_device_lab") + "::OnLeft1" ) < 1) {
+		mapannounce 'map_slw$, "Dispositivo de Segurança L-01 foi ativado.", bc_map,0xFF99;
+		enablenpc instance_npcname("Dispositivo de Segurança#switch01");
+	}
+	end;
+OnRight1:
+	if (mobcount( 'map_slw$, instance_npcname("#security_device_lab") + "::OnRight1" ) < 1) {
+		mapannounce 'map_slw$, "Dispositivo de Segurança R-01 foi ativado.", bc_map,0xFF99;
+		enablenpc instance_npcname("Dispositivo de Segurança#switch02");
+	}
+	end;
+OnLeft2:
+	if (mobcount( 'map_slw$, instance_npcname("#security_device_lab") + "::OnLeft2" ) < 1) {
+		mapannounce 'map_slw$, "Dispositivo de Segurança L-02 foi ativado.", bc_map,0xFF99;
+		enablenpc instance_npcname("Dispositivo de Segurança#switch11");
+	}
+	end;
+OnRight2:
+	if (mobcount( 'map_slw$, instance_npcname("#security_device_lab") + "::OnRight2" ) < 1) {
+		mapannounce 'map_slw$, "Dispositivo de Segurança R-02 foi ativado.", bc_map,0xFF99;
+		enablenpc instance_npcname("Dispositivo de Segurança#switch12");
+	}
+	end;
+}
+
+
+// Sala 2
+// * Eventos - Primeira entrada
+1@slw,72,70,3	script	Eisen Werner#werner03	4_M_EISEN,{
+	if (is_party_leader() == false)
+		end;
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Mais fácil do que você pensou?";
+	mes "Os próximos dispositivos de segurança são parecidos, então não vou precisar explicar de novo.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Depois de olhar tudo isso, o que você acha?";
+	mes "Não é incrível?";
+	mes "Você já foi para ^4d4dffVerus^000000?";
+	next;
+	mes "[Eisen Werner]";
+	mes "Aquele é o laboratório que eu construí me baseando nele.";
+	mes "Era do meu tipo.";
+	mes "......";
+	next;
+	mes "[Eisen Werner]";
+	mes "A tecnologia era completamente diferente de tudo o que tínhamos até então.";
+	mes "Nós usamos tudo que estava disponível.";
+	next;
+	mes "[Eisen Werner]";
+	mes "O que você acha?";
+	mes "Ficou bom?";
+	next;
+	select("Você se pergunta por que eu estou dizendo essas coisas?");
+	mes "[Eisen Werner]";
+	mes "Hmm, é porque você vai morrer aqui mesmo.";
+	mes "Então eu gostaria de promover minhas conquistas.";
+	next;
+	select("Morrer aqui? Eu?");
+	mes "[Eisen Werner]";
+	mes "Com certeza. Você vai morrer aqui.";
+	mes "Você acha que eu sou burro o suficiente para ficar aqui sozinho?";
+	next;
+	mes "[Eisen Werner]";
+	mes "Eu sei que você veio aqui por causa do Reino de Rune-Midgard.";
+	mes "Então eu preparei algo.";
+	next;
+	cutin "ep16_eisen02.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Com uma sensação gigantesca.";
+	mes "Você vai morrer. Bem aqui.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Portanto, sinta-se à vontade.";
+	mes "Vamos para a próxima área.";
+	close2;
+	cutin "",255;
+	if (is_party_leader() == true) {
+		disablenpc instance_npcname("Eisen Werner#werner03");
+		enablenpc instance_npcname("Dispositivo de Segurança#switch11");
+		enablenpc instance_npcname("Dispositivo de Segurança#switch12");
+	}
+	end;
+}
+
+
+// Sala 3
+// * Eventos - Primeira entrada
+1@slw,57,141,3	script	Eisen Werner#werner04	4_M_EISEN,{
+	if (is_party_leader() == false)
+		end;
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Além desta parede, haverá algo que você veio buscar.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Isso mesmo. Aquilo que você lapidou como uma gema e usou como decoração na coroa.";
+	mes "Você ao menos sabe o que é aquilo?";
+	next;
+	mes "[Eisen Werner]";
+	mes "Mesmo sendo apenas um fragmento, é um pedaço do Coração de Ymir.";
+	mes "Não pode ser comparado a uma imitação.";
+	next;
+	mes "[Eisen Werner]";
+	mes "... Os tolos do reino nem conseguem utilizar o poder que já possuem.";
+	mes "Que pena.";
+	mes "Então eu decidi usá-lo...";
+	next;
+	mes "[Eisen Werner]";
+	mes "Você quer recuperá-lo? Depende totalmente da sua capacidade.";
+	mes "Eu não fiquei esperando de mãos vazias.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Vou te dizer mais uma vez. Não se surpreenda.";
+	mes "Não, eu ficaria feliz se você se surpreendesse.";
+	mes "Huhuhuhuhu....";
+	next;
+	cutin "ep16_eisen03.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Agora, veja o presente que eu preparei.";
+	close2;
+	cutin "",255;
+	if (is_party_leader() == true) {
+		disablenpc instance_npcname("Eisen Werner#werner04");
+		enablenpc instance_npcname("Entrada Central#door");
+	}
+	end;
+}
+
+1@slw,54,146,0	script	Entrada Central#door	WARPNPC,1,1,{
+	end;
+OnTouch:
+	if (is_party_leader() == false) {
+		warp 'map_slw$,55,153;
+		end;
+	}
+	if (instance_live_info(ILI_NAME) == "Laboratório Werner#1") {
+		if ('event_final == 0) {
+			'event_final = 1;
+			enablenpc instance_npcname("Eisen Werner#werner05");
+		}
+		warp 'map_slw$,55,153;
+		end;
+	}
+	switch( 'event_final ) {
+	case 1:
+		mes "Reproduzindo a história novamente.";
+		close2;
+		warp 'map_slw$,55,153;
+		end;
+	case 2:
+		warp 'map_slw$,55,153;
+		end;
+	}
+	mes "Você tem duas escolhas na próxima área.";
+	mes "Se quiser reviver a história de Seyren Windsor, selecione ^4d4dffProsseguir com a história^000000. Se quiser ver a obra-prima de Eisen Werner, selecione ^4d4dffProsseguir com a batalha^000000.";
+	next;
+	if (select( "Prosseguir com a história.", "Prosseguir com a batalha." ) == 1) {
+		mes "Você escolheu a história.";
+		close2;
+		if ('event_final == 0) {
+			'event_final = 1;
+			enablenpc instance_npcname("Eisen Werner#werner05");
+		}
+		warp 'map_slw$,55,153;
+		end;
+	}
+	mes "Você escolheu a batalha.";
+	close2;
+	if ('event_final == 0) {
+		'event_final = 2;
+		enablenpc instance_npcname("Fofinho#boss_master");
+		enablenpc instance_npcname("#boss_master_dummy");
+	}
+	warp 'map_slw$,55,153;
+	end;
+}
+
+
+// Sala do Chefe
+// * História
+1@slw,56,171,3	duplicate(dummy_npc)	Seyren Windsor#seiren	4_M_SEIREN_UC
+
+1@slw,53,171,5	script	Eisen Werner#werner05	4_M_EISEN,{
+	if (is_party_leader() == false) {
+		mes "^4d4dffApenas o líder do grupo pode prosseguir com este evento.^000000";
+		close;
+	}
+	if (checkweight(501,1) == 0) {
+		mes "- Não é possível prosseguir com a missão porque você está carregando itens demais. -";
+		close;
+	}
+	.@seyren$ = instance_npcname("Seyren Windsor#seiren");
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Este lugar é o núcleo do laboratório, e contém tudo da minha pesquisa.";
+	npctalk "Este lugar é o núcleo do laboratório, e contém tudo da minha pesquisa.";
+	next;
+	mes "[Eisen Werner]";
+	mes "É o fragmento do Coração de Ymir que guarda o poder fundamental que constitui o mundo. Ele também contém a origem da vida.";
+	npctalk "É o fragmento do Coração de Ymir que guarda o poder fundamental que constitui o mundo. Ele também contém a origem da vida.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Observe isso com atenção.";
+	mes "Aquilo que você veio recuperar está fazendo algo maravilhoso!";
+	npctalk "Observe isso com atenção. Aquilo que você veio recuperar está fazendo algo maravilhoso!";
+	next;
+	mes "[Eisen Werner]";
+	mes "A energia extraída disso flui para o círculo mágico no chão... Ha ha ha. Claro, esse círculo mágico foi reinterpretado magicamente.";
+	npctalk "A energia extraída disso flui para o círculo mágico no chão... Ha ha ha. Claro, esse círculo mágico foi reinterpretado magicamente.";
+	next;
+	mes "[Eisen Werner]";
+	mes "De qualquer forma, essa energia vai para a cobaia... Usando esse poder, eu ajustei o tempo deles.";
+	next;
+	cutin "ep16_eisen03.bmp",1;
+	mes "[Eisen Werner]";
+	mes "... Certamente, alguns acabam morrendo por causa de células rachadas. Ha ha!";
+	next;
+	select("Era só isso que você queria dizer?");
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Era só isso que você queria dizer?";
+	cutin "ep16_eisen02.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Não! Nunca!";
+	mes "Você já esqueceu o que eu disse antes?";
+	mes "Eu disse que tinha preparado um presente.";
+	next;
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Algo...";
+	mes "que vai te surpreender.";
+	close2;
+	setpcblock PCBLOCK_NPC, true;
+	cutin "",255;
+	sleep2 3000;
+	enablenpc .@seyren$;
+	npctalk "......", .@seyren$;
+	sleep2 1000;
+	setpcblock PCBLOCK_NPC, false;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : ... Seyren?!";
+	mes "[Eisen Werner]";
+	mes "E então?! O que achou do presente que eu preparei?!";
+	mes "Está satisfeito?";
+	cutin "ep16_eisen01.bmp",1;
+	next;
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Este sujeito fazia parte da delegação daquela família real ridícula.";
+	mes "Graças ao experimento de algum sujeito corajoso, eu obtive esta grande obra.";
+	next;
+	select("Você está falando do Experimento In Vivo?");
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Você está falando do Experimento In Vivo?";
+	cutin "ep16_eisen02.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Sim, exatamente.";
+	mes "Bem, existem muitos que fazem Experimentos In Vivo além daquele sujeito, mas ele foi o primeiro corajoso o suficiente para aprimorar uma criatura viva.";
+	next;
+	cutin "ep16_eisen01.bmp",1;
+	mes "[Eisen Werner]";
+	mes "usando o fragmento imitado do Coração de Ymir";
+	mes "Foi um grande ponto de virada para os Experimentos In Vivo.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Eu estava tentando aplicar isso em vários tipos de coisas.";
+	next;
+	mes "[Eisen Werner]";
+	mes "A propósito....";
+	mes "Você deveria cumprimentá-lo. Certo?";
+	next;
+	mes "[Eisen Werner]";
+	mes "Ah~. Isso mesmo.";
+	mes "Você nem precisa cumprimentar, porque vocês dois vão morrer!";
+	cutin "ep16_eisen03.bmp",1;
+	next;
+	cutin "ep16_eisen02.bmp",1;
+	mes "[Eisen Werner]";
+	mes "Seyren, escolte esses convidados até o inferno.";
+	mes "Você entendeu o que eu estou dizendo?";
+	next;
+	cutin "ep16_seiren02.bmp",2;
+	mes "[Seyren]";
+	mes ".......";
+	npctalk "......", .@seyren$;
+	next;
+	cutin "ep16_evt_ws.bmp",4;
+	mes "[Eisen Werner]";
+	mes "Hmm?";
+	mes "O que é isso, Seyren? Você está em fase negativa agora?";
+	next;
+	mes "[Seyren]";
+	mes "Eu sinto como se tivesse acordado de um longo sono.";
+	mes "Talvez tenha sido para este dia.";
+	npctalk "Eu sinto como se tivesse acordado de um longo sono. Talvez tenha sido para este dia.", .@seyren$;
+	next;
+	mes "[Eisen Werner]";
+	mes "Não se esqueça do seu dever, Seyren.";
+	mes "Você é uma arma. Você não é nada além de uma marionete vestindo a armadura de um cavaleiro chamado Seyren Windsor.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Precisa que eu explique passo a passo?";
+	mes "Depois de transplantar a imitação do Coração de Ymir, o corpo não aguentou o poder e acabou colapsando.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Então o espírito dele duplicou o corpo principal e continuou se dividindo repetidamente.";
+	mes "Durante esse processo, memória, consciência, alma, mente e ego foram espalhados como areia. Eles perderam o sentido.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Quando transplantamos a imitação do Coração de Ymir em alguém com mente e corpo fortes, esperávamos que essa pessoa se tornasse uma arma biológica mais poderosa.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Nunca imaginamos que ele se duplicaria e se dividiria infinitamente. Como resultado, esse experimento foi considerado um fracasso.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Para piorar, ele se tornou uma criatura incontrolável preenchida apenas por fúria.";
+	next;
+	mes "[Seyren]";
+	mes "Eu estou aqui.";
+	npctalk "Eu estou aqui.", .@seyren$;
+	next;
+	mes "[Eisen Werner]";
+	mes "Sabe de uma coisa? Eles ainda estão se dividindo agora.";
+	mes "Apenas imitando o corpo principal, eles estão até crescendo dentro dele.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Como agora são seres imperfeitos, eles querem se tornar perfeitos.";
+	mes "Eles são imperfeitos, então querem se tornar perfeitos, ao invés de apenas imitar o corpo principal e viver como uma imagem virtual.";
+	next;
+	mes "[Eisen Werner]";
+	mes "Eles desejam existir como uma entidade única.";
+	next;
+	mes "[Eisen Werner]";
+	mes "E o único experimento bem-sucedido é você. Agora nós chamamos você de Seyren.";
+	next;
+	cutin "ep16_seiren02.bmp",2;
+	mes "[Seyren]";
+	mes "...... Este é o fim da sua vontade?";
+	npctalk "...... Este é o fim da sua vontade?", .@seyren$;
+	next;
+	cutin "ep16_eisen03.bmp",0;
+	mes "[Eisen Werner]";
+	mes "Ei, garoto? Você não pode fazer isso comigo.";
+	mes "Você tem que me obedecer!";
+	next;
+	cutin "ep16_eisen02.bmp",0;
+	mes "[Eisen Werner]";
+	mes "Você não lembra o quanto eu lutei para tirar você daquele inferno?";
+	mes "Não se deixe influenciar pela consciência de alguém que já morreu.";
+	next;
+	cutin "ep16_seiren02.bmp",2;
+	mes "[Seyren]";
+	mes "... Eisen Werner.";
+	mes "Deixe-me perguntar de novo. Este é o fim da sua vontade?";
+	npctalk "... Eisen Werner. Deixe-me perguntar de novo. Este é o fim da sua vontade?", .@seyren$;
+	next;
+	cutin "ep16_eisen01.bmp",0;
+	mes "[Eisen Werner]";
+	mes "Droga!";
+	mes "Eu nunca esperava isso!";
+	mes "Este mundo não é um lugar engraçado? Ha ha ha ha ha";
+	next;
+	mes "[Eisen Werner]";
+	mes "Nunca pense que eu terminei aqui.";
+	mes "Eu também não preciso de um fracassado.";
+	close2;
+	setpcblock PCBLOCK_NPC, true;
+	cutin "",255;
+	specialeffect EF_BEGINSPELL3;
+	sleep2 1000;
+	specialeffect EF_SCREEN_QUAKE;
+	sleep2 1000;
+	specialeffect EF_LORD;
+	disablenpc instance_npcname("Eisen Werner#werner05");
+	sleep2 2000;
+	setpcblock PCBLOCK_NPC, false;
+	npctalk "Oh....", .@seyren$;
+	mes "[Seyren]";
+	mes "... Eisen. Você abandonou tudo assim.";
+	npctalk "... Eisen. Você abandonou tudo assim.", .@seyren$;
+	specialeffect2 EF_DEVIL3;
+	cutin "ep16_seiren01.bmp",2;
+	next;
+	mes "[Seyren]";
+	mes ".. Ah...";
+	npctalk ".. Ah...", .@seyren$;
+	cutin "ep16_seiren02.bmp",2;
+	next;
+	mes "[Seyren]";
+	mes "A solidez está enfraquecendo novamente.";
+	mes "Agora, eu tenho uma mensagem muito mais urgente para você do que para o Eisen.";
+	npctalk "A solidez está enfraquecendo novamente. Agora, eu tenho uma mensagem muito mais urgente para você do que para o Eisen.", .@seyren$;
+	next;
+	mes "[Seyren]";
+	mes "Eu estive esperando por você há muito tempo.";
+	mes "Como Eisen disse, já não importa se eu sou o Seyren ou não.";
+	npctalk "Eu estive esperando por você há muito tempo. Como Eisen disse, já não importa se eu sou o Seyren ou não.", .@seyren$;
+	next;
+	mes "[Seyren]";
+	mes "Desde que eu ganhei a capacidade de pensar, eu não sabia quem eu era nem por que eu existia.";
+	next;
+	specialeffect2 EF_DEVIL4;
+	mes "[Seyren]";
+	mes "A divisão contínua criou inúmeras cópias de mim mesmo.";
+	next;
+	mes "[Seyren]";
+	mes "O poder entrelaçado com a imitação do Coração de Ymir, que respondeu à minha vontade e à vontade dos meus companheiros. Eles queriam se unir, mas continuaram se dividindo repetidamente.";
+	next;
+	specialeffect2 EF_DEVIL5;
+	cutin "ep16_seiren01.bmp",2;
+	mes "[Seyren]";
+	mes "Quantas cópias de mim já foram criadas até agora?";
+	next;
+	cutin "ep16_seiren02.bmp",2;
+	mes "[Seyren]";
+	mes "Eu perdi o ego após a divisão contínua, mas fui regenerado na forma anterior. Não acho que isso tenha sido coincidência.";
+	next;
+	mes "[Seyren]";
+	mes "Eu pensei que devia haver um motivo.";
+	next;
+	mes "[Seyren]";
+	mes "E eu percebi isso depois de ver ^4d4dffTerra Gloria^000000.";
+	mes "O motivo pelo qual o deus me deu esta oportunidade.";
+	next;
+	specialeffect2 EF_DEVIL6;
+	cutin "ep16_seiren01.bmp",2;
+	mes "[Seyren]";
+	mes "Você veio recuperar isso?";
+	mes "... A terra se foi e só a estrela permaneceu.";
+	next;
+	specialeffect2 EF_DEVIL7;
+	cutin "ep16_seiren02.bmp",2;
+	mes "[Seyren]";
+	mes "Eisen está certo. ^4d4dffSeyren Windsor não existe mais neste mundo.^000000";
+	mes "Tudo o que me resta agora é a forte vontade de transmitir algo continuamente.";
+	next;
+	specialeffect2 EF_SCREEN_QUAKE;
+	specialeffect2 EF_DEVIL8;
+	cutin "ep16_seiren01.bmp",2;
+	mes "[Seyren]";
+	mes "Talvez esse pequeno fragmento de vontade tenha me feito existir.";
+	mes "Mas agora acabou.";
+	cutin "ep16_seiren02.bmp",2;
+	next;
+	specialeffect2 EF_DEVIL9;
+	cutin "ep16_seiren01.bmp",2;
+	mes "[Seyren]";
+	mes ".....";
+	next;
+	mes "[Seyren]";
+	mes "Eu realmente não tenho mais tempo.";
+	mes "Depois deste momento, ^4d4dffeu serei dividido e espalhado^000000 novamente.";
+	next;
+	mes "[Seyren]";
+	mes "Enquanto eu ainda tenho minha vontade agora, eu tenho uma mensagem para lhe dar.";
+	next;
+	if (instance_live_info(ILI_NAME) == "Laboratório Werner#1") {
+		mes "[Seyren]";
+		mes "Por favor, siga em frente.";
+		mes "Seyren Windsor, o cavaleiro de Prontera, falhou em sua missão.";
+		next;
+		mes "[Seyren]";
+		mes "^4d4dffEu e todos os meus companheiros morremos há muito tempo.";
+		mes "Por favor, não desperdice seu afeto em corpos que já estão mortos.^000000";
+		next;
+		mes "[Seyren]";
+		mes "Eles são como fantasmas cobertos por cascas.";
+		mes "Eu tive sorte de poder mostrar minha última vontade diante de você.";
+		next;
+		mes "[Seyren]";
+		mes "Eles são ^4d4dffrelíquias^000000 minhas e dos meus companheiros.";
+		mes "Por favor, entregue isso às nossas famílias.";
+		if (is_party_leader() == true) {
+			getitem 25179,1;	// Estrela da Bênção
+			getitem 23087,1;	// Pochete de Couro
+			erasequest 7739;// Encontre a Estrela da Bênção!
+			setquest 7740;// Estrela da Bênção obtida
+			terra_gloria_main = 22;
+		}
+		close2;
+		setpcblock PCBLOCK_NPC, true;
+		cutin "",255;
+		specialeffect EF_ICECRASH, AREA, .@seyren$;
+		disablenpc .@seyren$;
+		// monster 'map_slw$,56,171, "Seyren", SEYREN, 1;
+		sleep2 1000;
+		specialeffect2 EF_SCREEN_QUAKE;
+		sleep2 1000;
+		setpcblock PCBLOCK_NPC, false;
+		specialeffect2 EF_SCREEN_QUAKE;
+		specialeffect2 EF_RAIN_PARTICLE2;
+		warp "que_swat",155,50;
+		end;
+	}
+// diário
+	mes "[Seyren]";
+	mes "Foi bom ver você no final.";
+	mes "Obrigado... Adeus.";
+	close2;
+	setpcblock PCBLOCK_NPC, true;
+	cutin "",255;
+	specialeffect EF_ICECRASH, AREA, .@seyren$;
+	cloakonnpc .@seyren$;
+	// monster 'map_slw$,56,171, "Cobaia Y.S.F.01", SEYREN, 1;
+	sleep2 1000;
+	specialeffect2 EF_SCREEN_QUAKE;
+	sleep2 1000;
+	specialeffect2 EF_SCREEN_QUAKE;
+	specialeffect2 EF_RAIN_PARTICLE2;
+	setpcblock PCBLOCK_NPC, false;
+	if (is_party_leader() == true)
+		'event_final = 0;
+	mapannounce 'map_slw$, "A configuração da sala central foi inicializada.", bc_map,0xFF99;
+	warpparty 'map_slw$,54,134,getcharid(1),'map_slw$,2,2;
+	disablenpc .@seyren$;
+	end;
+}
+
+// * Batalha
+1@slw,55,170,3	duplicate(dummy_npc)	Fofinho#boss_master	3621
+
+1@slw,55,170,3	script	#boss_master_dummy	HIDDEN_WARP_NPC,5,5,{
+	end;
+OnTouch:
+	if (is_party_leader() == false)	// oficialmente o jogador pode invocar múltiplos chefes trocando o líder do grupo
+		end;
+	setpcblock PCBLOCK_NPC, true;
+	.@npc_name$ = instance_npcname("Fofinho#boss_master");
+	npctalk "Como ousa entrar aqui! Você é bem corajoso!", .@npc_name$;
+	sleep2 3000;
+	npctalk "Você deve se sentir honrado em lutar comigo!", .@npc_name$;
+	sleep2 3000;
+	npctalk ".......", .@npc_name$;
+	sleep2 3000;
+	npctalk ".. Maldito Werner. Por que você me misturou com um lobo?", .@npc_name$;
+	sleep2 3000;
+	npctalk "E... enfim, você está morto.", .@npc_name$;
+	sleep2 3000;
+	setpcblock PCBLOCK_NPC, false;
+	disablenpc instance_npcname("#boss_master_dummy");
+	npctalk "Beeeem preparados!!!", .@npc_name$;
+	specialeffect EF_DANCE_BLADE_ATK, AREA, instance_npcname("Fofinho#boss_master");
+	specialeffect EF_ALL_FULL_THROTTLE, AREA, instance_npcname("Fofinho#boss_master");
+	donpcevent instance_npcname("#boss_master_lab") + "::OnStart";
+	mapannounce 'map_slw$, "O Campo Mágico foi ativado.", bc_map,0xFF99;
+	cloakonnpc instance_npcname("Fofinho#boss_master");
+	end;
+}
+
+1@slw,1,1,3	script	#boss_master_lab	HIDDEN_WARP_NPC,5,5,{
+	end;
+OnStart:
+	enablenpc instance_npcname("#boss_master_lab");
+	if (mobcount( 'map_slw$, instance_npcname("#boss_master_lab") + "::OnMobDead" ) < 1)
+		monster 'map_slw$,55,170, "Fofinho", 3621, 1, instance_npcname("#boss_master_lab") + "::OnMobDead";	// EP16_2_MM_CUTIE
+	end;
+OnMobDead:
+	if (mobcount( 'map_slw$, instance_npcname("#boss_master_lab") + "::OnMobDead" ) < 1) {
+		mapannounce 'map_slw$, "O Campo Mágico foi eliminado. Uma entrada foi criada.", bc_map,0xFF99;
+		enablenpc instance_npcname("Saída de Emergência#exit_war");
+		disablenpc instance_npcname("#boss_master_lab");
+	}
+	end;
+}

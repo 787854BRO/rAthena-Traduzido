@@ -1,0 +1,131 @@
+//===== rAthena Script ======================================= 
+//= Enchant Grade
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [JohnnyPlayy]
+//= 1.1 Fixed small issues. [Lemongrass]
+//= 1.2 Added translation. [Asheraf]
+//= 1.3 Added paramarket NPC and warps. [Balfear]
+//= 1.4 Translated paramarket NPC. [Lemongrass]
+//============================================================
+
+grademk,34,184,4	script	Sratos#sratos	4_JP_GARM_H,{
+	mes "[Sratos]";
+	mes "Olá querido cliente que acaba de entrar, vamos torcer por um milagre hoje.";
+	mes "Como posso ajudá-lo?";
+	next;
+	switch( select( "Melhorar Equipamento.", "Obter Joias Etéricas", "Encantamento de Grade?" ) ){
+		case 1:
+			mes "[Sratos]";
+			mes "Nosso cliente. Você quer melhorar a qualidade do seu equipamento.";
+			mes "Não é fácil manipular o poder mágico das joias.";
+			next;
+			mes "[Sratos]";
+			mes "O poder mágico pode explodir no local.";
+			mes "Então a arma que herdará o poder mágico também explodirá!";
+			next;
+			switch( select( "Ainda quero fazer!", "Vou pensar sobre isso." ) ){
+				case 1:
+					mes "[Sratos]";
+					mes "Desejo boa sorte aos nossos corajosos clientes!";
+					close2;
+					enchantgradeui();
+					end;
+				case 2:
+					mes "[Sratos]";
+					mes "Quando você tiver coragem de desafiar, volte.";
+					close;
+			}
+		case 2:
+			mes "[Sratos]";
+			mes "Estas são as joias usadas para o Encantamento de Grade.";
+			mes "Pó de Éter, o ingrediente que será a base, e se você me der uma pequena taxa eu trocarei por Joias Étéricas.";
+			close2;
+			callshop "EnchantGradeExchange";
+			end;
+
+		case 3:
+			mes "[Sratos]";
+			mes "Ocasionalmente, são encontradas essas joias instáveis com muito poder mágico e puro.";
+			mes "Chamamos elas de joias Étéricas, certo?";
+			next;
+			mes "[Sratos]";
+			mes "Você pode transferir o poder mágico da joia etérica para armas, mas é claro que existem riscos.";
+			mes "O processo é delicado, então se você não tomar cuidado, pou! Vai explodir.";
+			next;
+			mes "[Sratos]";
+			mes "De qualquer forma, se você usar esta joia etérica, poderá aprimorar a arma que está utilizando.";
+			mes "O desempenho melhora. Nós chamamos isso de Encantamento de Grade.";
+			next;
+			mes "[Sratos]";
+			mes "Você também não ficaria feliz se as armas que você ama crescessem um passo adiante?";
+			mes "Nós somos as pessoas que o ajudaram com isso. Mas é um pouco arriscado. ahahaha.";
+			close;
+	}
+
+OnInit:
+	setunittitle(getnpcid(0), "<Encantamento de Grade>");
+	end;
+}
+
+paramk,34,184,4	script	Suribell#suribell	4_F_FRUIT,{
+	mes "[Suribell]";
+	mes "Que a boa sorte esteja sempre com você!";
+	mes "Bem-vindo ao Centro Comercial do Encantamento de Grade~";
+	next;
+	switch( select( "Melhorar Equipamento.", "Obter Joias Etéricas", "Encantamento de Grade?" )) {
+		case 1:
+			mes "[Suribell]";
+			mes "Quer desbloquear o potencial do seu equipamento favorito?";
+			mes "Explosões também poderão ocorrer no processo de lidar com esses poderes mágicos.";
+			next;
+			mes "[Suribell]";
+			mes "Ainda assim, se você quiser tentar o Encantamento de Grade...!";
+			mes "Eu, Suribell, farei o meu melhor!";
+			next;
+			switch( select( "Ainda quero fazer!", "Vou pensar sobre isso." ) ){
+				case 1:
+					mes "[Suribell]";
+					mes "Vamos dar as mãos e ter fé! Tente cerrar os dentes!";
+					close2;
+					enchantgradeui();
+					end;
+				case 2:
+					mes "[Suribell]";
+					mes "OK! Vamos beber um copo de água gelada!";
+					close;
+			}
+		case 2:
+			mes "[Suribell]";
+			mes "Você precisa de joias Etéricas para realizar o Encantamento de Grade!";
+			mes "Se você quiser combinar Pó de Éter e joias para fazer isso, tudo bem! Uma Joia Etérica estará completa!";
+			mes "Gostaria de combinar joias e Pó de Éter?";
+			close2;
+			callshop "EnchantGradeExchange";
+			end;
+		case 3:
+			mes "[Suribell]";
+			mes "Ocasionalmente, são encontradas gemas instáveis com muito poder mágico e puro.";
+			mes "Decidi chamar essas gemas de joias Etéricas.";
+			mes "Quem? Eu sou Suribell!";
+			next;
+			mes "[Suribell]";
+			mes "O poder mágico das joias Etéricas às vezes desperta o potencial oculto do equipamento.";
+			mes "Chamamos isso de Encantamento de Grade porque o equipamento sobe de nível!";
+			next;
+			mes "[Suribell]";
+			mes "O aventureiro pode ter nas mãos um potencial que lhe é desconhecido.";
+			mes "Também existe o risco do equipamento ser destruído se o encantamento for feito de maneira errada, mas faça com fé!";
+			close;
+	}
+
+OnInit:
+	setunittitle(getnpcid(0), "<Encantamento de Grade>");
+	end;
+}
+
+// = Portais
+//============================================================
+prontera,50,293,0	warp	Grademk_Int	1,1,grademk,13,172
+grademk,9,172,0	warp	Grademk_Out	1,1,prontera,50,290
+paramk,8,171,0	warp	grade_in	1,1,paramk,141,64
+paramk,145,64,0	warp	grade_out	1,1,paramk,11,171

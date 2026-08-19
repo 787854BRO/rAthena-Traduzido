@@ -1,0 +1,19 @@
+//===== rAthena Script =======================================
+//= Guild Mission - NPC Duplicates
+//===== Description: =========================================
+//= Mission NPCs for Guild Mission added in episode 14.3
+//===== Changelogs: ==========================================
+//= [Official Conversion]
+//= 1.0 First version [Secretdataz]
+//============================================================
+
+alde_gld,176,163,5	duplicate(gld_mission#core)	Instrutor de Luina#gqaldeg	4_M_HUMAN_02
+gef_fild13,197,242,3	duplicate(gld_mission#core)	Instrutor de Britoniah#gqgefg	4_M_HUMAN_02
+pay_gld,198,178,5	duplicate(gld_mission#core)	Instrutor do Bosque C.#gqpayg	4_M_HUMAN_02
+prt_gld,125,149,3	duplicate(gld_mission#core)	Instrutor das Valquírias#gqprtg	4_M_HUMAN_02
+
+aru_gld,96,203,3	duplicate(gld_mission#core)	Instrutor de Valfreyja#gqaru	4_M_HUMAN_02
+sch_gld,270,117,3	duplicate(gld_mission#core)	Instrutor de Nithafjoll#gqsch	4_M_HUMAN_02
+
+te_alde_gld,189,159,3	duplicate(gld_mission#core)	Instrutor de Kafragarten#gqtealde	4_M_HUMAN_02
+te_prt_gld,112,150,5	duplicate(gld_mission#core)	Instrutor de Gloria#gqteprt	4_M_HUMAN_02

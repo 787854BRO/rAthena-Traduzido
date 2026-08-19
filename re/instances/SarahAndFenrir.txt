@@ -1,0 +1,2348 @@
+//===== rAthena Script =======================================
+//= Sarah and Fenrir
+//===== Description: =========================================
+//= [Walkthrough Conversion]
+//= Sarah and Fenrir Instance
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Capuche]
+//============================================================
+
+dali02,97,142,3	script	Pesquisador Bernard#a1	4_LGTSCIENCE,{
+	if (BaseLevel < 145) {
+		mes "- Você poderá prosseguir ao atingir o nível 145 ou superior -";
+		close;
+	}
+	switch( checkquest(9336,PLAYTIME) ) {
+	case -1:
+		switch( isbegin_quest(9335) ) {
+		case 0:// Primeira vez fazendo a instância
+			mes "[Pesquisador Bernard]";
+			mes "Eu diria que sou o Pesquisador Bernard, o melhor pesquisador de armas de Schwarzwald.";
+			next;
+			mes "[Pesquisador Bernard]";
+			mes "Após pesquisas intermináveis, criei diversas armas, mas senti que algo ainda faltava, então encontrei textos antigos.";
+			mes "Durante minhas pesquisas, descobri sobre o Dispositivo Dimensional.";
+			next;
+			mes "[Pesquisador Bernard]";
+			mes "Também percebi que relíquias do glorioso passado seriam necessárias para criar armas ainda mais poderosas e superiores.";
+			mes "É por isso que... eu preciso de você...";
+			next;
+			mes "[Pesquisador Bernard]";
+			if (is_party_leader() == false) {
+				mes "Um anseio por completar uma arma poderosa como um verdadeiro pesquisador!";
+				mes "Para realizar isso, precisamos de Fragmentos de Gigantes que apareceram no passado, na batalha entre Fenrir e Sarah.";
+				next;
+				mes "[Pesquisador Bernard]";
+				mes "Eu não posso deixar meu posto.";
+				mes "Preciso de um guerreiro que possa trazer os fragmentos para mim...";
+				mes "Você parece capaz.";
+				next;
+				mes "[Pesquisador Bernard]";
+				mes "Continuarei discutindo isso com o líder do seu grupo, e não com você.";
+				close;
+			}
+			mes "Preciso de um guerreiro que possa trazer os Fragmentos de Gigantes para mim...";
+			mes "Você parece capaz.";
+			next;
+			mes "[Pesquisador Bernard]";
+			mes "O que você acha?";
+			mes "Você iria ao passado e me traria os Fragmentos de Gigantes?";
+			mes "Eu vou garantir que você seja devidamente recompensado.";
+			next;
+			if (select( "Não", "Sim" ) == 1) {
+				mes "[Pesquisador Bernard]";
+				mes "Volte a me visitar se mudar de ideia.";
+				close;
+			}
+			mes "[Pesquisador Bernard]";
+			mes "Configurei o Dispositivo Dimensional para o Glast Heim do passado, onde Fenrir e Sarah lutaram uma vez.";
+			mes "O tempo de operação não é longo, então se apresse e volte logo.";
+			instance_create("Sarah vs Fenrir");
+			close;
+		case 1:
+			mes "[Pesquisador Bernard]";
+			mes "Você conseguiu trazer os Fragmentos de Gigantes?";
+			mes "Você provavelmente enfrentou muitos perigos, então agradeço pelo esforço.";
+			next;
+			mes "[Pesquisador Bernard]";
+			mes "Eu não espero receber os Fragmentos de Gigantes de graça depois de você ter arriscado sua vida por eles!";
+			if (sarah_fenrir == 0) {
+				mes "Vou lhe dar um Brinco que parece útil, entre as relíquias que obtive durante minhas pesquisas anteriores.";
+				next;
+				mes "- O Brinco esquerdo de Sarah -";
+				mes "Utilizável para Curar nv. 1";
+				mes "- O Brinco direito de Sarah -";
+				mes "Utilizável para Teleporte nv. 1";
+				next;
+				.@s = select( "O Brinco esquerdo de Sarah", "O Brinco direito de Sarah" ) - 1;
+			}
+			mes "[Pesquisador Bernard]";
+			mes "Se você entregar os Fragmentos de Gigantes ao meu Assistente, eu garantirei que os brincos fiquem ainda melhores através de um encantamento.";
+			next;
+			mes "[Pesquisador Bernard]";
+			mes "Quanto mais Fragmentos de Gigantes forem coletados, melhor.";
+			mes "Entretanto, não há um fornecimento estável da energia necessária para operar o Dispositivo Dimensional.";
+			next;
+			mes "[Pesquisador Bernard]";
+			mes "Volte e me procure depois que uma semana tiver passado para que o Dispositivo Dimensional recarregue sua energia.";
+			mes "Preciso que você encontre Fragmentos de Gigantes novamente.";
+			erasequest 9335;// Procurar Fragmentos de Gigantes
+			setquest 9336;// Voltar ao Pesquisador Bernard
+			if (isbegin_quest(9337) > 0)
+				erasequest 9337;// Encerrando a Aventura
+			if (sarah_fenrir == 0) {
+				sarah_fenrir = 1;
+				getitem (28310+.@s),1;
+			}
+			close;
+		case 2:
+			end;
+		}
+	case 0:
+	case 1:
+		mes "[Pesquisador Bernard]";
+		mes "Estamos com poucos Fragmentos de Gigantes para fabricar armas poderosas.";
+		mes "Como é necessária muita energia para abrir um Dispositivo Dimensional, volte e me procure quando a energia tiver se acumulado.";
+		close;
+	case 2:
+		mes "[Pesquisador Bernard]";
+		mes "Eu estava esperando.";
+		mes "Como estão as coisas?";
+		mes "Enquanto você estava fora, consegui acumular energia dimensional.";
+		mes "Podemos abrir o Dispositivo Dimensional novamente.";
+		next;
+		mes "[Pesquisador Bernard]";
+		mes "Um anseio por completar uma arma poderosa como um verdadeiro pesquisador!";
+		mes "Para realizar isso, precisamos de Fragmentos de Gigantes que apareceram no passado, na batalha entre Fenrir e Sarah.";
+		next;
+		mes "[Pesquisador Bernard]";
+		mes "Como não posso deixar meu posto, ";
+		mes "preciso de um guerreiro que possa trazer os fragmentos em meu lugar.";
+		mes "Acredito que você possa me ajudar mais uma vez...";
+		next;
+		mes "[Pesquisador Bernard]";
+		mes "Pronto, todos os preparativos foram concluídos.";
+		mes "Você pode voltar no tempo novamente e me trazer os Fragmentos de Gigantes?";
+		mes "Eu vou garantir que você seja devidamente recompensado.";
+		if (is_party_leader() == true) {
+			next;
+			if (select( "Não", "Sim" ) == 1) {
+				mes "[Pesquisador Bernard]";
+				mes "Configurei o Dispositivo Dimensional para o Glast Heim do passado, onde Fenrir e Sarah estiveram uma vez.";
+				mes "Não vai durar muito, então se apresse e volte logo.";
+				close;
+			}
+			instance_create("Sarah vs Fenrir");
+		}
+		close;
+	}
+}
+
+dali02,99,148,3	script	Dispositivo Dimensional#XX1	PORTAL,{
+	if (BaseLevel < 145) {
+		mes "- Você deve ter nível 145 ou superior.";
+		mes "Parece que a entrada é possível. -";
+		close;
+	}
+	switch( checkquest(9336,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "- O Dispositivo Dimensional foi fechado.";
+		mes "Parece que não é possível entrar. -";
+		close;
+	case 2:
+		break;
+	}
+	if (isbegin_quest(9335) > 0) {
+		mes "- O Dispositivo Dimensional foi fechado.";
+		mes "Parece que não é possível entrar. -";
+		close;
+	}
+	if (select( "Não entrar no Dispositivo.", "Entrar no Dispositivo Temporal." ) == 1) {
+		if (getcharid(1) > 0) {
+			mes "- Parece que o Dispositivo Dimensional ";
+			mes "vai distorcer o espaço-tempo -";
+			close;
+		}
+		mes "- Há uma presença úmida. -";
+		close;
+	}
+	.@md_name$ = "Sarah vs Fenrir";
+	switch( instance_enter(.@md_name$) ) {
+	case IE_OTHER:
+		mes "Ocorreu um erro desconhecido.";
+		close;
+	case IE_NOINSTANCE:
+		mes "A Instância " + .@md_name$ + " não existe.";
+		mes "O líder do grupo não criou a Instância.";
+		close;
+	case IE_NOMEMBER:
+		mes "Apenas membros do grupo podem entrar na Instância.";
+		close;
+	case IE_OK:
+		mapannounce "dali02", "O membro " + strcharinfo(0) + " do grupo " + getpartyname( getcharid(1) ) + " entrou na Sala " + .@md_name$ + "", bc_map,0xFF99,FW_NORMAL,12;
+		setquest 9335;// Procurar Fragmentos de Gigantes
+		if (isbegin_quest(9336) > 0)
+			erasequest 9336;
+		// warp "1@glast",367,304;
+		end;
+	}
+}
+
+dali02,93,146,6	script	Assistente do Pesquisador#a1	4_M_REPAIR,{
+	if (sarah_fenrir == 0)
+		end;
+	disable_items;
+	mes "[Assistente]";
+	mes "Ouvi falar de você através do pesquisador.";
+	mes "O pesquisador me disse para recompensá-lo devidamente por arriscar sua vida e trazer os Fragmentos de Gigantes.";
+	next;
+	switch( select( "Encantar Brinco.", "Comprar Brinco", "Encerrar conversa" ) ) {
+	case 1:
+		mes "[Assistente]";
+		mes "Os brincos de Sarah que descobrimos no sítio arqueológico certamente devem ter um grande potencial.";
+		next;
+		switch( select( "Encantar Brincos de Sarah", "Remover encantamento dos Brincos de Sarah", "Encerrar conversa" ) ) {
+		case 1:
+			mes "[Assistente]";
+			mes "São possíveis 2 encantamentos em um Brinco.";
+			mes "Qual Brinco você deseja encantar?";
+			next;
+			switch( select( "O Brinco esquerdo de Sarah", "O Brinco direito de Sarah", "Cancelar" ) ) {
+			case 1:
+				.@sarah_item_id = 28310;
+				.@sarah_earring$ = "esquerdo";
+				break;
+			case 2:
+				.@sarah_item_id = 28311;
+				.@sarah_earring$ = "direito";
+				break;
+			case 3:
+				mes "[Assistente]";
+				mes "Se você quiser um encantamento";
+				mes "nos brincos de Sarah,";
+				mes "venha me procurar novamente.";
+				close;
+			}
+			mes "[Assistente]";
+			mes "Você deve equipar o item para que o encantamento seja possível.";
+			mes "Qual coluna você deseja encantar?";
+			next;
+			if (select( "Coluna esquerda", "Coluna direita" ) == 1) {
+				.@part = EQI_ACC_L;
+				.@column$ = "esquerda";
+				.@bonus_size = 4;		// 4 possibilidades
+				.@bonus_chance = 20;	// 20% por possibilidade
+			}
+			else {
+				.@part = EQI_ACC_R;
+				.@column$ = "direita";
+				.@bonus_size = 6;		// 6 possibilidades
+				.@bonus_chance = 10;	// 10% por possibilidade
+			}
+			.@equip_id = getequipid(.@part);
+			if (.@equip_id != .@sarah_item_id) {
+				mes "[Assistente]";
+				mes "Se você deseja encantar, deve equipar o Brinco " + .@sarah_earring$ + " de Sarah.";
+				close;
+			}
+			setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+			if (.@card[2] > 0) {// 2 encantamentos
+				mes "[Assistente]";
+				mes "Um Brinco de Sarah totalmente encantado não pode ser encantado ainda mais.";
+				close;
+			}
+			if (.@card[3] > 0) {// 1 encantamento
+				mes "[Assistente]";
+				mes "O Brinco de Sarah está atualmente com encantamento no slot 4.";
+				.@slot = 3;
+			}
+			else {// nenhum encantamento
+				mes "[Assistente]";
+				mes "O Brinco de Sarah está atualmente sem encantamento.";
+				.@slot = 4;
+			}
+			next;
+			mes "[Assistente]";
+			mes "Qual habilidade você deseja como encantamento no slot " + .@slot + "?";
+			next;
+			switch( select( "Crítico Fatal ou Crítico", "Mira Apurada ou Esquiva Perfeita", "Economia ou ATQM", "Anti-Atraso ou Anti-Horário" ) ) {
+			case 1:
+				setarray .@bonus[0],
+					4863,	// Fatal1
+					4864,	// Fatal2
+					4939,	// Critical2
+					4940,	// Critical3
+					4941,	// Critical4
+					4865;	// Fatal3
+				mes "[Assistente]";
+				mes "Selecionado Crítico Fatal ou Crítico para o encantamento no slot " + .@slot + ".";
+				break;
+			case 2:
+				setarray .@bonus[0],
+					4832,	// Mira Apurada1
+					4833,	// Mira Apurada2
+					4942,	// Esquiva Perfeita1
+					4943,	// Esquiva Perfeita2
+					4944,	// Esquiva Perfeita3
+					4834;	// Mira Apurada3
+				mes "[Assistente]";
+				mes "Selecionado Mira Apurada ou Esquiva Perfeita para o encantamento no slot " + .@slot + ".";
+				break;
+			case 3:
+				setarray .@bonus[0],
+					4945,	// Economia1
+					4946,	// Economia2
+					4897,	// AtqM3p
+					4898,	// AtqM4p
+					4947,	// Economia3
+					4899;	// AtqM5p
+				mes "[Assistente]";
+				mes "Selecionado Economia ou ATQM para o encantamento no slot " + .@slot + ".";
+				break;
+			case 4:
+				setarray .@bonus[0],
+					4869,	// Anti-Atraso_1
+					4872,	// Anti-Atraso_2
+					4948,	// Anti-Horário1
+					4949,	// Anti-Horário2
+					4950,	// Anti-Horário3
+					4873;	// Anti-Atraso_3
+				mes "[Assistente]";
+				mes "Selecionado Anti-Atraso de ataques ou Anti-Horário de habilidades para o encantamento no slot " + .@slot + ".";
+				break;
+			}
+			next;
+			mes "[Assistente]";
+			mes "São necessários 4 Fragmentos de Gigantes para um encantamento.";
+			next;
+			mes "[Assistente]";
+			mes "Como o encantamento é um processo de alto risco, existe a chance do Brinco de Sarah ser destruído.";
+			mes "Ainda assim deseja prosseguir?";
+			next;
+			if (select( "Não", "Sim" ) == 1) {
+				mes "[Assistente]";
+				mes "Por favor, fale comigo novamente após tomar uma decisão!";
+				close;
+			}
+			if (countitem(6803) < 4) {
+				mes "[Assistente]";
+				mes "Não há Fragmentos de Gigantes suficientes.";
+				mes "São necessários 4 Fragmentos de Gigantes para realizar um encantamento.";
+				close;
+			}
+			mes "[Assistente]";
+			mes "Ótimo. Vou iniciar o encantamento!";
+			mes "Boa sorte~!";
+			next;
+			mes "[Assistente]";
+			mes "Aahhhh!!";
+			next;
+			progressbar "000000",5;
+			specialeffect2 EF_MAGICALATTHIT;
+			specialeffect2 EF_POTION2;
+			delitem 6803,4;// Fragmento de Gigantes
+
+			// anti-roubo
+			if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]))
+				close;
+
+			delequip .@part;
+			.@r = rand(100);
+			for ( .@i = 0; .@i < .@bonus_size && (.@bonus_chance * (.@i+1)) < .@r; .@i++ );
+			if (.@i == .@bonus_size) {
+				specialeffect2 EF_CRASHEARTH;
+				specialeffect2 EF_MAXPOWER;
+				mes "[Assistente]";
+				mes "Infelizmente... ele foi...";
+				mes "destruído...";
+				mes "Ufa.. ";
+				mes "encantar não é uma tarefa fácil.";
+				close;
+			}
+			.@card[.@slot-1] = .@bonus[.@i];
+			specialeffect2 EF_ANGEL2;
+			getitem2 .@sarah_item_id,1,1,0,0,.@card[0],.@card[1],.@card[2],.@card[3];
+			mes "[Assistente]";
+			mes "Encantamento concluído!";
+			close;
+		case 2:
+			mes "[Assistente]";
+			mes "Qual Brinco você deseja reiniciar?";
+			next;
+			switch( select( "O Brinco esquerdo de Sarah", "O Brinco direito de Sarah", "Cancelar" ) ) {
+			case 1:
+				.@sarah_item_id = 28310;
+				.@sarah_earring$ = "esquerdo";
+				break;
+			case 2:
+				.@sarah_item_id = 28311;
+				.@sarah_earring$ = "direito";
+				break;
+			case 3:
+				mes "[Assistente]";
+				mes "Se você quiser reiniciar o encantamento dos Brincos de Sarah, venha me procurar novamente.";
+				close;
+			}
+			mes "[Assistente]";
+			mes "Para reiniciar o encantamento do Brinco de Sarah, é necessário 1 Fragmento de Gigantes.";
+			next;
+			if (countitem(6803) < 1) {
+				mes "[Assistente]";
+				mes "Não há Fragmentos de Gigantes suficientes.";
+				mes "Você precisará deles para que a reinicialização possa ocorrer.";
+				close;
+			}
+			mes "[Assistente]";
+			mes "Você deve equipar o item para que a reinicialização seja possível.";
+			mes "Qual coluna de Brinco você deseja reiniciar?";
+			next;
+			if (select( "Coluna esquerda", "Coluna direita" ) == 1) {
+				.@part = EQI_ACC_L;
+				.@column$ = "esquerda";
+			}
+			else {
+				.@part = EQI_ACC_R;
+				.@column$ = "direita";
+			}
+			.@equip_id = getequipid(.@part);
+			setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+			if (.@equip_id == -1) {
+				mes "[Assistente]";
+				mes "Para reiniciar um encantamento, a coluna relevante deve estar equipada com um acessório.";
+				close;
+			}
+			if (.@equip_id != .@sarah_item_id) {
+				mes "[Assistente]";
+				mes "Para reiniciar um encantamento, a coluna relevante deve estar equipada com o Brinco de Sarah.";
+				close;
+			}
+			if (getequipcardid(.@part,3) < 1) {
+				mes "[Assistente]";
+				mes "Um Brinco de Sarah sem encantamento não pode ser reiniciado.";
+				close;
+			}
+			mes "[Assistente]";
+			mes "Você selecionou o Brinco " + .@sarah_earring$ + " de Sarah na coluna " + .@column$ + ".";
+			mes "É impossível restaurar habilidades perdidas após a reinicialização.";
+			mes "Ainda assim deseja prosseguir?";
+			next;
+			if (select( "Não", "Sim" ) == 2) {
+				mes "[Assistente]";
+				mes "Sim senhor. A reinicialização irá começar.";
+				next;
+				progressbar "000000",5;
+				specialeffect2 EF_MAGICALATTHIT;
+				specialeffect2 EF_POTION2;
+				specialeffect2 EF_ANGEL2;
+				delitem 6803,1;// Fragmento de Gigantes
+
+				// anti-roubo
+				if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]))
+					close;
+
+				delequip .@part;
+				getitem .@sarah_item_id,1;
+				mes "[Assistente]";
+				mes "Reinicialização concluída.";
+				mes "Por favor, me procure se precisar de mim.";
+			}
+			close;
+		case 3:
+			mes "[Assistente]";
+			mes "Se você quiser um encantamento nos brincos de Sarah, venha me procurar novamente.";
+			close;
+		}
+	case 2:
+		mes "[Assistente]";
+		mes "Relacionado a Glast Heim, este é um Brinco único e raro encontrado durante uma escavação com o pesquisador.";
+		next;
+		mes "[Assistente]";
+		mes "Acredito que isso tenha sido usado por Sarah no passado e parece ter uma grande habilidade de extrair força potencial.";
+		next;
+		mes "[Assistente]";
+		mes "Vou trocar especialmente por 1 Fragmento, já que você é o guerreiro que trouxe Fragmentos de Gigantes para o trabalho do pesquisador.";
+		next;
+		mes "[Assistente]";
+		mes "- O Brinco esquerdo de Sarah -";
+		mes "Utilizável para Curar nv. 1";
+		mes "- O Brinco direito de Sarah -";
+		mes "Utilizável para Teleporte nv. 1";
+		mes "-----------------------";
+		mes "Qual você deseja?";
+		next;
+		.@s = select( "O Brinco esquerdo de Sarah", "O Brinco direito de Sarah", "Encerrar conversa" ) - 1;
+		if (.@s < 2) {
+			if (countitem(6803) < 1) {
+				mes "[Assistente]";
+				mes "Não há Fragmentos de Gigantes suficientes.";
+				mes "Você precisará deles para que eu possa trocar com você.";
+				close;
+			}
+			delitem 6803,1;// Fragmento de Gigantes
+			getitem (28310+.@s),1;
+		}
+		mes "[Assistente]";
+		mes "O Pesquisador Bernard é o pesquisador que eu mais respeito.";
+		mes "Você tem alguém que respeita?";
+		close;
+	case 3:
+		mes "[Assistente]";
+		mes "Ouvi falar de você através do pesquisador.";
+		mes "O pesquisador me disse para recompensá-lo devidamente por arriscar sua vida e trazer os Fragmentos de Gigantes.";
+		close;
+	}
+}
+
+1@glast,360,295,0	script	#glast_event_1	HIDDEN_WARP_NPC,8,8,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("#glast_event_1");
+	setpcblock PCBLOCK_NPC, true;
+	specialeffect2 EF_HIT2;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Hã? Tem alguém aí? Olá~ Você deve ser um viajante.";
+	sleep2 3000;
+	cutin "fenrir_a.bmp",2;
+	npctalk "Fenris Fenrir: Isso é estranho... Não me lembro do castelo de Glast Heim estar tomado por uma presença tão sombria...", 'fenrir_1$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Cumprimentos podem esperar! Cuidado! Parece que alguém invocou um monstro!", 'fenrir_1$;
+	sleep2 3000;
+	cutin "",255;
+	specialeffect EF_LOCKON, AREA, 'fenrir_1$;
+	.@label$ = instance_npcname("#glast_event_1") + "::OnMobDead";
+	monster 'map_glast$,355,300, "Galion Ancestral",3198,1, .@label$;	// MM_M_GALION
+	monster 'map_glast$,358,300, "Galion Ancestral",3198,1, .@label$;
+	monster 'map_glast$,361,300, "Galion Ancestral",3198,1, .@label$;
+	monster 'map_glast$,355,289, "Galion Ancestral",3198,1, .@label$;
+	monster 'map_glast$,358,289, "Galion Ancestral",3198,1, .@label$;
+	monster 'map_glast$,364,294, "Galion Ancestral",3198,1, .@label$;
+	monster 'map_glast$,364,297, "Galion Ancestral",3198,1, .@label$;
+	monster 'map_glast$,364,291, "Galion Ancestral",3198,1, .@label$;
+	monster 'map_glast$,353,290, "Galion Ancestral",3198,1, .@label$;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : O que são essas coisas?";
+	npctalk "Fenris Fenrir: Ganhe tempo enquanto eu conjuro magia! Eu vou lidar com isso!", 'fenrir_1$;
+	donpcevent instance_npcname("#glast_event_1") + "::OnBar";
+	donpcevent instance_npcname("#glast_event_1") + "::OnEvent";
+	setpcblock PCBLOCK_NPC, false;
+	end;
+OnBar:
+	progressbar_npc "000000",10, 'fenrir_1$;
+	end;
+
+OnEvent:
+	// npctalk "Fenris Fenrir: Ganhe tempo enquanto eu conjuro magia! Eu vou lidar com isso!", 'fenrir_1$;// o dobro no oficial
+	sleep 3000;
+	npctalk "Fenris Fenrir: Ira do verdadeiro céu.", 'fenrir_1$;
+	sleep 3000;
+	npctalk "Fenris Fenrir: Relâmpago que pode partir a terra!", 'fenrir_1$;
+	sleep 3000;
+	npctalk "Fenris Fenrir: Caiam diante de mim agora!", 'fenrir_1$;
+	sleep 3000;
+	npctalk "Fenris Fenrir: Aaah!! Tempestade de Raios!!!!!", 'fenrir_1$;
+	for ( .@i = 1; .@i < 8; .@i++ )
+		specialeffect EF_THUNDERSTORM, AREA, instance_npcname( "#effect_glast_event01_" + .@i );
+	killmonster 'map_glast$, instance_npcname("#glast_event_1") + "::OnMobDead";
+	sleep 4000;
+	npctalk "Fenris Fenrir: Glast Heim, que já foi a catedral dos deuses de Asgard.", 'fenrir_1$;
+	sleep 3000;
+	npctalk "Fenris Fenrir: Agora se tornou completamente um habitat de monstros.", 'fenrir_1$;
+	sleep 3000;
+	npctalk "Fenris Fenrir: Espere... Pensando bem, algo está estranho.", 'fenrir_1$;
+	sleep 3000;
+	npctalk "Fenris Fenrir: Galions são monstros que habitam esta região.", 'fenrir_1$;
+	sleep 3000;
+	enablenpc instance_npcname("#glast_event_3");
+	end;
+
+OnMobDead:
+	end;
+}
+
+1@glast,360,295,0	script	#glast_event_3	HIDDEN_WARP_NPC,8,8,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("#glast_event_3");
+	setpcblock PCBLOCK_NPC, true;
+	cutin "fenrir_a.bmp",2;
+	npctalk "Fenris Fenrir: A propósito, eu sei que foi repentino, mas obrigado por ajudar.", 'fenrir_1$;
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Enfim, quem é você?", 'fenrir_1$;
+	sleep2 2000;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Ah.. isso é...";
+	sleep2 2000;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : ... Eu sou um viajante que vagueia pelo mundo!";
+	sleep2 2000;
+	npctalk "Fenris Fenrir: É mesmo...? Entendo... Acho que não importa.", 'fenrir_1$;
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Este lugar parece bem perigoso agora. Ainda dá tempo de voltar.", 'fenrir_1$;
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Há um objeto que preciso encontrar. Preciso me apressar antes que seja tarde demais.", 'fenrir_1$;
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Talvez você possa me ajudar...", 'fenrir_1$;
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Não... Então obrigado! Espero que possamos nos encontrar novamente mais tarde!", 'fenrir_1$;
+	sleep2 3000;
+	cutin "",255;
+	specialeffect EF_LOCKON, AREA, 'fenrir_1$;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Aquela... pessoa... realmente era... o... Fenrir..? Sem chance... provavelmente não...";
+
+	disablenpc 'fenrir_1$;
+	for ( .@i = 1; .@i < 8; .@i++ )
+		disablenpc instance_npcname("#effect_glast_event01_" + .@i);
+	enablenpc instance_npcname("#glast_move_01");
+	enablenpc instance_npcname("#glast_event_5");
+	enablenpc 'fenrir_2$;
+	setpcblock PCBLOCK_NPC, false;
+	end;
+}
+
+1@glast,359,296,4	script	#effect_glast_event01_1	CLEAR_NPC,{ end; }
+1@glast,353,294,4	duplicate(#effect_glast_event01_1)	#effect_glast_event01_2	CLEAR_NPC
+1@glast,360,304,4	duplicate(#effect_glast_event01_1)	#effect_glast_event01_3	CLEAR_NPC
+1@glast,366,295,4	duplicate(#effect_glast_event01_1)	#effect_glast_event01_4	CLEAR_NPC
+1@glast,352,304,4	duplicate(#effect_glast_event01_1)	#effect_glast_event01_5	CLEAR_NPC
+1@glast,356,284,4	duplicate(#effect_glast_event01_1)	#effect_glast_event01_6	CLEAR_NPC
+1@glast,345,283,4	duplicate(#effect_glast_event01_1)	#effect_glast_event01_7	CLEAR_NPC
+
+1@glast,359,294,4	duplicate(#effect_glast_event01_1)	Fenris Fenrir#glast_01	4_F_FENRIR
+
+// Portais
+// A partir da entrada
+1@glast,352,279,0	script	#glast_move_01	WARPNPC,4,4,{
+	end;
+OnTouch:
+	if ('back_to_entrance == 0)
+		warp 'map_glast$,347,265;
+	else {
+		disablenpc instance_npcname("#glast_move_01");
+		initnpctimer;
+	}
+	end;
+
+OnTimer1500:
+	specialeffect EF_FIREPILLARON2, AREA, 'sarah_ego$;
+	end;
+OnTimer2000:
+	hideoffnpc 'sarah_ego$;
+	specialeffect EF_WHITEBODY, AREA, 'sarah_ego$;
+	end;
+OnTimer3000:
+	npctalk "Sara Irine: Impressionante, Fenris Fenrir... você escapou com astúcia.", 'sarah_ego$;
+	end;
+OnTimer7500:
+	npctalk "Sara Irine: Hm... hoje eu vou fazer você se render.", 'sarah_ego$;
+	end;
+OnTimer8000:
+	npctalk "Fenris Fenrir: Hoje eu espero encerrar nossa relação maldita.", 'fenrir_11$;
+	end;
+OnTimer11000:
+	npctalk "Sara Irine: Porém, não pense que este é o fim.", 'sarah_ego$;
+	end;
+OnTimer14000:
+	npctalk "Sara Irine: Você com certeza vai me ver novamente!!!", 'sarah_ego$;
+	end;
+OnTimer14500:
+	npctalk "Fenris Fenrir: Hm... eu estou ansioso por isso, Sara Irine..", 'fenrir_11$;
+	specialeffect EF_FIREPILLARON2, AREA, 'sarah_ego$;
+	end;
+OnTimer15500:
+	stopnpctimer;
+	disablenpc 'sarah_ego$;
+	end;
+}
+
+// Fenrir lado esquerdo
+// 1@glast,42,350,0	warp2	#glast_event_warp_1	10,10,1@glast,105,369
+// 1@glast,52,346,0	warp2	#glast_event_warp_2	10,10,1@glast,105,369
+// 1@glast,35,364,0	warp2	#glast_event_warp_3	10,10,1@glast,105,369
+// 1@glast,41,364,0	warp2	#glast_event_warp_4	10,10,1@glast,105,369
+// 1@glast,44,371,0	warp2	#glast_event_warp_5	10,10,1@glast,105,369
+// 1@glast,54,362,0	warp2	#glast_event_warp_6	10,10,1@glast,105,369
+// 1@glast,44,358,0	warp2	#glast_event_warp_7	10,10,1@glast,105,369
+
+// Para a escada da sala final
+1@glast,199,237,0	script	#glast_move_03	WARPNPC,2,2,{
+	end;
+OnTouch:
+	if (is_party_leader() == true) {
+		// warpparty 'map_glast$,197,263, getcharid(1), 'map_glast$,1,1;	// usando mapwarp por enquanto
+		mapwarp 'map_glast$,'map_glast$,197,263;
+	}
+	end;
+}
+
+// Para a sala final
+1@glast,199,294,0	script	#glast_move_03a	WARPNPC,3,3,{
+	end;
+OnTouch:
+	if (is_party_leader() == true) {
+		// warpparty 'map_glast$,188,334, getcharid(1), 'map_glast$,1,1;
+		mapwarp 'map_glast$,'map_glast$,188,334;
+	}
+	end;
+}
+
+// Saída da sala final
+//1@glast,189,331,0	warp2	#glast_event_warp_11	10,10,1@glast,197,221
+//1@glast,206,337,0	warp2	#glast_event_warp_12	10,10,1@glast,197,221
+//1@glast,205,330,0	warp2	#glast_event_warp_13	10,10,1@glast,197,221
+//1@glast,193,337,0	warp2	#glast_event_warp_14	10,10,1@glast,197,221
+//1@glast,210,331,0	warp2	#glast_event_warp_15	10,10,1@glast,197,221
+//1@glast,194,330,0	warp2	#glast_event_warp_16	10,10,1@glast,197,221
+
+// Voltar para a entrada
+1@glast,351,269,0	script	#glast_move_04	WARPNPC,3,3,{
+	end;
+OnTouch:
+	if (is_party_leader() == true) {
+		donpcevent instance_npcname("#sarah_wrath") + "::OnStop";
+		// warpparty 'map_glast$,349,282, getcharid(1), 'map_glast$,1,1;
+		mapwarp 'map_glast$,'map_glast$,349,282;
+	}
+	end;
+}
+
+// Saída
+1@glast,376,303,0	warp2	#glast_move_05	2,2,dali02,91,140
+
+// Fenrir parte inferior
+1@glast,216,48,0	script	#glast_event_5	HIDDEN_WARP_NPC,6,6,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("#glast_event_5");
+	setpcblock PCBLOCK_NPC, true;
+	cutin "fenrir_a.bmp",2;
+	npctalk "Fenris Fenrir: Você ainda está em Glast Heim? Por que não está indo embora deste lugar perigoso?", 'fenrir_2$;
+	sleep2 2000;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Eu sei que é perigoso, mas achei que seria divertido, então não consegui me segurar..";
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Hm... aventureiros...", 'fenrir_2$;
+	sleep2 2000;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Não precisa se preocupar~! Eu sou bem forte também!";
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Oh... é mesmo? Então você acha que pode me ajudar?", 'fenrir_2$;
+	sleep2 2000;
+	npctalk "Fenris Fenrir: O objeto que estou procurando fica em algum lugar de Glast Heim!", 'fenrir_2$;
+	viewpoint 1,47,270,1,0xFF0000;
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Mas outros que estão procurando esse objeto chegarão lá em breve!", 'fenrir_2$;
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Isso é urgente porque não temos tempo. Precisamos chegar lá logo. No máximo em 5 minutos!", 'fenrir_2$;
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Eu estarei esperando! Se você se atrasar, eu vou ter que ir sozinho!", 'fenrir_2$;
+	sleep2 2000;
+	npctalk "Fenris Fenrir: Certo, eu vou na frente e você decide se vai me ajudar!", 'fenrir_2$;
+	sleep2 3000;
+	cutin "",255;
+	disablenpc 'fenrir_2$;
+	sleep2 1000;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Hm... o que eu devo fazer..? Eu preciso de Fragmentos de Gigantes como solicitado pelo Pesquisador Bernard.";
+	sleep2 2000;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Eu devo ajudar aquela pessoa... ou devo procurar os Gigantes para pegar os fragmentos como o Pesquisador Bernard pediu.?";
+	sleep2 2000;
+	donpcevent instance_npcname("#fenrir_left_final_2") + "::OnStart";// tempo (5 minutos)
+	for ( .@i = 1; .@i < 7; .@i++ )
+		enablenpc instance_npcname("Gigante Ancestral#glast_" + .@i);
+	enablenpc 'fenrir_3$;
+	enablenpc instance_npcname("#glast_event_7");
+	disablenpc instance_npcname("#glast_move_01");	// oficialmente o jogador pode ficar preso na entrada
+	setpcblock PCBLOCK_NPC, false;
+	end;
+}
+
+1@glast,216,52,6	script	Fenris Fenrir#glast_02	4_F_FENRIR,{ end; }
+
+// Fenrir lado esquerdo, entrada
+1@glast,47,270,0	script	#glast_event_7	HIDDEN_WARP_NPC,5,5,{
+	end;
+OnTouch:
+	if (is_party_leader() == false)
+		npctalk "Fenris Fenrir: Eu gostaria que o líder do seu grupo viesse me ajudar!", 'fenrir_3$;
+	else {
+		setpcblock PCBLOCK_NPC, true;
+		disablenpc instance_npcname("#glast_event_7");
+		npctalk "Fenris Fenrir: Você veio! Eu estava esperando!", 'fenrir_3$;
+		sleep2 2000;
+		npctalk "Fenris Fenrir: Não temos muito tempo! Temos que ir procurar agora! Vamos entrar!", 'fenrir_3$;
+		sleep2 2000;
+		setpcblock PCBLOCK_NPC, false;
+		if ('skip_left_part == 0 && is_party_leader() == true) {// 5 minutos se passaram?
+			donpcevent instance_npcname("#fenrir_left_final_2") + "::OnStop";
+			disablenpc 'fenrir_3$;
+			enablenpc 'fenrir_4$;
+			enablenpc instance_npcname("#glast_event_9");
+			// warpparty 'map_glast$,41,348, getcharid(1), 'map_glast$,1,1;
+			mapwarp 'map_glast$,'map_glast$,41,348;
+		}
+	}
+	end;
+}
+
+1@glast,47,270,4	duplicate(#effect_glast_event01_1)	Fenris Fenrir#glast_03	4_F_FENRIR
+
+// Fenrir lado esquerdo, interior
+1@glast,44,357,0	script	#glast_event_9	HIDDEN_WARP_NPC,3,3,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("#glast_event_9");
+	setpcblock PCBLOCK_NPC, true;
+	cutin "fenrir_a.bmp",2;
+	npctalk "Fenris Fenrir: A Espada de Baldur, Brisa Sentinela... mesmo depois de 1000 anos..", 'fenrir_4$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Eu consigo sentir o mal dos monstros neste lugar... como se estivessem sendo controlados por alguém..", 'fenrir_4$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Então há outra pessoa aqui além de mim?", 'fenrir_4$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Isso serve... agora só preciso usar a Brisa Sentinela para encontrar o paradeiro de Baldur.", 'fenrir_4$;
+	sleep2 3000;
+	enablenpc 'sarah_10$;
+	enablenpc instance_npcname("Gigante#semi1");
+	enablenpc instance_npcname("Gigante#semi2");
+	sleep2 1000;
+	cutin "sarah_hero3.bmp",0;
+	npctalk "Sara Irine: Hehe.. entendo... exatamente como eu esperava.", 'sarah_10$;
+	sleep2 3000;
+	npctalk "Sara Irine: Aquela lâmina era a pista?", 'sarah_10$;
+	sleep2 3000;
+	npctalk "Sara Irine: Então, Fenris Fenrir... isso significa que um selo de 1000 anos pode ser quebrado com ela?", 'sarah_10$;
+	sleep2 3500;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Será que ele era o verdadeiro Fenrir?";
+	npctalk "Fenris Fenrir: Isso só pode ser... Valquíria! Agora não tem mais graça", 'fenrir_4$;
+	cutin "fenrir_b.bmp",2;
+	sleep2 5000;
+	npctalk "Sara Irine: Saudações tardias. Meu nome é Sara Irine, uma das 12 Valquírias de Valhalla.", 'sarah_10$;
+	cutin "sarah_hero3.bmp",0;
+	sleep2 3000;
+	npctalk "Sara Irine: De qualquer forma, também para cumprir a vontade de Freyja... hehe..", 'sarah_10$;
+	npctalk "Fenris Fenrir: Dois Gigantes! Essa não será uma luta fácil. Me ajude e derrote os Gigantes!", 'fenrir_4$;
+	cutin "fenrir_b.bmp",2;
+	sleep2 3000;
+	npctalk "Sara Irine: Avancem! Gigantes! E meus monstros leais!", 'sarah_10$;
+	npctalk "Fenris Fenrir: Sarah vai se esconder e invocar monstros continuamente! Eu vou cuidar daquele monstro, você enfrente os Gigantes!", 'fenrir_4$;
+	cutin "fenrir_b.bmp",255;
+	sleep2 2000;
+	disablenpc 'sarah_10$;
+	disablenpc instance_npcname("Gigante#semi1");
+	disablenpc instance_npcname("Gigante#semi2");
+	enablenpc instance_npcname("#fenrir_left_final_1");
+	monster 'map_glast$,49,363, "Gigante#semi1", 3191,1, instance_npcname("#fenrir_left_final_1") + "::OnMobDead";// MM_M_GIGAN1
+	monster 'map_glast$,41,363, "Gigante#semi2", 3192,1, instance_npcname("#fenrir_left_final_1") + "::OnMobDead";// MM_M_GIGAN2
+	donpcevent instance_npcname("#glast_event_9") + "::OnEvent";
+	setpcblock PCBLOCK_NPC, false;
+	end;
+OnEvent:
+	sleep 15000;
+	'timer_left_side = 0;
+	donpcevent instance_npcname("#glast_event_9") + "::OnStart";
+	end;
+
+OnStart:
+	initnpctimer;
+	npctalk "Fenris Fenrir: Correntes vibrando na atmosfera! Mostre-me sua força!", 'fenrir_4$;
+	callsub S_Spawn,1,3198;// MM_M_GALION
+
+	progressbar_npc "000000",5, 'fenrir_4$;	// nota: exibir efeito após a morte do Gigantes
+	npctalk "Fenris Fenrir: Relâmpago!!!", 'fenrir_4$;
+	for ( .@i = 1; .@i < 9; .@i++ )
+		specialeffect EF_LIGHTBOLT, AREA, instance_npcname("#effect_glast_event02_" + .@i);
+	end;
+OnTimer6000:
+	killmonster 'map_glast$, instance_npcname("#glast_event_9") + "::OnMobDead";
+	end;
+OnTimer15000:
+	npctalk "Fenris Fenrir: Devore esta presença maligna com o fogo do abismo do universo!", 'fenrir_4$;
+	callsub S_Spawn,2,3198;// MM_M_GALION
+	progressbar_npc "000000",5, 'fenrir_4$;
+	npctalk "Fenris Fenrir: Chamas do inferno que podem engolir até o espaço! Chuva de Meteoros~!!!!!", 'fenrir_4$;
+	for ( .@i = 1; .@i < 9; .@i++ )
+		specialeffect EF_METEORSTORM, AREA, instance_npcname("#effect_glast_event02_" + .@i);
+	end;
+OnTimer21000:
+	killmonster 'map_glast$, instance_npcname("#glast_event_9") + "::OnMobDead";
+	end;
+OnTimer30000:
+	npctalk "Fenris Fenrir: Correntes vibrando na atmosfera! Mostre-me sua força!", 'fenrir_4$;
+	callsub S_Spawn,1,3199;// MM_M_MUTANT_DRAGON
+	progressbar_npc "000000",5, 'fenrir_4$;
+	npctalk "Fenris Fenrir: Relâmpago!!!", 'fenrir_4$;
+	for ( .@i = 1; .@i < 9; .@i++ )
+		specialeffect EF_LIGHTBOLT, AREA, instance_npcname("#effect_glast_event02_" + .@i);
+	end;
+OnTimer36000:
+	killmonster 'map_glast$, instance_npcname("#glast_event_9") + "::OnMobDead";
+	end;
+OnTimer45000:
+	npctalk "Fenris Fenrir: Congele a presença maligna com o vento gelado!!!", 'fenrir_4$;
+	callsub S_Spawn,2,3199;// MM_M_MUTANT_DRAGON
+	progressbar_npc "000000",5, 'fenrir_4$;
+	npctalk "Fenris Fenrir: Uma tempestade que pode congelar até a alma!! Nevasca~!!!!!", 'fenrir_4$;
+	for ( .@i = 1; .@i < 9; .@i++ )
+		specialeffect EF_STORMGUST, AREA, instance_npcname("#effect_glast_event02_" + .@i);
+	end;
+OnTimer51000:
+	killmonster 'map_glast$, instance_npcname("#glast_event_9") + "::OnMobDead";
+	end;
+OnTimer55000:
+	'timer_left_side++;
+	if ('timer_left_side == 5) {
+		stopnpctimer;
+		donpcevent instance_npcname("#fenrir_left_vermilion") + "::OnEvent";
+	}
+	end;
+OnTimer60000:
+	donpcevent instance_npcname("#glast_event_9") + "::OnStart";
+	end;
+
+OnStop:
+	stopnpctimer;
+	end;
+
+OnMobDead:
+	end;
+
+S_Spawn:
+	.@mob_id = getarg(1);
+	.@label$ = instance_npcname("#glast_event_9") + "::OnMobDead";
+	if (getarg(0) == 1) {
+		monster 'map_glast$,43,355, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,39,361, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,48,361, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,43,363, "--ja--", .@mob_id,1, .@label$;
+	}
+	else {
+		monster 'map_glast$,37,360, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,37,362, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,37,364, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,37,366, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,37,368, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,41,371, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,50,360, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,50,362, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,50,364, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,50,366, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,50,368, "--ja--", .@mob_id,1, .@label$;
+		monster 'map_glast$,46,371, "--ja--", .@mob_id,1, .@label$;
+	}
+	return;
+}
+
+1@glast,1,1,0	script	#fenrir_left_vermilion	HIDDEN_WARP_NPC,{
+	end;
+OnEvent:
+	enablenpc instance_npcname("#fenrir_left_vermilion");
+	initnpctimer;
+	npctalk "Fenris Fenrir: Eles não param de vir. Eu preciso acabar com isso de uma vez.", 'fenrir_4$;
+	progressbar_npc "000000",10, 'fenrir_4$;
+	end;
+OnTimer2000:
+	npctalk "Fenris Fenrir: Monarca infinitamente distante, com o belo sopro escarlate!!", 'fenrir_4$;
+	end;
+OnTimer4000:
+	npctalk "Fenris Fenrir: Por onde você passar, só restará o vazio.", 'fenrir_4$;
+	end;
+OnTimer7000:
+	npctalk "Fenris Fenrir: Poder para abalar o eixo da terra! Mostre sua graça aqui e agora!!!", 'fenrir_4$;
+	end;
+OnTimer10000:
+	stopnpctimer;
+	npctalk "Fenris Fenrir: Ira de Thor!!!!", 'fenrir_4$;
+	for ( .@i = 1; .@i < 9; .@i++ )
+		specialeffect EF_LORD, AREA, instance_npcname("#effect_glast_event02_" + .@i);
+	killmonster 'map_glast$, instance_npcname("#fenrir_left_final_1") + "::OnMobDead";
+	donpcevent instance_npcname("#fenrir_left_final_1") + "::OnStart";
+	disablenpc instance_npcname("#fenrir_left_vermilion");
+	end;
+OnStop:
+	stopnpctimer;
+	disablenpc instance_npcname("#fenrir_left_vermilion");
+	end;
+}
+
+1@glast,1,1,0	script	#fenrir_left_final_1	HIDDEN_WARP_NPC,{
+	end;
+OnStart:
+	initnpctimer;
+	end;
+OnTimer2000:
+	npctalk "Fenris Fenrir: Certo! Derrotamos um Gigante!", 'fenrir_4$;
+	enablenpc 'sarah_10$;
+	end;
+OnTimer4000:
+	npctalk "Sara Irine: Como esperado, Fenris Fenrir, você não se rende facilmente!", 'sarah_10$;
+	end;
+OnTimer7000:
+	npctalk "Fenris Fenrir: Afaste-se da Brisa Sentinela imediatamente!", 'fenrir_4$;
+	end;
+OnTimer9000:
+	npctalk "Sara Irine: Hehe.. eu não posso fazer isso!", 'sarah_10$;
+	specialeffect EF_WL_TELEKINESIS_INTENSE, AREA, instance_npcname("#effect_glast_event02_bis");
+	end;
+OnTimer11000:
+	npctalk "Sara Irine: Se você quer ela de volta, venha ao Castelo de Glast Heim! Eu estarei esperando!", 'sarah_10$;
+	end;
+OnTimer13000:
+	specialeffect EF_FIREPILLARON2, AREA, 'sarah_10$;
+	end;
+OnTimer14000:
+	disablenpc 'sarah_10$;
+	end;
+OnTimer16000:
+	npctalk "Fenris Fenrir: Precisamos segui-la rápido para recuperar a espada! Vou usar uma magia de teleporte em grupo!", 'fenrir_4$;
+	end;
+OnTimer19000:
+	npctalk "Fenris Fenrir: Teleporte simultâneo em larga escala!", 'fenrir_4$;
+	end;
+OnTimer20000:
+	stopnpctimer;
+	//for ( .@i = 1; .@i < 8; .@i++ )
+	//	enablenpc instance_npcname("#glast_event_warp_" + .@i);	// portal para 105,369
+	areawarp 'map_glast$,26,338,59,375, 'map_glast$,105,369;
+	for ( .@i = 1; .@i < 9; .@i++ )
+		disablenpc instance_npcname("#effect_glast_event02_" + .@i);
+	disablenpc instance_npcname("#effect_glast_event02_bis");
+	disablenpc instance_npcname("#fenrir_left_final_1");
+	disablenpc 'fenrir_4$;
+	enablenpc instance_npcname("#glast_event_13");
+	enablenpc 'fenrir_5$;
+	end;
+
+OnMobDead:
+	if (mobcount( 'map_glast$, instance_npcname("#fenrir_left_final_1") + "::OnMobDead" ) < 1) {
+		donpcevent instance_npcname("#glast_event_9") + "::OnStop";
+		donpcevent instance_npcname("#fenrir_left_vermilion") + "::OnStop";
+		donpcevent instance_npcname("#fenrir_left_final_1") + "::OnStart";
+	}
+	end;
+}
+
+1@glast,44,357,8	duplicate(#effect_glast_event01_1)	Fenris Fenrir#glast_04	4_F_FENRIR
+1@glast,49,363,4	duplicate(#effect_glast_event01_1)	Gigante#semi1	4_GIGANTES_SMALL
+1@glast,41,363,4	duplicate(#effect_glast_event01_1)	Gigante#semi2	4_GIGANTES_SMALL
+1@glast,46,364,4	duplicate(#effect_glast_event01_1)	Sara Irine#glast_10	4_F_SARAH
+
+1@glast,52,345,4	duplicate(#effect_glast_event01_1)	#effect_glast_event02_1	CLEAR_NPC
+1@glast,44,350,4	duplicate(#effect_glast_event01_1)	#effect_glast_event02_2	CLEAR_NPC
+1@glast,35,360,4	duplicate(#effect_glast_event01_1)	#effect_glast_event02_3	CLEAR_NPC
+1@glast,44,360,4	duplicate(#effect_glast_event01_1)	#effect_glast_event02_4	CLEAR_NPC
+1@glast,52,360,4	duplicate(#effect_glast_event01_1)	#effect_glast_event02_5	CLEAR_NPC
+1@glast,35,368,4	duplicate(#effect_glast_event01_1)	#effect_glast_event02_6	CLEAR_NPC
+1@glast,53,368,4	duplicate(#effect_glast_event01_1)	#effect_glast_event02_7	CLEAR_NPC
+1@glast,44,371,4	duplicate(#effect_glast_event01_1)	#effect_glast_event02_8	CLEAR_NPC
+1@glast,44,366,4	duplicate(#effect_glast_event01_1)	#effect_glast_event02_bis	CLEAR_NPC
+
+// Lado superior do evento
+1@glast,133,365,0	script	#glast_event_13	HIDDEN_WARP_NPC,8,8,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("#glast_event_13");
+	//for ( .@i = 1; .@i < 8; .@i++ )
+	//	disablenpc instance_npcname("#glast_event_warp_" + .@i);
+	setpcblock PCBLOCK_NPC, true;
+	cutin "fenrir_a.bmp",2;
+	sleep2 1000;
+	npctalk "Fenris Fenrir: Eu preciso ir ao Castelo de Glast Heim para recuperar a espada de Baldur.", 'fenrir_5$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Pode ser difícil sozinho, então eu aceitaria sua ajuda com gratidão.", 'fenrir_5$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Como não temos muito tempo, não podemos esperar por muito tempo.", 'fenrir_5$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Eu vou esperar por cerca de 5 minutos no castelo central de Glast Heim.", 'fenrir_5$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Como é perigoso, você não precisa se sentir obrigado a me ajudar. Eu tentarei sozinho se for necessário.", 'fenrir_5$;
+	viewpoint 1,199,237,1,0xFF0000;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Então eu vou na frente! Teleporte!", 'fenrir_5$;
+	cutin "",255;
+	donpcevent instance_npcname("#glast_event_13") + "::OnBar";
+	setpcblock PCBLOCK_NPC, false;
+	end;
+OnBar:
+	progressbar_npc "000000",3, 'fenrir_5$;
+	disablenpc 'fenrir_5$;
+	donpcevent instance_npcname("#fenrir_boss_final_2") + "::OnStart";// tempo (5 minutos)
+	enablenpc instance_npcname("#glast_move_03");
+	enablenpc instance_npcname("#glast_event_15");
+	enablenpc 'fenrir_6$;
+	end;
+}
+
+1@glast,133,365,4	duplicate(#effect_glast_event01_1)	Fenris Fenrir#glast_05	4_F_FENRIR
+
+// Pulei o lado esquerdo
+1@glast,1,1,0	script	#fenrir_left_final_2	HIDDEN_WARP_NPC,{
+	end;
+OnStart:
+	enablenpc instance_npcname("#fenrir_left_final_2");
+	initnpctimer;
+	end;
+OnTimer300000:
+	'skip_left_part = 1;
+	disablenpc instance_npcname("#glast_event_7");
+	disablenpc 'fenrir_3$;
+	mapannounce 'map_glast$, "Fenris Fenrir: Certo! Nós derrotamos um Gigantes!", bc_map,0xEBFF;
+	end;
+OnTimer302000:
+	mapannounce 'map_glast$, "Sara Irine: Como esperado, Fenris Fenrir, você não se rende facilmente!", bc_map,0xEBFF;
+	end;
+OnTimer305000:
+	mapannounce 'map_glast$, "Fenris Fenrir: Afaste-se da Brisa Sentinela imediatamente!", bc_map,0xEBFF;
+	end;
+OnTimer307000:
+	mapannounce 'map_glast$, "Sara Irine: Hehe.. eu não posso fazer isso!", bc_map,0xEBFF;
+	end;
+OnTimer309000:
+	mapannounce 'map_glast$, "Sara Irine: Se você quer ela de volta, venha ao Castelo de Glast Heim! Eu estarei esperando!", bc_map,0xEBFF;
+	end;
+OnTimer311000:
+	mapannounce 'map_glast$, "Fenris Fenrir: Eu preciso ir ao Castelo de Glast Heim para recuperar a espada de Baldur.", bc_map,0xEBFF;
+	end;
+OnTimer313000:
+	mapannounce 'map_glast$, "Fenris Fenrir: Pode ser difícil sozinho. Se você estiver ouvindo, eu aceitaria sua ajuda com gratidão.", bc_map,0xEBFF;
+	end;
+OnTimer315000:
+	mapannounce 'map_glast$, "Fenris Fenrir: Como não temos muito tempo, não podemos esperar por muito tempo.", bc_map,0xEBFF;
+	end;
+OnTimer317000:
+	mapannounce 'map_glast$, "Fenris Fenrir: Eu vou esperar por cerca de 5 minutos no castelo central de Glast Heim.", bc_map,0xEBFF;
+	end;
+OnTimer319000:
+	stopnpctimer;
+	mapannounce 'map_glast$, "Fenris Fenrir: Como é perigoso, você não precisa se sentir obrigado a me ajudar. Eu tentarei sozinho se for necessário.", bc_map,0xEBFF;
+	enablenpc instance_npcname("#glast_move_03");
+	enablenpc 'fenrir_6$;
+	enablenpc instance_npcname("#glast_event_15");
+	disablenpc instance_npcname("#fenrir_left_final_2");
+	donpcevent instance_npcname("#fenrir_boss_final_2") + "::OnStart";// tempo (5 minutos)
+	end;
+OnStop:
+	stopnpctimer;
+	disablenpc instance_npcname("#fenrir_left_final_2");
+	end;
+}
+
+// Escadas, sala final
+1@glast,200,268,0	script	#glast_event_15	HIDDEN_WARP_NPC,7,7,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("#glast_move_03");
+	disablenpc instance_npcname("#glast_event_15");
+	donpcevent instance_npcname("#fenrir_boss_final_2") + "::OnStop";
+	setpcblock PCBLOCK_NPC, true;
+	sleep2 1000;
+	npctalk "Fenris Fenrir: Eu estava esperando. Obrigado por não se atrasar.", 'fenrir_6$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Vamos subir o castelo para recuperar a Brisa Sentinela! Sarah estará esperando!", 'fenrir_6$;
+	sleep2 3000;
+	disablenpc 'fenrir_6$;
+	enablenpc instance_npcname("#glast_move_03a");
+	enablenpc instance_npcname("#glast_event_18");
+	enablenpc instance_npcname("Sara Irine#glast_17");
+	enablenpc 'fenrir_7$;
+	setpcblock PCBLOCK_NPC, false;
+	end;
+}
+
+1@glast,200,268,4	duplicate(#effect_glast_event01_1)	Fenris Fenrir#glast_06	4_F_FENRIR
+
+// Sala Final
+1@glast,199,336,0	script	#glast_event_18	HIDDEN_WARP_NPC,10,10,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("#glast_event_18");
+	setpcblock PCBLOCK_NPC, true;
+	cutin "sarah_hero3.bmp",0;
+	sleep2 1000;
+	npctalk "Sara Irine: Parece que eu esperei uma eternidade por você~ Fenris Fenrir.", 'sarah_17$;
+	sleep2 3000;
+	cutin "fenrir_b.bmp",2;
+	npctalk "Fenris Fenrir: Não preciso de palavras inúteis, entregue a Brisa Sentinela agora!", 'fenrir_7$;
+	sleep2 3000;
+	cutin "sarah_hero3.bmp",0;
+	npctalk "Sara Irine: Tente, se puder.", 'sarah_17$;
+	sleep2 3000;
+	cutin "fenrir_b.bmp",2;
+	npctalk "Fenris Fenrir: Sarah pode ser difícil demais para você enfrentar sozinho. Eu devo enfrentá-la!", 'fenrir_7$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Grilhões branco-puros, prisão eterna, façam um pacto comigo agora!", 'fenrir_7$;
+	donpcevent instance_npcname("#glast_event_18") + "::OnBar";
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Prisão Branca!!", 'fenrir_7$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	sleep2 3000;
+	npctalk "Sara Irine: Argh.... he..", 'sarah_17$;
+	npctalk "Fenris Fenrir: Eu vou enfraquecer a Sarah com a Prisão Branca e enfrentá-la enquanto ela estiver acorrentada,", 'fenrir_7$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: você cuide dos monstros que ela invocar. Estou contando com você.", 'fenrir_7$;
+	sleep2 3000;
+	unittalk getcharid(3), "" + strcharinfo(0) + " : Pode deixar. Inimigos poderosos fazem meu sangue ferver.";
+	sleep2 6000;
+	npctalk "Fenris Fenrir: Esta é uma estratégia para atacar de uma vez e finalizar a Sarah enquanto ela estiver em condição crítica. Lembre-se, nossa oponente é forte.", 'fenrir_7$;
+	sleep2 3000;
+	cutin "sarah_hero3_2.bmp",0;
+	npctalk "Sara Irine: Então seu plano era me amarrar com esse tipo de truque?", 'sarah_17$;
+	sleep2 3000;
+	npctalk "Sara Irine: Além disso, você pega emprestada a ajuda de aventureiros novatos...", 'sarah_17$;
+	sleep2 3000;
+	npctalk "Sara Irine: Você precisa desaparecer daqui junto com essa lâmina desgastada!!", 'sarah_17$;
+	sleep2 3000;
+	cutin "",255;
+	hideonnpc 'sarah_17$;
+	donpcevent instance_npcname("#glast_event_19") + "::OnEvent";
+	monster 'map_glast$,200,336, "Sara Irine#1",3190,1, instance_npcname("#fenrir_boss_final_1") + "::OnBossDead";	// MM_SARAH
+	'boss_id = $@mobid[0];
+	setpcblock PCBLOCK_NPC, false;
+	end;
+OnBar:
+	progressbar_npc "000000",3, 'fenrir_7$;
+	end;
+}
+
+1@glast,200,336,4	duplicate(#effect_glast_event01_1)	Sara Irine#glast_17	4_F_SARAH
+
+1@glast,197,330,8	script	Fenris Fenrir#glast_07	4_F_FENRIR,{
+	end;
+OnStart:
+	initnpctimer;
+	end;
+OnTimer1000:
+	specialeffect EF_TETRACASTING;
+	initnpctimer;
+	end;
+OnStop:
+	stopnpctimer;
+	end;
+}
+
+1@glast,212,350,0	script	#glast_event_19	HIDDEN_WARP_NPC,{
+	end;
+OnEvent:
+	enablenpc instance_npcname("#glast_event_19");
+	enablenpc instance_npcname("#fenrir_boss_final_1");
+	initnpctimer;
+	specialeffect EF_PRIMECHARGE4, AREA, 'fenrir_7$;
+	npctalk "Fenris Fenrir: Veneno letal, nuvens sombrias, apareçam diante de mim e mostrem a morte mais dolorosa!", 'fenrir_7$;
+	monster 'map_glast$,190,341, "Gigante Antimagia#a1", 3194,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN1
+	monster 'map_glast$,214,331, "Gigante Imaterial#b2", 3195,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN2
+	progressbar_npc "000000",10, 'fenrir_7$;
+	end;
+OnTimer1000:
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	end;
+OnTimer10000:
+	callsub S_Hit,1;
+	npctalk "Fenris Fenrir: Vá! Maldição de Jormungand!!!!!", 'fenrir_7$;
+	specialeffect EF_POISONSMOKE, AREA, 'sarah_17$;
+	for ( .@i = 1; .@i <= 8; .@i++ )
+		specialeffect EF_POISONSMOKE, AREA, instance_npcname("#effect_glast_event03_" + .@i);
+	progressbar_npc "000000",10, 'fenrir_7$;
+	end;
+OnTimer10500:
+	unittalk 'boss_id, "Sara Irine: Isso foi repentino, Fenrir. É só isso que você tem?";
+	end;
+OnTimer11000:
+	specialeffect EF_POISONSMOKE2, AREA, 'sarah_17$;
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_1");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_2");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_3");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_4");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_5");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_6");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_7");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_8");
+	end;
+OnTimer13000:
+	npctalk "Fenris Fenrir: Veneno letal, nuvens sombrias, apareçam diante de mim e mostrem a morte mais dolorosa!", 'fenrir_7$;
+	specialeffect EF_PRIMECHARGE4, AREA, 'fenrir_7$;
+	specialeffect EF_POISONSMOKE2, AREA, 'sarah_17$;
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_1");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_2");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_3");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_4");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_5");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_6");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_7");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_8");
+	end;
+OnTimer20000:
+	callsub S_Hit,2;
+	npctalk "Fenris Fenrir: Vá! Maldição de Jormungand!!!!!", 'fenrir_7$;
+	specialeffect EF_POISONSMOKE, AREA, 'sarah_17$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	for ( .@i = 1; .@i <= 8; .@i++ )
+		specialeffect EF_POISONSMOKE, AREA, instance_npcname("#effect_glast_event03_" + .@i);
+	progressbar_npc "000000",30, 'fenrir_7$;
+	end;
+OnTimer20500:
+	unittalk 'boss_id, "Sara Irine: Tente me entreter um pouco mais!!";
+	end;
+OnTimer21000:
+	specialeffect EF_POISONSMOKE2, AREA, 'sarah_17$;
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_1");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_2");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_3");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_4");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_5");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_6");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_7");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_8");
+	end;
+OnTimer23000:
+	npctalk "Fenris Fenrir: Eu falo com você que controla o fogo, eu Fenris, desejo um fogo que não se apague...", 'fenrir_7$;
+	specialeffect EF_BEGINSPELL_YB, AREA, 'fenrir_7$;
+	specialeffect EF_POISONSMOKE2, AREA, 'sarah_17$;
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_1");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_2");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_3");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_4");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_5");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_6");
+	specialeffect EF_POISONSMOKE2, AREA, instance_npcname("#effect_glast_event03_7");
+	specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("#effect_glast_event03_8");
+	end;
+OnTimer36000:
+	npctalk "Fenris Fenrir: Conflagração que queima sem fim, fogo que pode queimar até a alma!! Apareça diante de mim agora!!", 'fenrir_7$;
+	specialeffect EF_BEGINSPELL_YB, AREA, 'fenrir_7$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	end;
+OnTimer50000:
+	callsub S_Hit,3;
+	npctalk "Fenris Fenrir: Surja!! Insígnia do Fogo!!!!", 'fenrir_7$;
+	specialeffect EF_DEMONICFIRE, AREA, 'sarah_17$;
+	progressbar_npc "000000",10, 'fenrir_7$;
+	end;
+OnTimer50500:
+	unittalk 'boss_id, "Sara Irine: Oh... nada mal? Mas ainda não é o suficiente!!";
+	end;
+OnTimer51000:
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	end;
+OnTimer53000:
+	npctalk "Fenris Fenrir: A raiz do poder que abala a terra!! Tema o poder da terra!!!", 'fenrir_7$;
+	specialeffect EF_PRIMECHARGE4, AREA, 'fenrir_7$;
+	end;
+OnTimer60000:
+	callsub S_Hit,4;
+	npctalk "Fenris Fenrir: Avance!! Fúria da Terra!!!", 'fenrir_7$;
+	specialeffect EF_HEAVENSDRIVE, AREA, 'sarah_17$;
+	monster 'map_glast$,190,341, "Gigante Antimagia#a1", 3194,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN1
+	monster 'map_glast$,214,331, "Gigante Imaterial#b2", 3195,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN2
+	progressbar_npc "000000",10, 'fenrir_7$;
+	end;
+OnTimer60500:
+	unittalk 'boss_id, "Sara Irine: Por que você não para com essa magia infantil, Fenrir?";
+	end;
+OnTimer63000:
+	specialeffect EF_PRIMECHARGE4, AREA, 'fenrir_7$;
+	npctalk "Fenris Fenrir: A raiz do poder que abala a terra!! Tema o poder da terra!!!", 'fenrir_7$;
+	end;
+OnTimer70000:
+	callsub S_Hit,5;
+	npctalk "Fenris Fenrir: Avance!! Fúria da Terra!!!", 'fenrir_7$;
+	specialeffect EF_HEAVENSDRIVE, AREA, 'sarah_17$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	progressbar_npc "000000",30, 'fenrir_7$;
+	end;
+OnTimer70500:
+	unittalk 'boss_id, "Sara Irine: Você acha que isso é o suficiente para me derrotar?";
+	end;
+OnTimer73000:
+	npctalk "Fenris Fenrir: O sopro impiedosamente frio dos ventos do Norte,", 'fenrir_7$;
+	specialeffect EF_PRIMECHARGE2, AREA, 'fenrir_7$;
+	end;
+OnTimer85000:
+	npctalk "Fenris Fenrir: Venha como a silenciosa névoa do amanhecer e congele tudo!!", 'fenrir_7$;
+	specialeffect EF_PRIMECHARGE2, AREA, 'fenrir_7$;
+	end;
+OnTimer100000:
+	callsub S_Hit,6;
+	npctalk "Fenris Fenrir: Apareça!!! Zero Absoluto!!!!!", 'fenrir_7$;
+	specialeffect EF_FROSTMYSTY, AREA, 'sarah_17$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	specialeffect EF_FROSTMYSTY, AREA, 'sarah_17$;
+	progressbar_npc "000000",10, 'fenrir_7$;
+	end;
+OnTimer100500:
+	unittalk 'boss_id, "Sara Irine: Nada mal, mas.. nem chega perto!";
+	end;
+OnTimer103000:
+	npctalk "Fenris Fenrir: O poder da dúvida, uma força poderosa, o poder de segredos profundamente escondidos na mente!!!", 'fenrir_7$;
+	specialeffect EF_PRIMECHARGE, AREA, 'fenrir_7$;
+	end;
+OnTimer110000:
+	callsub S_Hit,7;
+	npctalk "Fenris Fenrir: Agora!!! Onda Psíquica!!!!", 'fenrir_7$;
+	specialeffect EF_SPR_PLANT10, AREA, 'sarah_17$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	progressbar_npc "000000",10, 'fenrir_7$;
+	end;
+OnTimer110500:
+	unittalk 'boss_id, "Sara Irine: Ugh... isso não adianta, Fenrir!";
+	end;
+OnTimer113000:
+	npctalk "Fenris Fenrir: O poder da dúvida, uma força poderosa, o poder de segredos profundamente escondidos na mente!!!", 'fenrir_7$;
+	specialeffect EF_PRIMECHARGE, AREA, 'fenrir_7$;
+	end;
+OnTimer120000:
+	callsub S_Hit,8;
+	npctalk "Fenris Fenrir: Agora!!! Onda Psíquica!!!!", 'fenrir_7$;
+	specialeffect EF_SPR_PLANT10, AREA, 'sarah_17$;
+	monster 'map_glast$,190,341, "Gigante Antimagia#a1", 3194,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN1
+	monster 'map_glast$,214,331, "Gigante Imaterial#b2", 3195,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN2
+	progressbar_npc "000000",30, 'fenrir_7$;
+	end;
+OnTimer120500:
+	unittalk 'boss_id, "Sara Irine: Argh.. que bombardeio mágico irritante!!";
+	end;
+OnTimer123000:
+	npctalk "Fenris Fenrir: Eu falo com você que controla o fogo, eu Fenris, desejo um fogo que não se apague...", 'fenrir_7$;
+	specialeffect EF_BEGINSPELL_YB, AREA, 'fenrir_7$;
+	end;
+OnTimer135000:
+	npctalk "Fenris Fenrir: Conflagração que queima sem fim, fogo que pode queimar até a alma!! Apareça diante de mim agora!!", 'fenrir_7$;
+	specialeffect EF_BEGINSPELL_YB, AREA, 'fenrir_7$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	end;
+OnTimer150000:
+	callsub S_Hit,9;
+	npctalk "Fenris Fenrir: Surja!! Insígnia do Fogo!!!!", 'fenrir_7$;
+	specialeffect EF_DEMONICFIRE, AREA, 'sarah_17$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	progressbar_npc "000000",10, 'fenrir_7$;
+	end;
+OnTimer150500:
+	unittalk 'boss_id, "Sara Irine: Eu sou Sara Irine! Eu não vou cair tão facilmente!!!";
+	end;
+OnTimer153000:
+	npctalk "Fenris Fenrir: Verdadeira ira do céu, trovão que pode dividir a terra... Caia diante de mim agora!!", 'fenrir_7$;
+	specialeffect EF_DQ9_CHARGE3, AREA, 'fenrir_7$;
+	end;
+OnTimer160000:
+	callsub S_Hit,10;
+	npctalk "Fenris Fenrir: Venha agora!! Tempestade de Raios!!!!!", 'fenrir_7$;
+	specialeffect EF_THUNDERSTORM2, AREA, 'sarah_17$;
+	unittalk 'boss_id, "Sara Irine: Ugh... você é.. mais forte do que eu previ, Fenrir...";
+	progressbar_npc "000000",10, 'fenrir_7$;
+	end;
+OnTimer160500:
+	unittalk 'boss_id, "Sara Irine: Ugh... você é.. mais forte do que eu previ, Fenrir...";
+	end;
+OnTimer163000:
+	npctalk "Fenris Fenrir: Verdadeira ira do céu, trovão que pode dividir a terra... Caia diante de mim agora!!", 'fenrir_7$;
+	specialeffect EF_DQ9_CHARGE3, AREA, 'fenrir_7$;
+	end;
+OnTimer170000:
+	callsub S_Hit,11;
+	npctalk "Fenris Fenrir: Venha agora!! Tempestade de Raios!!!!!", 'fenrir_7$;
+	specialeffect EF_THUNDERSTORM2, AREA, 'sarah_17$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	progressbar_npc "000000",30, 'fenrir_7$;
+	end;
+OnTimer170500:
+	unittalk 'boss_id, "Sara Irine: Argh!!!!!! Ahhh!!!!!";
+	end;
+OnTimer173000:
+	npctalk "Fenris Fenrir: O sopro impiedosamente frio dos ventos do Norte,", 'fenrir_7$;
+	specialeffect EF_PRIMECHARGE2, AREA, 'fenrir_7$;
+	end;
+OnTimer180000:
+	monster 'map_glast$,190,341, "Gigante Antimagia#a1", 3194,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN1
+	monster 'map_glast$,185,331, "Gigante Antimagia#a2", 3194,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN1
+	monster 'map_glast$,209,341, "Gigante Imaterial#b1", 3195,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN2
+	monster 'map_glast$,214,331, "Gigante Imaterial#b2", 3195,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN2
+	end;
+OnTimer185000:
+	npctalk "Fenris Fenrir: Venha como a silenciosa névoa do amanhecer e congele tudo!!", 'fenrir_7$;
+	specialeffect EF_PRIMECHARGE2, AREA, 'fenrir_7$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	end;
+OnTimer200000:
+	callsub S_Hit,12;
+	npctalk "Fenris Fenrir: Apareça!!! Zero Absoluto!!!!!", 'fenrir_7$;
+	specialeffect EF_FROSTMYSTY, AREA, 'sarah_17$;
+	donpcevent 'fenrir_7$ + "::OnStart";
+	progressbar_npc "000000",50, 'fenrir_7$;
+	end;
+OnTimer200500:
+	unittalk 'boss_id, "Sara Irine: Argh!!! Eu vou matar todos vocês!!!!!!";
+	specialeffect EF_FROSTMYSTY, AREA, 'sarah_17$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	end;
+OnTimer203000:
+	npctalk "Fenris Fenrir: Espada celestial que perfura o céu.", 'fenrir_7$;
+	specialeffect EF_BLACKBODY, AREA, 'fenrir_7$;
+	specialeffect EF_RECOGNIZED, AREA, 'fenrir_7$;
+	end;
+OnTimer216000:
+	npctalk "Fenris Fenrir: Eu desejo tomar emprestada sua força por um momento!!", 'fenrir_7$;
+	end;
+OnTimer230000:
+	npctalk "Fenris Fenrir: Faça cair aqui sua força extrema que pode rasgar até o vácuo!!", 'fenrir_7$;
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	end;
+OnTimer239000:
+	monster 'map_glast$,190,341, "Gigante Antimagia#a1", 3194,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN1
+	monster 'map_glast$,185,331, "Gigante Antimagia#a2", 3194,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN1
+	monster 'map_glast$,209,341, "Gigante Imaterial#b1", 3195,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN2
+	monster 'map_glast$,214,331, "Gigante Imaterial#b2", 3195,1, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";// MM_L_GIGAN2
+	end;
+OnTimer240000:
+	npctalk "Fenris Fenrir: Espada que pode controlar a vida e a morte, e perfurar o espaço-tempo!!!", 'fenrir_7$;
+	end;
+OnTimer250000:
+	npctalk "Fenris Fenrir: Apareça, Lança Baretis!!!!!!", 'fenrir_7$;
+	specialeffect EF_PRESSURE3, AREA, 'sarah_17$;
+	for ( .@i = 1; .@i <= 8; .@i++ )
+		specialeffect EF_PRESSURE3, AREA, instance_npcname("#effect_glast_event03_" + .@i);
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	end;
+OnTimer253000:
+	setunitdata 'boss_id, UMOB_HP, 100;
+	specialeffect EF_PRESSURE3, AREA, 'sarah_17$;
+	for ( .@i = 1; .@i <= 8; .@i++ )
+		specialeffect EF_PRESSURE3, AREA, instance_npcname("#effect_glast_event03_" + .@i);
+	npctalk "Fenris Fenrir: Agora! Eu deixei a Sarah em condição crítica! Você precisa finalizar ela! Ataque rápido! A Sarah é forte!", 'fenrir_7$;
+	mapannounce 'map_glast$, "Fenris Fenrir: Agora! Eu deixei a Sarah em condição crítica! Você precisa finalizar ela!! Ataque rápido! A Sarah é forte!", bc_map,0xEBFF;
+	npctalk "Sara Irine: Argh... isso.. não pode acontecer!!! Eu não posso perder!!!!!", 'sarah_17$;
+	end;
+OnTimer263000:
+	npctalk "Fenris Fenrir: Como talvez você não consiga finalizá-la sozinho, eu vou preparar um feitiço final!!", 'fenrir_7$;
+	progressbar_npc "000000",50, 'fenrir_7$;
+	end;
+OnTimer273000:
+	specialeffect EF_BOTTOM_BASILICA2, AREA, 'sarah_17$;
+	npctalk "Fenris Fenrir: Espada celestial que perfura o céu.", 'fenrir_7$;
+	specialeffect EF_RECOGNIZED, AREA, 'fenrir_7$;
+	specialeffect EF_BLACKBODY, AREA, 'fenrir_7$;
+	end;
+OnTimer283000:
+	npctalk "Fenris Fenrir: Eu desejo tomar emprestada sua força por um momento!!", 'fenrir_7$;
+	end;
+OnTimer293000:
+	npctalk "Fenris Fenrir: Faça cair aqui sua força extrema que pode rasgar até o vácuo!!";
+	end;
+OnTimer303000:
+	npctalk "Fenris Fenrir: Espada que pode controlar a vida e a morte, e perfurar o espaço-tempo!!!";
+	end;
+OnTimer313000:
+	npctalk "Fenris Fenrir: Apareça, Lança Baretis!!!!!!";
+	specialeffect EF_PRESSURE3, AREA, 'sarah_17$;
+	for ( .@i = 1; .@i <= 8; .@i++ )
+		specialeffect EF_PRESSURE3, AREA, instance_npcname("#effect_glast_event03_" + .@i);
+	donpcevent 'fenrir_7$ + "::OnStop";
+	end;
+OnTimer316000:
+	specialeffect EF_PRESSURE3, AREA, 'sarah_17$;
+	for ( .@i = 1; .@i <= 8; .@i++ )
+		specialeffect EF_PRESSURE3, AREA, instance_npcname("#effect_glast_event03_" + .@i);
+	killmonster 'map_glast$, instance_npcname("#fenrir_boss_final_1") + "::OnBossDead";
+	donpcevent instance_npcname("#fenrir_boss_final_1") + "::OnBossDead";
+	end;
+
+OnStop:
+	stopnpctimer;
+	disablenpc instance_npcname("#glast_event_19");
+	end;
+
+S_Hit:
+	getunitdata 'boss_id, .@data;
+	.@hp = .@data[UMOB_MAXHP] - ((.@data[UMOB_MAXHP] * getarg(0)) / 13);
+	setunitdata 'boss_id, UMOB_HP, .@hp;
+	return;
+}
+
+1@glast,1,1,0	script	#fenrir_boss_final_1	HIDDEN_WARP_NPC,{
+	end;
+OnBossDead:
+	donpcevent instance_npcname("#glast_event_19") + "::OnStop";
+	initnpctimer;
+	end;
+OnTimer1000:
+	killmonster 'map_glast$, instance_npcname("#fenrir_boss_final_1") + "::OnMobDead";
+	end;
+OnTimer6000:
+	disablenpc 'sarah_17$;
+	disablenpc 'fenrir_7$;
+	enablenpc 'fenrir_8$;
+	enablenpc 'sarah_20$;
+	end;
+OnTimer9000:
+	npctalk "Fenris Fenrir: Brisa Sentinela! Eu estou com ela em minhas mãos!", 'fenrir_8$;
+	end;
+OnTimer12000:
+	npctalk "Sara Irine: Argh....", 'sarah_20$;
+	end;
+OnTimer15000:
+	npctalk "Fenris Fenrir: Eu posso encontrar Baldur com isso!", 'fenrir_8$;
+	end;
+OnTimer18000:
+	npctalk "Sara Irine: Ainda não!!", 'sarah_20$;
+	progressbar_npc "000000",2, 'sarah_20$;
+	end;
+OnTimer21000:
+	specialeffect EF_FIREPILLARON, AREA, 'fenrir_8$;
+	disablenpc 'fenrir_8$;
+	enablenpc 'fenrir_9$;
+	end;
+OnTimer24000:
+	npctalk "Sara Irine: Hehe... você se esquiva bem como um rato.", 'sarah_20$;
+	end;
+OnTimer27000:
+	npctalk "Sara Irine: Porém, eu não posso deixar você ir embora com isso.", 'sarah_20$;
+	end;
+OnTimer30000:
+	npctalk "Sara Irine: Eu vou explodir este castelo inteiro! Yaah!", 'sarah_20$;
+	progressbar_npc "000000",15, 'sarah_20$;
+	end;
+OnTimer33000:
+	npctalk "Fenris Fenrir: Ela está planejando desabar este lugar! Eu preciso realizar um teleporte em larga escala!!!", 'fenrir_9$;
+	progressbar_npc "000000",6, 'fenrir_9$;
+	end;
+OnTimer36000:
+	npctalk "Fenris Fenrir: Adeus, Valquíria!! Eu vou levar a Brisa Sentinela! Até mais!", 'fenrir_9$;
+	end;
+OnTimer39000:
+	for ( .@i = 1; .@i <= 8; .@i++ )
+		specialeffect EF_LORD, AREA, instance_npcname("#effect_glast_event03_" + .@i);
+	disablenpc 'fenrir_9$;
+	end;
+OnTimer40000:
+	stopnpctimer;
+	enablenpc instance_npcname("#glast_event_24");
+	enablenpc instance_npcname("Fenris Fenrir#glast_10");
+	//for ( .@i = 11; .@i <= 16; .@i++ )
+	//	enablenpc instance_npcname("#glast_event_warp_" + .@i);// portal para 197,221
+	areawarp 'map_glast$,181,326,218,352, 'map_glast$,197,221;
+	for ( .@i = 1; .@i <= 8; .@i++ )
+		disablenpc instance_npcname("#effect_glast_event03_" + .@i);
+	disablenpc 'sarah_20$;
+	disablenpc instance_npcname("#fenrir_boss_final_1");
+	end;
+
+OnMobDead:
+	end;
+}
+
+1@glast,199,348,8	duplicate(#effect_glast_event01_1)	Fenris Fenrir#glast_08	4_F_FENRIR
+1@glast,201,346,4	duplicate(#effect_glast_event01_1)	Fenris Fenrir#glast_09	4_F_FENRIR
+1@glast,197,339,8	duplicate(#effect_glast_event01_1)	Sara Irine#glast_20	4_F_SARAH
+
+1@glast,201,336,4	duplicate(#effect_glast_event01_1)	#effect_glast_event03_1	CLEAR_NPC
+1@glast,201,337,4	duplicate(#effect_glast_event01_1)	#effect_glast_event03_2	CLEAR_NPC
+1@glast,200,337,4	duplicate(#effect_glast_event01_1)	#effect_glast_event03_3	CLEAR_NPC
+1@glast,199,337,4	duplicate(#effect_glast_event01_1)	#effect_glast_event03_4	CLEAR_NPC
+1@glast,199,336,4	duplicate(#effect_glast_event01_1)	#effect_glast_event03_5	CLEAR_NPC
+1@glast,199,335,4	duplicate(#effect_glast_event01_1)	#effect_glast_event03_6	CLEAR_NPC
+1@glast,200,335,4	duplicate(#effect_glast_event01_1)	#effect_glast_event03_7	CLEAR_NPC
+1@glast,201,335,4	duplicate(#effect_glast_event01_1)	#effect_glast_event03_8	CLEAR_NPC
+
+// Sala final externa
+1@glast,200,224,0	script	#glast_event_24	HIDDEN_WARP_NPC,7,7,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("#glast_event_24");
+	setpcblock PCBLOCK_NPC, true;
+	sleep2 1500;
+	cutin "fenrir_b.bmp",2;
+	npctalk "Fenris Fenrir: Hehe.. você certamente é habilidoso, mas acho que você me subestimou, Valquíria.", 'fenrir_10$;
+	sleep2 3000;
+	mapannounce 'map_glast$, "Sara Irine: Você realmente me diverte, Fenris...", bc_map,0xEBFF;
+	sleep2 3000;
+	mapannounce 'map_glast$, "Sara Irine: Achou que poderia escapar tão facilmente?", bc_map,0xEBFF;
+	sleep2 3000;
+	mapannounce 'map_glast$, "Sara Irine: Eu vou transformar Glast Heim em um inferno!!", bc_map,0xEBFF;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Se não fugirmos agora, teremos um destino terrível por causa dos monstros e da magia da Sarah!", 'fenrir_10$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Vamos nos encontrar na entrada de Glast Heim, onde nos conhecemos pela primeira vez! Se fugirmos até lá, deve ser seguro!", 'fenrir_10$;
+	sleep2 3000;
+	npctalk "Fenris Fenrir: Não há tempo! Rápido!", 'fenrir_10$;
+	sleep2 3000;
+	cutin "",255;
+	disablenpc 'fenrir_10$;
+	donpcevent instance_npcname("#sarah_wrath") + "::OnStart";
+	setpcblock PCBLOCK_NPC, false;
+	end;
+}
+
+1@glast,200,224,4	duplicate(#effect_glast_event01_1)	Fenris Fenrir#glast_10	4_F_FENRIR
+
+// Pula a última sala.
+1@glast,1,1,0	script	#fenrir_boss_final_2	HIDDEN_WARP_NPC,{
+	end;
+OnStart:
+	enablenpc instance_npcname("#fenrir_boss_final_2");
+	initnpctimer;
+	end;
+OnTimer300000:
+	disablenpc instance_npcname("#glast_move_03");
+	disablenpc instance_npcname("#glast_event_15");
+	disablenpc 'fenrir_6$;
+	end;
+OnTimer305000:
+	mapannounce 'map_glast$, "Fenris Fenrir: Brisa Sentinela! Eu estou com ela em minhas mãos!", bc_map,0xEBFF;
+	end;
+OnTimer308000:
+	mapannounce 'map_glast$, "Sara Irine: Argh....", bc_map,0xEBFF;
+	end;
+OnTimer311000:
+	mapannounce 'map_glast$, "Fenris Fenrir: Hehe.. você certamente é habilidoso, mas acho que você me subestimou, Valquíria.", bc_map,0xEBFF;
+	end;
+OnTimer314000:
+	mapannounce 'map_glast$, "Sara Irine: Você realmente me diverte, Fenris...", bc_map,0xEBFF;
+	end;
+OnTimer317000:
+	mapannounce 'map_glast$, "Sara Irine: Achou que poderia escapar tão facilmente?", bc_map,0xEBFF;
+	end;
+OnTimer320000:
+	mapannounce 'map_glast$, "Sara Irine: Eu vou transformar Glast Heim em um inferno!!", bc_map,0xEBFF;
+	end;
+OnTimer323000:
+	mapannounce 'map_glast$, "Fenris Fenrir: Se não fugirmos agora, teremos um destino terrível por causa dos monstros e da magia da Sarah!", bc_map,0xEBFF;
+	end;
+OnTimer326000:
+	mapannounce 'map_glast$, "Fenris Fenrir: Vamos nos encontrar na entrada de Glast Heim, onde nos conhecemos pela primeira vez! Se fugirmos até lá, deve ser seguro!", bc_map,0xEBFF;
+	end;
+OnTimer329000:
+	stopnpctimer;
+	mapannounce 'map_glast$, "Fenris Fenrir: Não há tempo! Rápido!", bc_map,0xEBFF;
+	donpcevent instance_npcname("#sarah_wrath") + "::OnStart";
+	end;
+OnStop:
+	stopnpctimer;
+	disablenpc instance_npcname("#fenrir_boss_final_2");
+	end;
+}
+
+// Bombas
+1@glast,1,1,0	script	#sarah_wrath	HIDDEN_WARP_NPC,{
+	end;
+OnStart:
+	enablenpc instance_npcname("#sarah_wrath");
+	enablenpc instance_npcname("#glast_move_04");
+	enablenpc 'fenrir_11$;
+	enablenpc 'sarah_ego$;
+	hideonnpc 'sarah_ego$;
+	'back_to_entrance = 1;
+	enablenpc instance_npcname("#glast_move_01");
+	hideonnpc instance_npcname("#glast_move_01");
+	enablenpc instance_npcname("#glast_move_05");
+	initnpctimer;
+	end;
+OnTimer10000:
+	mapannounce 'map_glast$, "Sara Irine: Coisinha absurda, você acha que pode escapar tão facilmente?", bc_map,0xEBFF;
+	callsub S_Spawn,0;
+	end;
+OnTimer50000:
+	mapannounce 'map_glast$, "Sara Irine: Meus servos vão garantir que matem você!!!", bc_map,0xEBFF;
+	callsub S_Spawn,1;
+	end;
+OnTimer80000:
+	mapannounce 'map_glast$, "Sara Irine: Eu não posso deixar você escapar!!", bc_map,0xEBFF;
+	callsub S_Spawn,2;
+	end;
+OnTimer110000:
+	mapannounce 'map_glast$, "Sara Irine: Fenris Fenrir.... achou que eu não poderia rastrear você porque fugiu?", bc_map,0xEBFF;
+	callsub S_Spawn,3;
+	end;
+OnTimer150000:
+	mapannounce 'map_glast$, "Sara Irine: Coisinha absurda, você acha que pode escapar tão facilmente?", bc_map,0xEBFF;
+	callsub S_Spawn,4;
+	end;
+OnTimer300000:
+	stopnpctimer;
+	mapannounce 'map_glast$, "Sara Irine: Bwahahahahahaha!! Glast Heim está sendo preenchida com a minha ira!!", bc_map,0xEBFF;
+	for ( .@i = 1; .@i <= 14; .@i++ )
+		enablenpc instance_npcname("#glast_bomb_" + (.@i < 10 ? ("0"+.@i) : .@i));
+	end;
+OnStop:
+	stopnpctimer;
+	end;
+
+S_Spawn:
+	// impreciso
+	switch( getarg(0) ) {
+	case 0:
+		monster 'map_glast$,204,52,"Gigante Antimagia#aa1",3194,1;
+		monster 'map_glast$,201,55,"Gigante Antimagia#aa1",3194,1;
+		monster 'map_glast$,196,53,"Gigante Antimagia#aa1",3194,1;
+		monster 'map_glast$,205,80,"Gigante Imaterial#aa2",3195,1;
+		monster 'map_glast$,210,77,"Gigante Imaterial#aa2",3195,1;
+		monster 'map_glast$,205,73,"Gigante Imaterial#aa2",3195,1;
+		monster 'map_glast$,236,96,"Gigante Antimagia#aa5",3194,1;
+		monster 'map_glast$,234,96,"Gigante Antimagia#aa5",3194,1;
+		monster 'map_glast$,234,96,"Gigante Antimagia#aa5",3194,1;
+		monster 'map_glast$,185,79,"Gigante Antimagia#bb3",3194,1;
+		monster 'map_glast$,189,78,"Gigante Antimagia#bb3",3194,1;
+		monster 'map_glast$,194,85,"Gigante Antimagia#bb3",3194,1;
+		monster 'map_glast$,168,113,"Gigante Imaterial#bb4",3195,1;
+		monster 'map_glast$,174,122,"Gigante Imaterial#bb4",3195,1;
+		break;
+	case 1:
+		monster 'map_glast$,131,182,"Gigante Antimagia#bb11",3194,1;
+		monster 'map_glast$,133,174,"Gigante Antimagia#bb11",3194,1;
+		monster 'map_glast$,134,187,"Gigante Antimagia#bb11",3194,1;
+		monster 'map_glast$,202,196,"Gigante Antimagia#aa9",3194,1;
+		monster 'map_glast$,196,194,"Gigante Antimagia#aa9",3194,1;
+		monster 'map_glast$,199,190,"Gigante Antimagia#aa9",3194,1;
+		monster 'map_glast$,233,198,"Gigante Imaterial#bb8",3195,1;
+		monster 'map_glast$,231,193,"Gigante Imaterial#bb8",3195,1;
+		monster 'map_glast$,232,196,"Gigante Imaterial#bb8",3195,1;
+		monster 'map_glast$,258,196,"Gigante Antimagia#bb7",3194,1;
+		monster 'map_glast$,265,187,"Gigante Antimagia#bb7",3194,1;
+		monster 'map_glast$,263,195,"Gigante Antimagia#bb7",3194,1;
+		monster 'map_glast$,271,106,"Gigante Imaterial#aa6",3195,1;
+		monster 'map_glast$,266,107,"Gigante Imaterial#aa6",3195,1;
+		monster 'map_glast$,272,109,"Gigante Imaterial#aa6",3195,1;
+		break;
+	case 2:
+		monster 'map_glast$,127,204,"Gigante Imaterial#bb12",3195,1;
+		monster 'map_glast$,130,205,"Gigante Imaterial#bb12",3195,1;
+		monster 'map_glast$,130,213,"Gigante Imaterial#bb12",3195,1;
+		monster 'map_glast$,139,243,"Gigante Antimagia#bb19",3194,1;
+		monster 'map_glast$,143,241,"Gigante Antimagia#bb19",3194,1;
+		monster 'map_glast$,146,234,"Gigante Antimagia#bb19",3194,1;
+		monster 'map_glast$,199,218,"Gigante Imaterial#aa14",3195,1;
+		monster 'map_glast$,201,219,"Gigante Imaterial#aa14",3195,1;
+		monster 'map_glast$,193,212,"Gigante Imaterial#aa14",3195,1;
+		monster 'map_glast$,261,251,"Gigante Imaterial#aa18",3195,1;
+		monster 'map_glast$,257,254,"Gigante Imaterial#aa18",3195,1;
+		monster 'map_glast$,257,250,"Gigante Imaterial#aa18",3195,1;
+		monster 'map_glast$,146,45,"Gigante Antimagia#bb35",3194,1;
+		monster 'map_glast$,145,49,"Gigante Antimagia#bb35",3194,1;
+		monster 'map_glast$,144,44,"Gigante Antimagia#bb35",3194,1;
+		break;
+	case 3:
+		monster 'map_glast$,67,259,"Gigante Antimagia#aa29",3194,1;
+		monster 'map_glast$,68,261,"Gigante Antimagia#aa29",3194,1;
+		monster 'map_glast$,61,260,"Gigante Antimagia#aa29",3194,1;
+		monster 'map_glast$,64,208,"Gigante Imaterial#aa30",3195,1;
+		monster 'map_glast$,67,210,"Gigante Imaterial#aa30",3195,1;
+		monster 'map_glast$,63,204,"Gigante Imaterial#aa30",3195,1;
+		monster 'map_glast$,87,57,"Gigante Antimagia#aa33",3194,1;
+		monster 'map_glast$,81,64,"Gigante Antimagia#aa33",3194,1;
+		monster 'map_glast$,83,58,"Gigante Antimagia#aa33",3194,1;
+		monster 'map_glast$,107,47,"Gigante Imaterial#aa34",3195,1;
+		monster 'map_glast$,105,45,"Gigante Imaterial#aa34",3195,1;
+		monster 'map_glast$,102,48,"Gigante Imaterial#aa34",3195,1;
+		monster 'map_glast$,80,152,"Gigante Antimagia#bb31",3194,1;
+		monster 'map_glast$,82,149,"Gigante Antimagia#bb31",3194,1;
+		monster 'map_glast$,75,156,"Gigante Antimagia#bb31",3194,1;
+		monster 'map_glast$,85,106,"Gigante Imaterial#bb32",3195,1;
+		monster 'map_glast$,82,111,"Gigante Imaterial#bb32",3195,1;
+		monster 'map_glast$,78,112,"Gigante Imaterial#bb32",3195,1;
+		monster 'map_glast$,55,149,"Gigante Imaterial#bb36",3195,1;
+		monster 'map_glast$,56,143,"Gigante Imaterial#bb36",3195,1;
+		monster 'map_glast$,49,142,"Gigante Imaterial#bb36",3195,1;
+		break;
+	case 4:
+		monster 'map_glast$,262,215,"Gigante Antimagia#aa17",3194,1;
+		monster 'map_glast$,266,212,"Gigante Antimagia#aa17",3194,1;
+		monster 'map_glast$,260,219,"Gigante Antimagia#aa17",3194,1;
+		monster 'map_glast$,253,47,"Gigante Imaterial#aa26",3195,1;
+		monster 'map_glast$,263,42,"Gigante Imaterial#aa26",3195,1;
+		monster 'map_glast$,255,39,"Gigante Imaterial#aa26",3195,1;
+		monster 'map_glast$,202,219,"Gigante Antimagia#bb15",3194,1;
+		monster 'map_glast$,201,222,"Gigante Antimagia#bb15",3194,1;
+		monster 'map_glast$,201,220,"Gigante Antimagia#bb15",3194,1;
+		monster 'map_glast$,231,210,"Gigante Imaterial#bb16",3195,1;
+		monster 'map_glast$,345,117,"Gigante Antimagia#bb27",3194,1;
+		monster 'map_glast$,341,115,"Gigante Antimagia#bb27",3194,1;
+		monster 'map_glast$,351,121,"Gigante Antimagia#bb27",3194,1;
+		monster 'map_glast$,346,252,"Gigante Imaterial#bb28",3195,1;
+		monster 'map_glast$,351,256,"Gigante Imaterial#bb28",3195,1;
+		monster 'map_glast$,345,254,"Gigante Imaterial#bb28",3195,1;
+		break;
+	}
+	end;
+}
+
+1@glast,290,43,0	script	#glast_bomb_01	HIDDEN_WARP_NPC,10,10,{
+	end;
+OnTouch:
+	unitkill 0;
+	mapannounce 'map_glast$, "Sara Irine: Bwahahahahahaha!! Glast Heim está sendo preenchida com a minha ira!!", bc_map,0xEBFF;
+	specialeffect2 EF_LORD;
+	sleep2 1000;
+	specialeffect2 EF_LORD;
+	end;
+}
+
+1@glast,234,47,0	duplicate(#glast_bomb_01)	#glast_bomb_02	HIDDEN_WARP_NPC,10,10
+1@glast,265,175,0	duplicate(#glast_bomb_01)	#glast_bomb_03	HIDDEN_WARP_NPC,10,10
+1@glast,135,176,0	duplicate(#glast_bomb_01)	#glast_bomb_04	HIDDEN_WARP_NPC,10,10
+1@glast,146,238,0	duplicate(#glast_bomb_01)	#glast_bomb_05	HIDDEN_WARP_NPC,10,10
+1@glast,165,212,0	duplicate(#glast_bomb_01)	#glast_bomb_06	HIDDEN_WARP_NPC,10,10
+1@glast,232,212,0	duplicate(#glast_bomb_01)	#glast_bomb_07	HIDDEN_WARP_NPC,10,10
+1@glast,253,241,0	duplicate(#glast_bomb_01)	#glast_bomb_08	HIDDEN_WARP_NPC,10,10
+1@glast,268,290,0	duplicate(#glast_bomb_01)	#glast_bomb_09	HIDDEN_WARP_NPC,10,10
+1@glast,132,289,0	duplicate(#glast_bomb_01)	#glast_bomb_10	HIDDEN_WARP_NPC,10,10
+1@glast,199,115,0	duplicate(#glast_bomb_01)	#glast_bomb_11	HIDDEN_WARP_NPC,10,10
+1@glast,139,46,0	duplicate(#glast_bomb_01)	#glast_bomb_12	HIDDEN_WARP_NPC,10,10
+1@glast,82,86,0	duplicate(#glast_bomb_01)	#glast_bomb_13	HIDDEN_WARP_NPC,10,10
+1@glast,68,226,0	duplicate(#glast_bomb_01)	#glast_bomb_14	HIDDEN_WARP_NPC,10,10
+
+// Retorno à entrada
+// evento em #glast_move_01
+1@glast,359,294,4	script	Fenris Fenrir#glast_11	4_F_FENRIR,{
+	if (isbegin_quest(9337) == 0) {
+		cutin "fenrir_a.bmp",2;
+		mes "[Fenris Fenrir]";
+		mes "Você chegou em segurança!";
+		mes "A situação perigosa";
+		mes "me deixou preocupado.";
+		mes "Foi um trabalho difícil e perigoso,";
+		mes "então eu sou grato pela sua ajuda.";
+		next;
+		mes "[Fenrir]";
+		mes "Eu sinto que nos encontraremos novamente,";
+		mes "mas talvez seja só minha imaginação?";
+		mes "Hm.. isso seria bom.";
+		next;
+		mes "[Fenrir]";
+		mes "Nós trabalhamos bem juntos,";
+		mes "então espero que nos encontremos novamente.";
+		mes "E tome cuidado com a Sarah,";
+		mes "pois o perigo também pode vir até você.";
+		setquest 9337;// Concluindo a aventura
+		getitem 607,1;// Fruto de Yggdrasil
+		getitem 608,1;// Semente de Yggdrasil
+		close2;
+		cutin "",255;
+		end;
+	}
+	mes "[Fenrir]";
+	mes "Nós trabalhamos bem juntos,";
+	mes "então espero que nos encontremos novamente.";
+	close;
+}
+
+1@glast,353,290,8	duplicate(#effect_glast_event01_1)	Alter Ego de Sara Irine	4_F_SARAH
+
+// Eventos de Fragmentos
+1@glast,290,147,4	script	Gigante Ancestral#glast_1	4_GIGANTES_BIG,6,6,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("Gigante Ancestral#glast_1");
+	.@label$ = instance_npcname("Gigante Ancestral#glast_1") + "::OnMobDead";
+	monster 'map_glast$,290,147, "Gigante Ancestral#X1",3196,1, .@label$;		// MM_L_GIGAN3
+	monster 'map_glast$,290,146, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	monster 'map_glast$,288,147, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	unittalk getcharid(3), "" + strcharinfo(0) + " : O Gigante Ancestral que o Pesquisador Bernard mencionou!!";
+	enablenpc instance_npcname("Gárgula de Pedra#glast_01");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_02");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_03");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_04");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_05");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_06");
+	end;
+OnMobDead:
+	end;
+}
+
+1@glast,300,248,4	script	Gigante Ancestral#glast_2	4_GIGANTES_BIG,4,4,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("Gigante Ancestral#glast_2");
+	.@label$ = instance_npcname("Gigante Ancestral#glast_2") + "::OnMobDead";
+	monster 'map_glast$,300,248, "Gigante Ancestral#X2",3196,1, .@label$;		// MM_L_GIGAN3
+	monster 'map_glast$,299,250, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	monster 'map_glast$,302,246, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	unittalk getcharid(3), "" + strcharinfo(0) + " : O Gigante Ancestral que o Pesquisador Bernard mencionou!!";
+	enablenpc instance_npcname("Gárgula de Pedra#glast_07");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_08");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_09");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_10");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_11");
+	end;
+OnMobDead:
+	end;
+}
+
+1@glast,292,344,4	script	Gigante Ancestral#glast_3	4_GIGANTES_BIG,6,6,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("Gigante Ancestral#glast_3");
+	.@label$ = instance_npcname("Gigante Ancestral#glast_3") + "::OnMobDead";
+	monster 'map_glast$,292,344, "Gigante Ancestral#X3",3196,1, .@label$;		// MM_L_GIGAN3
+	monster 'map_glast$,290,346, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	monster 'map_glast$,291,344, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	unittalk getcharid(3), "" + strcharinfo(0) + " : O Gigante Ancestral que o Pesquisador Bernard mencionou!!";
+	enablenpc instance_npcname("Gárgula de Pedra#glast_12");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_13");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_14");
+	end;
+OnMobDead:
+	end;
+}
+
+1@glast,107,147,6	script	Gigante Ancestral#glast_4	4_GIGANTES_BIG,6,6,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("Gigante Ancestral#glast_4");
+	.@label$ = instance_npcname("Gigante Ancestral#glast_4") + "::OnMobDead";
+	monster 'map_glast$,107,147, "Gigante Ancestral#X4",3196,1, .@label$;		// MM_L_GIGAN3
+	monster 'map_glast$,107,145, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	monster 'map_glast$,106,148, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	unittalk getcharid(3), "" + strcharinfo(0) + " : O Gigante Ancestral que o Pesquisador Bernard mencionou!!";
+	enablenpc instance_npcname("Gárgula de Pedra#glast_15");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_16");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_17");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_18");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_19");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_20");
+	end;
+OnMobDead:
+	end;
+}
+
+1@glast,98,248,6	script	Gigante Ancestral#glast_5	4_GIGANTES_BIG,4,4,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("Gigante Ancestral#glast_5");
+	.@label$ = instance_npcname("Gigante Ancestral#glast_5") + "::OnMobDead";
+	monster 'map_glast$,98,248, "Gigante Ancestral#X5",3196,1, .@label$;		// MM_L_GIGAN3
+	monster 'map_glast$,96,250, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	monster 'map_glast$,98,247, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	unittalk getcharid(3), "" + strcharinfo(0) + " : O Gigante Ancestral que o Pesquisador Bernard mencionou!!";
+	enablenpc instance_npcname("Gárgula de Pedra#glast_21");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_22");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_23");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_24");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_25");
+	end;
+OnMobDead:
+	end;
+}
+
+1@glast,107,344,6	script	Gigante Ancestral#glast_6	4_GIGANTES_BIG,6,6,{
+	end;
+OnTouch:
+	disablenpc instance_npcname("Gigante Ancestral#glast_6");
+	.@label$ = instance_npcname("Gigante Ancestral#glast_6") + "::OnMobDead";
+	monster 'map_glast$,107,344, "Gigante Ancestral#X6",3196,1, .@label$;		// MM_L_GIGAN3
+	monster 'map_glast$,107,344, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	monster 'map_glast$,109,346, "Gigante",3193,1, .@label$;	// MM_M_GIGAN3
+	unittalk getcharid(3), "" + strcharinfo(0) + " : O Gigante Ancestral que o Pesquisador Bernard mencionou!!";
+	enablenpc instance_npcname("Gárgula de Pedra#glast_26");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_27");
+	enablenpc instance_npcname("Gárgula de Pedra#glast_28");
+	end;
+OnMobDead:
+	end;
+}
+
+1@glast,277,130,8	script	Gárgula de Pedra#glast_01	4_GARGOYLE_STATUE,2,2,{
+	end;
+OnTouch:
+	getmapxy .@map$,.@x,.@y, BL_NPC;
+	monster .@map$,.@x,.@y, "Gárgula Ancestral",3197,1, instance_npcname( strnpcinfo(0) ) + "::OnMobDead";	// MM_M_GARGOYLE
+	disablenpc();
+	end;
+OnMobDead:
+	end;
+}
+
+1@glast,279,130,8	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_02	4_GARGOYLE_STATUE,2,2
+1@glast,281,130,8	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_03	4_GARGOYLE_STATUE,2,2
+1@glast,277,161,6	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_04	4_GARGOYLE_STATUE,2,2
+1@glast,279,161,6	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_05	4_GARGOYLE_STATUE,2,2
+1@glast,281,161,6	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_06	4_GARGOYLE_STATUE,2,2
+1@glast,277,250,6	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_07	4_GARGOYLE_STATUE,2,2
+1@glast,277,245,8	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_08	4_GARGOYLE_STATUE,2,2
+1@glast,272,248,6	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_09	4_GARGOYLE_STATUE,2,2
+1@glast,273,260,4	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_10	4_GARGOYLE_STATUE,2,2
+1@glast,273,235,2	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_11	4_GARGOYLE_STATUE,2,2
+1@glast,277,328,8	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_12	4_GARGOYLE_STATUE,2,2
+1@glast,279,328,8	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_13	4_GARGOYLE_STATUE,2,2
+1@glast,281,328,8	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_14	4_GARGOYLE_STATUE,2,2
+1@glast,122,132,2	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_15	4_GARGOYLE_STATUE,2,2
+1@glast,120,132,2	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_16	4_GARGOYLE_STATUE,2,2
+1@glast,118,132,2	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_17	4_GARGOYLE_STATUE,2,2
+1@glast,118,163,4	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_18	4_GARGOYLE_STATUE,2,2
+1@glast,120,163,4	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_19	4_GARGOYLE_STATUE,2,2
+1@glast,118,163,4	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_20	4_GARGOYLE_STATUE,2,2
+1@glast,122,250,4	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_21	4_GARGOYLE_STATUE,2,2
+1@glast,122,245,2	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_22	4_GARGOYLE_STATUE,2,2
+1@glast,126,248,4	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_23	4_GARGOYLE_STATUE,2,2
+1@glast,126,260,6	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_24	4_GARGOYLE_STATUE,2,2
+1@glast,126,235,8	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_25	4_GARGOYLE_STATUE,2,2
+1@glast,117,328,2	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_26	4_GARGOYLE_STATUE,2,2
+1@glast,119,328,2	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_27	4_GARGOYLE_STATUE,2,2
+1@glast,121,328,2	duplicate(Gárgula de Pedra#glast_01)	Gárgula de Pedra#glast_28	4_GARGOYLE_STATUE,2,2
+
+
+1@glast,1,1,0	script	#fenrir_spawn_chimera	HIDDEN_WARP_NPC,{
+	end;
+OnSpawn:
+	// Lado direito
+	monster 'map_glast$,351,259,"Quimera Ancestral#bb28",3200,1;
+	monster 'map_glast$,353,250,"Quimera Ancestral#bb28",3200,1;
+	monster 'map_glast$,351,243,"Quimera Ancestral#bb28",3200,1;
+	monster 'map_glast$,351,246,"Quimera Ancestral#bb28",3200,1;
+	monster 'map_glast$,355,248,"Quimera Ancestral#bb28",3200,1;
+	monster 'map_glast$,360,245,"Quimera Ancestral#bb28",3200,1;
+
+	monster 'map_glast$,298,209,"Quimera Ancestral#aa14",3200,1;
+	monster 'map_glast$,303,199,"Quimera Ancestral#aa14",3200,1;
+	monster 'map_glast$,298,198,"Quimera Ancestral#aa14",3200,1;
+	monster 'map_glast$,295,211,"Quimera Ancestral#aa14",3200,1;
+
+	monster 'map_glast$,307,163,"Quimera Ancestral#bb15",3200,1;
+	monster 'map_glast$,315,158,"Quimera Ancestral#bb15",3200,1;
+	monster 'map_glast$,318,163,"Quimera Ancestral#bb15",3200,1;
+	monster 'map_glast$,318,169,"Quimera Ancestral#bb15",3200,1;
+
+	monster 'map_glast$,337,119,"Quimera Ancestral#bb27",3200,1;
+	monster 'map_glast$,344,115,"Quimera Ancestral#bb27",3200,1;
+	monster 'map_glast$,353,117,"Quimera Ancestral#bb27",3200,1;
+	monster 'map_glast$,352,121,"Quimera Ancestral#bb27",3200,1;
+	monster 'map_glast$,345,114,"Quimera Ancestral#bb27",3200,1;
+	monster 'map_glast$,346,115,"Quimera Ancestral#bb27",3200,1;
+
+	monster 'map_glast$,264,36,"Quimera Ancestral#aa26",3200,1;
+	monster 'map_glast$,257,46,"Quimera Ancestral#aa26",3200,1;
+	monster 'map_glast$,253,44,"Quimera Ancestral#aa26",3200,1;
+	monster 'map_glast$,256,39,"Quimera Ancestral#aa26",3200,1;
+
+	// Canto inferior esquerdo
+	monster 'map_glast$,207,46,"Quimera Ancestral#aa1",3200,1;
+	monster 'map_glast$,197,49,"Quimera Ancestral#aa1",3200,1;
+	monster 'map_glast$,190,52,"Quimera Ancestral#aa1",3200,1;
+	monster 'map_glast$,200,64,"Quimera Ancestral#aa1",3200,1;
+	monster 'map_glast$,206,76,"Quimera Ancestral#aa2",3200,1;
+	monster 'map_glast$,207,83,"Quimera Ancestral#aa2",3200,1;
+	monster 'map_glast$,186,82,"Quimera Ancestral#bb3",3200,1;
+	monster 'map_glast$,200,87,"Quimera Ancestral#aa2",3200,1;
+	monster 'map_glast$,188,86,"Quimera Ancestral#bb3",3200,1;
+	monster 'map_glast$,215,77,"Quimera Ancestral#aa2",3200,1;
+	monster 'map_glast$,183,90,"Quimera Ancestral#bb3",3200,1;
+	monster 'map_glast$,192,85,"Quimera Ancestral#bb3",3200,1;
+	monster 'map_glast$,154,36,"Quimera Ancestral#bb35",3200,1;
+	monster 'map_glast$,150,47,"Quimera Ancestral#bb35",3200,1;
+	monster 'map_glast$,138,52,"Quimera Ancestral#bb35",3200,1;
+	monster 'map_glast$,152,36,"Quimera Ancestral#bb35",3200,1;
+	monster 'map_glast$,105,50,"Quimera Ancestral#aa34",3200,1;
+	monster 'map_glast$,100,48,"Quimera Ancestral#aa34",3200,1;
+	monster 'map_glast$,106,52,"Quimera Ancestral#aa34",3200,1;
+	monster 'map_glast$,82,52,"Quimera Ancestral#aa33",3200,1;
+	monster 'map_glast$,85,51,"Quimera Ancestral#aa33",3200,1;
+	monster 'map_glast$,80,65,"Quimera Ancestral#aa33",3200,1;
+	monster 'map_glast$,79,58,"Quimera Ancestral#aa33",3200,1;
+	monster 'map_glast$,82,69,"Quimera Ancestral#aa33",3200,1;
+	monster 'map_glast$,97,41,"Quimera Ancestral#aa34",3200,1;
+	monster 'map_glast$,86,103,"Quimera Ancestral#bb32",3200,1;
+	monster 'map_glast$,82,102,"Quimera Ancestral#bb32",3200,1;
+	monster 'map_glast$,78,108,"Quimera Ancestral#bb32",3200,1;
+	monster 'map_glast$,85,109,"Quimera Ancestral#bb32",3200,1;
+	monster 'map_glast$,82,111,"Quimera Ancestral#bb32",3200,1;
+	monster 'map_glast$,80,144,"Quimera Ancestral#bb31",3200,1;
+	monster 'map_glast$,72,152,"Quimera Ancestral#bb31",3200,1;
+	monster 'map_glast$,88,159,"Quimera Ancestral#bb31",3200,1;
+	monster 'map_glast$,73,152,"Quimera Ancestral#bb31",3200,1;
+	monster 'map_glast$,83,160,"Quimera Ancestral#bb31",3200,1;
+	monster 'map_glast$,77,150,"Quimera Ancestral#bb31",3200,1;
+	monster 'map_glast$,62,207,"Quimera Ancestral#aa30",3200,1;
+	monster 'map_glast$,70,215,"Quimera Ancestral#aa30",3200,1;
+	monster 'map_glast$,58,209,"Quimera Ancestral#aa30",3200,1;
+	monster 'map_glast$,68,204,"Quimera Ancestral#aa30",3200,1;
+	monster 'map_glast$,67,214,"Quimera Ancestral#aa30",3200,1;
+	monster 'map_glast$,58,250,"Quimera Ancestral#aa29",3200,1;
+	monster 'map_glast$,64,257,"Quimera Ancestral#aa29",3200,1;
+	monster 'map_glast$,70,251,"Quimera Ancestral#aa29",3200,1;
+	monster 'map_glast$,65,247,"Quimera Ancestral#aa29",3200,1;
+	monster 'map_glast$,65,256,"Quimera Ancestral#aa29",3200,1;
+	monster 'map_glast$,60,255,"Quimera Ancestral#aa29",3200,1;
+	monster 'map_glast$,50,144,"Quimera Ancestral#bb36",3200,1;
+	monster 'map_glast$,52,143,"Quimera Ancestral#bb36",3200,1;
+	monster 'map_glast$,54,146,"Quimera Ancestral#bb36",3200,1;
+	monster 'map_glast$,55,140,"Quimera Ancestral#bb36",3200,1;
+
+	// Dentro
+	monster 'map_glast$,177,88,"Quimera Ancestral#bb4",3200,1;
+	monster 'map_glast$,163,108,"Quimera Ancestral#bb4",3200,1;
+	monster 'map_glast$,147,113,"Quimera Ancestral#bb4",3200,1;
+	monster 'map_glast$,136,179,"Quimera Ancestral#bb11",3200,1;
+	monster 'map_glast$,136,181,"Quimera Ancestral#bb11",3200,1;
+	monster 'map_glast$,125,190,"Quimera Ancestral#bb11",3200,1;
+	monster 'map_glast$,134,200,"Quimera Ancestral#bb12",3200,1;
+	monster 'map_glast$,134,190,"Quimera Ancestral#bb11",3200,1;
+	monster 'map_glast$,127,203,"Quimera Ancestral#bb12",3200,1;
+	monster 'map_glast$,151,206,"Quimera Ancestral#aa13",3200,1;
+	monster 'map_glast$,125,209,"Quimera Ancestral#bb12",3200,1;
+	monster 'map_glast$,134,204,"Quimera Ancestral#bb12",3200,1;
+	monster 'map_glast$,135,244,"Quimera Ancestral#bb19",3200,1;
+	monster 'map_glast$,149,250,"Quimera Ancestral#bb19",3200,1;
+	monster 'map_glast$,138,249,"Quimera Ancestral#bb19",3200,1;
+	monster 'map_glast$,136,251,"Quimera Ancestral#bb19",3200,1;
+	monster 'map_glast$,127,291,"Quimera Ancestral#bb20",3200,1;
+	monster 'map_glast$,126,288,"Quimera Ancestral#bb20",3200,1;
+	monster 'map_glast$,124,291,"Quimera Ancestral#bb20",3200,1;
+	monster 'map_glast$,135,309,"Quimera Ancestral#aa21",3200,1;
+	monster 'map_glast$,138,316,"Quimera Ancestral#aa21",3200,1;
+	monster 'map_glast$,139,324,"Quimera Ancestral#aa22",3200,1;
+	monster 'map_glast$,132,331,"Quimera Ancestral#aa22",3200,1;
+	monster 'map_glast$,129,315,"Quimera Ancestral#aa21",3200,1;
+	monster 'map_glast$,127,338,"Quimera Ancestral#aa22",3200,1;
+	monster 'map_glast$,126,327,"Quimera Ancestral#aa22",3200,1;
+	monster 'map_glast$,132,288,"Quimera Ancestral#bb20",3200,1;
+	monster 'map_glast$,138,309,"Quimera Ancestral#aa21",3200,1;
+
+	// Centro e lado direito
+	monster 'map_glast$,158,214,"Quimera Ancestral#aa13",3200,1;
+	monster 'map_glast$,162,208,"Quimera Ancestral#aa13",3200,1;
+	monster 'map_glast$,166,215,"Quimera Ancestral#aa13",3200,1;
+	monster 'map_glast$,168,191,"Quimera Ancestral#aa10",3200,1;
+	monster 'map_glast$,164,186,"Quimera Ancestral#aa10",3200,1;
+	monster 'map_glast$,165,191,"Quimera Ancestral#aa10",3200,1;
+	monster 'map_glast$,177,189,"Quimera Ancestral#aa10",3200,1;
+	monster 'map_glast$,199,200,"Quimera Ancestral#aa9",3200,1;
+	monster 'map_glast$,205,195,"Quimera Ancestral#aa9",3200,1;
+	monster 'map_glast$,191,200,"Quimera Ancestral#aa9",3200,1;
+	monster 'map_glast$,196,192,"Quimera Ancestral#aa9",3200,1;
+	monster 'map_glast$,224,196,"Quimera Ancestral#bb8",3200,1;
+	monster 'map_glast$,233,196,"Quimera Ancestral#bb8",3200,1;
+	monster 'map_glast$,239,192,"Quimera Ancestral#bb8",3200,1;
+	monster 'map_glast$,231,193,"Quimera Ancestral#bb8",3200,1;
+	monster 'map_glast$,239,214,"Quimera Ancestral#bb16",3200,1;
+	monster 'map_glast$,232,213,"Quimera Ancestral#bb16",3200,1;
+	monster 'map_glast$,238,209,"Quimera Ancestral#bb16",3200,1;
+	monster 'map_glast$,244,220,"Quimera Ancestral#bb16",3200,1;
+	monster 'map_glast$,252,249,"Quimera Ancestral#aa18",3200,1;
+	monster 'map_glast$,268,221,"Quimera Ancestral#aa17",3200,1;
+	monster 'map_glast$,261,219,"Quimera Ancestral#aa17",3200,1;
+	monster 'map_glast$,261,248,"Quimera Ancestral#aa18",3200,1;
+	monster 'map_glast$,264,211,"Quimera Ancestral#aa17",3200,1;
+	monster 'map_glast$,267,210,"Quimera Ancestral#aa17",3200,1;
+	monster 'map_glast$,258,193,"Quimera Ancestral#bb7",3200,1;
+	monster 'map_glast$,258,192,"Quimera Ancestral#bb7",3200,1;
+	monster 'map_glast$,258,190,"Quimera Ancestral#bb7",3200,1;
+	monster 'map_glast$,269,192,"Quimera Ancestral#bb7",3200,1;
+	monster 'map_glast$,269,110,"Quimera Ancestral#aa6",3200,1;
+	monster 'map_glast$,266,105,"Quimera Ancestral#aa6",3200,1;
+	monster 'map_glast$,277,103,"Quimera Ancestral#aa6",3200,1;
+	monster 'map_glast$,263,107,"Quimera Ancestral#aa6",3200,1;
+	monster 'map_glast$,249,101,"Quimera Ancestral#aa5",3200,1;
+	monster 'map_glast$,237,93,"Quimera Ancestral#aa5",3200,1;
+	monster 'map_glast$,242,107,"Quimera Ancestral#aa5",3200,1;
+	monster 'map_glast$,237,105,"Quimera Ancestral#aa5",3200,1;
+	monster 'map_glast$,264,235,"Quimera Ancestral#aa18",3200,1;
+	monster 'map_glast$,260,255,"Quimera Ancestral#aa18",3200,1;
+	monster 'map_glast$,261,282,"Quimera Ancestral#bb23",3200,1;
+	monster 'map_glast$,260,284,"Quimera Ancestral#bb23",3200,1;
+	monster 'map_glast$,264,289,"Quimera Ancestral#bb23",3200,1;
+	monster 'map_glast$,268,301,"Quimera Ancestral#bb24",3200,1;
+	monster 'map_glast$,262,308,"Quimera Ancestral#bb24",3200,1;
+	monster 'map_glast$,273,306,"Quimera Ancestral#bb24",3200,1;
+	monster 'map_glast$,259,307,"Quimera Ancestral#bb24",3200,1;
+	monster 'map_glast$,269,283,"Quimera Ancestral#bb23",3200,1;
+	monster 'map_glast$,257,350,"Quimera Ancestral#aa25",3200,1;
+	monster 'map_glast$,268,350,"Quimera Ancestral#aa25",3200,1;
+	monster 'map_glast$,268,357,"Quimera Ancestral#aa25",3200,1;
+	monster 'map_glast$,271,358,"Quimera Ancestral#aa25",3200,1;
+	end;
+
+OnInstanceInit:
+	'skip_left_part = 0;
+	'back_to_entrance = 0;
+	'map_glast$ = instance_mapname("1@glast");
+	'fenrir_1$ = instance_npcname("Fenris Fenrir#glast_01");
+	'fenrir_2$ = instance_npcname("Fenris Fenrir#glast_02");
+	'fenrir_3$ = instance_npcname("Fenris Fenrir#glast_03");
+	'fenrir_4$ = instance_npcname("Fenris Fenrir#glast_04");
+	'fenrir_5$ = instance_npcname("Fenris Fenrir#glast_05");
+	'fenrir_6$ = instance_npcname("Fenris Fenrir#glast_06");
+	'fenrir_7$ = instance_npcname("Fenris Fenrir#glast_07");
+	'fenrir_8$ = instance_npcname("Fenris Fenrir#glast_08");
+	'fenrir_9$ = instance_npcname("Fenris Fenrir#glast_09");
+	'fenrir_10$ = instance_npcname("Fenris Fenrir#glast_10");
+	'fenrir_11$ = instance_npcname("Fenris Fenrir#glast_11");
+	'sarah_10$ = instance_npcname("Sara Irine#glast_10");
+	'sarah_17$ = instance_npcname("Sara Irine#glast_17");
+	'sarah_20$ = instance_npcname("Sara Irine#glast_20");
+	'sarah_ego$ = instance_npcname("Sara Irine's alter ego");
+
+	// Entrada
+	disablenpc instance_npcname("#glast_event_3");
+	for ( .@i = 1; .@i < 8; .@i++ )
+		hideonnpc instance_npcname("#effect_glast_event01_" + .@i);
+	disablenpc instance_npcname("#glast_move_01");
+
+	// Fenrir inferior
+	disablenpc instance_npcname("#glast_event_5");
+	disablenpc 'fenrir_2$;
+
+	// Fenrir, lado esquerdo, entrada
+	disablenpc instance_npcname("#glast_event_7");
+	disablenpc 'fenrir_3$;
+
+	// Fenrir lado esquerdo, dentro
+	disablenpc 'fenrir_4$;
+	disablenpc 'sarah_10$;
+	disablenpc instance_npcname("Gigante#semi1");
+	disablenpc instance_npcname("Gigante#semi2");
+	disablenpc instance_npcname("#glast_event_9");
+	for ( .@i = 1; .@i < 9; .@i++ )
+		hideonnpc instance_npcname("#effect_glast_event02_" + .@i);
+	hideonnpc instance_npcname("#effect_glast_event02_bis");
+	//for ( .@i = 1; .@i < 8; .@i++ )
+	//	disablenpc instance_npcname("#glast_event_warp_" + .@i);
+	disablenpc instance_npcname("#fenrir_left_vermilion");
+	disablenpc instance_npcname("#fenrir_left_final_1");
+
+	// Lado superior do evento
+	disablenpc instance_npcname("#glast_event_13");
+	disablenpc 'fenrir_5$;
+
+	// Pula o lado esquerdo
+	disablenpc instance_npcname("#fenrir_left_final_2");
+
+	// Escadas, sala final
+	disablenpc instance_npcname("#glast_move_03");
+	disablenpc instance_npcname("#glast_event_15");
+	disablenpc 'fenrir_6$;
+
+	// Sala Final
+	disablenpc instance_npcname("#glast_move_03a");
+	disablenpc instance_npcname("#glast_event_18");
+	disablenpc instance_npcname("Sara Irine#glast_17");
+	disablenpc 'sarah_20$;
+	disablenpc 'fenrir_7$;
+	disablenpc 'fenrir_8$;
+	disablenpc 'fenrir_9$;
+	//for ( .@i = 11; .@i <= 16; .@i++ )
+	//	disablenpc instance_npcname("#glast_event_warp_" + .@i);
+	for ( .@i = 1; .@i <= 8; .@i++ )
+		hideonnpc instance_npcname("#effect_glast_event03_" + .@i);
+	disablenpc instance_npcname("#glast_event_19");
+	disablenpc instance_npcname("#fenrir_boss_final_1");
+
+	// Sala final externa
+	disablenpc instance_npcname("#glast_event_24");
+	disablenpc 'fenrir_10$;
+
+	// Pula a última sala.
+	disablenpc instance_npcname("#fenrir_boss_final_2");
+
+	// Bombas
+	disablenpc instance_npcname("#sarah_wrath");
+	for ( .@i = 1; .@i <= 14; .@i++ )
+		disablenpc instance_npcname("#glast_bomb_" + (.@i < 10 ? ("0"+.@i) : .@i));
+
+	// Retorna à entrada
+	disablenpc instance_npcname("Alter Ego de Sara Irine");
+	disablenpc 'fenrir_11$;
+	disablenpc instance_npcname("#glast_move_04");
+	disablenpc instance_npcname("#glast_move_05");
+
+	// Fragmentos
+	for ( .@i = 1; .@i < 7; .@i++ )
+		disablenpc instance_npcname("Gigante Ancestral#glast_" + .@i);
+	for ( .@i = 1; .@i < 29; .@i++ )
+		disablenpc instance_npcname( "Gárgula de Pedra#glast_" + (.@i < 10 ? ("0"+.@i) : .@i) );
+
+	// Invoca as Quimeras
+	donpcevent instance_npcname("#fenrir_spawn_chimera") + "::OnSpawn";
+	end;
+}

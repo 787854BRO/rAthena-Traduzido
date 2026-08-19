@@ -1,0 +1,77 @@
+//===== rAthena Script =======================================
+//= Brasilis Guide
+//===== Description: =========================================
+//= [Official Conversion based on bRO & jRO servers]
+//= Guide for the city of Brasilis.
+//
+// Note:
+// - Brasilis was introduced in Pre-Renewal only for bRO and
+//   jRO official servers with differences in monster stats,
+//   spawns and quests.
+//   It was added in Renewal for every other official server.
+//   Since we follow kRO this is disabled by default.
+//   You can enable it on npc/pre-re/scripts_athena.conf
+//===== Changelog: ===========================================
+//= 1.0 First Version [Daegaladh]
+//============================================================
+
+brasilis,219,97,3	script	Guia de Brasilis	478,{
+	mes "[Guia de Brasilis]";
+	mes "Bem-vindo a ^8B4513Brasilis^000000, uma cidade tão vibrante quanto o sol.";
+	mes "Se tiver alguma dúvida, é só perguntar.";
+	next;
+	switch(select("Perguntar sobre locais:Remover marcações do minimapa:Cancelar")) {
+	case 1:
+		mes "[Guia de Brasilis]";
+		mes "Sobre qual lugar você quer informações?";
+		next;
+		switch(select("[ Hotel ]:[ Teleférico da Selva ]:[ Museu de Arte ]:[ Mercado ]:[ Monumento de Verass ]")) {
+		case 1:
+			mes "[Guia de Brasilis]";
+			mes "O Hotel de Brasilis fica logo acima, na marca ^FF3355+^000000.";
+			mes "Posso ajudar com mais alguma coisa?";
+			viewpoint 1,274,151,2,0xFF3355;
+			close;
+		case 2:
+			mes "[Guia de Brasilis]";
+			mes "Quer atravessar a selva sem enfrentar tantos perigos?";
+			mes "Você pode pegar o Teleférico da Selva aqui ^CE6300+^000000.";
+			mes "Posso ajudar com mais alguma coisa?";
+			viewpoint 1,308,335,3,0xCE6300;
+			close;
+		case 3:
+			mes "[Guia de Brasilis]";
+			mes "O orgulho de Brasilis, o famoso Museu de Arte, fica na marca ^A5BAAD+^000000.";
+			mes "Posso ajudar com mais alguma coisa?";
+			viewpoint 1,137,167,4,0x00FF00;
+			close;
+		case 4:
+			mes "[Guia de Brasilis]";
+			mes "Você pode comprar itens para suas caçadas no Mercado, na marca ^55FF33+^000000.";
+			mes "Posso ajudar com mais alguma coisa?";
+			viewpoint 1,254,248,5,0x55FF33;
+			close;
+		case 5:
+			mes "[Guia de Brasilis]";
+			mes "O símbolo de Brasilis, o Monumento de Verass, fica na marca ^3355FF+^000000.";
+			mes "Posso ajudar com mais alguma coisa?";
+			viewpoint 1,195,235,6,0x3355FF;
+			close;
+		}
+		end;
+	case 2:
+		mes "[Guia de Brasilis]";
+		mes "Vou remover todas as marcações do seu minimapa.";
+		mes "Posso ajudar com mais alguma coisa?";
+		viewpoint 0,274,151,2,0x00FF00;
+		viewpoint 0,308,335,3,0x00FF00;
+		viewpoint 0,137,167,4,0x00FF00;
+		viewpoint 0,254,248,5,0x00FF00;
+		viewpoint 0,195,235,6,0x00FF00;
+		close;
+	case 3:
+		mes "[Guia de Brasilis]";
+		mes "Explorar por conta própria é sempre a melhor forma de conhecer a cidade. Boa sorte!";
+		close;
+	}
+}

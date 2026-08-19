@@ -1,0 +1,381 @@
+//===== rAthena Script ======================================= 
+//= Cash Mall
+//===== Changelogs: ==========================================
+//= 1.0 Initial version from replays. [Lemongrass]
+//= 1.1 Cash Hair Stylist [Kisuka]
+//= 1.2 Updated Hair Stylist [Lemongrass]
+//= 1.3 Added an NPC to exchange coupons for Good, Evil or Wrath equipment. [Atemo]
+//============================================================
+
+prontera,137,125,4	script	Guia do Shopping#prontera::cashmall_warper	4_M_HUMAN_02,{
+	mes "[Guia]";
+	mes "Olá~";
+	mes "Este guia quer te levar a um lugar especial.";
+	mes "Que tipo de lugar é esse?";
+	next;
+	mes "[Guia]";
+	mes "É um lugar cheio de itens misteriosos para coletar e vender.";
+	mes "Para comprar coisas lá, você precisa de dinheiro especial.";
+	next;
+	mes "[Guia]";
+	mes "Então, está pronto para ir lá?";
+	next;
+	if (select( "Sim.", "Não." ) == 2) {
+		mes "[Guia]";
+		mes "Tudo bem~";
+		mes "Mas não fique frustrado.";
+		mes "Sempre há mais chances~";
+		close;
+	}
+	mes "[Guia]";
+	mes "Pois é~ Você realmente está pronto.";
+	mes "Então, pegue umas coisas boas~";
+	mes "Ops, esqueci. Quando sair, não se esqueça de voltar aqui.";
+	mes "Lembre-se disso~";
+	close2;
+	setarray .@mapa$[0], "prontera", "morocc", "moc_ruins", "geffen", "payon", "lighthalzen", "rachel";
+	.@retorna = inarray(.@mapa$[0], strcharinfo(3));
+
+	if (.@return > 0)
+		cashmall_return = .@return;
+	else // Caso não encontre, padrão para Prontera
+		cashmall_return = 0;
+
+	warp "itemmall",22,43;
+	end;
+}
+morocc,164,39,4	duplicate(cashmall_warper)	Guia do Shopping#morocc	4_M_HUMAN_02
+moc_ruins,115,143,4	duplicate(cashmall_warper)	Guia do Shopping#moc_ruins	4_M_HUMAN_02
+geffen,115,168,4	duplicate(cashmall_warper)	Guia do Shopping#geffen	4_M_HUMAN_02
+payon,164,157,4	duplicate(cashmall_warper)	Guia do Shopping#payon	4_M_HUMAN_02
+lighthalzen,206,144,4	duplicate(cashmall_warper)	Guia do Shopping#lighthalzen	4_M_HUMAN_02
+rachel,128,144,4	duplicate(cashmall_warper)	Guia do Shopping#rachel	4_M_HUMAN_02
+
+itemmall,21,45,4	script	Sair#cashmall_exit	4_M_HUMAN_02,{
+	mes "[Guia]";
+	mes "Você se divertiu?";
+	mes "Muito obrigado por usar nossa loja de itens.";
+	mes "Vamos continuar trazendo itens valiosos para você.";
+	next;
+	mes "[Guia]";
+	mes "Gostaria de voltar de onde veio?";
+	next;
+	if (select( "Sim.", "Não." ) == 2) {
+		mes "[Guia]";
+		mes "Ainda há mais coisas para ver.";
+		mes "Tenha uma boa experiência.";
+		close;
+	}
+	mes "[Guia]";
+	mes "Obrigado por ter vindo.";
+	mes "Vou te mandar de volta ao lugar de onde saiu.";
+	close2;
+	switch(cashmall_return) {
+		default:
+		case 0:
+			.@returnmap$ = "prontera";
+			setarray .@xy[0],116,72;
+			break;
+		case 1:
+			.@returnmap$ = "morocc";
+			setarray .@xy[0],159,46;
+			break;
+		case 2:
+			.@returnmap$ = "moc_ruins";
+			setarray .@xy[0],109,137;
+			break;
+		case 3:
+			.@returnmap$ = "geffen";
+			setarray .@xy[0],120,38;
+			break;
+		case 4:
+			.@returnmap$ = "payon";
+			setarray .@xy[0],161,58;
+			break;
+		case 5:
+			.@returnmap$ = "lighthalzen";
+			setarray .@xy[0],159,95;
+			break;
+		case 6:
+			.@returnmap$ = "rachel";
+			setarray .@xy[0],115,125;
+			break;
+	}
+	cashmall_return = 0;
+	warp .@returnmap$,.@xy[0],.@xy[1];
+	end;
+}
+
+itemmall,41,53,3	script	Comerciante Macaroon#cashmall	4_M_MERCAT1,{
+	mes "[Macaroon]";
+	mes "Bem-vindo!";
+	mes "Hoje é um dia especial!";
+	mes "Coisas incríveis para ver hoje~ Voilà!";
+	mes "Você só pode trocar pelo <ITEM>Cupom de Milhagem [Kachua]<INFO>1000274</INFO></ITEM>!";
+	mes "Fique à vontade para escolher!";
+	next;
+	switch( select( "Habilidade do 1º Grupo de Trabalho", "Habilidade do 2º Grupo de Trabalho", "Habilidade de Grupo Expandido", "Sombras Gerais por Ocupação", "Cubo das Sombras", "Forja, Modificação, Itens Úteis", "Caixa de Drop", "Livro de Feitiços" ) ){
+		case 1:
+			mes "[Macaroon]";
+			mes "^FF00663-1º Grupo de Trabalho^000000 Habilidade das Sombras!";
+			mes "Aqui estão!";
+			close2;
+			callshop "CachuaCoupon01";
+			end;
+
+		case 2:
+			mes "[Macaroon]";
+			mes "^FF00663-2º Grupo de Trabalho^000000 Habilidade das Sombras!";
+			mes "Aqui estão!";
+			close2;
+			callshop "CachuaCoupon02";
+			end;
+
+		case 3:
+			mes "[Macaroon]";
+			mes "^FF0066Habilidade de Grupo Expandido^000000 Habilidade das Sombras!";
+			mes "Aqui estão!";
+			close2;
+			callshop "CachuaCoupon03";
+			end;
+
+		case 4:
+			mes "[Macaroon]";
+			mes "^FF0066Habilidades Gerais das Sombras por Ocupação^000000!";
+			mes "Aqui estão!";
+			close2;
+			callshop "CachuaCoupon04";
+			end;
+
+		case 5:
+			mes "[Macaroon]";
+			mes "^FF0066Cubo das Sombras^000000 você diz!";
+			mes "Aqui estão!";
+			close2;
+			callshop "CachuaCoupon05";
+			end;
+
+		case 6:
+			mes "[Macaroon]";
+			mes "^FF0066Forja, Modificação, Itens Úteis^000000 você diz!";
+			mes "Aqui estão!";
+			close2;
+			callshop "CachuaCoupon06";
+			end;
+
+		case 7:
+			mes "[Macaroon]";
+			mes "^FF0066Caixa de Drop^000000 você diz!";
+			mes "Aqui estão!";
+			close2;
+			callshop "CachuaCoupon07";
+			end;
+
+		case 8:
+			mes "[Macaroon]";
+			mes "^FF0066Livro de Feitiços^000000 você diz!";
+			mes "Aqui estão!";
+			close2;
+			callshop "CachuaCoupon08";
+			end;
+			}
+		}
+
+itemmall,24,77,4	script	Ferreiro Basta#pr	4_M_DWARF,{
+		if( !getbattleflag( "feature.refineui" ) ){
+			end;
+		}
+
+		mes "[Ferreiro Basta]";
+		mes "Assumi o trabalho do Martelo Poderoso, Brock e do Ferreiro das Sombras. Estarei ocupado a partir de agora.";
+		close2;
+		refineui();
+		end;
+	}
+
+itemmall,27,77,4	script	Martelo Poderoso#im	4_M_DWARF,{
+		mes "[Ferreiro Martelo Poderoso]";
+		mes "Se for sobre refinamento, pergunte ao Basta. Estou aposentado.";
+		close;
+	}
+
+itemmall,24,74,5	script	Brock#im	4_M_HUMAN_01,{
+		mes "[Ferreiro Brock]";
+		mes "Estou aposentado agora. Se for sobre refinamento, faça um pedido ao Basta ali.";
+		close;
+	}
+
+itemmall,19,74,5	script	Estilista#cash2	91,{
+		if( getbattleflag( "feature.stylist" ) ){
+			mes "[Jeremy]";
+			mes "Olá, bonitinha~";
+			mes "Gostaria que me chamasse de Head Stylist Jeremy.";
+			next;
+			if( select( "Mudar estilo.: Encerrar conversa." ) == 2 ){
+				mes "[Jeremy]";
+				mes "Minha loja está sempre aberta, então volte quando quiser.";
+				close;
+			}
+			close2;
+			openstylist();
+			end;
+		}
+
+		mes "[Estilista]";
+		mes "Oi, eu sou a Kaniki.";
+		mes "Estou aqui para iniciar uma nova";
+		mes "tendência apresentando meus";
+		mes "cortes de cabelo especiais!";
+		mes "Me dê um ^FF0000Cupom de Estilo Novo^000000,";
+		mes "e eu mudarei seu cabelo~";
+		next;
+		if (Sex == SEX_MALE) {
+			mes "[Kaniki]";
+			mes "Tenho dois";
+			mes "estilos especiais";
+			mes "para homens, o";
+			mes "Permanente de Cura de Emergência";
+			mes "e o Corte de Lâmina de Aura.";
+			next;
+			cutin "hair_m_24.bmp",4;
+			mes "[Kaniki]";
+			mes "Este é o Permanente de Cura de Emergência. É um";
+			mes "estilo novo que inventei recentemente.";
+			mes "O que acha? Legal, né?";
+			next;
+			cutin "",255;
+			cutin "hair_m_25.bmp",4;
+			mes "[Kaniki]";
+			mes "Agora, este é a Lâmina de Aura.";
+			mes "Você nunca viu nada";
+			mes "igual antes, não é?";
+			next;
+			cutin "",255;
+		}else{
+			mes "[Kaniki]";
+			mes "Tenho dois novos estilos";
+			mes "para mulheres, o";
+			mes "Permanente de Ascensão";
+			mes "e o Corte do Troca-Almas.";
+			mes "Quer ver como esses estilos ficam?";
+			next;
+			cutin "hair_f_24.bmp",4;
+			mes "[Kaniki]";
+			mes "Este é o Permanente de Ascensão.";
+			mes "Ficaria ótimo em você, não acha?";
+			next;
+			cutin "",255;
+			cutin "hair_f_25.bmp",4;
+			mes "[Kaniki]";
+			mes "E aqui está o"; 
+			mes "Corte do Troca-Almas.";
+			mes "O que acha? Não é bonito?";
+			next;
+			cutin "",255;
+		}
+		mes "[Kaniki]";
+		mes "Decidiu se"; 
+		mes "quer que eu mude"; 
+		mes "seu penteado?";
+		next;
+		if (select( "Mudar penteado.", "Não mudar." ) == 2) {
+			mes "[Kaniki]";
+			mes "Sério? Ah, que pena.";
+			mes "Bem, se algum dia";
+			mes "quiser atualizar"; 
+			mes "seu penteado, volte";
+			mes "aqui e me avise, ok?";
+			close;
+		}
+		if (countitem(7622) < 1) {
+			mes "[Kaniki]";
+			mes "Desculpe, mas só posso";
+			mes "fornecer meu serviço de";
+			mes "penteado se você trouxer";
+			mes "um Cupom de Corte de Cabelo.";
+			mes "Volte depois de";
+			mes "conseguir um desses, ok?";
+			close;
+		}
+		mes "[Kaniki]";
+		mes "Ótimo, você trouxe";
+		mes "um Cupom de";
+		mes "Corte de Cabelo!";
+		mes "Então, qual penteado você quer?";
+		next;
+		if (Sex == SEX_MALE) {
+			if(select("Perm. de Cura de Emergência.", "Corte de Lâmina de Aura.") == 1) {
+				delitem 7622,1;	// Cupom de Corte de Cabelo
+				setlook 1,24;
+			}else{
+				delitem 7622,1;	// Cupom de Corte de Cabelo
+				setlook 1,25;
+			}
+		}else{
+			if(select("Perm. de Ascensão", "Corte do Troca-Almas") == 1) {
+				delitem 7622,1;	// Cupom de Corte de Cabelo
+				setlook 1,24;
+			}else{
+				delitem 7622,1;	// Cupom de Corte de Cabelo
+				setlook 1,25;
+			}
+		}
+		mes "[Kaniki]";
+		mes "Pronto!";
+		mes "Gostou do seu";
+		mes "novo cabelo? Espero te ver";
+		mes "de novo. Cuide-se!";
+		close;
+	}
+
+itemmall,41,55,3	script	Vendedor Tunkarom	4_M_MERCAT1,{
+		mes "[Tunkarom]";
+		mes "Bem-vindo!";
+		mes "Se tiver um cupom especial, trocaremos pelo produto que desejar!";
+		mes "Estes são os cupons trocáveis:";
+		mes "<ITEM>???<INFO>1001583</INFO></ITEM>, <ITEM>???<INFO>1001581</INFO></ITEM>, <ITEM>???<INFO>1001584</INFO></ITEM>, <ITEM>???<INFO>1001588</INFO></ITEM>, <ITEM>???<INFO>1001809</INFO></ITEM> e <ITEM>???<INFO>1001810</INFO></ITEM>.";
+		next;
+		switch( select( "Troca de Botas Bem e Mal", "Troca de Coroas do Bem e Mal", "Troca de Armas do Bem", "Troca de Armas do Mal", "Troca de Armas da Ira", "Troca de Coroas da Ira", "Cancelar" ) ) {
+			case 1:
+				mes "[Tunkarom]";
+				mes "Esta é uma troca de Botas do Bem e Mal. Boa escolha~!";
+				close2;
+				callshop( "barter_mall_coupon_1" );
+				end;
+			case 2:
+				mes "[Tunkarom]";
+				mes "Esta é uma troca de Coroas do Bem e Mal. Ótima escolha~!";
+				close2;
+				callshop( "barter_mall_coupon_2" );
+				end;
+			case 3:
+				mes "[Tunkarom]";
+				mes "Esta é uma troca de Armas do Bem. Ótima escolha~!";
+				close2;
+				callshop( "barter_mall_coupon_3" );
+				end;
+			case 4:
+				mes "[Tunkarom]";
+				mes "Esta é uma troca de Armas do Mal. Ótima escolha~!";
+				close2;
+				callshop( "barter_mall_coupon_4" );
+				end;
+			case 5:
+				mes "[Tunkarom]";
+				mes "Esta é uma troca de Armas da Ira. Ótima escolha~!";
+				close2;
+				callshop( "barter_mall_coupon_5" );
+				end;
+			case 6:
+				mes "[Tunkarom]";
+				mes "Esta é uma troca de Coroas da Ira. Ótima escolha~!";
+				close2;
+				callshop( "barter_mall_coupon_6" );
+				end;
+			case 7:
+				mes "[Tunkarom]";
+				mes "Não encontrou o que procura? Volte na próxima.";
+				close;
+		}
+	}
+	

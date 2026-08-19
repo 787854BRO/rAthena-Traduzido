@@ -1,0 +1,71 @@
+//===== rAthena Script ======================================= 
+//= Niflheim Guide
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.2
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guide for the city of Niflheim.
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal guide.
+//= 1.1 Optimized. [Euphy]
+//= 1.2 Navigation system update. [Euphy]
+//============================================================ 
+
+niflheim,201,187,3	script	Guia de Niflheim#01nif	849,{
+	mes "[Guia de Niflheim]";
+	mes "Bem vind"+((Sex) ? "o":"a")+" à... ^8B4513Niflheim^000000...";
+	mes "o Reino dos Mortos...";
+	mes "Você precisa de ajuda para conhecer o reino...?";
+	if (F_Navi() == 0) {
+		next;
+		mes "[Guia de Niflheim]";
+		mes "Quando você clicar no...";
+		mes "^B9062F[nome da localização]^000000... Você receberá os mais avançados serviços de ^B9062FNavegação^000000...!";
+	}
+	while (1) {
+		next;
+		switch(select("[ Loja de Utilidades ]:[ Bar ]:[ Loja de Armas ]:[ Castelo da Bruxa ]:Remover Marcações do Mini-mapa:Cancelar")) {
+		case 1:
+			callsub L_Mark, F_Navi("Loja de Utilidades","niflheim,218,196","^0000FF");
+			viewpoint 1,218,196,0,0x0A82FF;
+			break;
+		case 2:
+			callsub L_Mark, F_Navi("Bar","niflheim,189,208","^006400");
+			viewpoint 1,189,208,1,0xAAFF00;
+			break;
+		case 3:
+			callsub L_Mark, F_Navi("Loja de Armas","niflheim,218,170","^800080");
+			viewpoint 1,218,170,2,0xDA70D6;
+			break;
+		case 4:
+			callsub L_Mark, F_Navi("Castelo da Bruxa","niflheim,255,195","^FF1493");
+			viewpoint 1,255,195,3,0xFF1493;
+			break;
+		case 5:
+			mes "[Guia de Niflheim]";
+			mes "Sure, Eu removerei todas as marcações do seu Mini-mapa...";
+			mes "Há mais alguma coisa que eu possa fazer por você...?";
+			viewpoint 2,1,1,0,0xFFFFFF;
+			viewpoint 2,1,1,1,0xFFFFFF;
+			viewpoint 2,1,1,2,0xFFFFFF;
+			viewpoint 2,1,1,3,0xFFFFFF;
+			break;
+		case 6:
+			mes "[Guia de Niflheim]";
+			mes "......Tchau~!..";
+			close;
+		}
+	}
+	end;
+L_Mark:
+	mes "[Guia de Niflheim]";
+	mes "Deixe-me marcar a localização da(o)";
+	mes getarg(0)+"^000000...";
+	mes "no seu Mini-mapa.";
+	mes "Você gostaria de conhecer outros locais?";
+	return;
+}

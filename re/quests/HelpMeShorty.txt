@@ -1,0 +1,1217 @@
+//===== rAthena Script =======================================
+//= Dynamic NPC: HelpMeShorty.
+//===== Description: =========================================
+//- [Walkthrough conversion]
+//= Short quest to allow the player to summon, via an item, a dynamic NPC that gives basic game information.
+//= After level 30, the player can get a costume in exchange for the item.
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Capuche]
+//============================================================
+
+// Início
+izlude,173,210,3	script	Sombra Negra#fgtg01	4_CENERE,5,5,{
+	if (isbegin_quest(14688) == 0 && BaseLevel < 31) {
+		mes "[Sombra Negra]";
+		mes "Me leve! Você tem que se responsabilizar por ter feito contato visual comigo!";
+		next;
+		mes "[Sombra Negra]";
+		mes "Se você me levar, ^0000cdvou ajudar também^000000. Vou mesmo te ajudar de várias formas! Vou te ensinar ^0000cdmuitas coisas^000000!!";
+		next;
+		mes "[Aviso do Shorty]";
+		mes "^EE0000Se você escolher acompanhar o Shorty, o item ^0000cd<Ajuda nas Curtas>^EE0000 será colocado automaticamente no seu inventário.";
+		next;
+		mes "[Aviso do Shorty]";
+		mes "Se você usar o item <Ajuda nas Curtas> no seu ^EE0000inventário, você poderá invocar o Shorty e receber ^0000cdajuda e conselhos^EE0000 dele.";
+		next;
+		mes "[Aviso do Shorty]";
+		mes "^EE0000Quando você alcançar o nível 31 ou superior, poderá receber uma missão que te leva até o Shorty. Ao completar essa missão, ele irá embora e você receberá uma recompensa ao mesmo tempo.";
+		next;
+		mes "[Aviso do Shorty]";
+		mes "^EE0000Antes de alcançar o nível 31, você pode mandar o Shorty embora a qualquer momento pelo menu ^0000cd<Terminar Relação>^EE0000, mas depois disso você nunca mais poderá tornar o Shorty seu aliado novamente.";
+		next;
+		if (select( "Bom, vamos juntos.", "Não quero ir junto." ) == 2) {
+			mes "[Sombra Negra]";
+			mes "Você consegue fazer isso sem a minha ajuda? Você com certeza não vai conseguir andar dez passos sem pensar em mim. A vida não é sobre ajudar uns aos outros? Não pode ser assim.";
+			close;
+		}
+		mes "[Sombra Negra]";
+		mes "Ufa- ainda bem. Somos amigos agora?";
+		next;
+		mes "[Sombra Negra]";
+		mes "Aliás, o que foi com esses olhos...? Está com medo de mim? Eu estava fazendo isso pra chamar atenção, espera um pouco...";
+		next;
+		cloakonnpcself();
+		cloakoffnpcself("Criatura Misteriosa#fgtg01" );
+		mes "[Sombra Negra]";
+		mes "Assim está bom?";
+		next;
+		mes "[Shorty]";
+		mes "Meu nome é Shorty!!";
+		next;
+		mes "[Shorty]";
+		mes "Qual é o seu nome?";
+		next;
+		select( "Meu nome é " + strcharinfo(0) + "." );
+		mes "[Shorty]";
+		mes "É um nome fácil de falar. Você tem uma bolsa? Aquela que você usa na cintura. É do tamanho perfeito pra eu caber dentro.";
+		next;
+		select( "Você quer entrar na bolsa?" );
+		mes "[Shorty]";
+		mes "Eu consigo caber na sua bolsa. Por que você está tão surpreso? Não vai demorar. Eu vou embora em breve.";
+		next;
+		mes "[Shorty]";
+		mes "Aperte ^0000cdALT+E^000000 para ver dentro da bolsa, depois vá na aba de consumíveis e eu estarei bem ali.";
+		next;
+		mes "[Shorty]";
+		mes "Quando quiser me chamar, aperte ^0000cd<Ajuda nas Curtas>^000000 duas vezes rapidamente e eu sairei da sua bolsa para te ajudar. E aí? Não é ótimo?";
+		next;
+		mes "[Shorty]";
+		mes "Se você não gostar de mim na bolsa, me leve até a ^0000cdSalty^000000. Esse é o meu destino, então quando chegar a hora, eu vou sair da ^0000cdsua bolsa^000000.";
+		next;
+		select( "Onde essa pessoa está?" );
+		mes "[Shorty]";
+		mes "Eu te conto depois. Quero descansar agora.";
+		next;
+		mes "[Shorty]";
+		mes "Boa sorte daqui pra frente!";
+		setquest 14688;
+		completequest 14688;
+		getitem 23278,1;	// Ajuda nas Curtas
+		cloakonnpcself("Criatura Misteriosa#fgtg01" );
+		close;
+	}
+	end;
+
+OnTouch:
+	if (isbegin_quest(14688) == 0 && BaseLevel < 31)
+		npctalk "Me salve! Me abrace rápido! Me salve!", "", bc_self;
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "isbegin_quest(14688) == 0 && BaseLevel < 31" );
+	cloakonnpc();
+	end;
+}
+
+//izlude,173,210,3	script	Criatura Misteriosa#fgtg01	4_GALAPAGO,5,5,{	// efeito desconhecido do OnTouch
+izlude,173,210,3	duplicate(dummy_cloaked_npc)	Criatura Misteriosa#fgtg01	4_GALAPAGO
+
+izlude,161,199,0	script	#fgtg01	HIDDEN_WARP_NPC,3,5,{
+	end;
+OnTouch:
+	if (isbegin_quest(14688) == 0 && BaseLevel < 31)
+		cloakoffnpcself( "Sombra Negra#fgtg01" );
+	end;
+}
+izlude,194,209,0	duplicate(#fgtg01)	#fgtg02	HIDDEN_WARP_NPC,3,5
+izlude,173,210,0	duplicate(#fgtg01)	#fgtg03	HIDDEN_WARP_NPC,3,5
+
+
+// NPC de troca. Passo 1 de 2
+payon_in01,193,23,3	script	Chanmo#fgtg01	1_F_ORIENT_01,{
+	if (isbegin_quest(14693) == 1) {
+		cloakoffnpcself( "Shorty#fgtg004" );
+		mes "[Shorty]";
+		mes "Salty! Salty~ Eu cheguei~ Você esperou? Esperou muito tempo?";
+		next;
+		mes "[Na pousada]";
+		mes "......";
+		next;
+		mes "[Shorty]";
+		mes "Salty, Salty? Salty? Onde você foi, Salty?";
+		next;
+		mes "[Chanmo]";
+		mes "Com quem você está falando?";
+		next;
+		mes "[Shorty]";
+		mes "Eu vim procurar a Salty... Eu vim, mas não tem Salty aqui.";
+		next;
+		mes "[Chanmo]";
+		mes "Salty? Ah, você está falando da mulher que está hospedada no quarto. Eu mandei ela fazer um favor.";
+		next;
+		mes "[Shorty]";
+		mes "Um favor? Por quê?";
+		next;
+		mes "[Chanmo]";
+		mes "Eu estava entediado. Mandei ela pegar um pouco de gelatina e bolotas.";
+		next;
+		mes "[Shorty]";
+		mes "Ei! De onde você apareceu? Nós viemos ver a Salty, por que você mandou a Salty embora~";
+		next;
+		mes "[Chanmo]";
+		mes "Eu não obriguei ninguém a vir, e eu puxei a cabeça do Zug e rolei ela por aí. Então mandei ele sair.";
+		next;
+		mes "[Shorty]";
+		mes "Então eu posso esperar aqui?";
+		next;
+		mes "[Chanmo]";
+		mes "Se você estiver com pressa, pode ajudar. Você pode encontrar o";
+		mes "<NAVI>[Ninho do Coco]<INFO>prt_fild10,318,191,0,101,0</INFO></NAVI> ao sul-sudoeste de Prontera. Você pode conseguir várias bolotas com o Coco.";
+		next;
+		mes "[Shorty]";
+		mes "Hm.. Certo. Mestre, vamos também. Para o Ninho do Coco.";
+		next;
+		select("Você está aqui?");
+		mes "[Shorty]";
+		mes "Estou com saudades da Salty. Vamos ver a Salty.";
+		next;
+		select("Tudo bem então.");
+		mes "[Shorty]";
+		mes "Então vamos nessa!!!";
+		cloakonnpcself("Shorty#fgtg004");
+		completequest 14693;
+		setquest 14694;
+		close;
+	}
+	mes "[Chanmo]";
+	mes "Preciso pegar algumas bolotas e gelatina hoje.";
+	close;
+}
+
+payon_in01,190,24,5	duplicate(dummy_cloaked_npc)	Shorty#fgtg004	4_GALAPAGO
+
+
+// NPC de troca. Passo 2 de 2
+prt_fild10,318,191,0	script	#salt01	HIDDEN_WARP_NPC,3,5,{
+	end;
+OnTouch:
+	if (isbegin_quest(14694) == 1)
+		cloakoffnpcself( "Salty#fgtg01" );
+	end;
+}
+prt_fild10,262,39,0	duplicate(#salt01)	#salt02	HIDDEN_WARP_NPC,3,5
+prt_fild10,332,128,0	duplicate(#salt01)	#salt03	HIDDEN_WARP_NPC,3,5
+prt_fild10,222,293,0	duplicate(#salt01)	#salt04	HIDDEN_WARP_NPC,3,5
+// 5?
+prt_fild10,26,196,0	duplicate(#salt01)	#salt06	HIDDEN_WARP_NPC,3,5
+prt_fild10,311,167,0	duplicate(#salt01)	#salt07	HIDDEN_WARP_NPC,3,5
+prt_fild10,298,212,0	duplicate(#salt01)	#salt08	HIDDEN_WARP_NPC,3,5
+
+
+prt_fild10,318,191,3	script	Salty#fgtg01	4_F_ALCHE_A,{
+	if (isbegin_quest(14694) == 1) {
+		mes "[Salty]";
+		mes "Ah! Bolotas! Muk-muk, gelatina de bolota! O que se faz com bolotas? Você come gelatina de bolota~";
+		next;
+		cloakoffnpcself( "Shorty#fgtg005" );
+		mes "[Shorty]";
+		mes "Você parece animada, Salty. Você estava feliz sem mim?";
+		next;
+		mes "[Salty]";
+		mes "Hã? Uh-huh??? Shorty!!!!!!!!!!";
+		next;
+		mes "[Shorty]";
+		mes "Você se divertiu sem mim? Você se divertiu sem mim...";
+		next;
+		mes "[Salty]";
+		mes "Shorty, por que você está aqui? Um dia eu recebi uma carta dizendo que você estava indo embora!!!";
+		next;
+		mes "[Shorty]";
+		mes "Existem várias circunstâncias. Essa situação será explicada pelo meu mestre aqui.";
+		next;
+		mes "[Salty]";
+		mes "O quê? Você sequestrou o nosso Shorty??";
+		next;
+		select( "Não, não é isso..." );
+		mes "[Salty]";
+		mes "Ah é? Mas Shorty! O que está acontecendo aqui?";
+		next;
+		mes "[Shorty]";
+		mes "Eu fui para Payon e vim até aqui porque a avó que cozinha muk disse que você tinha vindo pra cá.";
+		next;
+		mes "[Salty]";
+		mes "Tudo bem! Eu já estava quase indo também, mas vamos parar em Prontera por um tempo e depois ir para Payon. Vamos arrumar algumas coisas e viajar pelo continente!";
+		next;
+		mes "[Shorty]";
+		mes "Sim! Mestre, as aventuras que tivemos juntos foram divertidas!";
+		next;
+		mes "[Salty]";
+		mes "Eu preciso agradecer. Parece que você estava carregando o Shorty nessa bolsinha pequena.";
+		next;
+		mes "[Shorty]";
+		mes "Mestre, muito obrigado.";
+		next;
+		select( "Vocês vão embora?" );
+		mes "[Shorty]";
+		mes "Nossa relação não termina aqui. Lembre-se de que você me conheceu. Salty, tem mais alguma coisa? Algo para recordar.";
+		next;
+		mes "[Salty]";
+		mes "Uh-huh, algo assim.";
+		next;
+		mes "[Shorty]";
+		mes "É só isso? Pinguim? Pinguim? Você gosta mais de pinguins do que de mim?";
+		next;
+		mes "[Salty]";
+		mes "Não, não é... Eu comprei originalmente em Paros para lembrar de você, mas pensando agora, você não é um pinguim, então eu só guardei. Não é fofo?";
+		next;
+		mes "[Shorty]";
+		mes "Fofo.";
+		next;
+		mes "[Salty]";
+		mes "Vou te dar isso. Obrigada por cuidar do Shorty! Shorty, vamos!";
+		next;
+		specialeffect EF_TELEPORTATION2;
+		cloakonnpcself();
+		mes "[Shorty]";
+		mes "Mestre, mesmo que passe muito tempo, não se esqueça de mim e se torne um grande aventureiro que faça seu nome no continente!";
+		specialeffect EF_TELEPORTATION2, AREA, "Shorty#fgtg005";
+		cloakonnpcself( "Shorty#fgtg005" );
+		erasequest 14694;
+		if (isbegin_quest(14695) > 0)
+			erasequest 14695;
+		delitem 23278,1;	// Ajuda nas Curtas
+		getitem 20267,1;	// Chapéu de Pinguim
+		getexp 4000,1000;
+		close;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "isbegin_quest(14694) == 1" );
+	cloakonnpc();
+	end;
+}
+
+prt_fild10,315,189,7	duplicate(dummy_cloaked_npc)	Shorty#fgtg005	4_GALAPAGO
+
+
+// Base do NPC dinâmico
+izlude,1,1,0	script	Shorty#fgtg01	4_GALAPAGO,{
+	if (isbegin_quest(14689) == 0) {
+		mes "[Shorty]";
+		mes "Bom trabalho. Se precisar da minha ajuda no futuro, você pode me chamar assim.";
+		next;
+		select( "Como você pode me ajudar?" );
+		mes "[Shorty]";
+		mes "Quando você chegou aqui pela primeira vez, não sabia de nada, né? Eu vou te ensinar tudo o que eu sei. ^0000cdPergunte qualquer coisa!^000000";
+		next;
+		mes "[Shorty]";
+		mes "E eu vou te oferecer vários ^0000cdserviços^000000 úteis para ajudar na caça.";
+		next;
+		mes "[Shorty]";
+		mes "A única coisa que eu posso fazer é ^0000cdaumentar agilidade^000000 para se mover mais rápido, e ^0000cdbênção^000000 para aumentar força, destreza e inteligência, mas isso com certeza vai ajudar, né?";
+		next;
+		mes "[Shorty]";
+		mes "Isso! Se você me chamar e não disser nada por um minuto, eu volto pra bolsa.";
+		next;
+		mes "[Shorty]";
+		mes "E quando o trabalho terminar, é só me deixar. Eu vou dar uma olhada por aí e entrar na bolsa. Eu acompanho muito bem.";
+		next;
+		select( "Quando você vai encontrar Salty?" );
+		mes "[Shorty]";
+		mes "Agora não, mestre. Este Shorty, das Galápagos, sabe ser grato. Quando você conseguir tirar sua camiseta de iniciante e começar a aventura por conta própria, aí sim o Shorty vai embora.";
+		next;
+		mes "[Shorty]";
+		mes "Nessa hora, mesmo que você se agarre em mim e chore, eu vou te deixar. Antes disso, você precisa aumentar seu nível até mais ou menos o ^0000cdnivel 31^000000. Até lá, vamos dar o nosso melhor daqui pra frente.";
+		setquest 14689;
+		completequest 14689;
+		next;
+	}
+	.@state = isbegin_quest(14693);
+	.@state = ((.@state == 2 && isbegin_quest(14694) == 1) ? 1 : .@state);
+
+	switch( .@state ) {
+	case 0:
+		if (BaseLevel < 31)
+			break;
+		mes "[Shorty]";
+		mes "Você cresceu de forma maravilhosa. Então agora eu quero encontrar a Salty. Ela deve estar preocupada comigo.";
+		next;
+		select( "Só agora você teve essa ideia?" );
+		mes "[Shorty]";
+		mes "A última carta da Salty dizia que era da ^0000cdEstalagem de Payon^000000.";
+		next;
+		mes "[Shorty]";
+		mes "Vamos lá";
+		mes "encontrar a <NAVI>[Estalagem]<INFO>payon_in01,193,23,0,101,0</INFO></NAVI> em Payon.";
+		setquest 14693;
+		close;
+	case 1:
+		break;
+	case 2:
+		mes "[Shorty]";
+		mes "Quem é você? Quem é você falando comigo? Eu não gosto de pessoas desconhecidas falando comigo ou me tocando.";
+		close;
+	}
+	if (BaseLevel < 31) {
+		switch( rand(4) ) {
+		case 0:
+			mes "[Shorty]";
+			mes "Abra a janela de itens e você verá ^0000cdquatro abas^000000. Consegue ver?";
+			next;
+			mes "[Shorty]";
+			mes "Se você arrastar e soltar itens que não usa com frequência ou que não devem ser vendidos para NPCs, coloque eles na ^0000cd<Aba Pessoal>, e aperte o botão de bloqueio de comércio^000000 embaixo, você não vai vender esses itens sem querer.";
+			break;
+		case 1:
+			mes "[Shorty]";
+			mes "Mestre, você já apertou a tecla ^0000cdF12^000000? Uns quadradinhos brancos pequenos vão aparecer.";
+			next;
+			mes "[Shorty]";
+			mes "Arraste o ícone de uma habilidade ou item pra lá. Quando soltar, você pode usar habilidades e itens de forma rápida e fácil apenas apertando o ^0000cdbotão de atalho^000000. É muito conveniente.";
+			break;
+		case 2:
+			mes "[Shorty]";
+			mes "Ele disse que se você não precisar dos chapéus ou roupas que conseguiu na academia, pode trocar por coisas úteis na ^0000cdmáquina de vendas no escritório de mudança de classe de cada profissão^000000.";
+			next;
+			mes "[Shorty]";
+			mes "A Salty também usava muito bem. Eu queria mariscos, se possível.";
+			break;
+		case 3:
+			mes "[Shorty]";
+			mes "Vamos sair depois de conferir onde foi a caçada. Pode ter ficado alguma carta de monstro.";
+			next;
+			mes "[Shorty]";
+			mes "Essa é uma dica valiosa que a Salty me ensinou~ Você tem alguma carta de monstro?";
+			break;
+		}
+		setarray .@menu$[0], "Me dê força!", "Para onde eu devo ir?", "Não tem nada bom?", "Como eu pego habilidades e Atributos?", "Me diga como operar." ;
+	}
+	else {
+		switch( rand(4) ) {
+		case 0:
+			mes "[Shorty]";
+			mes "Mestre, você sabia que além do continente de Midgard que conhecemos, dá pra ir para lugares novos e misteriosos de barco? Principalmente Al... Al... Allegro?";
+			next;
+			mes "[Shorty]";
+			mes "^0000cdAh! Dá pra ir de barco a partir de Alberta^000000! Vamos depois! Mestre! É uma nova aventura!";
+			break;
+		case 1:
+			mes "[Shorty]";
+			mes "Eu ouvi dizer que existem vários calabouços que até um jovem aventureiro como você consegue ir.";
+			next;
+			select( "Por que eu sou tão burro!" );
+			mes "[Shorty]";
+			mes "Mestre, o que você está dizendo? Enfim, esgotos subterrâneos, cavernas de Payon, formigueiros e navios naufragados. Você não quer se tornar o governante do calabouço, mestre?";
+			next;
+			select( "Se você lutar por mim." );
+			mes "[Shorty]";
+			mes "Mestre, você deve cuidar do seu corpo porque você só tem uma vida.";
+			break;
+		case 2:
+			mes "[Shorty]";
+			mes "O mestre está pronto? Eu quero muito ir!";
+			next;
+			select( "O que é? Onde é?" );
+			mes "[Shorty]";
+			mes "Você não conhece Ohiso, Boiso, Saiso, e o ^0000cdParamercado^000000? O que o mestre faria sem mim, sério?";
+			next;
+			mes "[Shorty]";
+			mes "Paramercado é um lugar que vende itens difíceis de encontrar no mercado ou nas barracas de rua, em quantidade limitada e por tempo limitado. É um ótimo lugar para fazer negócios.";
+			next;
+			select( "Como eu chego lá?" );
+			mes "[Shorty]";
+			mes "Fale com o Windman do Paramercado no ^0000cdCorredor do Paraíso^000000 e ele vai te mandar pra lá.";
+			break;
+		case 3:
+			mes "[Shorty]";
+			mes "Mestre, às vezes quando você quer comprar algo de um vendedor de rua, você fica se perguntando se estão vendendo agora e quem está vendendo.";
+			next;
+			select( "É verdade. Nem consigo olhar todas as barracas." );
+			mes "[Shorty]";
+			mes "Nesse caso, você pode usar o ^0000cdcatálogo^000000. Atualmente, dizem que ^0000cdmáquinas de vendas no Paraíso ou o mercador de Alberta^000000 estão vendendo.";
+			next;
+			mes "[Shorty]";
+			mes "Eu também quero ir fazer compras hoje.";
+			break;
+		}
+		setarray .@menu$[5], "Alguma coisa boa?";
+	}
+	next;
+	mes "[Shorty]";
+	mes "Você precisa de mais ajuda minha?";
+	next;
+	switch( select( .@menu$[0], .@menu$[1], .@menu$[2], .@menu$[3], .@menu$[4], .@menu$[5 ], "Guia de Informações", "Estou curioso sobre o que você está falando.", "Terminar relação agora." ) ) {
+	case 1:
+		switch( checkquest(14695,PLAYTIME) ) {
+		case -1:
+			mes "[Shorty]";
+			mes "Mestre, vou te dar a ajuda que prometi antes. Aumentar agilidade e bênção.";
+			next;
+			mes "[Shorty]";
+			mes "Mas eu aprendi isso só observando, e quando eu faço, minha alma fica cansada, então não posso fazer infinitamente. Mesmo assim, pode levar meia hora pra eu me recuperar.";
+			next;
+			mes "[Shorty]";
+			mes "Se quiser saber quando poderá receber de novo, abra a janela de missões com as teclas ALT+U e confira o tempo exibido embaixo.";
+			next;
+			mes "[Shorty]";
+			mes "Vai! Mestre!!";
+			npcskill "AL_INCAGI",10,99,60;
+			npcskill "AL_BLESSING",10,99,60;
+			setquest 14695;
+			close;
+		case 0:
+		case 1:
+			mes "[Shorty]";
+			mes "Mestre, ainda nem passaram 30 minutos. Eu ainda estou me esforçando. Vou te dar mais força quando eu me recuperar, então por favor espere.";
+			close;
+		case 2:
+			mes "[Shorty]";
+			mes "Vai! Mestre!!";
+			npcskill "AL_INCAGI",10,99,60;
+			npcskill "AL_BLESSING",10,99,60;
+			erasequest 14695;
+			setquest 14695;
+			close;
+		}
+		end;
+	case 2:
+		mes "[Shorty]";
+		mes "Sobre o que você gostaria de aprender, mestre?";
+		next;
+		switch( select( "O caminho de um aventureiro iniciante!", "Ajudar as pessoas ao meu redor.", "Não gosto de caminho definido.", "Não tem lugar que eu queira ir." ) ) {
+		case 1:
+			mes "[Shorty]";
+			mes "Acho que vi um professor ^0000cd<Arqueiro Pensativo>^000000 perto da entrada de Izlude, mas ele parecia cheio de pensamentos. Por que você não vai lá perguntar o que está acontecendo? Vamos, vamos~";
+			close;
+		case 2:
+			mes "[Shorty]";
+			mes "Por que você não encontra Paul e Anne do lado de fora do ^0000cdPortão Oeste de Prontera^000000? Enquanto eu passava, ouvi dizer que eles precisavam de ajuda.";
+			next;
+			mes "[Shorty]";
+			mes "Ou então, por que não escuta o homem de meia-idade ansioso em ^0000cdPayon^000000?";
+			close;
+		case 3:
+			mes "[Shorty]";
+			mes "Apertar ^0000cdCtrl+`^000000 vai abrir o mapa.";
+			next;
+			mes "[Shorty]";
+			mes "Você vê uma caixa para selecionar a região no canto superior esquerdo?";
+			next;
+			mes "[Shorty]";
+			mes "Depois de selecionar a área que quer ver, confira a ^0000cdaba de monstros^000000 no canto superior direito ou aperte a ^0000cdtecla Tab^000000, e você verá o nome e o nível do monstro mais comum naquela área.";
+			next;
+			mes "[Shorty]";
+			mes "É melhor se aventurar em um lugar que combine com o nível do mestre. Se houver ^0000cdmuita diferença de nível entre você e os monstros^000000, você não conseguirá 100% da experiência. Você tem que calcular essa diferença também, certo?";
+			next;
+			mes "[Shorty]";
+			mes "Se você clicar na cidade que quer ir, o menu de navegação vai aparecer. Aperte o ^0000cdbotão <Guia para o alvo> embaixo^000000 e saia do mapa para receber orientação.";
+			close;
+		case 4:
+			mes "[Shorty]";
+			mes "Mestre, você está entediado? Então você pode conversar com as pessoas ao seu redor.";
+			next;
+			mes "[Shorty]";
+			mes "Fora isso, também seria bom tentar as ^0000cdMissões do Paraíso^000000. Quer ir para o Paraíso? Dizem que vão te dar uma arma se você for.";
+			next;
+			mes "[Shorty]";
+			mes "Pra onde você quer ir? Digite ^0000cd/place^000000 na janela de bate-papo e compare sua localização atual com o mapa que aparece ao apertar as teclas ^0000cdCtrl+`^000000.";
+			next;
+			switch( select( "Prontera", "Geffen", "Payon", "Morroc", "Alberta", "Concluir." ) ) {
+			case 1:
+				mes "[Shorty]";
+				mes "Clique em <NAVI>[Prontera]<INFO>prontera,124,76,0,101,0</INFO></NAVI> para encontrar.";
+				break;
+			case 2:
+				mes "[Shorty]";
+				mes "Clique em <NAVI>[Geffen]<INFO>geffen,132,66,0,101,0</INFO></NAVI> para encontrar.";
+				break;
+			case 3:
+				mes "[Shorty]";
+				mes "Clique em <NAVI>[Payon]<INFO>payon,177,111,0,101,0</INFO></NAVI> para encontrar.";
+				break;
+			case 4:
+				mes "[Shorty]";
+				mes "Clique em <NAVI>[Morroc: Viajante do Paraíso]<INFO>morocc,161,97,0,101,0</INFO></NAVI> para encontrar.";
+				next;
+				mes "[Shorty]";
+				mes "Morroc é onde fica o Paraíso, então não seria bom dar uma volta por lá?";
+				next;
+				mes "[Shorty]";
+				mes "Vá para <NAVI>[Paraíso de Morroc]<INFO>morocc,206,285,0,101,0</INFO></NAVI>.";
+				break;
+			case 5:
+				mes "[Shorty]";
+				mes "Clique em <NAVI>[Alberta]<INFO>alberta,124,67,0,101,0</INFO></NAVI> para encontrar.";
+				break;
+			case 6:
+				mes "[Shorty]";
+				mes "Certo? Então vou dar uma olhada por aí e voltar pra bolsa.";
+				close;
+			}
+			next;
+			mes "[Shorty]";
+			mes "Vá e se registre primeiro com Lime Ivenor, depois confira o quadro de avisos ao lado.";
+			next;
+			mes "[Shorty]";
+			mes "Seria legal andar pelas cidades e campos procurando e ajudando pessoas que precisam. Quem precisa de ajuda pode ser encontrado mais facilmente com um sinal <!> acima da cabeça.";
+			close;
+		}
+		end;
+	case 3:
+		mes "[Shorty]";
+		mes "Você não entrou no Clube Paraíso?";
+		next;
+		mes "[Shorty]";
+		mes "Você quer ir para o ^0000cdParaíso^000000? Dizem que se você for ao Paraíso, eles vão te fornecer armas.";
+		next;
+		mes "[Shorty]";
+		mes "Pra onde você quer ir? Digite /place na janela de chat e compare sua localização atual com o mapa que aparece ao apertar as teclas ^0000cdCtrl+`^000000. Qual é o mais perto?";
+		next;
+		switch( select( "Prontera", "Geffen", "Payon", "Morroc", "Alberta", "Concluir" ) ) {
+		case 1:
+			mes "[Shorty]";
+			mes "Clique em <NAVI>[Prontera]<INFO>prontera,124,76,0,101,0</INFO></NAVI> para encontrar.";
+			break;
+		case 2:
+			mes "[Shorty]";
+			mes "Clique em <NAVI>[Geffen]<INFO>geffen,132,66,0,101,0</INFO></NAVI> para encontrar.";
+			break;
+		case 3:
+			mes "[Shorty]";
+			mes "Clique em <NAVI>[Payon]<INFO>payon,177,111,0,101,0</INFO></NAVI> para encontrar.";
+			break;
+		case 4:
+			mes "[Shorty]";
+			mes "Clique em <NAVI>[Morroc: Viajante do Paraíso]<INFO>morocc,161,97,0,101,0</INFO></NAVI> para encontrar.";
+			next;
+			mes "[Shorty]";
+			mes "Morroc é onde fica o Paraíso, então não seria bom dar uma volta por lá?";
+			next;
+			mes "[Shorty]";
+			mes "Vá para <NAVI>[Paraíso de Morroc]<INFO>morocc,206,285,0,101,0</INFO></NAVI>.";
+			break;
+		case 5:
+			mes "[Shorty]";
+			mes "Clique em <NAVI>[Alberta]<INFO>alberta,124,67,0,101,0</INFO></NAVI> para encontrar.";
+			break;
+		case 6:
+			mes "[Shorty]";
+			mes "Certo? Então vou dar uma olhada por aí e voltar pra bolsa.";
+			close;
+		}
+		next;
+		mes "[Shorty]";
+		mes "^0000cdVá e se registre primeiro com Lime Ivenor^000000, e depois fale com o Boyana Ur e a equipe de Logística do Paraíso em ambos os lados.";
+		next;
+		mes "[Shorty]";
+		mes "Depois de algumas missões e treinamentos, eles me deram equipamentos.";
+		close;
+	case 4:
+		mes "[Shorty]";
+		mes "Do que você está curioso sobre status e habilidades?";
+		next;
+		switch( select( "Curioso sobre Habilidades.", "Curioso sobre Atributos.", "Não estou mais interessado." ) ) {
+		case 1:
+			mes "[Shorty]";
+			mes "Aperte as teclas ^0000cdAlt+S^000000 para abrir a janela da lista de habilidades.";
+			next;
+			mes "[Shorty]";
+			mes "Se você marcar a opção ^0000cd<Ver descrição da habilidade> no canto superior direito^000000, você poderá ver a descrição da habilidade ao passar o mouse sobre o ícone.";
+			next;
+			mes "[Shorty]";
+			mes "Você pode aprender habilidades consumindo ^0000cd<Pontos de Habilidade>^000000, que são obtidos sempre que seu nível de classe aumenta. Você pode conferir quantos pontos tem no canto inferior esquerdo dessa janela.";
+			next;
+			mes "[Shorty]";
+			mes "O mestre atualmente tem " + SkillPoint + " ponto" + (SkillPoint > 1 ? "s" : "") + " de habilidade.";
+			next;
+			mes "[Shorty]";
+			mes "O mestre conhece a árvore de habilidades? Se você passar o mouse sobre a habilidade que quer aprender, aparecerão as habilidades e níveis necessários para aprender antes.";
+			next;
+			mes "[Shorty]";
+			mes "Isso é a árvore de habilidades. Porém, os pontos de habilidade consumidos ao aprender são limitados, então você não pode aprender todas as habilidades.";
+			next;
+			mes "[Shorty]";
+			mes "No total, existem 49 pontos de habilidade que podem ser usados para aprender antes do mestre mudar para uma classe superior. Essa condição é chamada de estagnação.";
+			next;
+			mes "[Shorty]";
+			mes "^0000cdSe seu nível de classe for 40, você pode mudar para uma segunda classe^000000, mas é recomendado mudar quando chegar ao nível 50.";
+			next;
+			mes "[Shorty]";
+			mes "Porque isso simplifica o processo de mudança. Que motivo maior poderia existir além disso?";
+			next;
+			mes "[Shorty]";
+			mes "Não se preocupe tanto se achar que distribuiu suas habilidades errado.";
+			next;
+			mes "[Shorty]";
+			mes "Você pode resetar a qualquer momento até o mestre mudar para uma classe superior.";
+			next;
+			mes "[Shorty]";
+			mes "Vá até <NAVI>[Izlude: O Hipnotizador]<INFO>izlude,127,175,0,101,0</INFO></NAVI> para orientação.";
+			close;
+		case 2:
+			mes "[Shorty]";
+			mes "Vamos ver, mestre...";
+			next;
+			mes "[Shorty]";
+			mes "Ouvi dizer que para Taekwon, você deve aumentar principalmente For, Agi e Des. Para mais informações,";
+			mes "por favor visite <NAVI>[Payon: Ahri]<INFO>payon,245,295,0,101,0</INFO></NAVI>.";
+			next;
+			mes "[Shorty]";
+			mes "Não se preocupe tanto se achar que distribuiu seus atributos errado.";
+			next;
+			mes "[Shorty]";
+			mes "Você pode resetar a qualquer momento até o mestre mudar para uma classe superior.";
+			mes "Vá até <NAVI>[Izlude: O Hipnotizador]<INFO>izlude,127,175,0,101,0</INFO></NAVI> para orientação.";
+			close;
+		case 3:
+			mes "[Shorty]";
+			mes "Me chame a qualquer momento se tiver dúvidas. Vou dar uma olhada por aí e voltar pra bolsa.";
+			close;
+		}
+		end;
+	case 5:
+		switch( select( "Operações Básicas", "Guia de Atalhos", "Cancelar" ) ) {
+		case 1:
+			while(1) {
+				mes "[Shorty]";
+				mes "Sobre o que você está curioso?";
+				next;
+				switch( select( "Mover e Atacar", "Falar com NPCs", "Verificar Missões", "Verificar Atributos e Habilidades", "Desequipar Equipamentos", "Troca" ) ) {
+				case 1:
+					mes "[Shorty]";
+					mes "^0000cd<Mover>^000000 - Clique no lugar para onde quer ir ^0000cdcom o mouse^000000.";
+					mes "^0000cd<Atacar>^000000 - Clique no alvo ^0000cdcom o mouse para atacar^000000.";
+					next;
+					mes "[Shorty]";
+					mes "E aí? Simples, né? Você também pode mover a câmera segurando o botão direito do mouse e girando.";
+					break;
+				case 2:
+					mes "[Shorty]";
+					mes "<Conversar> - Clique no alvo ^0000cdcom o mouse para conversar^000000.";
+					next;
+					mes "[Shorty]";
+					mes "Às vezes você precisa se aproximar para falar com alguém.";
+					break;
+				case 3:
+					mes "[Shorty]";
+					mes "Clique no ^0000cdícone de missões no menu principal localizado no canto superior esquerdo.";
+					mes "Atalho: ^0000cdAlt+U^000000";
+					next;
+					mes "[Shorty]";
+					mes "Quando o mestre recebe uma missão, as informações aparecem brevemente no lado direito da tela, então você pode conferir.";
+					next;
+					mes "[Shorty]";
+					mes "Se houver uma missão que você não quer ver na lista, coloque o ponteiro do mouse sobre o título e clique com o botão direito para enviar para a aba de pendentes.";
+					break;
+				case 4:
+					mes "[Shorty]";
+					mes "<Verificar status> - Clique no ^0000cdícone de status no menu principal localizado no canto superior esquerdo^000000.";
+					mes "Atalho: ^0000cdAlt+A^000000";
+					next;
+					mes "[Shorty]";
+					mes "<Verificar habilidades> - Clique no ^0000cdícone de habilidades no menu principal localizado no canto superior esquerdo^000000.";
+					mes "Atalho: ^0000cdAlt+S^000000";
+					next;
+					mes "[Shorty]";
+					mes "Não esqueça! A habilidade precisa ser ativada dando duplo clique no ícone que você quer usar e é conjurada clicando uma vez com o botão esquerdo do mouse!";
+					break;
+				case 5:
+					mes "[Shorty]";
+					mes "<Equipar e desequipar equipamentos> - Clique no ^0000cdícone de equipamentos no menu principal localizado no canto superior esquerdo^000000.";
+					mes "Atalho: ^0000cdAlt+Q^000000";
+					next;
+					mes "[Shorty]";
+					mes "Normalmente, você pode equipar e desequipar dando duplo clique com o botão esquerdo na janela de inventário ou de equipamentos.";
+					next;
+					mes "[Shorty]";
+					mes "Flechas e balas só podem ser equipadas arrastando do inventário para o personagem na janela de equipamentos.";
+					next;
+					mes "[Shorty]";
+					mes "Se o mestre virar Mercador, poderá puxar um carrinho, que pode ser emprestado com os funcionários Kafra de cada cidade.";
+					break;
+				case 6:
+					mes "[Shorty]";
+					mes "<Troca com Loja> - Clique no NPC comerciante ^0000cdpara negociar^000000.";
+					mes "<Troca com Jogador> - Clique com o botão direito do mouse no jogador com quem quer negociar e selecione ^0000cdTrocar^000000.";
+					next;
+					mes "[Shorty]";
+					mes "<Comprar e vender em barracas> - Clique com o mouse na janela das barracas.";
+					break;
+				}
+				next;
+			}
+			end;
+		case 2:
+			while(1) {
+				mes "[Shorty]";
+				mes "Sobre o que você está curioso?";
+				next;
+				switch( select( "Dica do Dia", "Lista de Comandos", "Janela de Atalho de Habilidades e Itens", "Lista e Registro de Teclas de Atalho", "Lista de Comandos", "Lista de Emoções" ) ) {
+				case 1:
+					mes "[Shorty]";
+					mes "Digite ^0000cd/tip^000000 na janela de bate-papo.";
+					next;
+					mes "[Shorty]";
+					mes "Muita informação útil da vida está contida nisso. Sempre que fico entediado, eu leio isso.";
+					break;
+				case 2:
+					mes "[Shorty]";
+					mes "Digite ^0000cd/h^000000 na janela de bate-papo.";
+					next;
+					mes "[Shorty]";
+					mes "Você pode ver as informações necessárias para aventureiros Aprendizes.";
+					break;
+				case 3:
+					mes "[Shorty]";
+					mes "Aperte a tecla ^0000cdF12^000000 para registrar itens consumíveis, habilidades e equipamentos arrastando eles para a janela de atalhos.";
+					next;
+					mes "[Shorty]";
+					mes "Você sabia que usar itens rapidamente e trocar equipamentos é essencial para um combate eficiente?";
+					break;
+				case 4:
+					mes "[Shorty]";
+					mes "Aperte as teclas ^0000cdAlt+M^000000 para registrar comandos de atalho usados com frequência~";
+					next;
+					mes "[Shorty]";
+					mes "Eu uso essa função para registrar comandos usados com frequência.";
+					break;
+				case 5:
+					mes "[Shorty]";
+					mes "Aperte as teclas ^0000cdAlt+Y^000000 para verificar a lista de comandos e ativar/desativar.";
+					next;
+					mes "[Shorty]";
+					mes "Você pode ativar/desativar várias opções conforme a escolha do mestre.";
+					break;
+				case 6:
+					mes "[Shorty]";
+					mes "Aperte as teclas ^0000cdAlt+L^000000 para ver e usar a lista de emoções e comandos de atalho.";
+					next;
+					mes "[Shorty]";
+					mes "Mestre, você sabia que conversa não é só sobre palavras? O uso apropriado de emoções deixa a conversa mais rica.";
+					break;
+				}
+				next;
+			}
+			end;
+		case 3:
+			mes "[Shorty]";
+			mes "Sim. Me chame novamente se precisar de mim.";
+			close;
+		}
+		end;
+	case 6:
+		mes "[Shorty]";
+		mes "O mestre não quer transcender? A Salty disse que está treinando duro porque quer transcender.";
+		next;
+		mes "[Shorty]";
+		mes "A tradição é ^0000cdrenascer em Valhalla e voltar a ser Aprendiz^000000. Mas não é um Aprendiz normal, é chamado de Aprendiz T.";
+		next;
+		mes "[Shorty]";
+		mes "Ou seja, é evolução. As pessoas que passaram por isso dizem que existem muitas vantagens em ter novamente a classe do passado.";
+		next;
+		mes "[Shorty]";
+		mes "Existem muitos atributos, e acima de tudo, se você tiver uma segunda classe, poderá aumentar seu ^0000cdnivel de classe até 70^000000. Você poderá usar mais habilidades.";
+		next;
+		mes "[Shorty]";
+		mes "Se você quer transcender, procure uma pessoa chamada";
+		mes "<NAVI>[Metheus Sylph]<INFO>yuno_in02,88,164,0,101,0</INFO></NAVI> ^0000cdna Academia de Sábios em Juno^000000, e ele irá te orientar.";
+		next;
+		mes "[Shorty]";
+		mes "Se você não tem interesse em transcender, pode apenas mudar de classe. Mas ele disse que é melhor transcender pensando no futuro.";
+		next;
+		mes "[Shorty]";
+		mes "Se você não tem interesse em mudar de classe ou transcender...";
+		next;
+		mes "[Shorty]";
+		mes "O continente está cheio de festivais o ano inteiro. Que tal participar de um festival quando o mestre estiver livre também?";
+		next;
+		mes "[Shorty]";
+		mes "Agora...";
+		next;
+		mes "[Shorty]";
+		mes "Ouvi dizer que vai ter uma competição de caça de inverno organizada pela família real no palácio real! Eu quero competir! Eu quero! Caçar monstros!!! Vamos para Prontera!!!!";
+		next;
+		mes "[Shorty]";
+		mes "Eu vou te levar comigo com certeza, tá?";
+		close;
+	case 7:
+		mes "[Shorty]";
+		mes "Mestre, vou te contar o básico, mas literalmente só o básico.";
+		next;
+		mes "[Shorty]";
+		mes "Para mais informações";
+		mes "tente usar";
+		mes "<URL>[Biblioteca de Rune-Midgard]<INFO>http://ro.gnjoy.com/guide/runemidgarts/,1024,768</INFO></URL>";
+		next;
+		mes "[Shorty]";
+		mes "Que informação você está curioso?";
+		next;
+		switch( select("Informações de Localização", "Informações de Missões", "Informações de Campos de Caça", "Informações do Sistema", "Cancelar" ) ) {
+		case 1:
+			while(1) {
+				mes "[Shorty]";
+				mes "Sobre qual lugar você está curioso?";
+				next;
+				switch( select( "Continente de Midgard", "Continente Estrela Distante", "Malangdo", "Regiões Locais", "Outro Mundo", "Não estou interessado." ) ) {
+				case 1:
+					mes "[Shorty]";
+					mes "Dizem que o ^0000cdContinente de Midgard^000000 tem a maior influência dos três reinos: Arunafelts, Schwaldzwald e Rune-Midgard. Cada continente tem um dirigível que você pode usar facilmente.";
+					next;
+					mes "[Shorty]";
+					mes "^0000cdRune-Midgard^000000. Um reino governado por sete famílias reais onde o poder da magia prevalece.";
+					next;
+					mes "[Shorty]";
+					mes "A capital é Prontera, a cidade satélite Izlude, Geffen onde os magos se reúnem, Payon ao leste, Alberta onde você pode viajar para diferentes regiões, Aldebaran com a Torre do Relógio, e Morroc.";
+					next;
+					mes "[Shorty]";
+					mes "Nós nos conhecemos em Izlude no Reino de Rune-Midgard. Lembra? E também Payon com a Salty, e Paros de onde eu saí. Tudo isso fica em Rune-Midgard.";
+					next;
+					mes "[Shorty]";
+					mes "^0000cdArunafelz^000000. Este é um reino que cultua uma deusa. Então existe um Papa. Claro que não dá pra conhecer ele, mas será que é possível? Talvez possamos encontrar pelo menos uma vez.";
+					next;
+					mes "[Shorty]";
+					mes "Arunafelz tem a capital do templo, Rachel, e a cidade do cânion, Veins.";
+					next;
+					mes "[Shorty]";
+					mes "^0000cdRepública de Schwaldzwald^000000. Como o nome sugere, há um presidente. A capital, Juno, flutua no ar, então vale a visita. Deve ser espetacular.";
+					next;
+					mes "[Shorty]";
+					mes "E também existe Lighthalzen, onde fica a sede da Rekenberg, a cidade mineradora de Einbroch, as minas de Einbech, e também a vila rural de Hugel.";
+					next;
+					mes "[Shorty]";
+					mes "Existem ainda outras vilas Utan como Umbala, ou Niflheim, a terra dos mortos. É um lugar que eu sempre quis visitar!";
+					break;
+				case 2:
+					mes "[Shorty]";
+					mes "Muitas pessoas achavam que existia apenas o continente de Midgard nesta terra, mas um dia surgiram pessoas na forma de ^0000cdgatos^000000. Ninguém sabia de onde elas vinham.";
+					next;
+					mes "[Shorty]";
+					mes "Essas pessoas, chamadas Doram, são de um lugar bem distante além do mar, o ^0000cdContinente Estrela Distante^000000. Eles disseram que o caminho foi aberto só recentemente.";
+					next;
+					mes "[Shorty]";
+					mes "No Continente Estrela Distante, a cidade portuária ^0000cdLasagna^000000 é a mais famosa. Eu também quero ir pra lá.";
+					next;
+					mes "[Shorty]";
+					mes "Para chegar lá, pegue o barco em Malangdo ou Izlude. Você lembra onde a gente desembarcou?";
+					break;
+				case 3:
+					mes "[Shorty]";
+					mes "Você já viu pessoas na forma de gatos, chamadas Doram, indo e vindo. Eles ainda não tiveram seu primeiro contato com este continente de Midgard, mas agora criaram raízes e se estabeleceram por toda parte.";
+					next;
+					mes "[Shorty]";
+					mes "Acontece que enquanto navegavam em um lugar distante chamado Continente Estrela Distante, eles encontraram uma tempestade e caíram em um lugar chamado Malangdo. Literalmente, o navio caiu do céu.";
+					next;
+					mes "[Shorty]";
+					mes "Os Doram têm muitos talentos mágicos, então se você for para ^0000cdMalangdo^000000 vai se divertir bastante.";
+					next;
+					mes "[Shorty]";
+					mes "^0000cdVocê pode pegar o barco^000000 a partir de Izlude. Se você tiver um Enlatado de Malangdo, que pode ser obtido de um jeito especial, você pode usar para viajar até lá.";
+					break;
+				case 4:
+					mes "[Shorty]";
+					mes "Se você quer sentir a atmosfera de um país estrangeiro, deveria ir para essas ^0000cdregiões locais^000000. ^0000cdSe você for ao porto de Alberta^000000, poderá encontrar marinheiros que enviam pessoas para cada região local.";
+					next;
+					mes "[Shorty]";
+					mes "Amatsu, Kunlun, Moscóvia, Brasilis, Ayothaya, Dewata, Porto Malaya, Rock Ridge, e etc. O mundo desconhecido está esperando por você.";
+					next;
+					mes "[Shorty]";
+					mes "Seu coração não acelera só de ouvir esses nomes? Até mais, mestre.";
+					break;
+				case 5:
+					mes "[Shorty]";
+					mes "Ah, eu sei, é aqui. Se você passar pela parte leste de Morroc ou falar com o Agente Catson no Paraíso, eles vão te mandar pra lá.";
+					next;
+					mes "[Shorty]";
+					mes "Você poderá conhecer pessoas que nunca viu antes.";
+					next;
+					mes "[Shorty]";
+					mes "A partir da base das Forças Expedicionárias dos Três Reinos, você pode ir para Esplêndor, Eclage, Manuk ou El Dicastes.";
+					break;
+				case 6:
+					mes "[Shorty]";
+					mes "Certo? Então vou dar uma olhada por aí e voltar pra bolsa.";
+					close;
+				}
+				next;
+			}
+			end;
+		case 2:
+			while(1) {
+				mes "[Shorty]";
+				mes "Sobre qual missão você está curioso?";
+				next;
+				switch( select( "Missões Gerais", "Evento Mensal", "Paraíso", "Não estou interessado." ) ) {
+				case 1:
+					mes "[Shorty]";
+					mes "^0000cdPor que você não encontra Paul e Anne no^000000 lado de fora do Portão Oeste de Prontera? Enquanto eu passava, ouvi dizer que eles precisavam de ajuda.";
+					next;
+					mes "[Shorty]";
+					mes "Ou então, por que não escuta o homem de meia-idade ansioso de ^0000cdPayon^000000?";
+					next;
+					mes "[Shorty]";
+					mes "Para mais informações sobre missões";
+					mes "veja também";
+					mes "<URL>[Biblioteca de Rune-Midgard]<INFO>http://ro.gnjoy.com/guide/runemidgarts/questlist.asp,1024,768</INFO></URL>";
+					next;
+					mes "[Shorty]";
+					mes "Você poderá aprender sobre o fluxo deste mundo e saber quais grandes eventos estão acontecendo.";
+					close;
+				case 2:
+					mes "[Shorty]";
+					mes "O continente está cheio de festivais o ano inteiro. Que tal participar de um festival quando o mestre estiver livre também?";
+					next;
+					mes "[Shorty]";
+					mes "Agora...";
+					next;
+					mes "[Shorty]";
+					mes "Ouvi dizer que vai ter uma competição de caça de inverno organizada pela família real no palácio real! Eu quero competir! Eu quero! Caçar monstros!!! Vamos para Prontera!!!!";
+					next;
+					mes "[Shorty]";
+					mes "Eu vou te levar comigo com certeza, tá?";
+					break;
+				case 3:
+					mes "[Shorty]";
+					mes "^0000cdVocê já foi ao Paraíso^000000?";
+					next;
+					mes "[Shorty]";
+					mes "Existem muitas missões esperando pelo mestre. Além disso, eles também fornecem equipamentos para iniciantes.";
+					next;
+					mes "[Shorty]";
+					mes "Claro, não é de graça, mas você precisa concluir uma missão simples do Paraíso. Além disso, eles também alugam equipamentos sombrios.";
+					next;
+					mes "[Shorty]";
+					mes "Se tiver alguma dúvida, vá até o Escritório do Paraíso.";
+					break;
+				case 4:
+					mes "[Shorty]";
+					mes "Certo? Então vou dar uma olhada por aí e voltar pra bolsa.";
+					close;
+				}
+				next;
+			}
+			end;
+		case 3:
+			while(1) {
+				mes "[Shorty]";
+				mes "Hum... onde será..";
+				next;
+				switch( select( "Guia de Caça em Campos", "Guia de Calabouços", "Guia de Outros Calabouços", "Chega" ) ) {
+				case 1:
+					mes "[Shorty]";
+					mes "Aperte as teclas ^0000cdCtrl+`^000000 para abrir o mapa.";
+					next;
+					mes "[Shorty]";
+					mes "Você vê uma caixa para selecionar uma área no canto superior esquerdo? Depois de selecionar a área que quer ver, confira a ^0000cdaba de monstros^000000 no canto superior direito ou aperte a ^0000cdtecla Tab^000000, e você verá o nome e o nível do monstro mais comum naquela área.";
+					next;
+					mes "[Shorty]";
+					mes "É melhor se aventurar em um lugar que combine com o nível do mestre. ^0000cdSe houver muita diferença de nível entre você e os monstros, você não conseguirá 100% da experiência^000000. Você tem que calcular essa diferença também, certo?";
+					next;
+					mes "[Shorty]";
+					mes "Se você clicar na cidade que quer ir, o menu de navegação vai aparecer. Aperte o ^0000cdbotão <Guia para o alvo> embaixo^000000 e saia do mapa para receber orientação.";
+					break;
+				case 2:
+					mes "[Shorty]";
+					mes "Aperte as teclas ^0000cdCtrl+`^000000 para abrir o mapa.";
+					next;
+					mes "[Shorty]";
+					mes "^0000cdVocê vê uma caixa onde pode selecionar uma área^000000 no canto superior esquerdo? Se você selecionar a área que quer conferir, verá ela marcada com uma caixa vermelha no mapa com ^0000cdo nome do calabouço principal^000000 escrito." ;
+					next;
+					mes "[Shorty]";
+					mes "Depois, confira a ^0000cdaba de monstros no canto superior direito ou aperte a tecla Tab^000000 para exibir o nível do calabouço.";
+					next;
+					mes "[Shorty]";
+					mes "Às vezes, alguns calabouços só podem ser acessados através de missões especiais, então você também precisa reunir informações, certo?";
+					next;
+					mes "[Shorty]";
+					mes "Por que você não tenta o esgoto subterrâneo primeiro? A Guilda dos Espadachins está sempre recrutando, e ouvi dizer que é bom para aventureiros iniciantes ganharem experiência.";
+					break;
+				case 3:
+					mes "[Shorty]";
+					mes "Existem muitos calabouços memoriais, calabouços do pesadelo, calabouços da ilusão... etc.";
+					next;
+					mes "[Shorty]";
+					mes "^0000cdCalabouço Memorial^000000";
+					mes "Além dos calabouços normais, também existem calabouços especiais. Normalmente, dizem que é um lugar especial criado por um poder desconhecido neste mundo.";
+					next;
+					mes "[Shorty]";
+					mes "Muitos aventureiros experientes costumam ir, mas dizem que existem alguns lugares de baixo nível que podem ser alcançados com um pouco de treinamento. Seja na Vila dos Orcs ou em Rachel...";
+					next;
+					mes "[Shorty]";
+					mes "Dizem que ficam em vilas e campos comuns, e existem muitos lugares chamados Fendas Dimensionais.";
+					next;
+					mes "[Shorty]";
+					mes "^0000cdCalabouço do Pesadelo^000000";
+					mes "Dizem que é um calabouço muito mais difícil do que um calabouço normal. Até os monstros não são como os monstros que conhecemos. Quando você encontrar o calabouço, se alguém suspeito disser que vai te mandar para um lugar mais difícil, tente." ;
+					next;
+					mes "[Shorty]";
+					mes "^0000cdCalabouço da Ilusão^000000";
+					mes "Ninguém sabe que tipo de calabouço são esses. Acho que é algo como um sonho ou uma fantasia. Existe uma pedra especial que só vem de lá, e todos dizem que vão atrás dela e lutam por isso. Dizem que essa pedra pode ser trocada por armas poderosas. ";
+					break;
+				case 4:
+					mes "[Shorty]";
+					mes "Certo? Então vou dar uma olhada por aí e voltar pra bolsa.";
+					close;
+				}
+				next;
+			}
+			end;
+		case 4:
+			while(1) {
+				mes "[Shorty]";
+				mes "Então, sobre que informação básica você quer saber?";
+				mes "Consulte o <URL>[Guia]<INFO>http://ro.gnjoy.com/guide/systeminfo/,1024,768</INFO></URL> para o básico.";
+				next;
+				switch( select( "Grupos", "Guildas e Clãs", "Refinos", "Encantamentos", "Famílias", "Bate-papo" ) ) {
+				case 1:
+					mes "[Shorty]";
+					mes "Às vezes você quer estar com seus amigos, seja para lutar em calabouços, aproveitar aventuras juntos, ou às vezes só sentar e conversar.";
+					next;
+					mes "[Shorty]";
+					mes "Nesse caso, faça um grupo e façam juntos.";
+					next;
+					mes "[Shorty]";
+					mes "A janela do grupo pode ser aberta facilmente com as teclas ^0000cdAlt+Z^000000. Ao dividir experiência de caça igualmente, a diferença de ^0000cdnivel entre os membros do grupo^000000 deve ser de até 15.";
+					next;
+					mes "[Shorty]";
+					mes "Se você clicar no círculo à esquerda na janela de bate-papo embaixo, você pode escolher um parceiro de conversa, e enviar mensagens apenas para os membros do grupo, então é bem útil.";
+					break;
+				case 2:
+					mes "[Shorty]";
+					mes "Às vezes você vai querer pertencer a algum lugar e sentir um vínculo com alguém. Nesse caso, basta fazer parte de uma ^0000cdGuilda ou clã^000000.";
+					next;
+					mes "[Shorty]";
+					mes "A maior característica de uma Guilda é a batalha por um castelo. Também é chamada de Guerra do Emperium.";
+					next;
+					mes "[Shorty]";
+					mes "Você pode entrar em uma guilda já formada através de convite, ou comprar um Emperium vendido no escritório para criar uma guilda.";
+					next;
+					mes "[Shorty]";
+					mes "Além do sentimento de pertencimento, a guilda pode aproveitar vários benefícios como habilidades próprias e armazém exclusivo.";
+					next;
+					mes "[Shorty]";
+					mes "Para detalhes";
+					mes "consulte o <URL>[Guia da Guilda]<INFO>http://ro.gnjoy.com/guide/systeminfo/systemGuild1.asp,1024,768</INFO></URL>";
+					next;
+					mes "[Shorty]";
+					mes "Se entrar em uma guilda for algo pesado, então um ^0000cdclã^000000 seria uma boa opção. Pode ser difícil sentir tanta proximidade como numa guilda, mas o clã também possui vários benefícios.";
+					next;
+					mes "[Shorty]";
+					mes "^0000cdO prédio no canto inferior esquerdo da Fonte Central de Prontera^000000 é o Quartel-General dos Clãs, então dê uma olhada.";
+					break;
+				case 3:
+					mes "[Shorty]";
+					mes "Você quer deixar seus equipamentos mais fortes? Nesse caso, você pode procurar o ^0000cdferreiro^000000 em cada cidade.";
+					next;
+					mes "[Shorty]";
+					mes "Refino exige itens especiais e zeny. Isso depende do tipo e nível do equipamento.";
+					next;
+					mes "[Shorty]";
+					mes "Uma coisa importante é que existe um nível seguro de refino, e se você tentar refinar acima de certo nível, o equipamento pode ser destruído. Você precisa ter sorte.";
+					next;
+					mes "[Shorty]";
+					mes "Ah, além do ferreiro em cada cidade, ouvi dizer que o ^0000cd<Comércio>^000000 oferece uma chance maior de sucesso no refino.";
+					next;
+					mes "[Shorty]";
+					mes "Se estiver curioso, vá até o ^0000cd<Guia de Vendas de Cash>^000000 em cada cidade. Eles vão te guiar até lá.";
+					break;
+				case 4:
+					mes "[Shorty]";
+					mes "Se você quer deixar seu equipamento mais forte ou dar uma habilidade especial, por que não tentar ^0000cdencantar^000000?";
+					next;
+					mes "[Shorty]";
+					mes "^0000cd<Malangdo>, <Comércio>^000000, ou ^0000cd<Seyablem> e <Leyablem>^000000 que podem ser encontrados nas principais cidades, fazem isso principalmente.";
+					next;
+					mes "[Shorty]";
+					mes "Equipamentos obtidos de um calabouço específico ou de uma área específica só podem ser ^0000cdencantados^000000 nessa área.";
+					next;
+					mes "[Shorty]";
+					mes "Porém, nem todos os equipamentos podem ser encantados, então você deve conferir as condições com cuidado.";
+					break;
+				case 5:
+					mes "[Shorty]";
+					mes "Você tem certeza que quer ficar com outra pessoa pelo resto da vida? Então você pode formar uma ^0000cdfamília^000000.";
+					next;
+					mes "[Shorty]";
+					mes "^0000cdVocê pode se casar com a pessoa que ama^000000, ou pode adotar uma ^0000cdcriança^000000. Também é possível você ser adotado como filho de outro casal.";
+					next;
+					mes "[Shorty]";
+					mes "Dizem que você pode ganhar habilidades especiais de casamento para usar como família.";
+					next;
+					mes "[Shorty]";
+					mes "Se você tem interesse em se casar, vá até a Igreja de Prontera ou o Salão de Casamento de Lasagna. Você vai precisar de alguns itens antes de se casar. A Igreja de Prontera só pode casar humanos.";
+					next;
+					mes "[Shorty]";
+					mes "A adoção exige que o casal casado tenha nível 70 ou mais e que a criança adotada seja Aprendiz ou primeira classe.";
+					next;
+					mes "[Shorty]";
+					mes "A Divisão de Família do Escritório Distrital de Prontera diz que você pode comprar itens necessários para um casamento ou resolver assuntos relacionados à família, então se precisar, vá conferir.";
+					next;
+					mes "[Shorty]";
+					mes "Você pode consultar";
+					mes "a <URL>[Família]<INFO>http://ro.gnjoy.com/guide/systeminfo/systemLovers1.asp,1024,768</INFO></URL> para mais detalhes.";
+					break;
+				case 6:
+					mes "[Shorty]";
+					mes "Você consegue ver a janela de mensagens embaixo? Você pode conversar com outras pessoas digitando sua mensagem ali, e também pode enviar outros tipos de mensagem.";
+					next;
+					mes "[Shorty]";
+					mes "Se você quer conversar com poucas pessoas que não são do grupo nem da guilda, você pode abrir uma janela de chat.";
+					next;
+					mes "[Shorty]";
+					mes "Você pode abrir a janela de chat facilmente com as teclas ^0000cdAlt+C^000000. Você também pode definir o número máximo de participantes e uma senha.";
+					break;
+				}
+				next;
+			}
+			end;
+		case 5:
+			mes "[Shorty]";
+			mes "Certo? Então vou dar uma olhada por aí e voltar pra bolsa.";
+			close;
+		}
+		end;
+	case 8:
+		mes "[Shorty]";
+		mes "Aaaah!!! Eu sou o Shorty! Qual é o nome do meu mestre?";
+		next;
+		select( "Mestre?" );
+		mes "[Shorty]";
+		mes "A primeira pessoa que você conhece deve ser chamada de Mestre.";
+		next;
+		select( "Você está falando de um professor?" );
+		mes "[Shorty]";
+		mes "Isso. É isso mesmo. Eu sou o Shorty das Galápagos, eu sou muito bom de conversa.";
+		next;
+		select("Por que você está aqui?" );
+		mes "[Shorty]";
+		mes "Salty! A Salty é minha amiga. Eu estou aqui para encontrar a Salty. Então você precisa me levar até a Salty.";
+		next;
+		mes "[Shorty]";
+		mes "Então vamos lá!";
+		close;
+	case 9:
+		mes "[Shorty]";
+		mes "O quê...? Mestre...? O quê? Terminar? Aqui? Agora? Você está falando sério?";
+		next;
+		mes "[Shorty]";
+		mes "Teve algo que você não gostou? Eu não fiquei quietinho na sua bolsa? Ah, foi isso que você não gostou, né... Então não tem nada que eu possa fazer.";
+		next;
+		mes "[Shorty]";
+		mes "Então você não vai me levar até a ^0000cdSalty^000000? A Salty vai ficar grata por você me levar até ela. Eu vou agradecer porque a Salty sabe ser grata.";
+		next;
+		if (select( "Vamos seguir caminhos separados.", "Vamos ficar juntos até lá." ) == 2) {
+			mes "[Shorty]";
+			mes "Tudo bem. Bem dito, mestre. Mesmo que eu fique preso na bolsa, eu vou sair rapidinho.";
+			next;
+			mes "[Shorty]";
+			mes "Vamos ajudar um ao outro só mais um pouco. Tá bom?";
+			close;
+		}
+		mes "[Shorty]";
+		mes "Sim. O mestre tem um coração de pedra. Então não há nada que possa ser feito. Acho que nossa relação termina aqui.";
+		next;
+		mes "[Shorty]";
+		mes "Eu não sei como foi pra você, mas eu gostei do nosso tempo juntos.";
+		next;
+		mes "[Shorty]";
+		mes "Fique bem e te desejo tudo de bom. Espero que o mestre não esqueça que o Galápago esteve com você.";
+		next;
+		mes "[Shorty]";
+		mes "Então tá, mestre, adeus. Adeus!";
+		switch( isbegin_quest(14693) ) {
+		case 0:
+			setquest 14693;
+			completequest 14693;
+			break;
+		case 1:
+			completequest 14693;
+			break;
+		case 2:
+			break;
+		}
+		if (isbegin_quest(14694) > 0)
+			erasequest 14694;
+		delitem 23278,1;	// Ajuda nas Curtas
+		close;
+	}
+}

@@ -1,0 +1,1496 @@
+//===== rAthena Script =======================================
+//= Heroes' Trail Part 1 - Sara's Memories
+//===== Description: =========================================
+//= Sara's Memories Instance in the Dimensional Gap.
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Chilly]
+//= 1.1 Clean-up and monster position fix. [RagnarokNova]
+//============================================================
+
+//= NPCs
+dali,130,107,6	script	Aventureiro Leon	945,{
+	if (BaseLevel < 99) {
+		mes "[Aventureiro Leon]";
+		mes "Este lugar não parece ser seguro para você. Por favor, volte até mim quando tiver alcançado o ^0000FFNível 99^000000 ou superior.";
+		close;
+	}
+	if (saramemory == 1) {
+		mes "[Aventureiro Leon]";
+		mes "Ainda não tenho a certeza de que tenha explorado completamente a fenda no espaço e no tempo. Talvez devesse olhar um pouco mais para dentro dela.";
+		close;
+	}
+	if (saramemory == 2) {
+		mes "[Aventureiro Leon]";
+		mes "O que é que viu ali dentro?";
+		next;
+		mes "[Aventureiro Leon]";
+		mes "Hrumph, Sara?! Ela é uma das 12 Valquírias. Não sabia que a sua história era assim tão trágica...";
+		next;
+		mes "[Aventureiro Leon]";
+		mes "Parece que causou um enorme mal-entendido entre ela e o seu pai.";
+		next;
+		mes "[Aventureiro Leon]";
+		mes "Não se deve culpar pelo que ocorreu, ou por todo o sangue que foi derramado. Parece que os acontecimentos desse dia estavam destinados a acontecer, independentemente de quem lá estivesse";
+		next;
+		mes "[Aventureiro Leon]";
+		mes "Por favor, não conte a ninguém sobre a sua aventura de viajar no tempo. Não podemos ter ninguém a pensar em si mais importante do que o velho Leon. Além disso, eles não acreditariam em tal história de qualquer forma.";
+		next;
+		set saramemory,3;
+		erasequest 15003;
+		getexp 770000,1000000;
+		mes "[Aventureiro Leon]";
+		mes "Acredito que dentro de cerca de 20 horas após a sua última entrada na fenda, ela estará suficientemente estável para a atravessar de novo.";
+		close;
+	}
+	if (saramemory == 3) {
+		if ((checkquest(15002,PLAYTIME) == 0) || (checkquest(15002,PLAYTIME) == 1)) {
+			mes "[Aventureiro Leon]";
+			mes "Acredito que dentro de cerca de 20 horas após a sua última entrada na fenda, ela estará suficientemente estável para a atravessar de novo.";
+			close;
+		}
+		if (checkquest(15002,PLAYTIME) == 2) {
+			erasequest 15002;
+			mes "^0000FF[ Memórias de Sarah ] O arrefecimento foi limpo. É agora possível utilizar novamente o Dispositivo Dimensional.^000000";
+			next;
+		}
+		mes "[Aventureiro Leon]";
+		mes "Deseja reviver o passado de novo?";
+		next;
+		switch(select("Sim:Não")) {
+		case 1:
+			mes "[Aventureiro Leon]";
+			mes "Por favor, aventure-se através do Dispositivo Dimensional e informe-me do que encontrar dentro.";
+			next;
+			set saramemory,4;
+			setquest 15003;
+			mes "[Aventureiro Leon]";
+			mes "Embora eu deva avisar-vos. Pode ser instável. Assegura-te que entras o mais depressa possível.";
+			close;
+		case 2:
+			mes "[Aventureiro Leon]";
+			mes "Bem... Não posso forçá-lo. Mas se alguma vez encontrar coragem, por favor, fale comigo de novo.";
+			close;
+		}
+	}
+	if (saramemory == 4) {
+		if ((checkquest(15002,PLAYTIME) == 0) || (checkquest(15002,PLAYTIME) == 1)) {
+			mes "[Aventureiro Leon]";
+			mes "Ainda não tenho a certeza de que tenha explorado completamente a fenda no espaço e no tempo. Talvez devesse olhar um pouco mais para dentro dela";
+			close;
+		}
+		if (checkquest(15002,PLAYTIME) == 2) {
+			erasequest 15002;
+			mes "^0000FF[ Memórias de Sarah ] O arrefecimento foi limpo. É agora possível utilizar novamente o Dispositivo Dimensional.^000000";
+			next;
+		}
+		mes "[Aventureiro Leon]";
+		mes "Ainda não tenho a certeza de que tenha explorado completamente a fenda no espaço e no tempo. Talvez devesse olhar um pouco mais para dentro dela.";
+		next;
+		switch(select("Ok.:Desistir.")) {
+		case 1:
+			mes "[Aventureiro Leon]";
+			mes "Fico contente por ouvir isso! Talvez um dia possa ser tão corajoso como o velho Leão, o Leão.";
+			close;
+		case 2:
+			set saramemory,3;
+			erasequest 15003;
+			mes "[Aventureiro Leon]";
+			mes "Bem... Não posso forçá-lo. Mas se alguma vez encontrar coragem, por favor, fale comigo de novo.";
+			close;
+		}
+	}
+	if (saramemory == 5) {
+		mes "[Aventureiro Leon]";
+		mes "O que é que viu ali dentro?";
+		next;
+		mes "[Aventureiro Leon]";
+		mes "Hrumph, Sara?! Ela é uma das 12 Valquírias. Não sabia que a sua história era assim tão trágica...";
+		next;
+		mes "[Aventureiro Leon]";
+		mes "Parece que causou um enorme mal-entendido entre ela e o seu pai.";
+		next;
+		mes "[Aventureiro Leon]";
+		mes "Não se deve culpar pelo que ocorreu, ou por todo o sangue que foi derramado. Parece que os acontecimentos desse dia estavam destinados a acontecer, independentemente de quem lá estivesse.";
+		next;
+		mes "[Aventureiro Leon]";
+		mes "Por favor, não conte a ninguém sobre a sua aventura de viajar no tempo. Não podemos ter ninguém a pensar em si mais importante do que o velho Leon. Além disso, eles não acreditariam em tal história de qualquer forma.";
+		next;
+		set saramemory,3;
+		erasequest 15003;
+		getexp 550000,550000;
+		mes "[Aventureiro Leon]";
+		mes "Acredito que dentro de cerca de 20 horas após a sua última entrada na fenda, ela estará suficientemente estável para a atravessar de novo.";
+		close;
+	}
+	mes "[Aventureiro Leon]";
+	mes "Desculpem a minha indelicadeza! Eu sou Pon de Leon, o famoso aventureiro!";
+	next;
+	mes "[Aventureiro Leon]";
+	mes "Os meus amigos chamam-me Leão, o Leão! Pela minha aparência e atitude duras. Além disso, tenho uma grande dentada.";
+	next;
+	mes "[Aventureiro Leon]";
+	mes "Sabe, este é um local tão estranho...";
+	next;
+	mes "[Aventureiro Leon]";
+	mes "À medida que a exploramos começa-se a ver fissuras no espaço e no tempo. Cada uma delas coberta por um Dispositivo Dimensional.";
+	next;
+	mes "[Aventureiro Leon]";
+	mes "Por exemplo, penso ter tido vislumbres de Payon através do mais próximo de nós. Mas não me parece correcto. Quase como se fosse um pouco mais velho do que deveria ser.";
+	next;
+	mes "[Aventureiro Leon]";
+	mes "Quero explorá-lo, mas com a minha velhice e os meus joelhos não pareço estar à altura da tarefa.";
+	next;
+	mes "[Aventureiro Leon]";
+	mes "Por isso, gostaria de lhe perguntar uma coisa.";
+	next;
+	mes "[Aventureiro Leon]";
+	mes "Por favor, aventure-se através do Dispositivo Dimensional e informe-me do que encontrar dentro.";
+	next;
+	set saramemory,1;
+	setquest 15003;
+	mes "[Aventureiro Leon]";
+	mes "Embora; devo avisar-vos. Pode ser instável. Certifica-te de que entras o mais depressa possível.";
+	close;
+}
+
+dali,139,118,4	script	Dispositivo Dimencional#sara	10007,{
+	if (BaseLevel < 99) {
+		mes "[Aventureiro Leon]";
+		mes "Ei! És muito novo para brincares com isso! Volte quando tiver pelo menos o ^0000FFNível 99^000000!";
+		close;
+	}
+	if ((saramemory < 1) || (saramemory == 2) || (saramemory == 3) || (saramemory == 5)) {
+		mes "[Aventureiro Leon]";
+		mes "Antes de brincares com isso; porque não vens até aqui e falas comigo?";
+		close;
+	}
+
+	// 20 horas para recarga.
+	set .@ins_sara_time,checkquest(15002,PLAYTIME);
+	if (.@ins_sara_time == -1) {
+
+		set .@party_id,getcharid(1);
+		set .@p_name$,getpartyname(.@party_id);
+		set .@md_name$,"Memórias de Sarah";
+
+		if (!.@party_id) {
+			mes "[Aventureiro Leon]";
+			mes "Antes de entrar, é preciso criar uma Grupo! Não sabe como? Escreva /organize PARTYNAMEHERE.";
+			close;
+		}
+
+		if (is_party_leader() == true)
+			set .@menu$, "Inicializar Dispositivo Dimensional.:Usar Dispositivo Dimensional.:Cancelar.";
+		else
+			set .@menu$, ":Usar Dispositivo Dimensional.:Cancelar.";
+
+		switch(select(.@menu$)) {
+		case 1:
+			if (instance_create(.@md_name$) < 0) {
+				mes "Nome do Grupo: "+.@p_name$;
+				mes "Líder do Grupo: "+strcharinfo(0);
+				mes "^0000ff"+.@md_name$+"^000000 - falhadas Reservas!";
+				close;
+			}
+			mes "^FF0000O dispositivo dimensional inicializa corretamente. Use o dispositivo para entrar na fenda do espaço e do tempo.^000000";
+			close;
+		case 2:
+			switch(instance_enter(.@md_name$)) {
+			case IE_OTHER:
+				mes "Ocorreu um erro desconhecido.";
+				close;
+			case IE_NOINSTANCE:
+				mes "O calabouço memorial "+.@md_name$+" não existe.";
+				mes "O líder do Grupo ainda não gerou o calabouço.";
+				close;
+			case IE_NOMEMBER:
+				mes "Apenas os membros registados podem entrar na instância "+.@md_name$+".";
+				close;
+			case IE_OK:
+				mapannounce "dali",strcharinfo(0)+", membro do grupo "+.@p_name$+" entrou na instância "+.@md_name$+".",bc_map,"0x00ff99";
+				setquest 15002;
+				end;
+			}
+		case 3:
+			mes "^FF0000O líder do grupo não inicializou o Dispositivo Dimensional.^000000";
+			close;
+		}
+	} else if (.@ins_sara_time == 0 || .@ins_sara_time == 1) {
+		mes "[Aventureiro Leon]";
+		mes "Acho que dentro de cerca de 20 horas após a sua última entrada na fenda, ela estará suficientemente estável para a atravessar de novo.";
+		close;
+	}
+	else {
+		erasequest 15002;
+		mes "^0000FF[ Memórias de Sarah ] O arrefecimento foi limpo. Agora é possível utilizar novamente o Dispositivo Dimensional.^000000";
+		close;
+	}
+}
+
+1@sara,260,156,6	script	Garota#01	668,{
+	if (is_party_leader() == true) {
+		unittalk getcharid(3),"Onde estou eu?";
+		mes "["+strcharinfo(0)+"]";
+		mes "Onde estou eu?";
+		next;
+		cutin "sara_9sara1",2;
+		npctalk "Olá! Esta é a aldeia de Payon. Não parece ser daqui...";
+		mes "[Garota]";
+		mes "Olá! Esta é a aldeia de Payon. Não parece ser daqui...";
+		next;
+		unittalk getcharid(3),"És daqui? Também não parece ser bem parecido com os locais";
+		mes "["+strcharinfo(0)+"]";
+		mes "Você é daqui?  Também não parece ser bem parecido com os locais";
+		next;
+		npctalk "Sim! eu nasci aqui! O meu nome é Sara, Sara!";
+		mes "[Garota]";
+		mes "Sim! eu nasci aqui! O meu nome é Sara, Sara!";
+		next;
+		setnpcdisplay(instance_npcname("Garota#01"),"Sara");
+		npctalk "O meu pai é o decano desta aldeia! Eu só saio à minha mãe";
+		mes "[Sara]";
+		mes "O meu pai é o decano desta aldeia! Eu só saio à minha mãe";
+		next;
+		unittalk getcharid(3),"Oh! peço desculpa! Uh... Porque é que estás aqui sozinho?";
+		mes "["+strcharinfo(0)+"]";
+		mes "Oh! peço desculpa! Uh... Porque é que estás aqui sozinho?";
+		next;
+		npctalk "Estou à espera do meu pai. Ele disse que estará aqui em breve.";
+		mes "[Sara]";
+		mes "Estou esperando meu pai. Ele disse que chegará em breve.";
+		next;
+		donpcevent instance_npcname("Irene#01", instance_id())+"::OnEnable";
+		mapannounce instance_mapname("1@sara"), "Um homem mais velho sai de casa. O rosto de Sara brilha ao vê-lo.",bc_area,"0xffffff";
+		mes "^FF0000Um homem mais velho sai de casa. O rosto de Sara brilha à sua vista.^000000";
+		next;
+		npctalk "Olá, papá!";
+		mes "[Sara]";
+		mes "Olá, papá!";
+		next;
+		cutin "sara_elder_irine1",2;
+		npctalk "Querida, pareces tão feliz.", instance_npcname("Irene#01", instance_id());
+		mes "[Irene]";
+		mes "Querida, pareces tão feliz.";
+		next;
+		cutin "sara_9sara1",2;
+		npctalk "Disse que voltaria em breve! Esperei por ti e tu mentiste.";
+		mes "[Sara]";
+		mes "Disse que voltaria em breve! Esperei por ti e tu mentiste.";
+		next;
+		cutin "sara_elder_irine1",2;
+		npctalk "Querida, desculpa ter-te feito esperar tanto tempo. O encontro com os anciãos da aldeia demorou mais tempo do que o esperado.", instance_npcname("Irene#01", instance_id());
+		mes "[Irene]";
+		mes "Querida, desculpa ter-te feito esperar tanto tempo. O encontro com os anciãos da aldeia demorou mais tempo do que o esperado.";
+		next;
+		cutin "sara_9sara1",2;
+		npctalk "Odeio aqueles velhos nevoeiros.";
+		mes "[Sara]";
+		mes "Odeio aqueles velhos nevoeiros.";
+		next;
+		cutin "sara_elder_irine1",2;
+		npctalk "Não digas isso, querida... Quem é este contigo?", instance_npcname("Irene#01", instance_id());
+		mes "[Irene]";
+		mes "Não digas isso, querida... Quem é este contigo?";
+		next;
+		mapannounce instance_mapname("1@sara"), "Irene olha para si com fogo nos olhos.",bc_area,"0xffffff";
+		mes "^FF0000Irene olha para você com fogo nos olhos.^000000";
+		next;
+		mapannounce instance_mapname("1@sara"), "Sara começa a cantarolar e a cantar suavemente para si própria. Ela escolhe algumas flores selvagens nas proximidades e apresenta-as aos Doyen",bc_area,"0xffffff";
+		mes "^FF0000Sara começa a cantarolar e a cantar suavemente para si própria. Ela escolhe algumas flores silvestres nas proximidades e apresenta-as aos Doyen.^000000";
+		next;
+		cutin "sara_9sara1",2;
+		npctalk "Aqui está, papá!";
+		mes "[Sara]";
+		mes "Aqui está, papá!";
+		next;
+		cutin "sara_elder_irine1",2;
+		npctalk "Oh Sara, posso ficar com eles?", instance_npcname("Irene#01", instance_id());
+		mes "[Irene]";
+		mes "Oh Sara, posso ficar com eles?";
+		next;
+		cutin "sara_9sara1",2;
+		npctalk "Claro, papá tonto!";
+		mes "[Sara]";
+		mes "Claro, papá tonto!";
+		next;
+		mapannounce instance_mapname("1@sara"), "Depois de receber as flores, o humor dos Doyen parece melhorar muito.",bc_area,"0xffffff";
+		mes "^FF0000Depois de receber as flores, o humor do Doyen parece melhorar muito.^000000";
+		next;
+		cutin "sara_elder_irine1",2;
+		npctalk "Muito bem, minha princesa, para onde devemos ir agora?", instance_npcname("Irene#01", instance_id());
+		mes "[Irene]";
+		mes "Muito bem, minha princesa, para onde devemos ir agora?";
+		next;
+		cutin "sara_9sara1",2;
+		npctalk "Oh papá! Vamos para o topo daquela colina ali!";
+		mes "[Sara]";
+		mes "Oh papá! Vamos para o topo daquela colina ali!";
+		next;
+		cutin "sara_elder_irine1",2;
+		npctalk "Hah! Ok, agarra-te a mim com força!", instance_npcname("Irene#01", instance_id());
+		mes "[Irene]";
+		mes "Hah! Ok, agarra-te a mim com força!";
+		next;
+		cutin "sara_elder_irine1",255;
+		donpcevent instance_npcname("Garota#01", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Irene#01", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Idoso Estranho#01", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Idoso Misterioso#02", instance_id())+"::OnEnable";
+		mapannounce instance_mapname("1@sara"), "Enquanto vagueiam, ouvem-se vozes estranhas ao virar da esquina...",bc_area,"0xffffff";
+		mes "^FF0000Enquanto vagueiam, ouvem-se vozes estranhas ao virar da esquina...^000000";
+		next;
+		npctalk "Consigo sentir o poder de Sara a crescer. Não podemos simplesmente ficar parados e deixá-la alcançar todo o seu potencial!", instance_npcname("Idoso Estranho#01", instance_id());
+		mes "[Idoso Estranho]";
+		mes "Consigo sentir o poder de Sara a crescer. Não podemos simplesmente ficar parados e deixá-la alcançar todo o seu potencial!";
+		next;
+		npctalk "Ela nasceu sob um mau sinal e a sua mãe não é sequer uma de nós!", instance_npcname("Idoso Misterioso#02", instance_id());
+		mes "[Idoso Misterioso]";
+		mes "Ela nasceu sob um mau sinal e a sua mãe não é sequer uma de nós!!";
+		next;
+		npctalk "Um dia ela fará correr sangue nas nossas ruas.", instance_npcname("Idoso Misterioso#02", instance_id());
+		mes "[Idoso Misterioso]";
+		mes "Um dia ela fará correr sangue nas nossas ruas.";
+		next;
+		npctalk "Temos de fazer algo antes que as criaturas sagradas a seleccionem. Pedi a 'ELE' para tratar do assunto.", instance_npcname("Idoso Estranho#01", instance_id());
+		mes "[Idoso Estranho]";
+		mes "Temos de fazer algo antes que as criaturas sagradas a seleccionem. Pedi a 'ELE' para tratar do assunto.";
+		next;
+		npctalk "Veremos... Estou ansioso por ouvir as más notícias que lhe têm sucedido...", instance_npcname("Idoso Misterioso#02", instance_id());
+		mes "[Idoso Misterioso]";
+		mes "Veremos... Estou ansioso por ouvir as más notícias que lhe têm sucedido...";
+		next;
+		donpcevent instance_npcname("Idoso Estranho#01", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Idoso Misterioso#02", instance_id())+"::OnDisable";
+		enablenpc instance_npcname("#sara_warp01");
+		donpcevent instance_npcname("Sara#01", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Mãe da Sara", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Irene#02", instance_id())+"::OnEnable";
+		mapannounce instance_mapname("1@sara"), "Os velhos vagueiam por aí. Parece que a Sara pode estar em perigo. Temos de fazer alguma coisa!",bc_area,"0xffffff";
+		mes "^FF0000Os velhos vagueiam por aí. Parece que a Sara pode estar em perigo. Temos de fazer alguma coisa!^000000";
+		close;
+	}
+	else {
+		end;
+	}
+
+OnInstanceInit:
+OnEnable:
+	enablenpc instance_npcname("Garota#01");
+	end;
+OnDisable:
+	disablenpc instance_npcname("Garota#01");
+	end;
+}
+
+1@sara,268,158,4	script	Irene#01	684,{
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Irene#01");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Irene#01");
+	end;
+}
+
+1@sara,260,156,4	script	Idoso Estranho#01	-1,{
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Idoso Estranho#01");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Idoso Estranho#01");
+	end;
+}
+
+1@sara,260,156,4	script	Idoso Misterioso#02	-1,{
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Idoso Misterioso#02");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Idoso Misterioso#02");
+	end;
+}
+
+1@sara,107,325,6	script	Sara#01	668,{
+	if (is_party_leader() == true) {
+		cutin "sara_9sara1",2;
+		npctalk "Oh! olá de novo! Lembro-me de ti, o que se passa?";
+		mes "[Sara]";
+		mes "Oh! olá de novo! Lembro-me de ti, o que se passa?";
+		next;
+		npctalk "Estou aqui para dar flores à minha mãe!";
+		mes "[Sara]";
+		mes "Estou aqui para dar flores à minha mãe!";
+		next;
+		mapannounce instance_mapname("1@sara"), "Sara salta para a frente para abrir a porta, flores no pronto.",bc_area,"0xffffff";
+		mes "^FF0000Sara salta para a frente para abrir a porta, flores no pronto.^000000";
+		next;
+		npctalk "Mãe! pai! Olha o que eu encontrei!";
+		mes "[Sara]";
+		mes "Mãe! pai! Olha o que eu encontrei!";
+		next;
+		playBGMall "37",instance_mapname("1@sara");
+		cutin "sara_9sara1",255;
+		cutin "sara_momdie",4;
+		mapannounce instance_mapname("1@sara"), "A porta abre-se para revelar uma mulher perto da morte deitada no chão e o Doyen de pé sobre a mulher com uma espada ensanguentada.",bc_area,"0xffffff";
+		mes "^FF0000A porta abre-se para revelar uma mulher perto da morte deitada no chão e o Doyen de pé sobre a mulher com uma espada ensanguentada.^000000";
+		next;
+		npctalk "...";
+		mes "[Sara]";
+		mes "...";
+		next;
+		npctalk "Sara...Ru-...fora...", instance_npcname("Mãe da Sara", instance_id());
+		mes "[Mãe da Sara]";
+		mes "Sara...Ru-...fora...";
+		next;
+		npctalk "...";
+		mes "[Sara]";
+		mes "...";
+		next;
+		mapannounce instance_mapname("1@sara"), "Uma gema rola da mão da mulher e vem descansar em frente de Sara. Inconscientemente, Sara desce e pega na gema.",bc_area,"0xffffff";
+		mes "^FF0000Uma gema rola da mão da mulher e vem descansar em frente de Sara. Inconscientemente, Sara desce e pega na gema.^000000";
+		next;
+		mapannounce instance_mapname("1@sara"), "O Doyen dá meia volta e repara em Sara.",bc_area,"0xffffff";
+		mes "^FF0000O Doyen dá meia volta e repara em Sara.^000000";
+		next;
+		cutin "sara_momdie",255;
+		cutin "sara_elder_irine4",2;
+		npctalk "Ahh Sara! Estava mesmo à tua procura...", instance_npcname("Irene#02", instance_id());
+		mes "[Irene]";
+		mes "Ahh Sara! Estava mesmo à tua procura...";
+		next;
+		cutin "sara_9sara2",2;
+		npctalk "...";
+		mes "[Sara]";
+		mes "...";
+		next;
+		switch(select("Fuga com Sara.")) {}
+		cutin "sara_elder_irine3",2;
+		npctalk "Guardas! GUARDADOS!! Há aqui um assassino! Apanhem-no!!", instance_npcname("Irene#02", instance_id());
+		mes "[Irene]";
+		mes "Guardas! GUARDADOS!! Há aqui um assassino! Apanhem-no!";
+		next;
+		mapannounce instance_mapname("1@sara"), "O som de muitos pares de botas pode ser ouvido a correr lá fora!",bc_area,"0xffffff";
+		mes "^FF0000O som de muitos pares de botas pode ser ouvido a correr lá fora!!^000000";
+		next;
+		cutin "sara_9sara3",2;
+		npctalk "Mamã NÃO!!!!!!!!!!";
+		mes "[Sara]";
+		mes "Mamã NÃO!!!!!!!!!!";
+		next;
+		donpcevent instance_npcname("Sara#01", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Mãe da Sara", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Irene#02", instance_id())+"::OnDisable";
+		mapannounce instance_mapname("1@sara"), "Sara foge e o som dos guardas está a aproximar-se...",bc_area,"0xffffff";
+		mes "^FF0000Sara foge e o som dos guardas está a aproximar-se...^000000";
+		close2;
+		cutin "sara_9sara3",255;
+		donpcevent instance_npcname("#MobsSara01", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk01", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk02", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk03", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk04", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk05", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk06", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk07", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk08", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk09", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk10", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk11", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk12", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk13", instance_id())+"::OnEnable";
+		end;
+	}
+	else {
+		end;
+	}
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#01");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#01");
+	end;
+}
+
+1@sara,107,325,4	script	Mãe da Sara	-1,{
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Mãe da Sara");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Mãe da Sara");
+	end;
+}
+
+1@sara,107,325,4	script	Irene#02	-1,{
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Irene#02");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Irene#02");
+	end;
+}
+
+1@sara,152,233,6	script	Sara#02	668,{
+	if (is_party_leader() == true) {
+		cutin "sara_9sara2",2;
+		npctalk "Mamã!";
+		mes "[Sara]";
+		mes "Mamã!";
+		next;
+		cutin "sara_elder_irine4",2;
+		npctalk "Sara...", instance_npcname("Irene#03", instance_id());
+		mes "[Irene]";
+		mes "Sara...";
+		next;
+		cutin "sara_9sara2",2;
+		npctalk "Não!";
+		mes "[Sara]";
+		mes "Não!";
+		next;
+		cutin "sara_elder_irine4",2;
+		npctalk "Tenho andado à sua procura, Sara. Por favor, venha com o papá, é muito perigoso aqui!", instance_npcname("Irene#03", instance_id());
+		mes "[Irene]";
+		mes "Tenho andado à sua procura, Sara. Por favor, venha com o papá, é muito perigoso aqui!";
+		next;
+		unittalk getcharid(3),"Não o deixarei levar a Sara!";
+		mes "["+strcharinfo(0)+"]";
+		mes "Não o deixarei levar a Sara!";
+		next;
+		cutin "sara_elder_irine3",2;
+		npctalk "O assassino está aqui! Guardas! Vamos acabar com ele de uma vez por todas!", instance_npcname("Irene#03", instance_id());
+		mes "[Irene]";
+		mes "O assassino está aqui! Guardas! Vamos acabar com ele de uma vez por todas!";
+		next;
+		unittalk getcharid(3),"Sara... corre! Salve-se!";
+		mes "["+strcharinfo(0)+"]";
+		mes "Sara... corre! Salve-se!";
+		next;
+		cutin "sara_9sara2",2;
+		npctalk "...Certo.";
+		mes "[Sara]";
+		mes "...Certo.";
+		close2;
+		cutin "sara_9sara3",255;
+		donpcevent instance_npcname("Sara#02", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Irene#03", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("#BossSara01", instance_id())+"::OnEnable";
+		end;
+	}
+	else {
+		end;
+	}
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#02");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#02");
+	end;
+}
+
+1@sara,152,233,4	script	Irene#03	-1,{
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Irene#03");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Irene#03");
+	end;
+}
+
+1@sara,156,236,4	script	Irene#04	684,{
+	if (is_party_leader() == true) {
+		cutin "sara_elder_irine4",2;
+		npctalk "Tu... eras demasiado forte para mim.";
+		mes "[Irene]";
+		mes "Tu... eras demasiado forte para mim.";
+		next;
+		npctalk "Porquê... *hack* está a tentar matar a minha mulher e a minha filha?";
+		mes "[Irene]";
+		mes "Porquê... *hack* está a tentar matar a minha mulher e a minha filha?";
+		next;
+		unittalk getcharid(3),"De que estás a falar? Vimos-te de pé sobre a mãe de Sara com a tua espada Coberta de sangue.";
+		mes "["+strcharinfo(0)+"]";
+		mes "De que estás a falar? Vimos-te de pé sobre a mãe de Sara com a tua espada Coberta de sangue.";
+		next;
+		npctalk "Você... pensa que eu matei a mãe da Sara?";
+		mes "[Irene]";
+		mes "Você... pensa que eu matei a mãe da Sara?";
+		next;
+		npctalk "Ela *tinha sido esfaqueada* por um assassino. Eu matei-o *hack* e foi por isso que a minha lâmina estava coberta de sangue...";
+		mes "[Irene]";
+		mes "Ela *tinha sido esfaqueada* por um assassino. Eu matei-o *hack* e foi por isso que a minha lâmina estava coberta de sangue...";
+		next;
+		cutin "sara_elder_irine4",255;
+		cutin "sara_momdie",4;
+		mapannounce instance_mapname("1@sara"), "Pensando bem, parece que se lembra de outro corpo deitado no canto esquerdo da sala. Talvez tenha sido o assassino de que o Doyen está a falar.",bc_area,"0xffffff";
+		mes "^FF0000Pensando bem, parece que se lembra de outro corpo deitado no canto esquerdo da sala. Talvez tenha sido o assassino de que o Doyen está a falar.^000000";
+		next;
+		cutin "sara_momdie",255;
+		cutin "sara_elder_irine4",2;
+		npctalk "Se... você não é o assassino enviado para matar a minha mulher e filha, quem é você?";
+		mes "[Irene]";
+		mes "Se... você não é o assassino enviado para matar a minha mulher e filha, quem é você?";
+		next;
+		unittalk getcharid(3),"Eu sou apenas um aventureiro que estava de passagem. Ouvi alguns homens estranhos a conspirarem as suas mortes e precisavam de intervir.";
+		mes "["+strcharinfo(0)+"]";
+		mes "Eu sou apenas um aventureiro que estava de passagem. Ouvi alguns homens estranhos a conspirarem as suas mortes e precisavam de intervir.";
+		next;
+		npctalk "Se... estás a dizer a verdade... perdoa-me. Pensava que eras um deles.";
+		mes "[Irene]";
+		mes "Se... estás a dizer a verdade... perdoa-me. Pensava que eras um deles.";
+		next;
+		npctalk "Homens estranhos? ...aposto que eram alguns dos anciãos da aldeia. Ugh...";
+		mes "[Irene]";
+		mes "Homens estranhos? ...aposto que eram alguns dos anciãos da aldeia. Ugh...";
+		next;
+		npctalk "Pode haver mais assassinos por isso temos de encontrar a Sara o mais depressa possível.";
+		mes "[Irene]";
+		mes "Pode haver mais assassinos por isso temos de encontrar a Sara o mais depressa possível.";
+		next;
+		unittalk getcharid(3),"Sara acredita que mataste a mãe dela. Precisamos de lhe dizer a verdade.";
+		mes "["+strcharinfo(0)+"]";
+		mes "Sara acredita que mataste a mãe dela. Precisamos de lhe dizer a verdade.";
+		next;
+		npctalk "Temos de fazer o nosso melhor para a encontrar. Vamos separar-nos e procurar por ela. Por favor, ajudem-me a encontrar a minha filha e expliquem-lhe tudo.";
+		mes "[Irene]";
+		mes "Temos de fazer o nosso melhor para a encontrar. Vamos separar-nos e procurar por ela. Por favor, ajudem-me a encontrar a minha filha e expliquem-lhe tudo.";
+		close2;
+		cutin "sara_elder_irine4",255;
+		mapannounce instance_mapname("1@sara"), "Temos de encontrar a Sara. Parece lembrar-se dela a correr na direcção das 8 horas.",bc_map,"0xffff00";
+		viewpoint 1,88,188,1,0x00FF00;
+		donpcevent instance_npcname("Irene#04", instance_id())+"::OnDisable";
+		enablenpc instance_npcname("#sara_warp06");
+		donpcevent instance_npcname("Sara#03", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("?????#01", instance_id())+"::OnEnable";
+		end;
+	}
+	else {
+		end;
+	}
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Irene#04");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Irene#04");
+	end;
+}
+
+1@sara,39,142,4	script	Sara#03	668,{
+	if (is_party_leader() == true) {
+		mapannounce instance_mapname("1@sara"), "Quando está prestes a chamar a Sara, um golpe súbito derruba-o por trás.",bc_area,"0xffffff";
+		mes "^FF0000Quando está prestes a chamar a Sara, um golpe súbito derruba-o por trás.^000000";
+		next;
+		cutin "sara_beholder",2;
+		npctalk "Os viajantes do tempo já não podem interferir. Não pode impedir-nos de nos encontrarmos com Sara.", instance_npcname("?????#01", instance_id());
+		mes "[?????]";
+		mes "Os viajantes do tempo já não podem interferir. Não pode impedir-nos de nos encontrarmos com Sara.";
+		next;
+		npctalk "Deve voltar ao tempo a que pertence.", instance_npcname("?????#01", instance_id());
+		mes "[?????]";
+		mes "Deve voltar ao tempo a que pertence.";
+		next;
+		mapannounce instance_mapname("1@sara"), "Ao cair no chão, duas figuras escuras aproximam-se de Sara.",bc_area,"0xffffff";
+		mes "^FF0000Ao cair no chão, duas figuras escuras aproximam-se de Sara...^000000";
+		next;
+		npctalk "Uma rapariga cheia de traição, desespero e ódio. Guiar-vos-emos para o vosso destino final.", instance_npcname("?????#01", instance_id());
+		mes "[?????]";
+		mes "Uma rapariga cheia de traição, desespero e ódio. Guiar-vos-emos para o vosso destino final.";
+		next;
+		cutin "sara_9sara2",2;
+		npctalk "...";
+		mes "[Sara]";
+		mes "...";
+		next;
+		cutin "sara_beholder",2;
+		npctalk "Sara, ele tornará os seus sonhos realidade.", instance_npcname("?????#01", instance_id());
+		mes "[?????]";
+		mes "Sara, ele tornará os seus sonhos realidade.";
+		next;
+		cutin "sara_beholder",255;
+		mapannounce instance_mapname("1@sara"), "Um dos estranhos camuflados cobre a Sara com o seu manto e as três figuras desaparecem.",bc_area,"0xffffff";
+		mes "^FF0000Um dos estranhos camuflados cobre a Sara com o seu manto e as três figuras desaparecem.^000000";
+		close2;
+		viewpoint 1,16,143,1,0x00FF00;
+		donpcevent instance_npcname("Sara#03", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("?????#01", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("#sara_warp07", instance_id())+"::OnEnable";
+		end;
+	}
+	else {
+		end;
+	}
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#03");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#03");
+	end;
+}
+
+1@sara,39,142,4	script	?????#01	-1,{
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("?????#01");
+	end;
+OnEnable:
+	enablenpc instance_npcname("?????#01");
+	end;
+}
+
+1@sara,97,304,6	script	Sara#talk01	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk "Porquê o papá?";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk01", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk01", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk01");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk01");
+	end;
+}	
+
+1@sara,128,296,6	script	Sara#talk02	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk "Não mamã!";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk02", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk02", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk02");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk02");
+	end;
+}	
+
+1@sara,124,230,6	script	Sara#talk03	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk "Porquê... porquê?";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk03", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk03", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk03");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk03");
+	end;
+}	
+
+1@sara,174,227,6	script	Sara#talk04	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk "Nooooo...";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk04", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk04", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk04");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk04");
+	end;
+}	
+
+1@sara,203,259,6	script	Sara#talk05	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk "...";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk05", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk05", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk05");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk05");
+	end;
+}	
+
+1@sara,256,279,4	script	Sara#talk06	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk "...Mamã";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk06", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk06", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk06");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk06");
+	end;
+}	
+
+1@sara,228,282,6	script	Sara#talk07	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk "Porque é que dói tanto?";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk07", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk07", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk07");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk07");
+	end;
+}
+
+1@sara,265,253,4	script	Sara#talk08	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk ".........";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk08", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk08", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk08");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk08");
+	end;
+}
+
+1@sara,230,95,6	script	Sara#talk09	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk ".........";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk09", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk09", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk09");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk09");
+	end;
+}
+
+1@sara,150,60,6	script	Sara#talk10	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk "Nooooo...";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk10", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk10", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk10");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk10");
+	end;
+}
+
+1@sara,105,63,6	script	Sara#talk11	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk ".........";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk11", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk11", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk11");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk11");
+	end;
+}
+
+1@sara,184,106,6	script	Sara#talk12	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk "Papá!";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk12", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk12", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk12");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk12");
+	end;
+}
+
+1@sara,164,175,4	script	Sara#talk13	668,5,5,{
+	end;
+
+OnTouch:
+	npctalk "Papá porquê?!";
+	sleep2 1000;
+	initnpctimer;
+	donpcevent instance_npcname("Sara#talk13", instance_id())+"::OnDisable";
+	end;
+
+OnTimer30000:
+	donpcevent instance_npcname("Sara#talk13", instance_id())+"::OnEnable";
+	stopnpctimer;
+	end;
+
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("Sara#talk13");
+	end;
+OnEnable:
+	enablenpc instance_npcname("Sara#talk13");
+	end;
+}
+
+//= Monstros
+1@sara,1,1,4	script	#MobsSara01	-1,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("#MobsSara01", instance_id());
+	end;
+OnEnable:
+	enablenpc instance_npcname("#MobsSara01", instance_id());
+	set .@map$, instance_mapname("1@sara");
+	.@event$ = instance_npcname("#MobsSara01")+"::OnMyMobDead";
+	killmonster .@map$, .@event$;
+	monster .@map$,107,325,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,115,325,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,116,317,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,108,317,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,116,311,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,108,311,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,101,295,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,105,295,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,109,295,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,113,295,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,117,295,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,121,295,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,122,227,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,122,225,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,122,223,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,122,221,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,122,219,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,122,217,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,121,227,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,121,225,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,121,223,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,121,221,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,121,219,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,121,217,"Lobo da Guarda",2545,1, .@event$;
+
+	monster .@map$,151,231,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,153,231,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,155,231,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,157,231,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,159,231,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,161,231,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,187,215,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,187,217,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,187,219,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,187,221,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,187,223,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,187,225,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,188,215,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,188,217,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,188,219,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,188,221,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,188,223,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,188,225,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,192,250,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,194,250,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,196,250,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,198,250,"Lobo da Guarda",2545,1, .@event$;
+
+	monster .@map$,196,254,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,196,256,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,196,258,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,199,254,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,199,256,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,199,258,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,204,246,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,204,248,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,204,250,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,204,252,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,204,254,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,206,251,"Lobo da Guarda",2545,1, .@event$;
+	set 'Sara_Mobs,58;
+	initnpctimer;
+	end;
+
+OnTimer1000:
+	mapannounce instance_mapname("1@sara"), "Os guardas devem ser derrotados para terem acesso à área seguinte.",bc_map,"0xffff00";
+	end;
+
+OnTimer5000:
+	mapannounce instance_mapname("1@sara"), "Formaram-se vários grupos de guardas para o combater!",bc_map,"0xffff00";
+	stopnpctimer;
+	end;
+
+OnMyMobDead:
+	set 'Sara_Mobs,'Sara_Mobs-1;
+	if ('Sara_Mobs < 1) {
+		set 'Sara_Mobs,0;
+		mapannounce instance_mapname("1@sara"), "Sara fugiu de novo! Acho que ela foi na direcção das 2 horas!",bc_map,"0xffff00";
+		if (playerattached() > 0)
+			viewpoint 1,208,250,1,0x00FF00;
+		enablenpc instance_npcname("#sara_warp02");
+		donpcevent instance_npcname("#MobsSara02", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("#MobsSara01", instance_id())+"::OnDisable";
+	}
+	end;
+}
+
+1@sara,1,1,4	script	#MobsSara02	-1,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("#MobsSara02", instance_id());
+	end;
+OnEnable:
+	enablenpc instance_npcname("#MobsSara02", instance_id());
+	set .@map$, instance_mapname("1@sara");
+	.@event$ = instance_npcname("#MobsSara02")+"::OnMyMobDead";
+	killmonster .@map$, .@event$;
+	monster .@map$,228,312,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,227,312,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,229,315,"Lobo da Guarda",2546,1, .@event$;
+
+	monster .@map$,247,290,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,248,290,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,249,290,"Guarda de Payon",2544,1, .@event$;
+
+	monster .@map$,223,264,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,230,248,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,227,248,"Guarda de Payon",2544,1, .@event$;
+
+	monster .@map$,238,229,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,225,220,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,228,220,"Guarda de Payon",2544,1, .@event$;
+
+	monster .@map$,220,212,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,223,212,"Guarda de Payon",2544,1, .@event$;
+
+	monster .@map$,219,203,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,222,203,"Lobo da Guarda",2546,1, .@event$;
+	set 'Sara_Mobs,16;
+	end;
+
+OnMyMobDead:
+	set 'Sara_Mobs,'Sara_Mobs-1;
+	if ('Sara_Mobs < 1) {
+		set 'Sara_Mobs,0;
+		mapannounce instance_mapname("1@sara"), "Sara fugiu mais uma vez! Acho que ela foi na direcção das 5 horas!",bc_map,"0xffff00";
+		if (playerattached() > 0)
+			viewpoint 1,226,190,1,0x00FF00;
+		enablenpc instance_npcname("#sara_warp03");
+		donpcevent instance_npcname("#MobsSara03", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("#MobsSara02", instance_id())+"::OnDisable";
+	}
+	end;
+}
+
+1@sara,1,1,4	script	#MobsSara03	-1,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("#MobsSara03", instance_id());
+	end;
+OnEnable:
+	enablenpc instance_npcname("#MobsSara03", instance_id());
+	set .@map$, instance_mapname("1@sara");
+	.@event$ = instance_npcname("#MobsSara03")+"::OnMyMobDead";
+	killmonster .@map$, .@event$;
+	monster .@map$,255,91,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,255,92,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,255,93,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,255,94,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,254,91,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,254,92,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,254,93,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,254,94,"Lobo da Guarda",2545,1, .@event$;
+
+	monster .@map$,228,65,"Guarda de Payon",2543,1, .@event$;	
+	monster .@map$,228,64,"Guarda de Payon",2543,1, .@event$;	
+	monster .@map$,228,63,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,228,62,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,198,62,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,195,56,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,195,60,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,195,62,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,192,56,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,192,60,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,192,62,"Lobo da Guarda",2546,1, .@event$;
+
+	monster .@map$,187,68,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,188,63,"Lobo da Guarda",2546,1, .@event$;
+
+	monster .@map$,120,39,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,121,39,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,121,39,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,93,64,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,93,68,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,93,72,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,93,76,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,90,64,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,90,68,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,90,72,"Lobo da Guarda",2545,1, .@event$;
+	monster .@map$,90,76,"Lobo da Guarda",2545,1, .@event$;
+
+	monster .@map$,87,67,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,87,63,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,87,59,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,87,55,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,84,67,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,84,63,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,84,59,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,84,55,"Lobo da Guarda",2546,1, .@event$;
+
+	monster .@map$,81,67,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,81,63,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,81,59,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,81,55,"Lobo da Guarda",2546,1, .@event$;
+	monster .@map$,81,51,"Lobo da Guarda",2546,1, .@event$;
+	set 'Sara_Mobs,45;
+	end;
+
+OnMyMobDead:
+	set 'Sara_Mobs,'Sara_Mobs-1;
+	if ('Sara_Mobs < 1) {
+		set 'Sara_Mobs,0;
+		mapannounce instance_mapname("1@sara"), "Sara fugiu mais uma vez! *suspiro* Acho que ela foi na direcção das 12 horas!",bc_map,"0xffff00";
+		if (playerattached() > 0)
+			viewpoint 1,166,67,1,0x00FF00;
+		enablenpc instance_npcname("#sara_warp04");
+		donpcevent instance_npcname("#MobsSara04", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("#MobsSara03", instance_id())+"::OnDisable";
+	}
+	end;
+}
+
+1@sara,1,1,4	script	#MobsSara04	-1,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("#MobsSara04", instance_id());
+	end;
+OnEnable:
+	enablenpc instance_npcname("#MobsSara04", instance_id());
+	set .@map$, instance_mapname("1@sara");
+	.@event$ = instance_npcname("#MobsSara04")+"::OnMyMobDead";
+	killmonster .@map$, .@event$;
+	monster .@map$,155,97,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,157,97,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,159,97,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,161,97,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,201,113,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,204,113,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,207,113,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,210,113,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,213,113,"Guarda de Payon",2544,1, .@event$;
+
+	monster .@map$,201,117,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,204,117,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,207,117,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,210,117,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,213,117,"Guarda de Payon",2544,1, .@event$;
+
+	monster .@map$,223,152,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,223,148,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,223,144,"Guarda de Payon",2544,1, .@event$;
+
+	monster .@map$,221,152,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,221,148,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,221,144,"Guarda de Payon",2544,1, .@event$;
+
+	monster .@map$,151,174,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,153,174,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,155,174,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,157,174,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,159,174,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,151,177,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,153,177,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,155,177,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,157,177,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,159,177,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,151,180,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,153,180,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,155,180,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,157,180,"Guarda de Payon",2544,1, .@event$;
+	monster .@map$,159,180,"Guarda de Payon",2544,1, .@event$;
+
+	monster .@map$,173,139,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,170,139,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,167,139,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,164,139,"Guarda de Payon",2543,1, .@event$;
+
+	monster .@map$,173,137,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,170,137,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,167,137,"Guarda de Payon",2543,1, .@event$;
+	monster .@map$,164,137,"Guarda de Payon",2543,1, .@event$;
+	set 'Sara_Mobs,43;
+	end;
+
+OnMyMobDead:
+	set 'Sara_Mobs,'Sara_Mobs-1;
+	if ('Sara_Mobs < 1) {
+		set 'Sara_Mobs,0;
+		mapannounce instance_mapname("1@sara"), "Sara continua a fugir! Acho que ela foi na direcção das 12 horas!",bc_map,"0xffff00";
+		if (playerattached() > 0)
+			viewpoint 1,155,180,1,0x00FF00;
+		enablenpc instance_npcname("#sara_warp05");
+		donpcevent instance_npcname("Sara#02", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Irene#03", instance_id())+"::OnEnable";
+		donpcevent instance_npcname("Sara#talk01", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk02", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk03", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk04", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk05", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk06", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk07", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk08", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk09", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk10", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk11", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk12", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("Sara#talk13", instance_id())+"::OnDisable";
+		donpcevent instance_npcname("#MobsSara04", instance_id())+"::OnDisable";
+	}
+	end;
+}
+
+1@sara,1,1,4	script	#BossSara01	-1,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("#BossSara01", instance_id());
+	end;
+OnEnable:
+	enablenpc instance_npcname("#BossSara01", instance_id());
+	set .@map$, instance_mapname("1@sara");
+	.@event$ = instance_npcname("#BossSara01")+"::OnMyMobDead";
+	killmonster .@map$, .@event$;
+	monster .@map$,150,232,"Guarda de Payon",2544,1, .@event$;
+	unittalk $@mobid[0],"Estou ficando muito velho para isso...";
+	monster .@map$,150,227,"Guarda de Payon",2544,1, .@event$;
+	unittalk $@mobid[0],"Por Payon!";
+	monster .@map$,150,222,"Guarda de Payon",2544,1, .@event$;
+	unittalk $@mobid[0],"Por Payon!";
+	monster .@map$,150,217,"Guarda de Payon",2544,1, .@event$;
+	unittalk $@mobid[0],"Por Payon!";
+	monster .@map$,161,232,"Guarda de Payon",2544,1, .@event$;
+	unittalk $@mobid[0],"Por Payon!";
+	monster .@map$,161,227,"Guarda de Payon",2544,1, .@event$;
+	unittalk $@mobid[0],"Por Payon!";
+	monster .@map$,161,222,"Guarda de Payon",2544,1, .@event$;
+	unittalk $@mobid[0],"Por Payon!";
+	monster .@map$,161,217,"Guarda de Payon",2544,1, .@event$;
+	unittalk $@mobid[0],"Por Payon!";
+	areamobuseskill .@map$,155,225,10,2544,"NPC_EMOTION",1,0,0,ET_GO,0;
+	areamobuseskill .@map$,159,236,1,2543,"NPC_EMOTION",1,0,0,ET_SWEAT,0;
+	set 'Sara_Mobs,8;
+	end;
+
+OnMyMobDead:
+	set 'Sara_Mobs,'Sara_Mobs-1;
+	if ('Sara_Mobs < 1) {
+		set 'Sara_Mobs,0;
+	mapannounce instance_mapname("1@sara"), "Irene desenha esta lâmina!",bc_map,"0xffff00";
+		donpcevent instance_npcname("#BossSara02", instance_id())+"::OnEnable";
+	}
+	end;
+}
+
+1@sara,1,1,4	script	#BossSara02	-1,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("#BossSara02", instance_id());
+	end;
+OnEnable:
+	enablenpc instance_npcname("#BossSara02", instance_id());
+	set .@map$, instance_mapname("1@sara");
+	.@event$ = instance_npcname("#BossSara02")+"::OnMyMobDead";
+	killmonster .@map$, .@event$;
+	monster .@map$,155,226,"Lorde Irine",2542,1, .@event$;
+	unittalk $@mobid[0],"Terei minha vingança pela mãe da Sara!!";
+	end;
+
+OnMyMobDead:
+	mapannounce instance_mapname("1@sara"), "Irene caiu.",bc_map,"0xffff00";
+	donpcevent instance_npcname("Irene#04", instance_id())+"::OnEnable";
+	end;
+}
+
+//= Portais
+1@sara,240,145,0	warp2	#sara_warp01	2,2,1@sara,94,320
+1@sara,208,250,0	warp2	#sara_warp02	2,2,1@sara,230,311
+1@sara,226,190,0	warp2	#sara_warp03	2,2,1@sara,263,94
+1@sara,166,67,0	warp2	#sara_warp04	2,2,1@sara,164,81
+1@sara,155,180,0	warp2	#sara_warp05	2,2,1@sara,155,196
+1@sara,88,188,0	warp2	#sara_warp06	2,2,1@sara,89,175
+
+1@sara,16,143,4	script	#sara_warp07	45,2,2,{
+	end;
+
+OnTouch:
+	if (saramemory == 1) {
+		set saramemory,2;
+	}
+	if (saramemory == 4) {
+		set saramemory,5;
+	}
+	warp "dali",134,111;
+	end;
+
+OnInstanceInit:
+	disablenpc instance_npcname("#sara_warp01");
+	disablenpc instance_npcname("#sara_warp02");
+	disablenpc instance_npcname("#sara_warp03");
+	disablenpc instance_npcname("#sara_warp04");
+	disablenpc instance_npcname("#sara_warp05");
+	disablenpc instance_npcname("#sara_warp06");
+OnDisable:
+	disablenpc instance_npcname("#sara_warp07");
+	end;
+OnEnable:
+	enablenpc instance_npcname("#sara_warp07");
+	end;
+}

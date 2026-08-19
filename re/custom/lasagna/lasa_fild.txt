@@ -1,0 +1,25 @@
+//===== rAthena Script =======================================
+//= Lasagna Fild Monster Spawn Script
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//= 1.1 Correct Spawn by Navigation's mob data. [attackjom]
+//============================================================
+
+//==================================================
+// lasa_fild01 - Planícies Ravioli
+//==================================================
+lasa_fild01,0,0	monster	Omeleting	3495,30
+lasa_fild01,0,0	monster	Lunático Folhado	3496,30
+lasa_fild01,0,0	monster	Fabre Gamíneo	3497,30
+lasa_fild01,100,330,75,50	monster	Omeleting	3495,50
+lasa_fild01,100,330,75,50	monster	Lunático Folhado	3496,50
+lasa_fild01,100,330,75,50	monster	Fabre Gamíneo	3497,50
+lasa_fild01,140,365,15,15	monster	Planta Vermelha	1078,5
+
+//==================================================
+// lasa_fild01 - Floreta Ravioli
+//==================================================
+lasa_fild02,0,0	monster	Zangão Selvagem	3498,90
+lasa_fild02,0,0	monster	Sapo de Rodda Doce	3499,100
+lasa_fild02,0,0	monster	Filhote de Lobo de Caça	3500,100
+lasa_fild02,0,0	monster	Basilisco Guarda	3502,10

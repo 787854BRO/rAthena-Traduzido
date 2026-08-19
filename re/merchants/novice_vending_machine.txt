@@ -1,0 +1,101 @@
+//===== rAthena Script =======================================
+//= Vending Machine NPCs for Novice.
+//===== Description: ========================================= 
+//= [Walkthrough Conversion]
+//= Exchangers NPCs for Novice.
+//===== Additional Comments: =================================
+//= 1.0 Firt version. [Aleos] [Secret]
+//= 1.1 Additionnal clean-up. [Capuche]
+//============================================================
+
+-	script	novice_vending_machine#main	-1,{
+	.@storage_ticket = 7059;	// Vale-Armazém
+	.@storage_ticket_name$ = getitemname(.@storage_ticket);
+
+	mes "Máquina de Vendas para Aprendizes.";
+	mes "Existem muitos botões.";
+	next;
+	switch( select( "Manual.", "Trocar " + .@storage_ticket_name$, "Trocar por Equipes de Aprendizes" ) ) {
+	case 1:
+		mes "[Trocar " + .@storage_ticket_name$ + "]";
+		mes "4 " + .@storage_ticket_name$ + " podem ser trocados por 1 Vale-Teletransporte, 1 Bilhete para Aeroplano, 1 Vale-Carrinho, 1 Bilhete para Passeio de Peco, 15 Asa de Mosca de Aprendiz, 5 Asa de Borboleta de Aprendiz, 30 Poção de Aprendiz.";
+		next;
+		mes "[Guia de Troca do Aprendiz]";
+		mes "O Traje, Capuz, Sandálias, Adaga e Vembrassa do Aprendiz do Instituto do Aprendiz podem ser adquiridos através de 4 " + .@storage_ticket_name$ + ".";
+		next;
+		mes "[Guia de Troca do Aprendiz]";
+		mes "O Chapéu de Ovo do Aprendiz pode ser adquirido através de um 'Cupom de Cabeleireiro do Calouro' para mudar seu penteado.";
+		close;
+	case 2:
+		setarray .@exchange[0],
+			7060,1,		// Vale-Teletransporte
+			7311,1,		// Bilhete para Aeroplano
+			7061,1,		// Vale-Carrinho
+			7310,1,		// Bilhete para Passeio de Peco
+			12323,15,	// Asa de Mosca de Aprendiz
+			12324,5,	// Asa de Borboleta de Aprendiz
+			569,30;		// Poção de Aprendiz
+		.@size = getarraysize(.@exchange);
+
+		for ( .@i = 0; .@i < .@size; .@i += 2 ) {
+			if (.@exchange[.@i+1] > 1)
+				.@menu$ += .@exchange[.@i+1] + " ";
+			.@menu$ += getitemname(.@exchange[.@i]) + ":";
+		}
+		.@s = (select(.@menu$) - 1) * 2;
+		if (countitem(.@storage_ticket) < 4) {
+			mes "O número de " + .@storage_ticket_name$ + " é insuficiente para prosseguir com a troca.";
+			close;
+		}
+		if (.@exchange[.@s+1] > 1)
+			.@amount$ = .@exchange[.@s+1] + " ";
+		mes "Trocou 4 " + .@storage_ticket_name$ + " por " + .@amount$ + getitemname(.@exchange[.@s]);
+		delitem .@storage_ticket,4;
+		getitem .@exchange[.@s],.@exchange[.@s+1];
+		close;
+	case 3:
+		mes "Trocar todos os equipamentos de Aprendiz por Cupons.";
+		mes "Selecione continuar para prosseguir.";
+		next;
+		if (select( "Continuar", "Cancelar." ) == 2) {
+			mes "A troca foi interrompida.";
+			close;
+		}
+		mes "Trocando todos os equipamentos por cupons.";
+		setarray .@list[0],2352,2510,2414,1243,2112,5055;
+		.@size = getarraysize(.@list);
+		
+		for ( .@i = 0, .@i < .@size; .@i++ ) {
+			.@count = countitem(.@list[.@i]);	// nota: verifica talvez se os itens equipados foram ignorados.
+			if (.@count < 1)
+				continue;
+			switch(.@list[.@i]) {
+			case 2352:	// Traje do Aprendiz
+			case 2510:	// Capuz do Aprendiz
+			case 2414:	// Sandálias do Aprendiz
+			case 1243:	// Adaga do Aprendiz
+			case 2112:	// Vembrassa do Aprendiz
+				delitem .@list[.@i], .@count;
+				getitem .@storage_ticket,(4*.@count);	// Vale-Armazém
+				break;
+			case 5055:	// Chapéu de Ovo do Aprendiz
+				delitem .@list[.@i], .@count;
+				getitem 6593,.@count;	// Cupom de Cabeleireiro do Calouro
+				break;
+			}
+		}
+		close;
+	}
+}
+izlude_in,69,177,5	duplicate(novice_vending_machine#main)	Máquina do Aprendiz#iz	2_VENDING_MACHINE1
+payon_in02,71,75,5	duplicate(novice_vending_machine#main)	Máquina do Aprendiz#pay	2_VENDING_MACHINE1
+prt_church,187,27,3	duplicate(novice_vending_machine#main)	Máquina do Aprendiz#prt	2_VENDING_MACHINE1
+
+// enfrentando o desconhecido 
+alberta_in,60,52,3	duplicate(novice_vending_machine#main)	Máquina do Aprendiz#alb	2_VENDING_MACHINE1
+geffen_in,158,107,3	duplicate(novice_vending_machine#main)	Máquina do Aprendiz#gef	2_VENDING_MACHINE1
+moc_para01,17,37,3	duplicate(novice_vending_machine#main)	Máquina do Aprendiz#para	2_VENDING_MACHINE1
+moc_prydb1,38,124,3	duplicate(novice_vending_machine#main)	Máquina do Aprendiz#pryd	2_VENDING_MACHINE1
+payon_in01,59,20,3	duplicate(novice_vending_machine#main)	Máquina do Aprendiz#pay2	2_VENDING_MACHINE1
+que_ng,28,73,3	duplicate(novice_vending_machine#main)	Máquina do Aprendiz#que_ng1	2_VENDING_MACHINE1
+que_ng,168,39,3	duplicate(novice_vending_machine#main)	Máquina do Aprendiz#que_ng2	2_VENDING_MACHINE1

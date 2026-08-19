@@ -1,0 +1,63 @@
+//===== rAthena Script =======================================
+//= Izlude Dungeon Renewal Warp Script
+//===== By: ==================================================
+//= Athena (1.0)
+//= Nana (1.1)
+//===== Current Version: =====================================
+//= 1.3
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Warp Points for Bibilyn Island & Undersea Cave
+//===== Additional Comments: =================================
+//= 1.2 Moved common warps to base path. [Euphy]
+//= 1.3 Added Undersea Tunnel 6th floor warper.
+//============================================================
+
+// Portal do Túnel Submarino :: iz_dun05
+//============================================================
+iz_dun04,130,234,5	script	Guardião da Caverna#iz_dun	413,{
+	mes "[Guardião da Caverna]";
+	mes "Pare!";
+	mes "O que te traz aqui, aventureiro?";
+	mes "Descobrimos um novo andar desta cidade subaquática.";
+	next;
+	mes "[Guardião da Caverna]";
+	mes "Você acha que está à altura do desafio?";
+	mes "Os monstros aqui estão entre os níveis 110 e 124.";
+	mes "E você deve tomar cuidado com o Kraken!";
+	next;
+	switch(select("Soltem o Kraken!:Ficarei aqui.")) {
+	case 1:
+		mes "[Guardião da Caverna]";
+		mes "Seja cauteloso e boa sorte.";
+		mes "Se você vir o Kraken, certifique-se de estar com seus amigos para lha ajudar ou faça o que fazemos e corra.";
+		close2;
+		warp "iz_dun05",141,187;
+		end;
+	case 2:
+		mes "[Guardião da Caverna]";
+		mes "É sempre melhor estar preparado antes de explorar uma nova área.";
+		mes "Volte quando estiver pronto para ir.";
+		close;
+	}
+}
+
+iz_dun05,142,190,5	script	Guarda#iz_dun	413,{
+	mes "[Guardião da Caverna]";
+	mes "Então acho que você quer voltar para o quinto andar?";
+	next;
+	switch(select("Sim!:Não, eu vou ficar.")) {
+	case 1:
+		mes "[Guardião da Caverna]";
+		mes "Fique seguro, aventureiro.";
+		close2;
+		warp "iz_dun04",129,232;
+		end;
+	case 2:
+		mes "[Guardião da Caverna]";
+		mes "Você não vai?";
+		mes "Você é mais corajoso do que eu pensava.";
+		close;
+	}
+}

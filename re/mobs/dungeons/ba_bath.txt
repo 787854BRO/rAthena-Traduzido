@@ -1,0 +1,14 @@
+//===== rAthena Script =======================================
+//= Monsters from Varmundt's Mansion
+//===== Changelog: ===========================================
+//= 1.0 First version. [JohnnyPlayy]
+//============================================================
+
+//= ba_bath - Banho Meditatio
+//==================================================
+ba_bath,0,0	monster	Inspetora Quebrada	20633,30,5000
+ba_bath,0,0	monster	Limpadora Quebrada	20634,30,5000
+ba_bath,0,0	monster	Fen Fervente	20643,70,5000
+ba_bath,0,0	monster	Cavalo-Marinho Fervente	20644,50,5000
+ba_bath,0,0	monster	Peixe-Espada Fervente	20645,50,5000
+ba_bath,0,0	monster	Espírito da Água Fervente 	20646,70,5000

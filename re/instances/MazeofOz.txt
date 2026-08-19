@@ -1,0 +1,587 @@
+//===== rAthena	script	=======================================
+//= Instance: The Maze of Oz.
+//===== Description: =========================================
+//- [Walkthrough conversion]
+//- Part of the Episode 18 main quest.
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Capuche]
+//============================================================
+
+// Missão Principal: Etapa 28.
+ra_fild10,179,176,5	script	Mercador#ep18_gorge	4_EP18_MERCHANT,{
+	.@md_name$ = "Labirinto de Oz";
+
+	if (ep18_main == 29) {
+		mes "[Miriam Disfarçada]";
+		mes "Agora vamos entrar no <FONT SIZE = 14><B>^e5555eLabirinto de Oz^000000</FONT></B>.";
+		mes "^e5555ePor favor, finalize seus preparativos^000000 e volte falar comigo.";
+		cutin "ep18_merchant.png",2;
+		erasequest 11717;
+		setquest 11719;
+		ep18_main = 30;
+		close3;
+	}
+	if (ep18_main == 30) {
+		mes "[Miriam Disfarçada]";
+		mes "Então vamos para ^e5555e" + .@md_name$ + "^000000";
+		next;
+		if (getcharid(1) == 0 || is_party_leader() == false) {
+			mes "[Miriam Disfarçada]";
+			mes "Acho que seria uma boa ideia ^ff0000formar um grupo antes de entrar^000000..";
+			close;
+		}
+		switch( select( "Abrir a porta.", "Entrar.", "Desistir." ) ) {
+		case 1:
+			if (instance_create(.@md_name$) < 0) {
+				mes "Grupo: " + getpartyname(getcharid(1)) + "";
+				mes "Líder: " + strcharinfo(0) + "";
+				mes "^0000ff" + .@md_name$ + " ^000000- Erro desconhecido";
+				close;
+			}
+			mes "[Miriam Disfarçada]";
+			mes "É melhor esperar um pouco antes de entrar.";
+			close;
+		case 2:
+			switch( instance_enter(.@md_name$) ) {
+			case IE_OTHER:
+				mes "[Miriam Disfarçada]";
+				mes "^ff0000Ocorreu um erro desconhecido.^000000";
+				close;
+			case IE_NOINSTANCE:
+				mes "[Miriam Disfarçada]";
+				mes "Vamos esperar um pouco e tentar novamente.";
+				close;
+			case IE_NOMEMBER:
+				mes "[Miriam Disfarçada]";
+				mes "^ff0000Apenas membros do grupo podem entrar na Instância Memorial.^000000";
+				close;
+			case IE_OK:
+				mapannounce "ra_fild10", "" + strcharinfo(0) + " do grupo, " + getpartyname( getcharid(1) ) + ", está entrando no " + .@md_name$ + ".",bc_map,"0x00ff99",FW_NORMAL ,12;
+				end;
+			}
+		case 3:
+			end;
+		}
+	}
+	mes "[Mercador]";
+	mes "Parece que alguém estava por perto, mas desapareceu rapidamente.";
+	mes "Para onde foi?";
+	cutin "ep18_merchant.png",2;
+	close3;
+
+OnInit:
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(11717) == 1" );
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(11719) == 1" );
+	end;
+}
+
+// Etapa 1
+1@oz,284,164,3	script	Rope#outoz	4_ROPEPILE,{
+	mes "Acho que podemos usar a corda para subir.";
+	next;
+	if (select( "Usar a corda para subir.", "Não usar." ) == 2)
+		end;
+	warp "ra_fild10",173,176;
+	end;
+}
+
+1@oz,282,175,3	script	Miriam#ozmd1	4_EP18_MIRIAM,{
+	if ('event_oz != 0)
+		end;
+	'event_oz = 1;
+	.@miriam1$ = instance_npcname("Miriam#ozmd1");
+	.@maggi1$ = instance_npcname("Maggi#ozmd1");
+	.@mark1$ = instance_npcname("Mark#ozmd1");
+	.@tamarin1$ = instance_npcname("Tamarin#ozmd1");
+	.@miriam2$ = instance_npcname("Miriam#ozmd2");
+
+	setpcblock PCBLOCK_NPC, true;
+	npctalk "Miriam: Esta é a entrada do Labirinto de Oz.", .@miriam1$;
+	cutin "ep18_miriam_03.png",2;
+	sleep2 2000;
+	npctalk "Miriam: Todos, por favor andem com cuidado.", .@miriam1$;
+	sleep2 2000;
+	npctalk "Magi: Algo quente e empoeirado...", .@maggi1$;
+	cutin "4job_maggi_02.PNG",2;
+	cloakoffnpcself( .@maggi1$ );
+	cloakoffnpcself( .@mark1$ );
+	cloakoffnpcself( .@tamarin1$ );
+	sleep2 2000;
+	npctalk "Mark: Você está bem?", .@mark1$;
+	cutin "ep18_mark_01.png",2;
+	sleep2 2000;
+	npctalk "Miriam: A lava está fluindo logo abaixo, então as cinzas estão sempre voando.", .@miriam1$;
+	cutin "ep18_miriam_03.png",2;
+	sleep2 2000;
+	npctalk "Miriam: Pode haver brasas nas cinzas da lava, então por favor tenham cuidado.", .@miriam1$;
+	sleep2 2000;
+	npctalk "Miriam: Se vocês inalarem isso de forma errada, vai queimar seus pulmões.", .@miriam1$;
+	sleep2 2000;
+	npctalk "Miriam: Não parece haver monstros por aqui, então seria melhor andar devagar e verificar a situação novamente.", .@miriam1$;
+	sleep2 2000;
+	npctalk "Miriam: Primeiro, por favor sigam pela estrada ao norte.", .@miriam1$;
+	sleep2 2000;
+	cutin "",255;
+	setpcblock PCBLOCK_NPC, false;
+
+	cloakonnpcself( .@maggi1$ );
+	cloakonnpcself( .@mark1$ );
+	cloakonnpcself( .@tamarin1$ );
+	disablenpc .@miriam1$;
+	enablenpc .@miriam2$;
+	end;
+}
+
+1@oz,279,175,5	duplicate(dummy_cloaked_npc)	Maggi#ozmd1	4_4JOB_MAGGI
+1@oz,280,175,3	duplicate(dummy_cloaked_npc)	Mark#ozmd1	4_EP18_MARK
+1@oz,279,177,3	duplicate(dummy_cloaked_npc)	Tamarin#ozmd1	4_EP18_TAMARIN
+
+
+// Etapa 2
+1@oz,271,272,3	script(DISABLED)	Miriam#ozmd2	4_EP18_MIRIAM,{
+	if ('event_oz != 1)
+		end;
+	'event_oz = 2;
+	.@miriam2$ = instance_npcname("Miriam#ozmd2");
+	'miriam3$ = instance_npcname("Miriam#ozmd3");
+	setpcblock PCBLOCK_NPC, true;
+	npctalk "Miriam: Se você atravessar a ponte à sua frente, começa o verdadeiro Labirinto de Oz.", .@miriam2$;
+	sleep2 2000;
+	npctalk "Miriam: Você precisa ter muito cuidado ao atravessar a ponte, então vamos conversar de novo quando chegarmos nela.", .@miriam2$;
+	sleep2 2000;
+	setpcblock PCBLOCK_NPC, false;
+	disablenpc .@miriam2$;
+	enablenpc 'miriam3$;
+	end;
+
+OnInstanceInit:
+	'event_oz = 0;
+
+	'map_name$ = instance_mapname("1@oz");
+	end;
+}
+
+
+// Etapa 3
+1@oz,241,272,3	script(DISABLED)	Miriam#ozmd3	EP18_NPC_MIRIAM,{
+	if ('event_oz != 2)
+		end;
+	'event_oz = 3;
+	.@maggi3$ = instance_npcname("Maggi#ozmd3");
+	.@mark3$ = instance_npcname("Mark#ozmd3");
+	.@tamarin3$ = instance_npcname("Tamarin#ozmd3");
+
+	setpcblock PCBLOCK_NPC, true;
+	npctalk "Miriam: Esta ponte é perigosa, então seria melhor dividir as bagagens e atravessar um de cada vez.", 'miriam3$;
+	sleep2 2000;
+	npctalk "Miriam: Então eu vou atravessar primeiro, por favor me sigam devagar. Vai ajudar se não olharem para baixo.", 'miriam3$;
+	sleep2 2000;
+	npctalk "Tamarin: Uau... eu não consigo ver o fundo.", .@tamarin3$;
+	cloakoffnpcself( .@maggi3$ );
+	cloakoffnpcself( .@mark3$ );
+	cloakoffnpcself( .@tamarin3$ );
+	sleep2 2000;
+	npctalk "Magi: Minhas pernas já estão tremendo...", .@maggi3$;
+	sleep2 2000;
+	npctalk "Mark: Todos tomem cuidado.", .@mark3$;
+	sleep2 2000;
+	setpcblock PCBLOCK_NPC, false;
+	cloakonnpcself( .@maggi3$ );
+	cloakonnpcself( .@mark3$ );
+	cloakonnpcself( .@tamarin3$ );
+	'miriam3_id = getnpcid(0);
+
+	unitwalk 'miriam3_id,231,272, 'miriam3$ + "::OnEvent1";
+	end;
+OnEvent1:
+	unitwalk 'miriam3_id,211,272, 'miriam3$ + "::OnEvent2";
+	end;
+OnEvent2:
+	unitwalk 'miriam3_id,191,272, 'miriam3$ + "::OnEvent3";
+	end;
+OnEvent3:
+	unitwalk 'miriam3_id,171,272, 'miriam3$ + "::OnEvent4";
+	end;
+OnEvent4:
+	unitwalk 'miriam3_id,157,272, 'miriam3$ + "::OnEvent5";
+	end;
+OnEvent5:
+	disablenpc 'miriam3$;
+	enablenpc instance_npcname("Miriam#ozmd4");
+	enablenpc instance_npcname("Sapo Vulcânico#ozmd1");
+	end;
+}
+
+1@oz,245,272,3	duplicate(dummy_cloaked_npc)	Maggi#ozmd3	4_4JOB_MAGGI
+1@oz,244,273,3	duplicate(dummy_cloaked_npc)	Mark#ozmd3	4_EP18_MARK
+1@oz,244,270,3	duplicate(dummy_cloaked_npc)	Tamarin#ozmd3	4_EP18_TAMARIN
+
+
+// Etapa 4 + 5
+1@oz,157,272,3	script(DISABLED)	Miriam#ozmd4	4_EP18_MIRIAM,{
+	if ('event_oz != 3)
+		end;
+	'event_oz = 4;
+
+	.@miriam4$ = instance_npcname("Miriam#ozmd4");
+	.@tamarin4$ = instance_npcname("Tamarin#ozmd4");
+	.@ashtoad2$ = instance_npcname("Sapo Vulcânico#ozmd2");
+	.@maggi4$ = instance_npcname("Maggi#ozmd4");
+	.@mark4$ = instance_npcname("Mark#ozmd4");
+	.@ashtoad3$ = instance_npcname("Sapo Vulcânico#ozmd3");
+
+	setpcblock PCBLOCK_NPC, true;
+	mapannounce 'map_name$, "Miriam: Ah!! Um monstro!!!", bc_map, 0xB7EE,FW_NORMAL,16;
+	sleep2 1500;
+	mapannounce 'map_name$, "Miriam: Vou cuidar desse sujeito insolente.", bc_map, 0xB7EE,FW_NORMAL,16;
+	sleep2 1500;
+	mapannounce 'map_name$, "Tamarin: Ele também apareceu atrás!!!", bc_map, 0xB7EE,FW_NORMAL,16;
+	sleep2 2000;
+	enablenpc .@tamarin4$;
+	sleep2 500;
+	enablenpc .@ashtoad2$;
+	mapannounce 'map_name$, "Magi: Aaaah!!!", bc_map, 0xB7EE,FW_NORMAL,16;
+	sleep2 500;
+	enablenpc .@maggi4$;
+	enablenpc .@mark4$;
+	mapannounce 'map_name$, "Mark: Por favor, deem suporte na frente!!!", bc_map, 0xB7EE,FW_NORMAL,16;
+	sleep2 1000;
+	'mob_count_oz = 0;
+	monster 'map_name$,145,274,"Sapo Vulcânico",21295,1, .@miriam4$ + "::OnMobDead"; // EP18_ASH_TOAD
+	enablenpc .@ashtoad3$;
+	monster 'map_name$,143,278,"Sapo Vulcânico",21295,1, .@miriam4$ + "::OnMobDead"; // EP18_ASH_TOAD
+	setpcblock PCBLOCK_NPC, false;
+	end;
+
+// Nota: no oficial o evento parece começar logo após matar os 2 monstros. O personagem não consegue se mover.
+// Não existe área de OnTouch, um personagem fora do alcance do npc não consegue ver o diálogo. Intencional ?
+OnMobDead:
+	'mob_count_oz++;
+	if ('mob_count_oz < 2)
+		end;
+	if ('event_oz != 4)
+		end;
+	'event_oz = 5;
+
+	.@tamarin4$ = instance_npcname("Tamarin#ozmd4");
+	.@ashtoad2$ = instance_npcname("Sapo Vulcânico#ozmd2");
+	.@maggi4$ = instance_npcname("Maggi#ozmd4");
+	.@mark4$ = instance_npcname("Mark#ozmd4");
+	.@ashtoad3$ = instance_npcname("Sapo Vulcânico#ozmd3");
+	.@maram4$ = instance_npcname("Maram#ozmd4");
+	.@ashtoad1$ = instance_npcname("Sapo Vulcânico#ozmd1");
+	.@tamarin4$ = instance_npcname("Tamarin#ozmd4");
+	.@miriam4$ = instance_npcname("Miriam#ozmd4");
+
+	setpcblock PCBLOCK_NPC, true;
+	npctalk "Tamarin: Eu consegui!!!", .@tamarin4$;
+	disablenpc .@ashtoad2$;
+	sleep2 2000;
+	npctalk "Magi: Por aqui também!!", .@maggi4$;
+	disablenpc .@ashtoad3$;
+	sleep2 2000;
+	npctalk "Miriam: Ufa... Não era um monstro tão forte, mas teria sido perigoso para mercadores comuns.", .@miriam4$;
+	disablenpc .@ashtoad1$;
+	sleep2 2000;
+	cloakoffnpcself( .@maram4$ );
+	npctalk "Maram : " + strcharinfo(0) + ", você está bem?", .@maram4$;
+	sleep2 2000;
+	npctalk "Miriam: Você demorou! Maram!!!", .@miriam4$;
+	sleep2 2000;
+	npctalk "Maram: Eu me atrasei um pouco porque encontrei um monstro no caminho.", .@maram4$;
+	sleep2 2000;
+	npctalk "Miriam: Não havia monstros na estrada por onde passamos antes.", .@miriam4$;
+	sleep2 2000;
+	npctalk "Maram: Sério? De onde será que monstros assim aparecem?", .@maram4$;
+	sleep2 2000;
+	npctalk "Maram: É um grande problema, porque está ficando mais difícil mover suprimentos por causa desses monstros.", .@maram4$;
+	sleep2 2000;
+	npctalk "Tamarin: E se viajarmos por terra?", .@tamarin4$;
+	sleep2 2000;
+	npctalk "Tamarin: Eu ouvi dizer que existia uma ponte que atravessava o cânion.", .@tamarin4$;
+	sleep2 2000;
+	npctalk "Tamarin: Ainda restam ruínas dela...", .@tamarin4$;
+	sleep2 2000;
+	npctalk "Maram: Dizem que a ponte lá em cima foi destruída depois que viram nativos atravessando enquanto fugiam de um ataque dos radicais.", .@maram4$;
+	sleep2 2000;
+	npctalk "Maram: A área do outro lado da ponte ficou inabitável por causa das cinzas vulcânicas, então devem ter tentado eliminá-los.", .@maram4$;
+	sleep2 2000;
+	npctalk "Maram: Não seria difícil construir uma ponte novamente...", .@maram4$;
+	sleep2 2000;
+	npctalk "Maram: Mas como estamos escondidos, não podemos construir uma ponte ou algo assim e anunciar que estamos escondidos aqui.", .@maram4$;
+	sleep2 2000;
+	npctalk "Maram: Embora seja perigoso e inconveniente agora, não temos escolha além de usar o Labirinto de Oz.", .@maram4$;
+	sleep2 2000;
+	npctalk "Maram: Por estar desse jeito, talvez ele não tenha sido descoberto até agora.", .@maram4$;
+	sleep2 2000;
+	npctalk "Miriam: Se o Labirinto de Oz não existisse...", .@miriam4$;
+	sleep2 2000;
+	npctalk "Miriam: Deve ter sido muito mais difícil do que é agora.", .@miriam4$;
+	sleep2 2000;
+	npctalk "Maram: Isso mesmo.", .@maram4$;
+	sleep2 2000;
+	npctalk "Maram: Então, vamos caminhar novamente pelo adorável labirinto de Oz?", .@maram4$;
+	sleep2 2000;
+	npctalk "Miriam: O que você quer dizer com isso...", .@miriam4$;
+	sleep2 2000;
+	npctalk "Miriam : " + strcharinfo(0) + " , a partir de agora, apenas continue descendo até chegar em uma bifurcação.", .@miriam4$;
+	sleep2 2000;
+	npctalk "Miriam: Seria bom se os monstros não aparecessem, mas...", .@miriam4$;
+	sleep2 1000;
+	cloakonnpcself( .@maram4$ );
+	setpcblock PCBLOCK_NPC, false;
+	disablenpc .@maggi4$;
+	disablenpc .@mark4$;
+	disablenpc .@tamarin4$;
+	disablenpc .@miriam4$;
+	enablenpc instance_npcname("Maram#ozmd5");
+	end;
+}
+
+1@oz,156,272,5	duplicate(dummy_cloaked_npc)	Sapo Vulcânico#ozmd1	EP18_ASH_TOAD
+1@oz,164,272,3	duplicate(dummy_cloaked_npc)	Sapo Vulcânico#ozmd2	EP18_ASH_TOAD
+1@oz,153,275,5	duplicate(dummy_cloaked_npc)	Sapo Vulcânico#ozmd3	EP18_ASH_TOAD
+1@oz,155,275,3	duplicate(dummy_cloaked_npc)	Maggi#ozmd4	4_4JOB_MAGGI
+1@oz,156,274,3	duplicate(dummy_cloaked_npc)	Mark#ozmd4	4_EP18_MARK
+1@oz,161,272,5	duplicate(dummy_cloaked_npc)	Tamarin#ozmd4	4_EP18_TAMARIN
+
+1@oz,162,275,3	duplicate(dummy_cloaked_npc)	Maram#ozmd4	4_EP18_MARAM
+
+
+// Etapa 6
+1@oz,98,172,3	script(DISABLED)	Maram#ozmd5	EP18_NPC_MARAM,{
+	if ('event_oz != 5)
+		end;
+	'event_oz = 6;
+	.@miriam$ = instance_npcname("Miriam#ozmd5");
+	.@maram$ = instance_npcname("Maram#ozmd5");
+
+	npctalk "Maram: Antes não era assim, mas como o chão abaixo começou a derreter, talvez pelos efeitos do Monte Tor, mais monstros estão aparecendo.", .@maram$;
+	cloakoffnpcself( "Maggi#ozmd5" );
+	cloakoffnpcself( "Mark#ozmd5" );
+	cloakoffnpcself( "Tamarin#ozmd5" );
+	enablenpc .@miriam$;
+	setpcblock PCBLOCK_NPC, true;
+	sleep2 2000;
+	npctalk "Maram: Especialmente nas áreas onde o solo derreteu muito, há muitas pessoas que tentam evitar monstros e acabam gravemente feridas ou não conseguem voltar por causa da lava...", .@maram$;
+	sleep2 2000;
+	npctalk "Maram: Até quando o labirinto de Oz vai resistir...", .@maram$;
+	sleep2 3000;
+	mapannounce 'map_name$, "??? : Ugh!!!!!", bc_map, 0x00B7EE,FW_NORMAL,16;
+	sleep2 2000;
+	npctalk "Maram: Que voz é essa?!?!?!?!?", .@maram$;
+	sleep2 2000;
+	npctalk "Miriam: Imril!!!!", .@miriam$;
+	sleep2 2000;
+	setpcblock PCBLOCK_NPC, false;
+	npctalk "Maram: Acho que meu amigo está em perigo! Eu vou primeiro, então tenham cuidado e me sigam!", .@maram$;
+	cloakonnpcself( "Maggi#ozmd5" );
+	cloakonnpcself( "Mark#ozmd5" );
+	cloakonnpcself( "Tamarin#ozmd5" );
+	unitwalk getnpcid(0),68,165, .@maram$ + "::OnMove";
+	donpcevent .@miriam$ + "::OnMove";
+	end;
+OnMove:
+	disablenpc instance_npcname("Maram#ozmd5");
+	enablenpc instance_npcname("Maram#ozmd7");
+	enablenpc instance_npcname("Imril#ozmd6");
+	end;
+}
+
+1@oz,97,167,3	script(DISABLED)	Miriam#ozmd5	EP18_NPC_MIRIAM,{
+	end;
+OnMove:
+	npcwalkto 67,164;
+	end;
+}
+
+1@oz,92,170,3	duplicate(dummy_cloaked_npc)	Maggi#ozmd5	4_4JOB_MAGGI
+1@oz,91,169,3	duplicate(dummy_cloaked_npc)	Mark#ozmd5	4_EP18_MARK
+1@oz,89,170,5	duplicate(dummy_cloaked_npc)	Tamarin#ozmd5	4_EP18_TAMARIN
+
+
+
+// Etapa 7
+1@oz,68,165,3	script(DISABLED)	Maram#ozmd7	4_EP18_MARAM,{
+	if ('event_oz != 6)
+		end;
+	'event_oz = 7;
+	npctalk "Maram: Imril, você está bem?";
+	donpcevent instance_npcname("Imril#ozmd6") + "::OnStart";
+	disablenpc();
+	end;
+}
+
+
+// Etapa 8
+1@oz,61,163,5	script(DISABLED)	Imril#ozmd6	4_EP18_IMRIL,{
+	end;
+
+OnStart:
+	'mob_count_oz = 0;
+	.@npc_name$ = instance_npcname("Imril#ozmd6");
+	monster 'map_name$,64,164,"Sapo Vulcânico",21295,1, .@npc_name$ + "::OnMobDead"; // EP18_ASH_TOAD
+	monster 'map_name$,62,161,"Mão Rochosa",21296,1, .@npc_name$ + "::OnMobDead"; // EP18_RAKEHAND
+	end;
+
+OnMobDead:
+	'mob_count_oz++;
+	if ('mob_count_oz < 2)
+		end;
+	if ('event_oz != 7)
+		end;
+	'event_oz = 8;
+
+	.@maram8$ = instance_npcname("Maram#ozmd8");
+	.@imril6$ = instance_npcname("Imril#ozmd6");
+	.@miriam5$ = instance_npcname("Miriam#ozmd5");
+	.@maggi6$ = instance_npcname("Maggi#ozmd6");
+	.@mark6$ = instance_npcname("Mark#ozmd6");
+	.@tamarin6$ = instance_npcname("Tamarin#ozmd6");
+
+	setpcblock PCBLOCK_NPC, true;
+
+	cloakoffnpcself( .@maram8$ );
+	npctalk "Imril: Obrigado! Eu quase morri!", .@imril6$;
+	sleep2 2000;
+	npctalk "Imril: A atmosfera está estranha, então não desçam.", .@imril6$;
+	sleep2 2000;
+	npctalk "Miriam: Parece que eu vejo monstros com mais frequência do que da última vez.", .@miriam5$;
+	sleep2 2000;
+	npctalk "Imril: E quem são essas pessoas?", .@imril6$;
+	cloakoffnpcself( .@maggi6$ );
+	cloakoffnpcself( .@mark6$ );
+	cloakoffnpcself( .@tamarin6$ );
+	sleep2 2000;
+	npctalk "Maram: São aventureiros que às vezes ajudam minha mãe no trabalho dela.", .@maram8$;
+	sleep2 2000;
+	npctalk "Maram: São pessoas confiáveis, então não fique tão desconfiado.", .@maram8$;
+	sleep2 2000;
+	npctalk "Imril: Ouvi dizer que você confia nas pessoas com muita facilidade.", .@imril6$;
+	sleep2 2000;
+	npctalk "Miriam: Sim.", .@miriam5$;
+	sleep2 2000;
+	npctalk "Maram: Enfim, vamos fugir rápido antes que mais monstros apareçam.", .@maram8$;
+	sleep2 2000;
+	npctalk "Maram: Falta pouco.", .@maram8$;
+	sleep2 2000;
+	npctalk "Maram: É difícil enxergar, mas você pode seguir pela estrada aqui em cima e continuar avançando!", .@maram8$;
+	sleep2 2000;
+	npctalk "Tamarin: Acho que é por aqui!", .@tamarin6$;
+	cloakonnpcself( .@maggi6$ );
+	cloakonnpcself( .@mark6$ );
+	cloakonnpcself( .@tamarin6$ );
+	cloakonnpcself( .@maram8$ );
+	enablenpc instance_npcname("#oz_way");
+	setpcblock PCBLOCK_NPC, false;
+	end;
+}
+
+1@oz,68,165,3	duplicate(dummy_cloaked_npc)	Maram#ozmd8	4_EP18_MARAM
+1@oz,61,168,3	duplicate(dummy_cloaked_npc)	Maggi#ozmd6	4_4JOB_MAGGI
+1@oz,65,167,3	duplicate(dummy_cloaked_npc)	Mark#ozmd6	4_EP18_MARK
+1@oz,59,171,3	duplicate(dummy_cloaked_npc)	Tamarin#ozmd6	4_EP18_TAMARIN
+
+
+
+// Etapa 9
+1@oz,58,256,5	script(DISABLED)	#oz_way	1_SHADOW_NPC,3,3,{
+	end;
+OnTouch:
+	if ('event_oz != 8)
+		end;
+	'event_oz = 9;
+	enablenpc instance_npcname("Maram#ozmd6");
+	end;
+}
+
+// Etapa 10 (talvez não seja necessário ?)
+1@oz,44,255,5	script(DISABLED)	Maram#ozmd6	4_EP18_MARAM,{
+	if ('event_oz != 9)
+		end;
+	'event_oz = 10;
+	npctalk "Maram: Desça por esta estrada.";
+	initnpctimer;
+	end;
+OnTimer2000:
+	disablenpc instance_npcname("Maram#ozmd6");
+	enablenpc instance_npcname("Maram#ozmd9");
+	enablenpc instance_npcname("Rope#outoz2");
+	end;
+}
+
+// Etapa 11
+// (Etapa 29 na missão principal).
+1@oz,21,189,5	script(DISABLED)	Maram#ozmd9	4_EP18_MARAM,{
+	if ('event_oz != 10)
+		end;
+	'event_oz = 11;
+
+	.@maram9$ = instance_npcname("Maram#ozmd9");
+	.@miriam7$ = instance_npcname("Miriam#ozmd7");
+	.@imril7$ = instance_npcname("Imril#ozmd7");
+
+	setpcblock PCBLOCK_NPC, true;
+	npctalk "Maram: Se você subir pela corda à sua frente, poderá sair.", .@maram9$;
+	cloakoffnpcself( .@miriam7$ );
+	cloakoffnpcself( .@imril7$ );
+	sleep2 2000;
+	npctalk "Imril: Vou pegar alguns itens escondidos aqui, então subam primeiro.", .@imril7$;
+	sleep2 2000;
+	npctalk "Miriam: Todos estão muito cansados. Vamos subir logo.", .@miriam7$;
+	if (ep18_main == 30) {
+		erasequest 11719;
+		setquest 11720;
+		ep18_main = 31;
+	}
+	cloakonnpcself( .@miriam7$ );
+	cloakonnpcself( .@imril7$ );
+	setpcblock PCBLOCK_NPC, false;
+	end;
+
+OnInstanceInit:
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(11719) == 1" );
+	end;
+}
+
+1@oz,22,187,5	duplicate(dummy_cloaked_npc)	Miriam#ozmd7	4_EP18_MIRIAM
+1@oz,16,185,3	duplicate(dummy_cloaked_npc)	Imril#ozmd7	4_EP18_IMRIL
+
+
+// Etapa 12
+1@oz,28,190,3	script(DISABLED)	Rope#outoz2	4_ROPEPILE,{
+	if ('event_oz != 11) {
+		mes "Ainda não pode ser usada. Vamos falar com Maram primeiro.";
+		close;
+	}
+	mes "Acho que consigo subir usando a corda.";
+	next;
+	if (select( "Usar a corda para subir.", "Não usar." ) == 2)
+		end;
+	warp "gw_fild01",275,337;
+	end;
+
+OnInstanceInit:
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(11720) == 1" );
+	end;
+}
+
+
+// Invocação de monstros
+1@oz,22,207,5	script	#oz01	1_SHADOW_NPC,4,4,{
+	end;
+OnTouch_:
+	getmapxy .@map$,.@x,.@y, BL_NPC;
+	monster 'map_name$,.@x-1,.@y,"Sapo Vulcânico",21295,1;	// EP18_ASH_TOAD
+	monster 'map_name$,.@x+1,.@y,"Mão Rochosa",21296,1;	// EP18_RAKEHAND
+	cloakonnpcself();
+	end;
+}
+
+1@oz,30,237,5	duplicate(#oz01)	#oz02	1_SHADOW_NPC,4,4
+1@oz,44,264,5	duplicate(#oz01)	#oz03	1_SHADOW_NPC,4,4
+1@oz,62,247,5	duplicate(#oz01)	#oz04	1_SHADOW_NPC,4,4
+1@oz,72,222,5	duplicate(#oz01)	#oz05	1_SHADOW_NPC,4,4
+1@oz,79,203,5	duplicate(#oz01)	#oz06	1_SHADOW_NPC,4,4
+1@oz,124,261,5	duplicate(#oz01)	#oz07	1_SHADOW_NPC,4,4
+1@oz,139,279,5	duplicate(#oz01)	#oz08	1_SHADOW_NPC,4,4

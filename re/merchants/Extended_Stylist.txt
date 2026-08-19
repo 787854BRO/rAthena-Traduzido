@@ -1,0 +1,117 @@
+//===== rAthena Script ======================================= 
+//= Stylist Extension - (Style UI)
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [JohnnyPlayy]
+//===== Description: ========================================= 
+// Texts from this script were translated according to KRO
+//============================================================
+//= Stylist of Alberta
+//===================================================
+
+alberta_in,55,142,7	script	Estilista#alberta	4_F_02,{
+	mes "[Doce Verônica]";
+	mes "Bem-vindo ao Salão de Beleza Verônica, renascida como uma estilista de classe mundial. Hhhi.";
+	next;
+	switch(select("Mudar meu estilo:Encerrar conversa")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		next;
+		mes "[Doce Verônica]";
+		mes "Todo mundo tem direito de ser bonito... Espero que você encontre um estilo que combine com você.";
+		close;
+	}
+}
+
+//= Estilista de Prontera
+//===================================================
+prt_in,243,168,4	script	Estilista#prontera	4_F_02,{
+	mes "[Jovovich]";
+	mes "Bem-vindo. Eu sou Jovovich, um estilista famoso de Prontera. Como posso ajudar?";
+	next;
+	switch(select("Mudar meu estilo:Encerrar conversa")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		mes "[Jovovich]";
+		mes "Por favor, visite-nos novamente~";
+		close;
+	}
+}
+
+//= Estilista de Lighthalzen
+//===================================================
+lhz_in02,100,143,4	script	Estilista#lhz	2_M_DYEINGER,{
+	mes "[Príncipe Shami]";
+	mes "Estou de volta como um dos maiores estilistas do mundo. Eu sou o Príncipe Shami, um estilista profissional e devo dizer que fui abençoado com esse grande talento! <3";
+	next;
+	switch(select("Mudar meu estilo:Encerrar conversa")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		mes "[Príncipe Shami]";
+		mes "Você está dizendo que não gosta desse estilo? Como isso é possível!";
+		close;
+	}
+}
+
+//= Estilista de Lasagna
+//===================================================
+lasagna,134,113,3	script	Estilista#lasagna	4_DR_F_02,{
+	mes "[Lonza]";
+	mes "Se você é um Doram que vive e morre pela moda, confie em mim. Ao ritmo da música~";
+	next;
+	switch(select("Mudar meu estilo:Encerrar conversa")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		mes "[Lonza]";
+		mes "Não existe mau tempo, certo? Um dia eu quero que você confie em mim.";
+		mes "Eu sou Lonza e posso te proporcionar uma mudança incrível que vai te deixar muito estiloso, então venha me visitar quando quiser.";
+		close;
+	}
+}
+
+//= Estilista de Rachel
+//===================================================
+ra_in01,186,148,5	script	Estilista#rachel	4_F_MASK1,{
+	mes "[Isop]";
+	mes "Hehe, seja bem-vindo. Eu sou Isop, o estilista da <Shook Shook-Store>.";
+	next;
+	switch(select("Mudar meu estilo:Encerrar conversa")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		mes "[Isop]";
+		mes "Alguma coisa que você queira cortar?";
+		close;
+	}
+}
+
+//= Estilista de Yuno
+//===================================================
+yuno_in04,186,21,1	script	Estilista#yuno	4_M_BARBER,{
+	mes "[Maxi]";
+	mes "Prazer em conhecê-lo, meu convidado. Você gostaria de fazer sua transformação com Maxi, o melhor estilista de Schwarzwald?";
+	next;
+	switch(select("Mudar meu estilo:Encerrar conversa")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		mes "[Maxi]";
+		mes "Volte a qualquer hora.";
+		close;
+	}
+}

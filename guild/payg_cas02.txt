@@ -1,0 +1,135 @@
+//===== rAthena Script =======================================
+//= War of Emperium (Payon) - Scarlet Palace
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= NPCs that relate to Payon Guild Castle 2
+//===== Additional Comments: =================================
+//= 1.0 First Version. No longer uses functions. [L0ne_W0lf]
+//= 1.1 Corrected flag-in spawn point. [L0ne_W0lf]
+//= 1.2 Removed dialog from interior flags. [L0ne_W0lf]
+//=     Fixed position of Guild dungeon switch.
+//= 1.3 Partially rewrote Script. [Masao]
+//= 1.4 Corrected guild name. [Euphy]
+//============================================================
+
+// Bandeiras das Guildas (Fora do Castelo)
+//============================================================
+-	script	Palácio Escarlate#1::OutsideFlagsPA2	722,{
+
+	set .@GID, GetCastleData("payg_cas02",1);
+
+	if (.@GID == 0) {
+		mes "[ Decreto Divino do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme o pacto divino do Reino de Rune-Midgard,";
+		mes "nós declaramos que";
+		mes "não há um mestre formal neste castelo.";
+		mes " ";
+		mes "2. Para aquele que conseguir";
+		mes "superar todas as provações";
+		mes "e destruir o Emperium,";
+		mes "o rei o dotará com a";
+		mes "posse deste castelo.";
+		close;
+	}
+	if (getcharid(2) == .@GID) {
+		mes "[ Voz Ecoando ]";
+		mes "Bravo guerreiro...";
+		mes "Você deseja retornar ao seu lugar de honra?";
+		next;
+		if(select("Retornar ao Castelo do Clã.:Sair.") == 1) {
+			close2;
+			if (getcharid(2) == GetCastleData("payg_cas02",1)) {
+					warp "payg_cas02",278,251;
+				end;
+			}
+			end;
+		}
+		close;
+	}
+	mes "[ Decreto Divino do Reino de Rune-Midgard ]";
+	mes " ";
+	mes "1. Conforme o pacto divino do Reino de Rune-Midgard,";
+	mes "nós declaramos que esse castelo";
+	mes "pertence ao Clã ^ff0000"+GetGuildName(.@GID)+"^000000.";
+	mes " ";
+	mes "2. O Líder do clã ^ff0000"+GetGuildName(.@GID)+"^000000 se chama";
+	mes "^ff0000"+GetGuildMaster(.@GID)+"^000000";
+	mes "Se houver alguém que se oponha a esse decreto,";
+	mes "prove sua força e honra com uma lâmina de aço em suas mãos.";
+	close;
+
+OnRecvCastlePy02:
+	FlagEmblem GetCastleData("payg_cas02",1);
+	end;
+}
+
+pay_gld,292,112,6	duplicate(OutsideFlagsPA2)	Palácio Escarlate#1-2	722
+pay_gld,292,120,6	duplicate(OutsideFlagsPA2)	Palácio Escarlate#2	722
+pay_gld,291,135,6	duplicate(OutsideFlagsPA2)	Palácio Escarlate#3	722
+pay_gld,271,163,0	duplicate(OutsideFlagsPA2)	Palácio Escarlate#4	722
+
+// Bandeiras das Guildas (Dentro do Castelo)
+//============================================================
+-	script	Palácio Escarlate#5::InsideFlagsPA2	722,{
+	end;
+
+OnRecvCastlePy02:
+	FlagEmblem GetCastleData("payg_cas02",1);
+	end;
+}
+
+payg_cas02,254,40,6	duplicate(InsideFlagsPA2)	Palácio Escarlate#5-2	722
+payg_cas02,254,48,6	duplicate(InsideFlagsPA2)	Palácio Escarlate#6	722
+payg_cas02,202,49,0	duplicate(InsideFlagsPA2)	Palácio Escarlate#7	722
+payg_cas02,209,49,0	duplicate(InsideFlagsPA2)	Palácio Escarlate#8	722
+payg_cas02,59,282,4	duplicate(InsideFlagsPA2)	Palácio Escarlate#9	722
+payg_cas02,70,282,4	duplicate(InsideFlagsPA2)	Palácio Escarlate#10	722
+
+// Bandeiras das Guildas (Cidade)
+//============================================================
+payon,97,322,4	duplicate(InsideFlagsPA2)	Palácio Escarlate#11	722
+payon,166,173,3	duplicate(InsideFlagsPA2)	Palácio Escarlate#12	722
+
+// Funcionária Kafra
+//============================================================
+payg_cas02,22,275,5	duplicate(guildkafra)	Funcionária Kafra#payg_cas02	117
+
+// Mordomo
+//============================================================
+payg_cas02,22,260,7	duplicate(cm)	Cherieos#payg_cas02	55
+
+// Saída da Sala do Tesouro
+//============================================================
+payg_cas02,149,149,0	script	#lever_PA02	111,{
+	mes " ";
+	mes "Há uma pequena alavanca. Você deseja puxá-la?";
+	next;
+	if (select("Puxar.:Não Puxar.") == 1) {
+		close2;
+		warp "payg_cas02",22,261;
+		end;
+	}
+	close;
+}
+
+// Alavanca da Masmorra da Guilda
+//============================================================
+payg_cas02,278,247,0	duplicate(gdlever)	#payg_cas02	111
+
+// Invocações de Baús do Tesouro
+//============================================================
+payg_cas02,145,144,0	duplicate(Gld_Trea_Spawn)	Tesouro#payg_cas02	-1
+
+// Gerenciador Automático
+//============================================================
+payg_cas02,39,25,0	duplicate(Gld_Agit_Manager)	Agit#payg_cas02	-1
+
+// Guardiões
+//============================================================
+payg_cas02,22,260,7	duplicate(Gld_Guard_Template)	Guardião#payg_cas02	-1

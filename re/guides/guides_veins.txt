@@ -1,0 +1,111 @@
+//===== rAthena Script ======================================= 
+//= Veins Guides
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guides for the city of Veins
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal guides.
+//= 1.1 Navigation system update. [Euphy]
+//============================================================ 
+
+veins,210,345,5	script	Guia de Veins#veins01::GuiaVeins	934,{
+	mes "[Guia de Veins]";
+	mes "Obrigado por vir através das tempestades de areia. Bem vind"+((Sex) ? "o":"a")+" à ^8B4513Veins^000000, o Vilarejo do Defiladeiro.";
+	mes "Se esta é a primeira vez que você usa os meus serviços de guia, por que você não checa o menu \"Aviso\" primeiro?";
+	F_Navi("[Guia de Veins]");
+	next;
+	while (1) {
+		switch(select("[ Templo ]:[ Estalagem ]:[ Bar ]:[ Loja de Armas ]:[ Loja de Utilidades ]:[ Aeroporto ]:[ Instituto de Pesquisas Geológicas ]:[ Corporação Eventos Incríveis ]:Remover Marcações do Mini-mapa:Cancelar")) {
+		case 1:
+			mes "[Guia de Veins]";
+			mes "O "+F_Navi("Templo","veins,197,256")+" está sempre cheio de oração dos fiéis que oram pela encarnação da Deusa Freya.";
+			mes "Está localizado no lado norte de Veins.";
+			mes "Você gostaria de conhecer outros locais?";
+			viewpoint 1,197,256,0,0xFF0000;
+			next;
+			break;
+		case 2:
+			mes "[Guia de Veins]";
+			mes "Você pode descansar o cansaço da sua jornada na "+F_Navi("Estalagem","veins,110,278")+". A estalagem está localizada no lado noroeste de Veins.";
+			mes "Você gostaria de conhecer outros locais?";
+			viewpoint 1,110,278,1,0xFF4500;
+			next;
+			break;
+		case 3:
+			mes "[Guia de Veins]";
+			mes "Se você quiser falar com os Cidadãos de Veins, o "+F_Navi("Bar","veins,150,215")+" de Veins está a disposição.";
+			mes "O bar está localizado no lado oeste de Veins.";
+			mes "Você gostaria de conhecer outros locais?";
+			viewpoint 1,150,215,2,0xDAA520;
+			next;
+			break;
+		case 4:
+			mes "[Guia de Veins]";
+			mes "Você tem que ser capaz de se proteger.";
+			mes "A "+F_Navi("Loja de Armas","veins,150,175")+" em Veins está vendendo ótimas armas a um preço razoável...";
+			mes "Está localizada no lado oeste de Veins.";
+			mes "Você gostaria de conhecer outros locais?";
+			viewpoint 1,150,175,3,0x008000;
+			next;
+			break;
+		case 5:
+			mes "[Guia de Veins]";
+			mes "Itens essenciais! Confira";
+			mes "a "+F_Navi("Loja de Utilidades","veins,230,161")+" em Veins, no centro da cidade...";
+			mes "Você gostaria de conhecer outros locais?";
+			viewpoint 1,230,161,4,0x0000FF;
+			next;
+			break;
+		case 6:
+			mes "[Guia de Veins]";
+			mes "O "+F_Navi("Aeroporto","veins,273,287")+" de Veins está sendo usado atualmente apenas para carga.";
+			mes "Você gostaria de conhecer outros locais?";
+			viewpoint 1,273,287,5,0x000080;
+			next;
+			break;
+		case 7:
+			mes "[Guia de Veins]";
+			mes "Você está interessado em Geologia?";
+			mes "Se sim, por favor visite o";
+			mes F_Navi("Instituto de Pesquisas Geológicas","veins,150,175")+" no segundo andar da Loja de Armas.";
+			mes "Você gostaria de conhecer outros locais?";
+			viewpoint 1,150,175,6,0x800080;
+			next;
+			break;
+		case 8:
+			mes "[Guia de Veins]";
+			mes "Eu vou marcar a localização";
+			mes "da "+F_Navi("Corporação Eventos Incríveis","veins,209,127","^808080");
+			mes "em seu Mini-mapa.";
+			mes "Você gostaria de conhecer outros locais?";
+			viewpoint 1,209,127,7,0x808080;
+			next;
+			break;
+		case 9:
+			mes "[Guia de Veins]";
+			mes "Claro, eu removerei todas as marcações do seu Mini-mapa.";
+			mes "Há mais alguma coisa que eu possa fazer por você?";
+			viewpoint 2,197,256,0,0xFFFFFF;
+			viewpoint 2,110,278,1,0xFFFFFF;
+			viewpoint 2,150,215,2,0xFFFFFF;
+			viewpoint 2,150,175,3,0xFFFFFF;
+			viewpoint 2,230,161,4,0xFFFFFF;
+			viewpoint 2,273,287,5,0xFFFFFF;
+			viewpoint 2,150,175,6,0xFFFFFF;
+			viewpoint 2,209,127,7,0xFFFFFF;
+			next;
+			break;
+		case 10:
+			mes "[Guia de Veins]";
+			mes "Tenha uma jornada segura!";
+			close;
+		}
+	}
+}
+veins,189,101,5	duplicate(GuiaVeins)	Guia de Veins#veins02	934

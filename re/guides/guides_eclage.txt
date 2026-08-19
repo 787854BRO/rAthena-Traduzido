@@ -1,0 +1,51 @@
+//===== rAthena Script ======================================= 
+//= Eclage Guides
+//===== By: ================================================== 
+//= Euphy
+//===== Current Version: ===================================== 
+//= 1.0
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Guides for the city of Eclage.
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [Euphy]
+//============================================================ 
+
+ecl_in01,48,60,5	script	Guarda de Eclage#obb	447,{
+	mes "[Guarda de Eclage]";
+	mes "Bem vind"+((Sex) ? "o":"a")+", aventureir"+((Sex) ? "o":"a")+". Esta é a praça de Eclage, uma grande e sagrada árvore. Como posso ajudá-lo?";
+	next;
+	switch(select("Palácio:Orb:Armazém:Prisão:Clínica:Área Residencial:Finalizar Conversa")) {
+	case 1:
+		mes "[Guarda de Eclage]";
+		mes "Nosso grande rei, generais corajosos e estudiosos estão hospedados no palácio.";
+		mes "O palácio está localizado no topo de Eclage. Nós normalmente voamos até lá, mas eu vejo que você não tem asas. Siga o caminho à sua direita então. Ele o levará ao palácio.";
+		close;
+	case 2:
+		mes "[Guarda de Eclage]";
+		mes "O Orb que está atrás de mim, é como um símbolo para nós os Laphines.";
+		mes "Está cheio de um grande e misterioso poder. Nós sempre ficamos de olho e o guardamos cuidadosamente.";
+		close;
+	case 3:
+		mes "[Guarda de Eclage]";
+		mes "Esta é a praça de Eclage. Você encontrará tudo que precisa aqui.";
+		close;
+	case 4:
+		mes "[Guarda de Eclage]";
+		mes "A Prisão é um lugar para criminosos. Por que u"+((Sex) ? "m":"ma")+" aventureir"+((Sex) ? "o":"a")+" como você quer ir lá?";
+		mes "Bem, é um pouco suspeito... mas eu vou te dizer a localização. Siga o caminho à sua esquerda. Eles não deixam ninguém entrar.";
+		close;
+	case 5:
+		mes "[Guarda de Eclage]";
+		mes "Toda a sua dor e cansaço desapareceram nos braços da natureza. Restaure sua mente e corpo na Clínica de Eclage.";
+		mes "Siga o caminho à sua esquerda.";
+		close;
+	case 6:
+		mes "[Guarda de Eclage]";
+		mes "Você não viu nossas decorações para Yai? Faça uma visita na área externa. Você verá nossa área residencial.";
+		close;
+	case 7:
+		close;
+	}
+}

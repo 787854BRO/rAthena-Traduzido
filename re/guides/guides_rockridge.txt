@@ -1,0 +1,71 @@
+//===== rAthena Script =======================================
+//= Rock Ridge Guides
+//===== Description: =========================================
+//= NPC Guide for Rock Ridge
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+harboro1,356,211,5	script	Guia#rockridge01	4_F_ANYA,{
+	mes "[Assistente do Xerife]";
+	mes "Bem vind"+((Sex) ? "o":"a")+" à Pedra Cume, o deserto quente e seco no oeste onde a aventura lhe espera!";
+	mes "Eu sou o Assistente do Xerife, e estou aqui para guiar os visitantes. Existe algum lugar que você queira conhecer?";
+	next;
+	mes "[Assistente do Xerife]";
+	mes "Diga-me onde você quer ir, e eu vou te mostrar onde fica o local desejado.";
+	mes "Além disso, você poderá usar o modo de ^B9062FNavegação^000000 ^B9062FClicando no nome do lugar^000000 que eu mostrei para você.";
+	while(true) {
+		next;
+		.@s = select( "[ Funcionária Kafra ]", "[ Estalagem ]", "[ Loja de Armas/Armaduras ]", "[ Loja de Utilidades ]", "[ Gabinete do Xerife ]", "Limpar Mini-mapa.", "Cancelar." );
+		switch(.@s) {
+		case 1:
+			mes "[Assistente do Xerife]";
+			mes "A ^006400Funcionária Kafra^000000, entendi. Por favor, clique no ^0000FFícone^000000 em seu Mini-mapa.";
+			viewpoint 1,291,207,1,0xFFFF33;
+			break;
+		case 2:
+			mes "[Assistente do Xerife]";
+			mes "Eu marquei a localização da <NAVI>Estalagem<INFO>harboro1,156,215,0,000,0</INFO></NAVI> em seu Mini-mapa.";
+			mes "Clique no nome para ativar o modo de navegação.";
+			viewpoint 1,156,215,2,0xAAFF00;
+			break;
+		case 3:
+			mes "[Assistente do Xerife]";
+			mes "Eu marquei a localização da <NAVI>Loja de Armas/Armaduras<INFO>harboro1,312,193,0,000,0</INFO></NAVI> em seu Mini-mapa.";
+			mes "Clique no nome para ativar o modo de navegação.";
+			viewpoint 1,312,193,3,0x008080;
+			break;
+		case 4:
+			mes "[Assistente do Xerife]";
+			mes "Eu marquei a localização da <NAVI>Loja de Utilidades<INFO>harboro1,312,193,0,000,0</INFO></NAVI> em seu Mini-mapa.";
+			mes "Clique no nome para ativar o modo de navegação.";
+			viewpoint 1,312,193,4,0xFF1493;
+			break;
+		case 5:
+			mes "[Assistente do Xerife]";
+			mes "Eu marquei a localização do <NAVI>Gabinete do Xerife<INFO>harboro1,241,218,0,000,0</INFO></NAVI> em seu Mini-mapa.";
+			mes "Clique no nome para ativar o modo de navegação.";
+			viewpoint 1,241,218,5,0xFFCCFF;
+			break;
+		case 6:
+			mes "[Assistente do Xerife]";
+			mes "Deixe-me remover todas as marcações do seu Mini-mapa.";
+			viewpoint 2,291,207,1,0xFFFF33;
+			viewpoint 2,156,215,2,0xAAFF00;
+			viewpoint 2,312,193,3,0x008080;
+			viewpoint 2,312,193,4,0xFF1493;
+			viewpoint 2,241,218,5,0xFFCCFF;
+			break;
+		case 7:
+			mes "[Assistente do Xerife]";
+			mes "Aproveite a sua estadia em Pedra Cume!";
+			close;
+		}
+		if (.@s == 7)
+			mes "Você precisa de mais alguma coisa?";
+		else
+			mes "Tem algum outro lugar que você queira checar?";
+	}
+}
+
+harboro1,80,211,3	duplicate(Guia#rockridge01)	Guia#rockridge02	4_F_ANYA

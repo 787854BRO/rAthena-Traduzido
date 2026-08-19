@@ -1,0 +1,46 @@
+-	script	itemlink#ci	-1,{
+OnInit:
+	if( checkre(0) ){
+		if( PACKETVER >= 20200724 ){
+			// Alteração dos separadores e adição de grau.
+			.@expected$ = "<ITEML>0000213v0%0g&00'00)18X)1ck)00)00+2R,00-00</ITEML>";
+		}else if( PACKETVER >= 20161116 ){
+			// Alteração de separadores e adição de pré-visualização de equipamentos.
+			.@expected$ = "<ITEML>0000213v0%0g&00(18X(1ck(00(00*2R+00,00</ITEML>";
+		}else if( PACKETVER >= 20160113 ){
+			// Mudança de <ITEM> para <ITEML>
+			.@expected$ = "<ITEML>0000213v0%0g'18X'1ck'00'00)2R*00+00</ITEML>";
+		}else if( PACKETVER >= 20151104 ){
+			// Versão inicial.
+			.@expected$ = "<ITEM>0000213v0%0g'18X'1ck'00'00)2R*00+00</ITEM>";
+		}else{
+			// O link do item ainda não existe (no lado do cliente).
+			.@expected$ = "Sabre Rubi";
+		}
+
+		setarray .@opt_ids,RDMOPT_WEAPON_ATTR_GROUND;
+		.@actual$ = itemlink(13454,16,4399,4608,0,0,0,.@opt_ids,.@opt_dummy,.@opt_dummy);
+		AssertEquals(.@expected$, .@actual$, "Link do item gerado para Sabre Rubi da Terra +16");
+	}else{
+		if( PACKETVER >= 20200724 ){
+			// Troca de separadores e adição de grau (não utilizado na pré-renovação)
+			.@expected$ = "<ITEML>000021hS%0a&00'00)18X)00)00)00</ITEML>";
+		}else if( PACKETVER >= 20161116 ){
+			// Alteração de separadores e adição de pré-visualização de equipamentos
+			.@expected$ = "<ITEML>000021hS%0a&00(18X(00(00(00</ITEML>";
+		}else if( PACKETVER >= 20160113 ){
+			// Mudança de <ITEM> para <ITEML>
+			.@expected$ = "<ITEML>000021hS%0a'18X'00'00'00</ITEML>";
+		}else if( PACKETVER >= 20151104 ){
+			// Versão inicial.
+			.@expected$ = "<ITEM>000021hS%0a'18X'00'00'00</ITEM>";
+		}else{
+			// O link do item ainda não existe (no lado do cliente).
+			.@expected$ = "Lâmina";
+		}
+
+		// Sem opções aleatórias na pré-renovação.
+		.@actual$ = itemlink(1108,10,4399);
+		AssertEquals(.@expected$, .@actual$, "Link do item gerado para Lâmina +10[4]");
+	}
+}

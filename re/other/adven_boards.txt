@@ -1,0 +1,3335 @@
+//===== rAthena Script =======================================
+//= Dungeon Signposts - Monster Info
+//===== Description: =========================================
+//= [Official Conversion]
+//= Informations Boards about monsters.
+//===== Changelogs: ==========================================
+//= 1.0 Initial release. [Capuche] [Cydh]
+//= 1.0.1 Typos clean up. [Aleos]
+//============================================================
+
+function	script	F_AvenBoard	{
+	.@mo_board = select( "Procurar monstros por andar.",
+					"Sistema de Informações de Monstros.",
+					( countitem(909) == 30000 ? "Solicitar" : "" ),
+					"Cancelar" );
+	if (.@mo_board == 1)
+		return 1;
+	else if (.@mo_board == 2) {
+		while(1) {
+			mes "[Sistema de Informações Sobre Monstros]";
+			mes "Este é o Sistema de Informações Sobre Monstros. É possível pesquisar informações dos monstros que aparecem nesta masmorra. Ao pesquisar, digite o Nome do Monstro, incluindo espaços.";
+			next;
+			input .@inputstr$;
+			setarray .@element$[0],"Neutro","Água","Terra","Fogo","Vento","Veneno","Sagrado","Sombrio","Fantasma","Morto-Vivo";
+			setarray .@size$[0],"Médio","Pequeno","Grande";
+			setarray .@race$[0],"Amorfo","Morto-Vivo","Animal","Planta","Inseto","Peixe","Demônio","Humanoide","Anjo","Dragão";
+			.@size = getargcount();
+			.@i = 0;
+			while( .@i < .@size && getarg(.@i+1,"") != .@inputstr$ ) .@i += 3;
+			mes "[Sistema de Informações Sobre Monstros]";
+			mes "Pesquisando...";
+			next;
+			mes "[Sistema de Informações Sobre Monstros]";
+			mes "A pesquisa foi concluída.";
+			mes "Exibindo os resultados.";
+			next;
+			mes "[Sistema de Informações Sobre Monstros]";
+			if (.@i >= .@size) {
+				mes "Não há informações disponíveis para esse monstro.";
+				mes "Por favor, verifique o nome do monstro.";
+			}
+			else {
+				.@mob_id = getarg(.@i);
+				mes "- Nome : "+ getarg(.@i+1);
+				mes "- Elemento : "+ .@element$[ getmonsterinfo(.@mob_id,MOB_ELEMENT) ];
+				mes "- Tamanho : "+ .@size$[ getmonsterinfo(.@mob_id,MOB_SIZE) ];
+				mes "- Raça : "+ .@race$[ getmonsterinfo(.@mob_id,MOB_RACE) ];
+				mes "--------------------------------^FD8D02";
+				mes getarg(.@i+2);
+			}
+			next;
+			mes "[Sistema de Informações Sobre Monstros]";
+			mes "Deseja procurar informações de outro monstro?";
+			next;
+			if (select( "Pesquisar.","Cancelar." ) == 1)
+				continue;
+			mes "[Sistema de Informações Sobre Monstros]";
+			mes "O sistema de busca de monstros será encerrado agora.";
+			next;
+			return 2;
+		}
+	}
+	else if (.@mo_board == 3) {
+		mes "A informação solicitada aparecerá - Não tem problema se aparecer";
+		next;
+		return 3;
+	}
+	else if (.@mo_board == 4)
+		close;
+	else {
+		mes "Erro de operação.";
+		close;
+	}
+}
+
+function	script	F_InfoBoard	{
+	next;
+	mes "[Grupo de Aventureiros]";
+	mes "Para mais informações sobre os monstros,";
+	mes "o Sistema de Informações Sobre Monstros";
+	mes "deve ser utilizado.";
+	next;
+	return;
+}
+
+cmd_fild08,326,357,0	script	Placa#Formigueiro Infernal 1	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Formigueiro Infernal]";
+		mes "Para que aventureiros possam viajar pelo mundo em uma aventura tranquila, informações coletadas por diversos aventureiros são tornadas públicas. Por favor, forneça dicas de informações ao Grupo de Aventureiros para revisar os dados.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1005,"Familiar","Familiar é uma criatura morcego agressiva que pode causar problemas para aventureiros desavisados.",
+			1097,"Ovo de Andre","Não é uma ameaça por si só, mas pode chocar e gerar uma variedade de formigas Ferrãoantes.",
+			1105,"Deniro","Esta formiga operária gananciosa não atacará à primeira vista, mas devorará itens deixados no chão.",
+			1160,"Piere","Esta formiga operária gananciosa não atacará à primeira vista, mas devorará itens deixados no chão.",
+			1095,"Andre","Esta formiga operária gananciosa não atacará à primeira vista, mas devorará itens deixados no chão.",
+			1176,"Vitata","Esta variedade maior de inseto produz Mel e Geleia Real para a colônia.",
+			1121,"Gierath","Esta pequena fada demoníaca pode ser encontrada em números limitados nesta masmorra.",
+			1289,"Maya Macho","Esta Rainha Formiga de aparição rara derruba minerais valiosos quando derrotada, mas deve ser enfrentada com cautela.",
+			1147,"Maya","Encontrada no segundo andar do Formigueiro Infernal, esta MVP é uma versão mais poderosa da Maya Macho." );
+		if (.@mo_board == 1) {
+			mes "[Formigueiro Infernal]";
+			mes "O Formigueiro Infernal está infestado de insetos Ferrãoantescos. Quando um é atacado, outros podem se juntar à luta.";
+			next;
+			while(1) {
+				switch( select( "Formigueiro Infernal 1ºAndar","Formigueiro Infernal 2ºAndar","Cancelar" ) ) {
+				case 1:
+					mes "[Formigueiro Infernal 1ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Familiar(24)";
+					mes "Ovo de Andre(28)";
+					mes "Deniro(31)";
+					mes "Piere(32)";
+					mes "Andre(33)";
+					mes "Vitata(35)";
+					mes "Gierath(42)";
+					mes "Maya Macho(81)";
+					mes "--------------------------------";
+					next;
+					mes "<Maya Macho? Que diferença tem da Maya! Quem souber me diga--Eu me pergunto sobre o explorador que gosta de uvas.>";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Formigueiro Infernal 2ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Familiar(24)";
+					mes "Ovo de Andre(28)";
+					mes "Deniro(31)";
+					mes "Piere(32)";
+					mes "Andre(33)";
+					mes "Vitata(35)";
+					mes "Gierath(42)";
+					mes "--------------------------------";
+					next;
+					mes "<A Rainha das formigas! Monstro Chefe Maya! Eu acho isso nojento - hein? A Maya não tem duas? Ok, entendi. Derruba pedra! - Maya adora explorar uvas.>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+cmd_fild08,341,84,0	duplicate(Placa#Formigueiro Infernal 1)	Placa#Formigueiro Infernal2	2_BULLETIN_BOARD
+
+gef_tower,55,142,0	script	Placa#Calabouço de Geffen	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Calabouço de Geffen]";
+		mes "Cuidado! O Calabouço de Geffen consiste em 3 andares perigosos demais para aventureiros iniciantes. Por favor, forneça dicas de informações ao Grupo de Aventureiros para revisar os dados.";
+		mes "Recomendado para jogadores por volta do nível 60~70.";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1077,"Esporo Venenoso","Um cogumelo agressivo. É recomendado carregar Ervas Verdes para neutralizar seu ataque especial venenoso.",
+			1031,"Poporing","Irmão mais velho do Poring encontrado em áreas pantanosas. Seu corpo é composto de substâncias venenosas e ele é mais resistente que um Poring.",
+			1035,"Mosca Caçadora","O pesadelo dos primeiros noviços, este inseto voador mortal é encontrado em lugares escuros e fétidos...",
+			1015,"Zumbi","A criatura Morto-Vivo mais comum. O Zumbi é fraco sozinho, mas pode ser uma ameaça em grandes números.",
+			1036,"Carniçal","Uma variante mais antiga do Zumbi. Centenas de anos de morte os tornaram inimigos mais resistentes.",
+			1130,"Jakk","Este monstro aterrorizante com cabeça de abóbora pode surpreender com ataques de fogo ou maldição.",
+			1111,"Drainliar","Um Familiar grande e feio. Esta ameaça vermelha é uma presença indesejada em muitas masmorras escuras.",
+			1061,"Pesadelo","Não tente montar este cavalo fantasmagórico.",
+			1204,"Tirfing","Uma espada encantada que deu errado.",
+			1179,"Sussurro","Monstro fantasma que parece estar coberto por um lençol. Armas normais são ineficazes contra seu corpo espiritual.",
+			1109,"Deviruchi","Um demônio aprendiz, relativamente inexperiente em demonologia.",
+			1143,"Marionete","O pior pesadelo de um marionetista. A Marionete pode lançar magias de fogo ou congelamento.",
+			1046,"Doppelganger","Demônios que roubam a aparência de outras pessoas. Se você ver um espadachim chegando por trás, confira se não é um monstro maligno primeiro.",
+			1389,"Drácula","Esses vampiros MVPs não brilham.^000000" );
+		if (.@mo_board == 1) {
+			mes "[Calabouço de Geffen]";
+			mes "Sobre qual parte do calabouço você gostaria de ler?";
+			next;
+			while(1) {
+				switch( select( "Calabouço de Geffen 1ºAndar","Calabouço de Geffen 2ºAndar","Calabouço de Geffen 3ºAndar","Cancelar" ) ) {
+				case 1:
+					mes "[Calabouço de Geffen 1ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Esporo Venenoso(26)";
+					mes "Poporing(30),";
+					mes "Mosca Caçadora(63)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Calabouço de Geffen 2ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Zumbi(17)";
+					mes "Drainliar(47)";
+					mes "Carniçal(61)";
+					mes "Jakk(63)";
+					mes "Pesadelo(69)";
+					mes "Tirfing(114)";
+					mes "--------------------------------";
+					next;
+					mes "<Este calabouço é o lar do raro monstro espada Tirfing.>";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Calabouço de Geffen 3ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Sussurro(34)";
+					mes "Carniçal(61)";
+					mes "Mosca Caçadora(63)";
+					mes "Pesadelo(69)";
+					mes "Deviruchi(93)";
+					mes "Marionete(90)";
+					mes "--------------------------------";
+					next;
+					mes "<O lar de pôneis demoníacos, demônios fofos e demônios marionetes. Se você gosta de demônios, deveria entrar aqui.>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+glast_01,372,298,0	script	Placa#Glastheim	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Glast Heim]";
+		mes "Glast Heim é uma enorme masmorra com incontáveis níveis. Recomendado para aventureiros de nível 70~130.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1036,"Carniçal","Cadáver revivido pela maldição de um Necromante profano. Ele embosca criaturas vivas próximas e devora seus corpos para saciar sua fome, mas por ser um cadáver reanimado, ele é incapaz de se sentir satisfeito.^000000",
+			1186,"Cochicho","Dicas de aventureiros são necessárias.",
+			1111,"Drainliar","Morcego colonial que habita cavernas escuras. Ele usa seus dentes grandes e afiados para atacar criaturas próximas e sugar seu sangue. É maior que um Familiar.^000000",
+			1195,"Rideword","Tomo mágico trazido à vida com poderes demoníacos. Não possui emoções ou mente própria, programado para confiar apenas em seus instintos para atacar criaturas vivas.",
+			1143,"Marionete","Demônio com aparência de boneca de marionete usada em teatro. Armas normais são ineficazes contra seu corpo espiritual.^000000",
+			1191,"Mímico","Dicas de aventureiros são necessárias.",
+			1203,"Mysteltainn","Parece ser uma lâmina demoníaca selada, mas na verdade está sendo selada por um monstro do tipo corrente. Ele manipula a espada acorrentada para atacar.",
+			1208,"Andarilho","Samurai errante revivido como um monstro Morto-Vivo. Ele ataca usando técnicas de espada dominadas em vida, precisas o bastante para cortar insetos voadores ao meio.",
+			1219,"Cavaleiro do Abismo","Cavaleiro demoníaco que serve o dono do lendário labirinto. É extremamente poderoso e brutal.",
+			1320,"Duque Coruja","Irmão do Barão Coruja que usa um manto azul. Ele gosta de dias chuvosos.",
+			1295,"Barão Coruja","Monstro ave que usa um manto vermelho. Se enganar pela aparência de cavalheiro, você será emboscado por ataques mágicos ferozes.",
+			1194,"Arclouse","Monstro com casco endurecido. Ele rola o corpo para atacar com a carapaça.",
+			1275,"Alice","Boneca automática encarregada de diversas tarefas no castelo. Sua prioridade é limpar as redondezas, porém atacará intrusos com uma vassoura de aço.",
+			1204,"Tirfing","Dicas de aventureiros são necessárias.",
+			1179,"Sussurro","Monstro fantasma que parece estar coberto por um lençol. Armas normais são ineficazes contra seu corpo espiritual.^000000",
+			1015,"Zumbi","Alma morta presa por um necromante profano em um corpo apodrecido, amaldiçoada a viver sem sentir dor. Sua impureza é capaz de infligir veneno.^000000",
+			1209,"Cãibra","Roedor encontrado vivendo nas profundezas da masmorra. Sua aparência é semelhante à de Tarou, porém é muito mais cruel e seus dentes são venenosos.",
+			1268,"Cavaleiro Sanguinário","A alma de um cavaleiro valoroso, amaldiçoada a ficar presa dentro da armadura ensanguentada como um monstro. É poderoso o bastante para liderar a Cavalaria do Castelo.",
+			1035,"Mosca Caçadora","Um Chonchon vermelho vivo. Sua agilidade é 3 vezes maior que a de um Chonchon e possui muito mais ataque. Um Chonchon capturado como mascote não se compara à Mosca Caçadora! O nome 'Chonchon e ...' certamente será popular entre criadores de mascotes...^000000",
+			1253,"Gárgula","Demônio de baixa patente com grandes asas. Ele utiliza sua capacidade de voo para atacar no ar.",
+			1260,"Moldura Maldita","Espelho possuído por um demônio. Ele fica pendurado nas paredes até alguém se aproximar para olhar no espelho, ou então vagará procurando sua presa.",
+			1163,"Raydric","A alma de um soldado amaldiçoada a ficar presa dentro da armadura como um monstro. Seu único propósito é expulsar intrusos do castelo.",
+			1276,"Raydric Arqueiro","A alma de um arqueiro amaldiçoada a ficar presa dentro da armadura como um monstro. Diferente de Raydric, Raydric Arqueiro usa arcos para atacar à distância.",
+			1192,"Alma Penada","Pessoa maligna amaldiçoada a se tornar um monstro Morto-Vivo após a morte. Acredita que sacrificar criaturas vivas irá revivê-lo, e silenciosamente espera por um sacrifício infeliz em um canto escuro.",
+			1201,"Rybio","Monstro que era responsável por torturar prisioneiros em uma antiga prisão. Sempre usa máscara para esconder o rosto por medo de represálias.",
+			1310,"Majoruros","Monstro com aparência de vaca. Ele balança seu martelo com muito mais ferocidade do que um Minorous.",
+			1281,"Verme Sábio","Esses vermes possuem muito mais intelecto, sendo adorados como deuses por outros vermes. É um monstro passivo que só ataca com sua enciclopédia quando sente perigo.",
+			1196,"Esqueleto Prisioneiro","Antes um prisioneiro injustamente encarcerado, apenas seu arrependimento permaneceu após sua morte como monstro.",
+			1207,"Sting","Monstro coberto de lama; seus ataques são longos e difíceis de desviar. Tome cuidado ao redor deste monstro.",
+			1117,"Druida Maligno","Antes um orgulhoso sacerdote corrompido e transformado em monstro por planos demoníacos. Mantém sua força como antigo sacerdote.",
+			1257,"Injustiçado","Dicas de aventureiros são necessárias.",
+			1197,"Zumbi Prisioneiro","Antes um cadáver de prisioneiro em um castelo que reviveu como Morto-Vivo. Não satisfeito em odiar aqueles que o prenderam, agora ele odeia todas as criaturas vivas.",
+			1200,"Jirtas","Uma dama de uma tribo demoníaca. Sua natureza dominadora força humanos a servi-la como escravos. Seu chicote raramente erra o alvo quando golpeia.",
+			1132,"Khalitzburg","A alma de um cavaleiro amaldiçoada a ficar presa dentro da armadura como um monstro. Sua força formidável permanece como a de um cavaleiro em vida.",
+			1267,"Carat","Demônio com aparência de Pierrot. É visto andando sobre uma bola de circo como um Pierrot, mas...",
+			1202,"Fendark","Conselheiro da Prisão. Ele usava uma máscara para moldar seu rosto desde o nascimento, e gosta de distorcer a mente das pessoas.",
+			1283,"Quimera","Besta mágica feita de várias partes diferentes de monstros. Seu único propósito é assassinar e destruir alvos com ataques poderosos.",
+			1198,"Sacerdote Maldito","Dicas de aventureiros são necessárias.",
+			1263,"Xamã do Vento","Dicas de aventureiros são necessárias.",
+			1302,"Ilusão das Trevas","Guarda do Senhor das Trevas. Ele invoca meteoros do céu como se fosse destruir o mundo.",
+			1272,"Senhor das Trevas","Poderoso Rei Demônio. Ele não consegue usar todo o seu poder, mas ainda assim é forte o bastante para destruir aventureiros comuns com um movimento de mão." );
+		if (.@mo_board == 1) {
+			mes "[Glastheim]";
+			mes "As masmorras consistem em vários níveis subterrâneos conectados por túneis antigos. Esteja preparado para ataques de monstros Morto-Vivo ou demoníacos lá dentro.";
+			next;
+			while(1) {
+				switch( select( "Cancelar","Glastheim - Interior","Glastheim - Subsolo 1","Glastheim - Subsolo 2","Glastheim - Cavalaria Subsolo 1","Glastheim - Cavalaria Subsolo 2","Glastheim - Abadia","Glastheim - Cemitério","Glastheim - Caverna Subsolo 1","Glastheim - Caverna Subsolo 2","Glastheim - Prisão Subterrânea 1","Glastheim - Prisão Subterrânea 2","Glastheim - Esgoto Subsolo 1","Glastheim - Esgoto Subsolo 2","Glastheim - Esgoto Subsolo 3","Glastheim - Esgoto Subsolo 4","Glastheim - Escadaria" ) ) {
+				case 2:
+					mes "[Glastheim - Interior]";
+					mes "------------ Monstros ------------";
+					mes "Verme Sábio(70)";
+					mes "Rideword(74)";
+					mes "Moldura Maldita(76)";
+					mes "Marionete(90)";
+					mes "Alice(100)";
+					mes "Andarilho(120)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Glastheim - Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Sussurro(34)";
+					mes "Verme Sábio(70)";
+					mes "Rideword(74)";
+					mes "Moldura Maldita(76)";
+					mes "Duque Coruja(92)";
+					mes "Alice(100)";
+					mes "Carat(103)";
+					mes "Barão Coruja(120)";
+					mes "--------------------------------";
+					mes "Meio 6 horas - Subsolo 2";
+					mes "Meio 9 horas, 3 horas, Grande 1 hora - Prisão Subterrânea 1";
+					F_InfoBoard;
+					continue;
+				case 4:
+					mes "[Glastheim - Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(59)";
+					mes "Quimera(70)";
+					mes "Rideword(74)";
+					mes "Druida Maligno(80)";
+					mes "Raydric Arqueiro(82)";
+					mes "Alice(100)";
+					mes "Tirfing(114)";
+					mes "Raydric(115)";
+					mes "Khalitzburg(118)";
+					mes "Andarilho(120)";
+					mes "Cavaleiro do Abismo(122)";
+					mes "Mysteltainn(130)";
+					mes "--------------------------------";
+					mes "Grande 6 horas - Subsolo 1";
+					F_InfoBoard;
+					continue;
+				case 5:
+					mes "[Glastheim - Cavalaria Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Cochicho(66)";
+					mes "Rideword(74)";
+					mes "Raydric Arqueiro(82)";
+					mes "Alice(100)";
+					mes "Raydric(115)";
+					mes "Khalitzburg(118)";
+					mes "Cavaleiro do Abismo(122)";
+					mes "--------------------------------";
+					mes "Grande 9 horas, 12 horas, 3 horas - Cavalaria Subsolo 2";
+					mes "Meio 2 horas - Esgoto Subsolo 2";
+					F_InfoBoard;
+					continue;
+				case 6:
+					mes "[Glastheim - Cavalaria Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Raydric Arqueiro(82)";
+					mes "Alice(100)";
+					mes "Raydric(115)";
+					mes "Cavaleiro Sanguinário(116)";
+					mes "Khalitzburg(118)";
+					mes "Cavaleiro do Abismo(122)";
+					mes "Mysteltainn(130)";
+					mes "--------------------------------";
+					mes "Grande 9 horas, 12 horas, 3 horas - Cavalaria Subsolo 1";
+					F_InfoBoard;
+					continue;
+				case 7:
+					mes "[Glastheim - Abadia]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Carniçal(61)";
+					mes "Alma Penada(77)";
+					mes "Druida Maligno(80)";
+					mes "Ilusão das Trevas(96)";
+					mes "Sacerdote Maldito(98)";
+					mes "--------------------------------";
+					mes "Grande 11 horas, 5 horas - Cemitério";
+					F_InfoBoard;
+					continue;
+				case 8:
+					mes "[Glastheim - Cemitério]";
+					mes "------------ Monstros ------------";
+					mes "Zumbi(17)";
+					mes "Mímico(56)";
+					mes "Carniçal(61)";
+					mes "Mosca Caçadora(63)";
+					mes "Alma Penada(77)";
+					mes "Druida Maligno(80)";
+					mes "Senhor das Trevas(96)MVP";
+					mes "--------------------------------";
+					mes "Grande 12 horas, 6 horas - Abadia";
+					mes "Grande 9 horas - Esgoto Subsolo 2";
+					next;
+					mes "<O Senhor das Trevas é bem alto. A Ilusão das Trevas também é alta. ... Droga.. - Explorador Uva Baixinho>";
+					F_InfoBoard;
+					continue;
+				case 9:
+					mes "[Glastheim - Caverna Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Sting(104)";
+					mes "Arclouse(107)";
+					mes "--------------------------------";
+					mes "Grande 11 horas - Esgoto Subsolo 4";
+					mes "Grande 5 horas - Caverna Subsolo 2";
+					F_InfoBoard;
+					continue;
+				case 10:
+					mes "[Glastheim - Caverna Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Gárgula(100)";
+					mes "Majoruros(107)";
+					mes "--------------------------------";
+					mes "Grande 2 horas - Caverna Subsolo 1";
+					F_InfoBoard;
+					continue;
+				case 11:
+					mes "[Glast Heim - Prisão Subterrânea 1]";
+					mes "------------ Monstros ------------";
+					mes "Mosca Caçadora(63)";
+					mes "Zumbi Prisioneiro(89)";
+					mes "Injustiçado(95)";
+					mes "Rybio(98)";
+					mes "--------------------------------";
+					mes "Grande 1 hora - Prisão Subterrânea 2";
+					mes "Grande 8 horas - Subsolo 1";
+					F_InfoBoard;
+					continue;
+				case 12:
+					mes "[Glast Heim - Prisão Subterrânea 2]";
+					mes "------------ Monstros ------------";
+					mes "Mosca Caçadora(63)";
+					mes "Cãibra(82)";
+					mes "Esqueleto Prisioneiro(91)";
+					mes "Injustiçado(95)";
+					mes "Rybio(98)";
+					mes "Fendark(102)";
+					mes "Jirtas(105)";
+					mes "--------------------------------";
+					mes "Grande 11 horas - Esgoto Subsolo 1";
+					mes "Grande 5 horas - Prisão Subterrânea 1";
+					F_InfoBoard;
+					continue;
+				case 13:
+					mes "[Glastheim - Esgoto Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Sussurro(34)";
+					mes "Gárgula(100)";
+					mes "Arclouse(107)";
+					mes "--------------------------------";
+					mes "Grande 1 hora - Prisão Subterrânea 2";
+					mes "Grande 8 horas - Esgoto Subsolo 2";
+					F_InfoBoard;
+					continue;
+				case 14:
+					mes "[Glastheim - Esgoto Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Cãibra(82)";
+					mes "Gárgula(100)";
+					mes "--------------------------------";
+					mes "Grande 11 horas - Esgoto Subsolo 1";
+					mes "Grande 1 hora - Esgoto Subsolo 3";
+					mes "Grande 3 horas - Masmorra da Escadaria";
+					mes "Grande 5 horas - Cavalaria Subsolo 1";
+					mes "Grande 7 horas - Prisão Subterrânea 2";
+					mes "Grande 10 horas - Cemitério";
+					F_InfoBoard;
+					continue;
+				case 15:
+					mes "[Glastheim - Esgoto Subsolo 3]";
+					mes "------------ Monstros ------------";
+					mes "Gárgula(100)";
+					mes "Sting(104)";
+					mes "--------------------------------";
+					mes "Grande 12 horas - Esgoto Subsolo 2";
+					mes "Grande 7 horas - Esgoto Subsolo 4";
+					F_InfoBoard;
+					continue;
+				case 16:
+					mes "[Glastheim - Esgoto Subsolo 4]";
+					mes "------------ Monstros ------------";
+					mes "Drainliar(47)";
+					mes "Gárgula(100)";
+					mes "Anolian(109)";
+					mes "--------------------------------";
+					mes "Grande 11 horas - Esgoto Subsolo 3";
+					mes "Meio 7 horas - Caverna Subsolo 1";
+					F_InfoBoard;
+					continue;
+				case 17:
+					mes "[Glastheim - Escadaria]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Xamã do Vento(80)";
+					mes "Raydric Arqueiro(82)";
+					mes "--------------------------------";
+					mes "Meio - Esgoto Subsolo 2";
+					mes "Grande 7 horas - Campo de Glastheim";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+yuno_fild03,37,143,0	script	Placa#Caverna de Magma	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Caverna de Magma]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1381,"Grizzly","Urso que habita regiões com magma fluindo. Sua pelagem parece estar em chamas. Será popular entre os amantes de peles.",
+			1072,"Kaho","Demônio coberto de chamas. Seus ataques são chamativos, mas na verdade é um demônio de baixa patente com poder de ataque relativamente fraco.",
+			1383,"Estrondo","Morcego que habita regiões com magma fluindo. Ele não possui mais o grito supersônico em troca de uma visão quase perfeita e da habilidade de emitir uma luz brilhante.",
+			1367,"Labareda","Monstro de bola de fogo. Sua estrutura esquelética mantém sua forma.",
+			1366,"Golem de Lava","Golem formado a partir de magma endurecido. Possui uma força poderosa.",
+			1387,"Ferrão","Escorpião habitante deste lugar úmido. Ele se protege do calor cavando na areia. Seu ferrão é coberto por um veneno paralisante.",
+			1382,"Diabolik","Parece ser um demôniozinho fofo, porém na verdade é um demônio horrível com o hobby de empurrar pessoas no fogo.",
+			1384,"Exterminador","Um dos habitantes da região de magma, Petite Dragão de Fogo. Sua cabeça é desproporcionalmente grande, impedindo-o de voar.",
+			1385,"Deletério","Um dos habitantes da região de magma, Petite Dragão de Terra.",
+			1379,"Pesadelo Sombrio","Seu nome segue seu significado literal. Ele se alimenta do terror de outras criaturas e se torna mais forte." );
+		if (.@mo_board == 1) {
+			mes "[Caverna de Magma]";
+			mes "A Estrada de Magma é um calabouço do Subsolo 2 que abriga monstros ferozes. Aventureiros inexperientes não devem entrar neste lugar. Além disso, os caminhos dentro da masmorra são muito estreitos, então tenha cuidado para não causar inconveniência a outros jogadores.";
+			next;
+			while(1) {
+				switch( select( "Caverna de Magma Subsolo 1","Caverna de Magma Subsolo 2","Cancelar" ) ) {
+				case 1:
+					mes "[Caverna de Magma Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Grizzly(66)";
+					mes "Kaho(98)";
+					mes "Estrondo(100)";
+					mes "Labareda(101)";
+					mes "Golem de Lava(103)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Caverna de Magma Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Ferrão(100)";
+					mes "Labareda(101)";
+					mes "Diabolik(104)";
+					mes "Exterminador(105)";
+					mes "Deletério(105)";
+					mes "Pesadelo Sombrio(107)";
+					mes "--------------------------------";
+					next;
+					mes "<O Subsolo 1 é quente demais.. o Subsolo 2 também é quente, mas não tanto quanto o Subsolo 1~ - Explorador Uva Derretido>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+mjolnir_02,76,362,0	script	Placa#Poço de Mjolnir	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Poço de Mjolnir]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1175,"Tarou","Roedor que habita lugares escuros. Possui uma pelagem branca e fofinha.",
+			1005,"Familiar","Morcego colonial que habita cavernas escuras. Suas pequenas presas são afiadas o suficiente para sugar sangue de criaturas próximas.",
+			1145,"Martin","Habitante subterrâneo, toupeira. Geralmente vive em um pequeno túnel, às vezes saindo para procurar comida.",
+			1169,"Esqueleto Operário","Mineiro que morreu em um acidente infeliz em uma mina. Sua vontade inabalável de escavar ficou gravada em seus corpos esqueléticos, transformando-os em monstros.",
+			1121,"Gierath","Habitante subterrâneo do tipo Pixie. Ele coleta minerais e os processa para sobreviver. Permanecerá passivo enquanto os aventureiros não mexerem com ele. Este monstro aparece em várias masmorras como o Poço de Mjolnir e o Formigueiro Infernal.",
+			1111,"Drainliar","Morcego colonial que habita cavernas escuras. Usa seus dentes grandes e afiados para atacar criaturas próximas e sugar seu sangue. É maior do que um Familiar.^000000",
+			1151,"Névoa","Monstro com aparência de Gás Venenoso. Sua verdadeira identidade é desconhecida, porém especula-se que seja uma massa de microrganismos.",
+			1209,"Cãibra","Roedor encontrado vivendo nas profundezas da masmorra. Sua aparência é semelhante ao Tarou, porém é muito mais agressivo e seus dentes são venenosos." );
+		if (.@mo_board == 1) {
+			mes "[Poço de Mjolnir]";
+			mes "O Poço de Mjolnir é uma masmorra composta por 3 níveis subterrâneos. Este lugar foi projetado para aventureiros iniciantes a intermediários. Aventureiros podem querer visitar esta masmorra para obter diversos minérios que podem ser encontrados aqui.";
+			next;
+			while(1) {
+				switch( select( "Poço de Mjolnir Subsolo 1","Poço de Mjolnir Subsolo 2","Poço de Mjolnir Subsolo 3","Cancelar" ) ) {
+				case 1:
+					mes "[Poço de Mjolnir Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Tarou(22)";
+					mes "Familiar(24)";
+					mes "Martin(39)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Poço de Mjolnir Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Martin(39)";
+					mes "Gierath(42)";
+					mes "Esqueleto Operário(44)";
+					mes "Drainliar(47)";
+					mes "--------------------------------";
+					next;
+					mes "<O Subsolo 2 da masmorra é praticamente um labirinto de túneis criados pelos Skel Workers. Tenha cuidado para não se perder no labirinto. Eu não tive nenhum problema, mas você pode ter. - Explorador Uva Navegador Especialista>";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Poço de Mjolnir Subsolo 3]";
+					mes "------------ Monstros ------------";
+					mes "Martin(39)";
+					mes "Gierath(42)";
+					mes "Esqueleto Operário(44)";
+					mes "Névoa(49)";
+					mes "Cãibra(82)";
+					mes "--------------------------------";
+					next;
+					mes "<Os monstros frequentemente cercam você em grandes grupos. Acontece o tempo todo!! Ainda bem que eu trouxe asas de mosca. Ufa~ - Explorador Uva Esfarrapado>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+prt_fild01,139,369,0	script	Placa#Labirinto de Prontera	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Floresta do Labirinto]";
+		mes "Um labirinto cheio de curvas e caminhos, com diferentes níveis de monstros espalhados por dentro.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1002,"Poring","Criatura gelatinosa que pode ser encontrada praticamente em qualquer lugar. Este monstro é bem passivo e fraco, perfeito para iniciantes. Ele tem a tendência de engolir qualquer item que encontre.",
+			1145,"Martin","Habitante subterrâneo, toupeira. Geralmente vive em um pequeno túnel, às vezes saindo para procurar comida.",
+			1042,"Chonchon de Aço","Um dos monstros do tipo Chonchon, possuindo cascas duras. Ele adora coletar rapidamente itens do chão.",
+			1035,"Mosca Caçadora","Um Chonchon vermelho carmesim brilhante. Sua agilidade é 3 vezes maior do que a de um Chonchon e possui muito mais ataque. Um Chonchon de estimação capturado por jogadores não se compara a uma Mosca Caçadora! O nome 'Chonchon e ...' sem dúvida será popular entre os criadores de pets...^000000",
+			1037,"Sorrateiro","Cobra de uma cabeça. Ela usa sua cauda como se fosse sua cabeça para confundir os inimigos.",
+			1090,"Mastering","Um Poring Ferrãoante mutante. Ele vaga por aí junto com outros Porings.",
+			1120,"Ghostring","Um Poring morto que virou um monstro Fantasma devido à influência de um poderoso espírito. Armas normais são ineficazes contra este monstro.",
+			1031,"Poporing","Irmão mais velho do Poring encontrado em áreas pantanosas. Seu corpo é composto por substâncias venenosas e ele é mais resistente do que um Poring.",
+			1063,"Lunático","Um roedor com pelagem macia comumente visto pelo mundo. Sua comida favorita é cenoura.",
+			1008,"Pupa","Crisálida de uma futura Creamy. Sua pele é elástica e resistente, mas ela não consegue se mover.",
+			1011,"Chonchon","Monstro comum do tipo inseto que pode ser visto em muitos lugares. As Asas de Mosca derrubadas por este monstro têm o mesmo efeito da habilidade do Noviço: Teleporte.",
+			1007,"Fabre","Creamy em estágio larval. Este monstro é perfeito para novos aventureiros enfrentarem. Às vezes ele se transforma em uma crisálida.",
+			1052,"Rocker","Este monstro gosta de tocar violino pacificamente. Ele ama música tanto quanto os humanos.",
+			1025,"Jibóia","Dicas de aventureiros são necessárias.",
+			1174,"Percevejo","Joaninha com casco colorido como um arco-íris. Seu casco é muito procurado como ingrediente para decorações.",
+			1018,"Creamy","Creamy é a forma final alcançada quando o Fabre consegue evoluir com sucesso.",
+			1103,"Caramelo","Monstro ouriço. Ele tem uma personalidade dócil, mas odeia ser tocado. Usa as agulhas afiadas em suas costas para atacar.",
+			1060,"Pé-Grande","Monstro urso que vive nas profundezas da caverna. Por ser muito guloso, ele é gordo. É naturalmente preguiçoso, passando a maior parte do tempo dormindo, porém se torna feroz quando provocado. Aventureiros não acharão este monstro uma ameaça desde que evitem provocá-lo.",
+			1056,"Fumacento","Monstro guaxinim que vive nas profundezas da floresta, sem saber do world exterior. Ele ocasionalmente se transforma em humano usando a folha em sua cabeça.",
+			1128,"Besouro-Chifre","Monstro Besouro Ferrãoante. Ele se concentra apenas nos próprios assuntos, ignorando o que outras criaturas estão fazendo. Quando sente perigo, usa o chifre em formato de tesoura em sua cabeça para repelir o inimigo.",
+			1104,"Coco","Animal travesso que é frequentemente visto nas profundezas da floresta. Dizem que este monstro possui inteligência semelhante à de um humano, e às vezes até faz pegadinhas com eles. Sua comida favorita é Banana.",
+			1057,"Yoyo","Pequeno monstro esquilo. Ele não é forte, mas sua agilidade pode ser difícil demais para iniciantes.",
+			1013,"Lobo","Monstro lobo comumente visto na maioria das áreas de Midgard. Ele caça pequenos animais. Seu medo de humanos o torna passivo perto deles.",
+			1100,"Argos","Esta aranha Ferrãoante consegue caçar outras criaturas usando suas teias para prendê-las, ou simplesmente caminhando no chão para persegui-las.",
+			1166,"Selvagem","Javali, habitante da floresta. Ele é de raciocínio simples, porém quando ataca se torna imparável. Geralmente é dócil.",
+			1114,"Poeira","Monstro do tipo mariposa com corpo relativamente duro. Geralmente é encontrado em partes escuras da caverna, mas às vezes também pode ser encontrado no Monte Mjolnir.",
+			1099,"Argiope","Monstro larva Ferrãoante. Ele ataca com presas envenenadas.",
+			1243,"Sasquatch","Urso encontrado na região de Lutie. Ele tem uma personalidade muito agressiva e ataca todos os aventureiros à vista. Devido ao ambiente em que vive, sua pelagem é branca como a neve.",
+			1306,"Leib Olmai","Urso com personalidade extremamente agressiva. Seu corpo é coberto por inúmeras cicatrizes de várias lutas contra outras criaturas.",
+			1088,"Vocal","Líder dos monstros Rocker. Sua voz é muito melodiosa, ganhando o respeito dos Rockers. Ele carrega um violino como arma.",
+			1101,"Bafomé Jr.","Dicas de aventureiros são necessárias.",
+			1215,"Talo de Verme","Este monstro é uma variação do Verme. Sua cauda é muito mais forte do que a do Verme.",
+			1139,"Louva-a-Deus","Dicas de aventureiros são necessárias.",
+			1294,"Mantis Assassino","Este monstro é uma variação do Louva-a-Deus. Ele é muito mais forte do que um Louva-a-Deus.",
+			1214,"Choco","Dicas de aventureiros são necessárias.",
+			1093,"Eclipse","Este monstro é uma variação do Lunático. Ele é maior e mais forte do que um Lunático normal. Ele é extremamente agressivo e comanda outros Lunáticos a atacarem aventureiros próximos.",
+			1092,"Lobo Errante","Um lobo solitário separado de sua matilha. Ele comanda outros lobos vadios para atacar criaturas próximas.",
+			1039,"Bafomé","Demônio que vive nas profundezas da floresta. Ele considera humanos insignificantes. Usa uma foice como arma, afiada o suficiente para cortar inúmeras árvores em um único golpe. Ele ainda não precisou usar sua foice para expulsar intrusos." );
+		if (.@mo_board == 1) {
+			mes "[Floresta do Labirinto]";
+			mes "A Floresta do Labirinto é composta por 3 andares subterrâneos, onde vários monstros residem no 1, 2 e 3. Esteja bem preparado antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Floresta do Labirinto Subsolo 1","Floresta do Labirinto Subsolo 2","Floresta do Labirinto Subsolo 3","Cancelar" ) ) {
+				case 1:
+					mes "[Floresta do Labirinto Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Poring(1)";
+					mes "Lunático(3)";
+					mes "Pupa(4)";
+					mes "Chonchon(5)";
+					mes "Fabre(6)";
+					mes "Rocker(15)";
+					mes "Jibóia(18)";
+					mes "Percevejo(21)";
+					mes "Creamy(23)";
+					mes "Caramelo(25)";
+					mes "Pé-Grande(29)";
+					mes "Fumacento(29)";
+					mes "Poporing(30)";
+					mes "Besouro-Chifre(32)";
+					mes "Coco(38)";
+					mes "Yoyo(38)";
+					mes "Martin(39)";
+					mes "Lobo(45)";
+					mes "Argos(47)";
+					mes "Chonchon de Aço(48)";
+					mes "Choco(48)";
+					mes "Selvagem(59)";
+					mes "Poeira(62)";
+					mes "Mosca Caçadora(63)";
+					mes "Louva-a-Deus(65)";
+					mes "Sorrateiro(70)";
+					mes "Argiope(75)";
+					mes "Lobo Errante(93)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Floresta do Labirinto Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Pé-Grande(29)";
+					mes "Poporing(30)";
+					mes "Sasquatch(72)";
+					mes "Leib Olmai(87)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Floresta do Labirinto Subsolo 3]";
+					mes "------------ Monstros ------------";
+					mes "Vocal(18)";
+					mes "Poporing(30)";
+					mes "Eclipse(31)";
+					mes "Mastering(42)";
+					mes "Bafomé Jr.(57)";
+					mes "Mosca Caçadora(63)";
+					mes "Louva-a-Deus(65)";
+					mes "Sorrateiro(70)";
+					mes "Talo de Verme(84)";
+					mes "Ghostring(90)";
+					mes "Mantis Assassino(91)";
+					mes "Lobo Errante(93)";
+					mes "--------------------------------";
+					next;
+					mes "<Olhando para todos esses Bafomé Jr., você não acha que o Bafomé é bem ativo? Não? - Explorador Uva Invejoso>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+mjolnir_12,40,18,0	script	Placa#Alde_Laby	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Floresta do Labirinto]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1002,"Poring","Criatura gelatinosa que pode ser encontrada praticamente em qualquer lugar. Este monstro é bem passivo e fraco, perfeito para iniciantes. Ele tem a tendência de engolir qualquer item que encontre.",
+			1145,"Martin","Habitante subterrâneo, toupeira. Geralmente vive em um pequeno túnel, às vezes saindo para procurar comida.",
+			1042,"Chonchon de Aço","Um dos monstros do tipo Chonchon, possuindo cascas duras. Ele adora coletar rapidamente itens do chão.",
+			1035,"Mosca Caçadora","Um Chonchon vermelho carmesim brilhante. Sua agilidade é 3 vezes maior do que a de um Chonchon e possui muito mais ataque. Um Chonchon de estimação capturado por jogadores não se compara a uma Mosca Caçadora! O nome 'Chonchon e ...' sem dúvida será popular entre os criadores de pets...^000000",
+			1037,"Sorrateiro","Cobra de uma cabeça. Ela usa sua cauda como se fosse sua cabeça para confundir os inimigos.",
+			1090,"Mastering","Um Poring Ferrãoante mutante. Ele vaga por aí junto com outros Porings.",
+			1120,"Ghostring","Um Poring morto que virou um monstro Fantasma devido à influência de um poderoso espírito. Armas normais são ineficazes contra este monstro.",
+			1031,"Poporing","Irmão mais velho do Poring encontrado em áreas pantanosas. Seu corpo é composto por substâncias venenosas e ele é mais resistente do que um Poring.",
+			1063,"Lunático","Um roedor com pelagem macia comumente visto pelo mundo. Sua comida favorita é cenoura.",
+			1008,"Pupa","Crisálida de uma futura Creamy. Sua pele é elástica e resistente, mas ela não consegue se mover.",
+			1011,"Chonchon","Monstro comum do tipo inseto que pode ser visto em muitos lugares. As Asas de Mosca derrubadas por este monstro têm o mesmo efeito da habilidade do Noviço: Teleporte.",
+			1007,"Fabre","Creamy em estágio larval. Este monstro é perfeito para novos aventureiros enfrentarem. Às vezes ele se transforma in uma crisálida.",
+			1052,"Rocker","Este monstro gosta de tocar violino pacificamente. Ele ama música tanto quanto os humanos.",
+			1025,"Jibóia","Dicas de aventureiros são necessárias.",
+			1174,"Percevejo","Joaninha com casco colorido como um arco-íris. Seu casco é muito procurado como ingrediente para decorações.",
+			1018,"Creamy","Creamy é a forma final alcançada quando o Fabre consegue evoluir com sucesso.",
+			1103,"Caramelo","Monstro ouriço. Ele tem uma personalidade dócil, mas odeia ser tocado. Usa as agulhas afiadas em suas costas para atacar.",
+			1060,"Pé-Grande","Monstro urso que vive nas profundezas da caverna. Por ser muito guloso, ele é gordo. É naturalmente preguiçoso, passando a maior parte do tempo dormindo, porém se torna feroz quando provocado. Aventureiros não acharão este monstro uma ameaça desde que evitem provocá-lo.",
+			1056,"Fumacento","Monstro guaxinim que vive nas profundezas da floresta, sem saber do mundo exterior. Ele ocasionalmente se transforma em humano usando a folha em sua cabeça.",
+			1128,"Besouro-Chifre","Monstro Besouro Ferrãoante. Ele se concentra apenas nos próprios assuntos, ignorando o que outras criaturas estão fazendo. Quando sente perigo, usa o chifre em formato de tesoura em sua cabeça para repelir o inimigo.",
+			1104,"Coco","Animal travesso que é frequentemente visto nas profundezas da floresta. Dizem que este monstro possui inteligência semelhante à de um humano, e às vezes até faz pegadinhas com eles. Sua comida favorita é Banana.",
+			1057,"Yoyo","Pequeno monstro esquilo. Ele não é forte, mas sua agilidade pode ser difícil demais para iniciantes.",
+			1013,"Lobo","Monstro lobo comumente visto na maioria das áreas de Midgard. Ele caça pequenos animais. Seu medo de humanos o torna passivo perto deles.",
+			1100,"Argos","Esta aranha Ferrãoante consegue caçar outras criaturas usando suas teias para prendê-las, ou simplesmente caminhando no chão para persegui-las.",
+			1166,"Selvagem","Javali, habitante da floresta. Ele é de raciocínio simples, porém quando ataca se torna imparável. Geralmente é dócil.",
+			1114,"Poeira","Monstro do tipo mariposa com corpo relativamente duro. Geralmente é encontrado em partes escuras da caverna, mas às vezes também pode ser encontrado no Monte Mjolnir.",
+			1099,"Argiope","Monstro larva Ferrãoante. Ele ataca com presas envenenadas.",
+			1243,"Sasquatch","Urso encontrado na região de Lutie. Ele tem uma personalidade muito agressiva e ataca todos os aventureiros à vista. Devido ao ambiente em que vive, sua pelagem é branca como a neve.",
+			1306,"Leib Olmai","Urso com personalidade extremamente agressiva. Seu corpo é coberto por inúmeras cicatrizes de várias lutas contra outras criaturas.",
+			1088,"Vocal","Líder dos monstros Rocker. Sua voz é muito melodiosa, ganhando o respeito dos Rockers. Ele carrega um violino como arma.",
+			1101,"Bafomé Jr.","Dicas de aventureiros são necessárias.",
+			1215,"Talo de Verme","Este monstro é uma variação do Verme. Sua cauda é muito mais forte do que a do Verme.",
+			1139,"Louva-a-Deus","Dicas de aventureiros são necessárias.",
+			1294,"Mantis Assassino","Este monstro é uma variação do Louva-a-Deus. Ele é muito mais forte do que um Louva-a-Deus.",
+			1214,"Choco","Dicas de aventureiros são necessárias.",
+			1093,"Eclipse","Este monstro é uma variação do Lunático. Ele é maior e mais forte do que um Lunático normal. Ele é extremamente agressivo e comanda outros Lunáticos a atacarem aventureiros próximos.",
+			1092,"Lobo Errante","Um lobo solitário separado de sua matilha. Ele comanda outros lobos vadios para atacar criaturas próximas.",
+			1039,"Bafomé","Demônio que vive nas profundezas da floresta. Ele considera humanos insignificantes. Usa uma foice como arma, afiada o suficiente para cortar inúmeras árvores em um único golpe. Ele ainda não precisou usar sua foi para expulsar intrusos." );
+		if (.@mo_board == 1) {
+			mes "[Floresta do Labirinto]";
+			mes "A Floresta do Labirinto é composta por 3 andares subterrâneos, onde vários monstros residem no 1, 2 e 3. Esteja bem preparado antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Floresta do Labirinto Subsolo 1","Floresta do Labirinto Subsolo 2","Floresta do Labirinto Subsolo 3","Cancelar" ) ) {
+				case 1:
+					mes "[Floresta do Labirinto Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Poring(1)";
+					mes "Lunático(3)";
+					mes "Pupa(4)";
+					mes "Chonchon(5)";
+					mes "Fabre(6)";
+					mes "Rocker(15)";
+					mes "Jibóia(18)";
+					mes "Besouro(21)";
+					mes "Creamy(23)";
+					mes "Caramelo(25)";
+					mes "Pé-Grande(29)";
+					mes "Fumacento(29)";
+					mes "Poporing(30)";
+					mes "Besouro-Chifre(32)";
+					mes "Coco(38)";
+					mes "Yoyo(38)";
+					mes "Martin(39)";
+					mes "Lobo(45)";
+					mes "Argos(47)";
+					mes "Chonchon de Aço(48)";
+					mes "Choco(48)";
+					mes "Selvagem(59)";
+					mes "Poeira(62)";
+					mes "Mosca Caçadora(63)";
+					mes "Louva-a-Deus(65)";
+					mes "Sorrateiro(70)";
+					mes "Argiope(75)";
+					mes "Lobo Errante(93)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Floresta do Labirinto Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Fumacento(29)";
+					mes "Poporing(30)";
+					mes "Sasquatch(72)";
+					mes "Leib Olmai(87)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Floresta do Labirinto Subsolo 3]";
+					mes "------------ Monstros ------------";
+					mes "Vocal(18)";
+					mes "Poporing(30)";
+					mes "Eclipse(31)";
+					mes "Mastering(42)";
+					mes "Bafomé Jr.(57)";
+					mes "Mosca Caçadora(63)";
+					mes "Louva-a-Deus(65)";
+					mes "Sorrateiro(70)";
+					mes "Talo de Verme(84)";
+					mes "Ghostring(90)";
+					mes "Mantis Assassino(91)";
+					mes "Lobo Errante(93)";
+					mes "--------------------------------";
+					next;
+					mes "<Olhando para todos esses Bafomé Jr., você não acha que o Bafomé é bem ativo? Não? - Explorador Uva Invejoso>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+moc_fild19,107,101,0	script	Placa#Esfinge	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Esfinge]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1111,"Drainliar","Morcego colonial que habita cavernas escuras. Usa seus dentes grandes e afiados para atacar criaturas próximas e sugar seu sangue. É maior do que um Familiar.^000000",
+			1146,"Matyr","Protetor do rei, guardião do portão. Um cão é usado como meio para invocar o guardião usando magia proibida. Seu corpo é coberto por uma névoa sombria e ele é muito ágil.",
+			1178,"Zerom","Nativos de Morroc foram convocados para ajudar na construção da Esfinge. Eles foram amaldiçoados e transformados em monstros para proteger a Esfinge por toda a eternidade.",
+			1164,"Réquiem","Nativos de Morroc foram convocados para ajudar na construção da Esfinge. Eles foram amaldiçoados e transformados em monstros para proteger a Esfinge por toda a eternidade.",
+			1191,"Mímico","Dicas de aventureiros são necessárias.",
+			1140,"Marduk","Adivinho dos Nativos de Morroc. Ele controla os nativos amaldiçoados para proteger o Túmulo do Rei.",
+			1154,"Pasana","Protetor da Pirâmide. Para continuar protegendo o rei já falecido, ele aceitou voluntariamente a maldição da Pirâmide.",
+			1149,"Minorous","Criatura desconhecida que vive nas profundezas do labirinto. Não tem boa relação com os Orcs, mas raramente se encontram. Quando encontra uma criatura, ele persegue o alvo e ataca com seu martelo Ferrãoante.",
+			1098,"Anubis","Dicas de aventureiros são necessárias.",
+			1037,"Sorrateiro","Cobra de uma cabeça. Ela usa sua cauda como se fosse sua cabeça para confundir os inimigos.",
+			1157,"Faraó","Rei da Pirâmide. Como rei de um antigo reino, seu corpo agora jaz dentro de um caixão real." );
+		if (.@mo_board == 1) {
+			mes "[Esfinge]";
+			mes "A Esfinge é composta por 5 andares subterrâneos. A dificuldade desta masmorra é apropriada para aventureiros intermediários a experientes. Todos os monstros desta masmorra são agressivos, então recomenda-se que os aventureiros tenham um método de fuga para emergências.";
+			next;
+			while(1) {
+				switch( select( "Esfinge Subsolo 1","Esfinge Subsolo 2","Esfinge Subsolo 3","Esfinge Subsolo 4","Esfinge Subsolo 5","Cancelar" ) ) {
+				case 1:
+					mes "[Esfinge Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Drainliar(47)";
+					mes "Matyr(58)";
+					mes "Zerom(70)";
+					mes "Réquiem(71)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Esfinge Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Drainliar(47)";
+					mes "Matyr(58)";
+					mes "Zerom(70)";
+					mes "Réquiem(71)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Esfinge Subsolo 3]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Matyr(58)";
+					mes "Marduk(73)";
+					mes "Pasana(79)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 4:
+					mes "[Esfinge Subsolo 4]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Minorous(58)";
+					mes "Pasana(79)";
+					mes "Anubis(105)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 5:
+					mes "[Esfinge Subsolo 5]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Matyr(58)";
+					mes "Sorrateiro(70)";
+					mes "Pasana(79)";
+					mes "Faraó(85)";
+					mes "Anubis(105)";
+					mes "--------------------------------";
+					next;
+					mes "<Vendendo Máscara do Faraó~ Oops.. Desculpe, quando vi o Faraó, lembrei de uma história absurda de um bardo. - Explorador Uva Congelado>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+aldebaran,136,133,0	script	Placa#Torre do Relógio	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Torre do Relógio]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1195,"Rideword","Livro de magia trazido à vida pelos poderes de um demônio. Não possui emoções nem mente própria, sendo programado para agir por instinto e atacar criaturas vivas.",
+			1199,"Punk","Monstro de mofo Ferrãoante. Geralmente flutua por aí e ataca qualquer criatura próxima na esperança de se multiplicar.",
+			1102,"Bathory","Bruxa que adora demônios. Ela voa pelo ar e ataca com uma bola de cristal. Surpreendentemente, ela ama coisas fofas.",
+			1270,"Gerente","Criatura mágica criada para manter a Torre do Relógio. É passiva, porém retaliará qualquer ação hostil contra os habitantes da Torre do Relógio.",
+			1191,"Mímico","Dicas de aventureiros são necessárias.",
+			1269,"Relógio","Relógio de pêndulo antigo que se transformou em monstro. Ele é passivo com humanos, já que passou incontáveis anos com eles.",
+			1377,"Ancião","Antigamente um ancião da associação mágica. Ele se aprofundou demais na magia, tornando-se um monstro mágico que ataca aventureiros à vista.",
+			1193,"Alarme","Relógio despertador movido a magia com o único propósito de proteger a Torre do Relógio. Ele atacará qualquer intruso dentro da Torre do Relógio.",
+			1320,"Duque Coruja","Irmão do Barão Coruja que usa um manto azul. Ele gosta de dias chuvosos.",
+			1179,"Sussurro","Monstro Fantasma que parece estar coberto por um lençol. Armas normais são ineficazes contra seu body espiritual.^000000",
+			1111,"Drainliar","Morcego colonial que habita cavernas escuras. Usa seus dentes grandes e afiados para atacar criaturas próximas e sugar seu sangue. É maior do que um Familiar.^000000",
+			1194,"Arclouse","Monstro com casco endurancecido. Ele enrola seu body para atacar com seu casco.",
+			1211,"Escaravelho","Joaninha misteriosamente transformada em um inseto agressivo. Habita áreas escuras e ataca aventureiros próximos.",
+			1189,"Orc Arqueiro","Dicas de aventureiros são necessárias.",
+			1213,"Grand Orc","Guerreiro orc de elite que possui qualidades físicas e mentais aprimoradas em comparação a um orc normal. Ele periodicamente ataca aldeias próximas devido à sua natureza brutal.",
+			1209,"Cãibra","Roedor encontrado vivendo nas profundezas da masmorra. Sua aparência é semelhante ao Tarou, porém é muito mais agressivo e seus dentes são venenosos.",
+			1216,"Penomena","Parece uma Hidra, mas é capaz de se mover e seus ataques são muito mais fortes. Subestimá-lo resultará em morte rápida. Tenha cuidado com este monstro.",
+			1131,"Coringa","Criatura criada a partir de inúmeros experimentos feitos por demônios. Sua principal prioridade é expulsar invasores." );
+		if (.@mo_board == 1) {
+			mes "[Torre do Relógio]";
+			mes "A Torre do Relógio é composta por 4 andares superiores e 4 andares subterrâneos. Os pontos de teleporte dentro da masmorra são complexos, enviando aventureiros para locais aleatórios. Tome cuidado para não se perder dentro da masmorra.";
+			next;
+			while(1) {
+				switch( select( "Andar Superior 1","Andar Superior 2","Andar Superior 3","Andar Superior 4","Andar Subterrâneo 1","Andar Subterrâneo 2","Andar Subterrâneo 3","Andar Subterrâneo 4","Cancelar" ) ) {
+				case 1:
+					mes "[Torre do Relógio - Andar Superior 1]";
+					mes "------------ Monstros ------------";
+					mes "Rideword(74)";
+					mes "Punk(82)";
+					mes "Bathory(86)";
+					mes "Gerente(90)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Torre do Relógio - Andar Superior 2]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Rideword(74)";
+					mes "Relógio(81)";
+					mes "Punk(82)";
+					mes "Gerente(90)";
+					mes "Ancião(92)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Torre do Relógio - Andar Superior 3]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Rideword(74)";
+					mes "Alarme(88)";
+					mes "Gerente(90)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 4:
+					mes "[Torre do Relógio - Andar Superior 4]";
+					mes "------------ Monstros ------------";
+					mes "Sussurro(34)";
+					mes "Mímico(56)";
+					mes "Rideword(74)";
+					mes "Relógio(81)";
+					mes "Alarme(88)";
+					mes "Gerente(90)";
+					mes "Duque Coruja(92)";
+					mes "Ancião(92)";
+					mes "--------------------------------";
+					next;
+					mes "<O relâmpago do Duque Coruja dói! - Explorador Uva Falido>";
+					F_InfoBoard;
+					continue;
+				case 5:
+					mes "[Torre do Relógio - Andar Subterrâneo 1]";
+					mes "------------ Monstros ------------";
+					mes "Drainliar(47)";
+					mes "Arclouse(107)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 6:
+					mes "[Torre do Relógio - Andar Subterrâneo 2]";
+					mes "------------ Monstros ------------";
+					mes "Lumina(71)";
+					mes "Orc Arqueiro(78)";
+					mes "Grand Orc(81)";
+					mes "Arclouse(107)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 7:
+					mes "[Torre do Relógio - Andar Subterrâneo 3]";
+					mes "------------ Monstros ------------";
+					mes "Drainliar(47)";
+					mes "Cãibra(82)";
+					mes "Penomena(85)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 8:
+					mes "[Torre do Relógio - Andar Subterrâneo 4]";
+					mes "------------ Monstros ------------";
+					mes "Sussurro(34)";
+					mes "Bathory(86)";
+					mes "Coringa(90)";
+					mes "--------------------------------";
+					next;
+					mes "<Bathory.. é uma velha? menina? seria melhor se fosse uma menina? Não concorda? - Explorador Uva Caçando Poeira Estelar>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+gef_fild10,69,340,0	script	Placa#Caverna dos Orcs	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Caverna dos Orcs]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1005,"Familiar","Morcego colonial que habita cavernas escuras. Suas pequenas presas são afiadas o suficiente para sugar sangue de criaturas próximas.",
+			1111,"Drainliar","Morcego colonial que habita cavernas escuras. Usa seus dentes grandes e afiados para atacar criaturas próximas e sugar seu sangue. É maior do que um Familiar.^000000",
+			1042,"Chonchon de Aço","Um dos monstros do tipo Chonchon, possuindo cascas duras. Ele adora coletar rapidamente itens do chão",
+			1153,"Orc Zumbi","Cadáver de um Guerreiro Orc que foi revivido como um monstro Morto-Vivo. Ele se move bem lentamente.",
+			1152,"Orc Esqueleto","Cadáver esquelético de um Guerreiro Orc que foi revivido como um monstro Morto-Vivo. Ele usa armas que utilizava quando ainda estava vivo. Este monstro é mais forte do que um Guerreiro Orc normal.",
+			1177,"Zenorc","Variação de Orc, residindo nas profundezas de uma caverna subterrânea. Ele devora qualquer coisa que veja para satisfazer seu apetite. Ele é passivo com aventureiros.",
+			1189,"Orc Arqueiro","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Caverna dos Orcs]";
+			mes "A Caverna dos Orcs é composta por 2 andares. Os monstros que aparecem nesta masmorra não são fortes individualmente, mas aventureiros podem ser sobrecarregados pela quantidade. Armas do elemento Sagrado facilitarão a vida do aventureiro nesta masmorra. Você também pode utilizar a habilidade do Sacerdote, Aspersio.";
+			next;
+			while(1) {
+				switch( select( "Caverna dos Orcs Subsolo 1","Caverna dos Orcs Subsolo 2","Cancelar" ) ) {
+				case 1:
+					mes "[Caverna dos Orcs Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Familiar(24)";
+					mes "Drainliar(47)";
+					mes "Chonchon de Aço(48)";
+					mes "Orc Zumbi(51)";
+					mes "Orc Esqueleto(53)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Caverna dos Orcs Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Drainliar(47)";
+					mes "Chonchon de Aço(48)";
+					mes "Orc Esqueleto(53)";
+					mes "Zenorc(54)";
+					mes "Orc Arqueiro(78)";
+					mes "--------------------------------";
+					next;
+					mes "<Por que tem tantos monstros?? Tem monstros demais... - Explorador Uva Irritado>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+jupe_cave,35,57,0	script	Placa#Ruínas de Juperos	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Ruínas de Juperos]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1677,"Venatu (Verde)","Máquinas de patrulha automáticas criadas por uma antiga civilização de tecnologia mecânica. Elas usam 2 canhões Vulcan em seus braços para atacar.",
+			1676,"Venatu (Roxo)","Máquinas de patrulha automáticas criadas por uma antiga civilização de tecnologia mecânica. Elas usam 2 canhões Vulcan em seus braços para atacar.",
+			1678,"Venatu (Laranja)","Máquinas de patrulha automáticas criadas por uma antiga civilização de tecnologia mecânica. Elas usam canhões de choque destrutivos para atacar.",
+			1679,"Venatu (Azul)","Máquinas de patrulha automáticas criadas por uma antiga civilização de tecnologia mecânica. Elas usam canhões de choque destrutivos para atacar.",
+			1670,"Dimik (Verde)","Máquinas de patrulha automáticas criadas por uma antiga civilização de tecnologia mecânica. Elas disparam 2 canhões Vulcan para atacar.",
+			1671,"Dimik (Blue)","Máquinas de patrulha automáticas criadas por uma antiga civilização de tecnologia mecânica. Elas disparam 2 canhões Vulcan para atacar.",
+			1672,"Dimik (Laranja)","Máquinas de patrulha automáticas criadas por uma antiga civilização de tecnologia mecânica. Elas disparam 2 canhões Vulcan para atacar.",
+			1673,"Dimik (Vermelho)","Máquinas de patrulha automáticas criadas por uma antiga civilização de tecnologia mecânica. Elas disparam 2 canhões Vulcan para atacar.",
+			1365,"Apocalípse","Arma antiga. Foi criada como guarda e permanecerá passiva até ser ameaçada. Ela escaneia regularmente a área com suas várias faces.",
+			1668,"Archdam","Armadura mecânica antiga. Parece ser pilotada automaticamente por um software, ao invés de manualmente.",
+			1685,"Vesper","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Ruínas de Juperos]";
+			mes "As Ruínas de Juperos são compostas por 2 andares que podem ser acessados normalmente, e 1 andar central que só pode ser acessado ao completar desafios específicos.";
+			next;
+			while(1) {
+				switch( select( "Ruínas de Juperos Subsolo 1","Ruínas de Juperos Subsolo 2","Centro de Juperos","Cancelar" ) ) {
+				case 1:
+					mes "[Ruínas de Juperos Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Venatu (Verde)(113)";
+					mes "Venatu (Roxo)(113)";
+					mes "Venatu (Laranja)(113)";
+					mes "Venatu (Azul)(113)";
+					mes "Dimik (Verde)(116)";
+					mes "Dimik (Blue)(116)";
+					mes "Dimik (Laranja)(116)";
+					mes "Dimik (Vermelho)(116)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Ruínas de Juperos Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Venatu (Verde)(113)";
+					mes "Venatu (Roxo)(113)";
+					mes "Venatu (Laranja)(113)";
+					mes "Venatu (Azul)(113)";
+					mes "Apocalípse(121)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Centro de Juperos]";
+					mes "------------ Monstros ------------";
+					mes "Venatu (Verde)(113)";
+					mes "Venatu (Roxo)(113)";
+					mes "Venatu (Laranja)(113)";
+					mes "Dimik (Verde)(116)";
+					mes "Dimik (Blue)(116)";
+					mes "Dimik (Laranja)(116)";
+					mes "Dimik (Vermelho)(116)";
+					mes "Archdam(119)";
+					mes "--------------------------------";
+					next;
+					mes "<Quem estiver lendo isso! Você já viu o monstro MVP, Vesper?? Eu não consigo entender! Como aquilo é da raça Bruto? Como isso pode ser... - Explorador Uva Suspeitando de Conspiração>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+izlu2dun,111,87,0	script	Placa#Izlude	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Túnel Submarino de Izlude]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1068,"Hidra","Monstro anêmona. Apesar da aparência, ela está enraizada profundamente na área e usa seus tentáculos para atacar criaturas próximas.",
+			1161,"Plâncton","Pequeno organismo que pode ser visto flutuando na água. Este monstro geralmente é caçado por outras criaturas marinhas.",
+			1070,"Kukre","Monstro verme. Sua agilidade é surpreendentemente rápida ao procurar objetos no chão.",
+			1141,"Marina","Monstro água-viva com tentáculos surpreendentemente fortes, permitindo que nade ou ande em terra. Seus tentáculos são usados de várias maneiras.",
+			1066,"Vadon","Monstro lagosta que é geralmente visto na praia. Seu corpo é coberto por um casco duro, protegendo-o de ataques.",
+			1067,"Cornutus","Monstro concha. Geralmente vive dentro de seu casco duro. Este monstro é frequentemente visto nas áreas de praia de Izlude.",
+			1144,"Marte","Habitante marinho, monstro polvo. Ele gira seu corpo rapidamente para usar seus dois tentáculos como chicotes para atacar.",
+			1044,"Obeaune","Monstro sereia. Seu cabelo está sempre apontado para cima, incomodando outras criaturas ao redor. Ela atacará aventureiros à vista.",
+			1264,"Tritão","Monstro Tritão ambicioso, com desejo de dominar o mundo da superfície. Geralmente é visto no fundo do oceano ou em cavernas nas áreas de praia.",
+			1142,"Esfera Marinha","Monstro esférico visto vagando sem rumo no oceano. Quando se sente ameaçado, ele se autodestrói.",
+			1158,"Fen","Monstro peixe que vive nas profundezas do oceano. Este peixe é muito procurado para fins culinários.",
+			1045,"Cavalo-Marinho","Monstro cavalo-marinho. Ele é coberto por uma carapaça grossa e pode ser um oponente formidável para aventureiros desavisados.",
+			1069,"Peixe-Espada","Monstro peixe-espada. Ele usa ondas supersônicas para atacar.",
+			1108,"Deviace","Monstro peixe-demônio. Ele permanecerá passivo desde que os aventureiros não o provoquem.",
+			1065,"Strouf","Rei dos monstros Tritão. Embora consiga dar ordens aos Tritões, ele não é muito mais forte do que um Tritão.",
+			2201,"Sropho","Dicas de aventureiros são necessárias.",
+			2204,"Sedora","Dicas de aventureiros são necessárias.",
+			2203,"Dofle","Dicas de aventureiros são necessárias.",
+			2198,"Rei Dramoh","Dicas de aventureiros são necessárias.",
+			2202,"Kraken","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Túnel Submarino de Izlude]";
+			mes "O Túnel Submarino da Ilha Byalan é composto por 6 andares. Esta masmorra é apropriada para aventureiros iniciantes a experientes. A maioria dos monstros desta masmorra é do elemento Água, portanto ter armas do elemento Vento será útil.";
+			next;
+			while(1) {
+				switch( select( "Túnel Submarino de Izlude Subsolo 1","Túnel Submarino de Izlude Subsolo 2","Túnel Submarino de Izlude Subsolo 3","Túnel Submarino de Izlude Subsolo 4","Túnel Submarino de Izlude Subsolo 5","Túnel Submarino de Izlude Subsolo 6","Cancelar" ) ) {
+				case 1:
+					mes "[Túnel Submarino de Izlude Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Hidra(34)";
+					mes "Plâncton(40)";
+					mes "Kukre(42)";
+					mes "Marina(42)";
+					mes "Vadon(45)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Túnel Submarino de Izlude Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Hidra(34)";
+					mes "Plâncton(40)";
+					mes "Kukre(42)";
+					mes "Marina(42)";
+					mes "Vadon(45)";
+					mes "Cornutus(48)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Túnel Submarino de Izlude Subsolo 3]";
+					mes "------------ Monstros ------------";
+					mes "Hidra(34)";
+					mes "Marte(47)";
+					mes "Cornutus(48)";
+					mes "Obeaune(53)";
+					mes "Tritão(60)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 4:
+					mes "[Túnel Submarino de Izlude Subsolo 4]";
+					mes "------------ Monstros ------------";
+					mes "Hidra(34)";
+					mes "Esfera Marinha(51)";
+					mes "Fen(52)";
+					mes "Cavalo-Marinho(56)";
+					mes "Peixe-Espada(57)";
+					mes "Tritão(60)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 5:
+					mes "[Túnel Submarino de Izlude Subsolo 5]";
+					mes "------------ Monstros ------------";
+					mes "Hidra(34)";
+					mes "Esfera Marinha(51)";
+					mes "Peixe-Espada(57)";
+					mes "Deviace(60)";
+					mes "Tritão(60)";
+					mes "Strouf(61)";
+					mes "--------------------------------";
+					next;
+					mes "<Onde eu estou? Você não sabe? Está com medo? Isso aqui com certeza é debaixo d'água, mas eu consigo respirar. Será que eu cresci brânquias do nada? - Explorador Uva Bobo>";
+					F_InfoBoard;
+					continue;
+				case 6:
+					mes "[Túnel Submarino de Izlude Subsolo 6]";
+					mes "------------ Monstros ------------";
+					mes "Lamp Rey(110)";
+					mes "Sedora(113)";
+					mes "Dofle(115)";
+					mes "Rei Dramoh(117)";
+					mes "--------------------------------";
+					next;
+					mes "<Kraken é uma lula? Mas por que ele tem pernas de polvo?! I.. Incrível..? - Explorador Uva Visitante>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+xmas,147,311,0	script	Placa#Fábrica de Brinquedos	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Fábrica de Brinquedos]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1002,"Poring","Criatura gelatinosa que pode ser encontrada praticamente em qualquer lugar. Este monstro é bem passivo e fraco, perfeito para iniciantes. Ele tem a tendência de engolir qualquer item que encontre.",
+			1113,"Drops","Monstro Poring adaptado ao ambiente desértico. Como sempre, ele devora qualquer item à vista.",
+			1031,"Poporing","Irmão mais velho do Poring encontrado em áreas pantanosas. Seu corpo é composto por substâncias venenosas e ele é mais resistente do que um Poring.",
+			1265,"Cookie (Verde)","Monstro do tipo duende que trabalha na Fábrica de Brinquedos em Lutie. Ele adora pegadinhas. Ele ajudará outros Cookie monstros próximos.",
+			1242,"Marin","Monstro Poring adaptado ao ambiente gelado de Lutie. Diferente de outros Porings, ele não devora itens à vista.",
+			1246,"Cookie (Vermelho)","Monstro do tipo duende que trabalha na Fábrica de Brinquedos em Lutie. Ele adora pegadinhas.",
+			1249,"Presente","Monstro Caixa de Presente que pode ser visto dentro da Fábrica de Brinquedos. Diferente do Mímico, este monstro caixa de presente está realmente vivo. Ele permanecerá passivo desde que não seja provocado.",
+			1090,"Mastering","Um Poring Ferrãoante mutante. Ele vaga por aí junto com outros Porings.",
+			1250,"Chepet","Este monstro parece ser uma garotinha segurando uma boneca monstruosa, porém a boneca é o corpo principal. Ele ataca usando o palito de fósforo para criar fogo.",
+			1096,"Angeling","Forma final do monstro Poring ao fim da evolução! Apesar de sua aparência fofa, ele é muito forte. Ele não gosta nem um pouco de humanos.",
+			1248,"Soldadinho de Chumbo","Guarda da Fábrica de Brinquedos em Lutie. Ele usa uma espingarda como arma.",
+			1251,"Cavaleiro da Tempestade","Monstro chefe de uma história lendária passada por gerações em Lutie. Dizem que ele aparece junto com uma nevasca e destrói tudo à vista." );
+		if (.@mo_board == 1) {
+			mes "[Fábrica de Brinquedos]";
+			mes "A Fábrica de Brinquedos é composta por 2 andares. Monstros fortes às vezes aparecem dentro da masmorra. Esta masmorra é apropriada para uma aventura tranquila, porém um pouco de cautela deve ser tomada.";
+			next;
+			while(1) {
+				switch( select( "Fábrica de Brinquedos Subsolo 1","Fábrica de Brinquedos Subsolo 2","Cancelar" ) ) {
+				case 1:
+					mes "[Fábrica de Brinquedos Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Poring(1)";
+					mes "Drops(2)";
+					mes "Poporing(30)";
+					mes "Cookie (Verde)(35)";
+					mes "Marin(37)";
+					mes "Cookie (Vermelho)(37)";
+					mes "Presente(39)";
+					mes "Mastering(42)";
+					mes "Chepet(42)";
+					mes "Angeling(77)";
+					mes "--------------------------------";
+					next;
+					mes "<Você acha Porings fofos? Mudaria de ideia se encontrasse um Angeling? Ele adora atormentar as pessoas. Cuidado com Angeling, iniciantes! Cuidado! Isso é tudo~ - Explorador Uva com Máscara de Orc>";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Fábrica de Brinquedos Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Cookie (Verde)(35)";
+					mes "Cookie (Vermelho)(37)";
+					mes "Presente(39)";
+					mes "Soldadinho de Chumbo(41)";
+					mes "--------------------------------";
+					next;
+					mes "<Eu me aproximei de um monstro novo por pura curiosidade. Eu vi com meus próprios olhos. Cavaleiro da Tempestade com nariz vermelho e meias de natal nos pés, comandando Cookie monstros!! Acho que vou virar fã dele. - Explorador Uva com Luvas Grossas>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+alb2trea,75,101,0	script	Placa#Navio Fantasma	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Navio Fantasma]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1068,"Hidra","Monstro anêmona. Apesar da aparência, ela está enraizada profundamente na área e usa seus tentáculos para atacar criaturas próximas.",
+			1179,"Sussurro","Monstro Fantasma que parece estar coberto por um lençol. Armas normais são ineficazes contra seu corpo espiritual.^000000",
+			1070,"Kukre","Monstro verme. Sua agilidade é surpreendentemente rápida ao procurar objetos no chão.",
+			1071,"Esqueleto Pirata","Marinheiros mortos revividos como um monstro Morto-Vivo. Ele ainda usa o lenço pirata que utilizava anteriormente em seu crânio.",
+			1191,"Mímico","Dicas de aventureiros são necessárias.",
+			1216,"Penomena","Parece uma Hidra, mas é capaz de se mover e seus ataques são muito mais fortes. Subestimá-lo resultará em morte rápida. Tenha cuidado com este monstro.",
+			1120,"Ghostring","Um Poring Ferrãoante mutante. Ele vaga por aí junto com outros Porings.",
+			1143,"Marionete","Demônio com a aparência de uma marionete usada em teatro de bonecos. Armas normais são ineficazes contra seu corpo espiritual.^000000",
+			1208,"Andarilho","Samurai errante revivido como um monstro Morto-Vivo. Ele ataca usando técnicas de espada que dominava anteriormente, precisas o suficiente para cortar insetos voadores ao meio.",
+			1112,"Drake","Rei Pirata que tentou encontrar tesouros fantasmas mas acabou morrendo no processo. Por seu forte arrependimento, os piratas foram amaldiçoados a caminhar pelo mundo dos vivos como Mortos-Vivos. Ele protege seus tesouros dos aventureiros." );
+		if (.@mo_board == 1) {
+			mes "[Navio Fantasma]";
+			mes "O Navio Fantasma não está completamente submerso na água, permitindo acesso a um total de 2 andares. Apesar do tamanho do mapa, muitos monstros aparecem nesta masmorra. Tome cuidado dentro da masmorra.";
+			next;
+			while(1) {
+				switch( select( "Navio Fantasma Subsolo 1","Navio Fantasma Subsolo 2","Cancelar" ) ) {
+				case 1:
+					mes "[Navio Fantasma Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Esporo Venenoso(26)";
+					mes "Hidra(34)";
+					mes "Sussurro(34)";
+					mes "Kukre(42)";
+					mes "Esqueleto Pirata(48)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Navio Fantasma Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Hidra(34)";
+					mes "Sussurro(34)";
+					mes "Kukre(42)";
+					mes "Esqueleto Pirata(48)";
+					mes "Mímico(56)";
+					mes "Penomena(85)";
+					mes "Ghostring(90)";
+					mes "Marionete(90)";
+					mes "Andarilho(120)";
+					mes "--------------------------------";
+					next;
+					mes "<Ghostring foge quando me vê.. Deve ser tímido. O antigo capitão deste navio fantasma também é muito mal-educado. Pfft~! - Explorador Uva Invejoso do Chapéu do Capitão>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+comodo,327,177,0	script	Placa#Leste de Comodo	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Caverna Leste de Comodo, Mao]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1068,"Hidra","Monstro anêmona. Apesar da aparência, ela está enraizada profundamente na área e usa seus tentáculos para atacar criaturas próximas.",
+			1034,"Sapo de Thara","Monstro sapo que ama lugares escuros e úmidos. Pode ser um oponente difícil demais para aventureiros iniciantes.",
+			1064,"Megalodon","Monstro esqueleto de peixe revivido com magia. Ele ainda age como um peixe, mesmo sendo Morto-Vivo.",
+			1255,"Nereida","Monstro verme que vive dentro da caverna. Sua visão é horrível, dependendo apenas do olfato para detectar presas próximas." );		
+		if (.@mo_board == 1) {
+			mes "[Caverna Leste de Comodo, Mao]";
+			mes "A Caverna Leste, Mao é um túnel que leva à Floresta de Papuchicha. Este lugar é popular por cartas muito procuradas, Sapo de Thara e Hidra. Visite este lugar se estiver precisando muito de zeny.";
+			next;
+			mes "[Caverna Leste de Comodo, Mao]";
+			mes "------------ Monstros ------------";
+			mes "Hidra(34)";
+			mes "Sapo de Thara(40)";
+			mes "Megalodon(46)";
+			mes "Nereida(98)";
+			mes "--------------------------------";
+			next;
+			mes "<Sapo de Thara.. É só um sapo, né? Eca.. Que coisa horrível.. - Explorador Uva Amante de Sapos>";
+			next;
+		}
+	}
+}
+
+comodo,31,217,0	script	Placa#Oeste de Comodo	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Caverna Oeste de Comodo, Karu]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1264,"Tritão","Monstro Tritão ambicioso, com desejo de dominar o mundo da superfície. Geralmente é visto no fundo do oceano ou em cavernas nas áreas de praia.",
+			1256,"Peste","Monstro de origem desconhecida. Ele ataca girando suas pálpebras afiadas.",
+			1255,"Nereida","Monstro verme que vive dentro da caverna. Sua visão é horrível, dependendo apenas do olfato para detectar presas próximas.",
+			1148,"Medusa","Monstro com cobras no lugar do cabelo. Olhar diretamente em seus olhos pode petrificar seu corpo.",
+			1583,"Tao Gunka","Monstro MVP com rosto grande e redondo e expressão grosseira. A maioria dos aventureiros foge deste monstro com medo. Apesar da aparência, ele é bem forte." );
+		if (.@mo_board == 1) {
+			mes "[Caverna Oeste de Comodo, Karu]";
+			mes "Esta masmorra apresenta o monstro Medusa, que certamente fará você virar pedra se olhar nos olhos dela. Não há outras saídas nesta caverna.";
+			next;
+			mes "[Caverna Oeste de Comodo, Karu]";
+			mes "------------ Monstros ------------";
+			mes "Tritão(60)";
+			mes "Peste(89)";
+			mes "Nereida(98)";
+			mes "Medusa(102)";
+			mes "--------------------------------";
+			next;
+			mes "<Tao Gunka? Aquele monstro com um rosto enorme? Quão forte ele é? Ele é fraco.. muito fraco.. Oh!! Talvez ele seja forte pra você.. - Explorador Uva Provocador>";
+			next;
+		}
+	}
+}
+
+comodo,178,354,0	script	Placa#Norte de Comodo	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Caverna Norte de Comodo, Ruande]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1068,"Hidra","Monstro anêmona. Apesar da aparência, ela está enraizada profundamente na área e usa seus tentáculos para atacar criaturas próximas.",
+			1274,"Megalith","Monstro estátua de pedra que pode ser visto nas áreas de Comodo. Ele move rochas ao redor para atacar.",
+			1279,"Trilobita","Esta criatura existe há milênios. Geralmente é encontrada em cavernas escuras.",
+			1278,"Golem Estalactítico","Golem evoluído. Seu corpo é coberto por estalactites e ele é muito mais forte do que um Golem normal.",
+			1255,"Nereida","Monstro verme que vive dentro da caverna. Sua visão é horrível, dependendo apenas do olfato para detectar presas próximas." );
+		if (.@mo_board == 1) {
+			mes "[Caverna Norte de Comodo, Ruande]";
+			mes "Aventureiros podem chegar a Umbala passando pela Caverna Ruande. O monstro Golem Estalactítico só pode ser visto nesta caverna.";
+			next;
+			mes "[Caverna Norte de Comodo, Ruande]";
+			mes "------------ Monstros ------------";
+			mes "Hidra(34)";
+			mes "Megalith(65)";
+			mes "Trilobita(66)";
+			mes "Golem Estalactítico(68)";
+			mes "Nereida(98)";
+			mes "--------------------------------";
+			next;
+			mes "<Golem Estalactítico? Ufa~ Por que eu vim aqui? Ah! Isso mesmo, eu vim pra ir pra Umbala..!! - Explorador Uva de Passagem>";
+			next;
+		}
+	}
+}
+
+pay_arche,39,134,0	script	Placa#Caverna de Payon	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Caverna de Payon]";
+		mes "Para que os aventureiros possam viajar por todo o mundo em uma aventura tranquila, informações coletadas de vários aventureiros são divulgadas ao público. Por favor, forneça dicas de informações ao grupo de aventureiros para revisar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1015,"Zumbi","Alma morta presa por um necromante profano em um cadáver apodrecido, amaldiçoada a viver sem conseguir sentir dor. Sua impureza é capaz de infligir veneno.",
+			1005,"Familiar","Morcego colonial que habita cavernas escuras. Suas pequenas presas são afiadas o suficiente para sugar sangue de criaturas próximas.",
+			1076,"Esqueleto","Esqueleto cheio de arrependimento. Este monstro Morto-Vivo é agressivo.",
+			1031,"Poporing","Irmão mais velho do Poring encontrado em áreas pantanosas. Seu corpo é composto por substâncias venenosas e ele é mais resistente do que um Poring.",
+			1028,"Esqueleto Soldado","Esqueleto Soldado que só pode ser visto nas profundezas da masmorra, onde a luz do sol nunca alcança. Diferente dos Esqueletos Arqueiros, ele ataca com duas espadas.",
+			1111,"Drainliar","Morcego colonial que habita cavernas escuras. Usa seus dentes grandes e afiados para atacar criaturas próximas e sugar seu sangue. É maior do que um Familiar.",
+			1016,"Esqueleto Arqueiro","Esqueleto Arqueiro que só pode ser visto nas profundezas da masmorra, onde a luz do sol nunca alcança. A aljava deste monstro nunca fica sem flechas.",
+			1116,"Eggyra","Monstro ovo. Seu casco é mais duro do que o casco do Ovo de PecoPeco. Ele fica vagando pela masmorra sem rumo.",
+			1020,"Mandrágora","Dicas de aventureiros são necessárias.",
+			1068,"Hidra","Monstro anêmona. Apesar da aparência, ela está enraizada profundamente na área e usa seus tentáculos para atacar criaturas próximas.",
+			1277,"Guardião da Floresta","Antigamente um guardião de uma cidade. Foi esquecido há muito tempo pelo povo. Este monstro é agressivo e ataca aventureiros que passam, mas ele não consegue se mover.",
+			1188,"Bongun","Kyonshi masculino que se tornou um monstro voluntariamente para proteger Munak.",
+			1026,"Munak","Espírito de uma garota morta reside em um cadáver, transformando-o em um monstro Kyonshi. Ele suga sangue de criaturas próximas.",
+			1180,"Nove Caudas","Raposa de nove caudas. Ela é muito mais inteligente do que uma raposa normal, e é desconhecido se ela consegue se transformar em humano ou não.",
+			1129,"Horong","Monstro de fogo com aparência de luz de Dokebi. A origem deste monstro é desconhecida.",
+			1110,"Dokebi","Monstro demônio que só pode ser visto perto das áreas de Payon. Às vezes ele faz enigmas para aventureiros que passam.",
+			1301,"Am Mut","Monstro da lenda de Payon. Ele parece uma criança pequena, porém é conhecido por assediar aventureiros que passam.",
+			1290,"Esqueleto General","Antigamente um general que protegia o Castelo de Payon. Após sua morte, ele se tornou um monstro que vaga pela Caverna de Payon.",
+			1186,"Cochicho","Dicas de aventureiros são necessárias.",
+			1170,"Sohee","Mulher virgem que morreu de forma triste. Ela só pode ser encontrada perto da área de Payon e é passiva.",
+			1307,"Gato de Nove Caudas","Demônio de 9 caudas. Ele usa o sino para atrair e atacar humanos.",
+			1150,"Flor do Luar","Demônio de médio escalão, rainha das raposas. Subestimar sua aparência fofa resultará em morte." );		
+		if (.@mo_board == 1) {
+			mes "[Caverna de Payon]";
+			mes "A Caverna de Payon é composta por 5 andares. A maioria dos monstros são Mortos-Vivos ou Demônios. Armas de propriedade Sagrada serão úteis nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Caverna de Payon Subsolo 1","Caverna de Payon Subsolo 2","Caverna de Payon Subsolo 3","Caverna de Payon Subsolo 4","Caverna de Payon Subsolo 5","Cancelar" ) ) {
+				case 1:
+					mes "[Caverna de Payon Subsolo 1]";
+					mes "------------ Monstros ------------";
+					mes "Zumbi(17)";
+					mes "Familiar(24)";
+					mes "Esqueleto(27)";
+					mes "Poporing(30)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Caverna de Payon Subsolo 2]";
+					mes "------------ Monstros ------------";
+					mes "Esqueleto Soldado(34)";
+					mes "Drainliar(47)";
+					mes "Esqueleto Arqueiro(50)";
+					mes "Eggyra(53)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Caverna de Payon Subsolo 3]";
+					mes "------------ Monstros ------------";
+					mes "Mandrágora(13)";
+					mes "Poporing(30)";
+					mes "Esqueleto Soldado(34)";
+					mes "Hidra(34)";
+					mes "Esqueleto Arqueiro(50)";
+					mes "Munak(58)";
+					mes "Bongun(59)";
+					mes "Nove Caudas(72)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 4:
+					mes "[Caverna de Payon Subsolo 4]";
+					mes "------------ Monstros ------------";
+					mes "Mandrágora(13)";
+					mes "Hidra(34)";
+					mes "Guardião da Floresta(55)";
+					mes "Munak(58)";
+					mes "Bongun(59)";
+					mes "Sohee(64)";
+					mes "Cochicho(66)";
+					mes "Nove Caudas(72)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 5:
+					mes "[Caverna de Payon Subsolo 5]";
+					mes "------------ Monstros ------------";
+					mes "Esqueleto Arqueiro(50)";
+					mes "Guardião da Floresta(55)";
+					mes "Horong(66)";
+					mes "Dokebi(68)";
+					mes "Nove Caudas(72)";
+					mes "Am Mut(76)";
+					mes "Esqueleto General(88)";
+					mes "--------------------------------";
+					next;
+					mes "<Gato de Nove Caudas usa uma cueca, mas eu não estou usando. Ei você aí, não fique só olhando!! - Explorador Uva Extremamente Envergonhado>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+moc_ruins,61,164,0	script	Placa#Pirâmide	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Pirâmide]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1005,"Familiar","Morcego colonial que habita cavernas escuras. Suas pequenas presas são afiadas o suficiente para sugar o sangue de criaturas próximas.",
+			1031,"Poporing","Irmão mais velho do Poring encontrado em áreas pantanosas. Seu corpo é composto de substâncias venenosas e é mais resistente que um Poring.",
+			1028,"Esqueleto Soldado","Esqueleto soldado que só pode ser visto nas profundezas da masmorra, onde a luz do sol jamais alcança. Diferente do Esqueleto Arqueiro, ele ataca com duas espadas.",
+			1111,"Drainliar","Morcego colonial que habita cavernas escuras. Ele usa seus dentes grandes e afiados para atacar criaturas próximas e sugar seu sangue. É maior que um Familiar.^000000",
+			1016,"Esqueleto Arqueiro","Esqueleto Arqueiro que só pode ser visto nas profundezas da masmorra, onde a luz do sol jamais alcança. A aljava deste monstro nunca fica sem flechas.",
+			1041,"Múmia","Monstro Múmia encontrado dentro da pirâmide esquecida. Às vezes aparece junto do Verit, surpreendendo aventureiros próximos. É um monstro agressivo.",
+			1029,"Isis","Serva feminina mutante que foi enterrada viva junto ao corpo falecido do rei. Ela se transformou em um monstro serpente. Ainda permanece leal ao rei.",
+			1032,"Verit","Animal de estimação mumificado que já foi companheiro de um humano. Ele devora qualquer item que vê pela frente.",
+			1191,"Mímico","Dicas de aventureiros são necessárias.",
+			1146,"Matyr","Protetor do rei, guardião do portão. Um cão é usado como meio para invocar o guardião usando magia proibida. Seu corpo é coberto por uma névoa escura e ele é muito ágil.",
+			1297,"Múmia Anciã","A Múmia Anciã já foi um oficial de alto escalão. Diferente de uma múmia comum, ela é envolta em bandagens carmesim de alta qualidade.",
+			1149,"Minorous","Criatura desconhecida que vive nas profundezas do labirinto. Não tem boa relação com os Orcs, mas raramente se encontram. Quando encontra uma criatura, ela persegue o alvo e ataca com seu martelo Ferrãoante.",
+			1194,"Arclouse","Monstro com carapaça endurecida. Ele enrola seu corpo para atacar com sua carapaça.",
+			1038,"Osíris","Rei da Pirâmide. Já foi adorado como deus solar por seu povo, porém agora é apenas um poderoso monstro MVP.",
+			1511,"Amon Ra","Monstro MVP que ataca sentado em sua cadeira. Esse MVP parece que poderia ser outro rei da pirâmide. O que está acontecendo atrás de sua cadeira?" );
+		if (.@mo_board == 1) {
+			mes "[Pirâmide]";
+			mes "A Pirâmide é composta por 4 andares superiores e 3 andares subterrâneos. Esta masmorra é apropriada para aventureiros iniciantes até experientes. A Guilda dos Gatunos está localizada no 1º andar subterrâneo.";
+			next;
+			while(1) {
+				switch( select( "Pirâmide Andar Superior 1","Pirâmide Andar Superior 2","Pirâmide Andar Superior 3","Pirâmide Andar Superior 4","Pirâmide Andar Subterrâneo 2","Pirâmide Andar Subterrâneo 3","Cancelar" ) ) {
+				case 1:
+					mes "[Pirâmide Andar Superior 1]";
+					mes "------------ Monstros ------------";
+					mes "Familiar(24)";
+					mes "Poporing(30)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Pirâmide Andar Superior 2]";
+					mes "------------ Monstros ------------";
+					mes "Poporing(30)";
+					mes "Esqueleto Soldado(34)";
+					mes "Drainliar(47)";
+					mes "Esqueleto Arqueiro(50)";
+					mes "Múmia(55)";
+					mes "Isis(59)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Pirâmide Andar Superior 3]";
+					mes "------------ Monstros ------------";
+					mes "Drainliar(47)";
+					mes "Verit(52)";
+					mes "Múmia(55)";
+					mes "Mímico(56)";
+					mes "Matyr(58)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 4:
+					mes "[Pirâmide Andar Superior 4]";
+					mes "------------ Monstros ------------";
+					mes "Múmia(55)";
+					mes "Mímico(56)";
+					mes "Matyr(58)";
+					mes "Isis(59)";
+					mes "Múmia Anciã(114)";
+					mes "--------------------------------";
+					next;
+					mes "<Rei da pirâmide! Eu devia trocar as bandagens dele. As bandagens ficaram roxas com o passar dos anos. Ele é perigoso? Tudo bem~ Tudo bem~ - Explorador Uva carregando bandagens>";
+					F_InfoBoard;
+					continue;
+				case 5:
+					mes "[Pirâmide Andar Subterrâneo 2]";
+					mes "------------ Monstros ------------";
+					mes "Verit(52)";
+					mes "Múmia(55)";
+					mes "Minorous(58)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 6:
+					mes "[Pirâmide Andar Subterrâneo 3]";
+					mes "------------ Monstros ------------";
+					mes "Verit(52)";
+					mes "Mímico(56)";
+					mes "Arclouse(107)";
+					mes "Múmia Anciã(114)";
+					mes "--------------------------------";
+					next;
+					mes "<Tem um monstro MVP que ataca sentado na cadeira. Ele deve ser muito preguiçoso. Nem se mexeu do lugar. Isso acontece às vezes. - Explorador Uva preguiçoso>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+/// adven_board02.sc
+
+hu_fild05,188,210,0	script	Placa#Lago do Abismo	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Lago do Abismo]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1191,"Mímico","Dicas de aventureiros são necessárias.",
+			1216,"Penomena","Parece com uma Hidra, mas é capaz de se mover e seus ataques são muito mais fortes. Subestimá-lo resultará em morte rápida. Tenha cuidado com este monstro.",
+			1699,"Mímico Ancião","Dicas de aventureiros são necessárias.",
+			1721,"Ovo de Dragão","Dicas de aventureiros são necessárias.",
+			1715,"Novus (Vermelho)","Dicas de aventureiros são necessárias.",
+			1718,"Novus (Amarelo)","Dicas de aventureiros são necessárias.",
+			1714,"Ferus (Vermelho)","Dicas de aventureiros são necessárias.",
+			1717,"Ferus (Verde)","Dicas de aventureiros são necessárias.",
+			1713,"Acidus (Dourado)","Dicas de aventureiros são necessárias.",
+			1716,"Acidus (Azul)","Dicas de aventureiros são necessárias.",
+			1720,"Hydrolancer","Dicas de aventureiros são necessárias.",
+			1719,"Detardeurus","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Lago do Abismo]";
+			mes "O Lago do Abismo é composto por 3 andares, e os monstros desta masmorra são em sua maioria da raça Dragão. Prepare-se antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Lago do Abismo 1","Lago do Abismo 2","Lago do Abismo 3","Cancelar" ) ) {
+				case 1:
+					mes "[Lago do Abismo 1]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Novus (Vermelho)(84)";
+					mes "Penomena(85)";
+					mes "Novus (Amarelo)(90)";
+					mes "Mímico Ancião(112)";
+					mes "Ovo de Dragão(119)";
+					mes "Ferus (Vermelho)(126)";
+					mes "Ferus (Verde)(126)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Lago do Abismo 2]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Novus (Vermelho)(84)";
+					mes "Novus (Amarelo)(90)";
+					mes "Mímico Ancião(112)";
+					mes "Ovo de Dragão(119)";
+					mes "Ferus (Vermelho)(126)";
+					mes "Acidus (Dourado)(130)";
+					mes "Acidus (Azul)(130)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Lago do Abismo 3]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Mímico Ancião(112)";
+					mes "Ovo de Dragão(119)";
+					mes "Hydrolancer(121)";
+					mes "Ferus (Vermelho)(126)";
+					mes "Ferus (Verde)(126)";
+					mes "Acidus (Dourado)(130)";
+					mes "Acidus (Azul)(130)";
+					mes "--------------------------------";
+					next;
+					mes "<Detardeurus é tão grande!! Não parece forte? Se você não tem interesse, deixa pra lá. - Explorador Uva ansioso para montar no dragão>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+einbech,142,250,0	script	Placa#Mina de Einbech	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Mina de Einbech]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1619,"Porcellio","Pequeno monstro larva. Apesar do tamanho, é surpreendentemente forte.",
+			1620,"Nuvem Tóxica","Monstro de fumaça carmesim. Este monstro não pode ser realmente derrotado.",
+			1621,"Nuvem Venenosa","Monstro de poeira verde. Este monstro não pode ser realmente derrotado.",
+			1616,"Minérios","Pequenas fadas mineradoras muito trabalhadoras. Elas atacam usando uma picareta.",
+			1622,"Ursinho","Monstro urso de pelúcia fofo. Ele atrai criaturas desavisadas com seu charme e as ataca com uma bengala.",
+			1617,"Fornalha Velha","À primeira vista parece um fogão extremamente velho. Quando aventureiros se aproximam descuidadamente, ele ataca.",
+			1614,"Mineral","Monstro Mineral. Às vezes se esconde no chão e embosca aventureiros que passam.",
+			1615,"Obsidiana","Pequeno monstro cristal negro que se destaca em combate corpo a corpo. Às vezes se esconde no chão e embosca aventureiros que passam.",
+			1618,"Ungoliant","Monstro tesourinha Ferrãoante. Ele usa suas pinças para atacar.",
+			1623,"RSX-0806","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Mina de Einbech]";
+			mes "A Mina de Einbech é composta por 2 andares, e a maioria dos monstros que aparecem nesta masmorra são da raça Amorfo. Prepare-se antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Mina de Einbech 1ºAndar","Mina de Einbech 2ºAndar","Cancelar" ) ) {
+				case 1:
+					mes "[Mina de Einbech 1ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Porcellio(85)";
+					mes "Nuvem Tóxica(87)";
+					mes "Nuvem Venenosa(87)";
+					mes "Minérios(90)";
+					mes "Fornalha Velha(92)";
+					mes "Ungoliant(94)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Mina de Einbech 2ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Ursinho(91)";
+					mes "Fornalha Velha(92)";
+					mes "Mineral(96)";
+					mes "Obsidiana(97)";
+					mes "--------------------------------";
+					next;
+					mes "<RSX-0806 ... Esse nome é complicado. - Explorador Uva inteligente>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+ra_fild01,228,330,0	script	Placa#Caverna de Gelo	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Caverna de Gelo]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1782,"Roween","Dicas de aventureiros são necessárias.",
+			1776,"Siroma","Dicas de aventureiros são necessárias.",
+			1780,"Muscipular","Dicas de aventureiros são necessárias.",
+			1778,"Gazeti","Dicas de aventureiros são necessárias.",
+			1789,"Estalactite","Dicas de aventureiros são necessárias.",
+			1775,"Yeti","Dicas de aventureiros são necessárias.",
+			1777,"Titã de Gelo","Dicas de aventureiros são necessárias.",
+			1779,"Ktullanux","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Caverna de Gelo]";
+			mes "A Caverna de Gelo é composta por 3 andares, e a maioria dos monstros dentro da masmorra são do elemento Água. Prepare-se antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Caverna de Gelo 1","Caverna de Gelo 2","Caverna de Gelo 3","Cancelar" ) ) {
+				case 1:
+					mes "[Caverna de Gelo 1]";
+					mes "------------ Monstros ------------";
+					mes "Roween(95)";
+					mes "Siroma(98)";
+					mes "Muscipular(105)";
+					mes "Gazeti(106)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Caverna de Gelo 2]";
+					mes "------------ Monstros ------------";
+					mes "Siroma(98)";
+					mes "Estalactite(100)";
+					mes "Yeti(103)";
+					mes "Gazeti(106)";
+					mes "Titã de Gelo(110)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Caverna de Gelo 3]";
+					mes "------------ Monstros ------------";
+					mes "Estalactite(100)";
+					mes "Yeti(103)";
+					mes "Gazeti(106)";
+					mes "Titã de Gelo(110)";
+					mes "--------------------------------";
+					next;
+					mes "<Monstro raro Ktullanux.. Suspiro.. Até o nome dele é complicado.. Como será o sabor do raspadinha de gelo do Ktullanux? - Explorador Uva com fome de raspadinha>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+ve_fild03,172,239,0	script	Placa#Vulcão de Thor	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Vulcão de Thor]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1072,"Kaho","Demônio coberto em chamas. Seus ataques são chamativos, mas na verdade é um demônio de baixo escalão com poder de ataque relativamente fraco.",
+			1836,"Magmaring","Dicas de aventureiros são necessárias.",
+			1838,"Golpeador","Dicas de aventureiros são necessárias.",
+			1837,"Imp","Dicas de aventureiros são necessárias.",
+			1830,"Arqueiro Guardião","Dicas de aventureiros são necessárias.",
+			1829,"Espadachim Guardião","Dicas de aventureiros são necessárias.",
+			1833,"Kasa","Dicas de aventureiros são necessárias.",
+			1839,"Byorgue","Dicas de aventureiros são necessárias.",
+			1831,"Salamandra","Dicas de aventureiros são necessárias.",
+			1832,"Ifrit","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Vulcão de Thor]";
+			mes "O Vulcão de Thor é composto por 3 andares, e os monstros que aparecem nesta masmorra são em sua maioria do elemento Fogo. Prepare-se antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Vulcão de Thor 1","Vulcão de Thor 2","Vulcão de Thor 3","Cancelar" ) ) {
+				case 1:
+					mes "[Vulcão de Thor 1]";
+					mes "------------ Monstros ------------";
+					mes "Magmaring(110)";
+					mes "Imp(129)";
+					mes "Arqueiro Guardião(132)";
+					mes "Espadachim Guardião(133)";
+					mes "Kasa(135)";
+					mes "Byorgue(135)";
+					mes "Salamandra(138)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Vulcão de Thor 2]";
+					mes "------------ Monstros ------------";
+					mes "Kaho(98)";
+					mes "Magmaring(110)";
+					mes "Golpeador(126)";
+					mes "Imp(129)";
+					mes "Arqueiro Guardião(132)";
+					mes "Espadachim Guardião(133)";
+					mes "Salamandra(138)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Vulcão de Thor 3]";
+					mes "------------ Monstros ------------";
+					mes "Arqueiro Guardião(132)";
+					mes "Espadachim Guardião(133)";
+					mes "Kasa(135)";
+					mes "Byorgue(135)";
+					mes "Salamandra(138)";
+					mes "--------------------------------";
+					next;
+					mes "<Jovem explorador~ Por que você veio ao Vulcão de Thor~ Por que está chorando~ Buá~ Buá~ Ifrit é quente demais~ - Explorador Uva representante da Sauna de Thor>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+odin_tem01,111,141,0	script	Placa#Templo de Odin	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Templo de Odin]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1692,"Breeze","Dicas de aventureiros são necessárias.",
+			1697,"Plasma (Azul)","Dicas de aventureiros são necessárias.",
+			1695,"Plasma (Verde)","Dicas de aventureiros são necessárias.",
+			1696,"Plasma (Roxo)","Dicas de aventureiros são necessárias.",
+			1694,"Plasma (Vermelho)","Dicas de aventureiros são necessárias.",
+			1693,"Plasma (Amarelo)","Dicas de aventureiros são necessárias.",
+			1752,"Skogul","Dicas de aventureiros são necessárias.",
+			1753,"Frus","Dicas de aventureiros são necessárias.",
+			1754,"Skeggiold (Preto)","Dicas de aventureiros são necessárias.",
+			1755,"Skeggiold (Azul)","Dicas de aventureiros são necessárias.",
+			1765,"Valquíria","Dicas de aventureiros são necessárias.",
+			1751,"Valquíria Randgris","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Templo de Odin]";
+			mes "O Templo de Odin é composto por 3 áreas, e a maioria dos monstros que aparecem aqui tem alta velocidade de movimento. Esteja preparado para ser emboscado por vários monstros.";
+			next;
+			while(1) {
+				switch( select( "Templo de Odin Oeste","Templo de Odin Sul","Templo de Odin Norte","Cancelar" ) ) {
+				case 1:
+					mes "[Templo de Odin Oeste]";
+					mes "------------ Monstros ------------";
+					mes "Breeze(92)";
+					mes "Plasma (Azul)(115)";
+					mes "Plasma (Verde)(116)";
+					mes "Plasma (Roxo)(117)";
+					mes "Plasma (Vermelho)(118)";
+					mes "Plasma (Amarelo)(119)";
+					mes "Skogul(126)";
+					mes "Frus(128)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Templo de Odin Sul]";
+					mes "------------ Monstros ------------";
+					mes "Plasma (Amarelo)(119)";
+					mes "Skogul(126)";
+					mes "Frus(128)";
+					mes "Skeggiold (Preto)(131)";
+					mes "Skeggiold (Azul)(131)";
+					mes "Valquíria(141)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Templo de Odin Norte]";
+					mes "------------ Monstros ------------";
+					mes "Plasma (Amarelo)(119)";
+					mes "Skogul(126)";
+					mes "Frus(128)";
+					mes "Skeggiold (Preto)(131)";
+					mes "Skeggiold (Azul)(131)";
+					mes "Valquíria(141)";
+					mes "--------------------------------";
+					next;
+					mes "<Valquíria Randgris, como eu queria ser envolvido por suas asas macias - Explorador Uva sonhador>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+malangdo,77,238,0	script	Placa#Recife Estelar	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Recife Estelar]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1073,"Caranguejo","Monstro crustáceo que pode ser visto comumente nas praias. Não é forte, mas sua carapaça endurecida pode ser difícil de cortar.",
+			1074,"Molusco","Criatura que pode ser vista comumente na praia. Ela usa suas patas para atacar.",
+			1266,"Estrela do Mar","Criatura aquática, Estrela do Mar. Sua personalidade é bastante dócil.",
+			2199,"Siorava","Dicas de aventureiros são necessárias.",
+			2197,"Eruma Vermelho","Dicas de aventureiros são necessárias.",
+			2208,"Montaria Selvagem","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Recife Estelar]";
+			mes "O Recife Estelar apresenta monstros relativamente fracos. Tenha cuidado com o Eruma Vermelho, pois ele ajudará outros monstros nas proximidades. Prepare-se antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				if (select( "Recife Estelar","Cancelar" ) == 2)
+					break;
+				mes "[Recife Estelar]";
+				mes "------------ Monstros ------------";
+				mes "Caranguejo(43)";
+				mes "Molusco(50)";
+				mes "Estrela do Mar(50)";
+				mes "Siorava(87)";
+				mes "Eruma Vermelho(91)";
+				mes "Montaria Selvagem(95)";
+				mes "--------------------------------";
+				next;
+				mes "<Montaria Selvagem..? Hã? É um gato? Por que um gato está montado num Peixe-Espada? - Explorador Uva exigente com montaria>";
+				F_InfoBoard;
+			}
+		}
+	}
+}
+
+/// adven_board03.sc
+
+gefenia01,61,173,0	script	Placa#Geffenia1	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Geffenia]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1204,"Tirfing","Dicas de aventureiros são necessárias.",
+			1205,"Executor","Parece ser uma espada demoníaca selada, mas na verdade está sendo selada por um monstro do tipo corrente. Ele manipula a espada acorrentada para atacar.",
+			1371,"Anjo Fajuto","Demônio com aparência de anjo. Ele atrai humanos e tira suas vidas.",
+			1268,"Cavaleiro Sanguinário","A alma de um bravo cavaleiro, amaldiçoada a ficar presa dentro da armadura ensanguentada como um monstro. É poderoso o suficiente para liderar a cavalaria do Castelo.",
+			1292,"Diabinho","Pequeno Demônio. Sua aparência é até meio fofa, mas ele é bastante cruel. Ele ataca com uma lança nas mãos e convoca reforços.",
+			1390,"Violinista","Sua apresentação de violino é melódica, mas às vezes dolorosa.",
+			1370,"Succubus","Demônio fêmea. Atrai homens e suga sua energia vital.",
+			1374,"Incubus","Demônio macho. Atrai mulheres e suga sua energia vital.",
+			1219,"Cavaleiro do Abismo","Cavaleiro demoníaco que serve o dono do lendário labirinto. É muito poderoso e brutal.",
+			1203,"Mysteltainn","Parece ser uma espada demoníaca selada, mas na verdade está sendo selada por um monstro do tipo corrente. Ele manipula a espada acorrentada para atacar." );
+		if (.@mo_board == 1) {
+			mes "[Seção "+ charat( strnpcinfo(2),8 ) +" de Geffenia]";
+			mes "A cidade perdida dos Elfos Antigos, Geffenia, é composta por 4 seções. A maioria dos monstros que aparecem nesta masmorra são fortes, então prepare-se antes de se aventurar aqui.";
+			next;
+			while(1) {
+				switch( select( "Seção 1 de Geffenia","Seção 2 de Geffenia","Seção 3 de Geffenia","Seção 4 de Geffenia","Cancelar" ) ) {
+				case 1:
+					mes "[Seção 1 de Geffenia]";
+					mes "------------ Monstros ------------";
+					mes "Executor(101)";
+					mes "Anjo Fajuto(105)";
+					mes "Tirfing(114)";
+					mes "Cavaleiro Sanguinário(116)";
+					mes "Diabinho(117)";
+					mes "Violinista(118)";
+					mes "Succubus(118)";
+					mes "Incubus(120)";
+					mes "Cavaleiro do Abismo(122)";
+					mes "Mysteltainn(130)";
+					mes "--------------------------------";
+					next;
+					continue;
+				case 2:
+					mes "[Seção 2 de Geffenia]";
+					mes "------------ Monstros ------------";
+					mes "Executor(101)";
+					mes "Anjo Fajuto(105)";
+					mes "Tirfing(114)";
+					mes "Cavaleiro Sanguinário(116)";
+					mes "Diabinho(117)";
+					mes "Violinista(118)";
+					mes "Succubus(118)";
+					mes "Incubus(120)";
+					mes "Cavaleiro do Abismo(122)";
+					mes "Mysteltainn(130)";
+					mes "--------------------------------";
+					next;
+					continue;
+				case 3:
+					mes "[Seção 3 de Geffenia]";
+					mes "------------ Monstros ------------";
+					mes "Executor(101)";
+					mes "Anjo Fajuto(105)";
+					mes "Tirfing(114)";
+					mes "Cavaleiro Sanguinário(116)";
+					mes "Diabinho(117)";
+					mes "Violinista(118)";
+					mes "Succubus(118)";
+					mes "Incubus(120)";
+					mes "Cavaleiro do Abismo(122)";
+					mes "Mysteltainn(130)";
+					mes "--------------------------------";
+					next;
+					continue;
+				case 4:
+					mes "[Seção 4 de Geffenia]";
+					mes "------------ Monstros ------------";
+					mes "Executor(101)";
+					mes "Anjo Fajuto(105)";
+					mes "Tirfing(114)";
+					mes "Cavaleiro Sanguinário(116)";
+					mes "Diabinho(117)";
+					mes "Violinista(118)";
+					mes "Succubus(118)";
+					mes "Incubus(120)";
+					mes "Cavaleiro do Abismo(122)";
+					mes "Mysteltainn(130)";
+					mes "--------------------------------";
+					next;
+					mes "<Ei Incubus~ Olha pra... Ugh... - Explorador Uva envergonhado>";
+					next;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+gefenia02,120,108,0	duplicate(Placa#Geffenia1)	Placa#Geffenia2	2_BULLETIN_BOARD
+gefenia03,131,201,0	duplicate(Placa#Geffenia1)	Placa#Geffenia3	2_BULLETIN_BOARD
+gefenia04,130,95,0	duplicate(Placa#Geffenia1)	Placa#Geffenia4	2_BULLETIN_BOARD
+
+nameless_n,259,213,0	script	Placa#Ilha Nameless	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Abadia de Santa Capitolina]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1036,"Carniçal","Cadáver reanimado pela maldição de um necromante profano. Ele embosca criaturas vivas próximas e devora seus corpos para saciar sua fome, mas por ser um cadáver reanimado, ele nunca consegue se sentir satisfeito.^000000",
+			1866,"Cão Infernal","Dicas de aventureiros são necessárias.",
+			1867,"Banshee","Dicas de aventureiros são necessárias.",
+			1869,"Crânio Flamejante","Dicas de aventureiros são necessárias.",
+			1865,"Zumbi Dilacerado","Dicas de aventureiros são necessárias.",
+			1864,"Massacre","Dicas de aventureiros são necessárias.",
+			1870,"Necromante","Dicas de aventureiros são necessárias.",
+			2107,"Bispo Decadente","Dicas de aventureiros são necessárias.",
+			1873,"Belzebu","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Abadia de Santa Capitolina]";
+			mes "A Abadia de Santa Capitolina é composta por 3 andares, e a maioria dos monstros que aparecem nesta masmorra são Morto-Vivo ou Demônio. Prepare-se antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Abadia de Santa Capitolina 1ºAndar","Abadia de Santa Capitolina 2ºAndar","Abadia de Santa Capitolina 3ºAndar","Cancelar" ) ) {
+				case 1:
+					mes "[Abadia de Santa Capitolina 1ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Carniçal(61)";
+					mes "Cão Infernal(115)";
+					mes "Crânio Flamejante(121)";
+					mes "Zumbi Dilacerado(123)";
+					mes "Massacre(124)";
+					mes "Banshee(130)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Abadia de Santa Capitolina 2ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Crânio Flamejante(121)";
+					mes "Zumbi Dilacerado(123)";
+					mes "Massacre(124)";
+					mes "Necromante(133)";
+					mes "--------------------------------";
+					next;
+					mes "<Você sabe o quão assustador um Bispo pode ser quando cai..? Hibram.. eu vi.. - Explorador Uva que sabe de tudo>";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Abadia de Santa Capitolina 3ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Crânio Flamejante(121)";
+					mes "Banshee(130)";
+					mes "Necromante(133)";
+					mes "--------------------------------";
+					next;
+					mes "<Belzebu não é um Chonchon de Aço, porque Chonchons são fracos. ... ... ... Fujam! - Explorador Uva fugindo>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+lhz_cube,234,97,0	script	Placa#Somatologia	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Laboratório de Somatologia]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1613,"Metaling","À primeira vista, parece um Poring normal, mas na verdade é feito de peças mecânicas.",
+			1627,"Anopheles","Quase invisível a olho nu. Aventureiros costumam ser atacados por este monstro sem nem perceber.",
+			1682,"Remover","Antigo membro dos bombeiros de Einbroch. Após um infeliz acidente em uma mina, se tornou um monstro violento.",
+			1653,"Wickebine Tres","Gatuno desconhecido, com idade e motivo desconhecidos. Invadiu o laboratório por razões desconhecidas, mas foi rapidamente capturado e virou uma cobaia. É conhecido por ser um monstro cruel com feminilidade surpreendente.",
+			1655,"Errende Ebecee","Garoto que um dia trilhou o caminho como Noviço. Infelizmente, caiu nas armadilhas de um grupo desconhecido e foi transformado em uma cobaia.",
+			1657,"Laurell Weinder","Antes um Mago talentoso com um futuro brilhante. Infelizmente foi envolvido em experimentos biológicos e virou uma cobaia.",
+			1654,"Armeyer Dinze","Garota Mercadora que acredita na metodologia de tempo e dinheiro. Ela encontrou uma Espadachim viajante um dia e começou a acompanhá-la.",
+			1656,"Kavach Icarus","Um ex-Caçador, mas foi rapidamente subjugado e se tornou uma cobaia da Rekenber. Agora ele caminha entre outras cobaias no Laboratório de Somatologia.",
+			1681,"Gemini-S58","Criatura desconhecida que passou por mutação. Ela gosta de sua aparência masculina.",
+			1652,"Egnigem Cenia","Antes uma Cavaleira errante despreocupada. Ela conheceu uma garota Mercadora durante uma de suas viagens, mas foram capturadas pela Rekenber para serem usadas como cobaias.",
+			1635,"Eremes Guile","Antigo Algoz que queria ser mais rápido que qualquer outro assassino. Sua ambição o levou a se tornar uma cobaia em experimentos biológicos.",
+			1637,"Margaretha Sorin","Antiga Suma Sacerdotisa que viajou para Lighthalzen para treinar. Pouco após sua partida, foi subjugada pela Rekenber e transformada em uma cobaia.",
+			1638,"Cecil Damon","Antiga Atiradora de Elite que coexistia com o ambiente. Porém, após virar uma cobaia em experimentos biológicos, sua personalidade sofreu uma mudança chocante.",
+			1639,"Kathryne Keyron","Antiga Arquimaga que se formou na escola de magos ainda jovem. Seu talento chamou a atenção da Rekenber e ela acabou capturada como cobaia.",
+			1634,"Seyren Windsor","Antigo Lorde que era famoso por seu valor. Enquanto protegia um aventureiro próximo, foi subjugado e virou uma cobaia.",
+			1636,"Howard Alt-Eisen","Antigo Mestre-Ferreiro que foi enganado para se tornar uma cobaia por vontade própria. Quando estava vivo, não tinha interesse em nada além da forja de armas.",
+			1658,"Egnigem Cenia Chefe","Antiga Cavaleira famosa entre os aventureiros. Para revelar os esquemas da Rekenber, ela voluntariamente se deixou levar ao laboratório, mas não conseguiu escapar do seu destino.",
+			1640,"Lorde Seyren","Dicas de aventureiros são necessárias.",
+			1641,"Algoz Eremes","Dicas de aventureiros são necessárias.",
+			1643,"Sacerdotisa Margaretha","Dicas de aventureiros são necessárias.",
+			1644,"Atiradora Cecil","Dicas de aventureiros são necessárias.",
+			1645,"Arquimaga Kathryne","Dicas de aventureiros são necessárias.",
+			1648,"Mestre-Ferreiro Howard","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Laboratório de Somatologia]";
+			mes "O Laboratório de Somatologia é composto por 3 andares, e os monstros que aparecem são em sua maioria Semi-Humanos. Esses monstros são muito poderosos, então explore com outro aventureiro.";
+			next;
+			while(1) {
+				switch( select( "Laboratório de Somatologia 1ºAndar","Laboratório de Somatologia 2ºAndar","Laboratório de Somatologia 3ºAndar","Cancelar" ) ) {
+				case 1:
+					mes "[Laboratório de Somatologia 1ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Metaling(81)";
+					mes "Anopheles(95)";
+					mes "Remover(121)";
+					mes "Wickebine Tres(132)";
+					mes "Errende Ebecee(133)";
+					mes "Laurell Weinder(133)";
+					mes "Armeyer Dinze(134)";
+					mes "Kavach Icarus(135)";
+					mes "Gemini-S58(135)";
+					mes "Egnigem Cenia(136)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Laboratório de Somatologia 2ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Remover(121)";
+					mes "Wickebine Tres(132)";
+					mes "Errende Ebecee(133)";
+					mes "Laurell Weinder(133)";
+					mes "Armeyer Dinze(134)";
+					mes "Kavach Icarus(135)";
+					mes "Gemini-S58(135)";
+					mes "Egnigem Cenia(136)";
+					mes "Eremes Guile(140)";
+					mes "--------------------------------";
+					next;
+					mes "<Existem lugares assim também.. Fazendo experimentos com cobaias humanas.. MVP Egnigem Cenia... Ela... - Explorador Uva chorando>";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Laboratório de Somatologia 3ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Eremes Guile(140)";
+					mes "Margaretha Sorin(140)";
+					mes "Cecil Damon(141)";
+					mes "Kathryne Keyron(141)";
+					mes "Seyren Windsor(142)";
+					mes "Howard Alt-Eisen(142)";
+					mes "--------------------------------";
+					next;
+					mes "<Finalmente cheguei aqui.. Quem está conduzindo esses experimentos.. O que fizeram com essas pessoas? Eremes.. Margaretha.. Cecil.. Kathryne.. Seyren.. Howard.. ... - Explorador Uva extremamente emocionado>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+ra_temin,31,316,0	script	Placa#Terra Sagrada	2_BULLETIN_BOARD,{
+	if ((MISC_QUEST & 8192) == 0) {
+		mes "[Terra Sagrada]";
+		mes "- Sumo Sacerdote Zhed -";
+		close;
+	}
+	while(1) {
+		mes "[Terra Sagrada]";
+		mes "Apenas aqueles que receberam permissão do Sumo Sacerdote Zhed podem entrar nesta masmorra. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1632,"Gremlin","Dicas de aventureiros são necessárias.",
+			1633,"Beholder","Dicas de aventureiros são necessárias.",
+			1773,"Hodremlin","Dicas de aventureiros são necessárias.",
+			1771,"Vanberk","Dicas de aventureiros são necessárias.",
+			1772,"Isilla","Dicas de aventureiros são necessárias.",
+			1774,"Rastreador","Dicas de aventureiros são necessárias.",
+			1770,"Echio","Dicas de aventureiros são necessárias.",
+			1769,"Agav","Dicas de aventureiros são necessárias.",
+			1768,"Pesar Noturno","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Terra Sagrada]";
+			mes "A Terra Sagrada é composta por 5 andares, e os monstros que aparecem nesta masmorra usam habilidades mágicas. Prepare-se antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Terra Sagrada 1ºAndar","Terra Sagrada 2ºAndar","Terra Sagrada 3ºAndar","Terra Sagrada 4ºAndar","Terra Sagrada 5ºAndar","Cancelar" ) ) {
+				case 1:
+					mes "[Terra Sagrada 1ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Gremlin(118)";
+					mes "Beholder(120)";
+					mes "Hodremlin(122)";
+					mes "Vanberk(123)";
+					mes "Isilla(124)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Terra Sagrada 2ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Gremlin(118)";
+					mes "Beholder(120)";
+					mes "Hodremlin(122)";
+					mes "Vanberk(123)";
+					mes "Isilla(124)";
+					mes "Rastreador(124)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Terra Sagrada 3ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Gremlin(118)";
+					mes "Beholder(120)";
+					mes "Hodremlin(122)";
+					mes "Rastreador(124)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 4:
+					mes "[Terra Sagrada 4ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Hodremlin(122)";
+					mes "Rastreador(124)";
+					mes "Echio(126)";
+					mes "Agav(128)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 5:
+					mes "[Terra Sagrada 5ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Hodremlin(122)";
+					mes "Isilla(124)";
+					mes "Rastreador(124)";
+					mes "Echio(126)";
+					mes "Agav(128)";
+					mes "--------------------------------";
+					next;
+					mes "<Os olhos do Pesar Noturno são tão redondos e fofos. Eu queria fazer dele meu pet.. Mas qual é o item de domar? Acho que não dá pra domar então.. - Explorador Uva esperançoso>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+yuno_fild08,82,178,2	script	Placa#Fábrica de Robôs	4_BULLETIN_BOARD2,{
+	if (countitem(7509) > 0) {// Cartão de Acesso Exuberante
+		mes "- Seu ^0000FFCartão de Acesso Exuberante^000000 ressoa com o Poste e revela novas informações. -";
+		next;
+	}
+	else {
+		mes "Estudantes da Academia Kiel Hyre não podem entrar aqui.";
+		close;
+	}
+	while(1) {
+		mes "[Fábrica de Robôs]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1275,"Alice","Boneca automática encarregada de várias tarefas no castelo. Sua principal prioridade é limpar a área, porém ela atacará intrusos com uma vassoura de aço.",
+			1738,"Constante","Dicas de aventureiros são necessárias.",
+			1736,"Aliot","Dicas de aventureiros são necessárias.",
+			1737,"Aliza","Dicas de aventureiros são necessárias.",
+			1735,"Alicel","Dicas de aventureiros são necessárias.",
+			1733,"Kiel","Dicas de aventureiros são necessárias.",
+			1734,"Kiel-D-01","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Fábrica de Robôs]";
+			mes "A Fábrica de Robôs é composta por 2 andares, e os monstros que aparecem aqui são em sua maioria Amorfo. O monstro Constante se autodestrói para repelir invasores, então tenha cuidado.";
+			next;
+			while(1) {
+				switch( select( "Fábrica de Robôs 1ºAndar","Fábrica de Robôs 2ºAndar","Cancelar" ) ) {
+				case 1:
+					mes "[Fábrica de Robôs 1ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Alice(100)";
+					mes "Constante(108)";
+					mes "Aliot(112)";
+					mes "Aliza(112)";
+					mes "Alicel(115)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Fábrica de Robôs 2ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Kiel(90)";
+					mes "Constante(108)";
+					mes "Aliot(112)";
+					mes "Aliza(112)";
+					mes "Alicel(115)";
+					mes "--------------------------------";
+					next;
+					mes "<Eu não sei por quê, mas existem 2 tipos de Kiel. Kiel e Kiel-D-01... Kiel-D-01 é a versão mais nova dos dois.. Será que eu deveria pedir pro Kiel fazer um robô pra mim também? - Explorador Uva ganancioso>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+tha_t01,142,78,0	script	Guia#Thanatos1	CLEAR_NPC,{
+	mes "[Guia da Torre de Thanatos]";
+	if (thana_tower == 0) {
+		mes "A Torre de Thanatos é composta por 12 andares, mas apenas 3 estão abertos ao público. Se você deseja avançar, deve ter assinado um contrato com a '^0000FFRenkenber^000000'.";
+		next;
+		mes "[Guia da Torre de Thanatos]";
+		mes "De acordo com as informações, há um total de 12 andares. Prepare-se para todos os tipos de situação antes de se aventurar nesta masmorra....";
+		next;
+		mes "[Aviso Público]";
+		mes "Por favor, não toque nisso. Apenas aqueles que têm contrato com a '^0000FFRenkenber^000000' podem avançar.";
+		emotion ET_HUK;
+		close;
+	}
+	mes "A Torre de Thanatos é composta por 12 andares, mas apenas 3 estão abertos ao público. Se você deseja avançar, deve ter assinado um contrato com a'^0000FFRenkenber^000000'.";
+	next;
+	mes "[Guia da Torre de Thanatos]";
+	mes "De acordo com as informações, há um total de 12 andares. Prepare-se para todos os tipos de situação antes de se aventurar nesta masmorra.";
+	next;
+	while(1) {
+		mes "[Guia da Torre de Thanatos]";
+		mes "Você assinou o contrato com a '^0000FFRenkenber^000000', as seguintes informações agora estão disponíveis. Para atualizar as informações, contate o Grupo de Aventureiros ou a '^0000FFRenkenber^000000' com dicas de informação.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1191,"Mímico","Dicas de aventureiros são necessárias.",
+			1195,"Rideword","Tomo mágico trazido à vida pelos poderes demoníacos. Não possui emoções ou mente própria, sendo programado para agir por instinto e atacar criaturas vivas.",
+			1377,"Ancião","Antigo ancião da associação de magia. Ele foi longe demais em suas pesquisas, transformando-se em um monstro mágico que ataca aventureiros à vista.",
+			1275,"Alice","Boneca automática encarregada de várias tarefas no castelo. Sua principal prioridade é limpar a área, porém ela atacará intrusos com uma vassoura de aço.",
+			1699,"Mímico Ancião","Dicas de aventureiros são necessárias.",
+			1320,"Duque Coruja","Irmão do Barão Coruja que usa um manto azul. Ele gosta de dias chuvosos.",
+			1295,"Barão Coruja","Monstro pássaro que usa um manto vermelho. Ser enganado por sua aparência de cavalheiro pode resultar em uma emboscada com ataques mágicos ferozes.",
+			1698,"Palavra Morta","Dicas de aventureiros são necessárias.",
+			1697,"Plasma (Azul)","Dicas de aventureiros são necessárias.",
+			1695,"Plasma (Verde)","Dicas de aventureiros são necessárias.",
+			1696,"Plasma (Roxo)","Dicas de aventureiros são necessárias.",
+			1694,"Plasma (Vermelho)","Dicas de aventureiros são necessárias.",
+			1693,"Plasma (Amarelo)","Dicas de aventureiros são necessárias.",
+			1707,"Pesar de Thanatos","Dicas de aventureiros são necessárias.",
+			1706,"Maero de Thanatos","Dicas de aventureiros são necessárias.",
+			1705,"Despero de Thanatos","Dicas de aventureiros são necessárias.",
+			1704,"Odium de Thanatos","Dicas de aventureiros são necessárias.",
+			1702,"Baronesa da Retribuição","Dicas de aventureiros são necessárias.",
+			1703,"Senhora do Conforto","Dicas de aventureiros são necessárias.",
+			1701,"Senhora do Abrigo","Dicas de aventureiros são necessárias.",
+			1700,"Dama da Guarda","Dicas de aventureiros são necessárias.",
+			1708,"Memória de Thanatos","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Guia da Torre de Thanatos]";
+			mes "Por favor, escolha o andar apropriado para informações de monstros.";
+			next;
+			while(1) {
+				switch( select( "Cancelar","Torre de Thanatos 1ºAndar","Torre de Thanatos 2ºAndar","Torre de Thanatos 3ºAndar","Torre de Thanatos 4ºAndar","Torre de Thanatos 5ºAndar","Torre de Thanatos 6ºAndar","Torre de Thanatos 7ºAndar","Torre de Thanatos 8ºAndar","Torre de Thanatos 9ºAndar","Torre de Thanatos 10ºAndar","Torre de Thanatos 11ºAndar","Torre de Thanatos 12ºAndar","Torre de Thanatos Andar Superior" ) ) {
+				case 2:
+					mes "[Torre de Thanatos 1ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Rideword(74)";
+					mes "Alice(100)";
+					mes "Plasma (Verde)(116)";
+					mes "Senhora do Conforto(123)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Torre de Thanatos 2ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Rideword(74)";
+					mes "Ancião(92)";
+					mes "Alice(100)";
+					mes "Mímico Ancião(112)";
+					mes "Palavra Morta(114)";
+					mes "Plasma (Azul)(116)";
+					mes "Baronesa da Retribuição(121)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 4:
+					mes "[Torre de Thanatos 3ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Rideword(74)";
+					mes "Ancião(92)";
+					mes "Mímico Ancião(112)";
+					mes "Palavra Morta(114)";
+					mes "Plasma (Roxo)(117)";
+					mes "Senhora do Abrigo(125)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 5:
+					mes "[Torre de Thanatos 4°Andar]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Rideword(74)";
+					mes "Duque Coruja(92)";
+					mes "Ancião(92)";
+					mes "Mímico Ancião(112)";
+					mes "Palavra Morta(114)";
+					mes "Plasma (Vermelho)(118)";
+					mes "Barão Coruja(120)";
+					mes "Dama da Guarda(127)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 6:
+					mes "[Torre de Thanatos 5°Andar]";
+					mes "------------ Monstros ------------";
+					mes "Duque Coruja(92)";
+					mes "Ancião(92)";
+					mes "Mímico Ancião(112)";
+					mes "Palavra Morta(114)";
+					mes "Plasma (Azul)(115)";
+					mes "Plasma (Verde)(116)";
+					mes "Plasma (Roxo)(117)";
+					mes "Plasma (Vermelho)(118)";
+					mes "Barão Coruja(120)";
+					mes "Pesar de Thanatos(129)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 7:
+					mes "[Torre de Thanatos 6°Andar]";
+					mes "------------ Monstros ------------";
+					mes "Duque Coruja(92)";
+					mes "Ancião(92)";
+					mes "Mímico Ancião(112)";
+					mes "Palavra Morta(114)";
+					mes "Plasma (Azul)(115)";
+					mes "Plasma (Verde)(116)";
+					mes "Plasma (Roxo)(117)";
+					mes "Plasma (Vermelho)(118)";
+					mes "Barão Coruja(120)";
+					mes "Maero de Thanatos(129)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 8:
+					mes "[Torre de Thanatos 7°Andar]";
+					mes "------------ Monstros ------------";
+					mes "Mímico Ancião(112)";
+					mes "Palavra Morta(114)";
+					mes "Baronesa da Retribuição(121)";
+					mes "Senhora do Conforto(123)";
+					mes "Senhora do Abrigo(125)";
+					mes "Dama da Guarda(127)";
+					mes "Despero de Thanatos(129)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 9:
+					mes "[Torre de Thanatos 8°Andar]";
+					mes "------------ Monstros ------------";
+					mes "Mímico Ancião(112)";
+					mes "Palavra Morta(114)";
+					mes "Baronesa da Retribuição(121)";
+					mes "Senhora do Conforto(123)";
+					mes "Senhora do Abrigo(125)";
+					mes "Dama da Guarda(127)";
+					mes "Odium de Thanatos(129)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 10:
+					mes "[Torre de Thanatos 9°Andar]";
+					mes "------------ Monstros ------------";
+					mes "Plasma (Vermelho)(118)";
+					mes "Baronesa da Retribuição(121)";
+					mes "Senhora do Conforto(123)";
+					mes "Senhora do Abrigo(125)";
+					mes "Dama da Guarda(127)";
+					mes "Odium de Thanatos(129)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 11:
+					mes "[Torre de Thanatos 10°Andar]";
+					mes "------------ Monstros ------------";
+					mes "Plasma (Azul)(115)";
+					mes "Baronesa da Retribuição(121)";
+					mes "Senhora do Conforto(123)";
+					mes "Senhora do Abrigo(125)";
+					mes "Dama da Guarda(127)";
+					mes "Maero de Thanatos(129)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 12:
+					mes "[Torre de Thanatos 11ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Plasma (Verde)(116)";
+					mes "Baronesa da Retribuição(121)";
+					mes "Senhora do Conforto(123)";
+					mes "Senhora do Abrigo(125)";
+					mes "Dama da Guarda(127)";
+					mes "Despero de Thanatos(129)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 13:
+					mes "[Torre de Thanatos 12ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Plasma (Amarelo)(119)";
+					mes "Baronesa da Retribuição(121)";
+					mes "Senhora do Conforto(123)";
+					mes "Senhora do Abrigo(125)";
+					mes "Dama da Guarda(127)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 14:
+					mes "[Torre de Thanatos Andar Superior]";
+					mes "------------ Monstros ------------";
+					mes "- Dicas de aventureiros são necessárias -";
+					mes "--------------------------------";
+					next;
+					mes "<Está tão vazio.. Eu subi tudo isso até aqui e não tem nada.. - Explorador Uva irritado>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+tha_t01,156,78,0	duplicate(Guia#Thanatos1)	Guia#Thanatos2	CLEAR_NPC
+
+prt_fild05,278,220,0	script	Placa#Esgoto	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Esgoto de Prontera]";
+		mes "O Esgoto de Prontera só pode ser acessado por aventureiros que tenham permissão do Reino de Rune-Midgard.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		if ((MISC_QUEST & 8) == 0) {
+			mes "[Esgoto de Prontera]";
+			mes "O Esgoto de Prontera só pode ser acessado por aventureiros que tenham assinado um formulário de voluntariado na Cavalaria de Prontera. Gostaria de ir assinar o formulário de voluntariado?";
+			next;
+			switch( select( "Voluntariar-se.","Não se voluntariar." ) ) {
+			case 1:
+				mes "[Esgoto de Prontera]";
+				mes "Você será teleportado para a Cavalaria de Prontera.";
+				next;
+				warp "prontera",49,342;
+				break;
+			case 2:
+				mes "[Esgoto de Prontera]";
+				mes "A Cavalaria de Prontera está procurando recrutar aventureiros corajosos.";
+				close;
+			}
+		}
+		.@mo_board = callfunc( "F_AvenBoard",
+			1111,"Drainliar","Morcego colonial que habita cavernas escuras. Ele usa seus dentes grandes e afiados para atacar criaturas próximas e sugar seu sangue. É maior que um Familiar.^000000",
+			1077,"Esporo Venenoso","Criatura cogumelo agressiva. É recomendado carregar Ervas Verdes para neutralizar seu ataque especial tóxico.",
+			1209,"Cãibra","Roedor encontrado vivendo nas profundezas da masmorra. Sua aparência é parecida com a de um Tarou, porém é muito mais cruel e possui dentes venenosos.",
+			1161,"Plâncton","Pequeno monstro organismo visto flutuando na água. Este monstro geralmente é presa de outras criaturas marinhas.",
+			1175,"Tarou","Roedor que habita lugares escuros. Possui pelos brancos e macios.",
+			1005,"Familiar","Morcego colonial que habita cavernas escuras. Suas pequenas presas são afiadas o suficiente para sugar o sangue de criaturas próximas.",
+			1014,"Esporo","Monstro cogumelo. Ele pula de forma bem ritmada, chamando a atenção de aventureiros que passam.",
+			1048,"Ovo de Besouro-Ladrão","Ovo de Besouro-Ladrão. Ele se transforma em um Besouro-Ladrão quando choca.",
+			1051,"Besouro-Ladrão","Este monstro geralmente é visto em lugares pequenos e úmidos. Seu movimento é bem rápido, e ele devora qualquer item que vê pela frente.",
+			1053,"Besouro-Ladrão Fêmea","Besouro-Ladrão Fêmea. Seu movimento é rápido e ele devora qualquer item que vê pela frente.",
+			1054,"Besouro-Ladrão Macho","Besouro-Ladrão Macho. Seu movimento é rápido e ele ataca aventureiros que se aproximam.",
+			1086,"Besouro-Ladrão Dourado","Monstro MVP Besouro-Ladrão com o corpo coberto de ouro. Este monstro é muito mais forte do que os outros Besouros-Ladrões." );
+		if (.@mo_board == 1) {
+			mes "[Esgoto de Prontera]";
+			mes "O Esgoto de Prontera é composto por 4 andares. Esta masmorra é apropriada para aventureiros iniciantes e a maioria dos monstros que aparecem aqui irá ajudar outros monstros com o mesmo nome.";
+			next;
+			while(1) {
+				switch( select( "Esgoto de Prontera 1ºAndar","Esgoto de Prontera 2ºAndar","Esgoto de Prontera 3ºAndar","Esgoto de Prontera 4ºAndar","Cancelar" ) ) {
+				case 1:
+					mes "[Esgoto de Prontera 1ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Ovo de Besouro-Ladrão(20)";
+					mes "Besouro-Ladrão(21)";
+					mes "Tarou(22)";
+					mes "Familiar(24)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Esgoto de Prontera 2ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Esporo(18)";
+					mes "Ovo de Besouro-Ladrão(20)";
+					mes "Besouro-Ladrão(21)";
+					mes "Tarou(22)";
+					mes "Familiar(24)";
+					mes "Besouro-Ladrão Fêmea(28)";
+					mes "Plâncton(40)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Esgoto de Prontera 3ºAndar]";
+					mes "------------ Monstros ------------";
+					mes "Ovo de Besouro-Ladrão(20)";
+					mes "Besouro-Ladrão(21)";
+					mes "Tarou(22)";
+					mes "Familiar(24)";
+					mes "Esporo Venenoso(26)";
+					mes "Besouro-Ladrão Fêmea(28)";
+					mes "Besouro-Ladrão Macho(30)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 4:
+					mes "[Esgoto de Prontera 4º Andar]";
+					mes "------------ Monstros ------------";
+					mes "Ovo de Besouro-Ladrão(20)";
+					mes "Besouro-Ladrão(21)";
+					mes "Besouro-Ladrão Fêmea(28)";
+					mes "Besouro-Ladrão Macho(30)";
+					mes "Drainliar(47)";
+					mes "Besouro-Ladrão Dourado(65)";
+					mes "Cãibra(82)";
+					mes "--------------------------------";
+					next;
+					mes "<Existe um inseto brilhante vivendo no Esgoto de Prontera 4ºAndar. Ele se chama Besouro-Ladrão Dourado. O sistema de esgoto de Prontera vive entupido por causa desse monstro. Eca~ Que nojo. - Explorador Uva irritado>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+tur_dun01,158,241,0	script	Placa#Ilha das Tartarugas	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Ilha das Tartarugas]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1256,"Peste","Monstro de origem desconhecida. Ele ataca girando suas pálpebras afiadas.",
+			1314,"Batedor","Uma das tartarugas mais dóceis da Ilha das Tartarugas. Pequenas árvores crescem em sua carapaça.",
+			1316,"Soldado","Tartaruga com pequenas muralhas de castelo em sua carapaça.",
+			1319,"Congelador","Tartaruga com espinhos de gelo em sua carapaça.",
+			1318,"Aquecedor","Tartaruga que emite calor. Sua carapaça está sempre quente ao toque. Poderia ser usada como aquecedor durante o inverno.",
+			1315,"Agressor","Tartaruga assassina. Ela pode arremessar sua carapaça como uma shuriken.",
+			1312,"General Tartaruga","Rei da Ilha das Tartarugas. Dizem que vive há mais de mil anos." );
+		if (.@mo_board == 1) {
+			mes "[Ilha das Tartarugas]";
+			mes "A Ilha das Tartarugas é composta por 3 andares, e os monstros que aparecem aqui são em sua maioria da raça Bruto. Prepare-se antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Ilha das Tartarugas","Vila das Tartarugas","Palácio das Tartarugas","Cancelar" ) ) {
+				case 1:
+					mes "[Ilha das Tartarugas]";
+					mes "------------ Monstros ------------";
+					mes "Peste(89)";
+					mes "Batedor(90)";
+					mes "Soldado(92)";
+					mes "Congelador(94)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Ilha das Tartarugas - Vila das Tartarugas]";
+					mes "------------ Monstros ------------";
+					mes "Batedor(90)";
+					mes "Congelador(94)";
+					mes "Aquecedor(98)";
+					mes "Agressor(100)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Ilha das Tartarugas - Palácio das Tartarugas]";
+					mes "------------ Monstros ------------";
+					mes "Batedor(90)";
+					mes "Congelador(94)";
+					mes "Aquecedor(98)";
+					mes "Agressor(100)";
+					mes "--------------------------------";
+					next;
+					mes "<Tartarugas são conhecidas por viverem muito, né? Quantos anos terá o General Tartaruga? - Explorador Uva jovem>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+/// adven_board04.sc
+
+ama_dun01,233,14,0	script	Placa#Masmorra de Amatsu	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Masmorra de Amatsu]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1191,"Mímico","Dicas de aventureiros são necessárias.",
+			1129,"Horong","Monstro de fogo com aparência de luz de Dokebi. A origem deste monstro é desconhecida.",
+			1404,"Boneco de Miyabi","Boneca popular entre as garotas, com a capacidade de se mover. Às vezes é possível ver seu rosto por trás de todo o cabelo.",
+			1403,"Zumbi Atirador","Antigo soldado do reino do oriente.",
+			1401,"Shinobi","Antigo ninja do distante reino do oriente. Ele é capaz de se transformar ou se esconder.",
+			1375,"Papel","Monstro de papel fino. Suas bordas são muito mais afiadas do que uma faca.",
+			1405,"Tengu","Fantasma do distante reino do oriente. Às vezes se mistura entre os humanos ou prega peças neles.",
+			1402,"Sapo Venenoso","Monstro sapo. Possui veneno paralisante.",
+			1492,"Samurai Encarnado","MVP criança que invoca espíritos samurais sob seu controle. O espírito samurai é forçado a obedecer a todos os comandos." );
+		if (.@mo_board == 1) {
+			mes "[Masmorra de Amatsu]";
+			mes "A Masmorra de Amatsu é composta por 3 andares. O labirinto desta masmorra é muito complexo e Asas de Mosca não podem ser usadas. Prepare-se antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Masmorra de Amatsu - Labirinto de Tatame","Masmorra de Amatsu - Campo de Batalha na Floresta Subterrânea","Masmorra de Amatsu - Santuário Subterrâneo de Amatsu","Cancelar" ) ) {
+				case 1:
+					mes "[Masmorra de Amatsu - Labirinto de Tatame]";
+					mes "------------ Monstros ------------";
+					mes "Boneco de Miyabi(85)";
+					mes "Zumbi Atirador(88)";
+					mes "Shinobi(95)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Masmorra de Amatsu - Campo de Batalha na Floresta Subterrânea]";
+					mes "------------ Monstros ------------";
+					mes "Horong(66)";
+					mes "Boneco de Miyabi(85)";
+					mes "Sapo Venenoso(87)";
+					mes "Zumbi Atirador(88)";
+					mes "Shinobi(95)";
+					mes "Papel(97)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Masmorra de Amatsu - Santuário Subterrâneo de Amatsu]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Boneco de Miyabi(85)";
+					mes "Zumbi Atirador(88)";
+					mes "Shinobi(95)";
+					mes "Papel(97)";
+					mes "Tengu(98)";
+					mes "--------------------------------";
+					next;
+					mes "<Samurai Encarnado é muito mal-educado. Eu queria me apresentar entregando meu cartão de visita, mas ele não gostou.. Pfft - Explorador Uva desanimado>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+gonryun,155,198,0	script	Placa#Masmorra de Kunlun	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Masmorra de Kunlun]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1415,"Filhote de Leopardo","Um filhote de leopardo muito fofo, mas é feroz.",
+			1413,"Ermitão Selvagem","Planta muito saudável para o corpo. Talvez seja difícil para as pessoas comerem isso.",
+			1417,"Zipper","À primeira vista parece um urso normal, mas ele tem um zíper nas costas. Não há como saber o que existe dentro dele.",
+			1410,"Pessegueira Encantada","Árvore de Pêssego viva. Os pêssegos que crescem nela são duros demais para comer.",
+			1408,"Borboleta Sanguinária","Borboleta que atrai com sua aparência mística e suga sangue. Ela emite um odor doce de suas asas.",
+			1412,"Ermitão Maligno","Eremita que anda sobre nuvens. Ele adora jogar xadrez.",
+			1416,"Ninfa Perversa","Monstro fada, também conhecida como anjo no reino ocidental. Ela gosta de fazer acessórios com contas.",
+			1418,"Serpente Suprema","Monstro serpente Ferrãoante. Sua pele branca parece muito misteriosa. Dizem que sua caligrafia é lendária." );
+		if (.@mo_board == 1) {
+			mes "[Masmorra de Kunlun]";
+			mes "A Masmorra de Kunlun é composta por 3 andares. Os itens Geléia Real e Galho Seco podem ser obtidos dos monstros desta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Masmorra de Kunlun - Santuário da Rainha de Kunlun","Masmorra de Kunlun - Xadrez do Eremita","Masmorra de Kunlun - Arcádia","Cancelar" ) ) {
+				case 1:
+					mes "[Masmorra de Kunlun - Santuário da Rainha de Kunlun]";
+					mes "------------ Monstros ------------";
+					mes "Zipper(90)";
+					mes "Pessegueira Encantada(92)";
+					mes "Borboleta Sanguinária(94)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Masmorra de Kunlun - Xadrez do Eremita]";
+					mes "------------ Monstros ------------";
+					mes "Filhote de Leopardo(68)";
+					mes "Pessegueira Encantada(92)";
+					mes "Borboleta Sanguinária(94)";
+					mes "Ermitão Maligno(96)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Masmorra de Kunlun - Arcádia]";
+					mes "------------ Monstros ------------";
+					mes "Ermitão Selvagem(90)";
+					mes "Ermitão Maligno(96)";
+					mes "Ninfa Perversa(97)";
+					mes "--------------------------------";
+					next;
+					mes "<Será que é verdade que a caligrafia do Serpente Suprema é fenomenal? Eu fui lá para dar uma olhada.. Mas não consegui ver a caligrafia dele.. - Explorador Uva esquecido>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+louyang,37,276,0	script	Placa#Masmorra de Luoyang	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Masmorra de Luoyang]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1191,"Mímico","Dicas de aventureiros são necessárias.",
+			1026,"Munak","O espírito de uma garota morta reside dentro de um corpo sem vida, transformando-o em um monstro Kyonshi. Ele suga o sangue de criaturas próximas.",
+			1129,"Horong","Monstro de fogo com aparência de luz de Dokebi. A origem deste monstro é desconhecida.",
+			1381,"Grizzly","Urso que habita regiões com fluxo de magma. Seus pelos parecem estar em chamas. Ele seria popular entre os amantes de peles.",
+			1037,"Sorrateiro","Cobra de uma cabeça. Ela usa sua cauda como se fosse sua cabeça para confundir os inimigos.",
+			1306,"Leib Olmai","Urso com personalidade extremamente cruel. Seu corpo é coberto por inúmeras cicatrizes de várias lutas contra outras criaturas.",
+			1517,"Jing Guai","Monstro que parece estar usando uma fantasia de tigre. Ele late como um cachorro.",
+			1516,"Mi Gao","Monstro de areia. Ele cria um pilar de areia para atacar.",
+			1514,"Zhu Po Long","Parece uma máscara longa de dragão. Talvez seja possível ver este monstro durante festivais.",
+			1519,"Donzela Verde","Uma pequena e fofa artista Cavalo-Marinhoial, mas na verdade está possuída por uma artista Cavalo-Marinhoial adulta.",
+			1512,"Yao Jun","Monstro Kyounshi. Parece ser um pouco habilidoso em artes Cavalo-Marinhoiais.",
+			1513,"Mao Guai","Espírito maligno de gato usando roupas humanas. Ele anda em duas pernas como um humano e ataca com um leque em suas mãos.",
+			1518,"Dama de Branco","Este MVP atrai aventureiros próximos com sua beleza. Alguns aventureiros acabam encantados por seu grito." );
+		if (.@mo_board == 1) {
+			mes "[Masmorra de Luoyang]";
+			mes "A Masmorra de Luoyang é composta por 3 andares e os monstros que aparecem aqui tendem a dominar aventureiros em grande número. Prepare-se antes de se aventurar nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Masmorra de Luoyang - Suei Long Gon","Masmorra de Luoyang - O Túmulo Real","Masmorra de Luoyang - Interior do Túmulo Real","Cancelar" ) ) {
+				case 1:
+					mes "[Masmorra de Luoyang - Suei Long Gon]";
+					mes "------------ Monstros ------------";
+					mes "Horong(66)";
+					mes "Grizzly(66)";
+					mes "Sorrateiro(70)";
+					mes "Jing Guai(80)";
+					mes "Mi Gao(83)";
+					mes "Leib Olmai(87)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Masmorra de Luoyang - O Túmulo Real]";
+					mes "------------ Monstros ------------";
+					mes "Mímico(56)";
+					mes "Munak(58)";
+					mes "Zhu Po Long(82)";
+					mes "Yao Jun(87)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Masmorra de Luoyang - Interior do Túmulo Real]";
+					mes "------------ Monstros ------------";
+					mes "Zhu Po Long(82)";
+					mes "Donzela Verde(82)";
+					mes "Yao Jun(87)";
+					mes "Mao Guai(89)";
+					mes "--------------------------------";
+					next;
+					mes "<Dama de Branco.. Ela é.. Linda.. Ela é gentil.. Se não fosse pelas Donzela Verdes.. Pfft - Explorador Uva desanimado>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+ayo_fild02,279,147,0	script	Placa#Ayothaya	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Masmorra de Ayothaya]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1179,"Sussurro","Monstro fantasma que parece estar coberto por um lençol. Armas normais são ineficazes contra seu corpo espiritual.^000000",
+			1036,"Carniçal","Cadáver que foi revivido pela maldição de um Necromante profano. Ele embosca criaturas vivas próximas e devora seus corpos para saciar sua fome, mas por ser um corpo reanimado, ele é incapaz de se sentir satisfeito.^000000",
+			1586,"Gato de Folha","Monstro gato usando folhas como roupas. Sua aparência fofa é popular entre os aventureiros.",
+			1587,"Kraben","Monstro irritante. Ele ataca com o que parecem ser 2 potes Ferrãoantes.",
+			1584,"Tamruan","Monstro semelhante a uma estátua que empunha uma espada. Ele veste uma poderosa armadura para se proteger.",
+			1688,"Lady Tanee","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Masmorra de Ayothaya]";
+			mes "A Masmorra de Ayothaya é composta por 2 andares. Os monstros desta masmorra podem ser encontrados escondidos no labirinto.";
+			next;
+			while(1) {
+				switch( select( "Masmorra de Ayothaya - Labirinto do Santuário Antigo","Masmorra de Ayothaya - Interior do Santuário Antigo","Cancelar" ) ) {
+				case 1:
+					mes "[Masmorra de Ayothaya - Labirinto do Santuário Antigo]";
+					mes "------------ Monstros ------------";
+					mes "Sussurro(34)";
+					mes "Carniçal(61)";
+					mes "Gato de Folha(64)";
+					mes "Kraben(70)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Masmorra de Ayothaya - Interior do Santuário Antigo]";
+					mes "------------ Monstros ------------";
+					mes "Sussurro(34)";
+					mes "Kraben(70)";
+					mes "Tamruan(73)";
+					mes "--------------------------------";
+					next;
+					mes "<Oh Lady Tanee, não seja tão tímida e pare de fugir~ - Pegue-me ~ Explorador Uva>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+mosk_fild02,187,251,0	script	Placa#Moscovia	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Masmorra de Moscovia]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1031,"Poporing","Irmão mais velho do Poring encontrado em áreas de pântano. Seu corpo é composto por substâncias venenosas e ele é mais resistente que um Poring.",
+			1139,"Louva-a-Deus","Dicas de aventureiros são necessárias.",
+			1880,"Leshij","Dicas de aventureiros são necessárias.",
+			1881,"Les","Dicas de aventureiros são necessárias.",
+			1884,"Mavka","Dicas de aventureiros são necessárias.",
+			1883,"Kikimora","Dicas de aventureiros são necessárias.",
+			1882,"Baba Yaga","Dicas de aventureiros são necessárias.",
+			1885,"Gorynych","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Masmorra de Moscovia]";
+			mes "A Masmorra de Moscovia é composta por 3 áreas, apresentando monstros passivos e agressivos em cada área. Prepare-se antes de se aventurar por esta região.";
+			next;
+			while(1) {
+				switch( select( "Masmorra de Moscovia - Floresta","Masmorra de Moscovia - Floresta Profunda","Masmorra de Moscovia - Floresta Extremamente Profunda","Cancelar" ) ) {
+				case 1:
+					mes "[Masmorra de Moscovia - Floresta]";
+					mes "------------ Monstros ------------";
+					mes "Poporing(30)";
+					mes "Louva-a-Deus(65)";
+					mes "Leshij(81)";
+					mes "Les(82)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Masmorra de Moscovia - Floresta Profunda]";
+					mes "------------ Monstros ------------";
+					mes "Leshij(81)";
+					mes "Les(82)";
+					mes "Kikimora(85)";
+					mes "Baba Yaga(87)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 3:
+					mes "[Masmorra de Moscovia - Floresta Extremamente Profunda]";
+					mes "------------ Monstros ------------";
+					mes "Mavka(84)";
+					mes "Kikimora(85)";
+					mes "Baba Yaga(87)";
+					mes "--------------------------------";
+					next;
+					mes "<Gorynych tem 3 cabeças né? Sim, bem, só estou te dizendo que ele tem 3 cabeças. - Explorador Uva de uma cabeça>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+bra_dun01,208,109,0	script	Placa#Brasilis	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Masmorra de Brasilis]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1068,"Hidra","Monstro anêmona. Apesar da aparência, ele está enraizado profundamente na área e usa seus tentáculos presos ao chão para atacar criaturas próximas.",
+			1070,"Kukre","Monstro verme. Sua agilidade é surpreendentemente rápida ao vasculhar objetos no chão.",
+			1141,"Marina","Monstro água-viva com tentáculos surpreendentemente fortes, que permitem nadar ou caminhar em terra. Seus tentáculos são usados de várias formas.",
+			2070,"Piranha","Dicas de aventureiros são necessárias.",
+			2069,"Iara","Dicas de aventureiros são necessárias.",
+			2068,"Boitata","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Masmorra de Brasilis]";
+			mes "A Masmorra de Brasilis é composta por 2 andares, e os monstros que aparecem nesta masmorra são em sua maioria do elemento Água. Armas do elemento Vento serão extremamente úteis nesta masmorra.";
+			next;
+			while(1) {
+				switch( select( "Masmorra de Brasilis - Entrada","Masmorra de Brasilis - Interior","Cancelar" ) ) {
+				case 1:
+					mes "[Masmorra de Brasilis - Entrada]";
+					mes "------------ Monstros ------------";
+					mes "Hidra(34)";
+					mes "Kukre(42)";
+					mes "Marina(42)";
+					mes "Piranha(75)";
+					mes "Iara(79)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Masmorra de Brasilis - Interior]";
+					mes "------------ Monstros ------------";
+					mes "Hidra(34)";
+					mes "Kukre(42)";
+					mes "Marina(42)";
+					mes "Piranha(75)";
+					mes "Iara(79)";
+					mes "--------------------------------";
+					next;
+					mes "<Existe um monstro chamado Boitata fazendo um som de sino. Por que ele faz tanto barulho? - Confundindo com um cachorro de estimação - Explorador Uva>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+
+dew_dun01,294,158,0	script	Placa#Dewata_Krakatau	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Vulcão Krakatau]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1305,"Verme Ancião","Monstro verme ancestral que só pode ser encontrado em ruínas antigas. Ele gira rapidamente o corpo para atacar.",
+			1311,"Gullinbursti","Monstro javali. Ele é muito feroz, mas sua carne é uma das iguarias mais procuradas.",
+			2152,"Comodo","Dicas de aventureiros são necessárias.",
+			2156,"Leak","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Vulcão Krakatau]";
+			mes "O Vulcão Dewata só pode ser acessado por aventureiros que tenham recebido permissão da tribo Jati. Todos os monstros que aparecem neste lugar são agressivos. Apenas aventureiros experientes devem se aventurar aqui.";
+			next;
+			mes "[Vulcão Krakatau]";
+			mes "------------ Monstros ------------";
+			mes "Comodo(81)";
+			mes "Verme Ancião(83)";
+			mes "Gullinbursti(89)";
+			mes "--------------------------------";
+			next;
+			mes "<O assustador MVP Leak vive no Vulcão Krakatau.. Mas o que ele tem de tão assustador? - Ele é mais fofo do que assustador(?) Explorador Uva>";
+			next;
+			mes "[Grupo de Aventureiros]";
+			mes "Para mais informações sobre os monstros";
+			mes "o Sistema de Consulta de Monstros";
+			mes "deve ser utilizado.";
+			next;
+		}
+	}
+}
+
+dew_fild01,51,61,0	script	Placa#Dewata_Istana	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Caverna Istana]";
+		mes "Para que os Aventureiros possam viajar pelo mundo todo em uma aventura relaxante, informações coletadas de vários aventureiros são tornadas públicas. Por favor, forneça dicas de informação ao Grupo de Aventureiros para atualizar as informações.";
+		mes "-- Grupo de Aventureiros --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			1301,"Am Mut","Monstro da Lenda de Payon. Ele parece uma criança pequena, porém é conhecido por assediar aventureiros que passam.",
+			1309,"Gajomart","Popularmente conhecido como a chama do Dokebi nos países do oriente. Sua verdadeira identidade é desconhecida.",
+			2154,"Banaspaty","Dicas de aventureiros são necessárias.",
+			2155,"Butoijo","Dicas de aventureiros são necessárias." );
+		if (.@mo_board == 1) {
+			mes "[Caverna Istana]";
+			mes "Todos os monstros que aparecem na Caverna Istana são agressivos. Apenas aventureiros experientes devem se aventurar aqui.";
+			next;
+			mes "[Caverna Istana]";
+			mes "------------ Monstros ------------";
+			mes "Am Mut(76)";
+			mes "Gajomart(81)";
+			mes "Banaspaty(85)";
+			mes "Butoijo(88)";
+			mes "--------------------------------";
+			next;
+			mes "A tribo Jati de Dewata realiza aqui sua prova de força. - Explorador Uva corajoso>";
+			next;
+			mes "[Grupo de Aventureiros]";
+			mes "Para mais informações sobre os monstros";
+			mes "o Sistema de Consulta de Monstros";
+			mes "deve ser utilizado.";
+			next;
+		}
+	}
+}
+
+/// adven_board05.sc
+
+dic_dun01,30,208,0	script	Placa#Kamidal	2_BULLETIN_BOARD,{
+	while(1) {
+		mes "[Túnel Kamidal]";
+		mes "Aventureiros que viajam pelo mundo todo, combinando as informações coletadas do público.";
+		mes "-- Dica de Aventureiro --";
+		next;
+		.@mo_board = callfunc( "F_AvenBoard",
+			2088,"Ovo de Scaraba Chifre","É necessária uma dica de aventureiro.",
+			2089,"Ovo de Chifres Duplos","É necessária uma dica de aventureiro.",
+			2090,"Ovo de Scaraba Galhado","É necessária uma dica de aventureiro.",
+			2091,"Ovo de Scaraba Ancinho","É necessária uma dica de aventureiro.",
+			2083,"Scaraba Chifre","É necessária uma dica de aventureiro.",
+			2084,"Chifres Duplos","É necessária uma dica de aventureiro.",
+			2085,"Scaraba Galhado","É necessária uma dica de aventureiro.",
+			2086,"Scaraba Ancinho","É necessária uma dica de aventureiro.",
+			2304,"Rainha Scaraba","É necessária uma dica de aventureiro." );
+		if (.@mo_board == 1) {
+			mes "[Túnel Kamidal]";
+			mes "Este túnel é composto por dois andares, e a maioria dos monstros que aparecem aqui são do tipo Inseto.";
+			next;
+			while(1) {
+				switch( select( "Túnel Kamidal","Salão Scaraba","Cancelar" ) ) {
+				case 1:
+					mes "[Túnel Kamidal]";
+					mes "------------ Monstros ------------";
+					mes "Ovo de Scaraba Chifre(125)";
+					mes "Ovo de Chifres Duplos(126)";
+					mes "Scaraba Chifre(130)";
+					mes "Chifres Duplos(134)";
+					mes "--------------------------------";
+					F_InfoBoard;
+					continue;
+				case 2:
+					mes "[Salão Scaraba]";
+					mes "------------ Monstros ------------";
+					mes "Ovo de Scaraba Galhado(127)";
+					mes "Rake Scaraba Egg(128)";
+					mes "Scaraba Galhado(136)";
+					mes "Rake Scaraba(139)";
+					mes "--------------------------------";
+					next;
+					mes "<MVP Rainha Scaraba... Você terá que explorar para encontrá-la.>";
+					F_InfoBoard;
+					continue;
+				}
+				break;
+			}
+		}
+	}
+}
+dic_fild01,27,83,0	duplicate(Placa#Kamidal)	Placa#Saída de Kamidal	2_BULLETIN_BOARD

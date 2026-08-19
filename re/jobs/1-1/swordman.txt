@@ -1,0 +1,126 @@
+//===== rAthena Script ======================================= 
+//= Renewal Swordman Job Quest
+//===== By: ================================================== 
+//= Kisuka
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Job Change to Swordman Class
+//===== Additional Comments: ================================= 
+//= 1.0 First Version. [Kisuka]
+//= 1.1 Added support for Baby classes. [Euphy]
+//============================================================ 
+izlude_in,74,172,4	script	Espadachim#swd	119,{
+	if (Upper == 1) {
+		if (Class == Job_Novice_High && (ADVJOB == Job_Lord_Knight || ADVJOB == Job_Paladin)) {
+			mes "[Espadachim]";
+			mes "Não...";
+			mes "pode ser...";
+			mes "você renasceu, não foi?";
+			next;
+			mes "[Espadachim]";
+			mes "Vejo que você estava percorrendo o caminho do Espadachim novamente! Uma vez que tenha acostumado a brandir uma espada, não tem como voltar!!";
+			next;
+			if (!callfunc("F_CanChangeJob")) {
+				mes "[Espadachim]";
+				mes "Hmm? Ah, você deve primeiro dominar as habilidades básicas antes de estar pronto para se tornar um Espadachim.";
+				next;
+				mes "[Espadachim]";
+				mes "Volte quando terminar de aprender as habilidades básicas de Aprendiz.";
+				close;
+			}
+			mes "[Espadachim]";
+			mes "Excelente! Vou promovê-lo para um Espadachim imediatamente!";
+			next;
+			skill "NV_TRICKDEAD",0,SKILL_PERM;
+			jobchange Job_Swordman_High;
+			skill "SM_MOVINGRECOVERY",1,SKILL_PERM;
+			skill "SM_FATALBLOW",1,SKILL_PERM;
+			skill "SM_AUTOBERSERK",1,SKILL_PERM;
+			mes "[Espadachim]";
+			mes "Hmm... Você parece um Espadachim bem experiente. Ainda assim, tenho certeza de que você deve treinar para melhorar suas habilidades e ganhar força!";
+			close;
+		}else{
+			mes "[Espadachim]";
+			mes "Hm...?";
+			mes "Você? um guerreiro";
+			mes "renascido, não??";
+			next;
+			mes "[Espadachim]";
+			mes "Hmmm...";
+			mes "Parece que ser um";
+			mes "Espadachim não faz parte";
+			mes "do seu destino. Me desculpe,";
+			mes "mas parece que não há nada";
+			mes "que eu possa fazer por você.";
+			close;
+		}
+	}
+	mes "[Espadachim]";
+	mes "Esta é a Guilda dos Espadachins.";
+	mes "Por que você está aqui?";
+	next;
+	switch(select("Como é ser um Espadachim.:Quero ser um espadachim.:Nada não.")) {
+	case 1:
+		mes "[Espadachim]";
+		mes "Então você deseja saber mais sobre o poderoso Espadachim? Certo!";
+		next;
+		mes "[Espadachim]";
+		mes "A característica mais marcante do Espadachim é que ele pode nos mostrar suas reais habilidades em combate corpo a corpo."; 
+		mes "Há três razões!";
+		next;
+		mes "[Espadachim]";
+		mes "Primeiro, os Espadachins tem mais HP do que as outras classes.";
+		mes "Segundo, exceto Arcos e Lanças, os Espadachins podem usar todas as outras armas para que possam usar suas habilidades ideais.";
+		mes "E terceiro, a maioria das habilidades dos Espadachins dão ataques físicos poderosos.";
+		next;
+		mes "[Espadachim]";
+		mes "Embora eu tenha lhe dado uma explicação simples, acredito que você entendeu o significado central do que é ser um Espadachim.";
+		mes "Na minha opinião, Espadachim é a melhor classe de todas!";
+		close;
+	case 2:
+		mes "[Espadachim]";
+		if(BaseJob != Job_Novice) {
+			if(BaseJob == Job_Swordman) {
+				mes "Você já é um excelente Espadachim, não é?";
+				mes "Apenas se dedique a ser um grande Espadachim.";
+			}else{
+				mes "Você já tem uma das outras classes, não é?"; 
+				mes "Você foi longe demais com essa piada.";
+			}
+			close;
+		}else{
+			if (!callfunc("F_CanChangeJob")) {
+				mes "Sinto muito em dizer isso, mas para ser um Espadachim, você deve atingir pelo menos o ^4A4AFFNível de Classe 10^000000";
+				mes "e o ^4A4AFFNível de Habilidades Básicas 9^000000.";
+				next;
+				mes "[Espadachim]";
+				mes "Quer ser um Espadachim sem ter os requisitos mínimos?"; 
+				mes "Você acha que ser um Espadachim é tão fácil?";
+				close;
+			}
+			mes "Hmm, tanto seu Nível de Classe quanto seu Nível de Habilidades Básicas conferem.";
+			mes "Bom. Você quer se transformar um Espadachim agora?";
+			next;
+			if(select("Sim, eu acho.:Vou considerar novamente.") == 2) {
+				mes "[Espadachim]";
+				mes "Sim. Uma decisão prudente é necessária para escolher uma classe.";
+				mes "Mas eu sinto muito... que você ainda esteja considerando essa opção depois de ter superarado todas as dificuldades...";
+				close;
+			}
+			mes "[Espadachim]";
+			mes "Parabéns! De agora em diante, você vai viver a vida de um Espadachim!";
+			mes "Vamos fazer isso agora mesmo!";
+			next;
+			mes "[Espadachim]";
+			mes "Parabéns novamente por ter se tornado um Espadachim, e espero que você participe de muitas atividades para o renascimento da nossa Guilda.";
+			callfunc "Job_Change",Job_Swordman;
+			getitem 13415,1; // Alfanje de Aprendiz
+			close;
+		}
+	case 3:
+		close;
+	}
+}

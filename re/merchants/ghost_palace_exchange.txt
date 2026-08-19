@@ -1,0 +1,121 @@
+//===== rAthena Script =======================================
+//= Ghost Palace Exchange NPC.
+//===== Description: =========================================
+//= Walkthrough Conversion.
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+dali02,51,130,4	script	Viajante Dimensional	4_F_SHABBY,{
+	if (checkweight(28100,1) == 0) {// Machado de Cinzas
+		mes "- Você não pode prosseguir porque tem muitos itens com você. -";
+		close;
+	}
+	.@item_name_req$ = getitemname(6672); //Fragmento de Cinzas
+	mes "[Viajante Dimensional]";
+	mes "Amigo aventureiro, o <ITEM>[" + .@item_name_req$ + "]<INFO>6672</INFO></ITEM> é o que eu preciso. Que tal trocá-lo por algo que eu tenho?";
+	next;
+	.@type = select( "Mostre-me suas armas.", "Mostre-me suas armaduras.", "Alguma coisa especial?", "Eu não preciso." ) - 1;
+	mes "[Viajante Dimensional]";
+	switch(.@type) {
+	case 0:
+		mes "Oh! Você está interessado em armas? Temos todas as armas que podemos obter do Palácio Fantasma. Por que você não escolhe uma?";
+		break;
+	case 1:
+		mes "Armadura? Temos todas as armaduras que podemos obter do Palácio Fantasma. Por que você não escolhe uma?";
+		break;
+	case 2:
+		mes "Huhh! Parece que muitos já ouviram que eu tenho as melhores coisas. Sinta-se à vontade para conferir minhas coleções.";
+		break;
+	case 3:
+		mes "Adeus amigo~ Venha quamdo quiser!";
+		close;
+	}
+	next;
+	mes "[Viajante Dimensional]";
+	mes "Ah! A quantidade que está escrita ao lado <ITEM>[" + .@item_name_req$ + "]<INFO>6672</INFO></ITEM> é do que preciso.";
+	mes "Por favor, lembre-se.";
+
+	switch(.@type) {
+	case 0:
+		setarray .@items[0],
+			13441, 200,		// Espada de Cinzas
+			21009, 200, 	// Grande Espada de Cinzas
+			1438,  200,		// Lança de Cinzas
+			1496,  200,		// Lança Dupla de Cinzas
+			1669,  200,		// Cajado de Cinzas
+			2023,  200,		// Cajado Duplo de Cinzas
+			18119, 200,		// Arco de Cinzas
+			13093, 200,		// Adaga de Cinzas
+			28000, 200,		// Katar de Cinzas
+			1836,  200,		// Punho de Cinzas
+			16028, 200,		// Maça de Cinzas
+			28100, 200,		// Machado de Cinzas
+			1933,  200,		// Violino de Cinzas
+			1988,  200;		// Chicote de Cinzas
+		break;
+	case 1:
+		setarray .@items[0],
+			2187,  100,		// Escudo de Cinzas
+			15090, 100, 	// Armadura de Cinzas
+			15091, 100,		// Manto de Cinzas
+			20721, 100,		// Capa de Cinzas
+			22033, 100,		// Botas de Cinzas
+			18820, 100;		// Elmo de Cinzas
+		break;
+	case 2:
+		setarray .@items[0],
+			27184, 10000,		// Carta Skurai
+			23676, 50, 			// Abrasivo do Poder (Corpo a corpo)
+			23677, 50,			// Abrasivo da Magia (Magia)
+			23678, 50,			// Abrasivo da Mira (a Distância)
+			27184, 10000;		// Carta Skurai
+		break;
+	}
+	.@size = getarraysize(.@items);
+	for ( .@i = 0; .@i < .@size; .@i += 2 )
+		.@menu$ += getitemname(.@items[.@i]) + " - " + .@items[.@i+1] + ":";
+
+	while(true) {
+		next;
+		.@s = (select(.@menu$) - 1) * 2;
+		mes "[Viajante Dimensional]";
+		if (.@type != 1)	// quando o tipo de armadura não exibe informações do item
+			mes "Você quer dizer <ITEM>[" + getitemname(.@items[.@s]) + "]<INFO>" + .@items[.@s] + "</INFO></ITEM>?";
+		mes "" + .@items[.@s+1] + "^006400" + .@item_name_req$ + "^000000 são necessários para a troca.";
+		next;
+		switch( select( "Vamos trocar.", "Deixe-me ver outras coisas.", "Volto mais tarde." ) ) {
+		case 1:
+			break;
+		case 2:
+			mes "[Viajante Dimensional]";
+			switch(.@type) {
+			case 0:
+				mes "Tenho armas mais que suficientes.";
+				break;
+			case 1:
+				mes "Temos muitas armaduras para você. Por que você não escolhe uma?";
+				break;
+			case 2:
+				mes "Se você me trouxer " + .@item_name_req$ + ", trocarei pelo que você quiser.";
+				break;
+			}
+			continue;
+		case 3:
+			mes "[Viajante Dimensional]";
+			mes "Se cuide amigo~ Até a próxima!";
+			close;
+		}
+		if (countitem(6672) < .@items[.@s+1]) {
+			mes "[Viajante Dimensional]";
+			mes "Você me colocou em uma situação difícil, amigo.";
+			mes "Eu preciso de " + .@item_name_req$ + ". Trocarei por ^006400" + .@items[.@s+1] + " " + .@item_name_req$ + "^000000.";
+			close;
+		}
+		mes "[Viajante Dimensional]";
+		mes "Obrigado. Volte se precisar de mais alguma coisa.";
+		delitem 6672, .@items[.@s+1];
+		getitem .@items[.@s], 1;
+		close;
+	}
+}

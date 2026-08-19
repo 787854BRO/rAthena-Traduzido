@@ -1,0 +1,404 @@
+//===== rAthena Script =======================================
+//= Mapflag: Disable Dead Branch use.
+//===== Description: ========================================= 
+//= Disables the following items:
+//=   Dead Branch (604), Bloody Branch (12103),
+//=   Red Pouch (12024), Poring Box (12109)
+//===== Changelogs: ================================= 
+//= 1.0 Renewal split. [Euphy]
+//= 1.1 Added Izlude duplicates. [Euphy]
+//= 1.2 Added Nightmare Clock Tower [Lemongrass]
+//= 1.3 Added dali02 [Nova]
+//= 1.4 Added Nightmare Glastheim [Ridley8819]
+//= 1.5 Added WOE:TE maps [Cydh]
+//= 1.6 Added Para Market maps [mazvi]
+//============================================================
+
+//============================================================
+// Paramercado
+//============================================================
+paramk	mapflag	nobranch
+moc_para01	mapflag	nobranch
+
+//============================================================
+// Mapa de Mudança de Classe para as 3º Classes
+//============================================================
+job3_arch01	mapflag	nobranch
+job3_arch02	mapflag	nobranch
+job3_arch03	mapflag	nobranch
+job3_gen01	mapflag	nobranch
+job3_guil01	mapflag	nobranch
+job3_guil02	mapflag	nobranch
+job3_guil03	mapflag	nobranch
+job_ko	mapflag	nobranch
+job_gun	mapflag	nobranch
+job3_rang01	mapflag	nobranch
+job3_rang02	mapflag	nobranch
+job3_rune01	mapflag	nobranch
+job3_rune02	mapflag	nobranch
+job3_rune03	mapflag	nobranch
+job3_sha01	mapflag	nobranch
+job3_war01	mapflag	nobranch
+job3_war02	mapflag	nobranch
+jupe_core2	mapflag	nobranch
+
+//============================================================
+// Brasilis
+//============================================================
+brasilis	mapflag	nobranch
+bra_in01	mapflag	nobranch
+
+//============================================================
+// Episódio 13.3
+//============================================================
+dicastes01	mapflag	nobranch
+dicastes02	mapflag	nobranch
+dic_in01	mapflag	nobranch
+s_atelier	mapflag	nobranch
+
+//============================================================
+// Episódio 14.1 & Dewata
+//============================================================
+mora	mapflag	nobranch
+1@mist	mapflag	nobranch
+dewata	mapflag	nobranch
+dew_in01	mapflag	nobranch
+
+//============================================================
+// Episódio Zero & Porto Malaya
+//============================================================
+malangdo	mapflag	nobranch
+mal_in01	mapflag	nobranch
+mal_in02	mapflag	nobranch
+1@cash	mapflag	nobranch
+1@pump	mapflag	nobranch
+2@pump	mapflag	nobranch
+1@lhz	mapflag	nobranch
+que_lhz	mapflag	nobranch
+malaya	mapflag	nobranch
+ma_scene01	mapflag	nobranch
+ma_in01	mapflag	nobranch
+ma_zif01	mapflag	nobranch
+ma_zif02	mapflag	nobranch
+ma_zif03	mapflag	nobranch
+ma_zif04	mapflag	nobranch
+ma_zif05	mapflag	nobranch
+ma_zif06	mapflag	nobranch
+ma_zif07	mapflag	nobranch
+ma_zif08	mapflag	nobranch
+ma_zif09	mapflag	nobranch
+1@ma_h	mapflag	nobranch
+1@ma_c	mapflag	nobranch
+1@ma_b	mapflag	nobranch
+c_tower2_	mapflag	nobranch
+c_tower3_	mapflag	nobranch
+gl_chyard_	mapflag	nobranch
+gl_cas02_	mapflag	nobranch
+
+//============================================================
+// Episódio 14.2 - Eclage
+//============================================================
+eclage	mapflag	nobranch
+ecl_in01	mapflag	nobranch
+ecl_in02	mapflag	nobranch
+ecl_in03	mapflag	nobranch
+ecl_in04	mapflag	nobranch
+1@ecl	mapflag	nobranch
+ecl_hub01	mapflag	nobranch
+que_avan01	mapflag	nobranch
+
+//============================================================
+// Duplicatas de Izlude
+//============================================================
+izlude_a	mapflag	nobranch
+izlude_b	mapflag	nobranch
+izlude_c	mapflag	nobranch
+izlude_d	mapflag	nobranch
+
+//============================================================
+// Calabouço Memorial de Glastheim
+//============================================================
+1@gl_k	mapflag	nobranch
+2@gl_k	mapflag	nobranch
+
+//============================================================
+// Calabouço Memorial - Modo Onda
+//============================================================
+1@def01	mapflag	nobranch
+1@def02	mapflag	nobranch
+1@def03	mapflag	nobranch
+
+//============================================================
+// Trilha dos Heróis - Parte 1
+//============================================================
+1@face	mapflag	nobranch
+1@sara	mapflag	nobranch
+dali	mapflag	nobranch
+dali02	mapflag	nobranch
+
+//============================================================
+// Trilha dos Heróis - Parte 2
+//============================================================
+1@ge_st	mapflag	nobranch
+1@gef	mapflag	nobranch
+1@gef_in	mapflag	nobranch
+1@spa	mapflag	nobranch
+1@tnm1	mapflag	nobranch
+1@tnm2	mapflag	nobranch
+1@tnm3	mapflag	nobranch
+
+//============================================================
+// Calabouço Memorial da Fábrica do Terror
+//============================================================
+1@xm_d	mapflag	nobranch
+
+//============================================================
+// Trilha dos Heróis - Parte 3
+//============================================================
+1@glast	mapflag	nobranch
+1@air1	mapflag	nobranch
+1@air2	mapflag	nobranch
+
+//============================================================
+// Batalha Decisiva - Parte 1
+//============================================================
+1@dth1	mapflag	nobranch
+1@dth2	mapflag	nobranch
+1@dth3	mapflag	nobranch
+1@rev	mapflag	nobranch
+
+//============================================================
+// Batalha Decisiva - Parte 2
+//============================================================
+1@eom	mapflag	nobranch
+1@jtb	mapflag	nobranch
+
+//============================================================
+// Episódio 15 - Fantasmagórica
+//============================================================
+1@lab	mapflag	nobranch
+1@uns	mapflag	nobranch
+1@mcd	mapflag	nobranch
+un_myst	mapflag	nobranch
+
+//============================================================
+// Biolaboratório - Modo Pesadelo
+//============================================================
+lhz_dun_n	mapflag	nobranch
+lhz_d_n2	mapflag	nobranch
+
+//============================================================
+// Espaço Infinito
+//============================================================
+1@infi	mapflag	nobranch
+
+//============================================================
+// GdE:TE Castelos
+//============================================================
+te_alde_gld	mapflag	nobranch
+te_prt_gld	mapflag	nobranch
+te_prtcas01	mapflag	nobranch
+te_prtcas02	mapflag	nobranch
+te_prtcas03	mapflag	nobranch
+te_prtcas04	mapflag	nobranch
+te_prtcas05	mapflag	nobranch
+te_aldecas1	mapflag	nobranch
+te_aldecas2	mapflag	nobranch
+te_aldecas3	mapflag	nobranch
+te_aldecas4	mapflag	nobranch
+te_aldecas5	mapflag	nobranch
+
+//============================================================
+// Treinamento de Aprendizes
+//============================================================
+int_land	mapflag	nobranch
+int_land01	mapflag	nobranch
+int_land02	mapflag	nobranch
+int_land03	mapflag	nobranch
+int_land04	mapflag	nobranch
+
+//============================================================
+// Episódio 16.1 - Banquete Real
+//============================================================
+prt_lib	mapflag	nobranch
+prt_lib_q	mapflag	nobranch
+prt_cas	mapflag	nobranch
+prt_cas_q	mapflag	nobranch
+prt_pri00	mapflag	nobranch
+rebel_in	mapflag	nobranch
+que_swat	mapflag	nobranch
+1@mir	mapflag	nobranch
+2@mir	mapflag	nobranch
+1@sthb	mapflag	nobranch
+1@sthc	mapflag	nobranch
+1@sthd	mapflag	nobranch
+1@slw	mapflag	nobranch
+1@swat	mapflag	nobranch
+
+//============================================================
+// Pedra Cume (Rockridge)
+//============================================================
+har_in01	mapflag	nobranch
+rockmi2	mapflag	nobranch
+
+//============================================================
+// Dia Memorial
+//============================================================
+1@md_gef	mapflag	nobranch
+1@md_pay	mapflag	nobranch
+
+//============================================================
+// Lasagna
+//============================================================
+lasagna	mapflag	nobranch
+lasa_in01	mapflag	nobranch
+conch_in	mapflag	nobranch
+lasa_dun_q	mapflag	nobranch
+
+//============================================================
+// Glastheim - Modo Pesadelo
+//============================================================
+1@gl_k2	mapflag	nobranch
+2@gl_k2	mapflag	nobranch
+
+//============================================================
+// Fábrica do Terror - Modo Galinha
+//============================================================
+1@xm_d2	mapflag	nobranch
+
+//============================================================
+// Naufrágio Suspeito
+//============================================================
+1@tre	mapflag	nobranch
+
+//============================================================
+// Vila Poring
+//============================================================
+1@begi	mapflag	nobranch
+
+//============================================================
+// Ilha Vulcânica Korodo
+//============================================================
+1@crd	mapflag	nobranch
+
+//============================================================
+// Festival do Macarrão de Julho
+//============================================================
+1@drdo	mapflag	nobranch
+
+//============================================================
+// Mapas de Mudança de Classe para Ceifador de Almas
+//============================================================
+1@soul	mapflag	nobranch
+
+//============================================================
+// Episódio 17.1
+//============================================================
+1@cor	mapflag	nobranch
+1@os_a	mapflag	nobranch
+1@os_b	mapflag	nobranch
+1@rgsr	mapflag	nobranch
+pub_cat	mapflag	nobranch
+rgsr_in	mapflag	nobranch
+
+//============================================================
+// Episódio 17.2
+//============================================================
+1@bamn	mapflag	nobranch
+1@bamq	mapflag	nobranch
+1@ghg	mapflag	nobranch
+1@herbs	mapflag	nobranch
+1@lost	mapflag	nobranch
+ba_in01	mapflag	nobranch
+1@odin	mapflag	nobranch
+
+//============================================================
+// Mapas de Mudança de Classe para as 4º Classes
+//============================================================
+1@4win	mapflag	nobranch
+1@4mag	mapflag	nobranch
+1@4mst	mapflag	nobranch
+1@4sac	mapflag	nobranch
+1@4tro	mapflag	nobranch
+1@4inq	mapflag	nobranch
+1@4cdn	mapflag	nobranch
+1@4igd	mapflag	nobranch
+1@4drk	mapflag	nobranch
+job4_bio	mapflag	nobranch
+job4_mag	mapflag	nobranch
+job4_tro	mapflag	nobranch
+
+//============================================================
+// Arena Noturna de Geffen
+//============================================================
+1@ge_sn	mapflag	nobranch
+
+//============================================================
+// Traços dos Heróis
+//============================================================
+1@mjo1	mapflag	nobranch
+1@mjo2	mapflag	nobranch
+1@spa2	mapflag	nobranch
+
+//============================================================
+// Calabouço Memorial da Torre de Thanatos
+//============================================================
+1@thts	mapflag	nobranch
+2@thts	mapflag	nobranch
+3@thts	mapflag	nobranch
+4@thts	mapflag	nobranch
+5@thts	mapflag	nobranch
+6@thts	mapflag	nobranch
+7@thts	mapflag	nobranch
+8@thts	mapflag	nobranch
+
+//============================================================
+// Glastheim - Modo Desafio
+//============================================================
+1@gl_he	mapflag	nobranch
+1@gl_he2	mapflag	nobranch
+
+//============================================================
+// EDDA
+//============================================================
+1@gl_prq	mapflag	nobranch
+1@gol1	mapflag	nobranch
+1@gol2	mapflag	nobranch
+
+//============================================================
+// Halloween 2018
+//============================================================
+1@halo	mapflag	nobranch
+
+//============================================================
+// Torre da Constelação
+//============================================================
+1@ch_t	mapflag	nobranch
+2@ch_t	mapflag	nobranch
+3@ch_t	mapflag	nobranch
+
+//============================================================
+// Campo de Treinamento Fora de Prontera
+//============================================================
+tra_fild	mapflag	nobranch
+
+//============================================================
+// Episódio 18 - Direção da Oração
+//============================================================
+1@adv	mapflag	nobranch
+1@advs	mapflag	nobranch
+1@nyr	mapflag	nobranch
+1@oz	mapflag	nobranch
+1@tcamp	mapflag	nobranch
+2@nyr	mapflag	nobranch
+que_thr	mapflag	nobranch
+
+//============================================================
+// Torre Submersa
+//============================================================
+1@ch_u	mapflag	nobranch
+
+//============================================================
+// Lojas de Cash
+//============================================================
+itemmall	mapflag	nobranch

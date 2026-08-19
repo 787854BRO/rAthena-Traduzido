@@ -1,0 +1,26 @@
+//===== rAthena Script =======================================
+//= Brasilis Fields Monster Spawn Script
+//===== Description: =========================================
+//= [Official Conversion based on bRO & jRO servers]
+//
+// Note:
+// - Brasilis was introduced in Pre-Renewal only for bRO and
+//   jRO official servers with differences in monster stats,
+//   spawns and quests.
+//   It was added in Renewal for every other official server.
+//   Since we follow kRO this is disabled by default.
+//   You can enable it on npc/pre-re/scripts_athena.conf
+//===== Changelog: ===========================================
+//= 1.0 First Version [Playtester]
+//============================================================
+
+//==================================================
+// bra_fild01 - Campo de Brasilis
+//==================================================
+bra_fild01,0,0	monster	Curupira	2074,50,5000
+bra_fild01,0,0	monster	Dokebi	1110,10,5000
+bra_fild01,0,0	monster	Selvagem	1166,5,5000
+bra_fild01,0,0	monster	Mula sem Cabeça	2071,40,5000
+bra_fild01,0,0	monster	Cogumelo Vermelho	1085,5,5000
+bra_fild01,0,0	monster	Espírito da Terra	2072,55,5000
+bra_fild01,0,0	monster	Espírito do Ar	2073,60,5000

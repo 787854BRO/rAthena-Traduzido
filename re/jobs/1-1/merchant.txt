@@ -1,0 +1,125 @@
+//===== rAthena Script ======================================= 
+//= Renewal Merchant Job Quest
+//===== By: ================================================== 
+//= Kisuka
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Job Change to Merchant Class
+//===== Additional Comments: ================================= 
+//= 1.0 First Version. [Kisuka]
+//= 1.1 Added support for Baby classes. [Euphy]
+//============================================================ 
+alberta_in,53,43,6	script	Mercador#mer	86,{
+	if (Upper == 1) {
+		if (Class == Job_Novice_High && (ADVJOB == Job_Whitesmith || ADVJOB == Job_Creator)) {
+			mes "[Membro da Guilda Mahnsoo]";
+			mes "Há quanto tempo!";
+			mes "Ei, você não desistiu";
+			mes "do seu negócio né?";
+			mes "O que aconteceu?";
+			next;
+			mes "[Membro da Guilda Mahnsoo]";
+			mes "Whoa...";
+			mes "Você já esteve em Valhalla? Uau! Você percorreu um longo caminho!";
+			next;
+			if (!callfunc("F_CanChangeJob")) {
+				mes "[Membro da Guilda Mahnsoo]";
+				mes "Hmmm...";
+				mes "Parece que não está pronto para se tornar Mercador. Obtenha as habilidades básicas primeiro.";
+				next;
+				mes "[Membro da Guilda Mahnsoo]";
+				mes "Não se preocupe, sempre teremos um espaço para você. Apenas volte quando estiver pronto certo?";
+				close;
+			}
+			mes "[Membro da Guilda Mahnsoo]";
+			mes "Deve ser o destino, nos encontrarmos novamente. Mais uma vez, deixe-me transformar você em um Mercador.";
+			next;
+			skill "NV_TRICKDEAD",0,SKILL_PERM;
+			jobchange Job_Merchant_High;
+			skill "MC_CARTREVOLUTION",1,SKILL_PERM;
+			skill "MC_CHANGECART",1,SKILL_PERM;
+			skill "MC_LOUD",1,SKILL_PERM;
+			mes "[Membro da Guilda Mahnsoo]";
+			mes "Ahh, que nostálgico, como nos velhos tempos. Ok, faça seu melhor!";
+			close;
+		}else{
+			mes "[Membro da Guilda Mahnsoo]";
+			mes "^333333*Suspiro*^000000";
+			mes "Estou tão entediado.";
+			mes "Quando vou ver minha linda flor?";
+			close;
+		}
+	}
+	mes "[Membro da Guilda Mahnsoo]";
+	mes "Ei, porque está aqui?";
+	next;
+	switch(select("Quero ser um Mercador.:Saber mais sobre Mercadores.:Como se tornar um Mercador?:Nada não.")) {
+	case 1:
+		mes "[Membro da Guilda Mahnsoo]";
+		if(BaseJob != Job_Novice) {
+			if(BaseJob == Job_Merchant) {
+				mes ".....? Desculpe, o que você está dizendo?";
+				mes "Você já é um Mercador...";
+				mes "Hã? Já posso rir???";
+			}else{
+				mes "Ahh? Você está querendo fazer as duas coisas?";
+				mes "Por que não se dedica a sua Classe original?";
+				next;
+				mes "[Membro da Guilda Mahnsoo]";
+				mes "Temos ética nos negócios, você sabe...";
+			}
+			close;
+		}else{
+			mes "Quer ser Mercador? Hmm...";
+			next;
+			if (!callfunc("F_CanChangeJob")) {
+				mes "[Membro da Guilda Mahnsoo]";
+				mes "Mas para isto, seu nível de base deve ser 9, e você deve gastar todos seus pontos em habilidades básicas.";
+				next;
+				mes "[Membro da Guilda Mahnsoo]";
+				mes "Você não acha que precisamos saber sobre as habilidades básicas, embora apenas lidamos com dinheiro?";
+				close;
+			}
+			mes "[Membro da Guilda Mahnsoo]";
+			mes "Bom, você está pronto! Cumpriu os requisitos.";
+			mes "Agora o transformarei em Mercador.";
+			next;
+			mes "[Membro da Guilda Mahnsoo]";
+			mes "Parabéns, você virou Mercador!";
+			mes "Parabéns novamente por se tornar membro do Clã dos Mercadores e um de nós.";
+			callfunc "Job_Change",Job_Merchant;
+			getitem 1381,1;	//Machado de Batalha de Iniciante
+			next;
+			mes "[Membro da Guilda Mahnsoo]";
+			mes "Certamente precisamos de jovens que tenham paixão para atingir nosso grande objetivo de obter 20% da moeda Mundial.";
+			mes "Entendeu? Isto apenas significa que ganharemos MUITO DINHEIRO.";
+			close;
+		}
+	case 2:
+		mes "[Membro da Guilda Mahnsoo]";
+		mes "Mercador? Simplificando é a pessoa que vende e ganha dinheiro é um mercado.";
+		mes "Não feito para combate sem habilidades especiais de ataque/recuperação, mas um mercador pode comprar coisas por um preço barato e vender por um valor maior.";
+		next;
+		mes "[Membro da Guilda Mahnsoo]";
+		mes "Bom, o Mercador tem uma habilidade suprema chamada Mamonita que ataca o inimigo com seu dinheiro. nós podemos equipar tudo exceto Arcos, Bastões e espadas de Duas Mãos.";
+		mes "Mas podemos sempre comprar e vender estes itens em nossas lojas. Sim, nós Mercadores sempre temos o dinheiro em mente, entendeu?";
+		close;
+	case 3:
+		mes "[Membro da Guilda Mahnsoo]";
+		mes "Para se tornar Mercador, deve atingir o nível de base 9 e concluir as habilidades básicas.";
+		next;
+		mes "[Membro da Guilda Mahnsoo]";
+		mes "Constumávamos receber uma Taxa em Zeny inicial antes. Não é difícil.";
+		mes "Mas tinha muitas pessoas que não conseguiam reunir a quantia e ficavam chorando.";
+		next;
+		mes "[Membro da Guilda Mahnsoo]";
+		mes "Então recentemente decidimos que qualquer Aprendiz poderia tornar-se um Mercador.";
+		mes "Desde que, cumpra com os requisitos exigidos.";
+		close;
+	case 4:
+		close;
+	}
+}

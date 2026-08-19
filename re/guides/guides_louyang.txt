@@ -1,0 +1,127 @@
+//===== rAthena Script ======================================= 
+//= Luoyang Guide
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guide for the city of Luoyang.
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal guide.
+//= 1.1 Navigation system update. [Euphy]
+//============================================================ 
+
+louyang,224,104,4	script	Guia de Louyang#01louyang	818,{
+	mes "[Representante]";
+	mes "Bem vind"+((Sex) ? "o":"a")+" à ^8B4513Louyang^000000,";
+	mes "uma terra antiga com uma";
+	mes "história cheia de contos";
+	mes "de bravura.";
+	next;
+	mes "[Representante]";
+	mes "Nós agora fornecemos uma pista oceânica para acomodar viajantes estrangeiros e intercâmbio intercultural, do qual todos poderão se beneficiar.";
+	next;
+	mes "[Representante]";
+	mes "^8B4513Louyang^000000 é famosa por";
+	mes "sua elaborada história, assim como especialidades que são exclusivas desta nação. Por favor, oculpe seu tempo e aproveite sua estadia.";
+	F_Navi("[Representante]");
+	set .@str$,"Há mais alguma coisa que eu possa fazer por você?";
+	while (1) {
+		next;
+		switch(select("[ Castelo do Dragão ]:[ Consultório Médico ]:[ Prefeitura ]:[ Loja de Armas ]:[ Loja de Utilidades ]:[ Taverna ]:[ Observatório ]:[ Retornar para Alberta ]:Remover Marcações do Mini-mapa:Cancelar")) {
+		case 1:
+			mes "[Representante]";
+			mes "O "+F_Navi("Castelo do Dragão","louyang,218,253")+" está localizado em ^0A82FF+^000000. É onde todos os nobres residem, incluindo o nosso senhor.";
+			mes "Já que você é "+((Sex) ? "um":"uma")+" turista, eu acho que seria apropriado você visitar o nosso senhor primeiro.";
+			mes .@str$;
+			viewpoint 1,218,253,0,0x0A82FF;
+			break;
+		case 2:
+			mes "[Representante]";
+			mes "É um famoso "+F_Navi("Consultório Médico","louyang,261,93","^AAFF00");
+			mes "que de acordo com rumores, pode curar todas as doenças. Mas não tenho certeza se é verdade ou não.";
+			mes .@str$;
+			viewpoint 1,261,93,1,0xAAFF00;
+			break;
+		case 3:
+			mes "[Representante]";
+			mes "Nós temos uma "+F_Navi("Prefeitura","louyang,309,78")+" onde o governo federal opera.";
+			mes "Está localizada em ^008080+^000000.";
+			next;
+			mes "[Representante]";
+			mes "Se você tiver algum problema,";
+			mes "você poderá falar com algum";
+			mes "dos funcionários lá.";
+			mes .@str$;
+			viewpoint 1,309,78,2,0x20B2AA;
+			break;
+		case 4:
+			mes "[Representante]";
+			mes "A "+F_Navi("Loja de Armas","louyang,145,172")+" está localizada em ^55FF33+^000000.";
+			next;
+			mes "[Representante]";
+			mes "Você verá";
+			mes "maravilhosas armas forjadas";
+			mes "pelos bem-experientes";
+			mes "Ferreiros de Louyang.";
+			mes .@str$;
+			viewpoint 1,145,172,3,0xFF1493;
+			break;
+		case 5:
+			mes "[Representante]";
+			mes "A "+F_Navi("Loja de Utilidades","louyang,138,99")+" está localizada em ^3355FF+^000000.";
+			next;
+			mes "[Representante]";
+			mes "Conhecer seu inimigo";
+			mes "é metade da batalha!";
+			mes "Também é mais seguro se preparar antes do que se arrepender depois. Por que você não vai checar os suprimentos?";
+			mes .@str$;
+			viewpoint 1,138,99,4,0xFF0000;
+			break;
+		case 6:
+			mes "[Representante]";
+			mes "Quando você se cansar durante a sua viagem, eu sugiro que você visite a "+F_Navi("Taverna","louyang,280,165")+". Está localizada em ^00FF00+^000000.";
+			next;
+			mes "[Representante]";
+			mes "A Taverna é um bom lugar para";
+			mes "conhecer outros turistas, bem como ouvir notícias que possam ser úteis.";
+			mes .@str$;
+			viewpoint 1,280,165,5,0xDAA520;
+			break;
+		case 7:
+			mes "[Representante]";
+			mes "Você não terá uma visão melhor do mundo, a não ser que seja no "+F_Navi("Observatório","louyang,136,245")+".";
+			mes "É preciso ver e conhecê-lo.";
+			mes .@str$;
+			viewpoint 1,136,245,6,0xD8BFD8;
+			break;
+		case 8:
+			mes "[Representante]";
+			mes "Se você quiser voltar para Alberta,";
+			mes "encontre a "+F_Navi("Garota","louyang,218,22","^00BFFF")+" fora da cidade nas docas.";
+			mes .@str$;
+			viewpoint 1,218,22,7,0x00BFFF;
+			break;
+		case 9:
+			mes "[Representante]";
+			mes "Eu removerei todas as marcações do seu Mini-mapa.";
+			mes .@str$;
+			viewpoint 2,1,1,0,0xFFFFFF;
+			viewpoint 2,1,1,1,0xFFFFFF;
+			viewpoint 2,1,1,2,0xFFFFFF;
+			viewpoint 2,1,1,3,0xFFFFFF;
+			viewpoint 2,1,1,4,0xFFFFFF;
+			viewpoint 2,1,1,5,0xFFFFFF;
+			viewpoint 2,1,1,6,0xFFFFFF;
+			viewpoint 2,1,1,7,0xFFFFFF;
+			break;
+		case 10:
+			mes "[Representante]";
+			mes "Aproveite sua viagem~!";
+			close;
+		}
+	}
+}

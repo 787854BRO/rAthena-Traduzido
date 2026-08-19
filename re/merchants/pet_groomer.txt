@@ -1,0 +1,48 @@
+//===== rAthena Script =======================================
+//= Pet Groomer
+//===== Description: =========================================
+// Update Pet Groomer NPCs
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Haydrich]
+//============================================================
+
+-	shop	Pet_Itens	-1,25377:-1:0,537:-1,643:-1,10013:-1,10014:-1,6113:-1,6114:-1,6115:-1,6110:-1,6100:-1,6098:-1,6112:-1,6104:-1,6108:-1,6111:-1,6095:-1,7824:-1,6097:-1,6107:-1,6105:-1,6099:-1,25231:-1,25232:-1,25233:-1,6106:-1,11616:-1,6109:-1,1000552:-1,1000889:-1
+
+-	script	#Tosadora	HIDDEN_NPC,{
+	mes "[Tosadora]";
+	mes "Olá! Você precisa de comida para seu Mascote?";
+	mes "Ou talvez alguns acessórios para enfeitá-lo?";
+	mes "Também temos itens para domar Mascotes!";
+	next;
+	switch( select( "Comprar Comida para Mascote.", "Trocar suprimentos de Mascotes.", "Voltarei outra hora." )) {
+		case 1:
+			mes "[Tosadora]";
+			mes "Certo, fique à vontade para comprar.";
+			close2;
+			callshop "Pet_Itens", 1;
+			end;
+		case 2:
+			mes "[Tosadora]";
+			mes "Certo, vamos negociar.";
+			close2;
+			callshop "barter_Pet_Groomer";
+			end;
+		case 3:
+			mes "[Tosadora]";
+			mes "Tudo bem, volte quando quiser.";
+			close;
+	}
+}
+
+//= Duplicatas
+//============================================================
+prontera,218,211,4	duplicate(#Tosadora)	Tosadora#prt	4_M_TELEPORTER
+moc_ruins,118,170,4	duplicate(#Tosadora)	Tosadora#moc	4_M_TELEPORTER
+morocc,203,87,4	duplicate(#Tosadora)	Tosadora#moc1	4_M_TELEPORTER
+geffen,193,152,4	duplicate(#Tosadora)	Tosadora#gef	4_F_TELEPORTER
+payon,177,131,4	duplicate(#Tosadora)	Tosadora#pay	4_F_TELEPORTER
+izlude_in,72,98,3	duplicate(#Tosadora)	Tosadora#iz	4_F_TELEPORTER
+yuno,197,114,4	duplicate(#Tosadora)	Tosadora#yuno	4_F_TELEPORTER
+lighthalzen,222,191,4	duplicate(#Tosadora)	Tosadora#lhz	4_M_TELEPORTER
+brasilis,201,309,3	duplicate(#Tosadora)	Tosadora#bra	4_M_BRZ_MAN1
+lasagna,179,176,6	duplicate(#Tosadora)	Tosadora#las	4_M_TELEPORTER

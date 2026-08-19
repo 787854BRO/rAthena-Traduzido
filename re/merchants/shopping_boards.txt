@@ -1,0 +1,29 @@
+//===== rAthena Script =======================================
+//= Shopping Boards
+//===== Description: =========================================
+//= Shopping Boards work like Bargain Hunter's Catalogues.
+//= They are found in towns and search exclusively in their respective maps.
+//= Searches are limited to 1 use per board click (you can re-use the board without closing it to get another search).
+//= https://irowiki.org/wiki/Commerce#Shopping_Boards
+//===== Changelog: ===========================================
+//= 1.0 Initial version. [Pokye]
+//============================================================
+
+-	script	Painéis de Compras	-1,{
+	searchstores 1, SEARCHSTORE_EFFECT_REMOTE;
+	end;
+}
+
+alberta,119,65,3	duplicate(Painéis de Compras)	Painel de Compras#alb	4_BOARD3
+aldebaran,146,120,3	duplicate(Painéis de Compras)	Painel de Compras#alde	4_BOARD3
+comodo,206,153,3	duplicate(Painéis de Compras)	Painel de Compras#cmd	4_BOARD3
+geffen,130,68,3	duplicate(Painéis de Compras)	Painel de Compras#gef	4_BOARD3
+izlude,127,116,3	duplicate(Painéis de Compras)	Painel de Compras#izl	4_BOARD3
+morocc,166,109,3	duplicate(Painéis de Compras)	Painel de Compras#moc	4_BOARD3
+payon,183,103,3	duplicate(Painéis de Compras)	Painel de Compras#pay	4_BOARD3
+prontera,159,193,3	duplicate(Painéis de Compras)	Painel de Compras#prt1	4_BOARD3
+prontera,182,214,3	duplicate(Painéis de Compras)	Painel de Compras#prt2	4_BOARD3
+prontera,130,215,3	duplicate(Painéis de Compras)	Painel de Compras#prt3	4_BOARD3
+prontera,146,85,3	duplicate(Painéis de Compras)	Painel de Compras#prt4	4_BOARD3
+xmas,155,144,3	duplicate(Painéis de Compras)	Painel de Compras#xmas	4_BOARD3
+yuno,146,187,3	duplicate(Painéis de Compras)	Painel de Compras#yuno	4_BOARD3

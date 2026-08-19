@@ -1,0 +1,41 @@
+//===== rAthena Script =======================================
+//= Comodo Town
+//===== Description: =========================================
+//= NPCs in Comodo
+//===== Additional Comments: =================================
+//= 1.0 Initial release [crazyarashi]
+//= 1.1 Improved translations [Everade]
+//============================================================
+
+// Espaço Infinito
+//============================================================
+cmd_fild07,43,275,7	script	Espectador#pa0829_01	4_M_01,{
+	mes "[Espectador]";
+	mes "Se você me disser para não entrar, isso não vai me fazer querer entrar ainda mais? Mas não parece que há nada interessante para ver.";
+	mes "Não vejo monstros aqui...";
+	close;
+}
+
+cmd_fild07,45,273,7	script	Nômade#pa0829_01	4_F_JOB_HUNTER,{
+	mes "[Nômade]";
+	mes "Não... estou apenas de passagem. Não quero entrar...";
+	close;
+}
+
+cmd_fild07,47,274,0	script	Viajante#pa0829_01	4_F_07,{
+	mes "[Viajante]";
+	mes "Rumores têm se espalhado de que existem monstros vivendo aqui. As pessoas afirmam ouvir barulhos no chão por causa deles...";
+	next;
+	mes "[Viajante]";
+	mes "Eu quero explorar o interior...";
+	close;
+}
+
+cmd_fild07,50,271,0	script	Aventureiro#pa0829_01	4_M_03,{
+	mes "[Aventureiro]";
+	mes "Você acha que existe um tesouro dentro deste lugar?";
+	next;
+	mes "[Aventureiro]";
+	mes "Isso meio que cheira...";
+	close;
+}

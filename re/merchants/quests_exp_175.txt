@@ -1,0 +1,90 @@
+//===== rAthena Script =======================================
+//= Merchants from new dungeons for Level 175
+//===== Description: =========================================
+//= [Walkthrough Conversion]
+//--- Merchants related to new dungeons.
+//===== Changelog: ===========================================
+//= 1.0 Initial release of Einbech Dungeon 3 merchants. [Capuche]
+//============================================================
+
+einbech,149,257,4	script	Elmen, Gerente da Mina#extdq0	4_TOWER_16,{
+	if (checkweight(25814,100) == 0 || checkweight(1201,1) == 0 || (MaxWeight - Weight) < 10000) {
+		mes "- Você não pode prosseguir porque tem muitos itens. -";
+		close;
+	}
+	mes "[Elmen]";
+	mes "Olá. Aventureiro.";
+	mes "Se você veio comprar equipamentos de Mineração de Dinite ou refinar minérios em Dinite, você veio ao lugar certo.";
+	next;
+	switch( select( "Refinar Dinite.", "Loja de Dinite.", "Trocar Equipes por Dinite." ) ) {
+	case 1:
+		npctalk "Elmen: Você só pode refinar até 100 Dinites de uma vez. A máquina é pequena.", "", bc_self;
+		mes "[Elmen]";
+		mes "Minério Refinado <ITEM>Dinite<INFO>25814</INFO></ITEM>.";
+		mes "<ITEM>Redium<INFO>25809</INFO></ITEM> ^777777(atualmente " + countitem(25809) + ")^000000";
+		mes "<ITEM>Rindium<INFO>25810</INFO></ITEM> ^777777(atualmente " + countitem(25810) + ")^000000";
+		mes "<ITEM>Odium<INFO>25811</INFO></ITEM> ^777777(atualmente " + countitem(25811) + ")^000000";
+		mes "<ITEM>Purdium<INFO>25812</INFO></ITEM> ^777777(atualmente " + countitem(25812) + ")^000000";
+		mes "<ITEM>Whidium<INFO>25813</INFO></ITEM> ^777777(atualmente " + countitem(25813) + ")^000000";
+		mes "Você precisa de um de cada dos cinco tipos de minérios.";
+		next;
+		input .@val;
+		if (.@val > 100) {
+			mes "[Elmen]";
+			mes "Desculpe, aventureiro.";
+			mes "O Refino de Dinite só pode ser feito até 100 de cada vez? A máquina é pequena, então não há como te ajudar. Por favor, entenda.";
+			close;
+		}
+		if (.@val == 0) {
+			mes "[Elmen]";
+			mes "Cancelar?";
+			mes "Se precisar de refino de Dinite, pode me procurar a qualquer momento. Não há ninguém que possa fazer isso sem mim.";
+			close;
+		}
+		if (countitem(25809) < .@val || countitem(25810) < .@val || countitem(25811) < .@val || countitem(25812) < .@val || countitem(25813) < .@val) {
+			mes "[Elmen]";
+			mes "Ei! Isso dificulta as coisas para ambos, você está ficando sem materiais necessários para o refino? Sem materiais!";
+			close;
+		}
+		specialeffect EF_REPAIRWEAPON;
+		progressbar_npc "FFFF00",1;
+		delitem 25809,.@val;	// Redium
+		delitem 25810,.@val;	// Rindium
+		delitem 25811,.@val;	// Odium
+		delitem 25812,.@val;	// Purdium
+		delitem 25813,.@val;	// Whidium
+		getitem 25814,.@val;	// Dinite
+		mes "[Elmen]";
+		mes "" + .@val + " Dinite(s) foram refinados. Está perfeito hoje!";
+		close;
+	case 2:
+		mes "[Elmen]";
+		mes "Existem vários Acessórios e Permissões de Modificação. Observe cuidadosamente o que deseja antes de comprar.";
+		close2;
+		callshop "barter_ein_dun03";
+		end;
+	case 3:
+		mes "[Elmen]";
+		mes "Posso trocar os equipamentos por Dinite, mas eles estão em uma caixa lacrada.";
+		mes "Me dê 50 ^4d4dffDinites^000000 que eu abrirei uma ^4d4dffCaixa de Armas^000000 para você.";
+		next;
+		mes "[Elmen]";
+		mes "Não sei o que vai sair, mas a qualidade é boa. Deseja abrir?";
+		next;
+		if (select( "Fechar os olhos e trocar.", "Não trocar." ) == 2) {
+			mes "[Elmen]";
+			mes "Kee, isso foi um desperdício, foi um bom negócio.";
+			close;
+		}
+		if (countitem(25814) < 50) {
+			mes "[Elmen]";
+			mes "Você não tem Dinite suficiente.";
+			mes "Não sei o que vai sair da caixa, então pode ser difícil de conseguir esse tipo de equipamento por um preço barato.";
+			close;
+		}
+		delitem 25814,50;
+		// texto desconhecido
+		getgroupitem(IG_EIN_1HITEMBOX);
+		end;
+	}
+}

@@ -1,0 +1,17 @@
+//===== rAthena Script =======================================
+//= Monsters from Varmundt's Mansion
+//===== Changelog: ===========================================
+//= 1.0 First version. [JohnnyPlayy]
+//============================================================
+
+//= ba_2whs01 - Armazém de Tartaros - Nível 1
+//==================================================
+ba_2whs01,0,0	monster	Guarda Beta Quebrado	20639,30,5000
+ba_2whs01,0,0	monster	Limpador Omega Quebrado	20641,90,5000
+ba_2whs01,0,0	monster	Escaramuçador	20682,70,5000
+
+//= ba_2whs02 - Armazém de Tartaros - Nível 2
+//==================================================
+ba_2whs02,0,0	monster	Gerente do Armazém	20637,80,5000
+ba_2whs02,0,0	monster	Guarda Beta Quebrado	20639,80,5000
+ba_2whs02,0,0	monster	Limpador Omega Quebrado	20641,20,5000

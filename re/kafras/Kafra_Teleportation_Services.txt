@@ -1,0 +1,341 @@
+//===== rAthena Script ======================================= 
+//= Kafra Teleportation Services
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [JohnnyPlayy]
+//===== Description: ========================================= 
+// Texts from this script were translated according to KRO
+//============================================================
+
+function	script	F_KafTeleDoram	{
+	.@menu_choice = getarg(0);
+
+	cutin "kafra_do01", 2;
+	mes "[Funcionária Kafra]";
+	mes "Bem-vind"+((Sex)?"o":"a")+".";
+	mes "Os serviços Kafra estão sempre com você.";
+	mes "Por favor, escolha o seu destino.";
+	next;
+	switch(.@menu_choice) {
+	case 1: // Alberta
+		switch( select( "Campo Sudeste de Payon", "Navio Afundado", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Campo Sudeste de Payon", 250,13 );
+			warp "pay_fild06",199,152;
+			end;
+		case 2:
+			callsub( S_Zone, "Navio Afundado", 50,3 );
+			warp "alb2trea",55,63;
+			end;
+		case 3:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	case 2: // Al De Baran
+		switch( select( "Fronteira de Al De Baran", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Fronteira de Al De Baran", 50,3 );
+			warp "yuno_fild01",194,150;
+			end;
+		case 2:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	case 3: // Einbroch
+		switch( select( "Campo Oeste do Vale do Abismo", "Campo Norte de Lighthalzen", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Campo Oeste do Vale do Abismo", 600,30 );
+			warp "ein_fild06",199,152;
+			end;
+		case 2:
+			callsub( S_Zone, "Campo Norte de Lighthalzen", 1400,70 );
+			warp "lhz_fild01",244,130;
+			end;
+		case 3:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	case 4: // Geffen
+		switch( select( "Entrada Subterrânea da Torre de Geffen", "Campo Norte do Monte Mjolnir", "Vila dos Orcs", "Entrada de Glast Heim", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Entrada Subterrânea da Torre de Geffen", 300,15 );
+			warp "gef_tower",153,46;
+			end;
+		case 2:
+			callsub( S_Zone, "Campo Norte do Monte Mjolnir", 150,8 );
+			warp "mjolnir_02",172,195;
+			end;
+		case 3:
+			callsub( S_Zone, "Vila dos Orcs", 100,5 );
+			warp "gef_fild10",150,301;
+			end;
+		case 4:
+			callsub( S_Zone, "Entrada de Glast Heim", 6666,444 );
+			warp "gef_fild06",34,270;
+			end;
+		case 5:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	case 5: // Lighthalzen
+		switch( select( "Campo Norte de Lighthalzen", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Campo Norte de Lighthalzen", 200,10 );
+			warp "lhz_fild01",244,130;
+			end;
+		case 2:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	case 6: // Morroc
+		switch( select( "Pirâmide das Ruínas de Morroc", "Esfinge do Deserto de Sograt", "Campo Sudeste de Morroc", "Praias de Comodo", "Reino dos Mortos", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Pirâmide das Ruínas de Morroc", 50,3 );
+			warp "moc_ruins",100,140;
+			end;
+		case 2:
+			callsub( S_Zone, "Esfinge do Deserto de Sograt", 50,3 );
+			warp "moc_fild19",132,100;
+			end;
+		case 3:
+			callsub( S_Zone, "Campo Sudeste de Morroc", 100,5 );
+			warp "moc_fild11",267,100;
+			end;
+		case 4:
+			callsub( S_Zone, "Praias de Comodo", 250,13 );
+			warp "cmd_fild02",89,83;
+			end;
+		case 5:
+			callsub( S_Zone, "Reino dos Mortos", 12121,666 );
+			warp "niflheim",220,141;
+			end;
+		case 6:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	case 7: // Payon
+		switch( select( "Vila do Arqueiro", "Campo Sudeste de Payon", "Campo Sul de Prontera", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Vila do Arqueiro", 50,3 );
+			warp "pay_arche",69,130;
+			end;
+		case 2:
+			callsub( S_Zone, "Campo Sudeste de Payon", 100,5 );
+			warp "pay_fild10",203,331;
+			end;
+		case 3:
+			callsub( S_Zone, "Campo Sul de Prontera", 150,8 );
+			warp "moc_fild02",109,144;
+			end;
+		case 4:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	case 8: // Prontera
+		switch( select( "Campo Sudoeste de Prontera", "Campo Norte de Prontera", "Ilha Byalan", "Campo Sul de Prontera", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Campo Sudoeste de Prontera", 100,5 );
+			warp "prt_fild07",250,257;
+			end;
+		case 2:
+			callsub( S_Zone, "Campo Norte de Prontera", 150,8 );
+			warp "prt_fild01",194,123;
+			end;
+		case 3:
+			callsub( S_Zone, "Ilha Byalan", 150,8 );
+			warp "izlu2dun",63,129;
+			end;
+		case 4:
+			callsub( S_Zone, "Campo Sul de Prontera", 150,8 );
+			warp "moc_fild02",109,144;
+			end;
+		case 5:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	case 9: // Rachel
+		switch( select( "Campo Sul da Caverna de Gelo", "Campo Leste do Vulcão Thor", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Campo Sul da Caverna de Gelo", 600,30 );
+			warp "ra_fild04",214,220;
+			end;
+		case 2:
+			callsub( S_Zone, "Campo Leste do Vulcão Thor", 600,30 );
+			warp "ve_fild04",198,174;
+			end;
+		case 3:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	case 10: // Veins
+		switch( select( "Campo Leste do Vulcão Thor", "Campo Sul de Veins", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Campo Leste do Vulcão Thor", 400,20 );
+			warp "ra_fild04",198,174;
+			end;
+		case 2:
+			callsub( S_Zone, "Campo Sul de Veins", 200,10 );
+			warp "ve_fild07",85,255;
+			end;
+		case 3:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	case 11: // Yuno
+		switch( select( "Campo Oeste do Vale do Abismo", "Escavação Fantasmagórica do Vale do Abismo", "Calabouço de Magma, Planalto de Juno", "Campo Oeste do Lago da Abismo", "Cancelar.") ) {
+		case 1:
+			callsub( S_Zone, "Campo Oeste do Vale do Abismo", 400,20 );
+			warp "ein_fild06",199,152;
+			end;
+		case 2:
+			callsub( S_Zone, "Escavação Fantasmagórica do Vale do Abismo", 400,20 );
+			warp "yuno_fild07",225,145;
+			end;
+		case 3:
+			callsub( S_Zone, "Calabouço de Magma, Planalto de Juno", 400,20 );
+			warp "yuno_fild03",201,152;
+			end;
+		case 4:
+			callsub( S_Zone, "Campo Oeste do Lago do Abismo", 800,40 );
+			warp "hu_fild04",186,78;
+			end;
+		case 5:
+			callfunc( "F_KafEnd",0,0 );
+		}
+	}
+
+S_Zone:
+	.@zeny_req = getarg(1);
+	.@item_req = getarg(2);
+
+	mes "[Funcionária Kafra]";
+	mes getarg(0)+" está disponível por ^ff0000"+.@zeny_req+" Zenys^000000 ou ^ff0000"+.@item_req+" Peixes Enlatados de Malangdo^000000.";
+	next;
+	switch( select( .@zeny_req + "Zeny", .@item_req + "Peixes Enlatados de Malangdo", "Cancelar" ) ) {
+	case 1:
+		if (Zeny < .@zeny_req)
+			break;
+		Zeny -= .@zeny_req;
+		return;
+	case 2:
+		if (countitem(12636) < .@item_req)
+			break;
+		delitem 12636,.@item_req; // Peixes Enlatados de Malangdo
+		return;
+	case 3:
+		mes "[Funcionária Kafra]";
+		mes "Você pode me perguntar sobre outras áreas de serviço?";
+		close3;
+	}
+	mes "[Funcionária Kafra]";
+	mes "Senhor! ";
+	mes "Verifique novamente.";
+	close3;
+}
+
+moc_para01,35,23,3	script	Teletransporte Kafra#eden	4_F_DRKAFRA01,{
+	cutin "kafra_do01", 2;
+	mes "[Funcionária Kafra]";
+	mes "Bem-vind"+(Sex?"o":"a")+".";
+	mes "Os serviços Kafra estão sempre ao seu lado.";
+	next;
+	mes "[Funcionária Kafra]";
+	mes "Para recompensar o apoio dos aventureiros, a Corporação Kafra, em cooperação com o Grupo do Eden, fornece serviços gratuitos para ^ff0000Aventureiros Iniciantes Abaixo do Nível 39^000000.";
+	next;
+	if (BaseLevel > 40) {
+		mes "[Funcionária Kafra]";
+		mes "Não oferecemos serviços de teletransporte gratuitos para aventureiros ^ff0000acima do nível 40^000000.";
+		mes "Procure serviços de teletransporte Kafra na cidade.";
+		close3;
+	}
+	mes "[Funcionária Kafra]";
+	mes "Por favor, escolha o seu destino.";
+	next;
+	switch( select( "Campo Oeste de Prontera", "Campo Sudoeste de Prontera", "Campo do Lago de Prontera", "Entrada do Calabouço de Payon", "Campo Sudoeste de Izlude", "Cancelar.") ) {
+	case 1:
+		mes "[Funcionária Kafra]";
+		mes "Campo de Prontera:";
+		mes "O Campo Oeste de Prontera é um campo montanhoso ao qual você também pode acessar o ^ff0000Esgoto de Prontera^000000.";
+		mes "^ff0000Vespas^000000 vivem lá, então aventureiros novatos devem tomar cuidado!";
+		next;
+		callsub( S_Zone );
+		warp "prt_fild05",276,241;
+		end;
+	case 2:
+		mes "[Funcionária Kafra]";
+		mes "Campo de Prontera:";
+		mes "Campo Sudoeste de Prontera é um lugar onde vivem ^ff0000Rockers^000000.";
+		next;
+		callsub( S_Zone );
+		warp "prt_fild07",250,257;
+		end;
+	case 3:
+		mes "[Funcionária Kafra]";
+		mes "Campo de Prontera:";
+		mes "Campo do Lago de Prontera é um lugar onde vivem os ^ff0000Ambernites^000000.";
+		next;
+		callsub( S_Zone );
+		warp "prt_fild04",204,109;
+		end;
+	case 4:
+		mes "[Funcionária Kafra]";
+		mes "Vila do Arqueiro:";
+		mes "A Caverna de Payon é um lugar assustador com muitos ^ff0000Zumbis^000000 e ^ff0000Esqueletos^000000.";
+		next;
+		callsub( S_Zone );
+		warp "pay_arche",69,130;
+		end;
+	case 5:
+		mes "[Funcionária Kafra]";
+		mes "Deserto de Sograt:";
+		mes "A sudoeste de Prontera e a sudoeste de Izlude, este lugar está cheio de ^ff0000Mukas^000000 e ^ff0000Peco Pecos^000000.";
+		next;
+		callsub( S_Zone );
+		warp "moc_fild01",232,250;
+		end;
+	case 6:
+		callfunc( "F_KafEnd",0,0 );
+	}
+S_Zone:
+	switch( select( "Eu desejo ir.", "Eu quero ficar." ) ) {
+	case 1:
+		return;
+	case 2:
+		mes "[Funcionária Kafra]";
+		mes "Quer conferir nossos outros serviços?";
+		close3;
+	}	
+}
+
+alberta,33,239,5	script	Teletransporte Kafra#alberta	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",1;
+}
+
+aldebaran,136,122,5	script	Teletransporte Kafra#aldebaran	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",2;
+}
+
+einbroch,246,205,5	script	Teletransporte Kafra#einbroch	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",3;
+}
+
+geffen,115,66,5	script	Teletransporte Kafra#geffen	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",4;
+}
+
+lighthalzen,167,103,5	script	Teletransporte Kafra#lighthalzen	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",5;
+}
+
+morocc,155,257,6	script	Teletransporte Kafra#morocc	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",6;
+}
+
+payon,176,104,5	script	Teletransporte Kafra#payon	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",7;
+}
+
+prontera,143,87,5	script	Teletransporte Kafra#prontera	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",8;
+}
+
+rachel,116,139,5	script	Teletransporte Kafra#rachel	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",9;
+}
+
+veins,196,133,5	script	Teletransporte Kafra#veins	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",10;
+}
+
+yuno,143,184,5	script	Teletransporte Kafra#yuno	4_F_DRKAFRA01,{
+	callfunc "F_KafTeleDoram",11;
+}

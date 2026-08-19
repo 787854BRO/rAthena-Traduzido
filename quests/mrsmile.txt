@@ -1,0 +1,104 @@
+//===== rAthena Script ======================================= 
+//= Mr. Smile Quest
+//===== By: ================================================== 
+//= kobra_k88, Akaru
+//===== Current Version: ===================================== 
+//= 1.4a
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Trade Clover, Fluff and Jellopy for a Mr. Smile mask.
+//===== Additional Comments: ================================= 
+//= 1.4 Rescripted to Aegis 10.3 standards. [L0ne_W0lf]
+//= 1.4a Fixed a little Typo error in duplicates. (bugreport:749) [Samuray22]
+//============================================================ 
+
+-	script	Dona Risadinha::SmileHelper	92,{
+	mes "[Dona Risadinha]";
+	mes "Olá ~ Olá ~";
+	mes "Eu sou a Dona Risadinha.";
+	mes "Como posso ajudar você?";
+	next;
+	switch(select("^3355FFMáscara Feliz^000000?:Fazer a ^3355FFMáscara Feliz^000000:Sair")) {
+	case 1:
+		mes "[Dona Risadinha]";
+		mes "Evento nacional realizado sob o comando de ^5577FFSua Majestade, Tristram III^000000,";
+		mes "o qual pretende incentivar a nação do Reino de Rune-Midgard";
+		mes "a ter uma jogabilidade numa atmosfera mais agradável!";
+		mes "Eu sou a ^3355FF'Dona Risadinha'^000000,";
+		mes "... que lidera o evento nacional sob o nome de";
+		mes "^3355FFMáscara Feliz por todo o Reino de Rune-Midgard~^000000";
+		next;
+		mes "[Dona Risadinha]";
+		mes "Com itens simples e fáceis de obter,";
+		mes "eu posso fornecer a você";
+		mes "a ^3355FF'Máscara Feliz'^000000.";
+		mes "Irei lhe dizer quais são esses itens, preste atenção e anote:";
+		next;
+		mes "[Dona Risadinha]";
+		mes "^3355FF10 Jellopys^000000";
+		mes "^3355FF10 Felpas^000000";
+		mes "^3355FF10 Trevos^000000";
+		next;
+		mes "[Dona Risadinha]";
+		mes "Com este evento";
+		mes "todos ficarão felizes e sorridentes,";
+		mes "reunindo-se com outras pessoas,";
+		mes "e tentaremos tornar o Ragnarök o jogo mais agradável do mundo.";
+		close;
+	case 2:
+		if (countitem(909) > 9 && countitem(914) > 9 && countitem(705) > 9) {
+			mes "[[Dona Risadinha]";
+			mes "Parabéns!";
+			mes "Agora, por favor, pegue sua Máscara Feliz.";
+			next;
+			delitem 909,10; // Jellopy
+			delitem 914,10; // Felpa
+			delitem 705,10; // Trevo
+			getitem 2278,1; // Máscara Feliz
+			mes "[Dona Risadinha]";
+			mes "Vossa majestade, Tristam III";
+			mes "prometeu dar o seu melhor para tornar o";
+			mes "Ragnarök um jogo melhor e mais agradável.";
+			next;
+			mes "O fato mencionado acima";
+			mes "foi anunciado pelo";
+			mes "Gabinete de Informações Públicas do Reino de Rune-Midgard.";
+			close;
+		}
+		else {
+			mes "[Dona Risadinha]";
+			mes "Ah - infelizmente";
+			mes "você não trouxe todos os";
+			mes "itens necessários para fazer a Máscara Feliz.";
+			mes "^3355FF10 Jellopys^000000";
+			mes "^3355FF10 Felpas^000000";
+			mes "^3355FF10 Trevos^000000";
+			mes "Por favor, verifique os requisitos acima.";
+			close;
+		}
+	case 3:
+		mes "[Dona Risadinha]";
+		mes "Obrigado por nos visitar.";
+		mes "Nós...";
+		mes "O Reino de Rune-Midgard";
+		mes "sempre tentaremos tornar o Ragnarök";
+		mes "um jogo melhor e mais agradável.";
+		next;
+		mes "[Dona Risadinha]";
+		mes "Nós sinceramente pedimos a você";
+		mes "que nos ajude.";
+		mes "O fato mencionado acima";
+		mes "foi anunciado pelo Gabinete de Informações Públicas do Reino de Rune-Midgard.";
+		close;
+	}
+}
+
+//= Duplicatas: Dona Risadinha.
+alberta,113,53,4	duplicate(SmileHelper)	Dona Risadinha#alb	92
+aldebaran,136,135,4	duplicate(SmileHelper)	Dona Risadinha#alde	92
+geffen,119,107,4	duplicate(SmileHelper)	Dona Risadinha#gef	92
+moc_ruins,59,154,3	duplicate(SmileHelper)	Dona Risadinha#moc	92
+payon,186,104,5	duplicate(SmileHelper)	Dona Risadinha#pay	92
+prontera,157,187,4	duplicate(SmileHelper)	Dona Risadinha#prt	92

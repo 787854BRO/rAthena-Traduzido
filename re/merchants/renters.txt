@@ -1,0 +1,275 @@
+//===== rAthena Script =======================================
+//= Renters
+//===== Description: =========================================
+//= [Official Conversion]
+//= Renewal-specific breeder NPCs.
+//===== Changelogs: ==========================================
+//= 2.1 Moved some renters to a separate renewal file. [Daegaladh]
+//= 2.2 Updated to match the official scripts. [Euphy]
+//= 2.3 Added fourth class support. [Emistry]
+//============================================================
+
+// Criador de Dragões :: Dragão
+//============================================================
+job3_rune01,88,62,5	script	Criador de Dragões	105,{
+	mes "[^FF0000 Criador de Dragões ^000000]";
+	if ((eaclass()&EAJ_THIRDMASK)==EAJ_RUNE_KNIGHT) {
+		mes "Bem-vind"+(Sex?"o":"a")+"(a)! Você gostaria de alugar um Dragão como montaria?";
+		next;
+		switch(select("Sim:Não")) {
+		case 1:
+			//if (!getskilllv("RK_DRAGONTRAINING")) {
+			if (!getskilllv("KN_RIDING")) {
+				mes "[^FF0000 Criador de Dragões ^000000]";
+				mes "Por favor, aprenda a habilidade Adestrar Dragão primeiro.";
+				close;
+			}
+			else if (checkdragon()) {
+				mes "[^FF0000 Criador de Dragões ^000000]";
+				mes "Você já possui uma montaria.";
+				close;
+			}
+			else if (ismounting()) {
+				mes "[^FF0000 Criador de Dragões ^000000]";
+				mes "Você já possui uma montaria.";
+				close;
+			}
+			setdragon;
+			close;
+		case 2:
+			mes "[^FF0000 Criador de Dragões ^000000]";
+			mes "Entendo. Então tenha um ótimo dia.";
+			close;
+		}
+	}
+	mes "O que você está fazendo aqui?";
+	mes "Somente Cavaleiros Rúnicos podem alugar Dragões.";
+	close;
+}
+
+// Mestre de Dragões/Grifos :: Dragão
+//============================================================
+prontera,129,212,5	script	Mestre das Feras	105,{
+	mes "[^FF0000 Mestre das Feras ^000000]";
+	if ((eaclass()&EAJ_THIRDMASK)==EAJ_RUNE_KNIGHT) {
+		mes "Bem-vind"+(Sex?"o":"a")+". Você gostaria de alugar um Dragão como montaria?";
+		next;
+		switch(select("Sim!:Não!")) {
+		case 1:
+			//if (!getskilllv("RK_DRAGONTRAINING")) {
+			if (!getskilllv("KN_RIDING")) {
+				mes "[^FF0000 Mestre das Feras ^000000]";
+				mes "Por favor, aprenda a habilidade Adestrar Dragão primeiro.";
+				close;
+			}
+			else if (checkdragon()) {
+				mes "[^FF0000 Mestre das Feras ^000000]";
+				mes "Você já possui uma montaria.";
+				close;
+			}
+			else if (ismounting()) {
+				mes "[^FF0000 Mestre das Feras ^000000]";
+				mes "Você já possui uma montaria.";
+				close;
+			}
+			setdragon;
+			close;
+		case 2:
+			mes "[^FF0000 Mestre das Feras ^000000]";
+			mes "Entendo. Então tenha um ótimo dia.";
+			close;
+		}
+	}
+	if ((eaclass()&EAJ_THIRDMASK)==EAJ_ROYAL_GUARD) {
+		mes "Bem-vind"+(Sex?"o":"a")+"(a)! Gostaria de alugar um Grifo como montaria?";
+		next;
+		switch(select("Sim!:Não!")) {
+		case 1:
+			if (!getskilllv("KN_RIDING")) {
+				mes "[^FF0000 Mestre das Feras ^000000]";
+				mes "Por favor, aprenda a habilidade de Montaria primeiro.";
+				close;
+			}
+			else if (checkriding()) {
+				mes "[^FF0000 Mestre das Feras ^000000]";
+				mes "Você já possui uma montaria.";
+				close;
+			}
+			else if (ismounting()) {
+				mes "[^FF0000 Mestre das Feras ^000000]";
+				mes "Você já possui uma montaria.";
+				close;
+			}
+			setriding;
+			close;
+		case 2:
+			mes "[^FF0000 Mestre das Feras ^000000]";
+			mes "Entendo. Então tenha um ótimo dia.";
+			close;
+		}
+	}
+	mes "Eu estou aqui para fornecer a Cavaleiros Rúnicos e Guardiões Reais feras para montar.";
+	close;
+}
+geffen,100,55,3	duplicate(Mestre das Feras)	Mestre das Feras#2	105
+payon,166,102,5	duplicate(Mestre das Feras)	Mestre das Feras#3	105
+aldebaran,133,109,5	duplicate(Mestre das Feras)	Mestre das Feras#4	105
+yuno,171,187,3	duplicate(Mestre das Feras)	Mestre das Feras#5	105
+rachel,106,130,5	duplicate(Mestre das Feras)	Mestre das Feras#6	105
+
+// Removedor de Montaria :: Dragão
+//============================================================
+prontera,125,208,5	script	Removedor de Montaria	105,{
+	mes "[^FF0000 Soldado ^000000]";
+	mes "Se você não conseguir desmontar de um Peco Peco";
+	mes "por alguma razão desconhecida,";
+	mes "por favor, sinta-se livre para usar meus serviços.";
+	if (checkriding()) {
+		next;
+		mes "[^FF0000 Soldado ^000000]";
+		mes "Você está montado em um Peco Peco.";
+		mes "Gostaria de desmontá-lo?";
+		next;
+		switch(select("Sim:Não")) {
+		case 1:
+			setriding 0;
+			mes "[^FF0000 Soldado ^000000]";
+			mes "Diga, como você se sente";
+			mes "ao pisar no chão com os";
+			mes "próprios pés novamente?";
+			close;
+		case 2:
+			mes "[^FF0000 Soldado ^000000]";
+			mes "Entendo. Sinta-se à vontade para conversar comigo novamente";
+			mes "se você mudar de ideia.";
+			close;
+		}
+	}
+	close;
+}
+
+// Mestre da Engrenagem Mágica :: M.E.C.H.A
+//============================================================
+-	script	::mgm	-1,{
+	mes "[^FF0000 Mestre da Engrenagem ^000000]";
+	if ((eaclass()&EAJ_THIRDMASK)==EAJ_MECHANIC) {
+		mes "Bem-vind"+(Sex?"o":"a")+", mecânico.";
+		mes "Você gostaria de alugar um Carrinho ou";
+		mes "montar em um M.E.C.H.A?";
+		next;
+		switch(select("Alugar um Carrinho:Alugar um M.E.C.H.A:Cancelar!")) {
+		case 1:
+			if (checkcart()) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Sinto muito, mas você já";
+				mes "possui um carrinho.";
+				close;
+			}
+			setcart;
+			mes "[^FF0000 Mestre da Engrenagem ^000000]";
+			mes "Ai está!";
+			close;
+		case 2:
+			if (checkmadogear()) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Sinto muito, mas você já está";
+				mes "montado em um M.E.C.H.A.";
+				close;
+			}
+			else if (!getskilllv("NC_MADOLICENCE")) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Por favor, aprenda a habilidade Licença de Pilotagem primeiro.";
+				close;
+			}
+			else if(ismounting()) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Por favor, remova a sua montaria atual primeiro.";
+				close;
+			}
+			setmadogear;
+			mes "[^FF0000 Mestre da Engrenagem ^000000]";
+			mes "Divirta-se, e por favor, volte sempre que precisar!";
+			close;
+		case 3:
+			mes "[^FF0000 Mestre da Engrenagem ^000000]";
+			mes "O Robô de Emergência é realmente útil para situações de emergência e é vendido por 1.000.000 de Zenys.";
+			next;
+			if (select("Comprar:Cancelar") == 2) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Entendo. Sinta-se à vontade para falar comigo";
+				mes "se mudar de ideia.";
+				close;
+			}
+			if (countitem(23277) > 0) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Sinto muito, mas você já tem um Robô de Emergência.";
+				close;
+			}
+			if (Zeny < 1000000) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Sinto muito, mas você não tem Zeny suficiente para comprar o Robô de Emergência.";
+				close;
+			}
+			Zeny -= 1000000;
+			getitem 23277,1; //Robô de Emergência
+			mes "[^FF0000 Mestre da Engrenagem ^000000]";
+			mes "Aí está!";
+			close;
+		case 4:
+			mes "[^FF0000 Mestre da Engrenagem ^000000]";
+			mes "Qual dispositivo você quer atualizar?";
+			next;
+			if (select("Termoregulador:Resfriador Avançado") == 1) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Atualizar o Termoregulador para um Resfriador Avançado requer 1 Termoregulador e 2.000.000 de Zenys.";
+				next;
+				.@itemid = 2804;
+				.@cost = 2000000;
+			} else {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Atualizar um Resfriador Avançado para um Resfriador requer 1 Resfriador Avançado e 4.000.000 de Zenys.";
+				next;
+				.@itemid = 2809;
+				.@cost = 4000000;
+			}
+			if (select("Atualizar:Cancelar") == 2) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Entendo. Sinta-se à vontade para falar comigo";
+				mes "se mudar de ideia.";
+				close;
+			}
+			if (!countitem(.@itemid)) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Sinto muito, mas você não tem o " + getitemname(.@itemid) + ".";
+				close;
+			}
+			if (Zeny < .@cost) {
+				mes "[^FF0000 Mestre da Engrenagem ^000000]";
+				mes "Desculpe, mas você não tem Zenys o suficiente para atualizar o dispositivo.";
+				close;
+			}
+			Zeny -= .@cost;
+			delitem .@itemid,1;
+			getitem (.@itemid == 2804 ? 2809 : 2810),1; //Resfriador Avançado, Resfriador.
+			mes "[^FF0000 Mestre da Engrenagem ^000000]";
+			mes "Aqui está você! Seu próprio " + getitemname(.@itemid) + ".";
+			close;
+		case 5:
+			close;
+		}
+	}
+	mes "Como posso ajudar você?";
+	mes "Os M.E.C.H.A.S estão disponíveis apenas para Mecânicos.";
+	close;
+}
+//prontera,163,178,3	duplicate(mgm)	Mestre da Engrenagem#prt	105 //Coordenada Original
+prontera,127,210,5	duplicate(mgm)	Mestre da Engrenagem#prt	105
+geffen,103,55,5	duplicate(mgm)	Mestre da Engrenagem#gef	105
+payon,166,106,5	duplicate(mgm)	Mestre da Engrenagem#pay	105
+aldebaran,133,112,5	duplicate(mgm)	Mestre da Engrenagem#alde	105
+yuno,167,187,3	duplicate(mgm)	Mestre da Engrenagem#yuno	105
+rachel,106,134,5	duplicate(mgm)	Mestre da Engrenagem#ra	105
+dicastes01,187,207,3	duplicate(mgm)	Mestre da Engrenagem#dic	105
+manuk,273,212,5	duplicate(mgm)	Mestre da Engrenagem#man	105
+splendide,180,174,5	duplicate(mgm)	Mestre da Engrenagem#spl	105
+mid_camp,242,243,3	duplicate(mgm)	Mestre da Engrenagem#mid	105

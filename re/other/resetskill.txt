@@ -1,0 +1,151 @@
+//===== rAthena Script =======================================
+//= Hypnotist
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Stat and skill resetter for expanded first class under
+//= base level 50 and normal first class.
+//===== Additional Comments: =================================
+//= 1.0 First version, Renewal script.
+//= 1.1 Added Izlude duplicates. [Euphy]
+//============================================================
+
+izlude,127,175,3	script	Hipnotizadora#novice	124,{
+	mes "[Hipnotizadora]";
+	mes "Saudações aventureiro!";
+	mes "Eu sou um membro da academia";
+	mes "de Hipnotizadores e fui enviado à Prontera";
+	mes "para prestar serviços de redefinição de pontos de habilidade";
+	mes "para alguns personagens de Primeira Classe, por um preço muito bom...  De graça!";
+	next;
+	mes "[Hipnotizadora]";
+	mes "Embora meu serviço seja ilimitado";
+	mes "para redefinir suas habilidades, é ncessário seguir";
+	mes "duas condições que devem ser cumpridas.";
+	mes "Primeiro, você não pode ser";
+	mes "superior a ^FF0000Nível de base 50^000000.";
+	next;
+	mes "[Hipnotizadora]";
+	mes "Segundo, você deve ser as seguintes profissões:";
+	mes "^FF0000Espadachim, Noviço, Mago,";
+	mes "Gatuno, Arqueiro, Mercador,";
+	mes "Taekwon Boy ou Taekwon Girl,";
+	mes "Justiceiro e Ninja^000000";
+	mes "para estar qualificado.";
+	mes "Agora você tem mais alguma dúvida?";
+	next;
+	switch(select("Redefinir Habilidades?:Redefinir Atributos:Redefinir Minhas Habilidades:Nada não.")) {
+	case 1:
+		mes "[Hipnotizadora]";
+		mes "Redefinição de pontos de habilidade, são para aventureiros";
+		mes "que usaram seus pontos";
+		mes "de forma inadequada";
+		mes "e estão infelizes com suas habilidades atuais.";
+		next;
+		mes "[Hipnotizadora]";
+		mes "Antes de prosseguir com o processo";
+		mes "para redefinir seus pontos, você precisa";
+		mes "reduzir todo seu peso";
+		mes "e remover todos seus itens até";
+		mes "seu personagem chegar ao peso 0. Você pode guardar";
+		mes "seus itens no armazém da Kafra.";
+		next;
+		mes "[Hipnotizadora]";
+		mes "Ah, o mais importante,";
+		mes "remova seu  ^FF0000Carrinho de Mão^000000,";
+		mes "se possui um equipado.";
+		mes "Caso contrário, meus poderes hipinóticos não";
+		mes "funcionarão e o tiro sairá pela culatra...";
+		close;
+	case 2:
+		set .@str$,"Stat";
+	case 3:
+		if (.@str$ == "")
+			set .@str$,"Habilidades";
+		mes "[Hipnotizadora]";
+		mes "Você tem certeza que";
+		mes "deseja prosseguir com o";
+		mes "meu serviço de ^FF0000Redefinição de "+.@str$+"^000000?";
+		next;
+		if(select("Sim:Cancelar") == 1)
+			break;
+	case 4:
+		mes "[Hipnotizadora]";
+		mes "Muito obrigado por usar o";
+		mes "meu serviço de redefinição de";
+		mes "habilidades. Ah,  e boa sorte";
+		mes "em suas viagens";
+		mes "aventureiro.";
+		close;
+	}
+	if ((Class >= Job_Swordman && Class <= Job_Thief) || Class == Job_Taekwon || Class == Job_Gunslinger || Class == Job_Ninja) {
+		if (checkcart()) {
+			mes "[Hipnotizadora]";
+			mes "Opa! Por favor, remova seu";
+			mes "carrinho de mão para continuar";
+			mes "com o serviço de redefinição de "+.@str$+".";
+			mes "Obribado por sua cooperação.";
+			close;
+		}
+		if (Weight != 0) {
+			mes "[Hipnotizadora]";
+			mes "Se você usar meus serviços";
+			mes "de redefinção de "+.@str$+", por favor";
+			mes "lembre-se, que para poder resetar ";
+			mes "suas "+.@str$+", você deverá";
+			mes "^FF0000remover todos os itens do seu inventário";
+			mes "até seu peso chegar a 0^000000.";
+			next;
+			mes "[Hipnotizadora]";
+			mes "Porque você não esvazia";
+			mes "seu inventário usando o Armazém da Kafra";
+			mes "agora? Fazendo isso você pode";
+			mes "guardar todos seus itens valiosos.";
+			close;
+		}
+		if (BaseLevel >= 50 && (Class == Job_Taekwon || Class == Job_Gunslinger || Class == Job_Ninja)) {
+			mes "[Hipnotizadora]";
+			mes "Eu sinto muito, mas personagens";
+			mes "com Nível superior ao 50,";
+			mes "não estão aptos para receberem";
+			mes "serviço de redefinição de .@str$+.";
+			close;
+		}
+		mes "[Hipnotizadora]";
+		mes "Muito obrigado por usar o";
+		mes "meu serviço de redefinição de";
+		mes ""+.@str$+". Ah, e boa sorte";
+		mes "em suas viagens";
+		mes "aventureiro.";
+		if (.@str$ == "Stat")
+			resetstatus;
+		else
+			resetskill;
+		close;
+	} else {
+		mes "[Hipnotizadora]";
+		mes "Sinto muito, mas sua";
+		mes "profissão não se qualifica";
+		mes "para usar o serviço de Redefinição de "+.@str$+"";
+		mes "que estou oferecendo. Eu só posso";
+		mes "oferecer Redefinição de "+.@str$+" para as";
+		mes "seguintes Profissões...";
+		next;
+		mes "[Hipnotizadora]";
+		mes "^FF0000Espadachim, Noviço,";
+		mes "Mago, Gatuno, Arqueiro,";
+		mes "Mercador, Taekwon boy,";
+		mes "Taekwon Girl,";
+		mes "Justiceiro e Ninja^000000.";
+		close;
+	}
+}
+izlude_a,127,175,3	duplicate(Hipnotizadora#novice)	Hipnotizadora#novice_a	124
+izlude_b,127,175,3	duplicate(Hipnotizadora#novice)	Hipnotizadora#novice_b	124
+izlude_c,127,175,3	duplicate(Hipnotizadora#novice)	Hipnotizadora#novice_c	124
+izlude_d,127,175,3	duplicate(Hipnotizadora#novice)	Hipnotizadora#novice_d	124

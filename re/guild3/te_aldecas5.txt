@@ -1,0 +1,71 @@
+//===== rAthena Script =======================================
+//= War of Emperium (Al De Baran) - Kafragarten 5
+//===== Description: =========================================
+//= [Official Conversion]
+//= NPCs that relate to Al De Baran Training Guild Castle 5
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+// Bandeiras Simples (sem mensagens)
+//============================================================
+alde_gld,214,178,4	duplicate(flag_te)	Deborah#te_aldecas5	GUILD_FLAG
+
+// Bandeiras de Informações Simples
+//============================================================
+te_aldecas5,170,85,2	duplicate(simple_info_TE)	Deborah#1	GUILD_FLAG
+te_aldecas5,142,212,2	duplicate(simple_info_TE)	Deborah#2	GUILD_FLAG
+te_aldecas5,149,196,2	duplicate(simple_info_TE)	Deborah#3	GUILD_FLAG
+te_aldecas5,41,180,2	duplicate(simple_info_TE)	Deborah#4	GUILD_FLAG
+te_aldecas5,38,201,2	duplicate(simple_info_TE)	Deborah#5	GUILD_FLAG
+te_aldecas5,65,182,2	duplicate(simple_info_TE)	Deborah#6	GUILD_FLAG
+te_aldecas5,65,205,2	duplicate(simple_info_TE)	Deborah#7	GUILD_FLAG
+te_aldecas5,10,218,2	duplicate(simple_info_TE)	Deborah#8	GUILD_FLAG
+te_aldecas5,10,218,2	duplicate(simple_info_TE)	Deborah#9	GUILD_FLAG
+te_aldecas5,164,201,2	duplicate(simple_info_TE)	Deborah#10	GUILD_FLAG
+te_aldecas5,14,117,2	duplicate(simple_info_TE)	Deborah#11	GUILD_FLAG
+te_aldecas5,10,225,2	duplicate(simple_info_TE)	Deborah#12	GUILD_FLAG
+te_aldecas5,187,59,2	duplicate(simple_info_TE)	Deborah#13	GUILD_FLAG
+te_aldecas5,154,51,2	duplicate(simple_info_TE)	Deborah#14	GUILD_FLAG
+te_aldecas5,22,211,2	duplicate(simple_info_TE)	Deborah#15	GUILD_FLAG
+te_aldecas5,150,202,2	duplicate(simple_info_TE)	Deborah#16	GUILD_FLAG
+
+// Bandeiras de Informações + Portal do Mestre da Guilda no Interior.
+//============================================================
+te_alde_gld,265,93,6	script	Deborah#17	GUILD_FLAG,{
+	// callfunc( "F_flag_Deborahoe_TE",1,"te_aldecas1",218,170 );
+	callfunc( "F_flag_Deborahoe_TE",1,"te_aldecas5",31,190 );
+OnFlagTEDeborah:
+	flagemblem getcastledata( "te_aldecas5",1 );
+	end;
+}
+// te_alde_gld,45,87,8	duplicate(Deborah#17)	Deborah	GUILD_FLAG
+te_alde_gld,265,87,6	duplicate(Deborah#17)	Deborah#18	GUILD_FLAG
+
+// Kafra da Guilda
+//============================================================
+te_aldecas5,31,190,0	duplicate(Kafra_Staff_TE)	Funcionária Kafra#te_alde5	4_F_KAFRA1
+
+// Nível 1 (portal para o tesouro externo)
+//============================================================
+te_aldecas5,68,13,0	duplicate(lever1_TE)	#lever1_te_aldecas5	HIDDEN_NPC
+
+// Nível 2 (portal para o calabouço)
+//============================================================
+te_aldecas5,22,205,0	duplicate(lever2_TE)	#lever2_te_aldecas5	HIDDEN_NPC
+
+// Investimento econômico / defesa / guardião
+//============================================================
+te_aldecas5,51,179,0	duplicate(invest_TE)	Anpere	1_M_JOBTESTER
+
+// Invocação do Tesouro
+//============================================================
+te_aldecas5,1,1,0	duplicate(treasure_TE)	treasure_TE#te_aldecas5	-1
+
+// Npc de Aluguel de Itens.
+//============================================================
+te_alde_gld,264,94,3	duplicate(rental_woe_TE)	Gerente de Aluguel#ag05	4_F_HUWOMAN
+
+// Administração GdE
+//============================================================
+te_aldecas5,1,1,0	duplicate(Manager_TE)	Manager_TE#Deborah	-1

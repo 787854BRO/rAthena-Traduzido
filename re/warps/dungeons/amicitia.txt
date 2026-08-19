@@ -1,0 +1,50 @@
+//===== rAthena Script ======================================= 
+//= Amicitia dungeon warps script
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Capuche]
+//============================================================
+
+amicitia1,248,244,0	warp2	#wami1	2,2,ein_fild08,152,95
+
+amicitia1,149,19,0	script	#wami2	WARPNPC,2,2,{
+	end;
+	OnTouch:
+	if (BaseLevel < 230) {
+		mes " - Nenhuma entrada liberada para quem tem nível de base abaixo de 230! - ";
+		close;
+	}
+	warp "amicitia2",146,274;
+	end;
+}
+
+amicitia2,146,281,0	warp2	#wami3	2,2,amicitia1,149,27
+
+ein_fild08,158,96,3	script	Lana	10063,{
+
+set $namenpc$, "^CD0000[Lana]^000000";
+
+	mes "[Lana]";
+	mes "A Masmorra de Amicitia é um local para jogadores de nível de base 230 ou superior.";
+	mes "Você quer acessar a Masmorra?";
+	menu "Opa, claro que sim!",sim,"Ah, agora não quero!",nao;
+
+nao:
+	next;
+	mes "[Lana]";
+	mes "OK, volte quando quiser.";
+	close;
+
+sim:
+	next;
+	mes "[Lana]";
+	mes "Ir para a Masmorra de Amicitia.";
+	menu "Masmorra",masmorra;
+
+masmorra:
+	warp "amicitia1",244,244;
+	end;
+
+	OnInit:
+	waitingroom "Masmorra de Amicitia",0;	
+	end;
+}

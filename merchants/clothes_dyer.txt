@@ -1,0 +1,176 @@
+//===== rAthena Script ======================================= 
+//= Clothes Dyer
+//===== By: ================================================== 
+//= Usnul
+//===== Current Version: ===================================== 
+//= 2.5
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Clothes dyer with standard palletes
+//===== Additional Comments: ================================= 
+//= Fully working
+//= 2.1 Shortened some labels to make this script loading,
+//= Added Black+White Colors desc [Lupus]
+//= 2.1a added adv classes + baby class support [Lupus]
+//= 2.2 Spell checked. [Nexon]
+//= 2.3 Fixed dis $hit! [Poki#3]
+//= 2.4 Disabled cloth dyeing since it's not implemented
+//	   on official servers and cause your client to crash
+//	   [Playtester]
+//= 2.5 Optimized. [Euphy]
+//============================================================
+
+prt_in,284,168,2	script	Estilista Ginedin Rephere	55,{
+function Dyes;
+
+	set .@EnableDyes,1;	// Desativar (Mude para 0) Se os palettes causarem erros.
+
+	set .n$,"[Estilista Ginedin Rephere]";
+	mes .n$;
+	mes "11... 12... Mmm... bom. Acho que vou ser capaz de terminar antes da festa de hoje à noite. Oh! Eu não percebi que você estava aqui!";
+	while(1) {
+		next;
+		mes .n$;
+		mes "Como posso ajudá-lo?";
+		next;
+		switch(select("- Conversar:- Tingir Roupa:- Lista de Preços:- ^777777Cancelar!^000000")) {
+		case 1:
+			mes .n$;
+			mes "A minha vida pode não ter começado muito bem, mas quando eu olho para todos os pedidos que recebi... Ufa!"; 
+			mes "Parece que as jovens de Rune-Midgard devem estar muito bem de vida nos dias de hoje.";
+			next;
+			mes .n$;
+			mes "Não que eu ache que elas estejam sendo fúteis, veja bem."; 
+			mes "Eu não acho que haja nada de errado em buscar a beleza para estar na moda.";
+			next;
+			mes .n$;
+			mes "Para nós, seres humanos, que não possuímos pele colorida ou escamas como decoração, roupas são um dos poucos meios que temos de mostrar a nossa personalidade, estilo e beleza.";
+			next;
+			mes .n$;
+			mes "Haha... Quando eu penso sobre isso, eu realmente sinto que o meu trabalho vale a pena, eu acredito que forneço um serviço que as pessoas desejam.";
+			next;
+			mes .n$;
+			mes "Você pode sentir isso também. A energia que é liberada quando um tecido áspero e o couro são trazidos à vida com a cor.....?";
+			next;
+			mes .n$;
+			mes "Embora o processo seja muito tedioso e demorado, a alegria e a felicidade que eu sinto quando um vestido é terminado, recompensa todo o trabalho duro!";
+			break;
+		case 2:
+			mes .n$;
+			if (!.@EnableDyes) {
+				mes "Desculpe, estou muito ocupado com outros trabalhos para tingir suas roupas agora.";
+				break;
+			}
+			mes "Oh... você precisa do meus serviços? Bem... Ok, isso me soa bem.";
+			next;
+			mes .n$;
+			mes "Por favor, escolha uma cor";
+			mes "que combina com você.";
+			next;
+
+			// Cabelos(<Valor da Cor>,<Número do Cabelo>{,...});
+			// Cores: [1]Laranja, [2]Violeta, [3]Vermelha, [4]Preto, [5]Verde, [6]Azul, [7]Branco, [8]Amarelo
+			switch(BaseJob) {
+			case Job_Novice:
+				if (Sex == SEX_MALE) Dyes(4,1,6,2,5,3); else Dyes(6,1,3,2,5,3,4,4);
+			case Job_Swordman:
+				if (Sex == SEX_MALE) Dyes(4,1,6,2,5,3); else Dyes(3,1,5,3,4,4);
+			case Job_Mage:
+				if (Sex == SEX_MALE) Dyes(3,1,2,2,1,3,7,4); else Dyes(3,1,2,2,7,3,4,4);
+			case Job_Archer:
+				if (Sex == SEX_MALE) Dyes(4,1,2,2,5,3); else Dyes(3,1,5,2,7,3,4,4);
+			case Job_Acolyte:
+				if (Sex == SEX_MALE) Dyes(6,1,3,2,7,3,4,4); else Dyes(3,1,5,3,4,4);
+			case Job_Merchant:
+				if (Sex == SEX_MALE) Dyes(4,1,6,2,5,3); else Dyes(2,1,5,3,4,4);
+			case Job_Thief:
+				if (Sex == SEX_MALE) Dyes(5,1,3,2,7,4); else Dyes(3,1,7,3,4,4);
+			case Job_Knight:
+			case Job_Crusader:
+				if (Sex == SEX_MALE) Dyes(2,1,3,3,4,4); else Dyes(6,1,7,3,4,4);
+			case Job_Priest:
+			case Job_Monk:
+				if (Sex == SEX_MALE) Dyes(6,1,5,2,3,3,7,4); else Dyes(3,1,5,2,7,3,4,4);
+			case Job_Wizard:
+			case Job_Sage:
+				if (Sex == SEX_MALE) Dyes(6,1,5,3,4,4); else Dyes(3,1,6,2,7,3,5,4);
+			case Job_Blacksmith:
+			case Job_Alchemist:
+				if (Sex == SEX_MALE) Dyes(4,4,5,2,7,3); else Dyes(3,1,5,2,2,3,4,4);
+			case Job_Hunter:
+			case Job_Bard:
+			case Job_Dancer:
+				if (Sex == SEX_MALE) Dyes(4,1,6,2,5,3); else Dyes(6,1,5,3,2,4);
+			case Job_Assassin:
+			case Job_Rogue:
+				if (Sex == SEX_MALE) Dyes(6,1); else Dyes(4,1,8,2,7,3);
+			case Job_Super_Novice:
+				if (Sex == SEX_MALE) Dyes(2,1,6,2,5,3,4,4); else Dyes(6,1,3,2,5,3,4,4);
+			default: 
+				mes "Nossa, eu nunca vi roupas como essas antes, me desculpe, mas acho que não posso pintá-las!";
+				close;
+			}
+		case 3:
+			mes .n$;
+			mes "Cada cor custa 10,000z e um corante:";
+			mes " ";
+			mes " - ^FF4422Vermalho^000000: Tintura Vermelha";
+			mes " - ^D5A500Amarelo^000000: Tintura Amarela";
+			mes " - ^AA00AAVioleta^000000: Tintura Violeta";
+			mes " - ^FF8800Laranja^000000: Tintura Laranja";
+			mes " - ^4422FFAzul^000000: Tintura Azul";
+			mes " - ^009500Verde^000000: Tintura Verde";
+			mes " - Preto: Tintura Preta";
+			mes " - Branco: Tintura Branca";
+			break;
+		case 4:
+			goto L_End;
+		}
+	}
+
+L_End:
+	mes .n$;
+	mes "Fique à vontade. Mesmo que eu não tenha tempo para você.";
+	close;
+
+function Dyes {
+	setarray .@DyeName$[0],"Cor Original","Laranja","Violeta","Vermelho","Preto","Verde","Azul","Branca","Amarelo";
+	setarray .@DyeItems[0],0,980,981,975,983,979,978,982,976;
+	set .@menu$,"- Padrão:";
+	for(set .@i,0; .@i<getargcount(); set .@i,.@i+2)
+		set .@menu$, .@menu$+"- "+.@DyeName$[getarg(.@i)]+":";
+	set .@menu$, .@menu$+"- ^777777Cancelar^000000";
+	set .@s, select(.@menu$)-1;
+	if (.@s == (getargcount()/2)+1) goto L_End;
+	mes .n$;
+	if (.@s == 0) {
+		mes "Eu posso mudar a cor da sua roupa"; 
+		mes "para a cor padrão de graça."; 
+		mes "Tem certeza que quer isso?";
+		next;
+		switch(select("Sim:Não")) {
+		case 1:
+			mes .n$;
+			setlook 7,0;
+			mes "Suas roupas foram tingidas "+.@DyeName$[0]+".";
+			close;
+		case 2:
+			goto L_End;
+		}
+	}
+	if (!countitem(.@DyeItems[getarg((.@s-1)*2)])) {
+		mes "Para eu tingir suas roupas, eu vou precisar dos corantes apropriados. Por favor, verifique minha lista de preços para mais informações.";
+		close;
+	}
+	if (Zeny < 10000) {
+		mes "Sinto muito, mas você não tem dinheiro suficiente.";
+		close;
+	}
+	delitem .@DyeItems[getarg((.@s-1)*2)],1;
+	set Zeny, Zeny-10000;
+	setlook 7, ((.@s)?(getarg((.@s-1)*2+1)):0);
+	mes "Suas roupas foram tingidas "+((.@s)?.@DyeName$[getarg((.@s-1)*2)]:.@DyeName$[0])+".";
+	close;
+	}
+}
