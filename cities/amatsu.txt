@@ -1,0 +1,588 @@
+//===== rAthena Script =======================================
+//= Amatsu Town
+//===== By: ==================================================
+//= rAthena Dev Team
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Amatsu Town Script
+//===== Additional Comments: =================================
+//= 1.3 Rescripted to Aegis 10.3 Standards. [L0ne_W0lf]
+//=     Moved elemental stone trader to 'elemental_trader.txt'
+//= 1.4 Moved Alberta NPC to pre-re/re paths. [Euphy]
+//============================================================
+
+// Transporte de Amatsu
+//============================================================
+-	script	::Sea_Captain_amatsu	-1,{
+	mes "[Walter Moers]";
+	mes "Ei, você aí...";
+	mes "Por acaso você sabia que existem";
+	mes "países completamente diferentes";
+	mes "do reino de Rune Midgard?";
+	next;
+	switch(select("Sobre Amatsu...:Ir para Amatsu:Cancelar")) {
+	case 1:
+		mes "[Walter Moers]";
+		mes "Eu ouvi falar que um navio à deriva";
+		mes "acidentalmente descobriu esta cidade...";
+		mes "O navio foi totalmente destruido";
+		mes "por uma tempestade furiosa em uma forte neblina.";
+		mes " ";
+		next;
+		mes "[Walter Moers]";
+		mes "Enfim, o navio afundou";
+		mes "e seu viajante acordou em uma praia,";
+		mes "cercado pelos destroços do navio.";
+		mes "Se levantando, cansado e ferido, ele avistou Amatsu.";
+		next;
+		mes "[Walter Moers]";
+		mes "Os habitantes tiveram piedade dele";
+		mes "e cuidaram de suas feridas.";
+		mes "Ele viveu até terminar de fazer o mapa.";
+		next;
+		mes "[Walter Moers]";
+		mes "Ele faleceu quando retornou";
+		mes "para Rune-Midgard. Por sorte,";
+		mes "o mapa foi pego por outro rei, Tristan III.";
+		next;
+		mes "[Walter Moers]";
+		mes "O Rei Tristan III anunciou";
+		mes "que ele recompensaria qualquer";
+		mes "brava pessoa que se aventurasse em Amatsu, e espalhou cópias deste mapa.";
+		next;
+		mes "[Walter Moers]";
+		mes "Vários bravos e aventureiros";
+		mes "capitães do mar tomou o";
+		mes "desafio. A grande fortuna poderia";
+		mes "ser feita no comércio com Amatsu, assim como as recompensas do Rei Tristan III...";
+		next;
+		mes "[Walter Moers]";
+		mes "Entretanto, todos eles falharam!";
+		mes "Para superar várias correntes marítimas";
+		mes "e o mal tempo, muita";
+		mes "experiência seria necessária. Mas eles estavam todos cegos pela fortuna...";
+		next;
+		mes "[Walter Moers]";
+		mes "Finalmente, um grande homem descobriu";
+		mes "a perfeita rota mais tranquila para Amatsu...";
+		mes "Certo! Esse sou eu, Senhor Walter";
+		mes "Moers. Eu iniciei o comercio com Amastu! Hahaha! Ora, isto é tudo sobre Amatsu.";
+		next;
+		mes "[Walter Moers]";
+		mes "Eu fiz um bom dinheiro com o comércio";
+		mes "por anos, e agora eu me interessei";
+		mes "em turismo. Se você quer ir para Amatsu, então venha~!";
+		close;
+	case 2:
+		mes "[Walter Moers]";
+		mes "É isto? Este é um longo caminho para";
+		mes "Amatsu. Por isso irei";
+		mes "cobrar uma taxa. você não acha que os oceanos e correntes marítimas são fáceis, né?";
+		next;
+		mes "[Walter Moers]";
+		mes "São 10,000 zeny para o pacote de viagem completo! Eu tenho";
+		mes "um quarto esplendido em um resistente e";
+		mes "seguro navio de comercio para você. Esta é uma";
+		mes "tarifa razoável quando você considerar";
+		mes "que esta não é apenas uma viagem de ida.";
+		next;
+		mes "[Walter Moers]";
+		mes "Devemos ir agora? você não se esqueceu";
+		mes "da tarifa, certo? Vamos lá.";
+		next;
+		if (select("Todos a bordo!:Cancelar") == 1) {
+			if (Zeny > 9999) {
+				mes "[Walter Moers]";
+				mes "Tudo bem, vou ligar o motor!";
+				close2;
+				set Zeny, Zeny-10000;
+				warp "amatsu",197,83;
+				end;
+			}
+			mes "[Walter Moers]";
+			mes "Você escutou mesmo?";
+			mes "São 10,000 zeny. Se você";
+			mes "não tem nenhum, procure mais tesouros";
+			mes "em algum lugar, como no navio afundado... Mostre-me mais dinheiro!";
+			close;
+		}
+		mes "[Walter Moers]";
+		mes "Se você for um aventureiro,";
+		mes "esta é a sua grande chance";
+		mes "para experimentar as diferentes culturas... Bem, esta é a sua decisão.";
+		close;
+	case 3:
+		mes "[Walter Moers]";
+		mes "Se você está cansado da sua vida";
+		mes "diária, viaje comigo para o distante";
+		mes "país através do oceano.";
+		mes "Algum lugar como, hum eu não sei, Amatsu~";
+		close;
+	}
+}
+
+amatsu,194,79,5	script	Capitão do Mar#ama2	709,{
+	mes "[Walter Moers]";
+	mes "Você veio... Você gostou da";
+	mes "sua visita em Amatsu...?";
+	mes "Certo, eu irei levar você";
+	mes "de volta para Alberta.";
+	next;
+	if (select("Voltar para Alberta:Cancelar") == 1) {
+		mes "[Walter Moers]";
+		mes "Vamos lá. Você deve ter";
+		mes "várias coisas para contar sobre,";
+		mes "certo? Todos a bordo agora.";
+		close2;
+		if (checkre(0))
+			warp "alberta",244,72;
+		else
+			warp "alberta",243,91;
+		end;
+	}
+	mes "[Walter Moers]";
+	mes "Tudo bem, fique o tempo que desejar.";
+	mes "O navio estará sempre aqui";
+	mes "para quando você quiser voltar...";
+	close;
+}
+
+// NPCs Gerais de Amatsu
+//============================================================
+amatsu,230,160,3	script	Donzela do Bem#ama	757,{
+	mes "[Yuuko]";
+	mes "Eu geralmente venho aqui buscar água";
+	mes "neste poço, mas nunca quando é";
+	mes "nebuloso e chuvoso. Por muitos motivos,";
+	mes "sempre que o tempo oferece";
+	mes "o caminho certo, sinto como...";
+	next;
+	mes "[Yuuko]";
+	mes "...alguém... ou alguma coisa está";
+	mes "esforçando-se em rastejar";
+	mes "para sair desse poço...";
+	mes "Realmente me dá arrepios.";
+	close;
+}
+
+amatsu,179,107,4	script	John#ama	86,{
+	mes "[John]";
+	mes "Vo~";
+	mes "Você não é daqui.";
+	mes "Heh, outro distante.";
+	mes "Assim como eu...";
+	next;
+	mes "[John]";
+	mes "Tem cinco longos anos";
+	mes "desde que eu comecei a fazer";
+	mes "negócios aqui...";
+	next;
+	mes "[John]";
+	mes "Primeiro eu pensei, 'O quê";
+	mes "uma grande chance!' quando o";
+	mes "comércio entre o Reino de Rune-Midgard";
+	mes "e Amatsu iniciaram.";
+	next;
+	mes "[John]";
+	mes "Eu queria fazer algo grande";
+	mes "e tirar a maior experiência desta";
+	mes "nova oportunidade.";
+	next;
+	mes "[John]";
+	mes "E assim, eu decidi vim para";
+	mes "Amatsu para aprender tudo sobre";
+	mes "a culinária local. Então, eu poderia";
+	mes "retornar para minha cidade natal e fazer";
+	mes "estas comidas exóticas para todos.";
+	next;
+	mes "[John]";
+	mes "Mas, eu me apaixonei por Amatsu";
+	mes "e acabei ficando por aqui,";
+	mes "e já fasem cinco anos.";
+	mes "Durante todo esse tempo, eu tenho";
+	mes "aprendido sobre a culinária de Amatsu,";
+	next;
+	mes "[John]";
+	mes "e venho cozinhando estes pratos";
+	mes "para os cidadãos, e também desfruto das";
+	mes "conversas com os habitantes locais,";
+	mes "nesse local maravilhoso.";
+	next;
+	mes "[John]";
+	mes "Mas recentemente, do outro lado da rua,";
+	mes "o Mestre Sushi abriu sua loja.";
+	mes "...";
+	mes "Agora, meus clientes são apenas moscas.";
+	next;
+	mes "[John]";
+	mes "Eu estava esperando para cumprir";
+	mes "meu sonho de se tornar um renomado Chefe";
+	mes "de Amatsu, mas...";
+	mes "Acho que é de mais...";
+	close;
+}
+
+amatsu,205,163,3	script	Mimi#ama	759,{
+	mes "[Mimi]";
+	mes "Puhuhu~!";
+	mes "Viu a Miss Amastu perto";
+	mes "do porto? Ela não é";
+	mes "liiiinda?";
+	next;
+	mes "[Mimi]";
+	mes "Eu irei entrar para o Concurso de";
+	mes "Miss Amastu quando for mais velha.";
+	next;
+	mes "[Mimi]";
+	mes "Tenho certeza que sou a mais bonita";
+	mes "nesta cidade, mas...";
+	mes "Uma senhora pode usar um pouco mais de maquiagem.";
+	close;
+}
+
+amatsu,185,115,3	script	Homem Bêbado#ama	765,{
+	mes "[Kosake]";
+	mes "*Soluço*...Minha esposa é como,";
+	mes "...como um homem...*Soluço*...";
+	mes "Eu realmente não estou indo... *Soluço*... para casa neste momento... Soluço";
+	next;
+	if (select("Pare de beber e vá para casa:Vamos beber juntos") == 1) {
+		mes "[Kosake]";
+		mes "O que?! Quer realmente que eu seja massacrado";
+		mes "pelos punhos grandes da minha esposa?";
+		mes "Está certo! Eu disse 'grandes punhos!'";
+		next;
+		mes "[Kosake]";
+		mes "Triste para dizer, eu casei com uma mulher";
+		mes "com mãos de homem...";
+		mes "Grandes, mãos fortes que podem matar um tigre.";
+		next;
+		mes "[Druken Man]";
+		mes "Foi em Ko...Cidade Koko-alguma coisa.";
+		mes "Ela me bateu, porque perdi";
+		mes "um pouco de dinheiro...*Soluço*";
+		next;
+		mes "[Druken Man]";
+		mes "A vida~~ não é~~ nada~~~";
+		mes "O que é zeny~~~~ ";
+		mes "*Soluço*...... *Soluço*.......";
+		mes ".......................";
+		mes "........Z.z..z...zzz...";
+		close;
+	}
+	mes "[Kosake]";
+	mes "Heh heh... bonito rapaz...";
+	mes "Mas você sabe *Soluço*";
+	mes "Eu não posso lhe dar qualquer das minhas! Heheheh...";
+	next;
+	mes "[Kosake]";
+	mes "Se você me comprar uma bebida, irei pensar sobre isto... Hehehe... *Soluço*.";
+	close;
+}
+
+amatsu,217,179,1	script	Vovó#ama	760,{
+	mes "[Hatsue]";
+	mes "Estou preocupada com meu marido.";
+	mes "Ele perdeu muito dinheiro em algum lugar distante da cidade hoje.";
+	next;
+	mes "[Hatsue]";
+	mes "Eu fiquei tao brava com ele, ele fugiu e está com";
+	mes "medo! Estou preocupada... e se ele";
+	mes "foi ao bar e começou a beber novamente? O homem não tem apenas uma espinha dorsal. *Ufa*";
+	close;
+}
+
+amatsu,287,266,3	script	Jyaburo#ama	766,{
+	mes "[Jyaburo]";
+	mes "Este lugar é especial para mim.";
+	mes "Está cheio de memórias de minha esposa.";
+	next;
+	mes "[Jyaburo]";
+	mes "Foi sob esta grande árvore onde";
+	mes "pela primeira vez disse que a amava.";
+	mes "No momento, realmente não sabia que ela tinha sentimentos por mim.";
+	next;
+	mes "[Jyaburo]";
+	mes "Após este dia, tivemos muitas";
+	mes "conversas aqui. Silenciosas";
+	mes "e pacíficas, este era o nosso";
+	mes "lugar favorito para ficarmos juntos.";
+	next;
+	mes "[Jyaburo]";
+	mes "Quando fecho meus olhos aqui,";
+	mes "posso um filme dos nossos bons tempos,";
+	mes "e sinto como se tivesse acontecido ontem.";
+	mes "...";
+	next;
+	mes "[Jyaburo]";
+	mes "Minha esposa faleceu...";
+	mes "Então agora só venho aqui";
+	mes "por mim... Mas sinto que estou com ela sempre que venho aqui.";
+	next;
+	mes "[Jyaburo]";
+	mes "Tem alguém que você";
+	mes "gosta? Se você tem";
+	mes "uma pessoa especial, não hesite";
+	mes "em mostrar isso a ela. Certifique-se de";
+	mes "tratá-la de forma especial.";
+	next;
+	mes "[Jyaburo]";
+	mes "Os seres humanos vivem vidas tão";
+	mes "curtas. Mas somos capazes de sorrir";
+	mes "por toda a vida e esquecer";
+	mes "a tristeza.";
+	mes "...Seja sempre feliz.";
+	close;
+}
+
+// Árvore Lendária
+//============================================================
+amatsu,269,221,1	script	Casamenteira#ama	758,{
+	set jap_tree,1;
+	mes "[Hutari Shioko]";
+	mes "É um prazer em conhecê-lo.";
+	mes "Meu nome é Hutari Shioko.";
+	mes "Meu hobby é ouvir música.";
+	mes "Sou uma ávida fã de música clássica.";
+	next;
+	mes "[Hutari Shioko]";
+	mes "Existe uma velha história sobre";
+	mes "a colina na nossa cidade.";
+	mes "Você já ouviu essa história antes?";
+	next;
+	mes "[Hutari Shioko]";
+	mes "Dizem que, se você propor abaixo";
+	mes "desta árvore, vocé e seu";
+	mes "amante irão viver uma vida feliz para toda a eternidade.";
+	next;
+	mes "[Hutari Shioko]";
+	mes "Entretanto, a proposta não pode ser";
+	mes "feita em qualquer momento. A lenda afirma que só pode ser feita no sábado à noite.";
+	next;
+	mes "[Hutari Shioko]";
+	mes "Após a proposta, a resposta deve ser";
+	mes "antes de domingo à noite. Este é o elemento essencial disto.";
+	next;
+	emotion ET_BIGTHROB;
+	mes "[Hutari Shioko]";
+	mes "Se vocé gosta de alguém...";
+	mes "Você deveria faser o pedido";
+	mes "debaxo desta árvore. Eu tenho certeza de que";
+	mes "coisas felizes irão acontecer, se você fizer.";
+	close;
+}
+
+amatsu,243,202,3	script	Professora de Teatro#ama	760,{
+	set jap_tree,2;
+	mes "[Garakame sensei]";
+	mes "Este é um belo lugar";
+	mes "com eternar cerejas flores.";
+	mes "Além disso, esta cidade é a origem da";
+	mes "lendária jogadora, 'White Dryad.' ";
+	next;
+	if (Sex == SEX_MALE) {
+		mes "[Garakame sensei]";
+		mes "Se Você conhecer uma garota que é";
+		mes "talentosa em agir, por favor";
+		mes "traga-a para mim. Eu fui à";
+		mes "procura de uma garota que pudesse";
+		mes "desempenhar o papel de 'White Dryad.'";
+		next;
+		mes "[Garakame sensei]";
+		mes "A 'White Dryad' é uma ninfa";
+		mes "da cerejeira... Tem sido difícil";
+		mes "encontrar uma garota que pode desempenhar";
+		mes "como a 'White Drayd...'";
+		close;
+	}
+	emotion ET_SURPRISE;
+	mes "[Garakame sensei]";
+	mes "Você tem interesse em atuar?";
+	mes "Preciso de alguém que";
+	mes "vê paixão em atuar e";
+	mes "passa compreender a minha visão.";
+	next;
+	mes "[Garakame sensei]";
+	mes "Quando você está no palco,";
+	mes "você precisa para se tornar um";
+	mes "personagem. Sua atuação necessita";
+	mes "de tocar o coração da";
+	mes "platéia e tocar suas almas.";
+	next;
+	mes "[Garakame sensei]";
+	mes "Todo mundo na vida é como";
+	mes "um drama, certo? Aproveite a sua vida";
+	mes "como vocês são de me procure";
+	mes "um dia quando estiver pronto.";
+	close;
+}
+
+amatsu,283,203,1	script	Bonubonu#ama1	1323,{
+	end;
+}
+
+amatsu,283,203,1	script	Bonubonu#ama2	111,{
+	set jap_tree,3;
+	emotion ET_PROFUSELY_SWEAT;
+	mes "[Bonubonu]";
+	mes "Essa árvore sobre a colina é";
+	mes "uma árvore muito antiga. É uma grande";
+	mes "cerejeira com flores eternas.";
+	next;
+	emotion ET_PROFUSELY_SWEAT;
+	mes "[Bonubonu]";
+	mes "Existe alguma coisa nessa";
+	mes "árvore que me faz esquecer todos";
+	mes "os problemas quando eu me sento perto dela.";
+	next;
+	emotion ET_PROFUSELY_SWEAT;
+	mes "[Bonubonu]";
+	mes "Tudo sobre esta árvore é";
+	mes "simplesmente maravilhoso...";
+	mes "Não posso descrever como";
+	mes "me sinto quando eu olho para ela...";
+	mes "É só me deixa sem fôlego...";
+	next;
+	emotion ET_PROFUSELY_SWEAT;
+	mes "[Bonubonu]";
+	mes "Você deve visitar a árvore e";
+	mes "passar algum tempo lá.";
+	mes "É realmente uma milagrosa e piedosa árvore...";
+	close;
+}
+
+amatsu,274,178,7	script	Veterinário#ama	735,{
+	set jap_tree,4;
+	mes "[Sakura Seiichi]";
+	mes "Ah... Eu não sou um anormal por isso";
+	mes "não entre em pânico. Sou apenas um ordinário";
+	mes "veterinário. Meu trabalho é curar";
+	mes "animais doentes.";
+	mes " ";
+	next;
+	mes "[Sakura Seiichi]";
+	mes "A propósito... Você sabe?";
+	mes "A história sobre aquela cerejeira";
+	mes "sobre a colina... Acho que você nunca ouviu falar sobre isso...";
+	next;
+	mes "[Sakura Seiichi]";
+	mes "Essa árvore tem um segredo para";
+	mes "manter a sua beleza e brancura.";
+	mes "O segredo é...";
+	mes "Há cadáveres enterrados sob...";
+	mes "aquela árvore...";
+	next;
+	if (select("Que Horrível!:Você deve estar brincando.") == 1) {
+		mes "[Sakura Seiichi]";
+		mes "Kuhuhu... Poderia ser...";
+		mes "A propósito, você quer";
+		mes "fazer uma aposta sobre ela...?";
+		next;
+		emotion ET_THINK;
+		mes "[Sakura Seiichi]";
+		mes "Se eu..........";
+		mes "............";
+		mes ".........";
+		next;
+		mes "^3355FFSua voz foi ficando mais baixa";
+		mes "e mais baixa até que o vento a dessipou.";
+		mes "Finalmente, eu não pude ouvir mais nada. Eu não consigo mesmo recordar o que ele estava tentando me dizer...^000000";
+		close;
+	}
+	mes "[Sakura Seiichi]";
+	mes "Eu não posso ajudá-lo se você pensa dessa forma. Mas um dia, você também poderá ser enterrado debaixo...";
+	next;
+	emotion ET_THINK;
+	mes "[Sakura Seiichi]";
+	mes "Haha... Hahaha.....";
+	mes "...............";
+	mes "...........";
+	next;
+	mes "^3355FFSua risada foi ficando mais baixa";
+	mes "e mais baixa até que o vento a dessipou.";
+	mes "Finalmente, eu não pude ouvir mais nada. Eu não consigo mesmo recordar o que ele estava tentando me dizer...^000000";
+	close;
+}
+
+amatsu,262,197,1	script	Árvore Lengendária	111,{
+	if (jap_tree == 1) {
+		mes "^3355FFComo ela mencionou, está árvore";
+		mes "parece ser um local famoso";
+		mes "para procurar amantes.";
+		mes "Havia vários símbolos esculpidos de";
+		mes "corações e as iniciais dos";
+		mes "amantes sobre a casca.^000000";
+		next;
+		mes "^3355FFAlém de propostas, pessoas se";
+		mes "reúnem sob esta árvore para";
+		mes "discutirem sobre assuntos";
+		mes "importantes. Eu podia ouvir todos";
+		mes "os tipos de histórias";
+		mes "neste magnífico local.^000000";
+		close;
+	}
+	else if (jap_tree == 2) {
+		mes "^3355FFA lendária jogadora, 'A Driade Branca'.....";
+		mes "Eu nunca ouvi falar, mas o título";
+		mes "soa familiar.";
+		mes "Ninfa da Cerejeira... Qual seria";
+		mes "sua posição no jogo?^000000";
+		next;
+		if (Sex == SEX_MALE) {
+			mes "^3355FFGostaria de encontrar";
+			mes "uma pessoa que é talentosa";
+			mes "em atuação e ajudá-la";
+			mes "a realizar o jogo. Entretanto,";
+			mes "parece ser mais fácil de dizer do que fazer.^000000";
+			close;
+		}
+		mes "^3355FFEu posso ter algum talento para";
+		mes "atuar que ainda não foi descoberto. Eu acho que, 'Se eu me vestir adequandamente, poderia desempenhar a 'A Driade Branca...'^000000";
+		close;
+	}
+	else if (jap_tree == 3) {
+		mes "^3355FFAo contrário das outras cerejeiras,";
+		mes "essa árvore tem uma forte fragrância.";
+		mes "Eu só caí em um clima descontraído.";
+		mes "A fragrância aliviou meus";
+		mes "problemas e me senti";
+		mes "muito confortável.^000000";
+		next;
+		mes "^3355FFFoi só por alguns momentos,";
+		mes "mas eu pude esquecer";
+		mes "os problemas da vida. Quero voltar";
+		mes "e sentar sob";
+		mes "esta árvore...^000000";
+		close;
+	}
+	else if (jap_tree == 4) {
+		mes "^3355FFEsta enorme fragrância";
+		mes "está me deixando tonto. Não como";
+		mes "as outras cerejeiras, mas esta árvore";
+		mes "de pétalas brancas cintilantes";
+		mes "me fez sentir estranho.^000000";
+		next;
+		mes "^3355FFEla se sente como se a minha";
+		mes "alma está sendo drenada";
+		mes "se eu ficar aqui mais tempo. Depois de um pequeno clarão";
+		mes "da cerejeira, eu pensei que por";
+		mes "mim mesmo, 'Eu preciso sair daqui rapidamente.'^000000";
+		close;
+	}
+	mes "^3355FFExiste uma cerejeira sobre";
+	mes "a colina. Não parece";
+	mes "como as outras árvores.";
+	mes "Esta árvore parece";
+	mes "ter uma longa história...^000000";
+	next;
+	mes "^3355FFExistem várias pessoas";
+	mes "que vivem aqui? Observando";
+	mes "em volta, encontrei";
+	mes "alguém descendo a colina.";
+	mes "É melhor perguntar a ela sobre esta árvore.^000000";
+	close;
+}
