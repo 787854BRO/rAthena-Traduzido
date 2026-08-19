@@ -1,0 +1,1711 @@
+//===== rAthena Script =======================================
+//= iRO/kRO 2013 Christmas Event
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Join the Singles Union Army to break up couples and hunt
+//= raccoons for rewards.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//============================================================
+
+// Missão Principal :: 2013_xmas_en
+//============================================================
+xmas,10,1,5	script	2013questreset2#xmas	10086,{
+	if (callfunc("F_GM_NPC",1854,0) == 1) {
+		setarray .@quests[0], 15055,15056,15057,15059,15060,15061,15062,15063,15064;
+		for (set .@i,0; .@i<=getarraysize(.@quests); set .@i,.@i+1)
+			if (isbegin_quest(.@i)) erasequest .@i;
+	}
+	end;
+}
+
+xmas,150,134,3	script	Comandante Cliff	10086,{
+	if (BaseLevel < 40) {
+		mes "[Comandante da União, Cliff]";
+		mes "Sem palavras para noobs!! Do nível 40 abaixo não pode se juntar ao Exército da União de Solteiros!";
+		close;
+	}
+	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1) {
+		mes "^ff0000Você está acima do peso. Cheque seu inventário e fale comigo novamente mais tarde.";
+		close;
+	}
+	set .@playtime, checkquest(15059,PLAYTIME);
+	if (.@playtime == 0 || .@playtime == 1) {
+		mes "- Você pode repetir esta missão após 24 horas.";
+		close;
+	} else if (checkquest(15059,PLAYTIME) > 1) {
+		erasequest 15059;
+		set xmas2013_01,0;
+	}
+	set .@que_allmem, isbegin_quest(15060) + isbegin_quest(15061) + isbegin_quest(15062) + isbegin_quest(15063) + isbegin_quest(15064);
+	if (isbegin_quest(15057) == 1) {
+		if (countitem(7909) < 10 || countitem(7910) < 10 || countitem(6682) < 10) {
+			mes "[Comandante da União, Cliff]";
+			mes "Precisamos de mais materiais para realizar uma festa de Natal do Exército da União dos Solteiros!";
+			next;
+			mes "[Comandante da União, Cliff]";
+			mes "Traga ^ff000010 Biscoitos Roubados, 10 Doces Roubados e 10 Sacolas de Itens Negociáveis^000000 daqueles malditos Fumacentos!";
+			close;
+		}
+		mes "[Comandante da União, Cliff]";
+		mes "Você chutou a bunda da Equipe dos Guaxinins? Oh! Você trouxe todos os itens que precisamos. Poderemos sentir um pouco do clima natalino com isso!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Vou levar TODOS os itens que você trouxe. Por isso, eu lhe darei uma recompensa exclusiva somente para o Exército da União dos Solteiros. Você-deve-abri-lo-SOZINHO!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Aproveite o feriado!";
+		mes "Glória ao Exército da União dos Solteiros! hihihi HAHAHAHA!!";
+		delitem 7909, countitem(7909); //Biscoito Roubado
+		delitem 7910, countitem(7910); //Doce Roubado
+		delitem 6682, countitem(6682); //Sacola de Itens Negociáveis
+		erasequest 15057;
+		setquest 15059;
+		getitem 22685,1; //Presente de Natal dos Solteiros
+		specialeffect2 EF_MAGICALATTHIT;
+		specialeffect2 EF_POTION2;
+		specialeffect2 EF_ANGEL2;
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 < 5) {
+		mes "[Comandante da União, Cliff]";
+		mes "Você tem um total de " + xmas2013_01 + " ponto's de ruptura.";
+		mes "Separe pelo menos 5 casais e volte para mim!";
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 > 4) {
+		mes "[Comandante da União, Cliff]";
+		mes "Sim! Você conseguiu!! Mais e mais estão se juntando ao Exército da União dos Solteiros!! hihihi HAHAHA-CERTO! A vitória é nossa!!";
+		erasequest 15056;
+		setquest 15057;
+		getitem 22686,5; //Biscoito dos Solteiros
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "MAS!!! Enquanto estamos ocupados separando casais, aqueles malditos pirralhos da Equipe dos Guaxinins roubaram a maioria dos nossos itens. Sem isso, não conseguimos sentir o clima de Natal.";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "É hora de puni-los e recuperar os itens para o Exército da União dos Solteiros!!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "^ff0000>10 Biscoitos Roubados, 10 Doces Roubados e 10 Sacolas de Itens Negociáveis^000000 devem ser suficientes para a festa. Encontre os Fumacentos em mapas de campo e masmorras!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Não importa se você trouxe mais, eu levo TODOS!!";
+		close;
+	} else if (isbegin_quest(15055) == 0) {
+		mes "[Comandante da União, Cliff]";
+		mes "Ei você!! Sim! Você aí mesmo! Você!!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Deixe-me perguntar sem rodeios.";
+		mes "Você deve ser solteiro. Tenho um pressentimento. Certo?!??";
+		next;
+		if(select("- ...talvez...?:O QUÊ! Estou em um relacionamento!!") == 2) {
+			mes "[Comandante da União, Cliff]";
+			mes "O que? ...em um relacionamento?!!";
+			mes "...Não solteiro, mas um casal...";
+			mes "......";
+			mes "Maldito! Sinta o gosto da ira do Exército da União dos Solteiros!!!";
+			close2;
+			specialeffect2 EF_MAGICALATTHIT;
+			specialeffect2 EF_POTION2;
+			specialeffect2 EF_CRASHEARTH;
+			specialeffect2 EF_COIN;
+			end;
+		}
+		mes "[Comandante da União, Cliff]";
+		mes "hihihi HAHAHA-HAK!";
+		mes "Eu sabia! À primeira vista eu consigo perceber!";
+		mes "Não me subestime, estive solteiro a vida toda! hihihi HAHAHA-CERTO!";
+		mes "Meu nome é Cliff, o Comandante da União!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Enfim, neste mês de dezembro, o dia está chegando....";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Canções de Natal por toda parte, luzes coloridas brilhantes, neve branca caindo e casais se vendo com sorrisos no rosto... casais... CASAIS...!!!!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "No início era uma celebração do nascimento do nosso Senhor! Então, por que... como... quando se tornou um dia para casais??!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Eu não aguento isso....";
+		mes "Não vou perdoá-los pela felicidade que trazem apenas para si mesmos!!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Natal para casais?";
+		mes "Sem chance! Este Natal será um dia para solteiros!!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "No entanto, precisarei de membros que se oponham a eles. Seu nome seria do Exército da União de Solteiros!!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "O que você acha? Você se juntaria ao meu Exército da União de Solteiros e faria o Natal dos solteiros ser um dia feliz?";
+		next;
+		select("Conte comigo!:Eu ajudo.:Não posso dizer não, posso?");
+		mes "[Comandante da União, Cliff]";
+		mes "Sim! É isso! Mas precisamos de mais membros para se posicionar contra os casais.";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Aqui está sua primeira missão!";
+		mes "Encontre alguém em Lutie e faça com que ele se junte a nós. 5 solteiros devem ser suficientes, agora gogogo~!";
+		mes "hihihi HAHAHA-CERTO!";
+		close2;
+		setquest 15055;
+		end;
+	} else if (isbegin_quest(15055) == 1 && .@que_allmem < 10) {
+		mes "[Comandante da União, Cliff]";
+		mes "Não há tempo a perder!";
+		mes "Encontre 5 solteiros em Lutie e faça com que eles participem!";
+		close;
+	} else if (isbegin_quest(15055) == 1 && .@que_allmem > 9) {
+		mes "[Comandante da União, Cliff]";
+		mes "Bom trabalho! Eu conheci todos eles! Eles são dignos de se juntar à nossa causa hihihi HAHAHA-CERTO!!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Enquanto você reunia mais membros do Exército da União de Solteiros, eu fiz Insígnias.";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Pode não ser útil, mas este tipo de pequeno token pode tornar os nossos laços mais sólidos e fortes!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Bem, pegue isso! Agora você é um membro orgulhoso do Exército da União de Solteiros!!";
+		set xmas2013_01,0;
+		completequest 15055;
+		getitem 6821,1; //Insígnia de Tropas dos Solteiros
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Agora é hora de mostrar nosso poder aos casais, pois temos membros suficientes!!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Vamos para a segunda missão!";
+		mes "Vá para Lutie e separe os casais. Não importa como você faça, eles simplesmente tem que terminarem!!";
+		mes "hihihi HAHAHA-CERTO!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Bom, tem mais uma coisa...";
+		mes "Ao perturbar o casal, caso eles se separem, você ganhará 2 pontos, no caso de uma simples discussão você ganhará 1 ponto.";
+		mes "Mas se eles se aproximarem mais, sua pontuação será menos 1 ponto. Então, quando você consegue 5 pontos e vem aqui para o relatório, significa que a missão foi cumprida.";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Certamente você não terá pontuação negativa, então não se preocupe.";
+		setquest 15056;
+		close;
+	} else if (isbegin_quest(15055) == 2) {
+		mes "[Comandante da União, Cliff]";
+		mes "Agora é hora de mostrar nosso poder aos casais, pois temos tropas suficientes!!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Vamos para a segunda missão!";
+		mes "Vá para Lutie e separe os casais. Seja lá o que for, faça com que eles terminem!!";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Bom, tem mais uma coisa...";
+		mes "Ao perturbar o casal, caso eles se separem, você ganhará 2 pontos, no caso de uma simples discussão você ganhará 1 ponto.";
+		mes "Mas se eles se aproximarem mais, sua pontuação será menos 1 ponto. Então, quando você consegue 5 pontos e vem aqui para o relatório, significa que a missão foi cumprida.";
+		next;
+		mes "[Comandante da União, Cliff]";
+		mes "Certamente você não terá pontuação negativa, então não se preocupe.";
+		setquest 15056;
+		close;
+	}
+	end;
+}
+
+xmas,172,126,3	script	Kwami Solitária#xmas	10089,{
+	if (isbegin_quest(15055) == 0) {
+		mes "[Kwami]";
+		mes "Haa..... terminando um pouco antes do Natal....estou sozinha... uma solteira! ...EU SOU??!!";
+		close;
+	} else if (isbegin_quest(15055) == 1 && isbegin_quest(15060) == 0) {
+		mes "[Kwami]";
+		mes "Haa..... terminando um pouco antes do Natal....estou sozinha...uma solteira! ...EU SOU??!!";
+		next;
+		mes "[Kwami]";
+		mes "Quem é você!?";
+		mes "Qual é o seu negócio comigo?";
+		next;
+		select("- O Exército da União de Solteiros veio até você. -");
+		mes "[Kwami]";
+		mes "errar? Exército da União de Solteiros? O que é isso?";
+		next;
+		select("- Explique sobre o clube -");
+		mes "[Kwami]";
+		mes "...sim. Você tem razão!";
+		next;
+		mes "[Kwami]";
+		mes "Como estou solteiro! Eu nunca deixaria casais aproveitarem esse Natal!!";
+		next;
+		mes "[Kwami]";
+		mes "Vou me juntar ao Exército da União dos Solteiros!!";
+		next;
+		mes "- Kwami tornou-se membro do Exército da União de Solteiros. -";
+		setquest 15060;
+		completequest 15060;
+		close;
+	} else {
+		mes "[Kwami, UN. de Solteiros]";
+		mes "Primeiro de tudo, tenho que me vingar do meu ex... Não?";
+		close;
+	}
+}
+
+xmas,113,161,5	script	Willer Solitária#xmas	10090,{
+	if (isbegin_quest(15055) == 0) {
+		mes "[Willer]";
+		mes "Hoooooo... é tão chato brincar sozinha....";
+		close;
+	} else if (isbegin_quest(15055) == 1 && isbegin_quest(15061) == 0) {
+		mes "[Willer]";
+		mes "Hoooooo... é tão chato brincar sozinha....";
+		next;
+		mes "[Willer]";
+		mes "Não há nada emocionante?";
+		mes "...ei, você brincaria comigo??";
+		next;
+		select("- O Exército da União de Solteiros veio até você. -");
+		mes "[Willer]";
+		mes "União de solteiros o que é? Por que vir até mim?";
+		next;
+		select("- Explique sobre o clube -");
+		mes "[Willer]";
+		mes "Entããão...";
+		mes "Separar casais e fazer a festa de Natal só para solteiros?";
+		next;
+		mes "[Willer]";
+		mes "Isso deve ser divertido! Não entendi exatamente, mas vou participar, estou dentro!!";
+		next;
+		mes "- Willer tornou-se membro do Exército da União de Solteiros. -";
+		setquest 15061;
+		completequest 15061;
+		close;
+	} else {
+		mes "[Willer, da União de Solteiros]";
+		mes "Separar casais... isso deve ser divertido!!";
+		close;
+	}
+}
+
+xmas,131,97,5	script	Rinka Solitária#xmas	10091,{
+	if (isbegin_quest(15055) == 0) {
+		mes "[Rinka]";
+		mes "Eca! droga... que tipo de amiga só se gabaria do namorado, nojento! Ela acha mesmo que eu não posso ter um?!?";
+		close;
+	} else if (isbegin_quest(15055) == 1 && isbegin_quest(15062) == 0) {
+		mes "[Rinka]";
+		mes "Eca! Droga... que tipo de amiga só se gabaria do namorado, nojento! Ela realmente acha que eu não posso ter um?!?";
+		next;
+		mes "[Rinka]";
+		mes "- soluçando -";
+		next;
+		mes "[Rinka]";
+		mes "Não posso... na verdade não tem ninguém... não tenho ninguém!!!!!!!!!!!!!!!";
+		next;
+		select("- O Exército da União de Solteiros veio até você. -");
+		mes "[Rinka]";
+		mes "Eca! Uau!!";
+		mes "Você me surpreendeu. Do que você está falando, o que é isso?!";
+		next;
+		select("- Explique-me sobre o clube -");
+		mes "[Rinka]";
+		mes "Hoho... há algo assim?";
+		mes "Separando casais...";
+		mes "OK! Deixe-me participar!";
+		next;
+		mes "[Rinka]";
+		mes "Há espaço para outro membro?";
+		mes "...em breve outro membro se juntará!";
+		mes "Espere~ meu amigo!! ...";
+		next;
+		mes "- Rinka tornou-se membro do Exército da União de Solteiros. -";
+		setquest 15062;
+		completequest 15062;
+		close;
+	} else {
+		mes "[Rinka, da União de Solteiros]";
+		mes "Espere~ meu amigo!! Você vai... se juntar a nós em breve!!";
+		close;
+	}
+}
+
+xmas,121,127,5	script	Jee Solitário#xmas	10088,{
+	if (isbegin_quest(15055) == 0) {
+		mes "[Jee]";
+		mes "Que lindo é ser solteiro...";
+		close;
+	} else if ((isbegin_quest(15055) == 1) && (isbegin_quest(15063) == 0)) {
+		mes "[Jee]";
+		mes "Que lindo é ser solteiro...";
+		next;
+		mes "[Jee]";
+		mes "Não há ninguém para incomodá-lo. Ninguém para cuidar. Não há mais trabalho extra dos outros. Mais tempo para passar sozinho.";
+		next;
+		mes "[Jee]";
+		mes "Por que as pessoas estão abrindo mão dessa vantagem e querem ser casais?";
+		next;
+		select("- O Exército da União de Solteiros veio até você. -");
+		mes "[Jee]";
+		mes "Sim, ouvi falar disso recentemente. Eu sabia que você viria até mim.";
+		next;
+		mes "[Jee]";
+		mes "Não são necessárias mais palavras. Vou espalhar sobre qual é a vantagem de ser solteiro!";
+		next;
+		mes "- Jee tornou-se membro do Exército da União de Solteiros. -";
+		setquest 15063;
+		completequest 15063;
+		close;
+	} else {
+		mes "[Jee, da União de Solteiros]";
+		mes "Vou espalhar sobre qual é a vantagem de ser solteiro!";
+		close;
+	}
+}
+
+xmas,150,169,3	script	Marty Solitário#xmas	10087,{
+	if (isbegin_quest(15055) == 0) {
+		mes "[Marty]";
+		mes "umm... Zzz... nyam-nyam...";
+		close;
+	} else if (isbegin_quest(15055) == 1 && isbegin_quest(15064) == 0) {
+		mes "[Marty]";
+		mes "Hum... Zzz... nyamnyam...";
+		next;
+		select("- O Exército da União de Solteiros veio até você. -");
+		mes "[Marty]";
+		mes "nyam.... nyamnyam... Grrr... Zzz";
+		next;
+		select("- Explique sobre o clube -");
+		mes "[Marty]";
+		mes "Huum... nyaaa.... Zzz";
+		next;
+		mes "- ...você pode considerar que ele concorde em se juntar. -";
+		next;
+		mes "- Marty tornou-se membro do Exército da União de Solteiros. -";
+		setquest 15064;
+		completequest 15064;
+		close;
+	} else {
+		mes "[Marty, da União de Solteiros]";
+		mes "nyam.... nyamnyam... Grrrr... Zzz";
+		close;
+	}
+}
+
+xmas,108,149,5	script	Máquina de Drop#xmas	562,{
+	if (isbegin_quest(15056) == 0) {
+		mes "[Máquina de Drop]";
+		mes "Dingding dong Ding!";
+		emotion ET_THROB;
+		next;
+		mes "[Máquina Caça-níqueis]";
+		mes "!~";
+		emotion ET_THROB, getnpcid(0, "Máquina Caça-níqueis#xmas");
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 < 5) {
+		mes "[Máquina de Drop]";
+		mes "Dingdingding!~";
+		emotion ET_THROB;
+		next;
+		mes "[Máquina Caça-níqueis]";
+		mes "Charrrrr Sharrrrrrr Ding!~";
+		emotion ET_THROB, getnpcid(0, "Máquina Caça-níqueis#xmas");
+		next;
+		mes "- Ah não, outro casal!";
+		mes "- Mesmo sendo apenas máquinas...";
+		mes "- Não suporto ver isso!";
+		next;
+		select("- Coloque a máquina em plena potência. -");
+		mes "[Máquina de Drop]";
+		mes "Ding ding ding dong ding ding ding dong Ding ding ding dong ding ding ding dong";
+		next;
+		mes "[Máquina Caça-níqueis]";
+		mes "Krrrrrrrrrr Dingding dong Krrrrrr Dingding Krrrrrrrrrrr ding Krrrrrrrrr";
+		next;
+		set .@cu_bre, rand(1,10);
+		if (.@cu_bre < 3) {
+			mes "- EU...";
+			mes "- Acho que separei os dois!";
+			mes "- Separou um casal com sucesso!";
+			mes "- 2 pontos por um ótimo trabalho!";
+			set xmas2013_01, xmas2013_01 + 2;
+		} else if (.@cu_bre > 7) {
+			mes "- Eu liguei a máquina por um tempo";
+			mes "- Mas o som da máquina";
+			mes "- parece ficar mais alto.";
+			mes "- Não consegui separá-los, menos 1 ponto!";
+			if (xmas2013_01 > 0)
+				set xmas2013_01, xmas2013_01 - 1;
+		} else {
+			mes "- Depois de operar a máquina por um tempo.";
+			mes "- Acho que finalmente separei um deles!";
+			mes "- Aqui vale 1 ponto por um bom trabalho!";
+			set xmas2013_01, xmas2013_01 + 1;
+		}
+		mes "- O ponto de ruptura atual do casal é " + xmas2013_01 + ".";
+		hideonnpc "Máquina de Drop#xmas";
+		hideonnpc "Máquina Caça-níqueis#xmas";
+		initnpctimer;
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 > 4) {
+		mes "- O ponto de ruptura do casal";
+		mes "- agora é de mais de 5.";
+		mes "- Eu deveria voltar até Cliff, o Comandante da União.";
+		close;
+	}
+	end;
+OnTimer100000:
+	hideoffnpc "Máquina de Drop";
+	hideoffnpc "Máquina Caça-níqueis";
+	stopnpctimer;
+	end;
+}
+xmas,111,149,3	script	Máquina Caça-níqueis#xmas	563,{ end; }
+
+xmas,181,150,5	script	Homem Assustado#xmas	711,{
+	if (isbegin_quest(15056) == 0) {
+		mes "[Homem Assustado]";
+		mes "A culpa é minha, me desculpe. Por favor, não fique bravo.";
+		emotion ET_SORRY;
+		next;
+		mes "[Mulher Zangada]";
+		mes "Você sente muito? Você sabe o que fez? Você tem alguma ideia do porquê estou brava?";
+		emotion ET_FRET, getnpcid(0, "Mulher Zangada#xmas");
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 < 5) {
+		mes "[Homem Assustado]";
+		mes "Foi culpa minha, sinto muito. Por favor, não fique bravo.";
+		emotion ET_SORRY;
+		next;
+		mes "[Mulher Zangada]";
+		mes "Você sente muito? Você sabe o que fez? Você tem alguma ideia do porquê estou brava?";
+		emotion ET_FRET, getnpcid(0, "Mulher Zangada#xmas");
+		next;
+		mes "[Homem Assustado]";
+		mes "Bem, eu sinto que tudo é minha culpa.";
+		next;
+		mes "[Mulher Zangada]";
+		mes "Você é sempre assim!";
+		mes "Você nunca sabe pelo que deve se desculpar!!";
+		next;
+		mes "[Homem Assustado]";
+		mes "Ah... O que devo fazer?";
+		mes "Ei, o que você acha que eu deveria dizer para minha namorada?";
+		next;
+		select("- Diga a ela 'Devíamos parar de nos ver'!");
+		mes "[Homem Assustado]";
+		mes "Talvez devêssemos parar de nos ver?";
+		mes "Oh não, eu apenas disse isso em voz alta!";
+		next;
+		set .@cu_bre, rand(1,10);
+		if (.@cu_bre < 3) {
+			mes "[Mulher Zangada]";
+			mes "O que? O que você acabou de dizer? Nós deveríamos parar de nos ver? Como você pôde dizer isso para mim?! Você é quem fez tudo errado! Ok, sabe de uma coisa? Vamos terminar logo! Estou farta de tudo isso!";
+			set xmas2013_01, xmas2013_01 + 2;
+			hideonnpc "Homem Assustado#xmas";
+			hideonnpc "Mulher Zangada#xmas";
+			initnpctimer;
+			next;
+			mes "[Homem Assustado]";
+			mes "Não, não foi isso que eu... ok, é isso! Eu também estou farto disto, farto de você choramingar o tempo todo! Vamos acabar com isto hoje!!";
+			next;
+			mes "- Separou um casal com sucesso!!";
+			mes "- 2 pontos!";
+		} else if (.@cu_bre > 7) {
+			mes "[Mulher Zangada]";
+			mes "O que? ...O que você acabou de dizer? Nós deveríamos parar de nos ver?";
+			if (xmas2013_01 > 0)
+				set xmas2013_01, xmas2013_01 - 1;
+			hideonnpc "Homem Assustado#xmas";
+			hideonnpc "Mulher Zangada#xmas";
+			initnpctimer;
+			next;
+			mes "[Mulher Zangada]";
+			mes "Eu não posso acreditar que você pode ser um cara tão gostoso e durão! É como se eu estivesse me apaixonando novamente!";
+			next;
+			mes "[Mulher Zangada]";
+			mes "Querida, você pode dizer isso de novo, de uma forma mais grosseira?";
+			next;
+			mes "[Homem Assustado]";
+			mes "Huh? claro... Vamos... vamos acabar logo com isso!!!";
+			next;
+			mes "[Mulher Zangada]";
+			mes "Hahahaha! Você é incrível! Incrível! Diga de novo! Diga!";
+			next;
+			mes "[Homem Assustado]";
+			mes "Vamos apenas terminar! Estou te deixando!!";
+			next;
+			mes "[Mulher Zangada]";
+			mes "Hahahahahahaha! Yay! Você é o melhor!";
+			next;
+			mes "- ...Essas pessoas não são normais.";
+			mes "- menos 1 ponto pela falha!";
+		} else {
+			set xmas2013_01, xmas2013_01 + 1;
+			hideonnpc "Homem Assustado#xmas";
+			hideonnpc "Mulher Zangada#xmas";
+			initnpctimer;
+			mes "[Mulher Zangada]";
+			mes "O que?... O que você acabou de dizer? Nós deveríamos parar de nos ver?";
+			next;
+			mes "[Mulher Zangada]";
+			mes "...Acho que estamos ambos muito chateados agora. Vamos conversar sobre isso mais tarde...";
+			next;
+			mes "[Homem Assustado]";
+			mes "Hmm?... ah, sim, você está certo... Adeus, volte para casa com segurança...";
+			next;
+			mes "- Aqui está 1 ponto por estragar o encontro deles!";
+		}
+		mes "- O ponto de ruptura atual do casal é " + xmas2013_01 + ".";
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 > 4) {
+		mes "- O ponto de ruptura do casal";
+		mes "- agora é de mais de 5.";
+		mes "- Eu deveria voltar até Cliff, o Comandante da União.";
+		close;
+	}
+	end;
+OnTimer100000:
+	hideoffnpc "Homem Assustado#xmas";
+	hideoffnpc "Mulher Zangada#xmas";
+	stopnpctimer;
+	end;
+}
+xmas,183,150,3	script	Mulher Zangada#xmas	714,{ end; }
+
+xmas_in,32,99,5	script	Kwami, UN. de Solteiros	10089,{
+	if (isbegin_quest(15056) == 0) {
+		mes "[Kwami, UN. de Solteiros]";
+		mes "Rinka. É um grande mistério como uma garota tão bonita como você foi parar neste Exército da União de Solteiros.";
+		emotion ET_THROB;
+		next;
+		mes "[Rinka, UN. de Solteiros]";
+		mes "Você me acha bonita? hoho... É um mistério para mim também, que um homem bonito como você tenha se juntado ao Exército da União dos Solteiros.";
+		emotion ET_THROB, getnpcid(0, "Rinka, UN. de Solteiros");
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 < 5) {
+		mes "[Kwami, UN. de Solteiros]";
+		mes "Rinka. É um grande mistério como uma garota tão bonita como você foi parar neste Exército da União de Solteiros.";
+		emotion ET_THROB;
+		next;
+		mes "[Rinka, UN. de Solteiros]";
+		mes "Você me acha bonita? hoho... É um mistério para mim também, que um homem bonito como você tenha se juntado ao Exército da União dos Solteiros.";
+		emotion ET_THROB, getnpcid(0, "Rinka, UN. de Solteiros");
+		next;
+		mes "[Kwami, UN. de Solteiros]";
+		mes "Bem, não é uma pena passarmos o Natal sozinhos? O que você me diz, Rinka, você e eu...";
+		next;
+		select("- Ser casal é traição! Você nos trai, você morre!!! ");
+		set xmas2013_01, xmas2013_01 + 1;
+		hideonnpc "Kwami, UN. de Solteiros";
+		hideonnpc "Rinka, UN. de Solteiros";
+		initnpctimer;
+		mes "[Rinka, UN. de Solteiros]";
+		mes "Argh!!!!! Quem é esse?!";
+		mes "Não foi ele quem nos arrastou para o Exército da União dos Solteiros?!";
+		next;
+		mes "[Kwami, UN. de Solteiros]";
+		mes "Você estava... espionando?!";
+		mes "Eu só queria dizer que deveríamos encontrar mais membros para o Clube! Hahahahaha!";
+		next;
+		mes "[Kwami, UN. de Solteiros]";
+		mes "Vejo você mais tarde, Rinka. Vou sair para caçar mais casais. Não conte ao chefe!";
+		next;
+		mes "[Rinka, UN. de Solteiros]";
+		mes "Hmm, acho que deveria ir. Até mais Kwami, adeus para você também~";
+		next;
+		mes "- Impediu com sucesso a formação de um casal!";
+		mes "- 1 ponto pelo bom trabalho!";
+		mes "- O ponto de ruptura atual do casal é " + xmas2013_01 + ".";
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 > 4) {
+		mes "- O ponto de ruptura do casal";
+		mes "- agora é de mais de 5.";
+		mes "- Eu deveria voltar até Cliff, o Comandante da União.";
+		close;
+	}
+	end;
+OnTimer300000:
+	hideoffnpc "Kwami, UN. de Solteiros";
+	hideoffnpc "Rinka, UN. de Solteiros";
+	stopnpctimer;
+	end;
+}
+xmas_in,34,99,3	script	Rinka, UN. de Solteiros	10091,{ end; }
+
+xmas,156,109,5	script	Pobre Alquimista#xmas	749,{
+	if (isbegin_quest(15056) == 0) {
+		mes "[Pobre Alquimista]";
+		mes "Ah, olá.";
+		emotion ET_PROFUSELY_SWEAT;
+		next;
+		mes "[Florista]";
+		mes "Olá, Sr. Alquimista.";
+		mes "Você está trabalhando hoje também?";
+		emotion ET_DELIGHT, getnpcid(0, "Florista#xmas");
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 < 5) {
+		mes "[Pobre Alquimista]";
+		mes "Ah, olá.";
+		emotion ET_PROFUSELY_SWEAT;
+		next;
+		mes "[Florista]";
+		mes "Olá, Sr. Alquimista.";
+		mes "Você está trabalhando hoje também?";
+		emotion ET_DELIGHT, getnpcid(0, "Florista#xmas");
+		next;
+		mes "[Pobre Alquimista]";
+		mes "Na verdade, tenho uma coisa para lhe contar.";
+		mes "É muito importante, então ouça com atenção.";
+		next;
+		mes "[Florista]";
+		mes "Ah, claro, por favor fale livremente.";
+		next;
+		mes "[Pobre Alquimista]";
+		mes "Biologicamente falando, o sistema límbico no cérebro nos permite ser sociáveis, se comunicar com as pessoas, entreter, e etc.";
+		next;
+		mes "[Pobre Alquimista]";
+		mes "Então, quando você vê uma mulher bonita, informações como sua aparência, seu cheiro, o tom de sua voz e etc. vão para a área límbica.";
+		next;
+		mes "[Pobre Alquimista]";
+		mes "O sistema límbico então avalia as informações, para ver se essa senhora é simpática, agressiva, ou charmosa, e etc.";
+		next;
+		mes "[Pobre Alquimista]";
+		mes "Quando a avaliação é feita, o sistema límbico começa imediatamente a secretar os produtos químicos.";
+		next;
+		mes "[Pobre Alquimista]";
+		mes "Então, se você se sentir atraído por essa senhora, um hormônio chamado dopamina é secretado e isso faz você se sentir um pouco feliz.";
+		next;
+		mes "[Pobre Alquimista]";
+		mes "Quando essa fase termina, você sente a adrenalina aumentando, então você se torna mais direto e entusiasmado.";
+		next;
+		mes "[Pobre Alquimista]";
+		mes "Estou nessa fase agora em relação a você! Em outras palavras, estou muito...!!";
+		next;
+		select("- Com muita fome, né?!");
+		mes "[Florista]";
+		mes "Huh? Está certo?";
+		mes "Você está com fome agora, Sr. Alquimista?";
+		next;
+		mes "[Pobre Alquimista]";
+		mes "Ah... sim... acho que estou...";
+		mes "...com muita fome...";
+		next;
+		set .@cu_bre, rand(1,10);
+		if (.@cu_bre < 3) {
+			mes "[Florista]";
+			mes "Há um bom restaurante aqui perto. Por que você não vai e come alguma coisa?";
+			set xmas2013_01, xmas2013_01 + 2;
+			hideonnpc "Pobre Alquimista#xmas";
+			hideonnpc "Florista#xmas";
+			initnpctimer;
+			next;
+			mes "[Pobre Alquimista]";
+			mes "...Claro, obrigado. Tenha um bom dia...";
+			next;
+			mes "- Impediu com sucesso a formação de um casal!";
+			mes "- 2 pontos pelo excelente trabalho!";
+		} else if (.@cu_bre > 7) {
+			mes "[Florista]";
+			mes "Eu entendo. Eu entendo o que você quer dizer.";
+			if (xmas2013_01 > 0)
+				set xmas2013_01, xmas2013_01 - 1;
+			hideonnpc "Pobre Alquimista#xmas";
+			hideonnpc "Florista#xmas";
+			initnpctimer;
+			next;
+			mes "[Florista]";
+			mes "Posso preparar uma boa refeição para você, então?";
+			next;
+			mes "[Florista]";
+			mes "...Para o resto da minha vida, se você quiser...";
+			next;
+			mes "[Pobre Alquimista]";
+			mes "OK...";
+			mes "......";
+			mes "Esperar, o que?????";
+			next;
+			mes "[Pobre Alquimista]";
+			mes "......";
+			mes "......Sim! Eu quero!!!!!!!!";
+			next;
+			mes "- Não conseguiu separar um casal";
+			mes "- menos 1 ponto pela falha!";
+		} else {
+			set xmas2013_01, xmas2013_01 + 1;
+			hideonnpc "Pobre Alquimista#xmas";
+			hideonnpc "Florista#xmas";
+			initnpctimer;
+			mes "[Florista]";
+			mes "Há comida na loja, por favor, entre.";
+			next;
+			mes "[Pobre Alquimista]";
+			mes "Ah... sim, obrigado.";
+			next;
+			mes "- Você interrompeu o casal de certa forma. Aqui vai 1 ponto para você!";
+		}
+		mes "- O ponto de ruptura atual do casal é " + xmas2013_01 + ".";
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 > 4) {
+		mes "- O ponto de ruptura do casal";
+		mes "- agora é de mais de 5.";
+		mes "- Eu deveria voltar até Cliff, o Comandante da União.";
+		close;
+	}
+	end;
+OnTimer100000:
+	hideoffnpc "Pobre Alquimista#xmas";
+	hideoffnpc "Florista#xmas";
+	stopnpctimer;
+	end;
+}
+xmas,158,109,3	script	Florista#xmas	91,{ end; }
+
+xmas,166,164,5	script	Garoto Raffini#xmas	443,{
+	if (isbegin_quest(15056) == 0) {
+		mes "[Garoto Raffini]";
+		mes "Esta é a aldeia Lutie...";
+		emotion ET_STARE_ABOUT;
+		next;
+		mes "[Garota Rafini]";
+		mes "Tantos lindos flocos de neve brancos.";
+		mes "Mas está muito frio aqui...";
+		emotion ET_CRY, getnpcid(0, "Garota Raffini#xmas");
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 < 5) {
+		mes "[Garoto Raffini]";
+		mes "Esta é a aldeia Lutie...";
+		emotion ET_STARE_ABOUT;
+		next;
+		mes "[Garota Rafini]";
+		mes "Tantos lindos flocos de neve brancos.";
+		mes "Mas está muito frio aqui...";
+		emotion ET_CRY, getnpcid(0, "Garota Raffini#xmas");
+		next;
+		mes "[Garoto Raffini]";
+		mes "Mas foi você quem quis ver a neve neste Natal.";
+		next;
+		mes "[Garota Rafini]";
+		mes "Ah, mas eu não sabia o quanto frio estava... oops...";
+		next;
+		mes "[Garoto Raffini]";
+		mes "Bem, ok, entendo... Apenas chegue mais perto de mim.";
+		next;
+		mes "[Garota Rafini]";
+		mes "O que? Não consigo te ouvir. O que você estava dizendo?";
+		next;
+		mes "[Garoto Raffini]";
+		mes "...Chegue mais perto de mim. Ao meu lado.";
+		next;
+		mes "[Garota Rafini]";
+		mes "Ah, ok...";
+		next;
+		mes "- Hmm... não há espaço nenhum";
+		mes "- para eu interromper...";
+		next;
+		hideonnpc "Garoto Raffini#xmas";
+		hideonnpc "Garota Raffini#xmas";
+		initnpctimer;
+		set .@cu_bre, rand(1,10);
+		if (.@cu_bre < 6) {
+			set xmas2013_01, xmas2013_01 + 1;
+			mes "[Garota Rafini]";
+			mes "...Mas ainda está muito frio! Não quero mais ficar aqui.";
+			next;
+			mes "[Garota Rafini]";
+			mes "Eu quero voltar para Éclage!";
+			next;
+			mes "[Garoto Raffini]";
+			mes "Oh? Ei...finalmente chegamos aqui, mas você vai voltar agora mesmo?"";
+			next;
+			mes "[Garoto Raffini]";
+			mes "Ei! Vamos juntos!!";
+			next;
+			mes "- Não se preocupe, mas está tudo bem.";
+			mes "- Obtenha 1 ponto de pontuação!";
+		} else {
+			if (xmas2013_01 > 0)
+				set xmas2013_01, xmas2013_01 - 1;
+			mes "[Garota Rafini]";
+			mes "Oh! Está muito mais quente do que antes... hehe";
+			next;
+			mes "[Garoto Raffini]";
+			mes "N... não fique muito perto de mim!";
+			next;
+			mes "[Garota Rafini]";
+			mes "Por que não? Quem se importa? Vamos pegar algo gostoso.";
+			next;
+			mes "[Garoto Raffini]";
+			mes "Você também está muito perto de mim! Eu, eu posso sentir seu... hum... ei!";
+			next;
+			mes "- Opa, fui atacado por aquele casal mesmo sem fazer nada.";
+			mes "- Falhou, obteve -1 ponto!";
+		}
+		mes "- O ponto de ruptura atual do casal é " + xmas2013_01 + ".";
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 > 4) {
+		mes "- O ponto de ruptura do casal";
+		mes "- agora é de mais de 5.";
+		mes "- Eu deveria voltar até Cliff, o Comandante da União.";
+		close;
+	}
+	end;
+OnTimer100000:
+	hideoffnpc "Garoto Raffini#xmas";
+	hideoffnpc "Garota Raffini#xmas";
+	stopnpctimer;
+	end;
+}
+xmas,168,164,3	script	Garota Raffini#xmas	438,{ end; }
+
+xmas,147,123,5	script	Angeling#xmas	948,{
+	if (isbegin_quest(15056) == 0) {
+		mes "[Angeling]";
+		mes "Kkuing~";
+		emotion ET_THROB;
+		next;
+		mes "[Arc Angeling]";
+		mes "Kkuing Kkuing~";
+		emotion ET_THROB, getnpcid(0, "Arc Angeling#xmas");
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 < 5) {
+		mes "[Angeling]";
+		mes "Kkuing~";
+		emotion ET_THROB;
+		next;
+		mes "[Arc Angeling]";
+		mes "Kkuing Kkuing~";
+		emotion ET_THROB, getnpcid(0, "Arc Angeling#xmas");
+		next;
+		mes "- Mas não posso incomodá-los.";
+		mes "- Não consigo nem falar com eles,";
+		mes "- Ah bem.";
+		next;
+		mes "- Apenas caçá-los?";
+		mes "- ......Sem chance.";
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 > 4) {
+		mes "- O ponto de ruptura do casal";
+		mes "- agora é de mais de 5.";
+		mes "- Eu deveria voltar até Cliff, o Comandante da União.";
+		close;
+	}
+	end;
+}
+xmas,149,123,3	script	Arc Angeling#xmas	949,{ end; }
+
+xmas,129,115,5	script	Prenetan#xmas	783,{
+	if (isbegin_quest(15056) == 0) {
+		mes "[Prenetan]";
+		mes "Umba~ Umba Umba!";
+		mes "Umba Umumumum!";
+		next;
+		mes "[Prenetan]";
+		mes "Finalmente consegui você, hein? Você está me traindo até agora e ainda me fez correr atrás de você? Eu vou te matar, garoto!";
+		emotion ET_FRET;
+		next;
+		mes "[Umpoucoriotan]";
+		mes "Ooohh... minha esposa é muito violenta. Ahh... isso dói!";
+		emotion ET_CRY, getnpcid(0, "Umpoucoriotan#xmas");
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 < 5) {
+		mes "[Prenetan]";
+		mes "Umba~ Umba umba!";
+		mes "Umba umumumum!";
+		next;
+		mes "[Prenetan]";
+		mes "Finalmente consegui você, hein? Você está me traindo até agora e ainda me fez correr atrás de você? Eu vou te matar, garoto!";
+		emotion ET_FRET;
+		next;
+		mes "[Umpoucoriotan]";
+		mes "Ooohh... minha esposa é muito violenta. Ahh... isso dói!";
+		emotion ET_CRY, getnpcid(0, "Umpoucoriotan#xmas");
+		next;
+		mes "[Umpoucoriotan]";
+		mes "Wenathan, Berzthan, Chabimathan";
+		mes "Oooh... As meninas da Umbala estão aqui... Elas estão me esperando agora....Arg! Não me toque!";
+		next;
+		mes "[Prenetan]";
+		mes "Como você é estúpido!";
+		mes "Essas garotas nunca quiseram ver você e é mentira que elas viriam aqui!!";
+		next;
+		select("- Não. Estão todas aqui!");
+		hideonnpc "Prenetan#xmas";
+		hideonnpc "Umpoucoriotan#xmas";
+		initnpctimer;
+		set .@cu_bre, rand(1,10);
+		if (.@cu_bre < 6) {
+			set xmas2013_01, xmas2013_01 + 1;
+			mes "[Umpoucoriotan]";
+			mes "Umm... sim, eu sei... É verdade que essas garotas estão aqui?";
+			next;
+			mes "[Umpoucoriotan]";
+			mes "...Ah, estou com dor de estômago... Eu comi alguma coisa estranha... Querido, só um segundo. Já volto, vou ao banheiro! Só espere um pouco aqui!";
+			next;
+			mes "[Prenetan]";
+			mes "Ei, seu idiota! Pare aí mesmo! Pare!... PARE!!!";
+			next;
+			mes "- Bem, as coisas são bem fáceis. Conseguiu 1 ponto!";
+		} else {
+			set xmas2013_01, xmas2013_01 + 1;
+			mes "[Prenetan]";
+			mes "Quem está aí? Você também quer ser morto?";
+			next;
+			mes "- Ops";
+			next;
+			mes "[Prenetan]";
+			mes "Você ainda não entendeu nada. Venha cá, vou levá-lo de volta para Umbala!";
+			next;
+			mes "[Umpoucoriotan]";
+			mes "ARG! ....Arrrrrrrrg!! Dói! Nãooooo!!! Eles estão me esperando!!!";
+			next;
+			mes "- Bem, ele apenas tornou as coisas mais difíceis para si mesmo. Conseguiu 1 ponto!";
+		}
+		mes "- O ponto de ruptura atual do casal é " + xmas2013_01 + ".";
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 > 4) {
+		mes "- O ponto de ruptura do casal";
+		mes "- agora é de mais de 5.";
+		mes "- Eu deveria voltar até Cliff, o Comandante da União.";
+		close;
+	}
+	end;
+OnTimer100000:
+	hideoffnpc "Prenetan#xmas";
+	hideoffnpc "Umpoucoriotan#xmas";
+	stopnpctimer;
+	end;
+}
+xmas,131,115,3	script	Umpoucoriotan#xmas	789,{ end; }
+
+xmas,138,174,5	script	Senhor das Trevas#xmas	737,{
+	if (isbegin_quest(15056) == 0) {
+		mes "[Senhor das Trevas]";
+		mes "Whahahahaha o mundo vai cair em uma escuridão em breve e todos vão se ajoelhar diante de mim!!";
+		emotion ET_SURPRISE;
+		next;
+		mes "[Succubus]";
+		mes "Meu mestre. Todos os mundos seguirão sua vontade.";
+		emotion ET_THROB, getnpcid(0, "Succubus#xmas");
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 < 5) {
+		mes "[Senhor das Trevas]";
+		mes "Whahahahaha o mundo vai cair em uma escuridão em breve e todos vão se ajoelhar diante de mim!!";
+		emotion ET_SURPRISE;
+		next;
+		mes "[Succubus]";
+		mes "Meu mestre. Todos os mundos seguirão sua vontade.";
+		emotion ET_THROB, getnpcid(0, "Succubus#xmas");
+		next;
+		mes "[Senhor das Trevas]";
+		mes "Você tem sido leal a mim, embora eu tenha dado ordens difíceis. Você merece uma recompensa. O que você quer agora? Eu definitivamente farei isso para você. Eu posso até te dar mais poder!";
+		next;
+		mes "[Succubus]";
+		mes "......";
+		mes "Você poderia realmente me dar qualquer coisa que eu queira...?";
+		next;
+		mes "[Succubus]";
+		mes "O que eu realmente preciso é...";
+		mes "......";
+		mes "Só você, meu mestre.";
+		next;
+		mes "[Senhor das Trevas]";
+		mes "......";
+		mes "?!!!!!";
+		next;
+		mes "[Succubus]";
+		mes "Eu estive apaixonado por você...";
+		mes "por muito tempo...";
+		next;
+		mes "[Senhor das Trevas]";
+		mes "......";
+		next;
+		mes "[Senhor das Trevas]";
+		mes "Não é que eu não soubesse disso.";
+		next;
+		mes "[Senhor das Trevas]";
+		mes "Eu também...";
+		next;
+		mes "[Senhor das Trevas]";
+		mes "...Mas somos demônios. Demônios escolhendo um caminho em direção ao amor?! Ridículo, o mundo das trevas nunca nos perdoaria! Nós ficariamos escondidos pelo resto de nossas vidas!";
+		next;
+		mes "[Succubus]";
+		mes "Não importa, desde que eu esteja com você, meu mestre...";
+		next;
+		select("- Desculpe incomodar... mas você não estava discutindo sobre conquistar o mundo?");
+		hideonnpc "Senhor das Trevas#xmas";
+		hideonnpc "Succubus#xmas";
+		initnpctimer;
+		set .@cu_bre, rand(1,10);
+		if (.@cu_bre < 5) {
+			set xmas2013_01, xmas2013_01 + 2;
+			mes "[Senhor das Trevas]";
+			mes "Sim... sim. Isso mesmo, Succubus! Já tínhamos uma meta tão alta!";
+			next;
+			mes "[Senhor das Trevas]";
+			mes "Apreciei a ideia, mas saiba qual é o seu lugar! Apenas seja minha subordinada como você já é.";
+			next;
+			mes "[Succubus]";
+			mes "Ah, sim... meu mestre, por favor, me perdoe. Farei o meu melhor para que o mundo seja seu.";
+			next;
+			mes "[Senhor das Trevas]";
+			mes "Sim! Não há nada melhor do que transformar este mundo em escuridão. Todos se ajoelharão diante de mim. Hahahahahahahahah!!!";
+			next;
+			mes "- Mesmo que o mundo";
+			mes "- seja engolido pela escuridão em breve...";
+			mes "- Tive um grande sucesso em separar um casal!";
+			mes "- 2 pontos!";
+		} else {
+			if (xmas2013_01 > 0)
+				set xmas2013_01, xmas2013_01 - 1;
+			mes "[Senhor das Trevas]";
+			mes "Conquistar o mundo... É inútil comparado ao que estamos sentindo neste momento.";
+			mes "Querida Succubus, você pode realmente superar qualquer tipo de agonia se estiver comigo?";
+			next;
+			mes "[Succubus]";
+			mes "...Mestre!";
+			next;
+			mes "[Succubus]";
+			mes "Claro, estou preparado e seguirei em frente... Seguirei você para sempre mesmo que esteja em algum tipo de agonia.";
+			next;
+			mes "[Succubus]";
+			mes "Serei sua para sempre!";
+			next;
+			mes "[Senhor das Trevas]";
+			mes "Entendo... posso sentir seu coração agora. Ok, vamos juntos... não importa o quão difícil seja!!";
+			next;
+			mes "- Eu salvei este mundo da escuridão.";
+			mes "- embora um casal tenha se formado!";
+			mes "- muito triste...";
+			mes "- Falha, -1 ponto!";
+		}
+		mes "- O ponto de ruptura atual do casal é " + xmas2013_01 + ".";
+		close;
+	} else if (isbegin_quest(15056) == 1 && xmas2013_01 > 4) {
+		mes "- O ponto de ruptura do casal";
+		mes "- agora é de mais de 5.";
+		mes "- Eu deveria voltar até Cliff, o Comandante da União.";
+		close;
+	}
+	end;
+OnTimer100000:
+	hideoffnpc "Senhor das Trevas#xmas";
+	hideoffnpc "Succubus#xmas";
+	stopnpctimer;
+	end;
+}
+xmas,141,174,3	script	Succubus#xmas	1370,{ end; }
+
+// Invocação de Monstros :: MonstrosDoEvento-131209_xmas
+//============================================================
+gld_dun01_2,0,0	monster	Fumacento de Presente	2380,5,5000
+gld_dun02_2,0,0	monster	Fumacento de Presente	2380,5,5000
+gld_dun03_2,0,0	monster	Fumacento de Presente	2380,5,5000
+gld_dun04_2,0,0	monster	Fumacento de Presente	2380,5,5000
+gld2_ald,0,0	monster	Fumacento de Presente	2380,5,5000
+gld2_gef,0,0	monster	Fumacento de Presente	2380,5,5000
+gld2_pay,0,0	monster	Fumacento de Presente	2380,5,5000
+gld2_prt,0,0	monster	Fumacento de Presente	2380,5,5000
+lhz_dun04,0,0	monster	Fumacento de Presente	2380,5,5000
+iz_dun05,0,0	monster	Fumacento de Presente	2380,5,5000
+mal_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+dic_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+dew_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+dew_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+dew_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+mal_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+iz_dun05,0,0	monster	Fumacento de Presente	2380,5,5000
+man_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+man_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+spl_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+spl_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+man_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+spl_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+nyd_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+bra_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+bra_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+bra_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+dic_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+dic_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+dic_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+dic_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+bif_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+bif_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+abbey01,0,0	monster	Fumacento de Presente	2380,5,5000
+abbey02,0,0	monster	Fumacento de Presente	2380,5,5000
+abbey03,0,0	monster	Fumacento de Presente	2380,5,5000
+abyss_01,0,0	monster	Fumacento de Presente	2380,5,5000
+abyss_02,0,0	monster	Fumacento de Presente	2380,5,5000
+abyss_03,0,0	monster	Fumacento de Presente	2380,5,5000
+alde_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+alde_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+alde_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+alde_dun04,0,0	monster	Fumacento de Presente	2380,5,5000
+ama_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+ama_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+ama_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+ama_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+anthell01,0,0	monster	Fumacento de Presente	2380,5,5000
+anthell02,0,0	monster	Fumacento de Presente	2380,5,5000
+ayo_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+ayo_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+ayo_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+ayo_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+beach_dun,0,0	monster	Fumacento de Presente	2380,5,5000
+beach_dun2,0,0	monster	Fumacento de Presente	2380,5,5000
+beach_dun3,0,0	monster	Fumacento de Presente	2380,5,5000
+c_tower1,0,0	monster	Fumacento de Presente	2380,5,5000
+c_tower2,0,0	monster	Fumacento de Presente	2380,5,5000
+c_tower3,0,0	monster	Fumacento de Presente	2380,5,5000
+c_tower4,0,0	monster	Fumacento de Presente	2380,5,5000
+cmd_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+cmd_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+cmd_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+cmd_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+cmd_fild06,0,0	monster	Fumacento de Presente	2380,5,5000
+cmd_fild07,0,0	monster	Fumacento de Presente	2380,5,5000
+cmd_fild08,0,0	monster	Fumacento de Presente	2380,5,5000
+cmd_fild09,0,0	monster	Fumacento de Presente	2380,5,5000
+ein_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+ein_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+ein_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+ein_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+ein_fild05,0,0	monster	Fumacento de Presente	2380,5,5000
+ein_fild06,0,0	monster	Fumacento de Presente	2380,5,5000
+ein_fild07,0,0	monster	Fumacento de Presente	2380,5,5000
+ein_fild08,0,0	monster	Fumacento de Presente	2380,5,5000
+ein_fild09,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_dun00,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild00,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild05,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild06,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild07,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild08,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild09,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild10,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild11,0,0	monster	Fumacento de Presente	2380,5,5000
+gef_fild13,0,0	monster	Fumacento de Presente	2380,5,5000
+gefenia01,0,0	monster	Fumacento de Presente	2380,5,5000
+gefenia02,0,0	monster	Fumacento de Presente	2380,5,5000
+gefenia03,0,0	monster	Fumacento de Presente	2380,5,5000
+gefenia04,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_cas01,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_cas02,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_church,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_chyard,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_in01,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_knt01,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_knt02,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_prison,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_prison1,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_sew01,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_sew02,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_sew03,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_sew04,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_step,0,0	monster	Fumacento de Presente	2380,5,5000
+glast_01,0,0	monster	Fumacento de Presente	2380,5,5000
+gon_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+gon_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+gon_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+gon_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+hu_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+hu_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+hu_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+hu_fild05,0,0	monster	Fumacento de Presente	2380,5,5000
+hu_fild06,0,0	monster	Fumacento de Presente	2380,5,5000
+ice_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+ice_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+ice_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+in_sphinx1,0,0	monster	Fumacento de Presente	2380,5,5000
+in_sphinx2,0,0	monster	Fumacento de Presente	2380,5,5000
+in_sphinx3,0,0	monster	Fumacento de Presente	2380,5,5000
+in_sphinx4,0,0	monster	Fumacento de Presente	2380,5,5000
+in_sphinx5,0,0	monster	Fumacento de Presente	2380,5,5000
+iz_dun00,0,0	monster	Fumacento de Presente	2380,5,5000
+iz_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+iz_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+iz_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+iz_dun04,0,0	monster	Fumacento de Presente	2380,5,5000
+jupe_core,0,0	monster	Fumacento de Presente	2380,5,5000
+juperos_01,0,0	monster	Fumacento de Presente	2380,5,5000
+juperos_02,0,0	monster	Fumacento de Presente	2380,5,5000
+kh_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+kh_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+lhz_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+lhz_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+lhz_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+lhz_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+lhz_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+lhz_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+lou_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+lou_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+lou_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+lou_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+mag_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+mag_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+man_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+mjo_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+mjo_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+mjo_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_01,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_02,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_03,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_04,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_05,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_06,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_07,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_08,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_09,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_10,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_11,0,0	monster	Fumacento de Presente	2380,5,5000
+mjolnir_12,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild05,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild06,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild07,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild08,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild09,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild10,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild11,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild12,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild13,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild14,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild15,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild16,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild17,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_fild18,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_pryd01,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_pryd02,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_pryd03,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_pryd04,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_pryd05,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_pryd06,0,0	monster	Fumacento de Presente	2380,5,5000
+nameless_n,0,0	monster	Fumacento de Presente	2380,5,5000
+nif_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+nif_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+nyd_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+odin_tem01,0,0	monster	Fumacento de Presente	2380,5,5000
+odin_tem02,0,0	monster	Fumacento de Presente	2380,5,5000
+odin_tem03,0,0	monster	Fumacento de Presente	2380,5,5000
+orcsdun01,0,0	monster	Fumacento de Presente	2380,5,5000
+orcsdun02,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_dun00,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_dun04,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_fild06,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_fild07,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_fild08,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_fild09,0,0	monster	Fumacento de Presente	2380,5,5000
+pay_fild10,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild00,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild05,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild06,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild07,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild08,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild09,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild10,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild11,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_maze01,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_maze02,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_maze03,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_sewb1,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_sewb2,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_sewb3,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_fild05,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_fild06,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_fild08,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_fild12,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_san01,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_san02,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_san03,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_san04,0,0	monster	Fumacento de Presente	2380,5,5000
+ra_san05,0,0	monster	Fumacento de Presente	2380,5,5000
+spl_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t01,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t02,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t03,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t04,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t05,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t06,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t07,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t08,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t09,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t10,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t11,0,0	monster	Fumacento de Presente	2380,5,5000
+tha_t12,0,0	monster	Fumacento de Presente	2380,5,5000
+thor_v01,0,0	monster	Fumacento de Presente	2380,5,5000
+thor_v02,0,0	monster	Fumacento de Presente	2380,5,5000
+thor_v03,0,0	monster	Fumacento de Presente	2380,5,5000
+treasure01,0,0	monster	Fumacento de Presente	2380,5,5000
+treasure02,0,0	monster	Fumacento de Presente	2380,5,5000
+tur_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+tur_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+tur_dun03,0,0	monster	Fumacento de Presente	2380,5,5000
+tur_dun04,0,0	monster	Fumacento de Presente	2380,5,5000
+um_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+um_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+um_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+um_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+ve_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+ve_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+ve_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+ve_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+ve_fild05,0,0	monster	Fumacento de Presente	2380,5,5000
+ve_fild07,0,0	monster	Fumacento de Presente	2380,5,5000
+xmas_dun01,0,0	monster	Fumacento de Presente	2380,5,5000
+xmas_dun02,0,0	monster	Fumacento de Presente	2380,5,5000
+xmas_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+yuno_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+yuno_fild02,0,0	monster	Fumacento de Presente	2380,5,5000
+yuno_fild03,0,0	monster	Fumacento de Presente	2380,5,5000
+yuno_fild04,0,0	monster	Fumacento de Presente	2380,5,5000
+yuno_fild06,0,0	monster	Fumacento de Presente	2380,5,5000
+yuno_fild07,0,0	monster	Fumacento de Presente	2380,5,5000
+yuno_fild08,0,0	monster	Fumacento de Presente	2380,5,5000
+yuno_fild09,0,0	monster	Fumacento de Presente	2380,5,5000
+yuno_fild10,0,0	monster	Fumacento de Presente	2380,5,5000
+yuno_fild12,0,0	monster	Fumacento de Presente	2380,5,5000
+gld_dun01_2,0,0	monster	Fumacento de Meia	2379,5,5000
+gld_dun02_2,0,0	monster	Fumacento de Meia	2379,5,5000
+gld_dun03_2,0,0	monster	Fumacento de Meia	2379,5,5000
+gld_dun04_2,0,0	monster	Fumacento de Meia	2379,5,5000
+gld2_ald,0,0	monster	Fumacento de Meia	2379,5,5000
+gld2_gef,0,0	monster	Fumacento de Meia	2379,5,5000
+gld2_pay,0,0	monster	Fumacento de Meia	2379,5,5000
+gld2_prt,0,0	monster	Fumacento de Meia	2379,5,5000
+lhz_dun04,0,0	monster	Fumacento de Meia	2379,5,5000
+iz_dun05,0,0	monster	Fumacento de Meia	2379,5,5000
+mal_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+dic_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+dew_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+dew_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+dew_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+mal_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+iz_dun05,0,0	monster	Fumacento de Meia	2379,5,5000
+man_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+man_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+spl_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+spl_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+man_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+spl_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+nyd_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+bra_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+bra_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+bra_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+dic_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+dic_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+dic_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+dic_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+bif_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+bif_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+abbey01,0,0	monster	Fumacento de Meia	2379,5,5000
+abbey02,0,0	monster	Fumacento de Meia	2379,5,5000
+abbey03,0,0	monster	Fumacento de Meia	2379,5,5000
+abyss_01,0,0	monster	Fumacento de Meia	2379,5,5000
+abyss_02,0,0	monster	Fumacento de Meia	2379,5,5000
+abyss_03,0,0	monster	Fumacento de Meia	2379,5,5000
+alde_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+alde_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+alde_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+alde_dun04,0,0	monster	Fumacento de Meia	2379,5,5000
+ama_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+ama_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+ama_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+ama_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+anthell01,0,0	monster	Fumacento de Meia	2379,5,5000
+anthell02,0,0	monster	Fumacento de Meia	2379,5,5000
+ayo_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+ayo_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+ayo_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+ayo_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+beach_dun,0,0	monster	Fumacento de Meia	2379,5,5000
+beach_dun2,0,0	monster	Fumacento de Meia	2379,5,5000
+beach_dun3,0,0	monster	Fumacento de Meia	2379,5,5000
+c_tower1,0,0	monster	Fumacento de Meia	2379,5,5000
+c_tower2,0,0	monster	Fumacento de Meia	2379,5,5000
+c_tower3,0,0	monster	Fumacento de Meia	2379,5,5000
+c_tower4,0,0	monster	Fumacento de Meia	2379,5,5000
+cmd_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+cmd_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+cmd_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+cmd_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+cmd_fild06,0,0	monster	Fumacento de Meia	2379,5,5000
+cmd_fild07,0,0	monster	Fumacento de Meia	2379,5,5000
+cmd_fild08,0,0	monster	Fumacento de Meia	2379,5,5000
+cmd_fild09,0,0	monster	Fumacento de Meia	2379,5,5000
+ein_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+ein_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+ein_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+ein_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+ein_fild05,0,0	monster	Fumacento de Meia	2379,5,5000
+ein_fild06,0,0	monster	Fumacento de Meia	2379,5,5000
+ein_fild07,0,0	monster	Fumacento de Meia	2379,5,5000
+ein_fild08,0,0	monster	Fumacento de Meia	2379,5,5000
+ein_fild09,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_dun00,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild00,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild05,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild06,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild07,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild08,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild09,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild10,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild11,0,0	monster	Fumacento de Meia	2379,5,5000
+gef_fild13,0,0	monster	Fumacento de Meia	2379,5,5000
+gefenia01,0,0	monster	Fumacento de Meia	2379,5,5000
+gefenia02,0,0	monster	Fumacento de Meia	2379,5,5000
+gefenia03,0,0	monster	Fumacento de Meia	2379,5,5000
+gefenia04,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_cas01,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_cas02,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_church,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_chyard,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_in01,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_knt01,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_knt02,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_prison,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_prison1,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_sew01,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_sew02,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_sew03,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_sew04,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_step,0,0	monster	Fumacento de Meia	2379,5,5000
+glast_01,0,0	monster	Fumacento de Meia	2379,5,5000
+gon_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+gon_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+gon_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+gon_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+hu_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+hu_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+hu_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+hu_fild05,0,0	monster	Fumacento de Meia	2379,5,5000
+hu_fild06,0,0	monster	Fumacento de Meia	2379,5,5000
+ice_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+ice_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+ice_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+in_sphinx1,0,0	monster	Fumacento de Meia	2379,5,5000
+in_sphinx2,0,0	monster	Fumacento de Meia	2379,5,5000
+in_sphinx3,0,0	monster	Fumacento de Meia	2379,5,5000
+in_sphinx4,0,0	monster	Fumacento de Meia	2379,5,5000
+in_sphinx5,0,0	monster	Fumacento de Meia	2379,5,5000
+iz_dun00,0,0	monster	Fumacento de Meia	2379,5,5000
+iz_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+iz_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+iz_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+iz_dun04,0,0	monster	Fumacento de Meia	2379,5,5000
+jupe_core,0,0	monster	Fumacento de Meia	2379,5,5000
+juperos_01,0,0	monster	Fumacento de Meia	2379,5,5000
+juperos_02,0,0	monster	Fumacento de Meia	2379,5,5000
+kh_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+kh_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+lhz_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+lhz_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+lhz_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+lhz_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+lhz_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+lhz_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+lou_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+lou_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+lou_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+lou_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+mag_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+mag_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+man_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+mjo_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+mjo_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+mjo_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_01,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_02,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_03,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_04,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_05,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_06,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_07,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_08,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_09,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_10,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_11,0,0	monster	Fumacento de Meia	2379,5,5000
+mjolnir_12,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild05,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild06,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild07,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild08,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild09,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild10,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild11,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild12,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild13,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild14,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild15,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild16,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild17,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_fild18,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_pryd01,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_pryd02,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_pryd03,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_pryd04,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_pryd05,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_pryd06,0,0	monster	Fumacento de Meia	2379,5,5000
+nameless_n,0,0	monster	Fumacento de Meia	2379,5,5000
+nif_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+nif_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+nyd_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+odin_tem01,0,0	monster	Fumacento de Meia	2379,5,5000
+odin_tem02,0,0	monster	Fumacento de Meia	2379,5,5000
+odin_tem03,0,0	monster	Fumacento de Meia	2379,5,5000
+orcsdun01,0,0	monster	Fumacento de Meia	2379,5,5000
+orcsdun02,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_dun00,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_dun04,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_fild06,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_fild07,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_fild08,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_fild09,0,0	monster	Fumacento de Meia	2379,5,5000
+pay_fild10,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild00,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild05,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild06,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild07,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild08,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild09,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild10,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild11,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_maze01,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_maze02,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_maze03,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_sewb1,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_sewb2,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_sewb3,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_fild05,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_fild06,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_fild08,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_fild12,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_san01,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_san02,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_san03,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_san04,0,0	monster	Fumacento de Meia	2379,5,5000
+ra_san05,0,0	monster	Fumacento de Meia	2379,5,5000
+spl_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t01,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t02,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t03,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t04,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t05,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t06,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t07,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t08,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t09,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t10,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t11,0,0	monster	Fumacento de Meia	2379,5,5000
+tha_t12,0,0	monster	Fumacento de Meia	2379,5,5000
+thor_v01,0,0	monster	Fumacento de Meia	2379,5,5000
+thor_v02,0,0	monster	Fumacento de Meia	2379,5,5000
+thor_v03,0,0	monster	Fumacento de Meia	2379,5,5000
+treasure01,0,0	monster	Fumacento de Meia	2379,5,5000
+treasure02,0,0	monster	Fumacento de Meia	2379,5,5000
+tur_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+tur_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+tur_dun03,0,0	monster	Fumacento de Meia	2379,5,5000
+tur_dun04,0,0	monster	Fumacento de Meia	2379,5,5000
+um_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+um_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+um_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+um_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+ve_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+ve_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+ve_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+ve_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+ve_fild05,0,0	monster	Fumacento de Meia	2379,5,5000
+ve_fild07,0,0	monster	Fumacento de Meia	2379,5,5000
+xmas_dun01,0,0	monster	Fumacento de Meia	2379,5,5000
+xmas_dun02,0,0	monster	Fumacento de Meia	2379,5,5000
+xmas_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+yuno_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+yuno_fild02,0,0	monster	Fumacento de Meia	2379,5,5000
+yuno_fild03,0,0	monster	Fumacento de Meia	2379,5,5000
+yuno_fild04,0,0	monster	Fumacento de Meia	2379,5,5000
+yuno_fild06,0,0	monster	Fumacento de Meia	2379,5,5000
+yuno_fild07,0,0	monster	Fumacento de Meia	2379,5,5000
+yuno_fild08,0,0	monster	Fumacento de Meia	2379,5,5000
+yuno_fild09,0,0	monster	Fumacento de Meia	2379,5,5000
+yuno_fild10,0,0	monster	Fumacento de Meia	2379,5,5000
+yuno_fild12,0,0	monster	Fumacento de Meia	2379,5,5000
+ecl_fild01,0,0	monster	Fumacento de Presente	2380,5,5000
+ecl_fild01,0,0	monster	Fumacento de Meia	2379,5,5000
+ecl_tdun01,0,0	monster	Fumacento de Presente	2380,5,5000
+ecl_tdun01,0,0	monster	Fumacento de Meia	2379,5,5000
+ecl_tdun02,0,0	monster	Fumacento de Presente	2380,5,5000
+ecl_tdun02,0,0	monster	Fumacento de Meia	2379,5,5000
+ecl_tdun03,0,0	monster	Fumacento de Presente	2380,5,5000
+ecl_tdun03,0,0	monster	Fumacento de Meia	2379,5,5000
+//ecl_tdun04,0,0	monster	Fumacento de Presente	2380,5,5000
+//ecl_tdun04,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_prydn1,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_prydn1,0,0	monster	Fumacento de Meia	2379,5,5000
+moc_prydn2,0,0	monster	Fumacento de Presente	2380,5,5000
+moc_prydn2,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild08a,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild08a,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild08b,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild08b,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild08c,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild08c,0,0	monster	Fumacento de Meia	2379,5,5000
+prt_fild08d,0,0	monster	Fumacento de Presente	2380,5,5000
+prt_fild08d,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_chyard_,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_chyard_,0,0	monster	Fumacento de Meia	2379,5,5000
+gl_cas02_,0,0	monster	Fumacento de Presente	2380,5,5000
+gl_cas02_,0,0	monster	Fumacento de Meia	2379,5,5000

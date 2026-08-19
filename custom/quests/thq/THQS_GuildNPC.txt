@@ -1,0 +1,86 @@
+//===== rAthena Script =======================================
+//= Treasure Hunter Quests
+//===== By: ==================================================
+//= Fredzilla
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Start for Treasure hunter quests
+//===== Additional Comments: =================================
+//= Event_THQS - Used to check if you have already registered
+//= #Treasure_Token - used to keep track of tokens
+//============================================================
+
+yuno_in01,124,164,6	script	Líder do Clã	108,{
+	mes "[Keegan]";
+	mes "O que te traz aqui? Tem algo a dizer?";
+	next;
+	menu "Quero me tornar um Caçador de Tesouros.",-,"Faser uma nova missão.",N_NQuest,"Leve-me para a Loja Oficial.",N_OShop,"Nada não.",N_NVM;
+	if(Event_THQS==1) goto N_AlreadyReg;
+	mes "[Keegan]";
+	mes "Bem "+strcharinfo(0)+" se você quer ser um Caçador de Tesouros primeiro você deve.";
+	mes " ";
+	mes "^FF00001.^000000 Você deve me dar como troca ^FF000025,000z^000000 para faser o treinamento básico e a prova para se tornar um membro.";
+	mes " ";
+	mes "Umm... Bem, isso é tudo que você precisa fazer. Hahaha.";
+	next;
+	menu "Pagar ^FF000025,000z^000000.",-,"Isso é muito alto!!",N_HighPrice;
+	if (Zeny < 25000) goto N_NoZeny;
+	set Zeny,Zeny-25000;
+	//getitem 7950, 1;
+	//getitem 7951, 1;
+	set Event_THQS,1;
+	mes "[Keegan]";
+	mes "Parabéns!";
+	emotion ET_CONGRATULATION;
+	next;
+	mes "[Keegan]";
+	mes "Bem-vind"+(Sex?"o":"a")+" ao Clã dos Caçadores de Tesouros.";
+	mes "Agora você pode pegar uma Missão dos Caçadores de Tesouro ou como achar melhor.";
+	close;
+N_NoZeny:
+	mes "[Keegan]";
+	mes "Hmmm você não parece ter ^FF000025,000z^000000 "+strcharinfo(0)+". Por favor volte quando você zenys suficientes.";
+	close;
+N_HighPrice:
+	mes "[Keegan]";
+	mes "Bem, se você não pode pagar um pequena taxa como essa de ^FF000025,000z^000000, você não deveria ter se tornado um Caçador de Tesouros ainda.";
+	close;
+N_AlreadyReg:
+	mes "[Keegan]";
+	mes "Ha ha ha...você já é um membro.";
+	close;
+N_NQuest:
+	if (Event_THQS!=1) goto A_NeedReg;
+	mes "[Keegan]";
+	mes "Bem "+strcharinfo(0)+" se você quiser adquirir uma missão, vá falar com o meu colega Caçador de Tesouros na outra sala ali.";
+	close;
+A_NeedReg:
+	mes "[Keegan]";
+	mes "Desculpe, você deve ser um membro do Clã de Caçadores de Tesouros se você quiser fazer uma missão.";
+	mes " ";
+	mes "E também agora que você é um membro do clã, sinta-se livre para usar nossas lojas quando quiser. Elas estão todas localizadas neste andar.";
+	mes " ";
+	mes "Nós também temos outra loja apenas para membros, na qual usamos pequenos diamantes de metal chamados de Insígnia do Caçador de Tesouros para trocar por produtos raros.";
+	mes " ";
+	mes "Você ainda terá acesso exclusivo ao nosso calabouço pessoal.";
+	close;
+N_OShop:
+	if (Event_THQS!=1) goto N_NeedMem;
+	mes "[Keegan]";
+	mes "Sim "+strcharinfo(0)+"! Vou levá-lo para nossa loja imediatamente!";
+	next;
+	warp "prt_in",166,171;
+	close;
+	end;
+N_NeedMem:
+	mes "[Keegan]";
+	mes "Sinto muito só os membros podem visitar a nossa loja privada.";
+	close;
+N_NVM:
+	mes "[Keegan]";
+	mes "Tudo bem, volte quando você tiver tempo livre para gastar.";
+	close;
+}
