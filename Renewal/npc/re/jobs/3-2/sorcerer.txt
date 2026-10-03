@@ -1,0 +1,429 @@
+//===== rAthena Script ======================================= 
+//= Sorcerer Job Quest
+//===== By: ================================================== 
+//= Muad_Dib
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Job change Quest from Sage / Professor -> Sorcerer.
+//===== Additional Comments: ================================= 
+//= 1.0 First Version. [Masao]
+//= 1.1 Cleaning. [Euphy]
+//= 1.2 Updated script, optimized. [Euphy]
+//= 1.3 Added VIP features. [Euphy]
+//============================================================
+
+gef_tower,102,34,5	script	Mérito	742,{
+	mes "[Mérito]";
+	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1000) {
+		mes "Você está com a bolsa muito cheia. Tente novamente após esvaziar um pouco.";
+		close;
+	}
+	if (Class == Job_Sorcerer || Class == Job_Sorcerer_T || Class == Job_Baby_Sorcerer) {
+		mes "Por favor, se dê bem com os espíritos~ Você deve~!";
+		close;
+	}
+	if (BaseLevel < 99 || JobLevel < 50 || SkillPoint != 0) {
+		mes "Uau~ você é um aventureiro jovem. Eu te invejo.";
+		close;
+	}
+	if (BaseJob != Job_Sage) {
+		mes "Ahh~ Acho que você não precisa conversar comigo.";
+		close;
+	}
+	if (job_soc == 0) {
+		mes "Bem-vindo. Em que posso te ajudar?";
+		next;
+		select("Você conhece os Feiticeiros?");
+		mes "[Mérito]";
+		mes "Não seria mais confortável viver como um estudioso? Feiticeiros vivem ocupados se comunicando com os espíritos e não têm muito tempo para ler livros...";
+		next;
+		mes "[Mérito]";
+		mes "O que fez você querer se tornar um Feiticeiro?";
+		next;
+		if(select("O espírito do fogo me trouxe até aqui.:O espírito da água me trouxe até aqui.:O espírito da terra me trouxe até aqui:O espírito da carne me trouxe até aqui.") == 4) {
+			mes "[Mérito]";
+			mes "Esse tipo de espírito não existe!";
+			close;
+		}
+		mes "[Mérito]";
+		mes "Ah, entendo.";
+		mes "Você deve ter nascido com a habilidade natural de se comunicar com os espíritos, ou é um excelente mentiroso.";
+		next;
+		mes "[Mérito]";
+		mes "Hmm... Então primeiro, pode escrever seu nome nesta lista?";
+		next;
+		if(select("Escrever o nome.:Não vou.") == 2) {
+			mes "[Mérito]";
+			mes "Tudo bem. Nos vemos novamente quando tiver outra chance.";
+			close;
+		}
+		mes "[Mérito]";
+		mes "Então, você é [" + strcharinfo(0) + "].";
+		next;
+		mes "[Mérito]";
+		mes "Me dê um segundo para registrar seu nome.";
+		mes "Fale comigo novamente em instantes.";
+		set job_soc,1;
+		close;
+	} else if (job_soc == 1) {
+		mes "Ótimo, então vou te dar uma breve explicação sobre os Feiticeiros.";
+		next;
+		mes "[Mérito]";
+		mes "[" + strcharinfo(0) + "], você consegue usar magia com habilidade?";
+		next;
+		if(select("Sim, consigo.:Não, não sou muito bom com isso.") == 2) {
+			mes "[Mérito]";
+			mes "O quê!? Você não sabe usar magia?";
+			mes "O que está fazendo aqui então? Vá embora. Agora mesmo!";
+			close;
+		}
+		mes "[Mérito]";
+		mes "Tudo bem, isso era óbvio.";
+		mes "Claro, Feiticeiros também usam magia. Mas, você sabe qual é a principal diferença entre eles e outras classes mágicas?";
+		next;
+		switch(select("Eles sabem cantar.:Todos são uns velhotes.:Eles lidam com espíritos.")) {
+		case 1:
+			mes "[Mérito]";
+			mes "Talvez alguns, mas essa não é a principal diferença.";
+			close;
+		case 2:
+			mes "[Mérito]";
+			mes "O quê! Como ousa!?!";
+			close;
+		case 3:
+			break;
+		}
+		mes "[Mérito]";
+		mes "Isso mesmo. Essa é a característica mais marcante dos Feiticeiros.";
+		next;
+		mes "[Mérito]";
+		mes "Quando alguém quer se tornar um Feiticeiro, a primeira coisa que verificamos é se essa pessoa consegue se comunicar com os espíritos.";
+		next;
+		mes "[Mérito]";
+		mes "Essa foi a introdução básica, agora você precisa decidir se quer ou não fazer o teste de qualificação.";
+		next;
+		mes "[Mérito]";
+		mes "Bem, depende de você. O que vai fazer?";
+		next;
+		switch(select("Vou fazer o teste.:Vou deixar para depois.")) {
+		case 1:
+			if (VIP_SCRIPT) {
+				callfunc "VIP_Third_Class";
+				set job_soc,2;
+				setquest 12096;
+				next;
+			}
+			mes "[Mérito]";
+			mes "Certo. ";
+			mes "Então vou encaminhá-lo ao Karacas que está no 4º andar. Ele te guiará pelo processo do teste.";
+			set job_soc,2;
+			setquest 12096;
+			close;
+		case 2:
+			mes "[Mérito]";
+			mes "O quê? Eu tinha certeza que você queria se tornar um Feiticeiro.";
+			close;
+		}
+	} else {
+		mes "Como vai seu teste? Bem, o Karacas é meio preguiçoso, então isso pode te incomodar um pouco... kkk";
+		close;
+	}
+}
+
+gef_tower,113,161,5	script	Karacas	754,{
+	mes "[Karacas]";
+	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1000) {
+		mes "Ah, parece que você está muito pesado. Esvazie sua bolsa e depois volte.";
+		close;
+	}
+	if (Class == Job_Sorcerer || Class == Job_Sorcerer_T || Class == Job_Baby_Sorcerer) {
+		mes "Você parece feliz. Tenha uma ótima jornada.";
+		close;
+	}
+	if (BaseLevel < 99 || JobLevel < 50 || SkillPoint != 0) {
+		mes "Há algo que eu possa fazer por você?";
+		close;
+	}
+	if (BaseJob != Job_Sage) {
+		mes "Sou membro da associação dos Feiticeiros. Acho que você não tem negócios comigo.";
+		close;
+	}
+	if (job_soc < 2) {
+		mes "Mais pessoas estão visitando a Torre de Geffen ultimamente.";
+		close;
+	} else if (job_soc == 2) {
+		mes "....";
+		next;
+		select("Ah... com licença~");
+		mes "[Karacas]";
+		mes "... (Z z z~)";
+		next;
+		select("Hm hm!!!~");
+		mes "[Karacas]";
+		mes "Aaaak!! ";
+		mes "Oh, céus... ";
+		next;
+		mes "[Karacas]";
+		mes "De... de onde você veio?";
+		next;
+		select("O Mérito me disse para te procurar.");
+		mes "[Karacas]";
+		mes "Entendi, me dê um momento.";
+		mes "A lista... já chegou.";
+		next;
+		mes "[Karacas]";
+		mes "Então, você é [" + strcharinfo(0) + "]... certo?";
+		next;
+		if(select("Sim, sou eu.:Não, não sou!") == 2) {
+			mes "[Karacas]";
+			mes "Ah, deve ter havido algum erro na lista. Pode voltar mais tarde?";
+			close;
+		}
+		mes "[Karacas]";
+		mes "Antes de você fazer o teste para Feiticeiro, deixe-me te passar as informações básicas.";
+		next;
+		mes "[Karacas]";
+		mes "O modo de conseguir um bilhete de registro para Feiticeiro é bem simples. Você precisa encontrar um espírito de cada tipo espalhado pelo mundo, e então converter o poder deles na forma de um certo material.";
+		next;
+		mes "[Karacas]";
+		mes "Parece fácil, não é?";
+		next;
+		select("Ahh... senhor. Isso é realmente possível?");
+		mes "[Karacas]";
+		mes "Bem, é impossível encontrar todos os espíritos sozinho. Você precisa treinar bastante para dar forma aos espíritos e vê-los claramente com seus próprios olhos.";
+		next;
+		mes "[Karacas]";
+		mes "Então, normalmente realizamos uma espécie de cerimônia de parade em direção ao local onde sentimos os espíritos.";
+		next;
+		mes "[Karacas]";
+		mes "Vou te dizer como fazer isso. Então, preste atenção.";
+		next;
+		mes "[Karacas]";
+		mes "Geralmente não conseguimos ver os espíritos com os olhos, mas existe uma maneira de perceber parte deles por meio de um meio especial.";
+		next;
+		mes "[Karacas]";
+		mes "Por exemplo, se você visitar o local onde o espírito do vento permanece com uma certa quantidade de Frescor do Vento, a reação do espírito será amplificada.";
+		next;
+		mes "[Karacas]";
+		mes "Da mesma forma, se você se aproximar do local onde parece estar o espírito do fogo enquanto carrega uma certa quantidade de Sangue Escarlate, o espírito reagirá.";
+		next;
+		mes "[Karacas]";
+		mes "Feiticeiros usam esse princípio básico, esse é o conhecimento essencial que um Feiticeiro precisa ter para alcançar os espíritos.";
+		next;
+		select("Então se comunicar com espíritos...");
+		mes "[Karacas]";
+		mes "Exatamente~";
+		mes "Essa classe é baseada no poder dos espíritos.";
+		next;
+		mes "[Karacas]";
+		mes "Hmm, mas pode ser difícil para alguém como você, que só fica lendo livros...";
+		next;
+		mes "[Karacas]";
+		mes "Primeiro, você precisa trazer os seguintes materiais necessários para o teste.";
+		next;
+		mes "[Karacas]";
+		mes "3 Frescor do Vento.";
+		mes "3 Cristal Azul.";
+		mes "3 Sangue Escarlate.";
+		mes "3 Vida Verdejante.";
+		next;
+		mes "[Karacas]";
+		mes "Quando você trouxer esses materiais, eu te direi o próximo passo.";
+		set job_soc,3;
+		changequest 12096,12097;
+		close;
+	} else if (job_soc == 3) {
+		if (countitem(992) > 2 && countitem(991) > 2 && countitem(990) > 2 && countitem(993) > 2) {
+			mes "Ah, você trouxe todos os materiais.";
+			next;
+			select("O que devo fazer agora?");
+			mes "[Karacas]";
+			mes "Vou te contar agora. Primeiro, os locais do teste. É melhor anotar.";
+			next;
+			mes "[Karacas]";
+			mes "1. 1º andar da Caverna de Gelo.";
+			mes "2. 1º andar do Calabouço do Vulcão de Thor.";
+			mes "3. 3º andar da Mina Abandonada de Mjolnir.";
+			mes "4. 2º andar do Calabouço de Kunlun.";
+			next;
+			mes "[Karacas]";
+			mes "Instalamos postes de detecção nesses 4 locais para que pessoas comuns possam se comunicar com os espíritos.";
+			next;
+			mes "[Karacas]";
+			mes "Mas saiba que esses postes só são ativados quando você tem uma certa quantidade das pedras elementais.";
+			next;
+			mes "[Karacas]";
+			mes "Você precisa preparar pelo menos 3 pedras pequenas de cada elemento. Por exemplo, precisa de Frescor do Vento, não Vento Bruto.";
+			next;
+			select("Então eu preciso das pedras elementais...");
+			mes "[Karacas]";
+			mes "Sim, você é bem esperto!";
+			next;
+			mes "[Karacas]";
+			mes "Uma vez que você trouxer as pedras para os postes, coloque-as na máquina de decomposição elemental que está acoplada ao poste. O poste será ativado, e você poderá se comunicar com o espírito.";
+			next;
+			mes "[Karacas]";
+			mes "Se você tiver sucesso, poderá extrair parte do espírito como um reagente. Se falhar, a pedra elemental será destruída.";
+			next;
+			mes "[Karacas]";
+			mes "Claro que, se tiver sorte, mesmo ao falhar, um Frescor do Vento pode se transformar em um Vento Bruto... Bem, isso não é comum, então vamos deixar isso de lado por agora.";
+			next;
+			select("E se eu ficar sem pedras?");
+			mes "[Karacas]";
+			mes "Ahahaha... Se acabar as pedras elementais, você simplesmente terá que conseguir mais.";
+			next;
+			mes "[Karacas]";
+			mes "Por isso, quem faz esse teste normalmente começa com o máximo de pedras que consegue carregar. A quantidade que eu pedi é só o mínimo necessário.";
+			next;
+			mes "[Karacas]";
+			mes "Se você for um Feiticeiro avançado, poderá conversar com os espíritos sem passar por esse processo novamente. Mas iniciantes precisam desse tipo de meio para se comunicar com eles.";
+			next;
+			select("Então o reagente é...?");
+			mes "[Karacas]";
+			mes "Nós não sabemos qual reagente será criado pelos espíritos. Isso depende do estado deles.";
+			next;
+			mes "[Karacas]";
+			mes "Quando você conseguir obter 3 tipos diferentes de reagentes, pode voltar.";
+			next;
+			mes "[Karacas]";
+			mes "Um mesmo espírito não irá produzir mais de 2 tipos de reagentes, então se quiser obter 3 tipos, sugiro que visite vários locais.";
+			next;
+			mes "[Karacas]";
+			mes "Tem alguma dúvida?";
+			next;
+			if(select("Não.:Explique novamente.") == 2) {
+				mes "[Karacas]";
+				mes "Haha, então posso tomar um copo de água? Por favor, venha me procurar novamente depois.";
+				next;
+			}
+			mes "[Karacas]";
+			mes "Então vou anotar o progresso resumido. Espere um momento...";
+			next;
+			mes "^000099Você recebeu um papel com instruções sobre como se comunicar com os espíritos. Para mais informações, abra sua janela de missões.^000000";
+			set job_soc,4;
+			changequest 12097,12098;
+			close;
+		}
+		mes "Antes de eu lhe contar como progredir, você precisará trazer alguns materiais necessários.";
+		next;
+		mes "[Karacas]";
+		mes "3 Frescor do Vento.";
+		mes "3 Cristal Azul.";
+		mes "3 Sangue Escarlate.";
+		mes "3 Vida Verdejante.";
+		next;
+		mes "[Karacas]";
+		mes "Quando você trouxer essas coisas básicas, eu te guiarei para o próximo passo.";
+		close;
+	} else if (job_soc == 4) {
+		if (countitem(6276) && countitem(6278) && countitem(6277)) {
+			mes "Uau~ sua habilidade é impressionante.";
+			mes "Achei que você seria dominado pelos espíritos, mas conseguiu preparar o remédio eficaz!";
+			next;
+			select("Isso é tudo que preciso fazer?");
+			mes "[Karacas]";
+			mes "Muito bem. Primeiro, irei organizar o remédio milagroso, então por favor espere um momento.";
+			delitem 6276,1; //Reagente Puro
+			delitem 6278,1; //Reagente Preto
+			delitem 6277,1; //Reagente Vermelho
+			set job_soc,5;
+			completequest 12098;
+			close;
+		}
+		mes "Não é fácil obter o efeito desejado ao se comunicar com os espíritos.";
+		next;
+		mes "[Karacas]";
+		mes "Não desista e continue tentando~";
+		close;
+	} else if (job_soc == 5) {
+		mes "Originalmente meu mestre deveria verificar a mudança de classe para Feiticeiro, mas desde que ele saiu para procurar o espírito do peixe, não o vi mais. Então eu mesmo farei a verificação.";
+		next;
+		mes "[Karacas]";
+		mes "Querido(a) [" + strcharinfo(0) + "],";
+		mes "você percorreu terras selvagens para abrir o caminho como Feiticeiro(a) e cumpriu todos os requisitos que nossa Academia exigia.";
+		next;
+		mes "[Karacas]";
+		mes "Claro que isso é apenas o começo, não sabemos com qual espírito você irá se comunicar ou quais dificuldades o(a) aguardam.";
+		next;
+		mes "[Karacas]";
+		mes "Mas com a habilidade que demonstrou até agora, você será capaz de enfrentar qualquer coisa. Querido(a) [" + strcharinfo(0) + "]";
+		next;
+		mes "[Kalakas]";
+		if (BaseLevel < 99 || JobLevel < 50 || SkillPoint) {
+			mes "Antes de eu te designar a sua nova classe, por favor verifique o estado do seu corpo.";
+			next;
+			mes "[Kalakas]";
+			mes "Você deve estar em condições adequadas a sua nova classe antes de aceitá-la!";
+			close;
+		}
+		if (ismounting()) {
+			mes "Muito bem, antes de começarmos...";
+			mes "Por favor, desmonte do seu mascote de montaria~";
+			close;
+		}
+		mes "Além disso, reconheço formalmente que você concluiu todos os testes de mudança de classe da Academia de Feiticeiros.";
+		next;
+		mes "[Karacas]";
+		mes "Parabéns, [" + strcharinfo(0) + "]";
+		jobchange roclass(eaclass()|EAJL_THIRD);
+		getitem 5756,1; //Sussurro dos Elementos
+		getitem 2795,1; //Anel de Maçã Verde
+		next;
+		mes "[Karacas]";
+		mes "Espero que, a partir de agora, você se comunique ainda mais com os espíritos.";
+		close;
+	}
+}
+
+-	script	Cajado de Detecção de Espíritos#0	-1,{
+
+	if (strnpcinfo(4) == "thor_v01") setarray .@id[0],990,994,6276,6278;
+	else if (strnpcinfo(4) == "ice_dun01") setarray .@id[0],991,995,6278,6276;
+	else if (strnpcinfo(4) == "mjo_dun03") setarray .@id[0],993,997,6277,6276;
+	else if (strnpcinfo(4) == "gon_dun02") setarray .@id[0],992,996,6277,6278;
+
+	if (job_soc == 4 && countitem(.@id[0]) > 2) {
+		progressbar "ffff00",5;
+		delitem .@id[0],3; //Sangue Escarlate, Cristal Azul, Vida Verdejante, Frescor do Vento.
+		set .@soc_ran, rand(1,70);
+		if (.@soc_ran < 10) {
+			if (countitem(.@id[2]) == 0) {
+			mes "Você obteve um reagente ao se comunicar com um espírito invisível.";
+			getitem .@id[2],1; //Reagente Puro, Reagente Preto, Reagente Vermelho.
+			close;
+		}
+		mes "Parece que você não conseguiu nada de especial dos espíritos.";
+		close;
+	} else if (.@soc_ran > 9 && .@soc_ran < 16) {
+		if (countitem(.@id[3]) == 0) {
+			mes "Você obteve um reagente ao se comunicar com um espírito invisível.";
+			getitem .@id[3],1; //Reagente Puro, Reagente Preto, Reagente Vermelho.
+			close;
+		}
+		mes "Parece que você não conseguiu nada de especial dos espíritos.";
+		close;
+	} else if (.@soc_ran == 56) {
+		mes "O espírito combinou as pedras elementais em uma grande pedra elemental.";
+		getitem .@id[1],1; //Coração Flamejante, Gelo Místico, Natureza Grandiosa, Vento Bruto.
+		close;
+	} else {
+		mes "Você usou as pedras elementais, mas parece que falhou em se comunicar com os espíritos.";
+		close;
+		}
+	}
+	mes "Consigo ver a vara de detecção instalada pela União dos Feiticeiros para se comunicar com os espíritos.";
+	if (job_soc == 4 && countitem(.@id[0]) < 3) {
+		next;
+		mes "Se você tiver as pedras elementais adequadas, deverá ser capaz de comungar com os espíritos.";
+	}
+	close;
+}
+
+thor_v01,64,252,0	duplicate(Cajado de Detecção de Espíritos#0)	Cajado de Detecção de Espíritos#1	836
+ice_dun01,274,274,0	duplicate(Cajado de Detecção de Espíritos#0)	Cajado de Detecção de Espíritos#2	836
+mjo_dun03,200,141,0	duplicate(Cajado de Detecção de Espíritos#0)	Cajado de Detecção de Espíritos#3	836
+gon_dun02,195,190,0	duplicate(Cajado de Detecção de Espíritos#0)	Cajado de Detecção de Espíritos#4	836

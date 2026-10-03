@@ -1,0 +1,182 @@
+//===== rAthena Script =======================================
+//= Guides WoE TE
+//===== Description: =========================================
+//= [Official Conversion]
+//= NPC Guide for WoE TE
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+prt_gld,118,151,4	script	Guia de Gloria#tes01	8W_SOLDIER,{
+	mes "[Soldado Guia]";
+	mes "Que a glória infinita esteja com o Reino de Rune-Midgard e suas sete famílias reais!";
+	mes "Bem vind"+((Sex) ? "o":"a")+" a Gloria, a fortaleza na Batalha de Cerco TE. Nós fornecemos serviços em cooperação com a Coorporação Kafra e com as principais famílias reais do reino.";
+	next;
+	switch( select( "Gloria?", "Sobre a Batalha de Cerco TE", "Sobre Requisitos para Participar", "Esqueça." ) ) {
+	case 1:
+		mes "[Soldado Guia]";
+		mes "Essa nomeação foi em honra das sete famílias reais e do reino.";
+		mes "A cidade inteira é parecida com o Reino das Valquírias, e aqui reside todas as descendênciais das famílias reais.";
+		next;
+		mes "[Soldado Guia]";
+		mes "A Kafragarten de Aldebaran e a Gloria, são gerenciadas pela Coorporação Kafra, com regras especiais que são ligeiramente diferentes das existentes.";
+		mes "Nós chamamos isso de Batalha de Cerco TE.";
+		next;
+		mes "[Soldado Guia]";
+		mes "Você não deverá ter problemas para entender as novas regras, pois é simplesmente sobre estabelecer um limite nas qualificações para participação.";
+		close;
+	case 2:
+		mes "[Soldado Guia]";
+		mes "É uma nova etapa preparada pelas famílias reais para permitir que mais pessoas participem das Batalhas de Cerco.";
+		mes "Diferentes regras são aplicadas, e é fornecido apoio o suficiente desde que seu local seja similar à de uma arena.";
+		next;
+		mes "[Soldado Guia]";
+		mes "^4d4dffAs Terceiras Classes e as Classes Expandidas não são permitidas nas regiões de Gloria e Kafragarten, onde as regras da Batalha de Cerco TE são aplicadas.^000000";
+		next;
+		mes "[Soldado Guia]";
+		mes "Além disso, nós emprestamos uma variedade de equipamentos de batalha que você usará somente nas regiões correspondentes gratuitamente.";
+		mes "Esta pode ser a sua maior diferença.";
+		close;
+	case 3:
+		mes "[Soldado Guia]";
+		mes "^4d4dffAprendizes, classes primárias, e classes secundárias podem participar, assim como as classes estras.^000000";
+		mes "Claro, as transclasses primárais e secundárias também estão incluídas.";
+		next;
+		mes "[Soldado Guia]";
+		mes "Em outras palavras, as Terceiras classes e as classes Expandidas Kagerou e Oboro não são permitidas.";
+		mes "Além disso, os efeitos dos buffs destas classes não são permitidos aqui.";
+		next;
+		mes "[Soldado Guia]";
+		mes "Fora isso, não é muito diferente das batalhas de cerco já existentes.";
+		close;
+	case 4:
+		mes "[Soldado Guia]";
+		mes "Que a glória da Família Real e a proteção de Odin estejam com você!";
+		close;
+	}
+}
+
+prt_gld,122,151,4	script	Guia de Gloria#tes02	8W_SOLDIER,{
+	mes "[Guia de Gloria]";
+	mes "Este portal vai deixar você entrar na região de Gloria.";
+	mes "Por favor, tenha em mente que você aqui deverá viajar através dos portais.";
+	close;
+}
+
+te_prt_gld,118,151,4	script	Guia de Gloria#tes03	8W_SOLDIER,{
+	mes "[Guia de Gloria]";
+	mes "Você está agora na fortaleza em Gloria.";
+	mes "Se você quiser voltar para o Reino das Valquírias, você poderá voltar através do portal.";
+	close;
+}
+
+te_prt_gld,122,151,4	script	Guia de Gloria#tes04	8W_SOLDIER,{
+	mes "[Guia de Gloria]";
+	mes "Bem vind"+((Sex) ? "o":"a")+" a Gloria.";
+	mes "As classes que estão autorizadas a participar das Batalhas de Cerco nas fortalezas das regiões de Kafragarten e Gloria estão limitadas as ^4d4dffclasses primárias e secundárias, bem como aquelas que não são expandidas.^000000";
+	next;
+	mes "[Guia de Gloria]";
+	mes "Nas regiões de Kafragarten e Gloria, você também terá acesso a missões separadas.";
+	mes "Algumas delas não estão relacionadas aos Emperiums, então desafie-se!";
+	next;
+	mes "[Guia de Gloria]";
+	mes "A Família Real e a Coorporação Kafra prepararam uma variedade de itens para você.";
+	mes "Embora o período de locação desses itens seja relativamente curto, é tudo gratuito. Então, não perca esta chance!";
+	close;
+}
+
+alde_gld,228,189,3	script	Sorin de Kafragarten	4_F_KAFRA3,{
+	mes "[Sorin]";
+	mes "Bem vind"+((Sex) ? "o":"a")+" a Coorporação Kafra~ Nós sempre fornecemos o melhor para os nossos clientes.";
+	mes "Finalmente, a Coorporação Kafra estabeleceu sua própria fortaleza!";
+	next;
+	switch( select( "O que é Kafragarten?", "O que é Batalha de Cerco TE?", "Qualificações para Participar", "Esqueça isso." ) ) {
+	case 1:
+		mes "[Sorin]";
+		mes "Esta é uma fortaleza que fornece os serviços da Coorporação Kafra em cooperação com as Famílias Reais de Rune-Midgard.";
+		mes "E tem o significado de 'jardim da Kafra'.";
+		next;
+		mes "[Sorin]";
+		mes "Embora seja muito parecida com Luina.";
+		mes "Deve estar indo bem, já que está atendendo a todos seus usuários.";
+		mes "É como um estágio de treinamento, por assim dizer.";
+		next;
+		mes "[Sorin]";
+		mes "A Kafragarten foi construída na região de Luina, e Gloria no Reino das valquírias, onde a Família Real foi fundada.";
+		mes "A Coorporação Kafra espera que você ganhe uma experiência muito valiosa nesta nova fortaleza.";
+		close;
+	case 2:
+		mes "[Sorin]";
+		mes "A Batalha de Cerco TE é ^4d4dffuma batalha que foi projetada apenas para as classes Primárias e Secundárias, excluindo as Terceiras classes.^000000";
+		next;
+		mes "[Sorin]";
+		mes "Foi recentemente feito um certo esforço para permitir que mais usuários possam participar e ganharem experiência através das batalhas de cerco.";
+		next;
+		mes "[Sorin]";
+		mes "Além disso, para sua conveniência, nós emprestamos uma variedade de itens que você poderá usar somente dentro das fortalezas correspondente. Então, aproveite esta oportunidade.";
+		next;
+		mes "[Sorin]";
+		mes "Como dizem, 'a ação fala mais alto que palavras.'";
+		mes "Agora, vá e veja por si mesmo~";
+		close;
+	case 3:
+		mes "[Sorin]";
+		mes "As classes primárias, secundárias e as classes extras sem ser expandidas, assim como as transclasses primárias e secundárias estão autorizadas a participar.";
+		next;
+		mes "[Sorin]";
+		mes "Em outras palavras, as Terceiras classes e as classes Expandidas Kagerou e Oboro não são permitidas.";
+		close;
+	case 4:
+		mes "[Sorin]";
+		mes "A Coorporação Kafra fará o máximo para trazer alegria para sua vida através do Kafragarten.";
+		close;
+	}
+}
+
+alde_gld,224,185,5	script	Defolty de Kafragarten	4_F_KAFRA1,{
+	mes "[Defolty]";
+	mes "A Kafragarten é como uma imagem espelhada de Luina, então sua estrutura é exatamente a mesma que a de Luina.";
+	next;
+	mes "[Defolty]";
+	mes "Você poderá viajar por esses portais aqui.";
+	mes "Você podeá viajar para Kafragarten usando um portal.";
+	close;
+}
+
+te_alde_gld,228,189,3	script	W de Kafragarten#tes01	4_F_KAFRA6,{
+	mes "[W]";
+	mes "Você pode viajar para Luina usando este portal aqui.";
+	mes "Faça bom uso dele.";
+	next;
+	mes "[W]";
+	mes "Quem levou o castelo que foi nomeado depois de mim, W?";
+	mes "Hehe isso não significa que eu sou superior ao Tailing?";
+	close;
+}
+
+te_alde_gld,224,185,5	script	Tailing de Kafragarten	4_F_KAFRA2,{
+	mes "[Tailing]";
+	mes "Esta é a região de Kafragarten.";
+	mes "Nas batalhas de cerco das regiões de Kafragarten e Gloria, apenas as classes primárias e secundárias, bem como classes sem ser expandidas, podem participar.";
+	next;
+	mes "[Tailing]";
+	mes "... .";
+	mes "Nas regiões de Kafragarten e Gloria, você também pode acessar missões separadas.";
+	mes "Então você deve prestar muita atenção.";
+	next;
+	mes "[Tailing]";
+	mes "Além disso, nós preparamos uma variedade de equipamentos de batalha, que estão disponíveis a qualquer momento a seu desejo.";
+	next;
+	mes "[Tailing]";
+	mes "Mas obviamente, eles são válidos apenas nas regiões de Kafragarten e Gloria.";
+	next;
+	mes "[Tailing]";
+	mes "... ..";
+	mes "Ah, se você acha que eu estou com raiva porque meu nome está faltando em Kafragarten, acertou e é por causa disso que meu jeito de falar está um pouco rude.";
+	next;
+	mes "[Tailing]";
+	mes "Oh meu.";
+	mes "Isso é realmente verdade?";
+	mes "De jeito nenhum. W não é melhor que eu...hahaha.";
+	close;
+}

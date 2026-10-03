@@ -1,0 +1,408 @@
+//===== rAthena Script =======================================
+//= HD Refiners
+//===== Description: =========================================
+//= [Official Conversion]
+//= Refiners that use HD ores to refine equipment. Upon
+//= failure, the equipment is not destroyed; rather, its
+//= refine level decreases by 1. The success rate is identical
+//= to that for Enriched ores.
+//= - "Blacksmith Mighty Hammer" only refines from +7~9.
+//= - "Basta" only refines from +10 and up.
+//===== Changelog: ===========================================
+//= 1.0 First version. [Euphy]
+//= 1.1 Removed re-roll behavior. [Secret]
+//============================================================
+
+// Ferreiro Hammer (+7~9) :: cash_smelting79
+//============================================================
+-	script	::FerreiroHammer	-1,{
+	disable_items;
+	mes "[Ferreiro Hammer]";
+	mes "Ao contrário dos outros, eu sou um ferreiro que refina um número muito limitado de itens.";
+	mes "Eu refino equipamentos em nível ^CC0000+7 até +9^000000.";
+	next;
+	mes "[Ferreiro Hammer]";
+	mes "Minha especialidade é que mesmo quando o refinamento falhar, o nível de refinamento cai 1 ponto, mas não perde o item!";
+	next;
+	mes "[Ferreiro Hammer]";
+	mes "Então vamos lá, o que me diz? Qual item você quer refinar?";
+	next;
+	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
+	for ( .@i = 1; .@i <= 10; ++.@i )
+		.@menu$ = .@menu$ + ( getequipisequiped(.@indices[.@i]) ? getequipname(.@indices[.@i]) : F_getpositionname(.@indices[.@i]) + "-[Não equipado]" ) + ":";
+	.@part = .@indices[ select(.@menu$) ];
+	if (!getequipisequiped(.@part)) {
+		mes "[Ferreiro Hammer]";
+		switch(.@part) {
+		case EQI_HEAD_TOP:
+			mes "Sou um ferreiro, não um estilista.";
+			break;
+		case EQI_ARMOR:
+			mes "Com meu martelo, Farei de você, uma estrela do céu.";
+			break;
+		case EQI_HAND_L:
+		case EQI_HAND_R:
+			mes "Fazer mãos artificiais não é minha especialidade.";
+			break;
+		case EQI_GARMENT:
+			mes "Traga o item para que eu possa refiná-lo!";
+			break;
+		case EQI_SHOES:
+			mes "De onde está vindo esse cheiro estranho?";
+			break;
+		case EQI_ACC_L:
+		case EQI_ACC_R:
+			mes "Onde está o acessório?";
+			break;
+		case EQI_HEAD_MID:
+			mes "O que quer que eu refine?";
+			break;
+		case EQI_HEAD_LOW:
+			mes "Huh? O que quer que eu faça?";
+			break;
+		}
+		close;
+	}
+	if (!getequipisenableref(.@part)) {
+		mes "[Ferreiro Hammer]";
+		mes "Este item não pode ser refinado.";
+		close;
+	}
+	switch( getequiprefinerycnt(.@part) ) {
+	case 7:
+		.@blacksmith_blessing_count = 1;
+		break;
+	case 8:
+		.@blacksmith_blessing_count = 2;
+		break;
+	case 9:
+		.@blacksmith_blessing_count = 4;
+		break;
+	default:
+		mes "[Ferreiro Hammer]";
+		mes "Eu só trabalho com itens com níveis de refinamento de +7 a +9.";
+		close;
+	}
+
+	.@refineitemid = getequipid(.@part); // salva o id do item
+	.@itemtype = getiteminfo( .@refineitemid, ITEMINFO_TYPE );
+	.@refinerycnt = getequiprefinerycnt(.@part); //salva a contagem do refinaria
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+	.@price = getequiprefinecost(.@part, REFINE_COST_HD, REFINE_ZENY_COST);
+	.@material = getequiprefinecost(.@part, REFINE_COST_HD, REFINE_MATERIAL_ID);
+
+	mes "[Ferreiro Hammer]";
+	mes "Para refinar o equipamento que você selecionou, você precisa de ^ff9999" + getitemname(.@material) + "^000000 e 20.000 zenys como taxa.";
+	mes "Você tem tudo pronto?";
+	next;
+	if(select("Sim:Não") == 2) {
+		mes "[Ferreiro Hammer]";
+		mes "Vou esperar até que eles estejam prontos.";
+		close;
+	}
+	if (getequippercentrefinery(.@part) < 100) {
+		mes "[Ferreiro Hammer]";
+		mes "Parece que este item provavelmente vai deixar de ser refinado."; 
+		mes "Bem, mesmo se ele falhar, ele só diminuirá em 1 grau de refino."; 
+		mes "Gostaria de continuar o refino?";
+		next;
+		if (countitem(6635) < .@blacksmith_blessing_count)
+			setarray .@menu$[0], "", "Sim!", "Ainda não!";
+		else {
+			mes "[Ferreiro Hammer]";
+			mes "Ah! É a ^0000ffBênção do Ferreiro^000000?";
+			mes "Com a Bênção do Ferreiro, o equipamento não desaparecerá se o refinamento falhar!";
+			next;
+			mes "[Ferreiro Hammer]";
+			if ( .@itemtype != IT_WEAPON )
+				mes "Para refinar este equipamento até +" + getequiprefinerycnt(.@part) + ", com^316AC5 " + .@blacksmith_blessing_count + " unidade(s) da Bênção do Ferreiro,^000000 que por sua vez poderá evitar que o equipamento desapareça. Você quer usá-la para refinar?";
+			else
+				mes "Para refinar esta arma até +" + getequiprefinerycnt(.@part) + ", com^316AC5 " + .@blacksmith_blessing_count + " unidade(s) da Bênção do Ferreiro,^000000 que por sua vez poderá evitar que a arma desapareça. Você quer usá-la para refinar?";
+			next;
+			setarray .@menu$[0], "Use-a para refinar.", "Refinar sem ela.", "Não refine ainda.";
+		}
+		switch( select(.@menu$[0], .@menu$[1], .@menu$[2]) ) {
+		case 1:
+			.@bless_who = 1;
+			break;
+		case 2:
+			break;
+		case 3:
+			mes "[Ferreiro Hammer]";
+			mes "Somente aqueles que superam o medo do fracasso obterão uma obra-prima.";
+			close;
+		}
+	}
+	if ((.@bless_who && countitem(6635) < .@blacksmith_blessing_count) || countitem(.@material) == 0 || Zeny < .@price) {
+		mes "[Ferreiro Hammer]";
+		mes "Você não acabou de dizer que tinha tudo pronto?";
+		close;
+	}
+	if (.@bless_who)
+		delitem 6635, .@blacksmith_blessing_count;
+	delitem .@material,1;
+	Zeny = Zeny - .@price;
+
+	// anti-roubo
+	if (callfunc("F_IsEquipIDHack", .@part, .@refineitemid) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) ||
+		callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt)) {
+		mes "[Ferreiro Hammer]";
+		emotion ET_FRET;
+		mes "Espere um segundo...";
+		mes "Você acha que eu sou estúpido?!";
+		mes "Você trocou o item enquanto eu não estava olhando! Saia daqui!";
+		close;
+	}
+
+	mes "[Ferreiro Hammer]";
+	mes "Tac! Tac! Tac!";
+	if (getequippercentrefinery(.@part, true) > rand(100)) {
+		successrefitem .@part;
+		next;
+		emotion ET_BEST;
+		mes "[Ferreiro Hammer]";
+		mes "Este som refresca minha mente toda vez que o ouço.";
+		mes "Aqui, pegue. O refinamento foi um grande sucesso!";
+		close;
+	}
+	if (.@bless_who == 1) {
+		specialeffect EF_HOLYHIT;
+		next;
+		emotion ET_HUK;
+		mes "[Ferreiro Hammer]";
+		mes "O que?!!";
+		next;
+		mes "[Ferreiro Hammer]";
+		mes "Aiya! Estou sem rosto agora. HmHm.";
+		close;
+	}
+	downrefitem .@part;
+	next;
+	emotion ET_HUK;
+	mes "[Ferreiro Hammer]";
+	mes "Oops!!";
+	next;
+	mes "[Ferreiro Hammer]";
+	mes "Estou certo de que uma pessoa como você nunca iria me culpar por uma diminuição no nível de refinamento por 1. Hmm.";
+	close;
+}
+prt_in,59,54,3	duplicate(FerreiroHammer)	Ferreiro Hammer#prt	4_M_DWARF
+morocc_in,65,30,3	duplicate(FerreiroHammer)	Ferreiro Hammer#morocc	4_M_DWARF
+payon,148,176,3	duplicate(FerreiroHammer)	Ferreiro Hammer#pay	4_M_DWARF
+alberta_in,16,56,3	duplicate(FerreiroHammer)	Ferreiro Hammer#alb	4_M_DWARF
+yuno_in01,171,18,3	duplicate(FerreiroHammer)	Ferreiro Hammer#yuno	4_M_DWARF
+ein_in01,22,82,3	duplicate(FerreiroHammer)	Ferreiro Hammer#ein	4_M_DWARF
+lhz_in02,280,19,3	duplicate(FerreiroHammer)	Ferreiro Hammer#lhz	4_M_DWARF
+
+// Localização dos Npcs iRO:
+// payon,174,133,4	duplicate(FerreiroHammer)	Ferreiro Hammer#im	4_M_DWARF
+
+// Basta (Acima de +10) :: cash_smelting
+//============================================================
+-	script	::Basta	-1,{
+	disable_items;
+	mes "[Basta]";
+	mes "Eu sou Basta. O melhor ferreiro em todo o mundo.";
+	mes "Mas eu não forneço um serviço normal de refino.";
+	mes "Eu só refino equipamentos ^CC0000Acima de +10^000000.";
+	next;
+	mes "[Basta]";
+	mes "Qual o equipamento que você quer refinar?";
+	next;
+	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
+	for ( .@i = 1; .@i <= 10; ++.@i )
+		.@menu$ = .@menu$ + ( getequipisequiped(.@indices[.@i]) ? getequipname(.@indices[.@i]) : F_getpositionname(.@indices[.@i]) + "-[Não equipado]" ) + ":";
+	.@part = .@indices[ select(.@menu$) ];
+	if (!getequipisequiped(.@part)) {
+		mes "[Basta]";
+		switch(.@part) {
+		case EQI_HEAD_TOP:
+			mes "E sua Cabeça é um Equipamento?";
+			break;
+		case EQI_ARMOR:
+			mes "O que você quer que eu faça?";
+			break;
+		case EQI_HAND_L:
+		case EQI_HAND_R:
+			mes "Refinar mãos artificiais não é a minha especialidade.";
+			break;
+		case EQI_GARMENT:
+			mes "Você sabe mesmo o que é uma capa?";
+			break;
+		case EQI_SHOES:
+			mes "Se você quiser refinar seus pés, não venha para mim, tente correr uma maratona.";
+			break;
+		case EQI_ACC_L:
+		case EQI_ACC_R:
+			mes "Onde está o acessório?";
+			break;
+		case EQI_HEAD_MID:
+			mes "Bem... eu não vejo qualquer equipamento no valor de refino.";
+			break;
+		case EQI_HEAD_LOW:
+			mes "Eu não posso torná-lo inteligente. Vá ver um professor na escola.";
+			break;
+		}
+		close;
+	}
+	if (!getequipisenableref(.@part)) {
+		mes "[Basta]";
+		mes "Nem eu posso refinar este item. Não há nenhuma maneira.";
+		close;
+	}
+	.@refine_count = getequiprefinerycnt(.@part);
+	if (.@refine_count < 10) {
+		mes "[Basta]";
+		mes "Eu já não te disse? Eu só refino equipamentos que são +10.";
+		close;
+	}
+	else if (.@refine_count == 10)
+		.@blacksmith_blessing_count = 7;
+	else if (.@refine_count == 11)
+		.@blacksmith_blessing_count = 11;
+	else if (.@refine_count == 20) {
+		mes "[Basta]";
+		mes "Esta arma é perfeita, não há necessidade de refiná-la mais~";
+		close;
+	}
+	.@refineitemid = getequipid(.@part); // salva o id do item
+	.@itemtype = getiteminfo( .@refineitemid, ITEMINFO_TYPE );
+	.@refinerycnt = getequiprefinerycnt(.@part); //salva a contagem do refinamento
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+	.@price = getequiprefinecost(.@part, REFINE_COST_HD, REFINE_ZENY_COST);
+	.@material = getequiprefinecost(.@part, REFINE_COST_HD, REFINE_MATERIAL_ID);
+
+	if ( .@itemtype != IT_WEAPON )
+		.@type$ = "Armadura";
+	else
+		.@type$ = "Arma";
+	mes "[Basta]";
+	mes "Hmm... isso é o que você quer refinar?"; 
+	mes "Para refinar este equipamento, eu preciso de um ^ff9999"+getitemname(.@material)+"^000000 e uma taxa de 100,000 zenys.";
+	mes "Você realmente quer refinar isso?";
+	next;
+	if(select("Sim:Não") == 2) {
+		mes "[Basta]";
+		mes "Ok. Se é isso que você quer...";
+		close;
+	}
+	if (getequippercentrefinery(.@part, true) < 100) {
+		mes "[Basta]";
+		mes "Essa "+.@type$+" já está em um nível de refino muito elevado.";
+		mes "Se você tentar refiná-lo mais, o grau de refino vai diminuir.";
+		next;
+		mes "[Basta]";
+		mes "Eu sou diferente dos ferreiros de outros lugares."; 
+		mes "É impossível que o grau de refino caia por, digamos, 3 ou 4... isso soa assustador né."; 
+		mes "Aqui, só pode diminuir em 1 nível.";
+		next;
+		if (.@blacksmith_blessing_count == 0 || countitem(6635) < .@blacksmith_blessing_count) {
+		mes "[Basta]";
+		mes "Em comparação com os outros ferreiros, o risco aqui é menor."; 
+		mes "Eu dei todas as precauções. Você quer tentar?";
+		next;
+			setarray .@menu$[0], "", "Sim", "Não";
+		}
+		else {
+			mes "[Basta]";
+			mes "Uau~ É a ^316AC5Bênção do Ferreiro^000000? É difícil de conseguir~ Mas, você tem!";
+			next;
+			mes "[Basta]";
+			mes "Para refinar esta " + .@type$ + " até +" + .@refine_count + " precisarei de ^316AC5" + .@blacksmith_blessing_count + " unidade(s) da Bênção do Ferreiro,^000000 que por sua vez poderá impedir que o equipamento desapareça. Você quer refinar com a Bênção do Ferreiro?";
+			next;
+			setarray .@menu$[0], "Refinar com Bênção do Ferreiro", "Refinar sem Bênção do Ferreiro", "Não refine ainda.";
+		}
+		switch( select(.@menu$[0], .@menu$[1], .@menu$[2]) ) {
+		case 1:
+			.@bless_who = 1;
+			break;
+		case 2:
+			break;
+		case 3:
+			mes "[Basta]";
+			mes "Bem~";
+			mes "Não ser desafiador também pode ser um tipo de sabedoria na vida.";
+			close;
+		}
+	}
+	if ((.@bless_who && countitem(6635) < .@blacksmith_blessing_count) || countitem(.@material) == 0 || Zeny < .@price) {
+		mes "[Basta]";
+		mes "Hmm... Você não trouxe todos os materiais necessários."; 
+		mes "Volte quando você tiver todos eles.";
+		close;
+	}
+	if (.@bless_who)
+		delitem 6635, .@blacksmith_blessing_count;
+	delitem .@material,1;
+	Zeny = Zeny - .@price;
+
+	// anti-roubo
+	if (callfunc("F_IsEquipIDHack", .@part, .@refineitemid) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) ||
+		callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt)) {
+		mes "[Basta]";
+		emotion ET_FRET;
+		mes "Espere um segundo...";
+		mes "Você acha que eu sou estúpido?!";
+		mes "Você trocou o item enquanto eu não estava olhando! Saia daqui!";
+		close;
+	}
+
+	mes "Pow! Pow! Pow! Pow!";
+	if (getequippercentrefinery(.@part, true) > rand(100)) {
+		successrefitem .@part;
+		next;
+		emotion ET_BEST;
+		mes "[Basta]";
+		mes "Ótimo! Bom trabalho!"; 
+		mes "Eu realmente sou o melhor ferreiro do mundo inteiro!";
+		close;
+	}
+	if (.@bless_who == 1) {
+		specialeffect EF_HOLYHIT;
+		next;
+		emotion (!rand(5))?ET_MONEY:ET_HUK;
+		mes "[Basta]";
+		mes "Aaaaaaaaaaak!!!";
+		next;
+		mes "[Basta]";
+		mes "O refinamento falhou!";
+		mes "Até o melhor ferreiro do mundo como eu...";
+		mes "Não garante 100% de sucesso~";
+	}
+	else {
+		downrefitem .@part;
+		next;
+		emotion (!rand(5))?ET_MONEY:ET_HUK;
+		mes "[Basta]";
+		mes "Aaaaaaaaaaak!!!";
+		next;
+		mes "[Basta]";
+		mes "Droga!";
+		mes "O refinamento falhou e o nível de refino diminuiu!";
+		mes "Nem mesmo o melhor ferreiro do mundo garante 100% de sucesso!";
+	}
+	mes "Muito ruim.";
+	next;
+	mes "[Basta]";
+	mes "Eu vou fazer melhor da próxima vez! Não se preocupe!";
+	close;
+}
+
+prt_in,57,54,3	duplicate(Basta)	Basta#prt	4_M_DWARF
+morocc_in,68,30,3	duplicate(Basta)	Basta#morocc	4_M_DWARF
+payon,148,174,3	duplicate(Basta)	Basta#payon	4_M_DWARF
+alberta_in,18,56,3	duplicate(Basta)	Basta#alberta	4_M_DWARF
+yuno_in01,173,18,3	duplicate(Basta)	Basta#yuno	4_M_DWARF
+ein_in01,24,82,3	duplicate(Basta)	Basta#einbroch	4_M_DWARF
+lhz_in02,280,17,3	duplicate(Basta)	Basta#lighthalzen	4_M_DWARF
+
+// IU de Refinamento torna esses NPCs inúteis.
+-	script	RefineUI_Init	-1,{
+	end;
+OnInit:
+	if (getbattleflag("feature.refineui")) {
+		unloadnpc "Basta";
+		unloadnpc "FerreiroHammer";
+	}
+	end;
+}

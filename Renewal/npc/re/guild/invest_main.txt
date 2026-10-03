@@ -1,0 +1,1671 @@
+//===== rAthena Script =======================================
+//= Hall of Abyss - Core Scripts
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Expansion for War of Emperium FE.
+//= Invest in each realm to unlock new maps:
+//= - Guild Dungeon F2, total 20,000,000z.
+//= - Hall of Abyss, total 70,000,000z.
+//===== Additional Comments: =================================
+//= 1.0 First version. Missing official times. [Euphy]
+//= 1.1 Added GM management function. [Euphy]
+//============================================================
+
+// Variáveis Globais
+//============================================================
+//= Nota: um asterisco (*) representa qualquer reino (prt, pay, gef, alde).
+/*
+$2011_agit_invest
+-- - 0: inativo.
+-- - 1: investimento em progresso.
+-- - 2: cálculo dos resultados do investimento.
+-- - 4: Cálculos de investimento concluídos (somente quando pelo menos um $*_invest_result for 3).
+-- - 11-21: Empate, revogar requerido.
+
+$agit_result_notice
+-- - 0: inativo.
+-- - 1-12: Instruções provisórias (exibindo $@vfund_*x) disponíveis.
+
+$agit_result_timer
+-- - 0: inativo.
+-- - 0-59: Tempo decorrido durante o investimento (em horas).
+
+$agit_revoting_timer
+-- - 0: inativo.
+-- - 0-29: Tempo decorrido durante a revogação (em minutos).
+-- - 30: Revogar fechado.
+-- - 31: Revogar o cálculo dos resultados.
+
+$*_invest_result
+-- - 0: sem dados.
+-- - 1: Reino não conectado.
+-- - 2: Calabouço da Guilda 2º Andar aberto.
+-- - 3: Portal do Abismo (Sala do Abismo e Calabouço da Guilda 2º Andar) aberto.
+
+$fund_*[01-05]
+-- - Unidades de investimento por castelo da guilda.
+$fund_*_extra
+-- - Unidades de investimento por território.
+
+$@vfund_*[01-05]
+$@vfund_*_extra
+-- Unidades de investimento, usadas apenas em instruções provisórias.
+*/
+
+// Funções do Investimento e Controlador
+//===================================================================
+// Nota: Os tempos nesta seção são quase inteiramente personalizados.
+-	script	#invest_timer	-1,{
+OnClock0000:	// Abri os investimentos em (1 hora após GdE)
+	if (gettime(DT_DAYOFWEEK) == WEDNESDAY && !agitcheck()) {
+		set $2011_agit_invest,1;
+		donpcevent "#fund_master::OnInvest_start";
+	}
+	end;
+OnClock1200:	// Fecha os investimentos na Fri (60 horas após abertura dos investimentos)
+	if (gettime(DT_DAYOFWEEK) == FRIDAY && !agitcheck()) {
+		set $2011_agit_invest,2;
+		donpcevent "#fund_master::OnInvest_stop";
+	}
+	end;
+OnClock1235:	// Abre as masmorras em Fri (pelo menos 31 minutos após os investimentos fecharem)
+	if (gettime(DT_DAYOFWEEK) == FRIDAY && !agitcheck())
+		donpcevent "#fund_master::OnResult";
+	end;
+OnClock2000:	// Fechar as masmorras às terças (1 hora antes da GdE)
+	if (gettime(DT_DAYOFWEEK) == TUESDAY)
+		donpcevent "#fund_master::OnReset";
+	end;
+}
+
+function	script	F_Invest_Status	{
+	set .@day, gettime(DT_DAYOFWEEK);
+	set .@hour, gettime(DT_HOUR);
+	set .@minute, gettime(DT_MINUTE);
+
+	// Inativo.
+	if (agitcheck())
+		return 0;
+
+	// Aberto para investimentos.
+	if (.@day >= WEDNESDAY && (.@day < FRIDAY || (.@day == FRIDAY && .@hour <= 12)))
+		return 1;
+
+	// Investimentos fechados, calculando resultados.
+	if (.@day == FRIDAY && .@hour == 12 && .@minute < 35)
+		return 2;
+
+	// Cálculos completos, masmorras abertas.
+	if ((.@day == FRIDAY && (.@hour > 12 || (.@hour == 12 && .@minute >= 35))) || .@day > FRIDAY ||
+	    .@day < TUESDAY || (.@day == TUESDAY && .@hour < 20))
+		return 3;
+
+	// Masmorras fechadas.
+	return 0;
+}
+
+//callfunc "F_Invest_Abyss","<variável>","<nome do NPC>"{,"<menssagem addon>"};
+function	script	F_Invest_Abyss	{
+	.@npc_name$ = getarg(1);
+	mes "Existem 2 maneiras de faser investimentos, a primeira é com Zenys e a segunda é com o Certificado de Investimento dado pela Guilda dos Mercadores Pata de Gato.";
+	mes "Qual será a opção que você gostaria de fazer seu investimento?";
+	next;
+	switch(select("Investir com Zeny.:Investir com Certificado de Investimento.:Cancelar")) {
+	case 1:
+		mes .@npc_name$;
+		mes "Então você decidiu faser investimento em Zeny.";
+		mes "Uma unidade mínima de investimento custa ^4d4dff10.000 Zenys^000000.";
+		mes "Você pode investir em 50 unidades no máximo, o que dará ^4d4dff500,000 Zenys^000000.";
+		next;
+		switch(select("1 Unidade 10.000 Zeny:10 Unidades 100.000 Zeny:50 Unidades 500.000 Zeny:Outra Quantia:Cancelar")) {
+		case 1:
+			set .@units,1;
+			break;
+		case 2:
+			set .@units,10;
+			break;
+		case 3:
+			set .@units,50;
+			break;
+		case 4:
+			mes .@npc_name$;
+			mes "Por favor, digite o valor que você quer investir.";
+			mes "Por favor, escolha entre 1 e 200.";
+			mes "Por favor, digite 0 para cancelar.";
+			next;
+			input .@units;
+			if (.@units < 0 || .@units > 200) {
+				mes .@npc_name$;
+				mes "Você excedeu o valor de investimentos.";
+				mes "Por favor, tente novamente.";
+				close;
+			} else if (.@units == 0) {
+				mes .@npc_name$;
+				mes "Cancelado!";
+				close;
+			} else
+				break;
+		case 5:
+			mes .@npc_name$;
+			mes "Cancelado!";
+			close;
+		}
+		set .@zeny, .@units * 10000;
+		if (Zeny < .@zeny) {
+			mes .@npc_name$;
+			mes "Você não tem dinheiro suficiente.";
+			close;
+		}
+		mes .@npc_name$;
+		mes "Você investiu "+callfunc("F_InsertPlural",.@units,"unit")+" "+callfunc("F_InsertComma",.@zeny)+" Zeny(s)"+getarg(2,"")+".";
+		mes "Não é muito, mas este é um pequeno presente. Você pode trocá-lo por itens em Malangdo.";
+		set Zeny, Zeny-.@zeny;
+		setd getarg(0), getd(getarg(0)) + .@units;
+		getitem 6488,.@units; //Thanks_Invest_Ticket
+		close;
+	case 2:
+		mes .@npc_name$;
+		mes "Uau, você trouxe Certificados de Investimento.";
+		mes "Quantos certificados você vai investir?";
+		next;
+		switch(select("1 Certificado de Investimento:5 Certificados de Investimento:Outra Quantia:Cancelar")) {
+		case 1:
+			set .@tickets,1;
+			break;
+		case 2:
+			set .@tickets,5;
+			break;
+		case 3:
+			mes .@npc_name$;
+			mes "Por favor, informe o número de Certificados de Investimento que você deseja investir.";
+			mes "Por favor, escolha entre 1 e 20.";
+			mes "Por favor, digite 0 para cancelar.";
+			next;
+			input .@tickets;
+			if (.@tickets < 0 || .@tickets > 20) {
+				mes .@npc_name$;
+				mes "Você excedeu o valor de investimentos.";
+				mes "Por favor, tente novamente.";
+				close;
+			} else if (.@tickets == 0) {
+				mes .@npc_name$;
+				mes "Cancelado!";
+				close;
+			} else
+				break;
+		case 4:
+			mes .@npc_name$;
+			mes "Cancelado!";
+			close;
+		}
+		if (countitem(6489) < .@tickets) {
+			mes .@npc_name$;
+			mes "Parece que você tem menos Certificados de Investimento do que você deseja investir.";
+			close;
+		}
+		set .@units, .@tickets * 10;
+		mes .@npc_name$;
+		mes .@tickets+" Certificado(s) de Investimento"+((.@tickets == 1)?" é":" são")+" o mesmo que um investimento de "+.@units+" unidade(s) ("+((.@units < 100)?.@units:insertchar(""+.@units,",",1))+"0,000 Zenys)"+getarg(2,"")+".";
+		mes "Não é muito, mas este é um pequeno presente. Você pode trocá-lo por itens em Malangdo.";
+		delitem 6489,.@tickets; //Cats_Invest_Certif
+		setd getarg(0), getd(getarg(0)) + .@units;
+		getitem 6488,.@units; //Thanks_Invest_Ticket
+		close;
+	case 3:
+		mes .@npc_name$;
+		mes "Cancelado!";
+		close;
+	}
+}
+
+// Script Geral :: agit_fund
+//============================================================
+prt_gld,1,1,0	script	#fund_master	844,{
+	end;
+OnInit:
+	set .@invest_status, callfunc("F_Invest_Status");
+	if (.@invest_status == 1) {
+		set $2011_agit_invest,1;
+		end;
+	}
+	if ((.@invest_status == 2 && $2011_agit_invest == 1) ||
+	    (.@invest_status == 3 && ($2011_agit_invest == 1 || $2011_agit_invest == 2))) {
+		donpcevent "#fund_master::OnCalculate";
+		end;
+	}
+	end;
+OnCalculate_Election:
+	set .@force_vote,1;
+OnCalculate:
+	setarray .@cas$[0],"prt","pay","gef","alde";
+	for(set .@i,0; .@i<4; set .@i,.@i+1) {
+		// Todos os fundos por reinos são somados.
+		set .@funds[.@i], getd("$fund_"+.@cas$[.@i]+"01")+getd("$fund_"+.@cas$[.@i]+"02")+getd("$fund_"+.@cas$[.@i]+"03")+getd("$fund_"+.@cas$[.@i]+"04")+getd("$fund_"+.@cas$[.@i]+"05")+getd("$fund_"+.@cas$[.@i]+"_extra");
+
+		// 70,000,000z abre a Sala do Abismo e o 2º Andar.
+		if (.@funds[.@i] >= 7000) {
+			setd "$"+.@cas$[.@i]+"_invest_result",3;
+			set .@total_7000,1;
+		}
+		// 20,000,000z abre o 2º Andar e uma chance de abrir a Sala do Abismo.
+		else if (.@funds[.@i] >= 2000) {
+			setd "$"+.@cas$[.@i]+"_invest_result",2;
+			set .@total_2000,1;
+		}
+		// Qualquer coisa abaixo disso não abre nada.
+		else
+			setd "$"+.@cas$[.@i]+"_invest_result",1;
+	}
+	// Nenhuma ação adicional se 20,000,000z não for alcançado.
+	if (!.@total_2000)
+		end;
+	// Nenhuma ação adicional se qualquer reino atingir 70,000,000z.
+	if (.@total_7000) {
+		set $2011_agit_invest,4;
+		end;
+	}
+	// Caso contrário, o maior investimento acima de 20.000.000z abre a Sala do Abismo.
+	set .@max, .@funds[0];
+	for(set .@i,1; .@i<4; set .@i,.@i+1) {
+		if (.@funds[.@i] > .@max) {
+			set .@max, .@funds[.@i];
+			set .@ele, .@i;
+			deletearray .@rand$[0], getarraysize(.@rand$);
+		} else if (.@funds[.@i] == .@max && .@funds[.@i] >= 2000) {
+			if (!getarraysize(.@rand$))
+				set .@rand$[0], .@cas$[.@ele];
+			set .@rand$[getarraysize(.@rand$)], .@cas$[.@i];
+		}
+	}
+	if (.@max < 2000)
+		end;
+	if (getarraysize(.@rand$)) {
+
+		// Tie: declara um vencedor aleatório.
+		if (!.@force_vote) {
+			set .@i, rand(getarraysize(.@rand$));
+			setd "$"+.@rand$[.@i]+"_invest_result",3;
+			set $2011_agit_invest,4;
+			end;
+		}
+
+		// Tie: inicia uma eleição de 30 minutos.
+		set .@str$, implode(.@rand$,"|");
+		for(set .@i,0; .@i<4; set .@i,.@i+1) {
+			if (compare(.@str$,.@cas$[.@i]))
+				set .@election, .@election | (1<<.@i);
+		}
+		switch(.@election) {
+			case 3:  set $2011_agit_invest,11; break; //Prontera|Payon
+			case 9:  set $2011_agit_invest,12; break; //Prontera|Al De Baran
+			case 5:  set $2011_agit_invest,13; break; //Prontera|Geffen
+			case 10: set $2011_agit_invest,14; break; //Al De Baran|Payon
+			case 6:  set $2011_agit_invest,15; break; //Geffen|Payon
+			case 12: set $2011_agit_invest,16; break; //Al De Baran|Geffen
+			case 11: set $2011_agit_invest,17; break; //Prontera|Payon|Al De Baran
+			case 7:  set $2011_agit_invest,18; break; //Prontera|Payon|Geffen
+			case 13: set $2011_agit_invest,19; break; //Prontera|Al De Baran|Geffen
+			case 14: set $2011_agit_invest,20; break; //Al De Baran|Payon|Geffen
+			case 15: set $2011_agit_invest,21; break; //Prontera|Payon|Al De Baran|Geffen
+		}
+		if ($2011_agit_invest >= 11)
+			donpcevent "Gerente de Voto#Invest1::OnStart";
+		end;
+	} else {
+		setd "$"+.@cas$[.@ele]+"_invest_result",3;
+		set $2011_agit_invest,4;
+		end;
+	}
+	end;
+OnInvest_start:
+	announce "A partir de agora, vamos iniciar os investimentos para abrir o 'Portal do Abismo' nas áreas da GdE: Reino das Valquírias, Feudo do Bosque Celestial, Luina, Britânia.",bc_all,0xFF0000; //FW_NORMAL 10
+	set $fund_prt01,0;
+	set $fund_prt02,0;
+	set $fund_prt03,0;
+	set $fund_prt04,0;
+	set $fund_prt05,0;
+	set $fund_pay01,0;
+	set $fund_pay02,0;
+	set $fund_pay03,0;
+	set $fund_pay04,0;
+	set $fund_pay05,0;
+	set $fund_gef01,0;
+	set $fund_gef02,0;
+	set $fund_gef03,0;
+	set $fund_gef04,0;
+	set $fund_gef05,0;
+	set $fund_alde01,0;
+	set $fund_alde02,0;
+	set $fund_alde03,0;
+	set $fund_alde04,0;
+	set $fund_alde05,0;
+	donpcevent "Investment_total#fund00::OnEnable";
+	end;
+OnInvest_stop:
+	announce "Terminamos os investimentos para abrir o 'Portal do Abismo'.",bc_all,0xFF0000; //FW_NORMAL 10
+	donpcevent "Investment_total#fund00::OnReset";
+	donpcevent "#fund_master::OnCalculate_Election";
+	end;
+OnResult:
+	announce "Nós já temos os resultados dos investimentos para o 'Portal do Abismo'. Você pode verificar através dos Quadros com Status de Investimentos em cada área da GdE.",bc_all,0xFF0000; //FW_NORMAL 10
+	if ($2011_agit_invest == 4) {
+		set $fund_prt01,0;
+		set $fund_prt02,0;
+		set $fund_prt03,0;
+		set $fund_prt04,0;
+		set $fund_prt05,0;
+		set $fund_prt_extra,0;
+		set $fund_pay01,0;
+		set $fund_pay02,0;
+		set $fund_pay03,0;
+		set $fund_pay04,0;
+		set $fund_pay05,0;
+		set $fund_pay_extra,0;
+		set $fund_gef01,0;
+		set $fund_gef02,0;
+		set $fund_gef03,0;
+		set $fund_gef04,0;
+		set $fund_gef05,0;
+		set $fund_gef_extra,0;
+		set $fund_alde01,0;
+		set $fund_alde02,0;
+		set $fund_alde03,0;
+		set $fund_alde04,0;
+		set $fund_alde05,0;
+		set $fund_alde_extra,0;
+	} else if ($2011_agit_invest == 2)
+		donpcevent "#fund_master::OnCalculate";
+	end;
+OnReset:
+	set $2011_agit_invest,0;
+	donpcevent "Investment_total#fund00::OnReset";
+	end;
+}
+
+prt_gld,2,2,0	script	Investment_total#fund00	844,{
+	callfunc "F_GM_NPC";
+	mes "Isso não está funcionando corretamente?";
+	next;
+	if (callfunc("F_GM_NPC",1854,0) == 1) {
+		mes "Se você acha que o temporizador de investimento está errado, por favor, ajuste o temporizador.";
+		next;
+		switch(select("Ajustar Temporizador:Cancelar")) {
+		case 1:
+			donpcevent "Investment_total#fund00::OnTimerReset";
+			mes "Você ajustou o Temporizador.";
+			close;
+		case 2:
+			mes "Cancelado!";
+			close;
+		}
+	} else {
+		mes "Eu não preciso ajustar nada agora.";
+		close;
+	}
+
+OnInit:
+	if (callfunc("F_Invest_Status") == 1) {
+		initnpctimer;
+		donpcevent "Investment_total#fund00::OnVarInit";
+	} else {
+		set $agit_result_timer,0;
+		set $agit_result_notice,0;
+	}
+	end;
+OnVarInit:
+	setarray .@cas$[0],"prt","pay","gef","alde";
+	for(set .@i,0; .@i<4; set .@i,.@i+1) {
+		setd "$@vfund_"+.@cas$[.@i]+"01", getd("$fund_"+.@cas$[.@i]+"01");
+		setd "$@vfund_"+.@cas$[.@i]+"02", getd("$fund_"+.@cas$[.@i]+"02");
+		setd "$@vfund_"+.@cas$[.@i]+"03", getd("$fund_"+.@cas$[.@i]+"03");
+		setd "$@vfund_"+.@cas$[.@i]+"04", getd("$fund_"+.@cas$[.@i]+"04");
+		setd "$@vfund_"+.@cas$[.@i]+"05", getd("$fund_"+.@cas$[.@i]+"05");
+		setd "$@vfund_"+.@cas$[.@i]+"_extra", getd("$fund_"+.@cas$[.@i]+"_extra");
+	}
+	end;
+OnEnable:
+	set $agit_result_timer,0;
+	set $agit_result_notice,0;
+	initnpctimer;
+	end;
+OnReset:
+	set $agit_result_timer,0;
+	set $agit_result_notice,0;
+	stopnpctimer;
+	end;
+OnTimerReset:
+	initnpctimer;
+	end;
+OnTimer3600000:
+	if (callfunc("F_Invest_Status") == 1) {
+		if ($agit_result_timer < 59) {
+			set $agit_result_timer, $agit_result_timer+1;
+
+			// Aciona em múltiplos de 5 até 55, e 58.
+			if ($agit_result_timer % 10 == 5 || $agit_result_timer % 10 == 0 || $agit_result_timer == 58) {
+				set $agit_result_notice, $agit_result_notice+1;
+				donpcevent "Investment_total#fund00::OnVarInit";
+				announce "Não. "+$agit_result_notice+" A declaração provisória já está disponível. Você pode verificar através dos Quadros com Status de Investimentos em cada área da GdE.",bc_all,0xFF0000; //FW_NORMAL 10
+			}
+
+			donpcevent "Investment_total#fund00::OnTimerReset";
+		} else
+			stopnpctimer;
+		end;
+	} else {
+		donpcevent "Investment_total#fund00::OnReset";
+		end;
+	}
+}
+
+prt_gld,164,98,3	script	Gerente de Voto#Invest1	421,{
+	mes "[Gerente de Voto]";
+	mes "Nós não estamos aceitando votos adicionais.";
+	mes "Por favor, aguarde o nosso anúncio dos resultados.";
+	close;
+OnInit:
+	set .@invest_status, callfunc("F_Invest_Status");
+	if (.@invest_status == 2 && $2011_agit_invest >= 11 && $agit_revoting_timer < 30) {
+		donpcevent "Gerente de Voto#Invest2::OnEnable";
+		initnpctimer;
+	} else if (.@invest_status == 3 && $2011_agit_invest >= 11)
+		donpcevent "Gerente de Voto#Invest1::OnCalculate";
+	donpcevent "Gerente de Voto#Invest1::OnDisable";
+	end;
+OnCalculate:
+	switch($2011_agit_invest) {
+		case 11: setarray.@cas$[0],"prt","pay"; break;
+		case 12: setarray.@cas$[0],"prt","alde"; break;
+		case 13: setarray.@cas$[0],"prt","gef"; break;
+		case 14: setarray.@cas$[0],"alde","pay"; break;
+		case 15: setarray.@cas$[0],"gef","pay"; break;
+		case 16: setarray.@cas$[0],"alde","gef"; break;
+		case 17: setarray.@cas$[0],"prt","pay","alde"; break;
+		case 18: setarray.@cas$[0],"prt","pay","gef"; break;
+		case 19: setarray.@cas$[0],"prt","alde","gef"; break;
+		case 20: setarray.@cas$[0],"alde","pay","gef"; break;
+		case 21: setarray.@cas$[0],"prt","pay","alde","gef"; break;
+		default: end;
+	}
+	set .@max, getd("$fund_"+.@cas$[0]+"_extra");
+	for(set .@i,1; .@i<getarraysize(.@cas$); set .@i,.@i+1) {
+		set .@funds, getd("$fund_"+.@cas$[.@i]+"_extra");
+		if (.@funds > .@max) {
+			set .@max, .@funds;
+			set .@ele, .@i;
+			deletearray .@rand$[0], getarraysize(.@rand$);
+		} else if (.@funds == .@max) {
+			if (!getarraysize(.@rand$))
+				set .@rand$[0], .@cas$[.@ele];
+			set .@rand$[getarraysize(.@rand$)], .@cas$[.@i];
+		}
+	}
+	if (getarraysize(.@rand$)) {
+		set .@i, rand(getarraysize(.@rand$));
+		setd "$"+.@rand$[.@i]+"_invest_result",3;
+	} else
+		setd "$"+.@cas$[.@ele]+"_invest_result",3;
+	set $2011_agit_invest,4;
+	set $agit_revoting_timer,0;
+	end;
+OnEnable:
+	enablenpc "Gerente de Voto#Invest1";
+	end;
+OnDisable:
+	disablenpc "Gerente de Voto#Invest1";
+	end;
+OnStart:
+	initnpctimer;
+	donpcevent "Gerente de Voto#Invest2::OnNotice_on";
+	end;
+OnEnd:
+	stopnpctimer;
+	disablenpc "Gerente de Voto#Invest1";
+	end;
+OnTimerReset:
+	initnpctimer;
+	end;
+OnTimer60000:
+	set .@revote, $agit_revoting_timer;
+	if (.@revote < 30) {
+		set $agit_revoting_timer, $agit_revoting_timer+1;
+		donpcevent "Gerente de Voto#Invest1::OnTimerReset";
+	} else if (.@revote == 30) {
+		announce "Guilda dos Mercadores Pata de Gato: Agora vamos fechar a votação adicional. Vamos anunciar os resultados em breve.",bc_all,0xFF0000; //FW_NORMAL 10
+		donpcevent "Gerente de Voto#Invest2::OnDisable";
+		donpcevent "Gerente de Voto#Invest1::OnEnable";
+		set $agit_revoting_timer, $agit_revoting_timer+1;
+		donpcevent "Gerente de Voto#Invest1::OnTimerReset";
+	} else if (.@revote == 31) {
+		donpcevent "Gerente de Voto#Invest1::OnCalculate";
+		donpcevent "Gerente de Voto#Invest1::OnDisable";
+		stopnpctimer;
+		end;
+	} else {
+		donpcevent "Gerente de Voto#Invest1::OnDisable";
+		stopnpctimer;
+	}
+	end;
+}
+
+prt_gld,164,98,3	script	Gerente de Voto#Invest2	421,{
+	set .@invest, $2011_agit_invest;
+	if (.@invest < 11) {
+		mes "[Gerente de Voto]";
+		mes "Não! Este não é o momento de faser uma votação.";
+		close2;
+		disablenpc "Gerente de Voto#Invest2";
+		end;
+	}
+	set .@playtime, checkquest(7349,PLAYTIME);
+	if (.@playtime == 0 || .@playtime == 1) {
+		mes "[Gerente de Voto]";
+		mes "Você já participou da votação.";
+		mes "Por favor, relaxe e aguarde os resultados.";
+		close;
+	} else if (.@playtime == 2)
+		erasequest 7349;
+	mes "[Gerente de Voto]";
+	mes "Você gostaria de participar da votação para escolher onde abrir o 'Portal do Abismo'?";
+	next;
+	if(select("Participar da Votação.:Não Participar da Votação.") == 2) {
+		mes "[Gerente de Voto]";
+		mes "Você cancelou a votação.";
+		close;
+	}
+	mes "[Gerente de Voto]";
+	mes "Você poderá votar uma vez e não precisará investir nada para faser sua escolha.";
+	mes "Por favor, escolha uma área da GdE.";
+	next;
+
+	// Cria o menu.
+	explode(.@candidates$, callsub(OnGetCandidates, .@invest),"|");
+	for(set .@i,0; .@i<getarraysize(.@candidates$); set .@i,.@i+1) {
+		if (.@candidates$[.@i] == "alde")
+			set .@menu$[.@i],"Luina";
+		else if (.@candidates$[.@i] == "gef")
+			set .@menu$[.@i],"Britoniah";
+		else if (.@candidates$[.@i] == "pay")
+			set .@menu$[.@i],"Feudo do Bosque Celestial";
+		else if (.@candidates$[.@i] == "prt")
+			set .@menu$[.@i],"Reino das Valquírias";
+	}
+	set .@vote, select(implode(.@menu$,":"))-1;
+
+	mes "[Gerente de Voto]";
+	mes "Você votou em "+.@menu$[.@vote]+".";
+	mes "Obrigado por votar.";
+	setquest 7349;
+	setd "$fund_"+.@candidates$[.@vote]+"_extra", getd("$fund_"+.@candidates$[.@vote]+"_extra") + 1;
+	close;
+OnGetCandidates:
+	switch(getarg(0)) {
+		case 11: return "prt|pay";
+		case 12: return "prt|alde";
+		case 13: return "prt|gef";
+		case 14: return "alde|pay";
+		case 15: return "gef|pay";
+		case 16: return "alde|gef";
+		case 17: return "prt|pay|alde";
+		case 18: return "prt|pay|gef";
+		case 19: return "prt|alde|gef";
+		case 20: return "alde|pay|gef";
+		case 21: return "prt|pay|alde|gef";
+	}
+	return "";
+OnInit:
+	disablenpc "Gerente de Voto#Invest2";
+	end;
+OnEnable:
+	enablenpc "Gerente de Voto#Invest2";
+	end;
+OnDisable:
+	disablenpc "Gerente de Voto#Invest2";
+	stopnpctimer;
+	end;
+OnNotice_on:
+	initnpctimer;
+	end;
+OnTimer5000:
+	announce "Guilda dos Mercadores Pata de Gato: Como nenhuma área da GdE atingiu o nível máximo de investimento para abrir o 'Portal do Abismo'...",bc_all,0xFF0000; //FW_NORMAL 10
+	end;
+OnTimer8000:
+	announce "Guilda dos Mercadores Pata de Gato: Estávamos prestes a abrir o 'Portal do Abismo' à área da GdE que mais investiu.",bc_all,0xFF0000; //FW_NORMAL 10
+	end;
+OnTimer11000:
+	announce "Guilda dos Mercadores Pata de Gato: No entanto, existem áreas que investiram a mesma quantia. Então vamos colocá-las em votação.",bc_all,0xFF0000; //FW_NORMAL 10
+	end;
+OnTimer14000:
+	announce "Guilda dos Mercadores Pata de Gato: Votação adicional estará disponível por 30 minutos. Você poderá votar no Reino das Valquírias.",bc_all,0xFF0000; //FW_NORMAL 10
+	end;
+OnTimer20000:
+	explode(.@candidates$, callsub(OnGetCandidates, $2011_agit_invest),"|");
+	for(set .@i,0; .@i<getarraysize(.@candidates$); set .@i,.@i+1) {
+		if (.@candidates$[.@i] == "alde")
+			set .@choices$[.@i],"Luina";
+		else if (.@candidates$[.@i] == "gef")
+			set .@choices$[.@i],"Britoniah";
+		else if (.@candidates$[.@i] == "pay")
+			set .@choices$[.@i],"Feudo do Bosque Celestial";
+		else if (.@candidates$[.@i] == "prt")
+			set .@choices$[.@i],"Reino das Valquírias";
+	}
+	announce "Guilda dos Mercadores Pata de Gato: Os candidatos para a votação adicional são... "+implode(.@choices$," vs. ")+".",bc_all,0xFF0000; //FW_NORMAL 10
+	set $fund_prt_extra,0;
+	set $fund_pay_extra,0;
+	set $fund_gef_extra,0;
+	set $fund_alde_extra,0;
+	set $agit_revoting_timer,0;
+	donpcevent "Gerente de Voto#Invest2::OnEnable";
+	stopnpctimer;
+	end;
+}
+
+/*
+prtg_cas01,2,2,0	script	Abrai	55,{
+	mes "Eu deveria desistir do meu trabalho de administrador.";
+	close;
+OnAgitInvest:
+	switch(callfunc("F_Invest_Status")) {
+	case 0:
+		set $2011_agit_invest,0;
+		donpcevent "#fund_master::OnReset";
+		break;
+	case 1:
+		set $2011_agit_invest,1;
+		donpcevent "#fund_master::OnInvest_start";
+		break;
+	case 2:
+		set $2011_agit_invest,2;
+		donpcevent "#fund_master::OnInvest_stop";
+		break;
+	case 3:
+		donpcevent "#fund_master::OnResult";
+		break;
+	}
+	end;
+}
+*/
+
+//=== Reinos - Guilda de Mercadores, Gerentes dos Portais, Quadros de Status ===
+//==============================================================================
+-	script	Guilda dos Mercadores Pata de Gato	-1,{
+
+	if (compare(strnpcinfo(4),"alde")) {
+		set .@npc$,"alde";
+		set .@name$,"Megrez";
+		set .@realm$,"Luina";
+		set .@intro$,"Gerente do Feudo Luina em Al De Baran";
+	} else if (compare(strnpcinfo(4),"gef")) {
+		set .@npc$,"gef";
+		set .@name$,"Meraq";
+		set .@realm$,"Britoniah";
+		set .@intro$,"Gerente do Feudo Britoniah";
+	} else if (compare(strnpcinfo(4),"pay")) {
+		set .@npc$,"pay";
+		set .@name$,"Phecda";
+		set .@realm$,"Feudo do Bosque Celestial";
+		set .@intro$,"Gerente do Feudo de Payon no Feudo do Bosque Celestial";
+	} else if (compare(strnpcinfo(4),"prt")) {
+		set .@npc$,"prt";
+		set .@name$,"Dubae";
+		set .@realm$,"Valquírias";
+		set .@intro$,"Gerente do Feudo de Prontera no Reino das Valquírias";
+	}
+	set .@n$,"["+.@name$+"]";
+
+	mes .@n$;
+	mes "Eu sou "+.@name$+", o "+.@intro$+" da Guilda dos Mercadores Pata de Gato.";
+	mes "Eu fis um estudo sobre investimentos para o desenvolvimento do Portal do Abismo.";
+	mes "Como posso te ajudar?";
+	next;
+	switch(select("O que é o Portal do Abismo?:Investir no desenvolvimento do Portal?:Eu quero investir nesta área.:Cancelar")) {
+	case 1:
+		mes .@n$;
+		mes "Só é chamado de Portal do Abismo por conveniência, mas é simplesmente uma ^4d4dffabertura para outra dimensão^000000.";
+		next;
+		mes .@n$;
+		mes "Mais dessas aberturas são encontradas aqui e ali depois que em Morroc foi criada a Físsura Dimensional.";
+		mes "Eu pessoalmente acho que o Portal do Abismo encontrado recentemente é parte do passado ou mesmo do futuro.";
+		next;
+		mes .@n$;
+		mes "Dizem que o Portal do Abismo se conecta a outra dimensão além do nosso mundo.";
+		mes "Provavelmente porque existem aqueles que seguem o poder do Emperium.";
+		next;
+		mes .@n$;
+		mes "Há um total de 4 Portais do Abismo encontrados até agora. Eles todos se conectam à uma região do Emperium cheia com o poder do Emperium.";
+		next;
+		mes .@n$;
+		mes "Além de portais dimensionais, nós também nomeamos cada abertura em:";
+		mes "^4d4dffCaminho do Guerreiro, Colina dos Mortos, Ventos Ancestrais, e Lágrimas do Herói.^000000";
+		mes "E todas essas quatro aberturas são chamadas de ^4d4dffPortais do Abismo^000000.";
+		next;
+		mes .@n$;
+		mes "As aberturas podem levar ao passado, futuro ou até mesmo a um mundo desconhecido.";
+		mes "O poder dos Portais do Abismo é tanto que chega a dar medo, mas é ao mesmo tempo maravilhoso.";
+		next;
+		mes .@n$;
+		mes "Você também está interessado em explorar o Portal do Abismo?";
+		mes "Ha ha. Você precisará passar por várias etapas antes de explorar.";
+		next;
+		mes .@n$;
+		mes "Se você estiver interessado,";
+		mes "vai gastar um pouco de tempo para sentar-se e conversar sobre como investir na manutenção do Portal do Abismo?";
+		close;
+	case 2:
+		mes .@n$;
+		mes "Você está curioso em investir no desenvolvimento do Portal?";
+		mes "O que você quer saber?";
+		next;
+		switch(select("Sobre o Portal?:Sobre os Investimentos?:Como Investir?:Benefícios do Investimento?")) {
+		case 1:
+			mes .@n$;
+			mes "O Portal é o nome de uma entrada.";
+			mes "Uma passagem dimensional que conecta aqui até lá.";
+			next;
+			mes .@n$;
+			mes "O Portal do Abismo foi criado como uma abertura dimensional, mas esse caminho ainda é muito instável,";
+			mes "portanto, viajar através do Portal com segurança precisará de uma conexão de dimensão artificial.";
+			next;
+			mes .@n$;
+			mes "Os humanos estão longe de ter a tecnologia avançada que é necessária,";
+			mes "mas a nossa Guilda de Mercadores Pata de Gato contém a alta tecnologia para usar essas Físsuras Dimensionais.";
+			next;
+			mes .@n$;
+			mes "Então fizemos um acordo.";
+			mes "Com a promessa de apoiar a Guilda de Mercadores Pata de Gato e pagar pela imensa despesa para manter a conexão com os Portais,";
+			mes "vamos manter a conexão com a Físsura Dimensional.";
+			next;
+			mes .@n$;
+			mes "Claro que trabalhar com a Físsura Dimensional não é tarefa fácil e vem com riscos.";
+			mes "Há casos em que as pessoas desaparecem ao viajar por elas.";
+			next;
+			mes .@n$;
+			mes "A melhor duração de manutenção é de cerca de 4 dias.";
+			mes "Você investe em nós e nós criamos o Portal que se conecta à Físsura dimensional.";
+			next;
+			mes .@n$;
+			mes "Isso não soa como uma proposta perfeita para ganhar-ganhar?";
+			close;
+		case 2:
+			mes .@n$;
+			mes "Forçar a instável abertura dimensional e criar uma passagem é muito perigoso.";
+			mes "Sem mencionar os muitos recursos necessários.";
+			next;
+			mes .@n$;
+			mes "Se você arcar com os custos e também com os riscos, e investir na Guilda de Mercadores Pata de Gato,";
+			mes "vamos criar e manter o portal, independentemente dos riscos.";
+			next;
+			mes .@n$;
+			mes "Mas é claro que o dinheiro envolvido nos custos do portal será extremo.";
+			mes "Será mais fácil se você encontrar investidores para compartilhar o valor.";
+			next;
+			mes .@n$;
+			mes "Há uma taxa básica para nós começarmos a conectar o portal.";
+			mes "Os resultados dependem do quanto dinheiro de investimento é coletado.";
+			next;
+			mes .@n$;
+			mes "O Portal do Abismo existe em cada região do Emperium.";
+			mes "Você pode imaginar quanto dinheiro nossa Guilda terá que gastar e quanto sacrifício nossa Guilda terá que passar para se desenvolver em todas as áreas?";
+			next;
+			mes .@n$;
+			mes "Isso explica a competição regional em investimentos.";
+			mes "Se o dinheiro arrecadado para a manutenção do Portal não forem suficientes, então é óbvio que a região com mais investimentos receberá os benefícios.";
+			next;
+			mes .@n$;
+			mes "Se ^4d4dffo Portal do Abismo for conectado com sucesso, então o calabouço da área que estava escondida";
+			mes "será aberta para os outros ao invés de serem exclusivos da Guilda^000000, o que será muito atraente para quem fiser mais investimentos.";
+			next;
+			mes .@n$;
+			mes "Mas, novamente, isso é apenas para quando o portal estiver conectado.";
+			close;
+		case 3:
+			mes .@n$;
+			mes "É simples.";
+			mes "Visite o Gerente da Filial da ^4d4dffregião em que você quer investir durante a duração dos investimentos^000000 e faça seu investimento.";
+			next;
+			mes .@n$;
+			mes "Geralmente recebemos ^4d4dffa moeda comum aqui, Zeny^000000.";
+			mes "Mas já que estamos falando de apoiar nossa Guilda dos Mercadores Pata de Gato, você também pode investir com itens em demanda na cidade de Malangdo.";
+			next;
+			mes .@n$;
+			mes "Providencie os itens necessários para Namis em Malangdo que está encarregado dos assuntos gerais em nossa Guilda.";
+			mes "Traga de volta seu Certificado de Investimento para adicioná-lo ao tributo de investimento.";
+			next;
+			mes .@n$;
+			mes "Você deve visitar e investir na região que você quer para que seu investimento seja contado como um tributo.";
+			close;
+		case 4:
+			mes .@n$;
+			mes "O Portal do Abismo basicamente se contrai e se conecta com o castelo Emperium que possuir o maior investimento,";
+			mes "portanto, nós forneceremos tudo o que temos uma vez que os custos para conectar e manter o portal são suficientes.";
+			next;
+			mes .@n$;
+			mes "Em termos de custos mínimos e máximos para realizar todo o trabalho,";
+			mes "se o investimento coletado ^4d4dffexceder os custos mínimos^000000, nós poderemos conectar você à camada ^4d4dffmais profunda de um calabouço da Guilda ainda desconhecida^000000.";
+			next;
+			mes .@n$;
+			mes "Se os investimentos excederem os custos máximos, essa região será conectada ao";
+			mes "^4d4dffPortal do Abismo^000000 independentemente da classificação de investimento que inclua a camada mais profunda do calabouço da Guilda.";
+			next;
+			mes .@n$;
+			mes "^ff0000Se não houver uma região do Empeium que tenha alcançado o investimento máximo, então a região com o";
+			mes "a maior participação em investimentos irá obter o Portal do Abismo que será conectado com o investimento coletado de todas as regiões.^000000";
+			next;
+			mes .@n$;
+			mes "Uma vez que o Portal do Abismo estiver conectado, a camada mais profunda (2º Andar) do calabouço da Guilda";
+			mes "estará aberto a todos os aventureiros que participaram do investimento regional.";
+			next;
+			mes .@n$;
+			mes "Visitas ao calabouço serão contadas no próximo investimento para a região do Emperium com maior investimento,";
+			mes "então estar em boa relação com a Guilda é garantir que o castelo do Emperium com maior investimento terá um bônus.";
+			next;
+			mes .@n$;
+			mes "A propósito, não é fácil manter a conexão com o Portal do Abismo, por tanto, investimentos e reconexão são necessários semanalmente,";
+			mes "por favor continue com seu apoio e investimentos se você quiser continuar obtendo o poder do desconhecido.";
+			close;
+		}
+	case 3:
+		if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1000) {
+			mes "- Atualmente você está carregando -";
+			mes "- muitos itens com você. -";
+			mes "- Por favor, tente novamente depois que você -";
+			mes "- perder algum peso. -";
+			close;
+		}
+		if (countitem(6488) >= 4800) {
+			mes .@n$;
+			mes "Você tem muitos Bilhetes de Agradecimento para receber mais.";
+			mes "Não posso lhe dar mais bilhetes. Por favor, volte e use o seu bilhete.";
+			mes "O bilhete pode ser trocado por vários itens em Malangdo.";
+			close;
+		}
+		if (callfunc("F_Invest_Status") != 1) {
+			mes .@n$;
+			mes "Nós não estamos recebendo investimentos agora.";
+			mes "Por favor volte durante a competição do investimento.";
+			close;
+		}
+		set .@guild, getcharid(2);
+		for(set .@i,1; .@i<=5; set .@i,.@i+1) {
+			set .@castle_name$[.@i], getcastlename(.@npc$+"g_cas0"+.@i);
+			set .@owner_id[.@i], getcastledata(.@npc$+"g_cas0"+.@i,CD_GUILD_ID);
+			set .@owner_name$[.@i], getguildname(.@owner_id[.@i]);
+			if (.@guild == .@owner_id[.@i]) {
+				set .@menu$, .@menu$+.@castle_name$[.@i]+" ["+.@owner_name$[.@i]+"] Guild:";
+				set .@castles_owned, .@castles_owned | (1<<.@i);
+			} else
+				set .@menu$, .@menu$+"^aaaaaaNão foi a Guilda que reivindicou "+.@castle_name$[.@i]+"^000000:";
+		}
+		mes .@n$;
+		mes "Você gostaria de investir na região ^4d4dff"+.@realm$+"^000000?";
+		mes "Se já houver um castelo ocupado, você investirá no castelo e na Guilda que o ocupa.";
+		next;
+		if (.@castles_owned) {
+			set .@i, select(.@menu$+"Cancel");
+			if (.@i == 6) {
+				mes .@n$;
+				mes "Cancelado!";
+				close;
+			}
+			if (.@guild != .@owner_id[.@i]) {
+				mes .@n$;
+				mes "A Guilda que está ocupando "+.@castle_name$[.@i]+" é "+.@owner_name$[.@i]+".";
+				mes "Não se parece com sua Guilda.";
+				close;
+			}
+			mes .@n$;
+			mes "Invista em "+.@castle_name$[.@i]+"'s"+.@owner_name$[.@i]+" nome da Guilda.";
+			callfunc "F_Invest_Abyss","$fund_"+.@npc$+"0"+.@i,.@n$;
+			end;
+		} else {
+			mes .@n$;
+			callfunc "F_Invest_Abyss","$fund_"+.@npc$+"_extra",.@n$," for "+.@realm$;
+			end;
+		}
+	case 4:
+		mes .@n$;
+		mes "É isso mesmo?";
+		mes "Por favor, volte sempre que você estiver interessado em investir no desenvolvimento do Portal do Abismo.";
+		close;
+	}
+}
+
+-	script	Gerente de Portal#realm	-1,{
+
+	if (compare(strnpcinfo(4),"alde")) {
+		set .@npc$,"alde";
+		set .@name$,"Alkor";
+		set .@gate$,"Lágrimas do Herói";
+		set .@realm$,"Luina";
+	} else if (compare(strnpcinfo(4),"gef")) {
+		set .@npc$,"gef";
+		set .@name$,"Mizar";
+		set .@gate$,"Colina dos Mortos";
+		set .@realm$,"Britoniah";
+	} else if (compare(strnpcinfo(4),"pay")) {
+		set .@npc$,"pay";
+		set .@name$,"Alkaid";
+		set .@gate$,"Ventos Ancestrais";
+		set .@realm$,"Feudo do Bosque Celestial";
+	} else if (compare(strnpcinfo(4),"prt")) {
+		set .@npc$,"prt";
+		set .@name$,"Arios";
+		set .@gate$,"Caminho do Guerreiro";
+		set .@realm$,"Reino das Valquírias";
+	}
+	set .@n$,"["+.@name$+"]";
+
+	if (callfunc("F_Invest_Status") != 3) {
+		mes .@n$;
+		mes "Atualmente não há portais de masmorras conectados.";
+		close;
+	}
+	set .@status, getd("$"+.@npc$+"_invest_result");
+	if (.@status == 3) {
+		mes .@n$;
+		mes "Nós conectamos com sucesso o Portal do Abismo ["+.@gate$+"] com a ajuda do seu investimento.";
+		mes "O calabouço do Emperium estará aberta para todos com uma pequena taxa de entrada em "+.@realm$+".";
+		next;
+		mes .@n$;
+		mes "Por favor, visite sempre que possível, já que a taxa de entrada é usada como um investimento para a região.";
+		mes "Você quer entrar no calabouço do Emperium?";
+		next;
+		set .@i, select(.@realm$+" Calabouço 1º Andar - 10,000z:"+.@realm$+" Calabouço 2º Andar - 10,000z:Cancelar");
+		if (.@i == 3) {
+			mes .@n$;
+			mes "Cancelado!";
+			close;
+		}
+		if (Zeny < 10000) {
+			mes .@n$;
+			mes "Estou juntando as pequenas taxas de entrada.";
+			mes "Sua contribuição será guardada para o próximo investimento.";
+			mes "A taxa de entrada é 10,000z.";
+			close;
+		}
+		mes .@n$;
+		mes "Estou te mandando para a(o) "+.@realm$+" calabouço do Emperium "+.@i+"F.";
+		set Zeny, Zeny-10000;
+		setd "$fund_"+.@npc$+"_extra", getd("$fund_"+.@npc$+"_extra") + 1;
+		close2;
+		if (compare(strnpcinfo(2),"alde"))
+			warp "gld_dun02"+((.@i == 2)?"_2":""),32,122;
+		else if (compare(strnpcinfo(2),"gef"))
+			warp "gld_dun04"+((.@i == 2)?"_2":""),39,258;
+		else if (compare(strnpcinfo(2),"pay"))
+			warp "gld_dun01"+((.@i == 2)?"_2":""),186,165;
+		else if (compare(strnpcinfo(2),"prt"))
+			warp "gld_dun03"+((.@i == 2)?"_2":""),164,268;
+		end;
+	} else if (.@status == 2) {
+		mes .@n$;
+		mes "O "+.@realm$+" calabouço do Emperium 2º Andar está agora disponível, mas como não está conectado com o Portal do Abismo,";
+		mes "o calabouço do Emperium é acessível apenas para a Guilda do Emperium.";
+		close;
+	} else {
+		mes .@n$;
+		mes .@realm$+" não foi escolhido para se conectar à um portal desta vez.";
+		mes "Por favor, aguarde o próximo investimento.";
+		close;
+	}
+	end;
+}
+
+-	script	Quadro de Investimentos	-1,{
+	set .@invest_status, callfunc("F_Invest_Status");
+	if (.@invest_status == 1) {
+		if (compare(strnpcinfo(4),"alde")) {
+			set .@npc$,"alde";
+			set .@realm$,"Luina";
+		} else if (compare(strnpcinfo(4),"gef")) {
+			set .@npc$,"gef";
+			set .@realm$,"Britoniah";
+		} else if (compare(strnpcinfo(4),"pay")) {
+			set .@npc$,"pay";
+			set .@realm$,"Feudo do Bosque Celestial";
+		} else if (compare(strnpcinfo(4),"prt")) {
+			set .@npc$,"prt";
+			set .@realm$,"Reino das Valquírias";
+		}
+		set .@notice, $agit_result_notice;
+		if (.@notice < 1 || .@notice > 12) {
+			mes "Atualmente não há somas de investimentos disponíveis.";
+			close;
+		}
+		mes callfunc("F_GetNumSuffix",.@notice)+" total (unidade em 10,000z)";
+		for(set .@i,1; .@i<=5; set .@i,.@i+1) {
+			set .@map$, .@npc$+"g_cas0"+.@i;
+			set .@fund[.@i], getd("$@vfund_"+.@npc$+"0"+.@i);
+			mes getcastlename(.@map$)+" "+getguildname(getcastledata(.@map$,CD_GUILD_ID))+" Guilda: "+.@fund[.@i];
+		}
+		set .@fund[0], getd("$@vfund_"+.@npc$+"_extra");
+		mes .@realm$+" Normal: "+.@fund[0];
+		mes .@realm$+" Total Geral de Investimentos: "+(.@fund[0]+.@fund[1]+.@fund[2]+.@fund[3]+.@fund[4]+.@fund[5]);
+		close;
+	} else if (.@invest_status == 2) {
+		mes "!- Aviso -!";
+		mes "Não há somas disponíveis porque o valor total do investimento está sendo calculado.";
+		mes "Por favor, aguarde o anúncio dos resultados.";
+		close;
+	} else if (.@invest_status == 3) {
+		setarray .@invest_result[0], $prt_invest_result,$pay_invest_result,$gef_invest_result,$alde_invest_result;
+		setarray .@invest_region$[0], "Reino das Valquírias","Feudo do Bosque Celestial","Britoniah","Luina";
+		mes "!- Resultados de Investimentos de Todas as Regiões do Emperium -!";
+		for(set .@i,0; .@i<4; set .@i,.@i+1) {
+			if (.@invest_result[.@i] == 1)
+				mes "^aaaaaa["+.@invest_region$[.@i]+"] abaixo do mínimo^000000.";
+			else if (.@invest_result[.@i] == 2) {
+				mes "["+.@invest_region$[.@i]+"] mínimo atingido.";
+				mes "-> Camada Mais Profunda do Calabouço da Guilda (2º Andar) disponível.";
+			} else if (.@invest_result[.@i] == 3) {
+				mes "^4d4dff["+.@invest_region$[.@i]+"] máximo atingido^000000.";
+				mes "-> Portal do Abismo disponível.";
+			} else
+				mes "Nenhum dado para ["+.@invest_region$[.@i]+"].";
+		}
+		close;
+	} else {
+		mes "!- Aviso -!";
+		mes "Nenhuma informação sobre investimento será anunciada agora.";
+		close;
+	}
+}
+
+//  Interior dos Castelos - Gerente dos Portais
+//============================================================
+-	script	Gerente de Portal#castle	-1,{
+
+	set .@id, atoi(charat(strnpcinfo(2),getstrlen(strnpcinfo(2))-1));
+	if (compare(strnpcinfo(2),"alde")) {
+		set .@npc$,"alde";
+		set .@realm$,"Luina";
+	} else if (compare(strnpcinfo(2),"gef")) {
+		set .@npc$,"gef";
+		set .@realm$,"Britoniah";
+	} else if (compare(strnpcinfo(2),"pay")) {
+		set .@npc$,"pay";
+		set .@realm$,"Feudo do Bosque Celestial";
+	} else if (compare(strnpcinfo(2),"prt")) {
+		set .@npc$,"prt";
+		set .@realm$,"Reino das Valquírias";
+	}
+
+	set .@GID, getcastledata(strnpcinfo(4),CD_GUILD_ID);
+	if (getcharid(2) != .@GID) {
+		mes "[Gerente de Portal]";
+		mes "Você não parece ser um membro da Guilda que tem domínio sobre este castelo.";
+		mes "Se você precisar de ajuda, por favor visite qualquer um dos membros da nossa Guilda no(a) "+.@realm$+".";
+		close;
+	}
+	mes "[Gerente de Portal]";
+	mes "Olá, eu sou o Gerente de Portal do departamento de Portais da Guilda de Mercadores Pata de Gato.";
+	mes "Como posso ajudá-lo hoje?";
+	next;
+	switch(select("Investir na Conexão do Portal:Acesso a camada mais profunda do Calabouço:Acesso ao Portal do Abismo:Cancelar")) {
+	case 1:
+		if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1000) {
+			mes "[Gerente de Portal]";
+			mes "Você tem muitos itens para receber, o Bilhete de Agradecimento é como um pequeno presente pelo seu investimento.";
+			mes "Por favor, volte depois de abrir espaço no seu inventário.";
+			close;
+		}
+		if (countitem(6488) >= 4800) {
+			mes "[Gerente de Portal]";
+			mes "Você tem muitos Bilhetes de Agradecimento para receber, mas...";
+			mes "Não posso lhe dar mais bilhetes. Por favor, use o seu bilhete e depois volte.";
+			mes "O bilhete pode ser trocado por vários itens em Malangdo.";
+			close;
+		}
+		if (callfunc("F_Invest_Status") != 1) {
+			mes "[Gerente de Portal]";
+			mes "Nós não estamos recebendo investimentos agora.";
+			mes "Por favor volte durante a competição do investimento.";
+			close;
+		}
+		if (getcharid(2) != .@GID) {
+			mes "[Gerente de Portal]";
+			mes "Você não parece ser um membro da Guilda que tem domínio sobre este castelo.";
+			mes "Por favor, use o investimento normal do(a) "+.@realm$+ ".";
+			close;
+		}
+		mes "[Gerente de Portal]";
+		mes "Continue investindo no nome da sua Guilda.";
+		callfunc "F_Invest_Abyss","$fund_"+.@npc$+"0"+.@id,"[Gerente de Portal]";
+		end;
+	case 2:
+		callsub L_Enter,1,.@realm$,.@npc$;
+		mes "[Gerente de Portal]";
+		mes "Você está interessado em explorar o(a) "+.@realm$+", em sua camada mais funda do calabouço da Guilda (2º Andar).";
+		mes "Deixe-me guiá-lo. Boa sorte!";
+		close2;
+		if (compare(strnpcinfo(2),"alde")) {
+			switch(.@id) {
+				case 1: warp "gld_dun02_2",32,122; end;
+				case 2: warp "gld_dun02_2",79,30; end;
+				case 3: warp "gld_dun02_2",165,38; end;
+				case 4: warp "gld_dun02_2",160,148; end;
+				case 5: warp "gld_dun02_2",103,169; end;
+			}
+		} else if (compare(strnpcinfo(2),"gef")) {
+			switch(.@id) {
+				case 1: warp "gld_dun04_2",39,258; end;
+				case 2: warp "gld_dun04_2",125,270; end;
+				case 3: warp "gld_dun04_2",268,251; end;
+				case 4: warp "gld_dun04_2",268,108; end;
+				case 5: warp "gld_dun04_2",230,35; end;
+			}
+		} else if (compare(strnpcinfo(2),"pay")) {
+			switch(.@id) {
+				case 1: warp "gld_dun01_2",186,165; end;
+				case 2: warp "gld_dun01_2",54,165; end;
+				case 3: warp "gld_dun01_2",54,39; end;
+				case 4: warp "gld_dun01_2",186,39; end;
+				case 5: warp "gld_dun01_2",223,202; end;
+			}
+		} else if (compare(strnpcinfo(2),"prt")) {
+			switch(.@id) {
+				case 1: warp "gld_dun03_2",28,251; end;
+				case 2: warp "gld_dun03_2",164,268; end;
+				case 3: warp "gld_dun03_2",164,179; end;
+				case 4: warp "gld_dun03_2",268,203; end;
+				case 5: warp "gld_dun03_2",199,28; end;
+			}
+		}
+		end;
+	case 3:
+		callsub L_Enter,2,.@realm$,.@npc$;
+		mes "[Gerente de Portal]";
+		mes "Deixe-me guiá-lo para o Portal do Abismo conectado com o(a) "+.@realm$+", o Portal do Abismo 'Caminho do Guerreiro'.";
+		close2;
+		if (compare(strnpcinfo(2),"alde")) {
+			switch(.@id) {
+				case 1: warp "gld2_ald",175,41; end;
+				case 2: warp "gld2_ald",77,64; end;
+				case 3: warp "gld2_ald",46,127; end;
+				case 4: warp "gld2_ald",104,246; end;
+				case 5: warp "gld2_ald",241,156; end;
+			}
+		} else if (compare(strnpcinfo(2),"gef")) {
+			switch(.@id) {
+				case 1: warp "gld2_gef",28,199; end;
+				case 2: warp "gld2_gef",217,46; end;
+				case 3: warp "gld2_gef",171,195; end;
+				case 4: warp "gld2_gef",30,67; end;
+				case 5: warp "gld2_gef",115,40; end;
+			}
+		} else if (compare(strnpcinfo(2),"pay")) {
+			switch(.@id) {
+				case 1: warp "gld2_pay",33,112; end;
+				case 2: warp "gld2_pay",119,27; end;
+				case 3: warp "gld2_pay",205,111; end;
+				case 4: warp "gld2_pay",175,221; end;
+				case 5: warp "gld2_pay",61,221; end;
+			}
+		} else if (compare(strnpcinfo(2),"prt")) {
+			switch(.@id) {
+				case 1: warp "gld2_prt",10,27; end;
+				case 2: warp "gld2_prt",14,247; end;
+				case 3: warp "gld2_prt",259,236; end;
+				case 4: warp "gld2_prt",226,25; end;
+				case 5: warp "gld2_prt",97,11; end;
+			}
+		}
+		end;
+	case 4:
+		mes "[Gerente de Portal]";
+		mes "Cancelado!";
+		close;
+	}
+	end;
+
+L_Enter:
+	set .@invest_status, callfunc("F_Invest_Status");
+	if (.@invest_status == 3) {
+		set .@status, getd("$"+getarg(2)+"_invest_result");
+		if ((getarg(0) == 1 && .@status == 2) || .@status == 3)
+			return;
+		else {
+			mes "[Gerente de Portal]";
+			mes getarg(1)+" não foi escolhido para se conectar à um Portal desta vez.";
+			mes "Por favor, aguarde o próximo investimento.";
+			close;
+		}
+	} else if (.@invest_status < 3) {
+		mes "[Gerente de Portal]";
+		mes "Atualmente não há portais de calabouços conectados.";
+		mes "Um portal será conectado assim que os resultados dos investimentos estiverem disponíveis.";
+		mes "Por favor, espere.";
+		close;
+	} else {
+		mes "[Gerente de Portal]";
+		mes "O portal irá desaparecer em breve.";
+		mes "O calabouço não está mais acessível.";
+		mes "Por favor, tente novamente na próxima vez.";
+		close;
+	}
+}
+
+// Investimentos de Itens :: tooja_namis
+//============================================================
+malangdo,218,126,4	script	Aviso de M. Pata de Gato	857,{
+	mes "<< Aviso dos Mercadores Patas de Gato >>";
+	mes "'^C379CEInvestimento de Itens Não Utilizados Por Prêmios!^000000'";
+	next;
+	switch(select("Ler Aviso:Checar Evento 1:Checar Evento 2")) {
+	case 1:
+		mes "- Aviso -";
+		mes "Olá a todos os clientes dos Mercadores Pata de Gato! Com o seu amor e carinho, nós, Mercadores Pata de Gato, estamos crescendo a cada dia. Todos os executivos e membros da equipe prometem fazer o seu melhor para promover e ultrapassar nossas fronteiras e o nosso desenvolvimento.";
+		next;
+		mes "- Aviso do Evento! -";
+		mes " Um evento chamado '^C379CEInvestimento de Itens Não Utilizados Por Prêmios!^000000' está em andamento, onde você poderá trocar itens não usados em seu armazém por um Certificado de Investimento dos Mercadores Patas de Gato.";
+		next;
+		mes "Itens trocáveis serão anunciados em uma página separada. Obrigado pelo seu tempo.";
+		mes "- De todos os funcionários Mercadores Pata de Gato -";
+		next;
+		mes "Há uma pequena advertência ao fundo.";
+		mes " ";
+		mes "^FF0000Este evento poderá ser mudado ou revogado devido à situação dos Mercadores.^000000";
+		close;
+	case 2:
+		mes "'^C379CEInvestimento de Itens Não Utilizados Por Prêmios^000000'";
+		mes "Detalhes de Evento 1.";
+		next;
+		setarray .@event1$[0],
+			"Asas da Rainha Inseto","Coroa do Rei Mosca","Eu ouço que Escamas de Dragão são duras 01","O Significado do Pesadelo da Mãe",
+			"Para Refinar Minério","Hekekek Orcs, Orcs!!","Estudo do Yin-Yang","Segredos do Rei da Pirâmide","Tick-tack o tempo passa",
+			"Plantando árvores na Ilha Mellow","Pesquisa em idioma antigo","Armas feitas de dentes afiados","Boneco Chefe de brinquedo 01",
+			"Um tigre é apenas um gato depois de tudo","Uma lança e um escudo despedaçados?","Boneco Chefe de brinquedo 02","Melhor no verão! Escamas frias",
+			"Pedaço da armadura de Thanatos","Eu ouço que Escamas de Dragão são duras 02","A identidade do olho assustador","Se eu pudesse ver!";
+		set .@menu$, "Quit:"+implode(.@event1$[0],":");
+		while(1) {
+			set .@i, select(.@menu$)-1;
+			switch(.@i) {
+				case 0: close;
+				case 1: set .@str$,"2 Pedaço de Asa da Rainha"; break;
+				case 2: set .@str$,"2 Coroa Quebrada"; break;
+				case 3: set .@str$,"2 Escama de Dragão de Fogo"; break;
+				case 4: set .@str$,"3 Pesadelo Maternal"; break;
+				case 5: set .@str$,"5 Pedras Preciosas"; break;
+				case 6: set .@str$,"5 Insígnia do Herói"; break;
+				case 7: set .@str$,"3 Ba Gua"; break;
+				case 8: set .@str$,"3 Cetro do Faraó e 3 Máscara do Faraó"; break;
+				case 9: set .@str$,"2 Relógio de Bolso"; break;
+				case 10: set .@str$,"3 Graveto de Visco"; break;
+				case 11: set .@str$,"5 Lasca de Pedra"; break;
+				case 12: set .@str$,"5 Presa de Hati"; break;
+				case 13: set .@str$,"3 Boneco de Bafomé"; break;
+				case 14: set .@str$,"1 Pata de Tigre e 5 Pele de Tigre"; break;
+				case 15: set .@str$,"3 Pedaço de Escudo Colossal e 3 Lâmina de Lança Colossal"; break;
+				case 16: set .@str$,"3 Boneco de Osíris"; break;
+				case 17: set .@str$,"1 Escama de Gelo"; break;
+				case 18: set .@str$,"1 Peça de Armadura de Esqueleto"; break;
+				case 19: set .@str$,"1 Escama Vermelha-Escura"; break;
+				case 20: set .@str$,"2 Desejo das Trevas Escarlate"; break;
+				case 21: set .@str$,"2 Tolice do Cego"; break;
+			}
+			mes "["+.@event1$[.@i-1]+"]";
+			mes .@str$+" por um Certificado de Investimento dos Mercadores Pata de Gato.";
+			next;
+		}
+	case 3:
+		mes "Fique de olho no próximo '^C379CEInvestimento de Itens Não Utilizados Por Prêmios!^000000' este será o Evento 2!! Estará Chegando em breve!";
+		close;
+	}
+}
+
+malangdo,218,123,1	script	Namis#invest	545,4,4,{
+	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1000) {
+		mes "- Atualmente você está carregando -";
+		mes "- muitos itens com você. -";
+		mes "- Por favor, tente novamente depois que você -";
+		mes "- perder algum peso. -";
+		close;
+	}
+	emotion ET_HUK;
+	emotion ET_FRET;
+	emotion ET_ANGER;
+	mes "[Namis]";
+	mes "Purr-Purr-Purrr-Purrrr-Pur~ Miau!!";
+	mes "O quê? Que rude. Você me assustou!";
+	next;
+	switch(select("O que você precisa? Eu investirei!:Qual é o propósito deste Evento?:Você estava dormindo?")) {
+	case 1:
+		break;
+	case 2:
+		mes "[Namis]";
+		mes "Então, outra canja no contrato com os Mercadores Pata de Gato?";
+		next;
+		select("Huh? O que! Você me chamou de Canja?");
+		mes "[Namis]";
+		mes "Eu vou te explicar apenas uma vez, então me ouça bem!";
+		mes "Nós, os Mercadores Pata de Gato planejamos um evento para trabalhadores leais como você.";
+		next;
+		mes "[Namis]";
+		mes "Corra para o seu armazém e me traga antiguidades podres para nós e vamos trocá-las pelo tão valioso ''Certificado de Investimento dos Mercadores Pata de Gato''.";
+		next;
+		mes "[Namis]";
+		mes "Será sábio da sua parte fazer isso porque os Mercadores Pata de Gato estão fazendo isso, porém com um pouco de prejuízo!";
+		next;
+		mes "[Namis]";
+		mes "No Quadro de Aviso se encontram alguns detalhes.";
+		close;
+	case 3:
+		mes "[Namis]";
+		mes "Caipira- Injúria-";
+		mes "Lembre-se, humano! Não há outro gato que trabalhe tanto quanto eu.";
+		close;
+	}
+	mes "[Namis]";
+	mes "Você deve estar aqui para participar do evento '^C379CEInvestimento de Itens Não Utilizados Por Prêmios!^000000' dos Mercadores Pata de Gato.";
+	next;
+	mes "[Namis]";
+	mes "Então, qual evento você deseja participar?";
+	next;
+	switch(select("Não estou interessado:Evento de Itens 1 :Evento de Itens 2")) {
+	case 1:
+		mes "[Namis]";
+		mes "Não mexa com um gato ocupado!";
+		close;
+	case 2:
+		mes "[Namis]";
+		mes "Então você está no Evento 1.";
+		mes "Escolha algo da lista mostrada.";
+		next;
+		setarray .@event1$[0],
+			"Asas da Rainha Inseto","Coroa do Rei Mosca","Eu ouço que Escamas de Dragão são duras 01","O Significado do Pesadelo da Mãe",
+			"Para Refinar Minério","Hekekek Orcs, Orcs!!","Estudo do Yin-Yang","Segredos do Rei da Pirâmide","Tick-tack o tempo passa",
+			"Plantando árvores na Ilha Mellow","Pesquisa em idioma antigo","Armas feitas de dentes afiados","Boneco Chefe de brinquedo 01",
+			"Um tigre é apenas um gato depois de tudo","Uma lança e um escudo despedaçados?","Boneco Chefe de brinquedo 02","Melhor no verão! Escamas frias",
+			"Pedaço da armadura de Thanatos","Eu ouço que Escamas de Dragão são duras 02","A identidade do olho assustador","Se eu pudesse ver!";
+		set .@i, select(implode(.@event1$[0],":"))-1;
+		switch(.@i+1) {
+			case 1: callsub L_Check,"2 Pedaço de Asa da Rainha",6326,2,"Asas da Rainha Inseto? Que nome lamentável. Eu teria dado alguns nomes legais!",.@event1$[.@i];
+			case 2: callsub L_Check,"2 Coroa Quebrada",7754,2,"É para chorar em voz alta! Aqueles gatos que trabalham nesses eventos devem estar de brincadeira. Eles não conseguiram pensar em um nome melhor?",.@event1$[.@i];
+			case 3: callsub L_Check,"2 Escama de Dragão de Fogo",7451,2,"Escamas de dragão? Bem... eu acho que elas são bem duras. Mas para que eles vão usá-las?",.@event1$[.@i];
+			case 4: callsub L_Check,"3 Pesadelo Maternal",7020,3,"Mesmo que eu não tenha autoridade para descobrir, eu me pergunto o que eles estão fazendo com os itens coletados?",.@event1$[.@i];
+			case 5: callsub L_Check,"5 Pedras Preciosas",7300,5,"Algo útil para variar. O minério terminará como pedaços de joias bonitas.",.@event1$[.@i];
+			case 6: callsub L_Check,"5 Insígnia do Herói",968,5,"Bom, bom. Esse é o tipo de nome que eu queria ter!",.@event1$[.@i];
+			case 7: callsub L_Check,"3 Ba Gua",7169,3,"Compreendendo algo assim, que talvez eles estejam tramando algo perigoso.",.@event1$[.@i];
+			case 8: callsub L_Check,"3 Cetro do Faraó e 3 Máscara do Faraó",7113,3,"Eu ouvi dizer que as pirâmides estão em Morroc, mas eu nunca estive lá. Alguns humanos chamam isso de Morco.",.@event1$[.@i],7114,3;
+			case 9: callsub L_Check,"2 Relógio de Bolso",7513,2,"Aqueles mercadores preguiçosos, por que eles precisam de relógios de bolso que nem se quer usam?",.@event1$[.@i];
+			case 10: callsub L_Check,"3 Graveto de Visco",7018,3,"A ilha Mellow tem um clima parecido com o local onde os gatos moravam. Mas as árvores morrem às vezes devido o local ser uma ilha.",.@event1$[.@i];
+			case 11: callsub L_Check,"5 Lasca de Pedra",7211,5,"Eu acho que eles coletam isso porque os humanos podem coletar, mas qual é a utilidade de pesquisar idiomas antigos?",.@event1$[.@i];
+			case 12: callsub L_Check,"5 Presa de Hati",7036,5,"Humanos fracos precisam de armas afiadas, mas os gatos já têm garras bonitas e afiadas, então por que estamos coletando isso!!",.@event1$[.@i];
+			case 13: callsub L_Check,"3 Boneco de Bafomé",750,3,"Bonecos de Bafomé são ótimos para brincar.",.@event1$[.@i];
+			case 14: callsub L_Check,"1 Pata de Tigre e 5 Pele de Tigre",1030,1,"Você sabia que os tigres são gatos também? Portanto, os gatos são melhores que os tigres.",.@event1$[.@i],1029,5;
+			case 15: callsub L_Check,"3 Pedaço de Escudo Colossal e 3 Lâmina de Lança Colossal",7108,3,"Eu não sei o que eles querem com isso.",.@event1$[.@i],7109,3;
+			case 16: callsub L_Check,"3 Boneco de Osíris",751,3,"Que vergonha~ Eu nunca pude brincar com um Boneco de Osíris.",.@event1$[.@i];
+			case 17: callsub L_Check,"1 Escama de Gelo",7562,1,"A ilha Mellow é um lugar fabuloso para se viver. Mas os návios são muito quentes.",.@event1$[.@i];
+			case 18: callsub L_Check,"1 Peça de Armadura de Esqueleto",7450,1,"Ewww... Por que eles colecionam algo tão assustador?",.@event1$[.@i];
+			case 19: callsub L_Check,"1 Escama Vermelha-Escura",6091,1,"Escamas de dragão? Bem... eu acho que elas são bem duras. Mas para que eles vão usá-las?",.@event1$[.@i];
+			case 20: callsub L_Check,"2 Desejo das Trevas Escarlate",7566,2,"Interessante! Grita ou acontece algo quando eu cutuco no olho?",.@event1$[.@i];
+			case 21: callsub L_Check,"2 Tolice do Cego",7021,2,"Este cego é tolo em não saber que reunir 300 gatos cura a cegueira...",.@event1$[.@i];
+		}
+	case 3:
+		mes "[Namis]";
+		mes "Você quer participar do Evento 2?";
+		mes "Ainda não está em andamento. Espere um pouco até que o evento comece!";
+		close;
+	}
+	end;
+L_Check:
+	set .@args, getargcount();
+	if (.@args > 5) {
+		if (countitem(getarg(5)) < getarg(6))
+			set .@items,1; //incomplete
+		else
+			set .@items,2; //completo
+	}
+	if (countitem(getarg(1)) < getarg(2) || .@items == 1) {
+		mes "[Namis]";
+		mes "Você não tem os itens?";
+		mes getarg(0)+" poderá ser trocado por um Certificado de Investimento dos Mercadores Pata de Gato.";
+		next;
+		mes "[Namis]";
+		mes "Não me incomode e procure os detalhes no Quadro de Avisos bem ali!";
+		close;
+	}
+	mes "[Namis]";
+	mes "'^8E5601"+getarg(4)+" Evento^000000'";
+	mes "Parece ser os itens certos.";
+	mes getarg(3);
+	mes "Oh! Quase esqueci. Você vai investir?";
+	next;
+	if(select("Investir:Não Investir") == 2) {
+		mes "[Namis]";
+		mes "Não mexa com um gato ocupado!";
+		close;
+	}
+	delitem getarg(1),getarg(2);
+	if (.@items == 2)
+		delitem getarg(5),getarg(6);
+	getitem 6489,1; //Certificado de Investimento dos Gatos
+	mes "[Namis]";
+	mes "Aqui está seu Certificado. Seja sempre grato aos Mercadores por esses eventos!";
+	close;
+OnTouch:
+	if (rand(2))
+		emotion ET_SLEEPY;
+	else
+		specialeffect EF_SLEEPATTACK;
+	end;
+}
+
+// Recompensas de Investimento :: tooja_japanki
+//============================================================
+malangdo,215,119,4	script	M. B. de Agradecimento	564,{
+	if (MaxWeight - Weight < 4500 || checkweight(1201,1) == 0) {
+		mes "- Atualmente você está carregando -";
+		mes "- muitos itens com você. -";
+		mes "- Por favor, tente novamente depois que você -";
+		mes "- perder algum peso. -";
+		close;
+	}
+	mes "[Aviso da Máquina de Venda]";
+	mes "^6815EA1. Não chute a máquina por favor. @_@";
+	mes "2. Você só pode inserir como investimento o Bilhete de Agradecimento.";
+	mes "3. Sobre o Jelly Box, se você abrir, ele te dará um item aleatório.";
+	mes "4. Espero que você goste~^000000";
+	mes "- Sr. Gato, o dono da máquina -";
+	next;
+	switch(select("Fim:Comprar:Sacola de Geléia de Pata Vermelha (5 Bilhetes):Sacola de Geléia de Pata Preta (50 Bilhetes)")) {
+	case 1:
+		close;
+	case 2:
+		mes "A Máquina de Vendas está vendendo os itens na lista a seguir.";
+		next;
+		switch(select("Fim:1 Aljava de Flechas de GdE A (2 Bilhetes):1 Aljava de Flechas de GdE S (2 Bilhetes):30 Poção Branca (12 Bilhetes):30 Poção Branca Compacta (14 Bilhetes):10 Água Amaldiçoada (20 Bilhetes):20 Poção Violeta de GdE (30 Bilhetes):10 Poção Anti-Água (30 Bilhetes):10 Poção Anti-Vento (30 Bilhetes):10 Poção Anti-Terra (30 Bilhetes):10 Poção Anti-Fogo (30 Bilhetes):10 Conversor Elemental[Fogo] (30 Bilhetes)")) {
+			case 1: close;
+			case 2: callsub L_Purchase,2,12678,1; //Siege_Arrow_Quiver_A  //Aljava de Flechas de GdE A
+			case 3: callsub L_Purchase,2,12677,1; //Siege_Arrow_Quiver_S  //Aljava de Flechas de GdE S
+			case 4: callsub L_Purchase,12,504,30; //White_Potion  //Poção Branca
+			case 5: callsub L_Purchase,14,547,30; //White_Slim_Potion  //Poção Branca Compacta
+			case 6: callsub L_Purchase,20,12020,10; //Water_Of_Darkness  //Água Amaldiçoada
+			case 7: callsub L_Purchase,30,11547,20; //Woe_Violet_Potion  //Poção Violeta de GdE
+			case 8: callsub L_Purchase,30,12119,10; //Resist_Water  //Poção Anti-Água
+			case 9: callsub L_Purchase,30,12121,10; //Resist_Wind  //Poção Anti-Vento
+			case 10: callsub L_Purchase,30,12120,10; //Resist_Earth  //Poção Anti-Terra
+			case 11: callsub L_Purchase,30,12118,10; //Resist_Fire  //Poção Anti-Fogo
+			case 12: callsub L_Purchase,30,12114,10,"Elemental Converter[Fire]"; //Elemental_Fire  //Conversor Elemental
+			case 13: callsub L_Purchase,30,12115,10,"Elemental Converter[Water]"; //Elemental_Water  //Conversor Elemental
+			case 14: callsub L_Purchase,30,12117,10,"Elemental Converter[Wind]"; //Elemental_Wind  //Conversor Elemental
+			case 15: callsub L_Purchase,30,12116,10,"Elemental Converter[Earth]"; //Elemental_Earth  //Conversor Elemental
+		}
+		end;
+	case 3:
+		mes "A opção Sacola de Geléia de Pata Vermelha foi escolhida. É necessário investir 5 ^FF0000Bilhetes de Agradecimento^000000 e um item aleatório aparecerá.";
+		next;
+		if (countitem(6488) < 5) {
+			mes "Você não tem ^FF0000Bilhetes de Agradecimento^000000 o suficiente para faser o investimento e prosseguir.";
+			close;
+		}
+		delitem 6488,5; //Bilhete de Agradecimento por Investimento
+		set .@i, rand(1,10000);
+		     if (.@i <= 100) callsub L_Bag,12531,1; //White_Potion_Box  //Caixa de Poções Brancas
+		else if (.@i <= 200) callsub L_Bag,12549,1; //White_Slim_Pot_Box2  //Caixa de Poção Branca Compacta [100]
+		else if (.@i <= 250) callsub L_Bag,11549,10; //Woe_Blue_Potion  //Poção Azul de GdE
+		else if (.@i <= 660) callsub L_Bag,617,1; //Old_Violet_Box  //Velha Caixa Roxa
+		else if (.@i <= 710) callsub L_Bag,12532,1; //Royal_Jelly_Box2  //Cx Geléia Real[100]
+		else if (.@i <= 760) callsub L_Bag,12533,1; //Blue_Herb_Box2  //Caixa de Ervas Azuis
+		else if (.@i <= 810) callsub L_Bag,505,5; //Blue_Potion  //Poção Azul
+		else if (.@i <= 1110) callsub L_Bag,644,1; //Gift_Box  //Caixa de Presente
+		else if (.@i <= 1120) callsub L_Bag,607,1; //Yggdrasilberry  //Fruto de Yggdrasil
+		else if (.@i <= 1130) callsub L_Bag,608,2; //Seed_Of_Yggdrasil  //Semente de Yggdrasil
+		else if (.@i <= 1140) callsub L_Bag,12292,5; //Unripe_Fruit  //Fruto de Yggdrasil Amargo
+		else if (.@i <= 1150) callsub L_Bag,12293,5; //Dried_Yggdrasilberry  //Fruto de Yggdrasil Desidratado
+		else if (.@i <= 1250) callsub L_Bag,12679,1; //Sg_White_Potion_Box  //Poções Brancas de Gde[30]
+		else if (.@i <= 1471) callsub L_Bag,603,1; //Old_Blue_Box  //Velha Caixa Azul
+		else if (.@i <= 1571) callsub L_Bag,12550,1,"Poison Bottle Box(30)"; //Poison_Bottle_Box2  //Caixa de Veneno Mortal [30]
+		else if (.@i <= 1671) callsub L_Bag,12020,10; //Water_Of_Darkness  //Água Amaldiçoada
+		else if (.@i <= 1871) callsub L_Bag,12030,5; //Box_Of_Grudge  //Caixa do Ressentimento
+		else if (.@i <= 2071) callsub L_Bag,12031,5; //Sleepy_Box  //Caixa da Sonolência
+		else if (.@i <= 2371) callsub L_Bag,12033,2; //Box_Of_Sunlight  //Caixa da Luz do Sol
+		else if (.@i <= 2571) callsub L_Bag,12114,5,"Elemental Converter[Fire]"; //Elemental_Fire  //Conversor Elemental
+		else if (.@i <= 2771) callsub L_Bag,12115,5,"Elemental Converter[Water]"; //Elemental_Water  //Conversor Elemental
+		else if (.@i <= 2971) callsub L_Bag,12117,5,"Elemental Converter[Wind]"; //Elemental_Wind  //Conversor Elemental
+		else if (.@i <= 3171) callsub L_Bag,12116,5,"Elemental Converter[Earth]"; //Elemental_Earth  //Conversor Elemental
+		else if (.@i <= 3271) callsub L_Bag,12680,1; //Sg_Blue_Potion_Box  //Cx Poções Azuis de GdE[10]
+		else if (.@i <= 3471) callsub L_Bag,12118,5; //Resist_Fire  //Poção Anti-Fogo
+		else if (.@i <= 3671) callsub L_Bag,12119,5; //Resist_Water  //Poção Anti-Água
+		else if (.@i <= 3871) callsub L_Bag,12121,5; //Resist_Wind  //Poção Anti-Vento
+		else if (.@i <= 4071) callsub L_Bag,12120,5; //Resist_Earth  //Poção Anti-Terra
+		else if (.@i <= 4271) callsub L_Bag,929,20; //Immortal_Heart  //Coração Imortal
+		else if (.@i <= 4471) callsub L_Bag,1059,20; //Transparent_Cloth  //Tecido
+		else if (.@i <= 4671) callsub L_Bag,905,20; //Stem  //Caule
+		else if (.@i <= 4871) callsub L_Bag,606,10; //Aloebera  //Aloe Vera
+		else if (.@i <= 5071) callsub L_Bag,609,10; //Amulet  //Amuleto
+		else if (.@i <= 5271) callsub L_Bag,710,2; //Illusion_Flower  //Flor das Ilusões
+		else if (.@i <= 5471) callsub L_Bag,576,20; //Prickly_Fruit  //Fruta Espinhosa
+		else if (.@i <= 5671) callsub L_Bag,621,10; //Bitter_Herb  //Erva Amarga
+		else if (.@i <= 5871) callsub L_Bag,709,10; //Izidor  //Izidor
+		else if (.@i <= 6071) callsub L_Bag,605,10; //Anodyne  //Analgésico
+		else if (.@i <= 6171) callsub L_Bag,11548,10; //Woe_White_Potion  //Poção Branca de GdE
+		else if (.@i <= 6371) callsub L_Bag,706,10; //Four_Leaf_Clover  //Trevo de Quatro Folhas
+		else if (.@i <= 6571) callsub L_Bag,521,10; //Leaflet_Of_Aloe  //Folha de Aloe
+		else if (.@i <= 6771) callsub L_Bag,707,10; //Singing_Plant  //Planta da Melodia
+		else if (.@i <= 6971) callsub L_Bag,610,10; //Leaf_Of_Yggdrasil  //Folha de Yggdrasil
+		else if (.@i <= 7021) callsub L_Bag,12676,1; //Sg_Violet_Potion_Box  //Cx Poções Violeta de GdE[50]
+		else if (.@i <= 7171) callsub L_Bag,6249,10; //Savage_Meat  //Carne de Selvagem
+		else if (.@i <= 7321) callsub L_Bag,6252,10; //Wolf_Blood  //Sangue de Lobo
+		else if (.@i <= 7471) callsub L_Bag,6254,10; //Beef_Head_Meat  //Medalhões de Carne
+		else if (.@i <= 7621) callsub L_Bag,6253,10; //Cold_Ice  //Gelo
+		else if (.@i <= 7771) callsub L_Bag,6256,10; //Ice_Fragment  //Raspadinha
+		else if (.@i <= 7921) callsub L_Bag,6257,10; //Ice_Crystal  //Gelo Cristalino
+		else if (.@i <= 8071) callsub L_Bag,6260,10; //Petti_Tail  //Rabo de Petite
+		else if (.@i <= 8309) callsub L_Bag,7932,20; //Poison_Herb_Nerium  //Nerium
+		else if (.@i <= 8547) callsub L_Bag,7933,20; //Poison_Herb_Rantana  //Lantana
+		else if (.@i <= 8785) callsub L_Bag,7934,20; //Poison_Herb_Makulata  //Makulrata
+		else if (.@i <= 9023) callsub L_Bag,7935,20; //Poison_Herb_Seratum  //Celatom
+		else if (.@i <= 9261) callsub L_Bag,7936,20; //Poison_Herb_Scopolia  //Scoforia
+		else if (.@i <= 9499) callsub L_Bag,7937,20; //Poison_Herb_Amoena  //Amoena
+		else if (.@i <= 9699) callsub L_Bag,6217,20; //Mandragora_Flowerpot  //Muda de Mandrágora
+		else callsub L_Bag,12016,10; //Speed_Up_Potion  //Poção do Vento
+		end;
+	case 4:
+		mes "A opção Sacola de Geléia de Pata Preta foi escolhida. É necessário investir 50 ^FF0000Bilhetes de Agradecimento^000000 e um item aleatório aparecerá.";
+		next;
+		if (countitem(6488) < 50) {
+			mes "Você não tem ^FF0000Bilhetes de Agradecimento^000000 o suficiente para faser o investimento e prosseguir.";
+			close;
+		}
+		delitem 6488,50; //Bilhete de Agradecimento por Investimento
+		set .@i, rand(1,10000);
+		     if (.@i <= 100) callsub L_Bag,12531,1; //White_Potion_Box  //Caixa de Poções Brancas
+		else if (.@i <= 200) callsub L_Bag,12549,1; //White_Slim_Pot_Box2  //Caixa de Poção Branca Compacta [100]
+		else if (.@i <= 250) callsub L_Bag,11549,20; //Woe_Blue_Potion  //Poção Azul de GdE
+		else if (.@i <= 450) callsub L_Bag,617,1; //Old_Violet_Box  //Velha Caixa Roxa
+		else if (.@i <= 500) callsub L_Bag,12532,1; //Royal_Jelly_Box2  //Cx Geléia Real[100]
+		else if (.@i <= 550) callsub L_Bag,12533,1; //Blue_Herb_Box2  //Caixa de Ervas Azuis
+		else if (.@i <= 600) callsub L_Bag,505,10; //Blue_Potion  //Poção Azul
+		else if (.@i <= 800) callsub L_Bag,644,1; //Gift_Box  //Caixa de Presente
+		else if (.@i <= 810) callsub L_Bag,607,2; //Yggdrasilberry  //Fruto de Yggdrasil
+		else if (.@i <= 820) callsub L_Bag,608,3; //Seed_Of_Yggdrasil  //Semente de Yggdrasil
+		else if (.@i <= 830) callsub L_Bag,12292,10; //Unripe_Fruit  //Fruto de Yggdrasil Amargo
+		else if (.@i <= 840) callsub L_Bag,12293,10; //Dried_Yggdrasilberry  //Fruto de Yggdrasil Desidratado
+		else if (.@i <= 940) callsub L_Bag,12679,1; //Sg_White_Potion_Box  //Cx Poções Brancas de GdE[30]
+		else if (.@i <= 1140) callsub L_Bag,603,1; //Old_Blue_Box  //Velha Caixa Azul
+		else if (.@i <= 1240) callsub L_Bag,12550,1,"Poison Bottle Box(30)"; //Poison_Bottle_Box2  //Caixa de Veneno Mortal [30]
+		else if (.@i <= 1340) callsub L_Bag,12020,20; //Water_Of_Darkness  //Água Amaldiçoada
+		else if (.@i <= 1440) callsub L_Bag,12030,10; //Box_Of_Grudge  //Caixa do Ressentimento
+		else if (.@i <= 1540) callsub L_Bag,12031,10; //Sleepy_Box  //Caixa da Sonolência
+		else if (.@i <= 1690) callsub L_Bag,12033,4; //Box_Of_Sunlight  //Caixa da Luz do Sol
+		else if (.@i <= 1790) callsub L_Bag,12114,10,"Elemental Converter[Fire]"; //Elemental_Fire  //Conversor Elemental
+		else if (.@i <= 1890) callsub L_Bag,12115,10,"Elemental Converter[Water]"; //Elemental_Water  //Conversor Elemental
+		else if (.@i <= 1990) callsub L_Bag,12117,10,"Elemental Converter[Wind]"; //Elemental_Wind  //Conversor Elemental
+		else if (.@i <= 2090) callsub L_Bag,12116,10,"Elemental Converter[Earth]"; //Elemental_Earth  //Conversor Elemental
+		else if (.@i <= 2190) callsub L_Bag,12680,1; //Sg_Blue_Potion_Box  //Cx Poções Azuis de GdE[10]
+		else if (.@i <= 2290) callsub L_Bag,12118,10; //Resist_Fire  //Poção Anti-Fogo
+		else if (.@i <= 2390) callsub L_Bag,12119,10; //Resist_Water  //Poção Anti-Água
+		else if (.@i <= 2490) callsub L_Bag,12121,10; //Resist_Wind  //Poção Anti-Vento
+		else if (.@i <= 2590) callsub L_Bag,12120,10; //Resist_Earth  //Poção Anti-Terra
+		else if (.@i <= 2690) callsub L_Bag,929,40; //Immortal_Heart  //Coração Imortal
+		else if (.@i <= 2790) callsub L_Bag,1059,40; //Transparent_Cloth  //Tecido
+		else if (.@i <= 2890) callsub L_Bag,905,40; //Stem  //Caule
+		else if (.@i <= 2990) callsub L_Bag,606,20; //Aloebera  //Aloe Vera
+		else if (.@i <= 3090) callsub L_Bag,609,20; //Amulet  //Amuleto
+		else if (.@i <= 3190) callsub L_Bag,710,4; //Illusion_Flower  //Flor das Ilusões
+		else if (.@i <= 3290) callsub L_Bag,576,40; //Prickly_Fruit  //Fruta Espinhosa
+		else if (.@i <= 3390) callsub L_Bag,621,20; //Bitter_Herb  //Erva Amarga
+		else if (.@i <= 3490) callsub L_Bag,709,20; //Izidor  //Izidor
+		else if (.@i <= 3590) callsub L_Bag,605,20; //Anodyne  //Analgésico
+		else if (.@i <= 3690) callsub L_Bag,11548,20; //Woe_White_Potion  //Poção Branca de GdE
+		else if (.@i <= 3790) callsub L_Bag,706,20; //Four_Leaf_Clover  //Trevo de Quatro Folhas
+		else if (.@i <= 3890) callsub L_Bag,521,20; //Leaflet_Of_Aloe  //Folha de Aloe
+		else if (.@i <= 3990) callsub L_Bag,707,20; //Singing_Plant  //Planta da Melodia
+		else if (.@i <= 4090) callsub L_Bag,610,20; //Leaf_Of_Yggdrasil  //Folha de Yggdrasil
+		else if (.@i <= 4140) callsub L_Bag,12676,1; //Sg_Violet_Potion_Box  //Cx Poções Violeta de GdE[50]
+		else if (.@i <= 4240) callsub L_Bag,6249,20; //Savage_Meat  //Carne de Selvagem
+		else if (.@i <= 4340) callsub L_Bag,6252,20; //Wolf_Blood  //Sangue de Lobo
+		else if (.@i <= 4440) callsub L_Bag,6254,20; //Beef_Head_Meat  //Medalhões de Carne
+		else if (.@i <= 4540) callsub L_Bag,6253,20; //Cold_Ice  //Gelo
+		else if (.@i <= 4640) callsub L_Bag,6256,20; //Ice_Fragment  //Raspadinha
+		else if (.@i <= 4740) callsub L_Bag,6257,20; //Ice_Crystal  //Gelo Cristalino
+		else if (.@i <= 4840) callsub L_Bag,6260,20; //Petti_Tail  //Rabo de Petite
+		else if (.@i <= 4940) callsub L_Bag,7932,40; //Poison_Herb_Nerium  //Nerium
+		else if (.@i <= 5040) callsub L_Bag,7933,40; //Poison_Herb_Rantana  //Lantana
+		else if (.@i <= 5140) callsub L_Bag,7934,40; //Poison_Herb_Makulata  //Makulrata
+		else if (.@i <= 5240) callsub L_Bag,7935,40; //Poison_Herb_Seratum  //Celatom
+		else if (.@i <= 5340) callsub L_Bag,7936,40; //Poison_Herb_Scopolia  //Scoforia
+		else if (.@i <= 5440) callsub L_Bag,7937,40; //Poison_Herb_Amoena  //Amoena
+		else if (.@i <= 5540) callsub L_Bag,6217,40; //Mandragora_Flowerpot  //Muda de Mandrágora
+		else if (.@i <= 6000) callsub L_Bag,12016,20; //Speed_Up_Potion  //Poção do Vento
+		else if (.@i <= 6500) callsub L_Bag,2483,1; //Siege_Greave  //Grevas de Cerco [1]
+		else if (.@i <= 7000) callsub L_Bag,2484,1; //Siege_Boots  //Botas de Cerco [1]
+		else if (.@i <= 7500) callsub L_Bag,2485,1; //Siege_Shoes  //Sapatos de Cerco [1]
+		else if (.@i <= 8000) callsub L_Bag,2586,1; //Siege_Manteau  //Manteau de Cerco [1]
+		else if (.@i <= 8500) callsub L_Bag,2587,1; //Siege_Muffler  //Sobrepeliz de Cerco [1]
+		else if (.@i <= 9000) callsub L_Bag,15046,1; //Siege_Plate  //Placa de Cerco [1]
+		else if (.@i <= 9500) callsub L_Bag,15047,1; //Siege_Suits  //Túnica de Cerco [1]
+		else callsub L_Bag,15048,1; //Siege_Robe  //Manto de Cerco [1]
+		end;
+	}
+	end;
+
+//callsub L_Purchase,<custo do ticket>,<ID> da recompensa,<quantidade da recompensa>{,<nome da recompensa>};
+L_Purchase:
+	if (countitem(6488) < getarg(0)) {
+		mes "Você não tem ^FF0000Bilhetes de Agradecimento^000000 o suficiente para faser o investimento e prosseguir.";
+		close;
+	}
+	delitem 6488,getarg(0); //Bilhete de Agradecimento por Investimento
+	getitem getarg(1),getarg(2);
+	mes "- Feito! -";
+	next;
+	mes "O item ^0000FF"+((getargcount() > 3)?getarg(3,""):getitemname(getarg(1)))+"^000000 foi obtido.";
+	close;
+
+//callsub L_Bag,<reward ID>,<reward amount>{,<reward name>};
+L_Bag:
+	getitem getarg(0),getarg(1);
+	mes "- Feito! -";
+	next;
+	mes "O item ^0000FF"+((getargcount() > 2)?getarg(2,""):getitemname(getarg(0)))+"^000000 foi obtido.";
+	close;
+}

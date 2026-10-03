@@ -1,0 +1,469 @@
+//===== rAthena Script =======================================
+//= Guild Dungeon Daily Quest Coin Exchange
+//===== Description: =========================================
+//= [Official Conversion]
+//= NPCs reward from Guild Dungeon's Daily Missions.
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Cydh]
+//= 1.1 Minified the script. [Secretdataz]
+//= 1.2 Script cleanup. [aleos]
+//= 1.3 Minified Kvasir's ring part. [Lemongrass]
+//============================================================
+
+// Modelos
+-	script	#GldDungeonReward	-1,{
+	if (checkweight(1304,3) == 0) {
+		mes "Você está carregando muitos itens para continuar a missão.";
+		mes "Por favor, alivie sua carga e tente novamente.";
+		close;
+	}
+
+	mes "É uma máquina que troca Moeda TE da Guerra de Guildas por itens especiais.";
+	mes "Selecione o item desejado e insira quantas moedas forem necessárias.";
+	next;
+	while(1) {
+		switch(select("Ver itens disponíveis para troca.","Trocar por Certificados de Investimento.","Trocar por Bons Medicamentos.","Trocar por Presentes.","Anel de Kvasir.","Sair.")) {
+			case 1:
+				mes "[ClickClick MiauMiau-GX]";
+				mes "Obrigado por escolher o ClickClick MiauMiau!";
+				mes "Aqui está uma lista de itens que você pode comprar com a Moeda TE da Guilda.";
+				next;
+				mes "= Sangue do Gigante Congelado =";
+				mes "Novo medicamento desenvolvido pelo esforço conjunto da União da Alquimia de 3 países. Concede ao usuário poderes sobrenaturais por um curto período.";
+				mes "^4d4dffDrena 3000 de HP, mas aumenta o dano físico e mágico contra jogadores em 100% por 10 segundos.";
+				mes "Nível necessário: 80 ou superior^000000";
+				next;
+				mes "= Núcleo Golem =";
+				mes "Novo medicamento desenvolvido pelo esforço conjunto da União da Alquimia de 3 países. Concede ao usuário poderes sobrenaturais por um curto período.";
+				mes "^4d4dffDrena 300 de SP, mas reduz o dano recebido de jogadores em 50% por 10 segundos.";
+				mes "Nível necessário: 80 ou superior^000000";
+				next;
+				setarray .@status$, "Atordoamento", "Petrificação", "Congelamento", "Sono", "Maldição", "Silêncio", "Cegueira";
+				.@size = getarraysize(.@status$);
+				for(.@i = 0; .@i < .@size; ++.@i) {
+					mes "= Lágrima de Fada (" + .@status$[.@i] + ") =";
+					mes "Uma poção desenvolvida por Vicent, um gênio farmacêutico. Concede ao usuário poderes sobrenaturais por um curto período.";
+					mes "^4d4dffDrena 3000 de HP, mas torna o usuário imune ao status de " + (.@i == 1 ? "Petrificação" : .@status$[.@i]) + " por 10 segundos.^000000";
+					next;
+				}
+				mes "= Boina Alada[1] =";
+				mes "Um chapéu confortável de cor azul celeste decorado com penas.";
+				mes "^4d4dffDEFM +1, reduz o dano recebido de jogadores em 10%.";
+				mes "Slot para carta [1], disponível para todas as classes exceto Aprendizes.";
+				next;
+				mes "= Boina Alada (Visual) =";
+				mes "Um chapéu confortável de cor azul celeste decorado com penas.";
+				mes "^4d4dffEquipamento Visual, disponível para todas as classes.^000000";
+				next;
+				mes "Esta é a lista completa.";
+				break;
+
+			case 2:
+				mes "[ClickClick MiauMiau-GX]";
+				mes "Trocamos ^4d4dff1 Certificado de Investimento^000000 do Grupo Mercantil Pata de Gato por ^4d4dff10 Moedas TE!^000000";
+				mes "Deseja realizar a troca?";
+				next;
+				switch(select("Sim.","Ver outros itens.")) {
+					case 1:
+						mes "[ClickClick MiauMiau-GX]";
+						if (countitem(6615) > 9) {
+							mes "Obrigado por usar nosso serviço, miau!";
+							delitem 6615,10; // Moeda TE
+							getitem 6489,1; // Certificado de Investimento dos Gatos
+						} else {
+							mes "Você não tem moedas suficientes para os Certificados de Investimento.";
+							mes "1 Certificado de Investimento vale 10 Moedas.";
+						}
+						break;
+
+					case 2:
+						mes "[ClickClick MiauMiau-GX]";
+						mes "Você decidiu ver outros itens.";
+						break;
+				}
+				break;
+
+			case 3:
+				mes "[ClickClick MiauMiau-GX]";
+				mes "Você selecionou a lista de bons medicamentos!";
+				mes "Todos os itens listados abaixo custam ^4d4dff300 Moedas cada^000000, miau!";
+				next;
+				switch(select("Sangue de Gigante Congelado", "Núcleo Golem", "Lágrima de Fada (Atordoamento)", "Lágrima de Fada (Congelamento)", "Lágrima de Fada (Sono)", "Lágrima de Fada (Maldição)", "Lágrima de Fada (Petrificação)", "Lágrima de Fada (Silêncio)", "Lágrima de Fada (Cegueira)", "Ver outros itens.")) {
+					case 1:
+						callsub S_PurchaseMedicine, "Sangue de Gigante Congelado", 12874;
+						break;
+					case 2:
+						callsub S_PurchaseMedicine, "Núcleo Golem", 12875;
+						break;
+					case 3:
+						callsub S_PurchaseMedicine, "Lágrima de Fada (Atordoamento)", 12876;
+						break;
+					case 4:
+						callsub S_PurchaseMedicine, "Lágrima de Fada (Congelamento)", 12878;
+						break;
+					case 5:
+						callsub S_PurchaseMedicine, "Lágrima de Fada (Sono)", 12879;
+						break;
+					case 6:
+						callsub S_PurchaseMedicine, "Lágrima de Fada (Maldição)", 12880;
+						break;
+					case 7:
+						callsub S_PurchaseMedicine, "Lágrima de Fada (Petrificação)", 12877;
+						break;
+					case 8:
+						callsub S_PurchaseMedicine, "Lágrima de Fada (Silêncio)", 12881;
+						break;
+					case 9:
+						callsub S_PurchaseMedicine, "Lágrima de Fada (Cegueira)", 12882;
+						break;
+					case 10:
+						mes "Você decidiu ver outros itens.";
+						break;
+				}
+				break;
+
+			case 4:
+				mes "[ClickClick MiauMiau-GX]";
+				mes "Você selecionou a lista de bons presentes!";
+				mes "O preço de cada item está listado separadamente, miau!";
+				next;
+				switch(select("Velho Álbum de Cartas - 500 Moedas", "Velha Caixa Roxa - 300 Moedas", "Velha Caixa Azul - 100 Moedas", "Caixa de Jóias - 500 Moedas", "Máscara Embrulhada - 500 Moedas", "Boina de Penas","Sair")) {
+					case 1:
+						callsub S_PurchaseGift, "Velho Álbum de Cartas", 616, 500;
+						break;
+					case 2:
+						callsub S_PurchaseGift, "Velha Caixa Roxa", 617, 300;
+						break;
+					case 3:
+						callsub S_PurchaseGift, "Velha Caixa Azul", 603, 100;
+						break;
+					case 4:
+						callsub S_PurchaseGift, "Caixa de Jóias", 12106, 500;
+						break;
+					case 5:
+						callsub S_PurchaseGift, "Máscara Embrulhada", 12107, 500;
+						break;
+					case 6:
+						mes "[ClickClick MiauMiau-GX]";
+						mes "Você selecionou uma linda boina decorada com penas!";
+						mes "Temos Boinas de Penas e Boinas de Penas Visuais nas quais você pode instalar Cartas, miau!";
+						next;
+						switch(select("Boina Alada[1] -1500 Moedas","Boina Alada Visual -800 Moedas","Comprar uma Boina.","Ver outros itens.")) {
+								case 1:
+									mes "[ClickClick MiauMiau-GX]";
+									mes "É uma Boina Alada onde você pode instalar Cartas!";
+									mes "Ela custa 1500 Moedas TE. Deseja comprá-la?";
+									next;
+									switch(select("Sim!","Não!")) {
+										case 1:
+											mes "[ClickClick MiauMiau-GX]";
+											if (countitem(6615) > 1499) {
+												mes "Obrigado por utilizar nosso serviço, miau!";
+												delitem 6615,1500; // Moeda TE
+												getitem 18755,1; // Boina Alada
+											} else {
+												mes "Você precisa de 1500 Moedas TE para comprar o item selecionado.";
+												mes "Você decidiu ver outros itens.";
+											}
+											break;
+
+										case 2:
+											mes "[ClickClick MiauMiau-GX]";
+											mes "Você decidiu ver outros itens.";
+											break;
+									}
+									break;
+
+								case 2:
+									mes "[ClickClick MiauMiau-GX]";
+									mes "É uma Boina Alada Visual!";
+									mes "Ela custa 800 Moedas TE. Deseja comprá-la?";
+									next;
+									switch(select("Sim!","Não!")) {
+										case 1:
+											mes "[ClickClick MiauMiau-GX]";
+											if (countitem(6615) > 799) {
+												mes "Obrigado por utilizar nosso serviço, miau!";
+												delitem 6615,800; // Moeda TE
+												getitem 19585,1; // Boina Alada Visual
+											} else {
+												mes "Você precisa de 800 Moedas TE para comprar o item selecionado.";
+												mes "Você decidiu ver outros itens.";
+											}
+											break;
+
+										case 2:
+											mes "[ClickClick MiauMiau-GX]";
+											mes "Você decidiu ver outros itens.";
+											break;
+									}
+									break;
+
+								case 3:
+									mes "[ClickClick MiauMiau-GX]";
+									mes "Os preparativos para mudar a cor das Boinas Aladas Visuais estão em andamento.";
+									mes "Por favor, volte mais tarde!";
+									mes "Deixe-me mostrar outros itens!";
+									break;
+
+								case 4:
+									mes "[ClickClick MiauMiau-GX]";
+									mes "Você decidiu ver outros itens.";
+									break;
+							}
+							break;
+
+						case 7:
+							mes "[ClickClick MiauMiau-GX]";
+							mes "Não utilize a máquina de troca.";
+							break;
+					}
+					break;
+
+				case 5:
+					mes "[ClickClick MiauMiau-GX]";
+					mes "Esta é a categoria dos Anéis de Kvasir.";
+					mes "Você pode visualizar a descrição de cada anel e comprá-los aqui.";
+					next;
+					switch(select("Trocar por Anel de Kvasir(Azul)", "Trocar por Anel de Kvasir(Vermelho)", "Trocar por Anel de Kvasir(Verde)", "Trocar por Anel de Kvasir(Marrom)", "Sair.")) {
+						case 1:
+							mes "= Anel de Kvasir(Azul) =";
+							mes "Um anel que dizem conter o poder de Kvasir, o deus sábio.";
+							mes "^4d4dffSPM + 30. Habilidade 'Gardênia' Nv.1 disponível^000000";
+							mes "Acessório. Disponível para todas as classes. Nível necessário: 1";
+							next;
+							mes "[ClickClick MiauMiau-GX]";
+							mes "O Anel de Kvasir(Azul) pode ser comprado com ^4d4dff20 Sangues de Gigante Congelado e 20 Núcleos Golem^000000";
+							mes "ou ^4d4dff1 Anel de Kvasir de outra cor e 10 Moedas TE!^000000";
+							mes "Deseja comprá-lo?";
+							next;
+							switch(select("Pagar com Sangue e Núcleo","Pagar com Anel de Kvasir(Vermelho)","Pagar com Anel de Kvasir(Verde)","Pagar com Anel de Kvasir(Marrom)","Sair.")) {
+								case 1:
+									mes "[ClickClick MiauMiau-GX]";
+									if ((countitem(12874) > 19) & (countitem(12875) > 19)) {
+										mes "O Anel de Kvasir(Azul) foi comprado.";
+										delitem 12874,20; // Sangue de Gigante Congelado
+										delitem 12875,20; // Núcleo Golem
+										getitem 2951,1; // Anel de Kvasir(Azul)
+									} else {
+										mes "Parece que o Anel de Kvasir(Azul) pode ser comprado com ^4d4dff20 Sangues de Gigante Congelado e 20 Núcleos Golem.^000000";
+										mes "Você não possui itens suficientes para concluir a compra. Veja outros itens.";
+									}
+									break;
+
+								case 2:
+									callsub S_Kvasir, "Anel de Kvasir(Vermelho)", 2952, "Anel de Kvasir(Azul)", 2951;
+									break;
+
+								case 3:
+									callsub S_Kvasir, "Anel de Kvasir(Verde)", 2953, "Anel de Kvasir(Azul)", 2951;
+									break;
+
+								case 4:
+									callsub S_Kvasir, "Anel de Kvasir(Marrom)", 2954, "Anel de Kvasir(Azul)", 2951;
+									break;
+
+								case 5:
+									mes "[ClickClick MiauMiau-GX]";
+									mes "Você decidiu ver outros itens.";
+									break;
+							}
+							break;
+
+					case 2:
+						mes "= Anel de Kvasir(Vermelho) =";
+						mes "Um anel que dizem conter o poder de Kvasir, o deus sábio.";
+						mes "^4d4dffSPM + 30. Habilidade 'Peônia' Nv.1 disponível^000000";
+						mes "Acessório. Disponível para todas as classes. Nível necessário: 1";
+						next;
+						mes "[ClickClick MiauMiau-GX]";
+						mes "O Anel de Kvasir(Vermelho) pode ser adquirido com ^4d4dff1 Anel de Kvasir e 10 Moedas TE.^000000";
+						mes "Qual dos seguintes deseja trocar pelo Anel de Kvasir(Vermelho)?";
+						next;
+						switch(select("Anel de Kvasir(Azul)","Anel de Kvasir(Verde)","Anel de Kvasir(Marrom)","Sair.")) {
+							case 1:
+								callsub S_Kvasir, "Anel de Kvasir(Azul)", 2951, "Anel de Kvasir(Vermelho)", 2952;
+								break;
+
+							case 2:
+								callsub S_Kvasir, "Anel de Kvasir(Verde)", 2953, "Anel de Kvasir(Vermelho)", 2952;
+								break;
+
+							case 3:
+								callsub S_Kvasir, "Anel de Kvasir(Marrom)", 2954, "Anel de Kvasir(Vermelho)", 2952;
+								break;
+
+							case 4:
+								mes "[ClickClick MiauMiau-GX]";
+								mes "Você decidiu ver outros itens.";
+								break;
+						}
+						break;
+
+					case 3:
+						mes "= Anel de Kvasir(Verde) =";
+						mes "Um anel que dizem conter o poder de Kvasir, o deus sábio.";
+						mes "^4d4dffSPM + 100. Habilidade 'Erva-Mate' Nv.1 disponível^000000";
+						mes "Acessório. Disponível para todas as classes. Nível necessário: 1";
+						next;
+						mes "[ClickClick MiauMiau-GX]";
+						mes "O Anel de Kvasir(Verde) pode ser adquirido com ^4d4dff1 Anel de Kvasir e 10 Moedas TE.^000000";
+						mes "Qual dos seguintes deseja trocar pelo Anel de Kvasir(Verde)?";
+						next;
+						switch(select("Anel de Kvasir(Azul)","Anel de Kvasir(Vermelho)","Anel de Kvasir(Marrom)","Sair.")) {
+							case 1:
+								callsub S_Kvasir, "Anel de Kvasir(Azul)", 2951, "Anel de Kvasir(Verde)", 2953;
+								break;
+
+							case 2:
+								callsub S_Kvasir, "Anel de Kvasir(Vermelho)", 2952, "Anel de Kvasir(Verde)", 2953;
+								break;
+
+							case 3:
+								callsub S_Kvasir, "Anel de Kvasir(Marrom)", 2954, "Anel de Kvasir(Verde)", 2953;
+								break;
+
+							case 4:
+								mes "[ClickClick MiauMiau-GX]";
+								mes "Você decidiu ver outros itens.";
+								break;
+						}
+						break;
+
+					case 4:
+						mes "= Anel de Kvasir(Marrom) =";
+						mes "Um anel que dizem conter o poder de Kvasir, o deus sábio.";
+						mes "^4d4dffSPM + 100. Habilidade 'Pó de Yggdrasil' Nv.1 disponível^000000";
+						mes "Acessório. Disponível para todas as classes. Nível necessário: 1";
+						next;
+						mes "[ClickClick MiauMiau-GX]";
+						mes "O Anel de Kvasir(Marrom) pode ser adquirido com ^4d4dff1 Anel de Kvasir e 10 Moedas TE.^000000";
+						mes "Qual dos seguintes deseja trocar pelo Anel de Kvasir(Marrom)?";
+						next;
+						switch(select("Anel de Kvasir(Azul)","Anel de Kvasir(Vermelho)","Anel de Kvasir(Verde)","Sair.")) {
+							case 1:
+								callsub S_Kvasir, "Anel de Kvasir(Azul)", 2951, "Anel de Kvasir(Marrom)", 2954;
+								break;
+
+							case 2:
+								callsub S_Kvasir, "Anel de Kvasir(Vermelho)", 2952, "Anel de Kvasir(Marrom)", 2954;
+								break;
+
+							case 3:
+								callsub S_Kvasir, "Anel de Kvasir(Verde)", 2953, "Anel de Kvasir(Marrom)", 2954;
+								break;
+
+							case 4:
+								mes "[ClickClick MiauMiau-GX]";
+								mes "Você decidiu ver outros itens.";
+								break;
+						}
+						break;
+
+					case 5:
+						mes "[ClickClick MiauMiau-GX]";
+						mes "Você decidiu ver outros itens.";
+						break;
+				}
+				break;
+
+			case 6:
+				mes "[ClickClick MiauMiau-GX]";
+				mes "Não utilize a máquina de troca.";
+				break;
+		}
+	}
+	close;
+
+S_PurchaseMedicine:
+		mes "[ClickClick MiauMiau-GX]";
+	mes "Você está comprando 1 " + getarg(0) + ", miau!";
+	mes "Tem certeza?";
+	next;
+	switch(select("Sim!","Não!")) {
+		case 1:
+			mes "[ClickClick MiauMiau-GX]";
+			if (countitem(6615) > 299) {
+				mes "Obrigado por usar nosso serviço, miau!";
+				delitem 6615,300; // Moeda TE
+				getitem getarg(1),1;
+			} else
+				mes "Um bom remédio vale 300 Moedas TE que você juntou com esforço...";
+			break;
+
+		case 2:
+			mes "[ClickClick MiauMiau-GX]";
+			mes "Você decidiu ver outros itens.";
+			break;
+	}
+	return;
+	
+S_PurchaseGift:
+	.@itemid = getarg(1);
+	.@price = getarg(2);
+	mes "[ClickClick MiauMiau-GX]";
+	mes "Você está comprando 1 " + getarg(0) + ", miau!";
+	mes "Tem certeza?";
+	next;
+	switch(select("Sim!","Não!")) {
+		case 1:
+			mes "[ClickClick MiauMiau-GX]";
+			if (countitem(6615) >= .@price) {
+				mes "Obrigado por usar nosso serviço, miau!";
+				delitem 6615,.@price; // Moeda TE
+				getitem .@itemid,1;
+			} else {
+				mes "Você precisa de " + .@price + " Moedas TE para comprar o item selecionado.";
+				mes "Você decidiu ver outros itens.";
+			}
+			break;
+
+		case 2:
+			mes "[ClickClick MiauMiau-GX]";
+			mes "Você decidiu ver outros itens.";
+			break;
+	}
+	return;
+
+S_Kvasir:
+	.@fromid = getarg(1);
+	.@fromname$ = getarg(2);
+	.@toid = getarg(3);
+	.@toname$ = getarg(4);
+	
+	mes "[ClickClick MiauMiau-GX]";
+	// Um dos Anéis de Kvasir e 10 Moedas TE
+	if( countitem( .@fromid ) > 0 && countitem( 6615 ) > 9 ){
+		mes "Você possui " + .@fromname$ + ".";
+		mes "Deseja trocá-lo por " + .@toname$ + "?";
+		next;
+		mes "[ClickClick MiauMiau-GX]";
+		switch( select( "Sim!:Sair." ) ){
+			case 1:
+				// Verifica novamente os itens
+				if( countitem( .@fromid ) > 0 && countitem( 6615 ) > 9 ){
+					mes "Você trocou " + .@fromname$ + " por " + .@toname$ + ".";
+					delitem .@fromid, 1;
+					delitem 6615, 10; // Moeda TE
+					getitem .@toid, 1;
+					close;
+				}
+				break;
+			case 2:
+				mes "Você decidiu ver outros itens.";
+				return;
+		}
+	}
+	mes "Você precisa de 1 " + .@fromname$ + " e 10 Moedas TE para concluir a troca.";
+	return;
+}
+
+// NPCs Principais
+alde_gld,180,163,3	duplicate(#GldDungeonReward)	ClickClick MiauMiau-GX#1	2_VENDING_MACHINE1
+pay_gld,196,176,5	duplicate(#GldDungeonReward)	ClickClick MiauMiau-GX#2	2_VENDING_MACHINE1
+gef_fild13,198,246,3	duplicate(#GldDungeonReward)	ClickClick MiauMiau-GX#3	2_VENDING_MACHINE1
+sch_gld,266,119,5	duplicate(#GldDungeonReward)	ClickClick MiauMiau-GX#4	2_VENDING_MACHINE1
+aru_gld,89,204,5	duplicate(#GldDungeonReward)	ClickClick MiauMiau-GX#5	2_VENDING_MACHINE1
+prt_gld,107,155,3	duplicate(#GldDungeonReward)	ClickClick MiauMiau-GX#6	2_VENDING_MACHINE1
+te_prt_gld,107,155,3	duplicate(#GldDungeonReward)	ClickClick MiauMiau-GX#7	2_VENDING_MACHINE1
+te_alde_gld,180,163,3	duplicate(#GldDungeonReward)	ClickClick MiauMiau-GX#8	2_VENDING_MACHINE1

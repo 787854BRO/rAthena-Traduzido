@@ -1,0 +1,277 @@
+//===== rAthena Script ======================================= 
+//= Izlude Town Renewal
+//===== By: ================================================== 
+//= Masao
+//===== Current Version: ===================================== 
+//= 1.2
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Izlude town NPCs.
+//===== Additional Comments: ================================= 
+//= 1.0 First Version. Still missing many new NPCs and their dialogues. [Masao]
+//= 1.1 Updated to match the official script. [Euphy]
+//= 1.2 Added Channel Warper and Izlude duplicates. [Euphy]
+//============================================================
+
+// Izlude
+//============================================================
+izlude,197,205,1	duplicate(Marinheiro_Izlude)	Marinheiro#izlude	4W_SAILOR
+izlude_a,197,205,1	duplicate(Marinheiro_Izlude)	Marinheiro#izlude_a	4W_SAILOR
+izlude_b,197,205,1	duplicate(Marinheiro_Izlude)	Marinheiro#izlude_b	4W_SAILOR
+izlude_c,197,205,1	duplicate(Marinheiro_Izlude)	Marinheiro#izlude_c	4W_SAILOR
+izlude_d,197,205,1	duplicate(Marinheiro_Izlude)	Marinheiro#izlude_d	4W_SAILOR
+
+izlude,71,92,2	duplicate(Bonne_Izlude)	Bonne#izlude	4_F_01
+izlude_a,71,92,2	duplicate(Bonne_Izlude)	Bonne#izlude_a	4_F_01
+izlude_b,71,92,2	duplicate(Bonne_Izlude)	Bonne#izlude_b	4_F_01
+izlude_c,71,92,2	duplicate(Bonne_Izlude)	Bonne#izlude_c	4_F_01
+izlude_d,71,92,2	duplicate(Bonne_Izlude)	Bonne#izlude_d	4_F_01
+
+izlude,172,215,4	duplicate(Charfri_Izlude)	Charfri#izlude	4_F_02
+izlude_a,172,215,4	duplicate(Charfri_Izlude)	Charfri#izlude_a	4_F_02
+izlude_b,172,215,4	duplicate(Charfri_Izlude)	Charfri#izlude_b	4_F_02
+izlude_c,172,215,4	duplicate(Charfri_Izlude)	Charfri#izlude_c	4_F_02
+izlude_d,172,215,4	duplicate(Charfri_Izlude)	Charfri#izlude_d	4_F_02
+
+izlude,174,164,4	duplicate(Cuskoal_Izlude)	Cuskoal#izlude	4_F_TELEPORTER
+izlude_a,174,164,4	duplicate(Cuskoal_Izlude)	Cuskoal#izlude_a	4_F_TELEPORTER
+izlude_b,174,164,4	duplicate(Cuskoal_Izlude)	Cuskoal#izlude_b	4_F_TELEPORTER
+izlude_c,174,164,4	duplicate(Cuskoal_Izlude)	Cuskoal#izlude_c	4_F_TELEPORTER
+izlude_d,174,164,4	duplicate(Cuskoal_Izlude)	Cuskoal#izlude_d	4_F_TELEPORTER
+
+izlude,85,103,4	duplicate(Dega_Izlude)	Dega#izlude	4_M_02
+izlude_a,85,103,4	duplicate(Dega_Izlude)	Dega#izlude_a	4_M_02
+izlude_b,85,103,4	duplicate(Dega_Izlude)	Dega#izlude_b	4_M_02
+izlude_c,85,103,4	duplicate(Dega_Izlude)	Dega#izlude_c	4_M_02
+izlude_d,85,103,4	duplicate(Dega_Izlude)	Dega#izlude_d	4_M_02
+
+izlude,140,186,4	duplicate(Kylick_Izlude)	Kylick#izlude	4W_M_01
+izlude_a,140,186,4	duplicate(Kylick_Izlude)	Kylick#izlude_a	4W_M_01
+izlude_b,140,186,4	duplicate(Kylick_Izlude)	Kylick#izlude_b	4W_M_01
+izlude_c,140,186,4	duplicate(Kylick_Izlude)	Kylick#izlude_c	4W_M_01
+izlude_d,140,186,4	duplicate(Kylick_Izlude)	Kylick#izlude_d	4W_M_01
+
+izlude,57,159,2	duplicate(Vermelho_Izlude)	Vermelho#izlude	4_M_03
+izlude_a,57,159,2	duplicate(Vermelho_Izlude)	Vermelho#izlude_a	4_M_03
+izlude_b,57,159,2	duplicate(Vermelho_Izlude)	Vermelho#izlude_b	4_M_03
+izlude_c,57,159,2	duplicate(Vermelho_Izlude)	Vermelho#izlude_c	4_M_03
+izlude_d,57,159,2	duplicate(Vermelho_Izlude)	Vermelho#izlude_d	4_M_03
+
+izlude,55,159,2	duplicate(Cebalis_Izlude)	Cebalis#izlude	4W_M_02
+izlude_a,55,159,2	duplicate(Cebalis_Izlude)	Cebalis#izlude_a	4W_M_02
+izlude_b,55,159,2	duplicate(Cebalis_Izlude)	Cebalis#izlude_b	4W_M_02
+izlude_c,55,159,2	duplicate(Cebalis_Izlude)	Cebalis#izlude_c	4W_M_02
+izlude_d,55,159,2	duplicate(Cebalis_Izlude)	Cebalis#izlude_d	4W_M_02
+
+izlude,165,156,2	duplicate(Soldado_Izlude)	Soldado#izlude	8W_SOLDIER
+izlude_a,165,156,2	duplicate(Soldado_Izlude)	Soldado#izlude_a	8W_SOLDIER
+izlude_b,165,156,2	duplicate(Soldado_Izlude)	Soldado#izlude_b	8W_SOLDIER
+izlude_c,165,156,2	duplicate(Soldado_Izlude)	Soldado#izlude_c	8W_SOLDIER
+izlude_d,165,156,2	duplicate(Soldado_Izlude)	Soldado#izlude_d	8W_SOLDIER
+
+-	script	::Guarda_Izlude	-1,{
+	mes "[Guarda de Izlude]";
+	mes "Bem-vind"+(Sex?"o":"a")+" à Izlude!";
+	close;
+}
+prt_fild08,350,219,4	duplicate(Guarda_Izlude)	Guarda de Izlude#izlude	8W_SOLDIER
+prt_fild08a,350,219,4	duplicate(Guarda_Izlude)	Guarda de Izlude#izlude_a	8W_SOLDIER
+prt_fild08b,350,219,4	duplicate(Guarda_Izlude)	Guarda de Izlude#izlude_b	8W_SOLDIER
+prt_fild08c,350,219,4	duplicate(Guarda_Izlude)	Guarda de Izlude#izlude_c	8W_SOLDIER
+prt_fild08d,350,219,4	duplicate(Guarda_Izlude)	Guarda de Izlude#izlude_d	8W_SOLDIER
+
+// Canal do Teletransporte :: channel
+//============================================================
+function	script	F_IzludeChannel	{
+	mes "[Funcionário]";
+	mes "Izlude é um lugar muito vivo não é mesmo?";
+	mes "Estou aqui para te ajudar a se sentir mais á vontade em Izlude!";
+	mes "Eu posso o enviar a outra cópia de Izlude.";
+	mes "Você quer ir para outra cópia?";
+	next;
+	set .@i, select(getarg(0)+":Qualquer uma");
+	if (.@i < 6) {
+		setarray .@maps$[1],"izlude","izlude_a","izlude_b","izlude_c","izlude_d";
+		savepoint .@maps$[.@i],128,98,1,1;
+		warp .@maps$[.@i],128,98;
+		end;
+	}
+	close;
+}
+izlude,122,105,5	script	Oficial de Troca	1_M_WIZARD,{ callfunc "F_IzludeChannel",":Para a cópia 2:Para a cópia 3:Para a cópia 4:Para a cópia 5"; }
+izlude_a,122,105,5	script	Oficial de Troca#_a	1_M_WIZARD,{ callfunc "F_IzludeChannel","Para a cópia 1::Para a cópia 3:Para a cópia 4:Para a cópia 5"; }
+izlude_b,122,105,5	script	Oficial de Troca#_b	1_M_WIZARD,{ callfunc "F_IzludeChannel","Para a cópia 1:Para a cópia 2::Para a cópia 4:Para a cópia 5"; }
+izlude_c,122,105,5	script	Oficial de Troca#_c	1_M_WIZARD,{ callfunc "F_IzludeChannel","Para a cópia 1:Para a cópia 2:Para a cópia 3::Para a cópia 5"; }
+izlude_d,122,105,5	script	Oficial de Troca#_d	1_M_WIZARD,{ callfunc "F_IzludeChannel","Para a cópia 1:Para a cópia 2:Para a cópia 3:Para a cópia 4:"; }
+
+// NPCs Falantes
+//============================================================
+izlude,143,205,7	script	Criança Tagarela#iz	4_F_KID2,{
+	end;
+
+OnTimer64000:
+	npctalk "Criança Tagarela : Usei todas as minhas Poções de Aprendiz. O que eu deveria fazer?";
+	end;
+
+OnTimer72000:
+	npctalk "Criança Tagarela : Onde a loja está?";
+	end;
+
+OnTimer136000:
+	npctalk "Criança Tagarela : Idiota! Você não sabe sobre a 'Janela de Atalho?'";
+	end;
+
+OnTimer144000:
+	npctalk "Criança Tagarela : Os itens em seu inventário podem ser arrastados e colocados na janela de atalho.";
+	end;
+	
+OnTimer212000:
+	npctalk "Criança Tagarela : Tenho muitos itens para iniciantes na Academia!";
+	end;
+
+OnTimer276000:
+	npctalk "Criança Tagarela : Eles até me deram armas e um escudo!";
+	end;
+
+OnTimer284000:
+	npctalk "Criança Tagarela : Basta pressionar <Ctrl + '>  para abrir o Mapa-múndi.";
+	end;
+
+OnTimer344000:
+	npctalk "Criança Tagarela : Você quer ir a Academia de Monstros comigo? Estou aprendendo a lutar conforme o instrutor Subino!";
+	end;
+
+OnTimer348000:
+	npctalk "Criança Tagarela : A Academia está ao Norte de Izlude, vamos lá!";
+	end;
+
+OnTimer416000:
+	npctalk "Criança Tagarela : É um sistema para guiá-lo para um destino.";
+	end;
+
+OnTimer424000:
+	npctalk "Criança Tagarela : No menu básico, por favor clique no botão [Navegação].";
+	end;
+
+OnTimer492000:
+	npctalk "Criança Tagarela : Por que não usa seu cérebro? Por favor escreva /where na janela de chat agora!";
+	end;
+
+OnTimer552000:
+	npctalk "Criança Tagarela : Neste caso, você pode apertar a tecla <Enter>.";
+	end;
+
+OnTimer560000:
+	npctalk "Criança Tagarela : Estamos apenas repetindo o mesmo diálogo. Hahaha.";
+	end;
+
+OnTimer565000:
+OnInit:
+	initnpctimer;
+	end;
+}
+
+izlude_a,143,205,7	duplicate(Criança Tagarela#iz)	Criança Tagarela#iza	4_F_KID2
+izlude_b,143,205,7	duplicate(Criança Tagarela#iz)	Criança Tagarela#izb	4_F_KID2
+izlude_c,143,205,7	duplicate(Criança Tagarela#iz)	Criança Tagarela#izc	4_F_KID2
+izlude_d,143,205,7	duplicate(Criança Tagarela#iz)	Criança Tagarela#izd	4_F_KID2
+
+izlude,146,205,7	script	Aventureiro Falante#iz	4_M_KID1,{
+	end;
+
+OnTimer69000:
+	npctalk "Aventureiro Falante : Você pode comprar poções dos comerciantes.";
+	end;
+
+OnTimer77000:
+	npctalk "Aventureiro Falante : É a imagem de poção no mini-mapa.";
+	end;
+
+OnTimer131000:
+	npctalk "Aventureiro Falante : Há alguma maneira de usar itens facilmente?";
+	end;
+
+OnTimer141000:
+	npctalk "Aventureiro Falante : Janela de atalho? Os slots na parte superior da tela? Como posso usá-lo?";
+	end;
+
+OnTimer149000:
+	npctalk "Aventureiro Falante : Para o inventário, você quer dizer menu de 'item'? Oh, é!";
+	end;
+
+OnTimer217000:
+	npctalk "Aventureiro Falante : Tenho um monte de poções?";
+	end;
+
+OnTimer281000:
+	npctalk "Aventureiro Falante : O que?! Eu deveria ir para a Academia agora!";
+	end;
+
+OnTimer279000:
+	npctalk "Aventureiro Falante : Onde fica Izlude? No centro?";
+	end;
+
+OnTimer339000:
+	npctalk "Aventureiro Falante : Eu não sei o que fazer.";
+	end;
+
+OnTimer349000:
+	npctalk "Aventureiro Falante : Oh sim? Quero saber tantas coisas. Eu vou com você!";
+	end;
+
+OnTimer411000:
+	npctalk "Aventureiro Falante : Navegação, que é isso?";
+	end;
+		
+OnTimer421000:
+	npctalk "Aventureiro Falante : Oh-! Devo procurar uma Funcionária Kafra?";
+	end;
+
+OnTimer487000:
+	npctalk "Aventureiro Falante : Qual é o nome da cidade?";
+	end;
+
+OnTimer497000:
+	npctalk "Aventureiro Falante : Eu não posso ver a parte onde eu posso escrever algo na janela de Bate-papo?";
+	end;
+	
+OnTimer557000:
+	npctalk "Aventureiro Falante : Oh você Smarty...";
+	end;
+
+OnTimer555000:
+	npctalk "Aventureiro Falante : Há um tempo atrás, um aprendiz falou comigo como ei 'Aventureiro'?. Hahaha.";
+	end;
+
+OnTimer565000:
+OnInit:
+	initnpctimer;
+	end;
+}
+
+izlude_a,146,205,7	duplicate(Aventureiro Falante#iz)	Aventureiro Falante#iza	4_M_KID1
+izlude_b,146,205,7	duplicate(Aventureiro Falante#iz)	Aventureiro Falante#izb	4_M_KID1
+izlude_c,146,205,7	duplicate(Aventureiro Falante#iz)	Aventureiro Falante#izc	4_M_KID1
+izlude_d,146,205,7	duplicate(Aventureiro Falante#iz)	Aventureiro Falante#izd	4_M_KID1
+
+prt_fild08,338,217,7	script	Aventureiro Descansando#iz	4_F_SITDOWN,{
+	end;
+
+OnTimer60000:
+	npctalk "Aventureiro Descansando : Sabia que se estiver sentado a recuperação do HP e SP é mais rápida?";
+	end;
+
+OnTimer65000:
+	npctalk "Aventureiro Descansando : Sentar é possível se o seu nível básico de habilidade de classe for maior que 3. Para sentar, pressione a tecla <INSERT>.";
+	
+OnInit:
+	initnpctimer;
+	end;
+}
+
+prt_fild08a,338,217,7	duplicate(Aventureiro Descansando#iz)	Aventureiro Descansando#iza	4_F_SITDOWN
+prt_fild08b,338,217,7	duplicate(Aventureiro Descansando#iz)	Aventureiro Descansando#izb	4_F_SITDOWN
+prt_fild08c,338,217,7	duplicate(Aventureiro Descansando#iz)	Aventureiro Descansando#izc	4_F_SITDOWN
+prt_fild08d,338,217,7	duplicate(Aventureiro Descansando#iz)	Aventureiro Descansando#izd	4_F_SITDOWN

@@ -1,0 +1,1106 @@
+//===== rAthena Script ======================================= 
+//= Bangungot Hospital 2F
+//===== By: ================================================== 
+//= Euphy
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Save the hospital in Port Malaya from Bangungot.
+//= Part of the "Nurse in Port Malaya" quest.
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [Euphy]
+//= 1.1 Added GM management function. [Euphy]
+//= 1.2 Added VIP features. [Euphy]
+//= 1.3 Bugs fixed. [Capuche]
+//============================================================ 
+
+// Criação da Instância :: ma_hos_enter
+//============================================================
+ma_dun01,147,10,5	script	Enfermeira#ma_dun01	4_F_NURSE,{
+	if (BaseLevel < 100)
+		end;
+	.@party_id = getcharid(1);
+	cutin "malaya_nurseB",2;
+
+	switch( checkquest(9223,PLAYTIME) ) {// Haverá Paz no Hospital?
+	case -1:
+		switch( isbegin_quest(9222) ) {// Livre-se de Bangungot do Hospital 2° Andar
+		case 0:
+			if (.@party_id == 0) {
+				if (malaya_bang == 30) {
+					malaya_bang = 31;
+					changequest 11302,11303;
+					callsub S_Closed;
+				}
+				else if (malaya_bang == 31)
+					callsub S_Closed;
+				else
+					callsub S_NoParty;
+			}
+			if (checkquest(11309,HUNTING) == 2) {
+				mes "[Enfermeira Maenne]";
+				mes "Você se livrou do Bangungot!";
+				mes "A enfermeira pode estar esperando por você";
+				mes "em frente ao hospital!";
+				close2;
+				cutin "",255;
+				end;
+			}
+			switch( checkquest(9224,PLAYTIME) ) {// Explore o Hospital 2° Andar
+			case -1:
+				if (malaya_bang == 30) {
+					malaya_bang = 31;
+					changequest 11302,11303;
+					callsub S_Closed;
+				}
+				else if (malaya_bang == 31)
+					callsub S_Closed;
+				else if (malaya_bang > 39)
+					callsub S_Enter, false;
+				else {
+					mes "[Enfermeira Maenne]";
+					mes "..........";
+					close2;
+					cutin "",255;
+					end;
+				}
+			case 0:
+			case 1:
+				mes "[Enfermeira Maenne]";
+				mes "Agora a entrada";
+				mes "para subir ao segundo andar";
+				mes "está fechada.";
+				next;
+				mes "[Enfermeira Maenne]";
+				mes "Para subir";
+				mes "ao segundo andar novamente";
+				mes "abra o portão";
+				mes "após o passar do tempo.";
+				close2;
+				cutin "",255;
+				end;
+			case 2:
+				if (checkquest(11309,HUNTING) == -1)
+					callsub S_NoParty;
+				if (isbegin_quest(11309) == 1) {
+					mes "[Enfermeira Maenne]";
+					mes "Do Bangungot no segundo andar";
+					mes "você retornou em segurança até aqui!!";
+					next;
+					mes "[Enfermeira Maenne]";
+					mes "Se quiser subir novamente";
+					mes "ao segundo andar";
+					mes "por favor, fale comigo.";
+					completequest 9224;
+					erasequest 9224;
+					close2;
+					cutin "",255;
+					end;
+				}
+				// isbegin_quest(11309) == 2, HUNTING == 0 ou HUNTING == 1
+				if (malaya_bang > 39)
+					callsub S_Enter, true;
+				else {
+					mes "[Enfermeira Maenne]";
+					mes ".......";
+					close2;
+					cutin "",255;
+					end;
+				}
+			}
+		case 1:
+			if (.@party_id == 0)
+				callsub S_NoParty;
+			if (malaya_bang < 40) {
+				mes "[Enfermeira Maenne]";
+				mes ".....?";
+				mes "Agora você não pode subir";
+				mes "para o 2º andar.";
+				close2;
+				cutin "",255;
+				end;
+			}
+			if (checkquest(9222,HUNTING) == 0 || checkquest(9222,HUNTING) == 1) {
+				switch( checkquest(9224,PLAYTIME) ) {// Explore o Hospital 2° Andar
+				case -1:
+					mes "[Enfermeira Maenne]";
+					mes "Esta é uma situação fatal.";
+					mes "Por isso você não pode subir";
+					mes "ao 2º andar.";
+					close2;
+					cutin "",255;
+					end;
+				case 0:
+				case 1:
+					mes "[Enfermeira Maenne]";
+					mes "Para o segundo andar do hospital";
+					mes "Deseja subir novamente?";
+					callsub S_Enter, false, false;
+				case 2:
+					callsub S_Enter, true;
+				}
+			}
+			// senão
+			if (checkweight(607,11) == 0) {
+				mes "[Enfermeira Maenne]";
+				mes "Você está carregando muitas coisas.";
+				mes "Por favor reduza seus itens e";
+				mes "venha até mim novamente.";
+				close2;
+				cutin "",255;
+				end;
+			}
+			if (checkweight(607,1) == 0) {
+				mes "[Enfermeira Maenne]";
+				mes "Está muito pesado.";
+				mes "Por favor reduza o peso e";
+				mes "venha até mim novamente.";
+				close2;
+				cutin "",255;
+				end;
+			}
+			callsub S_Complete, true;
+			getexp 500000,0;
+			if (VIP_SCRIPT == 0 || vip_status(VIP_STATUS_ACTIVE))
+				getitem 6499,7;// Rancor Antigo
+			else
+				getitem 6499,5;
+			close2;
+			cutin "",255;
+			end;
+		case 2:
+			callsub S_Complete, true;
+			close2;
+			cutin "",255;
+			end;
+		}
+	case 0:
+	case 1:
+		callsub S_Complete, false;
+		close2;
+		cutin "",255;
+		end;
+	case 2:
+		if (.@party_id == 0)
+			callsub S_NoParty;
+		else if (malaya_bang > 39)
+			callsub S_Enter, true;
+		else {
+			mes "[Enfermeira Maenne]";
+			mes ".......";
+			close2;
+			cutin "",255;
+			end;
+		}
+	}
+
+S_Closed:
+	mes "[Enfermeira Maenne]";
+	mes "- A porta do 1º andar ficou fechada";
+	mes "quando esta Enfermeira entrou?";
+	mes "Eu a chamei mas";
+	mes "ela não respondeu. -";
+	close2;
+	cutin "",255;
+	end;
+
+S_Complete:
+	mes "[Enfermeira Maenne]";
+	mes "Você retornou em segurança do Bangungot no segundo andar!!";
+	mes "No entanto, isso não";
+	mes "acabou de verdade ainda.";
+	next;
+	mes "[Enfermeira Maenne]";
+	mes "Tenho certeza de que ele";
+	mes "nunca desaparece facilmente.";
+	mes "Eu não sei o que vai acontecer";
+	mes "com o Bangungot, então";
+	mes "após um tempo";
+	mes "por favor, volte até mim.";
+	if (getarg(0) == true) {
+		completequest 9222;
+		erasequest 9222;
+		completequest 9224;
+		erasequest 9224;
+		setquest 9223;
+	}
+	return;
+
+S_NoParty:
+	mes "- Eu acho...";
+	mes "Eu não consigo falar com ele sozinho.";
+	mes "Depois de registrar um grupo";
+	mes "me deixe tentar dizer algo. -";
+	close2;
+	cutin "",255;
+	end;
+
+S_Enter:
+	.@md_name$ = "Hospital de Bangungot 2º Andar";
+	if (getarg(1,1) == true) {
+		if (is_party_leader() == true)
+			.@menu$ = "Preparar para entrar no segundo andar.";
+		mes "[Enfermeira Maenne]";
+		if (getarg(0) == false) {
+			mes "Eu já ouvi essa história então";
+			mes "eu meio que já sei disso.";
+			mes "O que você vai fazer?";
+			mes "Você deseja subir";
+			mes "para o segundo andar?";
+		}
+		else {
+			mes "Você voltou...";
+			mes "Há más notícias.";
+			mes "Eu ouvi que";
+			mes "o Bangungot apareceu";
+			mes "novamente.";
+			next;
+			mes "[Enfermeira Maenne]";
+			mes "A ajuda de "+ strcharinfo(0) +"";
+			mes "é necessária outra vez.";
+			mes "Por favor, você poderia me dar";
+			mes "mais uma chance?";
+		}
+	}
+	next;
+	switch( select( .@menu$, "Entrar no segundo andar.", "Não entrar." ) ) {
+	case 1:
+		if (instance_create(.@md_name$) < 0) {
+			mes "[Enfermeira Maenne]";
+			mes "Ocorreu uma situação crítica.";
+			mes "Você não pode subir ao 2º andar.";
+			break;
+		}
+		mes "[Enfermeira Maenne]";
+		mes "Estamos nos preparando para subir";
+		mes "ao segundo andar.";
+		mes "No segundo andar";
+		mes "há um rumor caótico de que";
+		mes "os mortos não morrem.";
+		mes "Por favor, leve essa história em conta.";
+		next;
+		mes "[Enfermeira Maenne]";
+		mes "Quando terminar tudo,";
+		mes "por favor fale comigo novamente.";
+		mes "Eu realmente agradeço.";
+		break;
+	case 2:
+		switch( instance_enter(.@md_name$) ) {
+		case IE_OTHER:
+			mes "[Enfermeira Maenne]";
+			mes "Ocorreu uma situação crítica.";
+			mes "Você não pode subir ao 2º andar.";
+			break;
+		case IE_NOINSTANCE:
+			mes "[Enfermeira Maenne]";
+			mes "Você não pode subir";
+			mes "ao 2º andar agora.";
+			break;
+		case IE_NOMEMBER:
+			mes "[Enfermeira Maenne]";
+			mes "É muito perigoso subir";
+			mes "ao 2º andar sozinho.";
+			mes "Por favor venha aqui com";
+			mes "mais pessoas.";
+			break;
+		case IE_OK:
+			mapannounce "ma_dun01", getpartyname(getcharid(1)) + " grupo do membro " + strcharinfo(0) + " entrou em " + .@md_name$ + ".",bc_map,"0x00ff99";
+			if (getarg(0) == true) {
+				if (checkquest(9223) > -1) {
+					completequest 9223;
+					erasequest 9223;
+				}
+				if (checkquest(9222) > -1)
+					erasequest 9222;
+				if (checkquest(9224) > -1)
+					erasequest 9224;
+				setquest 9222;
+			}
+			if (isbegin_quest(9224) == 0)
+				setquest 9224;
+			cutin "",255;
+			//warp "1@ma_h",40,157;
+			end;
+		}
+		break;
+	case 3:
+		mes "[Enfermeira Maenne]";
+		mes "Tudo bem.";
+		mes "Se mudar de ideia, volte aqui.";
+		break;
+	}
+	close2;
+	cutin "",255;
+	end;
+}
+
+// NPC de Gerenciamento GM :: ma_hos_enter_2
+//============================================================
+sec_in02,27,30,0	script	Portal de Bangungot	2_MONEMUS,{
+	mes "Senha";
+	next;
+	if (callfunc("F_GM_NPC","1854",1) == 0) {
+		mes "Boa sorte.";
+		close;
+	}
+	switch(select("Receber 9222:Receber 9223:Apagar 9222:Apagar 9223:Receber 9224:Apagar 9224:Receber malaya_bang 30:Receber malaya_bang 40:Receber 11309:Apagar 11309:Cancelar")) {
+		case 1: setquest 9222; end;
+		case 2: setquest 9223; end;
+		case 3: erasequest 9222; end;
+		case 4: erasequest 9223; end;
+		case 5: setquest 9224; end;
+		case 6: erasequest 9224; end;
+		case 7: malaya_bang = 30; end;
+		case 8: malaya_bang = 40; end;
+		case 9: setquest 11309; end;
+		case 10: completequest 11309; end;
+		case 11: end;
+	}
+}
+
+// Scripts da Instância :: ma_hos
+//============================================================
+1@ma_h,43,157,0	script	#Início do Memorial	HIDDEN_WARP_NPC,2,2,{
+	end;
+OnTouch:
+	if ('disablenpc == 0) {
+		'disablenpc = 1;
+		mapannounce 'map_name$, "Bangungot: Seu tolo " + strcharinfo(0) + " ....",bc_map,"0xFF82FF";
+		mapannounce 'map_name$, "Bangungot: Saia antes que morra...",bc_map,"0xFF82FF";
+		areamonster 'map_name$,44,156,46,158,"Mangkukulam",2339,1,instance_npcname("#Início do Memorial") + "::OnMyMobDead";
+		donpcevent instance_npcname("#Início do Memorial_time") + "::OnEnable";
+	}
+	end;
+OnMyMobDead:
+	initnpctimer;
+	end;
+OnTimer1000:
+	if (mobcount('map_name$,instance_npcname("#Início do Memorial") + "::OnMyMobDead") < 1) {
+		donpcevent instance_npcname("#Entrada do Portal1") + "::OnEnable1";
+		donpcevent instance_npcname("#Início do Memorial_time") + "::OnDisable";
+		mapannounce 'map_name$, "Bangungot: É aqui que o seu PESADELO começa...",bc_map,"0xFF82FF";
+		disablenpc instance_npcname("#Início do Memorial");
+	}
+	stopnpctimer;
+	end;
+}
+
+1@ma_h,43,157,0	script	#Início do Memorial_time	HIDDEN_WARP_NPC,{// 2,2
+	end;
+OnEnable:
+	specialeffect EF_BAT2,AREA,instance_npcname("#Início do Memorial"); 
+	initnpctimer;
+	end;
+OnDisable:
+	stopnpctimer;
+	end;
+OnTimer5000:
+	mapannounce 'map_name$, "Bangungot: Você não pode ajudar.... você não pode me derrotar.",bc_map,"0xFF82FF";
+	end;
+OnTimer10000:
+	mapannounce 'map_name$, "Bangungot: HAHAHAHAHAHAHAHA!!!!",bc_map,"0xFF82FF";
+	stopnpctimer;
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Início do Memorial_time");
+	end;
+}
+
+1@ma_h,46,165,0	script	#Entrada do Portal1	HIDDEN_WARP_NPC,{ //3,3
+	end;
+OnEnable1:
+	.@npc_name$ = instance_npcname(strnpcinfo(0));
+	.@label$ = .@npc_name$ + "::OnMyMobDead";
+	enablenpc .@npc_name$;
+	specialeffect EF_BAT2;
+	switch(atoi(charat(strnpcinfo(2),4))) {
+	case 1:
+		areamonster 'map_name$,49,171,51,173,"Mangkukulam",2339,1,.@label$;
+		areamonster 'map_name$,51,171,53,173,"Mangkukulam",2339,1,.@label$;
+		end;
+	case 2:
+		areamonster 'map_name$,49,137,51,139,"Mangkukulam",2339,1,.@label$;
+		areamonster 'map_name$,51,137,53,139,"Mangkukulam",2339,1,.@label$;
+		end;
+	case 3:
+		areamonster 'map_name$,69,171,71,173,"Mangkukulam",2339,1,.@label$;
+		areamonster 'map_name$,71,171,73,173,"Mangkukulam",2339,1,.@label$;
+		areamonster 'map_name$,73,171,75,173,"Mangkukulam",2339,1,.@label$;
+		end;
+	case 4:
+		areamonster 'map_name$,71,139,73,141,"Mangkukulam",2339,1,.@label$;
+		areamonster 'map_name$,73,139,75,141,"Mangkukulam",2339,1,.@label$;
+		areamonster 'map_name$,75,139,77,141,"Mangkukulam",2339,1,.@label$;
+		end;
+	case 5:
+		areamonster 'map_name$,93,173,95,175,"Mangkukulam",2339,1,.@label$;
+		areamonster 'map_name$,95,173,97,175,"Mangkukulam",2339,1,.@label$;
+		areamonster 'map_name$,97,173,99,175,"Mangkukulam",2339,1,.@label$;
+		areamonster 'map_name$,93,175,95,177,"Mangkukulam",2339,1,.@label$;
+		end;
+	}
+	end;
+/*
+// Não chamado nos scripts oficiais.
+OnEnable2:
+	areamonster 'map_name$,140,38,142,40,"Mangkukulam",2339,1,instance_npcname("#Entrada do Portal1") + "::OnMyMobDead";
+	end;
+*/
+OnEnable3:
+	.@i = atoi(charat(strnpcinfo(2),4))+1;
+	donpcevent instance_npcname("#Entrada do Portal" + .@i + "") + "::OnEnable1";
+	disablenpc();
+	end;
+OnMyMobDead:
+	initnpctimer;
+	end;
+OnTimer1000:
+	if (mobcount('map_name$,instance_npcname(strnpcinfo(0)) + "::OnMyMobDead") < 1) {
+		specialeffect EF_BAT2;
+		donpcevent instance_npcname(strnpcinfo(0)) + "::OnEnable3";
+		switch(atoi(charat(strnpcinfo(2),4))) {
+			case 1: .@string$ = "Bangungot: Eu vou deixar você sentir a dor e a agonia se tornarem reais....."; break;
+			case 2: .@string$ = "Bangungot: Espíritos doentes são a fonte da minha energia e da minha vida..."; break;
+			case 3: .@string$ = "Bangungot: Grite mais.... e mais...... sua dor..."; break;
+			case 4: .@string$ = "Bangungot: Mais profundamente, cada vez mais em dor..."; break;
+			case 5: .@string$ = "Bangungot: Fique horrorizado... fique petrificado."; break;
+		}
+		mapannounce 'map_name$, .@string$, bc_map,"0xFF82FF";
+	}
+	stopnpctimer;
+	end;
+OnInstanceInit:
+	disablenpc();
+	end;
+}
+1@ma_h,57,147,0	duplicate(#Entrada do Portal1)	#Entrada do Portal2	HIDDEN_WARP_NPC //3,3
+1@ma_h,67,165,0	duplicate(#Entrada do Portal1)	#Entrada do Portal3	HIDDEN_WARP_NPC //3,3
+1@ma_h,79,147,0	duplicate(#Entrada do Portal1)	#Entrada do Portal4	HIDDEN_WARP_NPC //3,3
+1@ma_h,90,165,0	duplicate(#Entrada do Portal1)	#Entrada do Portal5	HIDDEN_WARP_NPC //3,3
+
+1@ma_h,101,147,0	script	#Entrada do Portal6	HIDDEN_WARP_NPC,{ //2,2
+	end;
+OnEnable1:
+	.@npc_name$ = instance_npcname("#Entrada do Portal6");
+	.@label$ = .@npc_name$ + "::OnMyMobDead";
+	enablenpc .@npc_name$;
+	specialeffect EF_BAT2;
+	areamonster 'map_name$,93,137,95,139,"Mangkukulam",2339,1,.@label$;
+	areamonster 'map_name$,95,137,97,139,"Mangkukulam",2339,1,.@label$;
+	areamonster 'map_name$,97,137,99,139,"Mangkukulam",2339,1,.@label$;
+	areamonster 'map_name$,93,139,95,141,"Mangkukulam",2339,1,.@label$;
+	areamonster 'map_name$,95,139,97,141,"Manananggal de Bangungot",2338,1,.@label$;
+	end;
+/*
+// Não chamado nos scripts oficiais.
+OnEnable2:
+	areamonster 'map_name$,140,38,142,40,"Mangkukulam",2339,1,instance_npcname("#Entrada do Portal6") + "::OnMyMobDead";
+	end;
+*/
+OnMyMobDead:
+	initnpctimer;
+	end;
+OnTimer3000:
+	if (mobcount('map_name$,instance_npcname("#Entrada do Portal6") + "::OnMyMobDead") < 1) {
+		specialeffect EF_BAT2;
+		donpcevent instance_npcname("#Invocar Chefe") + "::OnEnable";
+		mapannounce 'map_name$, "Bangungot: Você teve a escolha de entrar aqui, mas não terá escolha de sair quando quiser...",bc_map,"0xFF82FF";
+	}
+	stopnpctimer;
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Entrada do Portal6");
+	end;
+}
+
+1@ma_h,110,177,0	script	#Invocar Chefe	HIDDEN_WARP_NPC,{
+	end;
+OnEnable:
+	enablenpc instance_npcname("#Invocar Chefe");
+	monster 'map_name$,143,158,"Bangungot",2317,1,instance_npcname("#Invocar Chefe") + "::OnMyMobDead";
+	donpcevent instance_npcname("#Entrada da Sala do Chefe") + "::OnEnableEntry";
+	donpcevent instance_npcname("#Entrada da Sala do Chefe") + "::OnEnable";
+	end;
+OnMyMobDead:
+	initnpctimer;
+	end;
+OnTimer1000:
+	if (mobcount('map_name$,instance_npcname("#Invocar Chefe") + "::OnMyMobDead") < 1) {
+		donpcevent instance_npcname("#Invocar Pilar") + "::OnEnable1";
+		mapannounce 'map_name$, "Bangungot: Eu.... não posso..... terminar... assim.......",bc_map,"0xFF82FF";
+		disablenpc instance_npcname("#Invocar Chefe");
+	}
+	stopnpctimer;
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Invocar Chefe");
+	end;
+}
+
+1@ma_h,147,143,0	script	#Entrada da Sala do Chefe	HIDDEN_WARP_NPC,10,10,{
+	end;
+OnTouch:
+	specialeffect EF_GHOST;
+	donpcevent instance_npcname("#Entrada da Sala do Chefe") + "::OnDisableEntry";
+	donpcevent instance_npcname("#Entrada da Sala do Chefe_time") + "::OnEnable";
+	end;
+OnEnable:
+	// enablenpc instance_npcname("#Entrada da Sala do Chefe");
+	enablenpc instance_npcname("#Porta da Sala do Chefe");
+	enablenpc instance_npcname("#Porta da Sala do Chefe1");
+	end;
+OnSpawn:
+	areamonster 'map_name$,123,152,137,166,"Manananggal de Bangungot",2338,1,instance_npcname("#Entrada da Sala do Chefe") + "::OnMyMobDead";
+	end;
+OnReset:
+	killmonster 'map_name$,instance_npcname("#Entrada da Sala do Chefe") + "::OnMyMobDead";
+	end;
+OnMyMobDead:
+	initnpctimer;
+	end;
+OnTimer1000:
+	if (mobcount('map_name$,instance_npcname("#Entrada da Sala do Chefe") + "::OnMyMobDead") < 1)
+		mapannounce 'map_name$, "Bangungot: HAHAHAH... Isso não é suficiente, eu ficarei ainda mais forte....",bc_map,"0xFF82FF";
+	stopnpctimer;
+	end;
+
+// Labels não-oficiais (para evitar duplicação de código).
+OnEnableEntry:
+	enablenpc instance_npcname("#Entrada da Sala do Chefe");
+	enablenpc instance_npcname("#Entrada da Sala do Chefe_a");
+	enablenpc instance_npcname("#Entrada da Sala do Chefe_b");
+	enablenpc instance_npcname("#Entrada da Sala do Chefe_c");
+	enablenpc instance_npcname("#Entrada da Sala do Chefe_d");
+	enablenpc instance_npcname("#Entrada da Sala do Chefe_e");
+	enablenpc instance_npcname("#Entrada da Sala do Chefe_f");
+	enablenpc instance_npcname("#Entrada da Sala do Chefe_g");
+	enablenpc instance_npcname("#Entrada da Sala do Chefe_h");
+	end;
+OnDisableEntry:
+	disablenpc instance_npcname("#Entrada da Sala do Chefe");
+	disablenpc instance_npcname("#Entrada da Sala do Chefe_a");
+	disablenpc instance_npcname("#Entrada da Sala do Chefe_b");
+	disablenpc instance_npcname("#Entrada da Sala do Chefe_c");
+	disablenpc instance_npcname("#Entrada da Sala do Chefe_d");
+	disablenpc instance_npcname("#Entrada da Sala do Chefe_e");
+	disablenpc instance_npcname("#Entrada da Sala do Chefe_f");
+	disablenpc instance_npcname("#Entrada da Sala do Chefe_g");
+	disablenpc instance_npcname("#Entrada da Sala do Chefe_h");
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Entrada da Sala do Chefe");
+	end;
+}
+
+1@ma_h,147,143,0	script	#Entrada da Sala do Chefe_time	HIDDEN_WARP_NPC,{ //10,10
+	end;
+OnEnable:
+	mapannounce 'map_name$, "Bangungot: Pobrezinhos. Vou convidá-los para o mundo das doenças infecciosas...",bc_map,"0xFF82FF";
+	initnpctimer;
+	end;
+OnTimer25000:
+	mapannounce 'map_name$, "Bangungot: Vocês vão descobrir o que é...",bc_map,"0xFF82FF";
+	for ( .@i = 10; .@i <= 22; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	end;
+OnTimer35000:
+	mapannounce 'map_name$, "Bangungot: Dor de verdade! Vocês vão conhecer!!",bc_map,"0xFF82FF";
+	for ( .@i = 25; .@i <= 33; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	end;
+OnTimer45000:
+	mapannounce 'map_name$, "Bangungot: Já ouviram os gritos dos pacientes?",bc_map,"0xFF82FF";
+	end;
+OnTimer55000:
+	mapannounce 'map_name$, "Bangungot: Se não ouviram, eu vou fazê-los ouvir!!",bc_map,"0xFF82FF";
+	enablenpc instance_npcname("#Invocação de Monstros de Proteção");
+	donpcevent instance_npcname("#Invocação de Monstros de Proteção") + "::OnEnable7";
+	end;
+OnTimer60000:
+	for ( .@i = 1; .@i <= 8; ++.@i )
+		enablenpc instance_npcname("#Patternwarp" + .@i);
+	for ( .@i = 34; .@i <= 38; ++.@i )
+		enablenpc instance_npcname("#Patternwarp" + .@i);
+	end;
+OnTimer60500:
+	for ( .@i = 41; .@i <= 49; ++.@i )
+		enablenpc instance_npcname("#Patternwarp" + .@i);
+	end;
+OnTimer90000:
+	mapannounce 'map_name$, "Bangungot: O prazer vindo da agonia é o meu alimento.",bc_map,"0xFF82FF";
+	donpcevent instance_npcname("#Entrada da Sala do Chefe") + "::OnSpawn";
+	end;
+OnTimer110000:
+	mapannounce 'map_name$, "Bangungot: Permaneçam aqui, maldita doença.....",bc_map,"0xFF82FF";
+	donpcevent instance_npcname("#Entrada da Sala do Chefe") + "::OnSpawn";
+	end;
+OnTimer125000:
+	mapannounce 'map_name$, "Bangungot: Querem se divertir comigo ......?",bc_map,"0xFF82FF";
+	end;
+OnTimer128000:
+	for ( .@i = 1; .@i <= 8; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	for ( .@i = 34; .@i <= 38; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	end;
+OnTimer128500:
+	for ( .@i = 41; .@i <= 49; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	end;
+OnTimer129000:
+	donpcevent instance_npcname("#Entrada da Sala do Chefe") + "::OnEnableEntry";
+	end;
+OnTimer129500:
+	donpcevent instance_npcname("#Entrada da Sala do Chefe") + "::OnSpawn";
+	for ( .@i = 10; .@i <= 22; ++.@i )
+		enablenpc instance_npcname("#Patternwarp" + .@i);
+	end;
+OnTimer130000:
+	for ( .@i = 25; .@i <= 33; ++.@i )
+		enablenpc instance_npcname("#Patternwarp" + .@i);
+	stopnpctimer;
+	end;
+OnStopTimer:
+	stopnpctimer;
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Entrada da Sala do Chefe_time");
+	end;
+}
+
+1@ma_h,111,177,0	script	#Entrada da Sala do Chefe_2	WARPNPC,{
+	end;
+OnEnable:
+	mapannounce 'map_name$, "Bangungot: Vocês são bem poderosos...",bc_map,"0xFF82FF";
+	initnpctimer;
+	end;
+OnTimer3000:
+	mapannounce 'map_name$, "Bangungot: Mas será que podem...",bc_map,"0xFF82FF";
+	end;
+OnTimer6000:
+	mapannounce 'map_name$, "Bangungot: ...me derrotar novamente...?",bc_map,"0xFF82FF";
+	end;
+OnTimer9000:
+	for ( .@i = 1; .@i <= 8; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	for ( .@i = 34; .@i <= 38; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	end;
+OnTimer9500:
+	for ( .@i = 41; .@i <= 49; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	end;
+OnTimer10000:
+	mapannounce 'map_name$, "Bangungot: Seus tolos....",bc_map,"0xFF82FF";
+	for ( .@i = 10; .@i <= 22; ++.@i )
+		enablenpc instance_npcname("#Patternwarp" + .@i);
+	end;
+OnTimer10500:
+	for ( .@i = 25; .@i <= 33; ++.@i )
+		enablenpc instance_npcname("#Patternwarp" + .@i);
+	stopnpctimer;
+	end;
+OnStopTimer:
+	stopnpctimer;
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Entrada da Sala do Chefe_2");
+	end;
+}
+
+1@ma_h,118,63,0	script	#Invocação de Monstros de Proteção	HIDDEN_WARP_NPC,4,4,{
+	end;
+OnTouch:
+	donpcevent instance_npcname("#Invocação de Monstros de Proteção_time") + "::OnEnable";
+	specialeffect EF_CURSEATTACK;
+	end;
+OnEnable1:
+	.@label$ = instance_npcname("#Invocação de Monstros de Proteção2") + "::OnMyMobDead";
+	areamonster 'map_name$,47,77,49,79,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,49,77,51,79,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,51,77,53,79,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,47,79,49,81,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,49,79,51,81,"Mangkukulam",2339,1,.@label$;
+	areamonster 'map_name$,47,81,49,83,"Tiyanak",2339,1,.@label$;
+	areamonster 'map_name$,49,81,51,83,"Tiyanak",2339,1,.@label$;
+	end;
+OnEnable2:
+	.@label$ = instance_npcname("#Invocação de Monstros de Proteção2") + "::OnMyMobDead";
+	areamonster 'map_name$,51,45,53,47,"Tiyanak",2339,1,.@label$;
+	areamonster 'map_name$,53,45,55,47,"Tiyanak",2339,1,.@label$;
+	areamonster 'map_name$,49,47,51,49,"Mangkukulam",2339,1,.@label$;
+	areamonster 'map_name$,53,47,55,49,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,49,49,51,51,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,51,49,53,51,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,53,49,55,51,"Tiyanak",2340,1,.@label$;
+	end;
+OnEnable3:
+	.@label$ = instance_npcname("#Invocação de Monstros de Proteção2") + "::OnMyMobDead";
+	areamonster 'map_name$,69,75,71,77,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,71,75,73,77,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,73,75,75,77,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,69,77,71,79,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,71,77,73,79,"Mangkukulam",2339,1,.@label$;
+	areamonster 'map_name$,69,79,71,81,"Tiyanak",2339,1,.@label$;
+	areamonster 'map_name$,71,79,73,81,"Tiyanak",2339,1,.@label$;
+	end;
+OnEnable4:
+	.@label$ = instance_npcname("#Invocação de Monstros de Proteção2") + "::OnMyMobDead";
+	areamonster 'map_name$,73,45,75,47,"Tiyanak",2339,1,.@label$;
+	areamonster 'map_name$,75,45,77,47,"Tiyanak",2339,1,.@label$;
+	areamonster 'map_name$,71,47,73,49,"Mangkukulam",2339,1,.@label$;
+	areamonster 'map_name$,75,47,77,49,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,71,49,73,51,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,73,49,75,51,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,75,49,77,51,"Tiyanak",2340,1,.@label$;
+	end;
+OnEnable5:
+	.@label$ = instance_npcname("#Invocação de Monstros de Proteção2") + "::OnMyMobDead";
+	areamonster 'map_name$,93,77,95,79,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,95,77,97,79,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,97,77,99,79,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,93,79,95,81,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,95,79,97,81,"Mangkukulam",2339,1,.@label$;
+	areamonster 'map_name$,93,81,95,83,"Tiyanak",2339,1,.@label$;
+	areamonster 'map_name$,95,81,97,83,"Tiyanak",2339,1,.@label$;
+	end;
+OnEnable6:
+	.@label$ = instance_npcname("#Invocação de Monstros de Proteção2") + "::OnMyMobDead";
+	areamonster 'map_name$,93,43,95,45,"Tiyanak",2339,1,.@label$;
+	areamonster 'map_name$,95,43,97,45,"Tiyanak",2339,1,.@label$;
+	areamonster 'map_name$,91,45,93,47,"Mangkukulam",2339,1,.@label$;
+	areamonster 'map_name$,95,45,97,47,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,91,47,93,49,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,93,47,95,49,"Tiyanak",2340,1,.@label$;
+	areamonster 'map_name$,95,47,97,49,"Tiyanak",2340,1,.@label$;
+	end;
+OnEnable7:
+	killmonster 'map_name$,instance_npcname("#Invocação de Monstros de Proteção2") + "::OnMyMobDead";
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Invocação de Monstros de Proteção");
+	end;
+}
+
+1@ma_h,118,63,0	script	#Invocação de Monstros de Proteção2	HIDDEN_WARP_NPC,{
+	end;
+OnMyMobDead:
+	initnpctimer;
+	end;
+OnTimer1000:
+	if (mobcount('map_name$,instance_npcname("#Invocação de Monstros de Proteção2") + "::OnMyMobDead") < 1) {
+		donpcevent instance_npcname("#Entrada da Sala do Chefe_2") + "::OnEnable";
+		donpcevent instance_npcname("#Entrada da Sala do Chefe") + "::OnEnableEntry";
+		donpcevent instance_npcname("#Entrada da Sala do Chefe_time") + "::OnStopTimer";
+	}
+	stopnpctimer;
+	end;
+}
+
+1@ma_h,118,64,0	script	#Invocação de Monstros de Proteção_time	HIDDEN_WARP_NPC,{ //4,4
+	end;
+OnEnable:
+	initnpctimer;
+	disablenpc instance_npcname("#Invocação de Monstros de Proteção");
+	end;
+OnTimer2000:
+	mapannounce 'map_name$, "Bangungot: Meu espírito estará com o seu corpo amaldiçoado...",bc_map,"0xFF82FF";
+	end;
+OnTimer4000:
+	mapannounce 'map_name$, "Bangungot: Meus servos...!! Vão!! Vão atormentar os pacientes nos quartos!!",bc_map,"0xFF82FF";
+	end;
+OnTimer6000:
+	mapannounce 'map_name$, "- Os servos de Bangungot estão incomodando os pacientes!! Se você não derrotar todos, Bangungot ficará mais forte. -",bc_map,"0xFF8200";
+	end;
+OnTimer10000:
+	setarray .@npc$[1],
+		"Paciente Gemendo","Paciente Gritando","Paciente com Dor","Paciente Desmaiado","Paciente em Pesadelo","Paciente com Aparência Doente",
+		"Paciente Horrorizado","Paciente em Lamento","Paciente Sofrendo","Paciente Contorcendo","Paciente Suando Frio","Paciente Uivando";
+	.@rand = rand(1,6);
+	donpcevent instance_npcname("#Invocação de Monstros de Proteção") + "::OnEnable" + .@rand;
+	.@id = (.@rand*2)-rand(2);
+	donpcevent instance_npcname(.@npc$[.@id] + "#" + .@id) + "::OnEnable";
+	stopnpctimer;
+	end;
+OnStopTimer:
+	stopnpctimer;
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Invocação de Monstros de Proteção_time");
+	end;
+}
+
+1@ma_h,112,177,0	script	#Invocar Pilar	HIDDEN_WARP_NPC,{
+	end;
+OnEnable1:
+	enablenpc instance_npcname("#Invocar Pilar");
+	donpcevent instance_npcname("#Entrada da Sala do Chefe_time") + "::OnStopTimer";
+	donpcevent instance_npcname("#Invocar Pilar_time") + "::OnEnable";
+	monster 'map_name$,131,157,"Pilar dos Espíritos",2327,1,instance_npcname("#Invocar Pilar") + "::OnMyMobDead";
+	end;
+OnEnable3:
+	enablenpc instance_npcname("#Saída da Sala do Chefe");
+	disablenpc instance_npcname("#Invocar Pilar");
+	end;
+OnReset:
+	killmonster 'map_name$,instance_npcname("#Invocar Pilar") + "::OnMyMobDead";
+	end;
+OnMyMobDead:
+	initnpctimer;
+	end;
+OnTimer1000:
+	if (mobcount('map_name$,instance_npcname("#Invocar Pilar") + "::OnMyMobDead") < 1) {
+		donpcevent instance_npcname("#Invocar Pilar_time") + "::OnStopTimer";
+		donpcevent instance_npcname("#Invocar Pilar") + "::OnEnable3";
+		donpcevent instance_npcname("#Entrada da Sala do Chefe") + "::OnReset";
+		mapannounce 'map_name$, "Bangungot: Oh....não acredito que perdi...",bc_map,"0xFF4500";
+		mapannounce 'map_name$, "Bangungot: Mas não pense que isso é o fim!!",bc_map,"0xFF4500";
+		mapannounce 'map_name$, "Bangungot: EU VOLTAREI!!!!!",bc_map,"0xFF4500";
+	}
+	stopnpctimer;
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Invocar Pilar");
+	end;
+}
+
+1@ma_h,112,178,0	script	#Invocar Pilar_time	HIDDEN_WARP_NPC,{
+	end;
+OnEnable:
+	initnpctimer;
+	end;
+OnStopTimer:
+	stopnpctimer;
+	end;
+OnTimer1000:
+	mapannounce 'map_name$, "- O Pilar dos Espíritos de Bangungot está curando Bangungot. Se você não o derrotar agora, ele se recuperará totalmente!! -",bc_map,"0xFF8200";
+	specialeffect EF_MAPPILLAR2,AREA,instance_npcname("#Dummy_Patternwarp45");
+	end;
+OnTimer7000:
+	mapannounce 'map_name$, "Bangungot: Eu nunca morro!!!!",bc_map,"0xFF82FF";
+	specialeffect EF_MAPPILLAR2,AREA,instance_npcname("#Dummy_Patternwarp45");
+	end;
+OnTimer14000:
+	mapannounce 'map_name$, "Bangungot: Se ousar, me mate!! Eu reviverei em breve!!!",bc_map,"0xFF82FF";
+	specialeffect EF_MAPPILLAR2,AREA,instance_npcname("#Dummy_Patternwarp45");
+	end;
+OnTimer21000:
+	mapannounce 'map_name$, "Bangungot: Eu não posso morrer desse jeito...!!!!",bc_map,"0xFF82FF";
+	specialeffect EF_MAPPILLAR2,AREA,instance_npcname("#Dummy_Patternwarp45");
+	end;
+OnTimer30000:
+	donpcevent instance_npcname("#Invocar Pilar") + "::OnReset";
+	end;
+OnTimer31000:
+	mapannounce 'map_name$, "Bangungot: Hahahahaha!! Voltei com o poder do Pilar dos Espíritos!!!",bc_map,"0xFF82FF";
+	donpcevent instance_npcname("#Invocar Pilar") + "::OnReset";
+	end;
+OnTimer36000:
+	donpcevent instance_npcname("#Invocar Chefe") + "::OnEnable";
+	stopnpctimer;
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Invocar Pilar_time");
+	end;
+}
+
+1@ma_h,118,171,0	script	#Entrada da Sala do Chefe_a	HIDDEN_WARP_NPC,10,10,{
+	end;
+OnTouch:
+	specialeffect EF_GHOST;
+	donpcevent instance_npcname("#Entrada da Sala do Chefe") + "::OnDisableEntry";
+	donpcevent instance_npcname("#Entrada da Sala do Chefe_time") + "::OnEnable";
+	end;
+OnInstanceInit:
+	disablenpc();
+	end;
+}
+1@ma_h,132,171,0	duplicate(#Entrada da Sala do Chefe_a)	#Entrada da Sala do Chefe_b	HIDDEN_WARP_NPC,10,10
+1@ma_h,147,171,0	duplicate(#Entrada da Sala do Chefe_a)	#Entrada da Sala do Chefe_c	HIDDEN_WARP_NPC,10,10
+1@ma_h,118,157,0	duplicate(#Entrada da Sala do Chefe_a)	#Entrada da Sala do Chefe_d	HIDDEN_WARP_NPC,10,10
+1@ma_h,132,157,0	duplicate(#Entrada da Sala do Chefe_a)	#Entrada da Sala do Chefe_e	HIDDEN_WARP_NPC,10,10
+1@ma_h,147,157,0	duplicate(#Entrada da Sala do Chefe_a)	#Entrada da Sala do Chefe_f	HIDDEN_WARP_NPC,10,10
+1@ma_h,118,143,0	duplicate(#Entrada da Sala do Chefe_a)	#Entrada da Sala do Chefe_g	HIDDEN_WARP_NPC,10,10
+1@ma_h,132,143,0	duplicate(#Entrada da Sala do Chefe_a)	#Entrada da Sala do Chefe_h	HIDDEN_WARP_NPC,10,10
+
+1@ma_h,131,62,0	script	#Efeito do Chefe	HIDDEN_WARP_NPC,{ //4,4
+	end;
+OnTimer3000:
+	specialeffect EF_BARRIER;
+	stopnpctimer;
+	initnpctimer;
+	end;
+OnInstanceInit:
+	hideonnpc instance_npcname("#Efeito do Chefe");
+	initnpctimer;
+	end;
+}
+
+1@ma_h,43,86,4	script	Paciente Gemendo#1	4_F_PATIENT,{
+	end;
+OnEnable:
+	mapannounce 'map_name$, "Paciente Gemendo: aaawwww....",bc_map,"0xFF0000";
+	initnpctimer;
+	end;
+OnTimer5000:
+OnTimer8000:
+OnTimer11000:
+OnTimer14000:
+OnTimer17000:
+OnTimer20000:
+OnTimer23000:
+OnTimer26000:
+	specialeffect EF_POTION_BERSERK;
+	specialeffect EF_CURSEATTACK;
+	end;
+OnTimer30000:
+	specialeffect EF_POTION_BERSERK;
+	specialeffect EF_CURSEATTACK;
+	stopnpctimer;
+	end;
+OnInstanceInit:
+	'disablenpc = 0;
+	'map_name$ = instance_mapname("1@ma_h");
+	monster 'map_name$,131,62,"Bangungot",2318,1;
+	end;
+}
+
+1@ma_h,60,87,4	script	Paciente Gritando#2	4_M_PATIENT,{
+	end;
+OnEnable:
+	switch(atoi(strnpcinfo(2))) {
+		case 2: .@str$ = "Paciente Gritando: Aaaaargh!!"; break;
+		case 3: .@str$ = "Paciente com Dor: Oooooowwww!! Está me matando!!!"; break;
+		case 4: .@str$ = "Paciente Desmaiado: ........"; break;
+		case 5: .@str$ = "Paciente em Pesadelo: Socorro~!!! Me salvem!!!"; break;
+		case 6: .@str$ = "Paciente Doente: Hu..a...aaah.."; break;
+		case 7: .@str$ = "Paciente Horrorizado: Afaste-se!! Por favor...."; break;
+		case 8: .@str$ = "Paciente em Tristeza: chorando e chorando......"; break;
+		case 9: .@str$ = "Paciente Sofrendo: Pare... por favor..."; break;
+		case 10: .@str$ = "Paciente Contorcendo: awwww..."; break;
+		case 11: .@str$ = "Paciente Suando Frio: Socorro.....socorro...."; break;
+		case 12: .@str$ = "Paciente Uivando: aaaaahhhhhhhhhh!!"; break;
+	}
+	mapannounce 'map_name$,.@str$,bc_map,"0xFF0000";
+	initnpctimer;
+	end;
+OnTimer5000:
+OnTimer8000:
+OnTimer11000:
+OnTimer14000:
+OnTimer17000:
+OnTimer20000:
+OnTimer23000:
+OnTimer26000:
+	specialeffect EF_POTION_BERSERK;
+	specialeffect EF_CURSEATTACK;
+	end;
+OnTimer30000:
+	specialeffect EF_POTION_BERSERK;
+	specialeffect EF_CURSEATTACK;
+	stopnpctimer;
+	end;
+}
+1@ma_h,60,39,7	duplicate(Paciente Gritando#2)	Paciente com Dor#3	4_F_PATIENT
+1@ma_h,43,39,7	duplicate(Paciente Gritando#2)	Paciente Desmaiado#4	4_M_PATIENT
+1@ma_h,77,86,4	duplicate(Paciente Gritando#2)	Paciente em Pesadelo#5	4_F_PATIENT
+1@ma_h,69,87,4	duplicate(Paciente Gritando#2)	Paciente Doente#6	4_M_PATIENT
+1@ma_h,73,39,7	duplicate(Paciente Gritando#2)	Paciente Horrorizado#7	4_F_PATIENT
+1@ma_h,65,51,7	duplicate(Paciente Gritando#2)	Paciente em Tristeza#8	4_M_PATIENT
+1@ma_h,87,86,4	duplicate(Paciente Gritando#2)	Paciente Sofrendo#9	4_F_PATIENT
+1@ma_h,104,86,4	duplicate(Paciente Gritando#2)	Paciente Contorcendo#10	4_M_PATIENT
+1@ma_h,99,39,7	duplicate(Paciente Gritando#2)	Paciente Suando Frio#11	4_F_PATIENT
+1@ma_h,87,39,7	duplicate(Paciente Gritando#2)	Paciente Uivando#12	4_M_PATIENT
+
+1@ma_h,43,181,4	script	Paciente Gemendo#b	4_F_PATIENT,{ end; }
+1@ma_h,60,182,4	duplicate(Paciente Gemendo#b)	Paciente Gritando#b	4_M_PATIENT
+1@ma_h,60,132,7	duplicate(Paciente Gemendo#b)	Paciente com Dor#b	4_F_PATIENT
+1@ma_h,43,132,7	duplicate(Paciente Gemendo#b)	Paciente Desmaiado#b	4_M_PATIENT
+1@ma_h,77,182,4	duplicate(Paciente Gemendo#b)	Paciente em Pesadelo#b	4_F_PATIENT
+1@ma_h,69,182,4	duplicate(Paciente Gemendo#b)	Paciente Doente#b	4_M_PATIENT
+1@ma_h,73,132,7	duplicate(Paciente Gemendo#b)	Paciente Horrorizado#b	4_F_PATIENT
+1@ma_h,65,144,7	duplicate(Paciente Gemendo#b)	Paciente em Tristeza#b	4_M_PATIENT
+1@ma_h,87,181,4	duplicate(Paciente Gemendo#b)	Paciente Sofrendo#b	4_F_PATIENT
+1@ma_h,104,181,4	duplicate(Paciente Gemendo#b)	Paciente Contorcendo#b	4_M_PATIENT
+1@ma_h,99,132,7	duplicate(Paciente Gemendo#b)	Paciente Suando Frio#b	4_F_PATIENT
+1@ma_h,87,132,7	duplicate(Paciente Gemendo#b)	Paciente Uivando#b	4_M_PATIENT
+1@ma_h,131,157,0	duplicate(Paciente Gemendo#b)	#Dummy_Patternwarp45	HIDDEN_WARP_NPC
+
+// Portais de Teletransportes
+//============================================================
+1@ma_h,35,156,0	warp2	#Saída da Sala do Chefe	2,2,ma_dun01,150,9
+1@ma_h,105,157,0	warp2	#Porta da Sala do Chefe	2,2,1@ma_h,116,157
+1@ma_h,112,157,0	warp2	#Porta da Sala do Chefe1	2,2,1@ma_h,100,157
+1@ma_h,112,63,0	warp2	#Porta da Sala do Chefe3	2,2,1@ma_h,100,63
+1@ma_h,104,63,0	warp2	#Porta da Sala do Chefe2	2,2,1@ma_h,117,63
+1@ma_h,36,157,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp1	7,7
+1@ma_h,46,157,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp2	7,7
+1@ma_h,57,157,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp3	7,7
+1@ma_h,67,157,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp4	7,7
+1@ma_h,79,157,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp5	7,7
+1@ma_h,89,157,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp6	7,7
+1@ma_h,100,157,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp7	7,7
+1@ma_h,51,173,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp8	10,10
+1@ma_h,52,140,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp34	10,10
+1@ma_h,73,173,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp35	10,10
+1@ma_h,73,140,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp36	10,10
+1@ma_h,95,173,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp37	10,10
+1@ma_h,95,140,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp38	10,10
+//1@ma_h,70,170,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp39	10,10
+//1@ma_h,77,169,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp40	10,10
+1@ma_h,117,171,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp41	10,10
+1@ma_h,131,171,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp42	10,10
+1@ma_h,146,171,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp43	10,10
+1@ma_h,117,157,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp44	10,10
+1@ma_h,131,157,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp45	10,10
+1@ma_h,146,157,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp46	10,10
+1@ma_h,117,143,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp47	10,10
+1@ma_h,131,143,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp48	10,10
+1@ma_h,146,143,0	duplicate(#Porta da Sala do Chefe2)	#Patternwarp49	10,10
+
+1@ma_h,36,63,0	warp2	#Patternwarp10	7,7,1@ma_h,116,157
+1@ma_h,46,63,0	duplicate(#Patternwarp10)	#Patternwarp11	7,7
+1@ma_h,56,63,0	duplicate(#Patternwarp10)	#Patternwarp12	7,7
+1@ma_h,67,63,0	duplicate(#Patternwarp10)	#Patternwarp13	7,7
+1@ma_h,78,63,0	duplicate(#Patternwarp10)	#Patternwarp14	7,7
+1@ma_h,89,63,0	duplicate(#Patternwarp10)	#Patternwarp15	7,7
+1@ma_h,100,63,0	duplicate(#Patternwarp10)	#Patternwarp16	7,7
+1@ma_h,51,79,0	duplicate(#Patternwarp10)	#Patternwarp17	10,10
+1@ma_h,51,46,0	duplicate(#Patternwarp10)	#Patternwarp18	10,10
+1@ma_h,73,80,0	duplicate(#Patternwarp10)	#Patternwarp19	10,10
+1@ma_h,73,46,0	duplicate(#Patternwarp10)	#Patternwarp20	10,10
+1@ma_h,95,79,0	duplicate(#Patternwarp10)	#Patternwarp21	10,10
+1@ma_h,95,46,0	duplicate(#Patternwarp10)	#Patternwarp22	10,10
+//1@ma_h,193,82,0	duplicate(#Patternwarp10)	#Patternwarp23	7,7
+//1@ma_h,193,82,0	duplicate(#Patternwarp10)	#Patternwarp24	7,7
+1@ma_h,117,77,0	duplicate(#Patternwarp10)	#Patternwarp25	10,10
+1@ma_h,131,77,0	duplicate(#Patternwarp10)	#Patternwarp26	10,10
+1@ma_h,146,77,0	duplicate(#Patternwarp10)	#Patternwarp27	10,10
+1@ma_h,117,63,0	duplicate(#Patternwarp10)	#Patternwarp28	10,10
+1@ma_h,131,63,0	duplicate(#Patternwarp10)	#Patternwarp29	10,10
+1@ma_h,146,63,0	duplicate(#Patternwarp10)	#Patternwarp30	10,10
+1@ma_h,117,49,0	duplicate(#Patternwarp10)	#Patternwarp31	10,10
+1@ma_h,131,49,0	duplicate(#Patternwarp10)	#Patternwarp32	10,10
+1@ma_h,146,49,0	duplicate(#Patternwarp10)	#Patternwarp33	10,10
+
+// Desabilita a seleção dos portais de teletransportes.
+// Personalizado, mas economiza processamento e linhas.
+1@ma_h,1,1,0	script	#ma_hos_warp_init	CLEAR_NPC,{
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("#Saída da Sala do Chefe");
+	disablenpc instance_npcname("#Porta da Sala do Chefe");
+	disablenpc instance_npcname("#Porta da Sala do Chefe1");
+	for ( .@i = 1; .@i <= 8; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	for ( .@i = 34; .@i <= 38; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	// Pula os 39-40, pois eles estão desabilitados no script oficial.
+	for ( .@i = 41; .@i <= 49; ++.@i )
+		disablenpc instance_npcname("#Patternwarp" + .@i);
+	disablenpc instance_npcname("#ma_hos_warp_init");
+	end;
+}

@@ -1,0 +1,268 @@
+//===== rAthena Script =======================================
+//= Custom Thanatos Tower Quest
+//===== By: ==================================================
+//= Bibilol, Moryagorn
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Custom Thanatos Tower Quest
+//===== Additional Comments: =================================
+//= 1.1 Fixed wrong NPC names in their dialogues, added
+//=     Justin84's gems check in Sox NPC [Lupus]
+//============================================================
+
+//Estátua (NPC)(U: CIMA, D: BAIXO, R: DIREITA, L: ESQUERDA) :
+//Npc de Explicação
+tha_t08,69,106,4	script	Estátua	111,{
+	mes "Você pode ler no verso da estátua:";
+	mes "'Pelos espíritos dos antigos, as paredes estão lacradas.";
+	mes "Pisos superiores ou estátuas estrangeiras.";
+	mes "Pela ordem das estátuas você encontrará o caminho";
+	mes "que talvez um dia te traga para mim.";
+	mes ".....Thanatos'";
+	close;
+}
+
+//Tha_t09 :
+//(Thalos)(U,L)-->tha_t09,17,158,4
+//(Mediane)(D,R)-->tha_t09,84,99,4
+//Script:
+
+tha_t09,17,158,4	script	Thalos	111,{
+	if(TSQ_CHK == 1) goto done;
+	mes "[Thalos]";
+	mes "Você deve encontrar a 2ª estátua agora.";
+	set TSQ_CHK,1;
+	close;
+done:
+	mes "[Thalos]";
+	mes "Vá procurar a 2ª estátua!";
+	close;
+}
+
+tha_t09,84,99,4	script	Mediane	111,{
+	if(TSQ_CHK != 1) goto nook;
+	mes "[Mediane]";
+	mes "Ok, eu estou te teletransportando para o próximo andar agora.";
+	next;
+	set TSQ_CHK,0;
+	warp "tha_t10",	165,	138; 
+	close;
+nook:
+	mes "[Mediane]";
+	mes "Você deve falar com o Espírito na 1ª Estátua.";
+	close;
+}
+
+//Tha_t10 :
+//(Melkor)(U)-->tha_t10,130,159,4
+//(Zebrus)(D,R)-->tha_t10,160,98,4
+//(Veriaelle)(D,L)-->tha_t10,99,97,4
+//Script:
+
+tha_t10,130,159,4	script	Melkor	111,{
+	if(TSQ_CHK == 1) goto done;
+	mes "[Melkor]";
+	mes "Você deve encontrar os outros Espíritos agora.";
+	mes "We are 3.";
+	set TSQ_CHK,1;
+	close;
+done:
+	mes "[Melkor]";
+	mes "Vá em busca, eles estão neste andar.";
+	close;
+}
+
+tha_t10,160,98,4	script	Zebrus	111,{
+	if(TSQ_CHK != 1) goto nook;
+	mes "[Zebrus]";
+	mes "Continue assim, há um Espírito faltando ainda.";
+	set TSQ_CHK,2;
+	close;
+nook:
+	mes "[Zebrus]";
+	mes "Você parece estar perdido, volte e fale com Melkor.";
+	next;
+	set TSQ_CHK,0;
+	close;
+}
+
+tha_t10,99,97,4	script	Veriaelle	111,{
+	if(TSQ_CHK != 2) goto nook;
+	mes "[Veriaelle]";
+	mes "Ok, eu estou teletransportando você para o próximo andar.";
+	next;
+	set TSQ_CHK,0;
+	warp "tha_t11",	86,	38;
+	close;
+nook:
+	mes "[Veriaelle]";
+	mes "Você parece estar perdido, volte e fale com Melkor.";
+	next;
+	set TSQ_CHK,0;
+	close;
+}
+
+//Tha_t11 :
+//(Throtre)(U,L)-->tha_t11,16,85,4
+//(Klermaz)(D,R)-->tha_t11,85,16,4
+//(Mihane)(D,L)-->tha_t11,16,16,4
+//(Seranes)(U,R)-->tha_t11,85,85,4
+//Script:
+
+tha_t11,16,85,4	script	Throtre	111,{
+	if(TSQ_CHK == 1) goto done;
+	mes "[Throtre]";
+	mes "Você conseguiu minha autorização para o próximo andar.";
+	mes "No entanto, você deverá mostrar o quão forte você é para os outros Espíritos.";
+	set TSQ_CHK,1;
+	close;
+done:
+	mes "[Throtre]";
+	mes "Vá procuralos, eles não podem sair deste andar.";
+	close;
+}
+
+tha_t11,85,16,4	script	Klermaz	111,{
+	if(TSQ_CHK != 1) goto nook;
+	mes "[Klermaz]";
+	mes "Hmm parece que Throtre permitiu que você passasse.";
+	mes "Bem, então você tem minha bênção, agora só tem 2 Espíritos restantes.";
+	set TSQ_CHK,2;
+	close;
+nook:
+	mes "[Klermaz]";
+	mes "Você parece estar perdido, volte e fale com Throtre.";
+	next;
+	set TSQ_CHK,0;
+	close;
+}
+
+tha_t11,16,16,4	script	Mihane	111,{
+	if(TSQ_CHK != 2) goto nook;
+	mes "[Mihane]";
+	mes "Continue assim, apenas 1 faltando.";
+	set TSQ_CHK,3;
+	close;
+nook:
+	mes "[Mihane]";
+	mes "Desculpe, mas você deve começar tudo de novo.";
+	next;
+	set TSQ_CHK,0;
+	close;
+}
+
+tha_t11,85,85,4	script	Seranes	111,{
+	if(TSQ_CHK != 3 ) goto nook;
+	mes "[Seranes]";
+	mes "Perfeito, parece que os outros espíritos lhe garantiram o acesso.";
+	mes "Eu estou teletransportando você para o próximo andar.";
+	next;
+	set TSQ_CHK,0;
+	warp "tha_t12",	129,	58;
+	close;
+nook:
+	mes "[Seranes]";
+	mes "Você não seguiu a ordem correta, comece novamente do começo.";
+	next;
+	set TSQ_CHK,0;
+	close;
+}
+
+//Tha_t12 ( M: Médio):
+//(Nox)(D,L)-->tha_t12,103,18,4
+//(Vox)(R)-->tha_t12,162,58,4
+//(Hox)(L)-->tha_t12,96,57,4
+//(Dox)(D,R)-->tha_t12,153,17,4
+//(Sox)(U)-->tha_t12,128,88,4
+//Script:
+
+tha_t12,103,18,4	script	Nox	111,{
+	if(TSQ_CHK == 1 ) goto done;
+	mes "[Nox]";
+	mes "Bem, 4 Espíritos foram embora.";
+	set TSQ_CHK,1;
+	close;
+done:
+	mes "[Nox]";
+	mes "Vá procuralos, eles não podem sair deste andar.";
+	close;
+}
+
+tha_t12,162,58,4	script	Vox	111,{
+	if(TSQ_CHK != 1 ) goto nook;
+	mes "[Vox]";
+	mes "Continue assim, 3 Espíritos restantes!";
+	set TSQ_CHK,2;
+	close;
+nook:
+	mes "[Vox]";
+	mes "Desculpe, volte e fale com Nox.";
+	next;
+	set TSQ_CHK,0;
+	close;
+}
+
+tha_t12,96,57,4	script	Hox	111,{
+	if(TSQ_CHK != 2 ) goto nook;
+	mes "[Hox]";
+	mes "Você está no caminho correto, 2 Espíritos restantes!";
+	set TSQ_CHK,3;
+	close;
+nook:
+	mes "[Hox]";
+	mes "Desculpe, volte e fale com Vox.";
+	next;
+	set TSQ_CHK,0;
+	close;
+}
+
+tha_t12,153,17,4	script	Dox	111,{
+	if(TSQ_CHK != 3 ) goto nook;
+	mes "[Dox]";
+	mes "Perfeito, 1 Espírito faltando.";
+	set TSQ_CHK,4;
+	close;
+nook:
+	mes "[Dox]";
+	mes "Desculpe, volte e fale com Hox.";
+	next;
+	set TSQ_CHK,0;
+	close;
+}
+
+tha_t12,128,88,4	script	Sox	111,{
+	if(TSQ_CHK != 4 ) goto nook;
+	mes "[Sox]";
+	mes "Você acabou de passar no teste com sucesso.";
+	next;
+	mes "[Sox]";
+	mes "Você tem que me dar a Pedra Encantada Vermelha, Pedra Encantada Amarela, Pedra Encantada Azul e a Pedra Encantada Verde.";
+	next;
+	if(countitem(7426) < 1 || countitem(7427) < 1 || countitem(7428) < 1 || countitem(7429) < 1) goto nostone;
+	delitem 7426,1;
+	delitem 7427,1;
+	delitem 7428,1;
+	delitem 7429,1;
+	mes "[Sox]";
+	mes "Agora vou te teletransportar para os passos finais rumo ao seu Destino.";
+	mes "Adeus.";
+	next;
+	set TSQ_CHK,0;
+	warp "thana_step", 186, 223;
+	close;
+
+nostone:
+	mes "[Sox]";
+	mes "Oh bem, parece que você não tem pedras suficientes.";
+	close;
+
+nook:
+	mes "[Sox]";
+	mes "Desculpe, volte e fale com Dox.";
+	next;
+	set TSQ_CHK,0;
+	close;
+}

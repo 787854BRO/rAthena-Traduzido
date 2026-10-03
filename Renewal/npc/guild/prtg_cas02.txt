@@ -1,0 +1,139 @@
+//===== rAthena Script =======================================
+//= War of Emperium (Prontera) - Swanhild
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= NPCs that relate to Prontera Guild Castle 2
+//===== Additional Comments: =================================
+//= 1.0 First Version. No longer uses functions. [L0ne_W0lf]
+//= 1.1 Corrected flag-in spawn point. [L0ne_W0lf]
+//= 1.2 Corrected treasure room switch coordinates. [L0ne_W0lf]
+//= 1.3 Removed dialog from interior flags. [L0ne_W0lf]
+//= 1.4 Partially rewrote Script. [Masao]
+//============================================================
+
+// Bandeiras das Guildas (Fora do Castelo)
+//============================================================
+-	script	Hrist#1::OutsideFlagsPR2	722,{
+
+	set .@GID, GetCastleData("prtg_cas02",1);
+
+	if (.@GID == 0) {
+		mes "[ Decreto Divino do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme o pacto divino do Reino de Rune-Midgard,";
+		mes "nós declaramos que";
+		mes "não há um mestre formal neste castelo.";
+		mes " ";
+		mes "2. Para aquele que conseguir";
+		mes "superar todas as provações";
+		mes "e destruir o Emperium,";
+		mes "o rei o dotará com a";
+		mes "posse deste castelo.";
+		close;
+	}
+	if (getcharid(2) == .@GID) {
+		mes "[ Voz Ecoando ]";
+		mes "Bravo guerreiro...";
+		mes "Você deseja retornar ao seu lugar de honra?";
+		next;
+		if(select("Retornar ao Castelo do Clã.:Sair.") == 1) {
+			close2;
+			if (getcharid(2) == GetCastleData("prtg_cas02",1)) {
+				warp "prtg_cas02",169,55;
+				end;
+			}
+			end;
+		}
+		close;
+	}
+	mes "[ Decreto Divino do Reino de Rune-Midgard ]";
+	mes " ";
+	mes "1. Conforme o pacto divino do Reino de Rune-Midgard,";
+	mes "nós declaramos que esse castelo";
+	mes "pertence ao Clã ^ff0000"+GetGuildName(.@GID)+"^000000.";
+	mes " ";
+	mes "2. O Líder do clã ^ff0000"+GetGuildName(.@GID)+"^000000 se chama";
+	mes "^ff0000"+GetGuildMaster(.@GID)+"^000000";
+	mes "Se houver alguém que se oponha a esse decreto,";
+	mes "prove sua força e honra com uma lâmina de aço em suas mãos.";
+	close;
+
+OnRecvCastlePt02:
+	FlagEmblem GetCastleData("prtg_cas02",1);
+	end;
+}
+
+prt_gld,244,126,8	duplicate(OutsideFlagsPR2)	Hrist#1-2	722
+prt_gld,244,128,8	duplicate(OutsideFlagsPR2)	Hrist#2	722
+prt_gld,236,126,8	duplicate(OutsideFlagsPR2)	Hrist#3	722
+prt_gld,236,128,8	duplicate(OutsideFlagsPR2)	Hrist#4	722
+
+// Bandeiras das Guildas (Dentro do Castelo)
+//============================================================
+-	script	Hrist#5::InsideFlagsPR2	722,{
+	end;
+
+OnRecvCastlePt02:
+	FlagEmblem GetCastleData("prtg_cas02",1);
+	end;
+}
+
+prtg_cas02,40,227,4	duplicate(InsideFlagsPR2)	Hrist#5-2	722
+prtg_cas02,46,227,4	duplicate(InsideFlagsPR2)	Hrist#6	722
+prtg_cas02,11,219,4	duplicate(InsideFlagsPR2)	Hrist#7	722
+prtg_cas02,11,214,4	duplicate(InsideFlagsPR2)	Hrist#8	722
+prtg_cas02,20,219,4	duplicate(InsideFlagsPR2)	Hrist#9	722
+prtg_cas02,20,214,4	duplicate(InsideFlagsPR2)	Hrist#10	722
+prtg_cas02,79,227,8	duplicate(InsideFlagsPR2)	Hrist#11	722
+prtg_cas02,70,227,8	duplicate(InsideFlagsPR2)	Hrist#12	722
+prtg_cas02,38,189,8	duplicate(InsideFlagsPR2)	Hrist#13	722
+prtg_cas02,34,189,8	duplicate(InsideFlagsPR2)	Hrist#14	722
+prtg_cas02,153,161,4	duplicate(InsideFlagsPR2)	Hrist#15	722
+prtg_cas02,162,161,4	duplicate(InsideFlagsPR2)	Hrist#16	722
+
+// Bandeiras das Guildas (Cidade)
+//============================================================
+prontera,146,194,3	duplicate(InsideFlagsPR2)	Hrist#17	722
+
+// Funcionária Kafra
+//============================================================
+prtg_cas02,71,36,4	duplicate(guildkafra)	Funcionária Kafra#prtg_cas02	117
+
+// Mordomo
+//============================================================
+prtg_cas02,94,61,4	duplicate(cm)	Roy#prtg_cas02	55
+
+// Saída da Sala do Tesouro
+//============================================================
+prtg_cas02,207,228,0	script	#Lever_PR02	111,{
+	mes " ";
+	mes "Há uma pequena alavanca. Você deseja puxá-la?";
+	next;
+	if (select("Puxar.:Não Puxar.") == 1) {
+		close2;
+		warp "prtg_cas02",94,62;
+		end;
+	}
+	close;
+}
+
+// Alavanca da Masmorra da Guilda
+//============================================================
+prtg_cas02,84,72,0	duplicate(gdlever)	#prtg_cas02	111
+
+// Invocações de Baús do Tesouro
+//============================================================
+prtg_cas02,202,228,0	duplicate(Gld_Trea_Spawn)	Tesouro#prtg_cas02	-1
+
+// Gerenciador Automático
+//============================================================
+prtg_cas02,158,174,0	duplicate(Gld_Agit_Manager)	Agit#prtg_cas02	-1
+
+// Guardiões
+//============================================================
+prtg_cas02,94,61,4	duplicate(Gld_Guard_Template)	Guardião#prtg_cas02	-1

@@ -1,0 +1,2134 @@
+//===== rAthena Script =======================================
+//= Nightmare Biolab NPCs
+//===== Description: =========================================
+//= [Walkthrough Conversion]
+//= Nightmare Biolab exchange NPCs
+//  NOTE: The nightmare biolab monsters are currently missing
+//  some items used in the file.
+//    Silent Energy Particles (ID: 25127)
+//    Weak Energy Particles (ID: 25128)
+//    Unstable Energy Particles (ID: 25129)
+//    Sinister Energy Particles (ID: 25130)
+//    Cursed Crystal (ID: 23080)
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Capuche]
+//= 1.1 Added some missing warp points and lore pieces [akaineko]
+//= 1.2 Added the new enchant and update the enchant rates [Haydrich]
+//============================================================
+
+// Funções de Itens
+//============================================================
+function	script	F_Pieces_Of_Sentiment	{	// 22687
+	if (strcharinfo(3) == "lhz_dun_n")// uso proibido no mesmo mapa
+		return;
+	specialeffect2 EF_HIT4;
+	.@r = rand(1,23);
+	if (.@r == 1)
+		warp "lhz_dun_n",140,89;
+	else if (.@r == 2)
+		warp "lhz_dun_n",75,138;
+	else if (.@r == 3)
+		warp "lhz_dun_n",198,151;
+	else if (.@r == 4)
+		warp "lhz_dun_n",200,189;
+	else if (.@r == 5)
+		warp "lhz_dun_n",87,84;
+	else if (.@r == 6)
+		warp "lhz_dun_n",201,101;
+	else if (.@r == 7)
+		warp "lhz_dun_n",230,138;
+	else if (.@r == 8)
+		warp "lhz_dun_n",239,220;
+	else if (.@r == 9)
+		warp "lhz_dun_n",162,252;
+	else if (.@r == 10)
+		warp "lhz_dun_n",99,106;
+	else if (.@r == 11)
+		warp "lhz_dun_n",40,212;
+	else if (.@r == 12)
+		warp "lhz_dun_n",140,191;
+	else if (.@r == 13)
+		warp "lhz_dun_n",164,77;
+	else if (.@r == 14)
+		warp "lhz_dun_n",124,138;
+	else if (.@r == 15)
+		warp "lhz_dun_n",28,140;
+	else if (.@r == 16)
+		warp "lhz_dun_n",78,189;
+	else if (.@r == 17)
+		warp "lhz_dun_n",137,262;
+	else if (.@r == 18)
+		warp "lhz_dun_n",115,253;
+	else if (.@r == 19)
+		warp "lhz_dun_n",140,39;
+	else if (.@r == 20)
+		warp "lhz_dun_n",240,64;
+	else if (.@r == 21)
+		warp "lhz_dun_n",131,235;
+	else if (.@r == 22)
+		warp "lhz_dun_n",34,70;
+	else
+		warp "lhz_dun_n",176,202;
+	delitem 22687,1;
+	return;
+}
+
+function	script	F_Cursed_Crystal	{	// 23080
+	// taxas personalizadas
+	.@r = rand(500);
+	if (.@r < 10)		getitem 23016,100;// Fragmento Ominoso
+	else if (.@r < 352)	getitem 23016,200;// Fragmento Ominoso
+	else if (.@r < 469)	getitem 23016,300;// Fragmento Ominoso
+	else if (.@r < 498)	getitem 23016,400;// Fragmento Ominoso
+	else				getitem 23016,500;// Fragmento Ominoso
+	return;
+}
+
+function	script	F_Cursed_Fragment	{	// 23016
+	.@r = rand(1,12);
+	if (.@r == 1) {
+		showscript "Eu nunca vou te perdoar...!";
+		sc_start SC_ATKPOTION,600000,50;
+		sc_start SC_MATKPOTION,600000,50;
+	}
+	else if (.@r == 2) {
+		showscript "Alguém me ajude, por favor...";
+		sc_start SC_CURSE,10000,0;
+	}
+	else if (.@r == 3) {
+		showscript "Pare... Isso dói...";
+		sc_start SC_BLEEDING,5000,0;
+	}
+	else if (.@r == 4) {
+		showscript "Está tão frio aqui...";
+		sc_start SC_FREEZE,5000,0;
+	}
+	else if (.@r == 5) {
+		showscript "Por favor... Fique comigo...";
+		itemskill "AL_TELEPORT",1;
+	}
+	else if (.@r == 6) {
+		showscript "Fique... aqui comigo...";
+		itemskill "AL_TELEPORT",1;
+	}
+	else if (.@r == 7) {
+		showscript "Você não devia ter vindo aqui...";
+		sc_start SC_STUN,5000,0;
+	}
+	else if (.@r == 8) {
+		showscript "Olá... Alguém aí...?";
+		sc_start SC_BLIND,5000,0;
+	}
+	else if (.@r == 9) {
+		showscript "Estou tão assustada... assustada...";
+		sc_start SC_CONFUSION,10000,0;
+	}
+	else if (.@r == 10) {
+		showscript "Querido Odin...";
+		sc_start SC_ASSUMPTIO,100000,5;
+		specialeffect2 EF_ASSUMPTIO;
+	}
+	else if (.@r == 11) {
+		showscript "Acorde!";
+		percentheal 0,20;
+	}
+	else {
+		showscript "Desculpe... Estou indo embora agora... obrigada...";
+		getitem 6820,1;// Partículas de Energia
+	}
+	return;
+}
+
+
+// Entradas do Biolaboratório Modo Pesadelo
+lighthalzen,321,218,4	script	Ohno Tohiro#1	4_M_RASWORD,{
+	disable_items;
+	mes "[Ohno Tohiro]";
+	.@r = rand(1,10);
+	if (.@r < 6)
+		mes "Me pediram para coletar algum tipo de Tabela de Pesquisa...";
+	else if (.@r < 7) {
+		mes "- Ouço alguém falando - - comunicação remota -";
+		next;
+		mes "[Ohno Tohiro]";
+		mes "Sim... tudo está indo bem.";
+		mes "O status da coleta de relatórios está ok.";
+		mes "Sim, senhor.";
+		next;
+		mes "[Ohno Tohiro]";
+		mes "Vou relatar imediatamente as informações relacionadas ao Biolaboratório como prioridade máxima.";
+		mes "Sim, senhor... farei isso.";
+		next;
+		mes "[Ohno Tohiro]";
+		mes "Oh, alguém chegou! Te ligo de volta depois.";
+	}
+	else {
+		mes "[Ohno Tohiro]";
+		mes "Meus ombros estão pesados.";
+		mes "Nosso desejo de longa data...";
+		mes "Um por um, devagar...";
+	}
+	next;
+	mes "[Ohno Tohiro]";
+	mes "Uh...? Eu não percebi que já tinha alguém aqui...";
+	mes "hmm... hmm...";
+	mes "Tem algo que você quer de mim?";
+	while(true) {
+		next;
+		switch( select( "Encerrar conversa.", "Perguntar sobre Túmulo da Honra.", "Retornar ao Túmulo da Honra.", "Dizer que não tem Zeny suficiente." ) ) {
+		case 1:
+			mes "[Ohno Tohiro]";
+			mes "Há muitos aventureiros procurando por essa fenda, além de você!";
+			mes "Se mudar de ideia, volte a falar comigo!";
+			close;
+		case 2:
+			mes "[Ohno Tohiro]";
+			mes "Você também ouviu sobre a fenda que leva até aquele lugar, certo?";
+			mes "Há muitos aventureiros como você hoje em dia!";
+			next;
+			mes "[Ohno Tohiro]";
+			mes "Entrei nessa fenda pela primeira vez e adivinha? Levava a um lugar cheio de monstros por toda parte.";
+			next;
+			mes "[Ohno Tohiro]";
+			mes "Avisei um aventureiro que conheço. Ele ficou muito interessado!";
+			mes "Ficava resmungando sozinho sobre pesquisa biomédica, laboratórios, essas coisas.";
+			next;
+			mes "[Ohno Tohiro]";
+			mes "Ele continuou pedindo que eu mostrasse o caminho. Fiquei relutante, mas acabei vendendo a informação por 100.000 Zeny.";
+			next;
+			mes "[Ohno Tohiro]";
+			mes "Logo depois, ele voltou completamente ferido. Foi um milagre ter sobrevivido... Foi horrível...";
+			mes "Mas ele estava segurando vários itens. Só de olhar já me deu arrepios.";
+			next;
+			mes "[Ohno Tohiro]";
+			mes "Depois disso, muitos aventureiros começaram a entrar por essa fenda após ouvirem os rumores. Raramente vi alguém sair com vida. Desde então, esse lugar passou a ser chamado de Túmulo da Honra.";
+			mes "Ganhei um bom dinheiro por causa deles, no entanto.";
+			next;
+			mes "[Ohno Tohiro]";
+			mes "Quer saber por que eu ganhei dinheiro?";
+			mes "Fui o primeiro a encontrar esse lugar, então ele também me pertence! Tem algum problema com isso?";
+			next;
+			mes "[Ohno Tohiro]";
+			mes "Hmm hmm... Enfim, me dê 100.000 Zeny. Assim, abrirei a fenda para aventureiros como você...";
+			continue;
+		case 3:
+			if (Zeny < 100000) {
+				mes "[Ohno Tohiro]";
+				mes "Você não tem dinheiro suficiente!";
+				mes "Nada nesse mundo é de graça!";
+				continue;
+			}
+			mes "[Ohno Tohiro]";
+			mes "Deixe-me ver... um... dois... três";
+			mes "Certo. Agora que recebi o Zeny, abrirei a fenda.";
+			mes "Espero que consiga voltar com vida!...";
+			next;
+			if (Zeny >= 100000) {
+				Zeny -= 100000;
+				warp "lhz_dun_n",100,202;
+			}
+			end;
+		case 4:
+			mes "[Ohno Tohiro]";
+			mes "O quê? Não tem Zeny suficiente, mas quer entrar?";
+			mes "Hmm... Então... por acaso você tem um Tabela de Pesquisa?";
+			next;
+			mes "[Ohno Tohiro]";
+			mes "Silêncio, fale baixo. As pessoas podem ouvir. Você tem ou não?";
+			next;
+			mes "[Ohno Tohiro]";
+			mes "Não pergunte por que eu preciso disso. Apenas me traga 10 Tabelas de Pesquisa. Então, enviarei você ao Túmulo da Honra de graça. O que acha?";
+			next;
+			if (select( "Voltar ao menu anterior.", "Entregar 10 Tabelas de Pesquisa." ) == 1) {
+				mes "[Ohno Tohiro]";
+				mes "Tem outro assunto comigo?";
+				continue;
+			}
+			if (countitem(7347) < 10) {
+				mes "[Ohno Tohiro]";
+				mes "Parece que está faltando 10 Tabelas de Pesquisa.";
+				mes "Talvez você tenha esquecido de pegá-los no armazém.";
+				next;
+				mes "[Ohno Tohiro]";
+				mes "Tem mais alguma coisa que deseja de mim?";
+				continue;
+			}
+			mes "[Ohno Tohiro]";
+			mes "Oh... sim, é isso mesmo... Isso é o que eu precisava... hoo hoo...";
+			next;
+			mes "[Ohno Tohiro]";
+			mes "Como prometido, enviarei você à fenda.";
+			mes "Espero vê-lo com vida. Até a próxima!";
+			next;
+			delitem 7347,10;// Insígnia da Virtude ela de Pesquisa
+			warp "lhz_dun_n",100,202;
+			end;
+		}
+	}
+}
+
+lighthalzen,320,204,3	script	Garota de Dedos Escuros	4_F_04,{
+	disable_items;
+	mes "[Lunar]";
+	mes "O que você está procurando? Está procurando o lugar onde todos os mortos vagam?";
+	next;
+	mes "[Lunar]";
+	mes "Posso te levar até lá se quiser. Você vai precisar de ^0000cd20 Fragmentos Sentimentais e 150K de Zeny^000000.";
+	next;
+	mes "[Lunar]";
+	mes "Ou você pode apenas ver os sentimentos com segurança, sem a interrupção dos mortos. Isso vai te custar ^0000cd30 Fragmentos Sentimentais e 2M de Zeny^000000.";
+	next;
+	mes "[Lunar]";
+	mes "Para onde você quer ir?";
+	next;
+	switch( select( "Para onde os mortos vagam.", "Onde só os pensamentos existem.", "Que tipo de lugar é esse?", "Tanto faz." ) ) {
+	case 1:
+		mes "[Lunar]";
+		mes "Você tem tudo certo?";
+		next;
+		if (countitem(22687) < 20 || Zeny < 150000) {
+			mes "[Lunar]";
+			mes "Deixe-me ver.";
+			next;
+			mes "[Lunar]";
+			mes "Não é o suficiente. Você precisa de ^0000cd20 Fragmentos Sentimentais e 150K de Zeny^000000. Não posso te levar de graça.";
+			close;
+		}
+		mes "[Lunar]";
+		mes "Você tem tudo certo?";
+		next;
+		mes "[Lunar]";
+		mes "Ótimo. Você tem tudo. Vou te levar até lá.";
+		next;
+		mes "[Lunar]";
+		mes "Mas... estou te levando por dinheiro... então é bom ter cuidado.";
+		next;
+		mes "[Lunar]";
+		mes "Então... se você entrar, verá uma ^0000cdMáquina Estranha que parece um cristal^000000.";
+		next;
+		mes "[Lunar]";
+		mes "Essa máquina recupera seu HP se você usá-la. Foi o que me ajudou a sobreviver. Não faço ideia do porquê de estar num lugar como aquele...";
+		next;
+		mes "[Lunar]";
+		mes "Desliguei a máquina para que ninguém mais pudesse usá-la, mas vou deixá-la ligada como um presente especial meu.";
+		next;
+		mes "[Lunar]";
+		mes "Por favor, tenha cuidado e use a máquina se precisar!!";
+		delitem 22687,20;// Fragmento Sentimental
+		Zeny = Zeny - 150000;
+		if (isbegin_quest(14683) > 0)
+			erasequest 14683;
+		setquest 14683;// Dispositivo Misterioso
+		close2;
+		warp "lhz_dun_n",162,254;
+		end;
+	case 2:
+		mes "[Lunar]";
+		mes "Você tem todos os itens e o dinheiro??";
+		next;
+		if (countitem(22687) < 30 || Zeny < 2000000) {
+			mes "[Lunar]";
+			mes "Deixe-me ver.";
+			next;
+			mes "[Lunar]";
+			mes "Não é o suficiente. São necessários ^0000cd30 Fragmentos Sentimentais e 2 Milhões de Zeny^000000. Não posso te levar de graça.";
+			close;
+		}
+		mes "[Lunar]";
+		mes "Ótimo. Você tem tudo. Vou te levar até lá.";
+		next;
+		mes "[Lunar]";
+		mes "A saída está do lado de fora da parede.";
+		next;
+		mes "[Lunar]";
+		mes "^EE0000Bem, também tenho um aviso. Sua localização não pode ser salva lá, então se desconectar ou sair do jogo, será enviado para seu ponto de retorno.";
+		close2;
+		delitem 22687,30;
+		Zeny = Zeny - 2000000;
+		warp "lhz_d_n2",60,44;
+		end;
+	case 3:
+		mes "[Lunar]";
+		mes "Cavei o chão procurando algo para comer e encontrei algo ainda melhor.";
+		next;
+		mes "[Lunar]";
+		mes "Os vivos não conseguem sobreviver lá. Apenas os mortos vagam por lá.";
+		next;
+		mes "[Lunar]";
+		mes "Dizem... que quem entra lá nunca retorna...";
+		next;
+		mes "[Lunar]";
+		mes "Fiquei com muito medo mas... ficou claro que é um lugar popular entre os aventureiros.";
+		next;
+		mes "[Lunar]";
+		mes "O lugar onde cheguei era ^0000cdperto de Sentimentos Estranhos^000000.";
+		next;
+		mes "[Lunar]";
+		mes "Fugi, já que tantos mortos tentaram me matar.";
+		next;
+		mes "[Lunar]";
+		mes "Mas então me perdi e caí em um lugar estranho.";
+		next;
+		mes "[Lunar]";
+		mes "O lugar era o mesmo onde os mortos vagam ^0000cdmas lá havia apenas sentimentos^000000. Fiquei tão assustada que saí correndo.";
+		next;
+		mes "[Lunar]";
+		mes "Vou te levar até lá se me der o dinheiro e os itens.";
+		next;
+		mes "[Lunar]";
+		mes "Talvez seja mais fácil sem a ajuda dele.";
+		close;
+	case 4:
+		mes "[Lunar]";
+		mes "Por favor, me visite a qualquer momento. Afinal, não temos nada a perder.";
+		close;
+	}
+}
+
+lighthalzen,327,216,3	script	Fenda#1	4_CRACK,{
+	end;
+OnInit:
+	initnpctimer;
+	end;
+OnTimer5000:
+	specialeffect EF_AGIUP3;
+	end;
+OnTimer6000:
+	initnpctimer;
+	end;
+}
+
+// Saída da Masmorra
+lhz_dun_n,96,203,3	script	Saída da Masmorra#1	4_CRACK,{
+	if (select( "Não sair da masmorra.", "Sair da masmorra." ) == 1) {
+		mes "- Ainda tenho assuntos a tratar aqui -";
+		close;
+	}
+	warp "lighthalzen",310,228;
+	end;
+OnInit:
+	initnpctimer;
+	end;
+OnTimer5000:
+	specialeffect EF_AGIUP3;
+	end;
+OnTimer6000:
+	initnpctimer;
+	end;
+}
+
+// NPCs de Troca de Lighthalzen
+lighthalzen,319,213,4	script	Aventureiro Veterano#JCv2	4_M_MELODY,2,2,{
+	disable_items;
+	mes "[Aventureiro Veterano]";
+	mes "Oh! Quer trocar Partículas de Energia ou Fragmentos Ominosos?";
+	next;
+	setarray .@items[0],
+		6469,200,	// Vontade do Guerreiro
+		6470,200,	// Sede de Sangue
+		6471,300;	// Frio dos Mortos
+	.@color$[0] = countitem(6820) < 200 ? "^777777" : "^000000";
+	.@color$[1] = countitem(6820) < 300 ? "^777777" : "^000000";
+	.@s = select( "Ouvir a história.", .@color$[0] + "1x Vontade do Guerreiro (200 Partículas de Energia)", .@color$[0] + "1x Sede de Sangue (200 Partículas de Energia)", .@color$[1] + "1x Frio dos Mortos (300 Partículas de Energia)^000000" ) - 2;
+	if (.@s == -1) {
+		emotion ET_QUESTION;
+		mes "[Aventureiro Veterano]";
+		mes "Parece que você tem tempo livre, não é? Bem, meu negócio também está parado ultimamente...";
+		next;
+		mes "[Aventureiro Veterano]";
+		mes "Um dia, o mestre da guilda entrou na minha guilda do nada...";
+		next;
+		mes "[Aventureiro Veterano]";
+		mes "'^1F294DVou fazer todos os membros de todas as guildas usarem a Capa do Soldado Caído!!^000000'.";
+		next;
+		mes "[Aventureiro Veterano]";
+		mes "Como você sabe, esse equipamento exige uma grande quantidade de materiais, então todos os membros da guilda ficaram presos no calabouço, forçados a trabalhar.";
+		next;
+		mes "[Aventureiro Veterano]";
+		mes "Você nunca sabe a sorte que pode ter. Mergulhei nesse trabalho de escavação com determinação e encontrei muitos fragmentos raros.";
+		next;
+		mes "[Aventureiro Veterano]";
+		mes "A sub-líder da guilda me mandou trocar os itens com os outros, já que uma pilha começou a se formar.";
+		next;
+		mes "[Aventureiro Veterano]";
+		mes "Claro, a quantidade da troca foi decidida pelo mestre da guilda enfatizando:";
+		mes "'^1F294DNunca aceitarei se for menos do que essa quantia!!^000000'...";
+		next;
+		emotion ET_HNG;
+		mes "[Aventureiro Veterano]";
+		mes "A sub-líder tentou enganar o mestre da guilda. Tivemos bastante trabalho para impedir ela.";
+		next;
+		mes "[Aventureiro Veterano]";
+		mes "Acho que seria mais fácil se ele aceitasse uma quantidade menor. (suspiro)... Foi isso que aconteceu.";
+		close;
+	}
+	.@s *= 2;
+	mes "[Aventureiro Veterano]";
+	mes "^3300661 " + getitemname(.@items[.@s]) + "^000000 é trocado por ^CC3333" + .@items[.@s+1] + " Partículas de Energia^000000.";
+	next;
+	if (select( "Trocar.", "Não trocar." ) == 2) {
+		emotion ET_OTL;
+		mes "[Aventureiro Veterano]";
+		mes "O quê?... Achei que fosse trocar.";
+		close;
+	}
+	while(true) {
+		if (countitem(6820) < .@items[.@s+1]) {
+			emotion ET_SORRY;
+			mes "[Aventureiro Veterano]";
+			mes "Desculpe. Não tenho escolha, são ordens do mestre da guilda. Você precisa dos itens " + .@items[.@s+1] + ". Se ele disser não, não posso trocar.";
+			close;
+		}
+		delitem 6820, .@items[.@s+1];// Partículas de Energia
+		getitem .@items[.@s],1;
+		mes "[Aventureiro Veterano]";
+		mes "Gostaria de continuar a troca?";
+		next;
+		if (select( "Continuar a troca.", "Parar a troca." ) == 2) {
+			emotion ET_THANKS;
+			mes "[Aventureiro Veterano]";
+			mes "Obrigado... Acho que não serei punido pelo mestre da guilda, graças a você.";
+			close;
+		}
+	}
+	end;
+
+OnTouch:
+	.@r = rand(4);
+	if (.@r == 0)
+		npctalk "Gostaria de trocar 1x Vontade do Guerreiro por 200 Partículas de Energia.", "", bc_self;
+	else if (.@r == 1)
+		npctalk "Gostaria de trocar 1x Frio dos Mortos por 300 Partículas de Energia.", "", bc_self;
+	else if (.@r == 2)
+		npctalk "Gostaria de trocar 1x Sede de Sangue por 200 Partículas de Energia.", "", bc_self;
+	else {
+		emotion ET_OHNO;
+		npctalk "Oh!... Por que é tão difícil encontrar fragmentos?", "", bc_self;
+	}
+	end;
+}
+
+lighthalzen,312,296,4	script	Valentão#JCv2	4_M_LGTPOOR,{
+	disable_items;
+	mes "[Valentão]";
+	mes "Ei, camarada. Tem algumas Partículas de Energia sobrando? Posso trocá-las por algo apropriado, se quiser.";
+	next;
+	.@s = select(
+		"Ouvir a história.",
+		( countitem(25127) < 2000 ? "^777777" : "^000000" ) + "1 Partículas de Energia (2000 Energias Brandas)",
+		( countitem(25128) < 1000 ? "^777777" : "^000000" ) + "1 Partículas de Energia (1000 Energias Delicadas)",
+		( countitem(25129) < 500 ? "^777777" : "^000000" ) + "1 Partículas de Energia (500 Energias Instáveis)",
+		( countitem(25130) < 500 ? "^777777" : "^000000" ) + "1 Partículas de Energia (500 Energias Sinistras)",
+		( countitem(25131) < 50 ? "^777777" : "^000000" ) + "1 Partículas de Energia (50 Energias Tristes)",
+		( countitem(6820) < 50 ? "^777777" : "^000000" ) + "1 Fragmento Sentimental (50 Partículas de Energia)",
+		( countitem(6820) < 666 ? "^777777" : "^000000" ) + "1 Fragmento Ominoso (666 Partículas de Energia)"
+	) - 2;
+	if (.@s == -1) {
+		emotion ET_THINK;
+		mes "[Valentão]";
+		mes ". . . . . . .";
+		next;
+		mes "[Valentão]";
+		mes "Hmm... isso é bastante inesperado.";
+		mes "Normalmente, você só me ignora e vai cuidar da sua vida.";
+		next;
+		mes "[Valentão]";
+		mes "Desculpe, mas não tenho muito o que dizer. Só estou aqui porque ganho uma boa grana com isso.";
+		close;
+	}
+	setarray .@exchange[0],
+		6820, 25127,2000,	// Energias Brandas -> Partículas de Energia
+		6820, 25128,1000,	// Energias Delicadas -> Partículas de Energia
+		6820, 25129,500,	// Energias Instáveis -> Partículas de Energia
+		6820, 25130,500,	// Energias Sinistras -> Partículas de Energia
+		6820, 25131,50,		// Energias Tristes -> Partículas de Energia
+		22687, 6820,50,		// Partículas de Energia -> Fragmento Sentimental
+		23016, 6820,666;	// Partículas de Energia -> Fragmento Ominoso
+	.@index = .@s * 3;
+	mes "[Valentão]";
+	mes "Tem certeza que quer trocar ^330066" + .@exchange[.@index+2] + " " + getitemname(.@exchange[.@index+1]) + "^000000 por ^CC33331 " + getitemname(.@exchange[.@index]) + "^000000?";
+	next;
+	if (select( "Trocar.", "Não trocar." ) == 2) {
+		emotion ET_HNG;
+		mes "[Valentão]";
+		mes "Bem... se não gostou, deixa pra lá.";
+		close;
+	}
+	while(true) {
+		if (countitem(.@exchange[.@index+1]) < .@exchange[.@index+2]) {
+			emotion ET_SCRATCH;
+			mes "[Valentão]";
+			mes "Não... Não... você não devia fazer isso.";
+			mes "Disse que trocaria pelos itens " + .@exchange[.@index+2] + ".";
+			close;
+		}
+		delitem .@exchange[.@index+1], .@exchange[.@index+2];
+		getitem .@exchange[.@index], 1;
+		emotion ET_SEXY;
+		mes "[Valentão]";
+		mes "Oh, obrigado. Tem mais alguma coisa que deseja trocar?";
+		next;
+		if (select( "Continuar a troca.", "Parar a troca." ) == 2) {
+			mes "[Valentão]";
+			mes "Quando tiver partículas sobrando, volte a falar comigo.";
+			close;
+		}
+	}
+}
+
+// NPCs de Encantamento
+lhz_dun_n,145,265,4	script	Mente Silenciosa#JCv2	4_CENERE,{
+	disable_items;
+	mes "[Mente Silenciosa]";
+	mes ". . . . . .!";
+	mes "...";
+	mes "^FF0000*Você pode obter a Urna Funerária ao entregar 3 almas do mesmo tipo para a mente.*^000000";
+	next;
+	setarray .@item[0],6814,6815,6816,6817,6818,6819;
+	for ( .@i = 0; .@i < 6; ++.@i ) {
+		if (countitem(.@item[.@i]) < 3)
+			.@menu$ += "^777777Quantidade insuficiente de " + getitemname(.@item[.@i]) + ".^000000:";
+		else
+			.@menu$ += "Entregar 3 " + getitemname(.@item[.@i]) + ".:";
+	}
+	.@s = select(.@menu$) - 1;
+	while(true) {
+		if (countitem(.@item[.@s]) < 3) {
+			emotion ET_HNG;
+			mes "[Mente Silenciosa]";
+			mes "!. . . . . .";
+			mes "^FF0000*Você precisa de 3 almas do mesmo tipo para trocar pela Urna Funerária.*^000000";
+			close;
+		}
+		delitem .@item[.@s],3;
+		getitem 22679,1;// Urna Funerária
+		emotion ET_HUNGRY;
+		mes "[Mente Silenciosa]";
+		mes ". . . . . .";
+		mes "...";
+		mes "^FF0000*Você obteve a Urna Funerária. Deseja continuar trocando?*^000000";
+		next;
+		if (select( "Continuar a troca.", "Encerrar a troca." ) == 2) {
+			mes "[Mente Silenciosa]";
+			mes ". . . . . .";
+			close;
+		}
+	}
+}
+
+lhz_dun_n,134,265,2	script	Mente Errante#JCv2	4_CENERE,{
+	disable_items;
+	npctalk "Kkk... Eu posso... sentir...", "", bc_self;
+	mes "[Mente Errante]";
+	mes "Kkk... Eu posso... sentir... os rancores... de incontáveis... sujeitos...";
+	next;
+	npctalk "Quem... sou... eu?...", "", bc_self;
+	mes "[Mente Errante]";
+	mes "Onde é... aqui?... aqui?... Aaargh... Quem... sou... eu?... Não consigo... me lembrar...";
+	next;
+	mes "[Mente Errante]";
+	mes "Preciso... do rancor... do rancor... poder... forte... Isso ajudará... a mim... e a você... todos... Kkk...";
+	next;
+	switch( select( "Encantar Elmo Memorável.", "Resetar Elmo Memorável.", "Descrição do Encantamento do Elmo Memorável." ) ) {
+	case 1:
+		npctalk "Entregue... rancor... rancor...", "", bc_self;
+		mes "[Mente Errante]";
+		mes "Krrr... hehe... entregue... o rancor... o poder forte do rancor... Eu irei encantar... um poder especial... no elmo...";
+		mes "^FF0000*Se você trouxer Fragmentos Ominosos, pode encantá-los em um Elmo Memorável.*^000000";
+		next;
+		.@equip_id = getequipid(EQI_HEAD_TOP);
+		switch(.@equip_id) {
+			case 18971:// Memorável Poder das Runas
+			case 18972:// Memorável Desejo dos Deuses
+			case 18973:// Memorável Talento do Piloto
+			case 18974:// Memorável Talento do Mecânico
+			case 18975:// Memorável Artifício das Sombras
+			case 18976:// Memorável Inspiração do Artista
+			case 18977:// Memorável Toque de Midas
+			case 18978:// Memorável Mistério da Magia
+			case 18979:// Memorável Disciplina do Espírito
+			case 18980:// Memorável Sussurro dos Elementos
+			case 18981:// Memorável Súplica do Cisne
+			case 18982:// Memorável Vingança dos Mortos
+			case 18983:// Memorável Sacrifício do Protetor
+			case 18984:// Memorável Sentido de Caça
+				break;
+			default:
+				npctalk "Destrua... Destrua...", "", bc_self;
+				mes "[Mente Errante]";
+				mes "Isso é... interessante... Nesse elmo... não há fragrância... preenchida com poder especial... Você deseja... destruição...? kkk...";
+				mes "^FF0000*Encantamentos com Fragmentos Ominosos só são possíveis em Elmos Memoráveis.*^000000";
+				close;
+		}
+		mes "[Mente Errante]";
+	
+		.@requirement = 10;	// 10 Fragmentos Ominosos por padrão
+		setarray .@card[0], getequipcardid(EQI_HEAD_TOP,0), getequipcardid(EQI_HEAD_TOP,1), getequipcardid(EQI_HEAD_TOP,2), getequipcardid(EQI_HEAD_TOP,3);
+		.@refine = getequiprefinerycnt(EQI_HEAD_TOP);
+	
+		if (.@card[3] == 0) {
+			.@slot = 3;
+			mes "Que tal... começarmos... suavemente?... Teste... sua sorte... Kr..hehe...";
+			mes "^FF0000*Tentando encantamento no 4º slot. Um entre 6 atributos será encantado aleatoriamente.*^000000";
+		}
+		else if (.@card[2] == 0) {
+			.@slot = 2;
+			mes "Kr... hehe... Gostou... do seu... primeiro... encantamento?...";
+			mes "^FF0000*Tentando encantamento no 3º slot. Um entre 6 atributos será encantado aleatoriamente.*^000000";
+		}
+		else if (.@card[1] == 0) {
+			.@slot = 1;
+			mes "Kr... hehe... Se haverá... uma porta... para adquirir... um poder muito maior... será... decidido... agora...";
+			mes "^FF0000*Tentando encantamento no 2º slot.";
+			mes "Ao obter um dos encantamentos Potência, Virtude, Talento, Maestria, Resiliência ou Afeição, poderá ser reforçado.*^000000";
+		}
+		else {
+			// nivelamento de encantamento
+			switch( .@card[1] ) {
+			case 29061:	// Insígnia da Potência 1
+			case 29071:	// Insígnia da Virtude 1
+			case 29081:	// Insígnia do Talento 1
+			case 29091:	// Insígnia da Maestria 1
+			case 29101:	// Insígnia da Resiliência 1
+			case 29111:	// Insígnia da Afeição 1
+				mes "Kr... he... he... Você é... sortudo... desejo... toda a sorte do mundo!... Só assim... você voltará... a me visitar... com mais rancores... eu suponho...";
+				.@requirement = 20;
+				.@enchant_level = 1;
+				.@enchant_rate = 80;
+				break;
+			case 29062:	// Insígnia da Potência 2
+			case 29072:	// Insígnia da Virtude 2
+			case 29082:	// Insígnia do Talento 2
+			case 29092:	// Insígnia da Maestria 2
+			case 29102:	// Insígnia da Resiliência 2
+			case 29112:	// Insígnia da Afeição 2
+				mes "Reforço... de nível 3?... Se você conseguir... terá... poderes muito maiores... mas se falhar... perderá os poderes... que juntou até agora...";
+				.@requirement = 40;
+				.@enchant_level = 2;
+				.@enchant_rate = 70;
+				break;
+			case 29063:	// Insígnia da Potência 3
+			case 29073:	// Insígnia da Virtude 3
+			case 29083:	// Insígnia do Talento 3
+			case 29093:	// Insígnia da Maestria 3
+			case 29103:	// Insígnia da Resiliência 3
+			case 29113:	// Insígnia da Afeição 3
+				mes "Reforço... de nível 4?... Se você conseguir... terá... poderes muito maiores... mas se falhar... perderá os poderes... que juntou até agora...";
+				.@requirement = 50;
+				.@enchant_level = 3;
+				.@enchant_rate = 50;
+				break;
+			case 29064:	// Insígnia da Potência 4
+			case 29074:	// Insígnia da Virtude 4
+			case 29084:	// Insígnia do Talento 4
+			case 29094:	// Insígnia da Maestria 4
+			case 29104:	// Insígnia da Resiliência 4
+			case 29114:	// Insígnia da Afeição 4
+				mes "Reforço... de nível 5?... Está... pronto... para controlar... tamanho... poderes?... mas se falhar... o resultado será... interessante...";
+				.@requirement = 70;
+				.@enchant_level = 4;
+				.@enchant_rate = 20;
+				break;
+			case 29065:	// Insígnia da Potência 5
+			case 29075:	// Insígnia da Virtude 5
+			case 29085:	// Insígnia do Talento 5
+			case 29095:	// Insígnia da Maestria 5
+			case 29105:	// Insígnia da Resiliência 5
+			case 29115:	// Insígnia da Afeição 5
+				mes "Reforço... de nível 6?... Está... pronto... para controlar... tamanho... poderes?... mas se falhar... o resultado será... interessante...";
+				.@requirement = 100;
+				.@enchant_level = 5;
+				.@enchant_rate = 20;	// taxas desconhecidas
+				break;
+			case 29066:	// Insígnia da Potência 6
+			case 29076:	// Insígnia da Virtude 6
+			case 29086:	// Insígnia do Talento 6
+			case 29096:	// Insígnia da Maestria 6
+			case 29106:	// Insígnia da Resiliência 6
+			case 29116:	// Insígnia da Afeição 6
+				mes "Reforço... de nível 7?... Está... pronto... para controlar... tamanho... poderes?... mas se falhar... o resultado será... interessante...";
+				.@requirement = 150;
+				.@enchant_level = 6;
+				.@enchant_rate = 20;	// taxas desconhecidas
+				break;
+			case 29067:	// Insígnia da Potência 7
+			case 29077:	// Insígnia da Virtude 7
+			case 29087:	// Insígnia do Talento 7
+			case 29097:	// Insígnia da Maestria 7
+			case 29107:	// Insígnia da Resiliência 7
+			case 29117:	// Insígnia da Afeição 7
+				mes "Reforço... de nível 8?... Está... pronto... para controlar... tamanho... poderes?... mas se falhar... o resultado será... interessante...";
+				.@requirement = 250;
+				.@enchant_level = 7;
+				.@enchant_rate = 20;	// taxas desconhecidas
+				break;
+			case 29068:	// Insígnia da Potência 8
+			case 29078:	// Insígnia da Virtude 8
+			case 29088:	// Insígnia do Talento 8
+			case 29098:	// Insígnia da Maestria 8
+			case 29108:	// Insígnia da Resiliência 8
+			case 29118:	// Insígnia da Afeição 8
+				mes "Reforço... de nível 9?... Está... pronto... para controlar... tamanho... poderes?... mas se falhar... o resultado será... interessante...";
+				.@requirement = 500;
+				.@enchant_level = 8;
+				.@enchant_rate = 20;	// taxas desconhecidas
+				break;
+			case 29069:	// Insígnia da Potência 9
+			case 29079:	// Insígnia da Virtude 9
+			case 29089:	// Insígnia do Talento 9
+			case 29099:	// Insígnia da Maestria 9
+			case 29109:	// Insígnia da Resiliência 9
+			case 29119:	// Insígnia da Afeição 9
+				mes "Reforço... de nível 10?... Está... pronto... para controlar... tamanho... poderes?... mas se falhar... o resultado será... interessante...";
+				.@requirement = 1000;
+				.@enchant_level = 9;
+				.@enchant_rate = 20;	// taxas desconhecidas
+				break;
+			case 29070:	// Insígnia da Potência 10
+			case 29080:	// Insígnia da Virtude 10
+			case 29090:	// Insígnia do Talento 10
+			case 29100:	// Insígnia da Maestria 10
+			case 29110:	// Insígnia da Resiliência 10
+			case 29120:	// Insígnia da Afeição 10
+				// texto personalizado
+			default:
+				mes "Krr hehe... É impossível... reforçar... este poder... A única forma restante é... reiniciar...";
+				mes "^FF0000*Potência, Virtude, Talento, Maestria, Resiliência, Afeição.";
+				mes "Você só pode reforçar o nível do encantamento quando o equipamento estiver encantado.*^000000";
+				close;
+			}
+			.@slot = 999;
+		}
+		next;
+		mes "[Mente Errante]";
+		mes "Porém... antes que isso aconteça... preciso verificar... se você tem... Fragmentos Ominosos suficientes...";
+		next;
+		mes "[Mente Errante]";
+		mes "Fragmentos... Ominosos..." + .@requirement + " são... necessários... Será que... você consegue pagar por eles?... kk... kk...";
+		mes "^FF0000*No encantamento, " + .@requirement + " Fragmento(s) Ominoso(s) é(são) necessário(s).*^000000";
+		next;
+		if (select( "Pagar a taxa.", "Não pagar a taxa." ) == 2) {
+			mes "[Mente Errante]";
+			mes "K...kk... Parece que... você ainda não está... pronto para aceitar... um poder tão imenso...";
+			close;
+		}
+		if (countitem(23016) < .@requirement) {// Fragmento Ominoso
+			mes "[Mente Errante]";
+			mes "K...kk... está brincando... comigo?... Como pode... almejar o poder... com um rancor tão trivial?...";
+			mes "^FF0000*No encantamento, são necessários 10 Fragmento(s) Ominoso(s).";
+			mes "Verifique a quantidade de Fragmentos Ominosos que possui.*^000000";
+			close;
+		}
+		mes "[Mente Errante]";
+		mes "Krr.. hehe... Este é... o poder do rancor... Eu acho... que esse poder... já é forte... o suficiente para...";
+		mes "^FF0000*O nível de refino, cartas e o equipamento não são perdidos. Contudo, o nível do encantamento pode ser reduzido, dependendo do sucesso ou falha.*^000000";
+		next;
+		if (select( "Realizar o encantamento.", "Não realizar o encantamento." ) == 2) {
+			mes "[Mente Errante]";
+			mes "K...kk... Parece que... você ainda não está... pronto para aceitar... um poder tão imenso...";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 23016, .@requirement;// Fragmento Ominoso
+
+		// anti-roubo
+		if (callfunc("F_IsEquipIDHack", EQI_HEAD_TOP, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HEAD_TOP, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HEAD_TOP, .@refine))
+			close;
+
+		switch(.@slot) {
+		case 3:
+		case 2:
+			setarray .@enchant[0],
+				4700,	// Força1
+				4701,	// Força2
+				4702,	// Força3
+				4703,	// Força4
+				4704,	// Força5
+				4710,	// Inteligência1
+				4711,	// Inteligência2
+				4712,	// Inteligência3
+				4713,	// Inteligência4
+				4714,	// Inteligência5
+				4720,	// Destreza1
+				4721,	// Destreza2
+				4722,	// Destreza3
+				4723,	// Destreza4
+				4724,	// Destreza5
+				4730,	// Agilidade1
+				4731,	// Agilidade2
+				4732,	// Agilidade3
+				4733,	// Agilidade4
+				4734,	// Agilidade5
+				4740,	// Vitalidade1
+				4741,	// Vitalidade2
+				4742,	// Vitalidade3
+				4743,	// Vitalidade4
+				4744,	// Vitalidade5
+				4750,	// Sorte1
+				4751,	// Sorte2
+				4752,	// Sorte3
+				4753,	// Sorte4
+				4754;	// Sorte5
+			.@card[.@slot] = .@enchant[ rand( getarraysize(.@enchant) ) ];	// taxas desconhecidas
+			break;
+		case 1:
+			setarray .@enchant[0],
+				4703,	// Força4
+				4704,	// Força5
+				4713,	// Inteligência4
+				4714,	// Inteligência5
+				4723,	// Destreza4
+				4724,	// Destreza5
+				4733,	// Agilidade4
+				4734,	// Agilidade5
+				4743,	// Vitalidade4
+				4744,	// Vitalidade5
+				4753,	// Sorte4
+				4754,	// Sorte5
+				29061,	// Insígnia da Potência 1
+				29071,	// Insígnia da Virtude 1
+				29081,	// Insígnia do Talento 1
+				29091,	// Insígnia da Maestria 1
+				29101,	// Insígnia da Resiliência 1
+				29111;	// Insígnia da Afeição 1
+			.@card[1] = .@enchant[ rand( getarraysize(.@enchant) ) ];	// taxas desconhecidas
+			break;
+		case 999:
+			// nivelamento de encantamento
+			if (.@enchant_rate > rand(100))
+				.@level_dt = 1;
+			else
+				.@level_dt = -1;
+			.@enchant_level += .@level_dt;
+			.@card[1] += .@level_dt;
+			if (.@card[1] < 29061 || .@card[1] > 29120) {
+			mes "Algo... deu errado.";
+			close;
+		}
+		if (.@enchant_level < 1 || .@enchant_level > 10) {
+			// item não deletado
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Mente Errante]";
+			mes "K..aargh...!! O poder do rancor... ficou fora de controle... Contudo... felizmente não explodiu, pois o poder... estava... fraco.";
+			close;
+		}
+		break;
+	default:
+		mes "[Mente Errante]";
+		mes "Algo... deu errado.";
+		close;
+	}
+	delequip EQI_HEAD_TOP;
+	getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+	if (.@level_dt == -1) {// só pode acontecer durante o nivelamento de encantamento
+		specialeffect2 EF_SUI_EXPLOSION;
+		mes "[Mente Errante]";
+		mes "K..aargh...!! O poder do rancor... ficou fora de controle... O poder... que antes era estável... também caiu... um nível...";
+		mes "^FF0000*Devido à falha no encantamento, ele foi rebaixado em um nível.*^000000";
+		close;
+	}
+	specialeffect2 EF_FIREHIT;
+	mes "[Mente Errante]";
+	mes "Foi... um sucesso. Eu posso sentir que o poder do rancor ficou mais forte.";
+	mes "^FF0000*Parabéns. Você teve sucesso no encantamento.*^000000";
+	close;
+
+case 2:
+	.@equip_id = getequipid(EQI_HEAD_TOP);
+	switch(.@equip_id) {
+case 18971:// Memorável Poder das Runas
+			case 18972:// Memorável Desejo dos Deuses
+			case 18973:// Memorável Talento do Piloto
+			case 18974:// Memorável Talento do Mecânico
+			case 18975:// Memorável Artifício das Sombras
+			case 18976:// Memorável Inspiração do Artista
+			case 18977:// Memorável Toque de Midas
+			case 18978:// Memorável Mistério da Magia
+			case 18979:// Memorável Disciplina do Espírito
+			case 18980:// Memorável Sussurro dos Elementos
+			case 18981:// Memorável Súplica do Cisne
+			case 18982:// Memorável Vingança dos Mortos
+			case 18983:// Memorável Sacrifício do Protetor
+			case 18984:// Memorável Sentido de Caça
+			break;
+		default:
+			npctalk "Destrua... Destrua...", "", bc_self;
+			mes "[Mente Errante]";
+			mes "Isso é... interessante... Nesse elmo... não há fragrância... preenchida com um poder especial... Você deseja... destruição...? kkk...";
+			mes "^FF0000*Encantamento usando Fragmentos Ominosos só é possível em Elmos Memoráveis.*^000000";
+			close;
+	}
+	setarray .@card[0], getequipcardid(EQI_HEAD_TOP,0), getequipcardid(EQI_HEAD_TOP,1), getequipcardid(EQI_HEAD_TOP,2), getequipcardid(EQI_HEAD_TOP,3);
+		.@refine = getequiprefinerycnt(EQI_HEAD_TOP);
+		if (.@card[3] < 1) {// um encantamento necessário
+		npctalk "Você está... muito calmo...", "", bc_self;
+		mes "[Mente Errante]";
+		mes "kkk... Você parece bem calmo... Não há poder... contido... naquilo... que eu te dei...";
+		mes "^FF0000*Este elmo não está encantado, portanto não pode ser resetado.*^000000";
+		close;
+	}
+	npctalk "Krr... hehe... Eu vou me alimentar... bem... hoje...", "", bc_self;
+	mes "[Mente Errante]";
+	mes "Kkk... Você não... gosta desse poder?... Traga-me 10 Poderes da Mente... Então... farei esse poder... desaparecer...";
+	mes "^FF0000*Você precisa de 10 Fragmentos Sentimentais para resetar.";
+	mes "Todos os encantamentos aplicados ao elmo, exceto o nível de refino e o primeiro slot de carta, serão removidos.*^000000";
+	next;
+	if (select( "Ignorá-lo.", "Pagar a taxa." ) == 1) {
+		npctalk "Para sempre...", "", bc_self;
+		mes "[Mente Errante]";
+		mes "Eu... esperarei por... você... Se você precisar... Eu esperarei por você... para sempre... kkk...";
+		close;
+	}
+	if (countitem(22687) < 10) {// Fragmento Sentimental
+		mes "Kk..k... Se você... não trouxer...";
+		mes "10 Poderes da Mente... eu estarei... em apuros...";
+		mes "^FF0000*Você precisa de 10 Fragmentos Sentimentais para resetar.";
+		mes "Verifique a quantidade de Fragmentos Sentimentais que você possui.*^000000";
+		close;
+	}
+	npctalk "K... kk...", "", bc_self;
+	mes "[Mente Errante]";
+	mes "Muito bem!... Eu... vou... resetar... o encantamento... do Elmo Memorável... Acho... que podemos absorver... uma mente poderosa...";
+	next;
+	progressbar "000000",2;
+	specialeffect2 EF_FIREHIT;
+	delitem 22687,10;// Fragmento Sentimental
+
+	if (callfunc("F_IsEquipIDHack", EQI_HEAD_TOP, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HEAD_TOP, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HEAD_TOP, .@refine))
+		close;
+
+	delequip EQI_HEAD_TOP;
+	getitem2 .@equip_id,1,1,.@refine,0,.@card[0],0,0,0;
+	mes "[Mente Errante]";
+	mes "K..kk... O poder... de um rancor forte... foi... absorvido... Coisas que eu perdi... K.. aargh...";
+	close;
+
+case 3:
+	for ( .@i = 18971; .@i <= 18984; ++.@i ) {
+		if (.@i < 18977)
+			.@string$[0] += getitemname(.@i) + ", ";
+		else if (.@i < 18984)
+			.@string$[1] += getitemname(.@i) + ", ";
+		else
+			.@string$[2] = getitemname(.@i);
+	}
+	mes "[Mente Errante]";
+	mes "Você quer... poder?... Se for assim, você... precisa ter... o Elmo Memorável...";
+	mes "^FF0000*Você pode encantá-lo nos seguintes: " + .@string$[0];
+	mes "" + .@string$[1];
+	mes "" + .@string$[2] + ".*^000000";
+	next;
+	mes "[Mente Errante]";
+	mes "Se você... trouxer o poder do... rancor... eu... te darei... um grande poder...";
+	mes "^FF0000*Você precisa de Fragmentos Ominosos para encantá-lo.*^000000";
+	next;
+	mes "[Mente Errante]";
+	mes "Kkk... Claro... para obter... um grande poder... talvez você precise... de uma quantidade imensa de... poder do rancor...";
+	mes "^FF0000*O encantamento é realizado na ordem dos slots 4, 3, 2. São necessários 10 Fragmentos Ominosos ao encantar cada slot pela primeira vez.*^000000";
+	next;
+	mes "[Mente Errante]";
+	mes "Se você tiver... a oportunidade... poderá... reforçar o nível do encantamento...";
+	mes "^FF0000*Ao reforçar o nível de encantamento, são consumidos 50, 70, 100, 150, 250, 500, 1000 Fragmentos Ominosos,";
+	mes "aumentando após 20 Fragmentos Ominosos no 2º estágio, e 40 no 3º.*^000000";
+	close;
+	}
+}
+
+lhz_dun_n,143,269,4	script	Mente da Alma Vitimada#1	4_M_DEATH2,{
+	disable_items;
+	.@r = rand(5);
+	if (.@r == 0)
+		npctalk "Vocês... foram os responsáveis... por me transformar... em um monstro...", "", bc_self;
+	else if (.@r == 1)
+		npctalk "Por favor, me salve... Eu... farei o que quiser...", "", bc_self;
+	else if (.@r == 2)
+		npctalk "Minha querida... esposa e filha... estão me esperando... em casa...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "Depois de algo... tão terrível... que você... fez", "", bc_self;
+	else
+		npctalk "Minha... perna... meu... braço...", "", bc_self;
+	mes "[Mente da Alma Vitimada]";
+	mes "Incontáveis... mentes de cobaias...";
+	mes "Passado... presente... e vingança...";
+	mes "Quem é você...";
+	mes "Você pode... consolar... aqueles que... sofrem em tristeza?...";
+	next;
+	if (.@r == 0)
+		npctalk "Mesmo após minha morte... ou em meu sonho...", "", bc_self;
+	else if (.@r == 1)
+		npctalk "Por favor... me salve... Guarde essa faca... Ela me assusta...", "", bc_self;
+	else if (.@r == 2)
+		npctalk "Por favor... apenas... me deixe ir... Eu te dou dinheiro... quanto quiser...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "Você não... tem medo... da ira de Deus?...", "", bc_self;
+	else
+		npctalk "Aaargh... Ah... Urgh...", "", bc_self;
+	mes "[Mente da Alma Vitimada]";
+	mes "Se você... puder... talvez... eu possa... ajudá-los...";
+	next;
+	if (.@r == 0)
+		npctalk "Eu vou devorar você... em pedaços...", "", bc_self;
+	else if (.@r == 1)
+		npctalk "Por favor... Aaargh...", "", bc_self;
+	else if (.@r == 2)
+		npctalk "Por favor...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "Deus... vai proteger... você... se você... se arrepender... do seu pecado... agora mesmo...", "", bc_self;
+	else
+		npctalk "...gritando...", "", bc_self;
+	mes "[Mente da Alma Vitimada]";
+	mes "Armas que parecem... estar imbuídas com... mentes fortes... nossa tristeza... e ressentimento...";
+	mes "Se você... trouxer... uma... eu a restaurarei... em Partículas de Energia...";
+	while(true) {
+		next;
+		if (checkweight(2677,5) == 0) {
+		mes "[Mente da Alma Vitimada]";
+		mes "Sua mochila...";
+		mes "está cheia...";
+		close;
+	}
+	if (select( "Entregar a arma.", "Encerrar a conversa." ) == 2) {
+		mes "[Mente da Alma Vitimada]";
+		mes "...Você... vai... me encontrar... novamente...";
+		close;
+	}
+	mes "[Mente da Alma Vitimada]";
+	mes "Que tipo... de mente... está contida... nesta... arma?...";
+	next;
+	while(true) {
+		switch( select( "Voltar ao menu anterior.", "Katar", "Arco", "Machado, Maça, Livro", "Cajado", "Espada, Adaga", "Lança, Espada de Duas Mãos", "Instrumento Musical, Chicote, Manopla" ) ) {
+			case 1:
+				break;
+			case 2:
+				callsub S_Exchange,
+					1284,	// Krishna
+					1290,	// Katar de Agente
+					1285,	// Chakram
+					1291;	// Katar do Sicário
+				continue;
+			case 3:
+				callsub S_Exchange,
+					18109,	// Catapulta
+					18110,	// Besta Grande
+					1745,	// Assalto do Falcão
+					18103,	// Arco Místico
+					18111;	// Arco de Trepadeiras
+				continue;
+			case 4:
+				callsub S_Exchange,
+					1311,	// Machado Vecer
+					1392,	// Aço Ígneo
+					1393,	// Sectora Final
+					16017,	// Cruz Sangrenta
+					16010,	// Bolsa Vermelha de Éter
+					2161,	// Livro Antigo de Geffenia - Água
+					1584,	// Livro de Feitiços do Frio
+					16000,	// Erde
+					16001;	// Bolsa Quadrada Vermelha
+				continue;
+			case 5:
+				callsub S_Exchange,
+					2005,	// Cajado Dea
+					2004,	// Kronos
+					1647,	// Cajado da Cruz
+					1659,	// Luz da Recuperação
+					1646,	// Bastão de Lágrimas
+					1654;	// Cajado Mental
+				continue;
+			case 6:
+				callsub S_Exchange,
+					13431,	// Espada Cromada
+					13421,	// Roubel
+					13061,	// Adaga Negra
+					13062,	// Adaga Ritualística
+					13070,	// Garra Escarlate
+					13069,	// Garra Celeste
+					13046,	// Krieg
+					13047;	// Weihna
+				continue;
+			case 7:
+				callsub S_Exchange,
+					1433,	// Lança Imperial
+					1435,	// Lança-canhão
+					1490,	// Lança Gigante
+					1196,	// Espada Cromada de duas mãos
+					1189;	// Krasnaya
+				continue;
+			case 8:
+				callsub S_Exchange,
+					1930,	// Flauta de Raiz
+					1984,	// Chicote de Raiz
+					1985,	// Chicote Caule de Rosa
+					1830;	// Punho Violento
+				continue;
+			}
+			break;
+		}
+	}
+	end;
+
+S_Exchange:
+	.@size = getargcount();
+		.@menu$ = "Voltar para o menu anterior.:";
+	for ( .@i = 0; .@i < .@size; .@i++ ) {
+		if (countitem(getarg(.@i)) < 1)
+			.@menu$ += "^999999Você não tem " + getitemname(getarg(.@i)) + " o suficiente.^000000:";
+		else
+			.@menu$ += "Você tem " + getitemname(getarg(.@i)) + ".:";
+	}
+	.@s = select(.@menu$) - 2;
+	if (.@s == -1)
+		return;
+	mes "[Mente da Alma Vitimada]";
+	mes "Você... escolheu... a arma... que parece estar... carregada com... fortes mentes... Estou... tentando restaurá-la... em Partículas de Energia... Você... concorda com isso?";
+	next;
+	if (select( "Não concordo com isso.", "Adquirir Partículas de Energia." ) == 2) {
+		if (countitem(getarg(.@s)) < 1) {
+			mes "[Mente da Alma Vitimada]";
+			mes "Você não tem... ^006400" + getitemname(getarg(.@s)) + "^000000...";
+			mes "Você tem... algum outro assunto... comigo?...";
+			next;
+			return;
+		}
+		donpcevent strnpcinfo(0) + "::OnBar";
+		sleep2 5000;
+		specialeffect EF_BLACKBODY;
+		specialeffect EF_GUMGANG4;
+		specialeffect EF_DARKCASTING2;
+		specialeffect EF_RG_COIN7;
+		percentheal -50,-50;
+		specialeffect2 EF_POISONSMOKE;
+		specialeffect2 EF_NPC_BURNT;
+		delitem getarg(.@s),1;
+		.@r = rand(100);
+		if (.@r < 70)
+			.@amount = 1;
+		else if (.@r < 90)
+			.@amount = 2;
+		else
+			.@amount = 3;
+		getitem 6820, .@amount;// Partículas de Energia
+		mes "[Mente da Alma Vitimada]";
+		mes "Eu criei... Partículas... de Energia... ao restaurar ^006400" + getitemname(getarg(.@s)) + "^000000...";
+		next;
+		mes "- Sofri dano crítico - - pela poderosa onda mental - - que penetrou em meu corpo. -";
+		next;
+	}
+	mes "[Mente da Alma Vitimada]";
+	mes "Você tem... algum outro assunto... comigo?...";
+	next;
+	return;
+
+OnBar:
+	progressbar_npc "000000",5;
+	end;
+}
+
+lhz_dun_n,136,269,6	script	Mente da Alma Triste#1	4_M_DEATH,{
+	disable_items;
+	.@r = rand(5);
+	if (.@r == 0)
+		npctalk "Mamãe... Está doendo...", "", bc_self;
+	else if (.@r == 1)
+		npctalk "Vão para o inferno... todos vocês...", "", bc_self;
+	else if (.@r == 2)
+		npctalk "Eu não entendo. Por que... eu?...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "Ughhh... Eu não... mereço isso...", "", bc_self;
+	else
+		npctalk "Vocês são todos... demônios...", "", bc_self;
+	mes "[Mente da Alma Triste]";
+	mes "Incontáveis... mentes... de sujeitos...";
+	mes "Passado... presente... e vingança...";
+	next;
+	if (.@r == 0)
+		npctalk "Meu coração... está muito dolorido...", "", bc_self;
+	else if (.@r == 1)
+		npctalk "Eu... vou... mandar vocês pra lá...", "", bc_self;
+	else if (.@r == 2)
+		npctalk "Eu... não tenho muito tempo... para permanecer aqui.", "", bc_self;
+	else if (.@r == 3)
+		npctalk "Você achou... que ia sair vivo... depois de tudo que fez?...", "", bc_self;
+	else
+		npctalk "Eu sou inocente... Eu... não mereço isso...", "", bc_self;
+	mes "[Mente da Alma Triste]";
+	mes "Quem é você?...";
+	mes "Você pode... recuperar nossas almas novamente... atormentadas... pela tristeza?...";
+	next;
+	if (.@r == 0)
+		npctalk "Eu só queria... voltar... para casa...", "", bc_self;
+	else if (.@r == 1)
+		npctalk "Eu... vou te amaldiçoar... mesmo depois... de morrer...", "", bc_self;
+	else if (.@r == 2)
+		npctalk "Eu não tenho... nada...", "", bc_self;
+	else if (.@r == 3)
+		npctalk "O que você está... pensando?...", "", bc_self;
+	else
+		npctalk "Você... nem sequer... tem... uma família?...", "", bc_self;
+	mes "[Mente da Alma Triste]";
+	mes "Se você... conseguir... talvez... eu possa... lhes dar... o que... vocês precisam...";
+	next;
+	setarray .@item_name$[0],
+		getitemname(18971),	// Memorável Poder das Runas
+		getitemname(18972),	// Memorável Desejo dos Deuses
+		getitemname(18973),	// Memorável Talento do Piloto
+		getitemname(18974),	// Memorável Talento do Mecânico
+		getitemname(18975),	// Memorável Artifício das Sombras
+		getitemname(18976),	// Memorável Inspiração do Artista
+		getitemname(18977),	// Memorável Toque de Midas
+		getitemname(18978),	// Memorável Mistério da Magia
+		getitemname(18979),	// Memorável Disciplina do Espírito
+		getitemname(18980),	// Memorável Sussurro dos Elementos
+		getitemname(18981),	// Memorável Súplica do Cisne
+		getitemname(18984),	// Memorável Sentido de Caça
+		getitemname(18982),	// Memorável Vingança dos Mortos
+		getitemname(18983),	// Memorável Sacrifício do Protetor
+		getitemname(20749);	// Manto dos Esquecidos[1]
+	while(true) {
+		if (checkweight(2677,5) == 0) {
+	mes "[Mente da Alma Triste]";
+	mes "Sua mochila...";
+	mes "está cheia...";
+	close;
+	}
+	if (select( "Entregar a alma.", "Encerrar a conversa." ) == 2) {
+		mes "[Mente da Alma Triste]";
+		mes "...Espero... que você... possa voltar... para mim novamente...";
+		close;
+	}
+	mes "[Mente da Alma Triste]";
+	mes "Se você entregar... nossa alma... eu criarei algo... cheio de... poderes especiais... usando uma combinação...";
+	mes "O que... você... deseja?...";
+	while(true) {
+		next;
+		switch( select( "Voltar ao menu anterior.", .@item_name$[0], .@item_name$[1], .@item_name$[2], .@item_name$[3], .@item_name$[4], .@item_name$[5], .@item_name$[6], .@item_name$[7], .@item_name$[8], .@item_name$[9], .@item_name$[10], .@item_name$[11], .@item_name$[12], .@item_name$[13], .@item_name$[14] + "[1]" ) ) {
+		case 1:
+			break;
+		case 2:
+			mes "- " + .@item_name$[0] + " -";
+			mes "^006400Este item não pode ser trocado entre contas.^000000";
+			mes "^006400Todos os atributos +1, DEFM +5^000000";
+			mes "^006400ATQ +4 por cada nível de refino.^000000";
+			mes "^006400VelATQ +1 a cada 5 níveis de refino.^000000";
+			mes "^006400Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refino.^000000";
+			mes "^006400Aumenta o dano de Impacto Flamejante em 20%^000000";
+			mes "^006400por cada 2 níveis de refino.^000000";
+			mes "^006400Aumenta o dano de Lança das Mil Pontas em 15%^000000";
+			mes "^006400por cada 2 níveis de refino.^000000";
+			mes "^006400Tipo: Elmo, Defesa: 10^000000";
+			mes "^006400Posição: Topo, Peso: 10^000000";
+			mes "^006400Encantamento: 1^000000";
+			mes "^006400Nível necessário: 170, Classe: Cavaleiro Rúnico^000000";
+			callsub S_Make,
+				18971,	// Memorável Poder das Runas
+				19961,	// Diadema Rúnico
+				6814;	// Alma de Espadachim
+			continue;
+		case 3:
+			mes "- " + .@item_name$[1] + " -";
+			mes "^006400Este item não pode ser trocado entre contas.^000000";
+			mes "^006400Todos os atributos +1, DEFM +5^000000";
+			mes "^006400POD +2, ATQ +4, Cura +2% por cada nível de refino.^000000";
+			mes "^006400Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refino.^000000";
+			mes "^006400Aumenta o dano de Judex em 20% a cada 2 níveis de refino.^000000";
+			mes "^006400Aumenta o dano de Magnus Exorcismus em 10% a cada 2 níveis de refino.^000000";
+			mes "^006400Tipo: Elmo, Defesa: 10^000000";
+			mes "^006400Posição: Topo, Peso: 10^000000";
+			mes "^006400Encantamento: 1^000000";
+			mes "^006400Nível necessário: 170, Classe: Arcebispo^000000";
+			callsub S_Make,
+				18972,	// Memorável Desejo dos Deuses
+				19962,	// Mitra Sagrada
+				6819;	// Alma de Noviço
+			continue;
+		case 4:
+			mes "- " + .@item_name$[2] + " -";
+			mes "^006400Este item não pode ser trocado entre contas.^000000";
+			mes "^006400Todos os atributos +1^000000";
+			mes "^006400ATQ +4 por cada nível de refino.^000000";
+			mes "^006400VelATQ +1 a cada 5 níveis de refino.^000000";
+			mes "^006400Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refino.^000000";
+			mes "^006400Aumenta o dano de Brandir Machado em 20% a cada 2 níveis de refino.^000000";
+			mes "^006400Aumenta o dano de Fúria do Furacão em 20% a cada 2 níveis de refino.^000000";
+			mes "^006400Tipo: Elmo, Defesa: 10^000000";
+			mes "^006400Posição: Topo, Peso: 10^000000";
+			mes "^006400Encantamento: 1^000000";
+			mes "^006400Nível necessário: 170, Classe: Mecânico^000000";
+			callsub S_Make,
+				18973,	// Memorável Talento do Piloto (Vermelho)
+				19963,	// Tiara do Piloto (Vermelha)
+				6815;	// Alma de Mercador
+			continue;
+		case 5:
+			mes "- " + .@item_name$[3] + " -";
+			mes "^006400Este item não pode ser trocado entre contas.^000000";
+			mes "^006400Todos os atributos +1^000000";
+			mes "^006400ATQ +4 por cada nível de refino.^000000";
+			mes "^006400VelATQ +1 a cada 5 níveis de refino.^000000";
+			mes "^006400Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refino.^000000";
+			mes "^006400Aumenta o dano de Canhão de Prótons em 5% a cada 2 níveis de refino.^000000";
+			mes "^006400Reduz o tempo de recarga de Autodestruição em 10 segundos a cada 4 níveis de refino.^000000";
+			mes "^006400Tipo: Elmo, Defesa: 10^000000";
+			mes "^006400Posição: Topo, Peso: 10^000000";
+			mes "^006400Encantamento: 1^000000";
+			mes "^006400Nível necessário: 170, Classe: Mecânico^000000";
+			callsub S_Make,
+				18974,	// Memorável Talento do Mecânico (Amarelo)
+				19964,	// Tiara do Copiloto (Amarela)
+				6815;	// Alma de Mercador
+			continue;
+		case 6:
+			mes "- " + .@item_name$[4] + " -";
+			mes "^006400Este item não pode ser trocado entre contas.^000000";
+			mes "^006400Todos os atributos +1^000000";
+			mes "^006400ATQ +4, POD +4 por cada nível de refino.^000000";
+			mes "^006400Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refino.^000000";
+			mes "^006400Aumenta o dano de Disparo Triplo em 25% a cada 2 níveis de refino.^000000";
+			mes "^006400Reduz recarga de Infortúnio e Fraqueza em 1s ao alcançar +6 refino.^000000";
+			mes "^006400Reduz recarga de Vulnerabilidade e Ociosidade em 1s ao alcançar +8 refino.^000000";
+			mes "^006400Reduz recarga de Tolice e Melancolia em 1s ao alcançar +10 refino.^000000";
+			mes "^006400Tipo: Elmo, Defesa: 10^000000";
+			mes "^006400Posição: Topo, Peso: 10^000000";
+			mes "^006400Encantamento: 1^000000";
+			mes "^006400Nível necessário: 170, Classe: Renegado^000000";
+			callsub S_Make,
+				18975,	// Artesanato Sombrio Antigo
+				19965,	// Artesanato Sombrio
+				6816;	// Alma do Gatuno
+				continue;
+			case 7:
+				mes "- " + .@item_name$[5] + " -";
+				mes "^006400Este item não pode ser trocado entre contas.^000000";
+				mes "^006400Todos os atributos +1^000000";
+				mes "^006400Aumenta o dano físico à distância em 1% a cada aumento no nível de refinamento.^000000";
+				mes "^006400Aumenta o HP Máx., SP Máx. em 1% a cada aumento de 2 níveis de refinamento.^000000";
+				mes "^006400Aumenta o dano de Vulcão de Flechas em 20% a cada aumento no nível de refinamento 2.^000000";
+				mes "^006400Aumenta o dano de Temporal de Mil Flechas em 5% a cada aumento no nível de refinamento 2.^000000";
+				mes "^006400Tipo: Elmo, Defesa: 10^000000";
+				mes "^006400Localização: Topo, Peso: 10^000000";
+				mes "^006400SLOT: 1^000000";
+				mes "^006400Nível necessário: 170, Classe: Trovador^000000";
+				callsub S_Make,
+					18976,	// Memorável Inspiração do Artista
+					19966,	// Chapéu Harmonioso
+					6818;	// Alma de Arqueiro
+				continue;
+			case 8:
+				mes "- " + .@item_name$[6] + " -";
+				mes "^006400Este item não pode ser trocado entre contas.^000000";
+				mes "^006400Todos os atributos +1^000000";
+				mes "^006400ATQ + 4 por aumento de 1 nível de refinamento.^000000";
+				mes "^006400Aumenta o dano físico à distância em 1% por aumento de 2 níveis de refinamento.^000000";
+				mes "^006400Aumenta o HP Máx., SP Máx. em 1% por aumento de 2 níveis de refinamento.^000000";
+				mes "^006400Aumenta o dano de Canhão de Prótons em 15% por aumento de 2 níveis de refinamento.^000000";
+				mes "^006400Tipo: Elmo, Defesa: 10^000000";
+				mes "^006400Localização: Topo, Peso: 10^000000";
+				mes "^006400SLOT: 1^000000";
+				mes "^006400Nível necessário: 170, Classe: Bioquímico^000000";
+				callsub S_Make,
+					18977,	// Memorável Toque de Midas
+					19967,	// Sussurro Sinistro
+					6815;	// Alma de Mercador
+				continue;
+			case 9:
+				mes "- " + .@item_name$[7] + " -";
+				mes "^006400Este item não pode ser trocado entre contas.^000000";
+				mes "^006400Todos os atributos + 1 MDEF+ 5^000000";
+				mes "^006400Aumenta a regeneração de SP em 20%.^000000";
+				mes "^006400ATQM + 1% a cada aumento no nível de refinamento.^000000";
+				mes "^006400Aumenta o HP Máx., SP Máx. em 1% a cada aumento de 2 níveis de refinamento.^000000";
+				mes "^006400Aumenta o dano da Impacto Espiritual em 5% a cada aumento de 2 níveis de refinamento.^000000";
+				mes "^006400Reduz o tempo de recarga da Meteoro Escarlate em 1 segundo.^000000";
+				mes "^006400Reduz o tempo de recarga da Meteoro Escarlate em 0,1 dependendo do nível de refinamento.^000000";
+				mes "^006400Tipo: Elmo, Defesa: 10^000000";
+				mes "^006400Localização: Topo, Peso: 10^000000";
+				mes "^006400SLOT: 1^000000";
+				mes "^006400Nível necessário: 170, Classe: Arcano^000000";
+				callsub S_Make,
+					18978,	// Memorável Mistério da Magia
+					19968,	// Chapéu de Cristais Arcanos
+					6817;	// Alma de Mago
+				continue;
+			case 10:
+				mes "- " + .@item_name$[8] + " -";
+				mes "^006400Este item não pode ser trocado entre contas.^000000";
+				mes "^006400Todos os atributos +1^000000";
+				mes "^006400ATQ +4, CRI +2 para cada nível de refino.^000000";
+				mes "^006400Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refino.^000000";
+				mes "^006400Aumenta o dano de Explosão Espiritual em 15% a cada 2 níveis de refino.^000000";
+				mes "^006400Aumenta o dano de Tempestade Espiritual em 20% a cada 2 níveis de refino.^000000";
+				mes "^006400Tipo: Elmo, Defesa: 10^000000";
+				mes "^006400Localização: Topo, Peso: 10^000000";
+				mes "^006400SLOT: 1^000000";
+				mes "^006400Nível necessário: 170, Classe: Shura^000000";
+				callsub S_Make,
+					18979,	// Memorável Disciplina do Espírito
+					19969,	// Chama Espiritual
+					6819;	// Alma de Noviço
+				continue;
+			case 11:
+				mes "- " + .@item_name$[9] + " -";
+				mes "^006400Este item não pode ser trocado entre contas.^000000";
+				mes "^006400Todos os atributos +1, DEF Mágica +5.^000000";
+				mes "^006400POD +1%, ATQ +4 para cada nível de refino.^000000";
+				mes "^006400Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refino.^000000";
+				mes "^006400Aumenta o dano de Implosão Tóxica em 15% a cada 2 níveis de refino.^000000";
+				mes "^006400Aumenta o dano de Lanças dos Aesir em 20% a cada 2 níveis de refino.^000000";
+				mes "^006400Tipo: Elmo, Defesa: 10^000000";
+				mes "^006400Localização: Topo, Peso: 10^000000";
+				mes "^006400SLOT: 1^000000";
+				mes "^006400Nível necessário: 170, Classe: Feiticeiro^000000";
+				callsub S_Make,
+					18980,	// Memorável Sussurro dos Elementos
+					19970,	// Adorno Mágico
+					6817;	// Alma de Mago
+				continue;
+			case 12:
+				mes "- " + .@item_name$[10] + " -";
+				mes "^006400Este item não pode ser trocado entre contas.^000000";
+				mes "^006400Todos os atributos +1^000000";
+				mes "^006400Aumenta o dano físico à distância em 1% para cada nível de refino.^000000";
+				mes "^006400Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refino.^000000";
+				mes "^006400Aumenta o dano de Vulcão de Flechas em 20% a cada 2 níveis de refino.^000000";
+				mes "^006400Aumenta o dano de Temporal de Mil Flechas em 5% a cada 2 níveis de refino.^000000";
+				mes "^006400Tipo: Elmo, Defesa: 10^000000";
+				mes "^006400Localização: Topo, Peso: 10^000000";
+				mes "^006400SLOT: 1^000000";
+				mes "^006400Nível necessário: 170, Classe: Musa^000000";
+				callsub S_Make,
+					18981,	// Memorável Súplica do Cisne
+					19971,	// Adorno de Penas de Cisne
+					6818;	// Alma de Arqueiro
+				continue;
+			case 13:
+				mes "- " + .@item_name$[11] + " -";
+				mes "^006400Este item não pode ser trocado entre contas.^000000";
+				mes "^006400Todos os atributos +1^000000";
+				mes "^006400Aumenta o dano físico à distância em 1% para cada nível de refino.^000000";
+				mes "^006400Esquiva perfeita +1 a cada 3 níveis de refino.^000000";
+				mes "^006400Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refino.^000000";
+				mes "^006400Aumenta o dano de Bomba Relógio em 15% a cada 2 níveis de refino.^000000";
+				mes "^006400Aumenta o dano de Investida de Worg em 10% a cada 2 níveis de refino.^000000";
+				mes "^006400Tipo: Elmo, Defesa: 10^000000";
+				mes "^006400Localização: Topo, Peso: 10^000000";
+				mes "^006400SLOT: 1^000000";
+				mes "^006400Nível necessário: 170, Classe: Sentinela^000000";
+				callsub S_Make,
+					18984,	// Memorável Sentido de Caça
+					19974,	// Orelhas de Coelho Camuflado
+					6818;	// Alma de Arqueiro
+				continue;
+			case 14:
+				mes "- " + .@item_name$[12] + " -";
+				mes "^006400Este item não pode ser trocado entre contas.^000000";
+				mes "^006400Todos os atributos +1^000000";
+				mes "^006400Aumenta o dano crítico em 1% e a velocidade de ataque por nível de refino (Reduz o atraso de ataque em 1%).^000000";
+				mes "^006400Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refino.^000000";
+				mes "^006400Aumenta o dano de Lâminas Retalhadoras em 10% a cada 2 níveis de refino.^000000";
+				mes "^006400Aumenta o dano de Castigo de Loki em 20% a cada 2 níveis de refino.^000000";
+				mes "^006400Tipo: Elmo, Defesa: 10^000000";
+				mes "^006400Localização: Topo, Peso: 10^000000";
+				mes "^006400SLOT: 1^000000";
+				mes "^006400Nível necessário: 170, Classe: Sicário^000000";
+				callsub S_Make,
+					18982,	// Memorável Vingança dos Mortos
+					19973,	// Diadema de Ossos
+					6816;	// Alma de Gatuno
+				continue;
+			case 15:
+				mes "- " + .@item_name$[13] + " -";
+				mes "^006400Este item não pode ser negociado com outras contas.^000000";
+				mes "^006400Todos os atributos + 1 DEFM + 5.^000000";
+				mes "^006400ATQ + 4 a cada 1 aumento no nível de refinamento.^000000";
+				mes "^006400Vel.de Ataque + 1 a cada 5 aumentos no nível de refinamento.^000000";
+				mes "^006400Aumenta HP Máx., SP Máx. em 1% a cada 2 aumentos no nível de refinamento.^000000";
+				mes "^006400Aumenta o dano da Disparo Perfurante em 20% a cada 2 aumentos no nível de refinamento.^000000";
+				mes "^006400Aumenta o dano da Lança do Destino em 5% a cada 2 níveis de refinamento aumentados.^000000";
+				mes "^006400Tipo: Elmo, Defesa: 10^000000";
+				mes "^006400Localização: Topo, Peso: 10^000000";
+				mes "^006400SLOT: 1^000000";
+				mes "^006400Nível Requerido: 170, Classe: Guardião Real^000000";
+				callsub S_Make,
+					18983,	// Memorável Sacrifício do Protetor
+					19972,	// Protetor Real
+					6814;	// Alma de Espadachim
+				continue;
+			case 16:
+				mes "- " + .@item_name$[14] + "[1] -";
+				mes "^006400Relógio lendário conhecido por ter sido usado por aqueles^000000 ^006400que lutaram bravamente e foram mortos em batalha.";
+				mes "Aumenta HP Máx. e SP Máx. em 1% a cada 2 níveis de refinamento aumentados.";
+				mes "atq + 10 quando a FOR pura do seu personagem atinge 90.";
+				mes "(Atq adicional + 2 a cada aumento de nível de refinamento).";
+				mes "ATQM + 20 quando a INT pura do seu personagem atinge 90.";
+				mes "(ATQM adicional + 3 a cada aumento de nível de refinamento)";
+				mes "quando a VIT pura do seu personagem atinge 90.";
+				mes "3% de resistência contra ataques normais";
+				mes "(Acréscimo de 3% quando o nível de refinamento atingir 8,";
+				mes "acréscimo de 4% quando o nível de refinamento atingir 10)";
+				mes "quando a AGI pura do seu personagem atingir 90.";
+				mes "Velocidade de ataque aumentada (redução de 3% no atraso de ataque)";
+				mes "(Atraso de ataque adicionalmente reduzido em 1% a cada 2 níveis de refinamento aumentados)";
+				mes "(Aumento de PDAS adicional + 1 quando o nível de refinamento do seu personagem atingir 10.)";
+				mes "Quando a DES pura do seu personagem atingir 90.";
+				mes "Aumenta o poder de ataque à distância em 3%";
+				mes "(Acréscimo de 1% a cada 2 níveis de refinamento aumentados)";
+				mes "Quando a SLU do seu personagem atingir 90.";
+				mes "Aumenta o dano crítico em 5%.";
+				mes "(Acréscimo de 1% para cada aumento no nível de refinamento)";
+				mes "Tipo: Túnica, Defesa: 30";
+				mes "Peso: 60";
+				mes "SLOT: 1";
+				mes "Nível Requerido: 170, Classe: Todas^000000";
+				callsub S_Make,
+					20749,	// Manto dos Esquecidos[1]
+					20748,	// Manto dos Esquecidos
+					6471,	// Frio dos Mortos
+					true;
+				continue;
+			}
+			break;
+		}
+	}
+
+S_Make:
+	.@reward_id = getarg(0);
+	.@equipment_req = getarg(1);
+	.@item_misc_req = getarg(2);
+	if (getarg(3,0)) {
+			setarray .@string$[0], "Frio dos Mortos", "Manto";
+	setarray .@material[0],20,100;	// Frio dos Mortos, energia
+	}
+	else {
+		setarray .@string$[0], "Alma", "Chapéu";
+		setarray .@material[0],1,20;	// alma, energia
+	}
+	next;
+	mes "[Mente da Alma Triste]";
+	mes "Para criar... ^006400" + getitemname(.@reward_id) + "^000000...";
+	mes "Traga-me os itens... errantes " + .@string$[0] + ", " + .@string$[1] + "... o recipiente para conter a alma e... a energia negra... que preenche este lugar...";
+	next;
+	mes "[Mente da Alma Triste]";
+	mes "Preciso de 1 " + getitemname(.@equipment_req) + ", " + .@material[0] + " " + getitemname(.@item_misc_req) + "... " + .@material[1] + " " + getitemname(6820) + "..";
+	mes "Se forem coletadas 5 vezes as " + getitemname(6820) + " e " + .@string$[0] + "s... você... nunca falhará...";
+	mes "Como... você... fará isso?";
+	next;
+	switch( select( "Voltar ao menu anterior.", "Usar " + .@material[1] + " energia, " + .@material[0] + " " + .@string$[0], "Usar " + (.@material[1] * 5) + " energia, " + (.@material[0] * 5) + " " + .@string$[0] + "'s" ) ) {
+	case 1:
+		mes "[Mente da Alma Triste]";
+		mes "Eu esperava que... você pudesse... ver... outras coisas... também...";
+		return;
+	case 2:
+		.@rate = 1;
+		break;
+	case 3:
+		.@rate = 5;
+		break;
+	}
+	if (countitem(.@equipment_req) < 1 || countitem(.@item_misc_req) < (.@material[0] * .@rate) || countitem(6820) < (.@material[1] * .@rate)) {
+		mes "[Mente da Alma Triste]";
+		mes "Você não... tem... materiais suficientes... para criar... o item ^006400" + getitemname(.@reward_id) + "^000000...";
+		return;
+	}
+	progressbar "000000",5;
+	percentheal -50,-50;
+	specialeffect2 EF_POISONSMOKE;
+	specialeffect2 EF_NPC_BURNT;
+	delitem .@equipment_req, 1;
+	delitem .@item_misc_req, (.@material[0] * .@rate);
+	delitem 6820, (.@material[1] * .@rate);// Partículas de Energia
+
+	if ((20*.@rate) > rand(100)) {
+		specialeffect EF_BLACKBODY;
+		specialeffect EF_GUMGANG4;
+		specialeffect EF_DARKCASTING2;
+		specialeffect EF_RG_COIN7;
+		mes "[Mente da Alma Triste]";
+		mes "Aqui está... ^006400" + getitemname(.@reward_id) + "^000000...";
+		getitem .@reward_id,1;
+	}
+	else {
+		specialeffect EF_POISONSMOKE;
+		specialeffect EF_GUMGANG4;
+		mes "[Mente da Alma Triste]";
+		mes "^006400" + getitemname(.@reward_id) + "^000000... falhou...";
+	}
+	next;
+	mes "- Recebi dano crítico - - pela poderosa frequência da mente - - que se infiltrou no meu corpo. -";
+	next;
+	mes "[Mente da Alma Triste]";
+	mes "Há algo... em que eu possa... ajudar você?...";
+	return;
+}
+
+// NPCs de Troca - mapa seguro (sem monstros)
+lhz_d_n2,53,49,4	duplicate(Mente Silenciosa#JCv2)	Mente Silenciosa#JCv2C	4_CENERE
+lhz_d_n2,42,49,2	duplicate(Mente Errante#JCv2)	Mente Errante#JCv2C	4_CENERE
+lhz_d_n2,51,53,4	duplicate(Mente da Alma Vitimada#1)	Mente da Alma Vitimada#1C	4_M_DEATH2
+lhz_d_n2,44,53,6	duplicate(Mente da Alma Triste#1)	Mente da Alma Triste#1C	4_M_DEATH
+
+// Mapa seguro - Saída
+lhz_d_n2,34,45,3	script	#lhzdw	1_SHADOW_NPC,{
+	mes "[Bastets]";
+	mes "Você consegue ver a saída.";
+	next;
+	if (select( "Voltar para Lighthalzen.", "Não voltar." ) == 1)
+		warp "lighthalzen",310,228;
+	end;
+}
+
+// Cura
+lhz_dun_n,167,259,2	script	Dispositivo Questionável#l	4_SYSTEM_BOX,3,3,{
+	if (isbegin_quest(14683) == 1) {
+	mes "[Mensagem do Sistema]";
+	mes "Protocolo de Emergência ativado. O usuário poderá executar RT-223.";
+	next;
+	if (select( "Não executar.", "Executar." ) == 2) {
+		mes "[Mensagem do Sistema]";
+		mes "Todo o pessoal deve agir de acordo com as regras de emergência.";
+		close;
+	}
+	specialeffect EF_MAPPILLAR;
+	mes "[Mensagem do Sistema]";
+	mes "Executando RT-223 no usuário. Modo de espera será ativado após este processo.";
+	specialeffect2 EF_BABY;
+	percentheal 100,100;
+	completequest 14683;// Dispositivo Misterioso
+	close;
+	}
+	end;
+
+OnTouch:
+	npctalk "Todo o pessoal deve agir de acordo com as regras de emergência.", "", bc_self;
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "isbegin_quest(14683) == 1" );
+	end;
+}
+
+// Misc
+lhz_dun_n,75,121,0	script	#Alphoccio_Basil_A1	HIDDEN_WARP_NPC,3,3,{
+	end;
+OnTouch:
+	specialeffect EF_BAT2;
+	disablenpc();
+	initnpctimer;
+	end;
+OnTimer1000:
+	.@npc_name$ = strnpcinfo(0);
+	if (.@npc_name$ == "#Alphoccio_Basil_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A23"; 
+		switch (rand(5)) {
+			case 0:	 .@msg$ = "Foi um erro meu achar que isso seria apenas uma viagem..."; break;
+			case 1:	 .@msg$ = "Hah... E daí?.. Eu ouvi minha esposa..."; break;
+			case 2:	 .@msg$ = "O que há de errado com todos aqui?.. Por que esses olhares?.."; break;
+			case 3:	 .@msg$ = "Consigo ouvir sons de música e canções.. Hah hah..."; break;
+			default: .@msg$ = "Onde estou?.. Existe alguma saída?.."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Alphoccio_Basil_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A24";
+		switch (rand(5)) {
+			case 0:	 .@msg$ = "Achei que poderíamos compor músicas e viajar pelo mundo para sempre..."; break;
+			case 1:	 .@msg$ = "Não importa onde estejamos, desde que você esteja ao meu lado..."; break;
+			case 2:	 .@msg$ = "Trentini... Onde você está..."; break;
+			case 3:	 .@msg$ = "O som da canção está desaparecendo..."; break;
+			default: .@msg$ = "E agora... O que restou para mim?.."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Catherine Cheiron_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A5";
+		switch (rand(5)) {
+			case 0:	 .@msg$ = "É um truque muito estranho..."; break;
+			case 1:	 .@msg$ = "Snif snif... Alguém... Por favor..."; break;
+			case 2:	 .@msg$ = "Está frio... Este lugar... É um depósito?.."; break;
+			case 3:	 .@msg$ = "Minha voz... não sai..."; break;
+			default: .@msg$ = "Amigos... Estou com medo..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Katrinn Chiron_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A6";
+		switch (rand(5)) {
+			case 0:	 .@msg$ = "Seyren... Onde você está..."; break;
+			case 1:	 .@msg$ = "Dor... Escuridão... Estou com medo..."; break;
+			case 2:  .@msg$ = "A magia que demorei tanto a aprender agora é apenas... inútil..."; break;
+			case 3:  .@msg$ = "Aqueles que não são humanos..."; break;
+			default: .@msg$ = "Amigos... Está muito escuro..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Celia_Alde_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A17";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "Droga... Isso é loucura... Tudo isso..."; break;
+			case 1:  .@msg$ = "Não tenho certeza se poderia dizer quem..."; break;
+			case 2:	 .@msg$ = "Espírito tão sofrido aqui... Talvez seja..."; break;
+			case 3:  .@msg$ = "Isso é ridículo... Como isso poderia ter acontecido..?"; break;
+			default: .@msg$ = "Droga... Isso está além da minha capacidade analítica... Impossível..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Celia_Alde_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A18";
+		switch (rand(4)) {
+			case 0:  .@msg$ = "Ninguém por perto... O que está..."; break;
+			case 1:  .@msg$ = "Minha... sobrevivência... e fuga... resultado da análise..."; break;
+			case 2:	 .@msg$ = "Onde... o quê... Não, não... Nunca..."; break;
+			default: .@msg$ = "Quero sair daqui o mais rápido possível..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Chen_Liu_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A19";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "Minha cabeça está meio estranha..."; break;
+			case 1:  .@msg$ = "Este lugar parece um porão abandonado..."; break;
+			case 2:	 .@msg$ = "Há um ferimento no meu peito... O que está acontec..."; break;
+			case 3:	 .@msg$ = "Estou prestes a me perder..."; break;
+			default: .@msg$ = "Sou um Monge... Agente do castigo divino..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Chen_Liu_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A20";
+		switch (rand(4)) {
+			case 0:  .@msg$ = "Rostos inimigos... São rostos de colegas..."; break;
+			case 1:  .@msg$ = "Abadia de St. Capitolina... Ainda há trabalho a fazer..."; break;
+			case 2:	 .@msg$ = "Meu ferimento foi costurado... O que diabos fizeram comigo?.."; break;
+			default: .@msg$ = "Poder sagrado... Poder da mente..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Eremes_Guille_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A7";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "Concentre-se na sobrevivência..."; break;
+			case 1:  .@msg$ = "Carrego o brasão da Guilda da Guilhotina, devo sobreviver!.."; break;
+			case 2:	 .@msg$ = "Não desista... Lembre-se da missão..."; break;
+			case 3:	 .@msg$ = "A saída está longe... Não consigo ver..."; break;
+			default: .@msg$ = "Tudo isso... Foi meticulosamente planejado com certeza..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Eremes_Guille_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A8";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "Será que Katrinn está bem... Preciso protegê-la..."; break;
+			case 1:  .@msg$ = "Preciso concluir minha missão... Meus comandos..."; break;
+			case 2:	 .@msg$ = "A Guilda dos Assassinos me espera..."; break;
+			case 3:	 .@msg$ = "Não acredito que caí numa armadilha dessas..."; break;
+			default: .@msg$ = "Minha visão está turva... Não vou durar muito..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Flamel_Emule_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A15";
+		switch (rand(5)) {
+			case 0:	 .@msg$ = "Nunca me senti tão impotente antes..."; break;
+			case 1:	 .@msg$ = "Celia... Estou com medo..."; break;
+			case 2:	 .@msg$ = "Meu corpo está cheio de cicatrizes cirúrgicas..."; break;
+			case 3:	 .@msg$ = "Ninguém apareceu... Ninguém... Aqui..."; break;
+			default: .@msg$ = "Eu consigo aguentar..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Flamel_Emule_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A16";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "Minha família... Geneticistas... vão ficar tão envergonhados..."; break;
+			case 1:  .@msg$ = "Sinto como se... minha consciência... já não fosse mais minha..."; break;
+			case 2:	 .@msg$ = "Minha consciência... está se apagando..."; break;
+			case 3:	 .@msg$ = "Agora, com as últimas forças que restam..."; break;
+			default: .@msg$ = "Meu corpo... o que... Não pode ser..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Gertie_Wie_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A21";
+		switch (rand(4)) {
+			case 0:	 .@msg$ = "Eu fui usado..."; break;
+			case 1:	 .@msg$ = "O que você está fazendo..."; break;
+			case 2:	 .@msg$ = "É muito amplo... Não consigo ver nenhuma saída..."; break;
+			default: .@msg$ = "Hah... Grande infortúnio..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Gertie_Wie_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A22";
+		switch (rand(5)) {
+			case 0:	 .@msg$ = "Eu deveria ter recebido mais dinheiro se soubesse que isso aconteceria..."; break;
+			case 1:	 .@msg$ = "Minhas bochechas estão queimando... O que aconteceu conosco... Está certo..."; break;
+			case 2:	 .@msg$ = "Minhas eras se foram... Jovens... Devem crescer como guerreiros..."; break;
+			case 3:	 .@msg$ = "Vou observar atentamente... Preciso me lembrar..."; break;
+			default: .@msg$ = "Se soubéssemos que isso aconteceria e que receberíamos isso..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Harword_AltEisen_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A9";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "O que move meu corpo agora... Será realmente a minha vontade..?"; break;
+			case 1:  .@msg$ = "Onde é este lugar?.. Não me disseram nada..."; break;
+			case 2:  .@msg$ = "Não irei a lugar nenhum... Ficarei ao seu lado..."; break;
+			case 3:  .@msg$ = "Preciso procurar minha irmã Cecil... custe o que custar..."; break;
+			default: .@msg$ = "Perigoso... Minha mente está se apagando..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Harword Alt-Eisen_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A10";
+		switch (rand(3)) {
+			case 0:	 .@msg$ = "Não consigo mais ver meu futuro..."; break;
+			case 1: .@msg$ = "Meus olhos... continuam... se fechando..."; break;
+			default: .@msg$ = "Droga... Anime-se... Não perca a vontade..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Magaleta_Sorin_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A3";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "Querido Odin... Que Seyren esteja bem..."; break;
+			case 1:  .@msg$ = "Tudo isso me apavora..."; break;
+			case 2:	 .@msg$ = "Essa não é a minha vontade... Isso não sou eu..."; break;
+			case 3:	 .@msg$ = "O poder sagrado não pode curar o sangue negro..."; break;
+			default: .@msg$ = "Querido Odin... Que possamos... Que ele possa..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Magaleta_Sorin_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A4";
+		switch (rand(4)) {
+			case 0:  .@msg$ = "Querido Odin, seja minha força restante..."; break;
+			case 1:  .@msg$ = "Meu corpo continua perdendo forças..."; break;
+			case 2:	 .@msg$ = "Os poderes sagrados estão enfraquecendo..."; break;
+			default: .@msg$ = "Meu Seyren... Onde você está..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Randel_Lawrence_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A13";
+		switch (rand(4)) {
+			case 0:  .@msg$ = "Fui designado para cá como comandante..."; break;
+			case 1:  .@msg$ = "Agora é impossível... De verdade..."; break;
+			case 2:	 .@msg$ = "Vou mostrar a força dos Paladinos..."; break;
+			default: .@msg$ = "Onde está minha equipe..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Randel_Lawrence_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A14";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "Equipe destacada... Se algum de vocês sobreviver... Deve sair daqui... Esta é uma ordem..."; break;
+			case 1:  .@msg$ = "Meus poderes se foram agora..."; break;
+			case 2:	 .@msg$ = "O que é aquilo?.. Estou mudando..."; break;
+			case 3:	 .@msg$ = "Sou o último sobrevivente aqui?.."; break;
+			default: .@msg$ = "Eu caí? Está escurecendo diante dos meus olhos..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Seyren_Windsor_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A1";
+		switch (rand(4)) {
+			case 0:  .@msg$ = "Preciso encontrar meus companheiros... Eu devo..."; break;
+			case 1:  .@msg$ = "Onde está Sorin?.. Meus amigos estão bem?.."; break;
+			case 2:	 .@msg$ = "Há um traidor entre nossos líderes... Não há ninguém em quem confiar..."; break;
+			default: .@msg$ = "Meu pai precisa ser informado disso..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Seyren_Windsor_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A2";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "Minha culpa me aperta..."; break;
+			case 1:  .@msg$ = "Sou Windsor, filho da honra, não desonrarei meu nome..."; break;
+			case 2:	 .@msg$ = "Preciso fugir deles... Isso nunca deveria..."; break;
+			case 3:	 .@msg$ = "Não podemos morrer em um lugar como este..."; break;
+			default: .@msg$ = "Meu amor... Margaretha..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Shecil_Damon_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A11";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "Mantenha a calma... Está tudo bem..."; break;
+			case 1:  .@msg$ = "Esse corredor também não é a saída..."; break;
+			case 2:	 .@msg$ = "Eu vou... Espere por mim, Sorin..."; break;
+			case 3:  .@msg$ = "Estou com medo... Muito... medo..."; break;
+			default: .@msg$ = "Ainda tenho meu arco e flechas..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Shecil_Damon_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A12";
+		switch (rand(5)) {
+			case 0:	 .@msg$ = "Não posso morrer assim aqui..."; break;
+			case 1:	 .@msg$ = "Sorin... Onde você foi..."; break;
+			case 2:	 .@msg$ = "Amigos... É do que eu mais sinto falta..."; break;
+			case 3:	 .@msg$ = "O que há naquele espaço?.. Para onde isso leva..?"; break;
+			default: .@msg$ = "Eu consigo... Isso não é o fim..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Trentini_A1") {
+		.@talker_name$ = "#lhz_dun_talk_A25";
+		switch (rand(5)) {
+			case 0:  .@msg$ = "Consigo sentir onde ele está..."; break;
+			case 1:  .@msg$ = "O que faço agora?.. Minha cabeça dói demais..."; break;
+			case 2:	 .@msg$ = "É minha culpa... Eu deveria ter terminado com Alphoccio no final..."; break;
+			case 3:	 .@msg$ = "É um fim, é uma opressão... Esse é o resultado..."; break;
+			default: .@msg$ = "Sinto sua falta... Muito mesmo..."; break;
+		}
+	}
+	else if (.@npc_name$ == "#Trentini_A2") {
+		.@talker_name$ = "#lhz_dun_talk_A26";
+		switch (rand(4)) {
+			case 0:  .@msg$ = "Tem alguém aí?.. Amigos, por favor... Ah..."; break;
+			case 1:  .@msg$ = "Aquela leitura de tarô foi assustadora..."; break;
+			case 2:	 .@msg$ = "Eu gostava tanto das vozes deles..."; break;
+			default: .@msg$ = "Meu corpo não se move mais..."; break;
+		}
+	}
+	npctalk .@msg$, .@talker_name$;
+	end;
+OnTimer40000:
+	stopnpctimer;
+	enablenpc();
+	end;
+}
+
+lhz_dun_n,92,102,0	duplicate(#Alphoccio_Basil_A1)	#Alphoccio_Basil_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,150,74,0	duplicate(#Alphoccio_Basil_A1)	#Catherine Cheiron_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,174,98,0	duplicate(#Alphoccio_Basil_A1)	#Katrinn Chiron_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,25,65,0	duplicate(#Alphoccio_Basil_A1)	#Celia_Alde_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,60,102,0	duplicate(#Alphoccio_Basil_A1)	#Celia_Alde_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,194,188,0	duplicate(#Alphoccio_Basil_A1)	#Chen_Liu_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,255,206,0	duplicate(#Alphoccio_Basil_A1)	#Chen_Liu_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,81,184,0	duplicate(#Alphoccio_Basil_A1)	#Eremes_Guille_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,113,191,0	duplicate(#Alphoccio_Basil_A1)	#Eremes_Guille_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,84,87,0	duplicate(#Alphoccio_Basil_A1)	#Flamel_Emule_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,39,55,0	duplicate(#Alphoccio_Basil_A1)	#Flamel_Emule_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,232,198,0	duplicate(#Alphoccio_Basil_A1)	#Gertie_Wie_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,130,148,0	duplicate(#Alphoccio_Basil_A1)	#Gertie_Wie_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,119,195,0	duplicate(#Alphoccio_Basil_A1)	#Harword Alt-Eisen_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,158,210,0	duplicate(#Alphoccio_Basil_A1)	#Harword Alt-Eisen_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,159,122,0	duplicate(#Alphoccio_Basil_A1)	#Magaleta_Sorin_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,133,39,0	duplicate(#Alphoccio_Basil_A1)	#Magaleta_Sorin_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,168,193,0	duplicate(#Alphoccio_Basil_A1)	#Randel_Lawrence_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,188,188,0	duplicate(#Alphoccio_Basil_A1)	#Randel_Lawrence_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,44,155,0	duplicate(#Alphoccio_Basil_A1)	#Seyren Windsor_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,54,221,0	duplicate(#Alphoccio_Basil_A1)	#Seyren Windsor_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,249,66,0	duplicate(#Alphoccio_Basil_A1)	#Shecil_Damon_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,213,97,0	duplicate(#Alphoccio_Basil_A1)	#Shecil_Damon_A2	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,191,129,0	duplicate(#Alphoccio_Basil_A1)	#Trentini_A1	HIDDEN_WARP_NPC,3,3
+lhz_dun_n,259,132,0	duplicate(#Alphoccio_Basil_A1)	#Trentini_A2	HIDDEN_WARP_NPC,3,3
+
+lhz_dun_n,44,155,6	script	#lhz_dun_talk_A1	CLEAR_NPC,{ end; }
+lhz_dun_n,54,221,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A2	CLEAR_NPC
+lhz_dun_n,159,122,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A3	CLEAR_NPC
+lhz_dun_n,133,39,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A4	CLEAR_NPC
+lhz_dun_n,150,74,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A5	CLEAR_NPC
+lhz_dun_n,174,98,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A6	CLEAR_NPC
+lhz_dun_n,81,184,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A7	CLEAR_NPC
+lhz_dun_n,113,191,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A8	CLEAR_NPC
+lhz_dun_n,119,195,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A9	CLEAR_NPC
+lhz_dun_n,158,210,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A10	CLEAR_NPC
+lhz_dun_n,249,66,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A11	CLEAR_NPC
+lhz_dun_n,213,97,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A12	CLEAR_NPC
+lhz_dun_n,168,193,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A13	CLEAR_NPC
+lhz_dun_n,188,188,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A14	CLEAR_NPC
+lhz_dun_n,84,87,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A15	CLEAR_NPC
+lhz_dun_n,39,55,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A16	CLEAR_NPC
+lhz_dun_n,25,65,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A17	CLEAR_NPC
+lhz_dun_n,60,102,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A18	CLEAR_NPC
+lhz_dun_n,194,188,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A19	CLEAR_NPC
+lhz_dun_n,255,206,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A20	CLEAR_NPC
+lhz_dun_n,232,198,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A21	CLEAR_NPC
+lhz_dun_n,130,148,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A22	CLEAR_NPC
+lhz_dun_n,75,121,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A23	CLEAR_NPC
+lhz_dun_n,92,102,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A24	CLEAR_NPC
+lhz_dun_n,191,129,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A25	CLEAR_NPC
+lhz_dun_n,259,132,6	duplicate(#lhz_dun_talk_A1)	#lhz_dun_talk_A26	CLEAR_NPC
+
+// localização do npc -> ID da missão impreciso
+lhz_dun_n,132,61,2	script	Dispositivo Questionável#14684	4_SYSTEM_BOX,5,5,{
+	end;
+OnTouch:
+	.@quest_id = atoi(strnpcinfo(2));
+	switch( checkquest(.@quest_id,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		npctalk "... Corrente... Requerida... Refrigeração.. Tempo..";
+	end;
+case 2:
+	erasequest .@quest_id;
+	break;
+}
+specialeffect EF_MAPPILLAR;
+npctalk "Protocolo de Emergência... Ativado.. para.. RT..017... Refrigeração... 1 hora......";
+specialeffect2 EF_BABY;
+setquest .@quest_id;// Dispositivo Misterioso
+switch( .@quest_id ) {
+case 14684:
+	// atq dano+10%, def+10% contra monstros (valores imprecisos, desconhecidos)
+	// atq+: Espadachim, Gatuno / def+: Noviço, Mercador
+	sc_start2 SC_LHZ_DUN_N1,1800000,10,10,10000,SCSTART_NOTICKDEF;	/// dura 30 minutos
+	break;
+case 14685:
+	// atq+: Noviço, Mercador / def+: Mago, Arqueiro
+	sc_start2 SC_LHZ_DUN_N2,1800000,10,10,10000,SCSTART_NOTICKDEF;
+	break;
+case 14686:
+	// atq+: Mago, Arqueiro / def+: Espadachim, Gatuno
+	sc_start2 SC_LHZ_DUN_N3,1800000,10,10,10000,SCSTART_NOTICKDEF;
+	break;
+case 14687:
+	// atq+: MvPs / def+: MvPs
+	sc_start2 SC_LHZ_DUN_N4,1800000,10,10,10000,SCSTART_NOTICKDEF;
+	break;
+}
+	end;
+
+OnInit:
+	.@condition$ = "!isbegin_quest(" + strnpcinfo(2) + ")";
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, .@condition$ );
+	end;
+}
+
+lhz_dun_n,53,127,2	duplicate(Dispositivo Questionável#14684)	Dispositivo Questionável#14685	4_SYSTEM_BOX,5,5
+lhz_dun_n,214,127,2	duplicate(Dispositivo Questionável#14684)	Dispositivo Questionável#14686	4_SYSTEM_BOX,5,5
+lhz_dun_n,148,148,2	duplicate(Dispositivo Questionável#14684)	Dispositivo Questionável#14687	4_SYSTEM_BOX,5,5
+
+/*
+// Efeitos desconhecidos
+lhz_dun_n,130,204,2	script	Homem Morto#lhzd01	4_TOWER_06,5,5
+lhz_dun_n,78,133,2	script	Homem Morto#lhzd02	4_TOWER_06,5,5
+lhz_dun_n,47,65,2	script	Homem Morto#lhzd03	4_TOWER_06,5,5
+lhz_dun_n,141,39,2	script	Homem Morto#lhzd04	4_TOWER_06,5,5
+lhz_dun_n,123,85,2	script	Homem Morto#lhzd05	4_TOWER_06,5,5
+lhz_dun_n,212,71,2	script	Homem Morto#lhzd06	4_TOWER_06,5,5
+lhz_dun_n,213,109,2	script	Homem Morto#lhzd07	4_TOWER_06,5,5
+lhz_dun_n,145,179,2	script	Homem Morto#lhzd08	4_TOWER_06,5,5
+lhz_dun_n,233,135,2	script	Homem Morto#lhzd09	4_TOWER_06,5,5
+lhz_dun_n,241,201,2	script	Homem Morto#lhzd10	4_TOWER_06,5,5
+lhz_dun_n,150,211,2	script	Homem Morto#lhzd11	4_TOWER_03,5,5
+lhz_dun_n,69,144,2	script	Homem Morto#lhzd12	4_TOWER_03,5,5
+lhz_dun_n,113,81,2	script	Homem Morto#lhzd13	4_TOWER_03,5,5
+lhz_dun_n,144,64,2	script	Homem Morto#lhzd14	4_TOWER_03,5,5
+lhz_dun_n,157,93,2	script	Homem Morto#lhzd15	4_TOWER_03,5,5
+lhz_dun_n,231,69,2	script	Homem Morto#lhzd16	4_TOWER_03,5,5
+lhz_dun_n,179,107,2	script	Homem Morto#lhzd17	4_TOWER_03,5,5
+lhz_dun_n,172,175,2	script	Homem Morto#lhzd18	4_TOWER_03,5,5
+lhz_dun_n,228,149,2	script	Homem Morto#lhzd19	4_TOWER_03,5,5
+lhz_dun_n,248,218,2	script	Homem Morto#lhzd20	4_TOWER_03,5,5
+lhz_dun_n,139,233,2	script	Homem Morto#lhzd21	4_TOWER_08,5,5
+lhz_dun_n,69,110,2	script	Homem Morto#lhzd22	4_TOWER_08,5,5
+lhz_dun_n,100,109,2	script	Homem Morto#lhzd23	4_TOWER_08,5,5
+lhz_dun_n,137,72,2	script	Homem Morto#lhzd24	4_TOWER_08,5,5
+lhz_dun_n,169,85,2	script	Homem Morto#lhzd25	4_TOWER_08,5,5
+lhz_dun_n,245,63,2	script	Homem Morto#lhzd26	4_TOWER_08,5,5
+lhz_dun_n,182,126,2	script	Homem Morto#lhzd27	4_TOWER_08,5,5
+lhz_dun_n,182,154,2	script	Homem Morto#lhzd28	4_TOWER_08,5,5
+lhz_dun_n,246,141,2	script	Homem Morto#lhzd29	4_TOWER_08,5,5
+lhz_dun_n,236,226,2	script	Homem Morto#lhzd30	4_TOWER_08,5,5
+lhz_dun_n,38,200,2	script	Homem Morto#lhzd31	4_TOWER_11,5,5
+lhz_dun_n,95,86,2	script	Homem Morto#lhzd32	4_TOWER_11,5,5
+lhz_dun_n,98,138,2	script	Homem Morto#lhzd33	4_TOWER_11,5,5
+lhz_dun_n,145,89,2	script	Homem Morto#lhzd34	4_TOWER_11,5,5
+lhz_dun_n,186,92,2	script	Homem Morto#lhzd35	4_TOWER_11,5,5
+lhz_dun_n,181,148,2	script	Homem Morto#lhzd36	4_TOWER_11,5,5
+lhz_dun_n,181,148,2	script	Homem Morto#lhzd37	4_TOWER_11,5,5
+lhz_dun_n,203,144,2	script	Homem Morto#lhzd38	4_TOWER_11,5,5
+lhz_dun_n,240,134,2	script	Homem Morto#lhzd39	4_TOWER_11,5,5
+lhz_dun_n,141,129,2	script	Homem Morto#lhzd40	4_TOWER_11,5,5
+lhz_dun_n,81,160,2	script	Homem Morto#lhzd41	4_TOWER_13,5,5
+lhz_dun_n,41,77,2	script	Homem Morto#lhzd42	4_TOWER_13,5,5
+lhz_dun_n,99,162,2	script	Homem Morto#lhzd43	4_TOWER_13,5,5
+lhz_dun_n,136,95,2	script	Homem Morto#lhzd44	4_TOWER_13,5,5
+lhz_dun_n,184,80,2	script	Homem Morto#lhzd45	4_TOWER_13,5,5
+lhz_dun_n,202,102,2	script	Homem Morto#lhzd46	4_TOWER_13,5,5
+lhz_dun_n,157,143,2	script	Homem Morto#lhzd47	4_TOWER_13,5,5
+lhz_dun_n,202,133,2	script	Homem Morto#lhzd48	4_TOWER_13,5,5
+lhz_dun_n,220,178,2	script	Homem Morto#lhzd49	4_TOWER_13,5,5
+lhz_dun_n,131,148,2	script	Homem Morto#lhzd50	4_TOWER_13,5,5
+*/

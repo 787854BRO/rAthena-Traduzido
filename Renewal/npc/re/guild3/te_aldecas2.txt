@@ -1,0 +1,67 @@
+//===== rAthena Script =======================================
+//= War of Emperium (Al De Baran) - Kafragarten 2
+//===== Description: =========================================
+//= [Official Conversion]
+//= NPCs that relate to Al De Baran Training Guild Castle 2
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+// Bandeiras Simples (sem mensagens)
+//============================================================
+alde_gld,220,184,4	duplicate(flag_te)	Denise#te_aldecas2	GUILD_FLAG
+
+// Bandeiras de Informações Simples
+//============================================================
+te_aldecas2,82,71,2	duplicate(simple_info_TE)	Denise#1	GUILD_FLAG
+te_aldecas2,67,30,2	duplicate(simple_info_TE)	Denise#2	GUILD_FLAG
+te_aldecas2,183,140,2	duplicate(simple_info_TE)	Denise#3	GUILD_FLAG
+te_aldecas2,212,152,2	duplicate(simple_info_TE)	Denise#4	GUILD_FLAG
+te_aldecas2,108,39,2	duplicate(simple_info_TE)	Denise#5	GUILD_FLAG
+te_aldecas2,57,213,2	duplicate(simple_info_TE)	Denise#6	GUILD_FLAG
+te_aldecas2,103,53,2	duplicate(simple_info_TE)	Denise#7	GUILD_FLAG
+te_aldecas2,73,53,2	duplicate(simple_info_TE)	Denise#8	GUILD_FLAG
+te_aldecas2,63,41,2	duplicate(simple_info_TE)	Denise#9	GUILD_FLAG
+te_aldecas2,229,6,2	duplicate(simple_info_TE)	Denise#10	GUILD_FLAG
+te_aldecas2,230,40,2	duplicate(simple_info_TE)	Denise#11	GUILD_FLAG
+te_aldecas2,197,40,2	duplicate(simple_info_TE)	Denise#12	GUILD_FLAG
+te_aldecas2,32,213,2	duplicate(simple_info_TE)	Denise#13	GUILD_FLAG
+te_aldecas2,121,29,2	duplicate(simple_info_TE)	Denise#14	GUILD_FLAG
+
+// Bandeiras de Informações + Portal do Mestre da Guilda no Interior.
+//============================================================
+te_alde_gld,99,251,4	script	Denise#15	GUILD_FLAG,{
+	callfunc( "F_flag_woe_TE", 1, "te_aldecas2" ,84,74 );
+OnFlagTEDenise:
+	flagemblem getcastledata( "te_aldecas2",1 );
+	end;
+}
+te_alde_gld,99,244,4	duplicate(Denise#15)	Denise#16	GUILD_FLAG
+
+// Kafra da Guilda
+//============================================================
+te_aldecas2,84,74,0	duplicate(Kafra_Staff_TE)	Funcionária Kafra#te_alde2	4_F_KAFRA1
+
+// Nível 1 (portal para o tesouro externo)
+//============================================================
+te_aldecas2,139,234,0	duplicate(lever1_TE)	#lever1_te_aldecas2	HIDDEN_NPC
+
+// Nível 2 (portal para o calabouço)
+//============================================================
+te_aldecas2,194,136,0	duplicate(lever2_TE)	#lever2_te_aldecas2	HIDDEN_NPC
+
+// Investimento econômico / defesa / guardião
+//============================================================
+te_aldecas2,78,74,0	duplicate(invest_TE)	Lares	1_M_JOBTESTER
+
+// Invocação do Tesouro
+//============================================================
+te_aldecas2,1,1,0	duplicate(treasure_TE)	treasure_TE#te_aldecas2	-1
+
+// Npc de Aluguel de Itens.
+//============================================================
+te_alde_gld,99,252,3	duplicate(rental_woe_TE)	Gerente de Aluguel#ag02	4_F_HUWOMAN
+
+// Administração GdE
+//============================================================
+te_aldecas2,1,1,0	duplicate(Manager_TE)	Manager_TE#Denise	-1

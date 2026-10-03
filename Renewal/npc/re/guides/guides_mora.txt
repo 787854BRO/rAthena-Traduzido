@@ -1,0 +1,220 @@
+//===== rAthena Script ======================================= 
+//= Mora Guides
+//===== By: ================================================== 
+//= Euphy
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Guides for the city of Mora.
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [Euphy]
+//= 1.1 Navigation system update. [Euphy]
+//============================================================ 
+
+mora,25,158,5	script	Guia Raffle#norte	516,{
+	mes "[Raffoh]";
+	mes "Laoh~!";
+	mes "Bem vind"+((Sex) ? "o":"a")+" à Vilarejo de Mora.";
+	mes "Eu posso te informar tudo o que você quiser saber sobre o vilarejo~!";
+	F_Navi("[Raffoh]");
+	next;
+	switch(select("[ Estalagem ]:[ Residências ]:[ Lojas ]:[ Armazém ]:Remover Marcações do Mini-mapa:Sair")) {
+	case 1:
+		mes "[Raffoh]";
+		mes "Laoh~!";
+		mes "Nós temos uma "+F_Navi("Estalagem","mora,44,138")+", mas não podemos fazer os viajantes dormirem como Raffles...";
+		mes "Descanse um pouco!";
+		viewpoint 1,44,134,0,0x0A82FF;
+		close;
+	case 2:
+		mes "[Raffoh]";
+		mes "Laoh~!";
+		mes F_Navi("Lá","mora,119,170")+" é onde ficam as casas dos Raffles'...";
+		mes "Mas não faça barulho porque as pessoas estão dormindo~!";
+		viewpoint 1,119,170,1,0xAAFF00;
+		close;
+	case 3:
+		mes "[Raffoh]";
+		mes "Laoh~!";
+		mes "Se você está procurando por souvenirs, você pode comprar alguns neste "+F_Navi("Distrito","mora,112,110")+".";
+		viewpoint 1,112,110,2,0xDA70D6;
+		close;
+	case 4:
+		mes "[Raffoh]";
+		mes "Laoh~!";
+		mes F_Navi("Lá","mora,182,161")+" é onde eles guardam todos os tipos de pacotes e mantimentos.";
+		mes "Há muitas coisas que não pertencem aos Raffles, então seja cuidadoso!";
+		viewpoint 1,182,161,3,0xFF1493;
+		close;
+	case 5:
+		mes "[Raffoh]";
+		mes "Laoh~! Estou removendo todos elas~!";
+		viewpoint 2,1,1,0,0xFFFF00;
+		viewpoint 2,1,1,1,0xFFFF00;
+		viewpoint 2,1,1,2,0xFFFF00;
+		viewpoint 2,1,1,3,0xFFFF00;
+		close;
+	case 6:
+		mes "[Raffoh]";
+		mes "Laoh~!";
+		mes "Que tipos de esportes são populares em sua terra natal?";
+		close;
+	}
+}
+
+mora,167,76,3	script	Guia Raffle#leste	522,{
+	mes "[Raffuh]";
+	mes "Uh...";
+	mes "Esta é a Vila de Mora.";
+	mes "Uh... que lugar você deseja conhecer?";
+	F_Navi("[Raffuh]");
+	next;
+	switch(select("[ Estalagem ]:[ Residências ]:[ Lojas ]:[ Armazém ]:Remover Marcações do Mini-mapa:Sair")) {
+	case 1:
+		mes "[Raffuh]";
+		mes "Uh...";
+		mes "Você está com sono?";
+		mes "Você poderá dormir "+F_Navi("aqui","mora,44,138")+" uh!! Coloque seu material em baixo! E-- e---";
+		viewpoint 1,44,134,0,0x0A82FF;
+		close;
+	case 2:
+		mes "[Raffuh]";
+		mes "Uh...";
+		mes "Por que você está tentando descobrir "+F_Navi("onde","mora,119,170")+" Eu moro--?";
+		mes "Uh, não... eu gostaria de morar com meus amigos--";
+		viewpoint 1,119,170,1,0xAAFF00;
+		close;
+	case 3:
+		mes "[Raffuh]";
+		mes "Uh...";
+		mes "Há muitas coisas naquelas "+F_Navi("lojas","mora,112,110")+"-- oh, há uma fonte termal também!";
+		viewpoint 1,112,110,2,0xDA70D6;
+		close;
+	case 4:
+		mes "[Raffuh]";
+		mes "Uh...";
+		mes "Você não pode simplesmente entrar no "+F_Navi("armazém","mora,182,161")+", se tentar você estará em apuros--";
+		mes "Muitas das coisas que existem de fora da aldeia-- Raffuh esteve em apuros várias vezes--";
+		viewpoint 1,182,161,3,0xFF1493;
+		close;
+	case 5:
+		mes "[Raffuh]";
+		mes "Tem certeza que você quer que estas marcações sejam removidas?";
+		viewpoint 2,1,1,0,0xFFFF00;
+		viewpoint 2,1,1,1,0xFFFF00;
+		viewpoint 2,1,1,2,0xFFFF00;
+		viewpoint 2,1,1,3,0xFFFF00;
+		close;
+	case 6:
+		mes "[Raffuh]";
+		mes "Uh...";
+		mes "Ser um guia não ajuda muito com minha fobia social--";
+		close;
+	}
+}
+
+mora,115,138,5	script	Guia Raffle#centro	524,{
+	mes "[Raffla]";
+	mes "Lala!";
+	mes "Bem vind"+((Sex) ? "o":"a")+" à Vila de Mora!";
+	mes "Se você precisar saber alguma coisa sobre a vila, apenas me pergunte!";
+	F_Navi("[Raffla]");
+	next;
+	switch(select("[ Estalagem ]:[ Residências ]:[ Lojas ]:[ Armazém ]:Remover Marcações do Mini-mapa:Sair.")) {
+	case 1:
+		mes "[Raffla]";
+		mes "Lala!";
+		mes F_Navi("Este","mora,44,138")+" é o lugar onde os viajantes podem descansar la!";
+		mes "A recepcionista da estalagem é muito gentil, então tente falar com ela la!";
+		viewpoint 1,44,134,0,0x0A82FF;
+		close;
+	case 2:
+		mes "[Raffla]";
+		mes "Lala!";
+		mes F_Navi("Este","mora,119,170")+" é o lugar onde os Raffles vivem la!";
+		mes "Apareça por lá!";
+		viewpoint 1,119,170,1,0xAAFF00;
+		close;
+	case 3:
+		mes "[Raffla]";
+		mes "Lala!";
+		mes "Então você quer comprar algo la?";
+		mes "Há um monte de "+F_Navi("Lojas e Cafeterias","mora,112,110")+", então dê uma olhada nelas la!";
+		viewpoint 1,112,110,2,0xDA70D6;
+		close;
+	case 4:
+		mes "[Raffla]";
+		mes "Lala!";
+		mes "O "+F_Navi("Armazém","mora,182,161")+" é o lugar onde você pode guardar seus objetos de valor la!";
+		mes "Tenha cuidado para que você não seja roubado la!";
+		viewpoint 1,182,161,3,0xFF1493;
+		close;
+	case 5:
+		mes "[Raffla]";
+		mes "Ok, eu removerei todas as marcações do mapa la!";
+		viewpoint 2,1,1,0,0xFFFF00;
+		viewpoint 2,1,1,1,0xFFFF00;
+		viewpoint 2,1,1,2,0xFFFF00;
+		viewpoint 2,1,1,3,0xFFFF00;
+		close;
+	case 6:
+		mes "[Raffla]";
+		mes "Lala!";
+		mes "Eu realmente não sei como minha família acaba fazendo essas coisas, la!";
+		close;
+	}
+}
+
+mora,72,51,3	script	Guia Raffle#sul	518,{
+	mes "[Raffli]";
+	mes "Lali?";
+	mes "Bem vind"+((Sex) ? "o":"a")+" à Vila de Mora.";
+	mes "Se você precisar saber alguma coisa sobre a vila, apenas pergunte-me.";
+	F_Navi("[Raffli]");
+	next;
+	switch(select("[ Estalagem ]:[ Residências ]:[ Lojas ]:[ Armazém ]:Remover Marcações do Mini-mapa:Sair")) {
+	case 1:
+		mes "[Raffli]";
+		mes "Lali?";
+		mes F_Navi("Este","mora,44,138")+" é o lugar onde os viajantes podem descansar.";
+		mes "A Recepção é muito gentil, então vá conhece-la.";
+		viewpoint 1,44,134,0,0x0A82FF;
+		close;
+	case 2:
+		mes "[Raffli]";
+		mes "Lali?";
+		mes F_Navi("Este","mora,119,170")+" é o local onde os Raffles vivem.";
+		mes "Você está indo para a casa de Raffli li? Estou tão feliz.";
+		viewpoint 1,119,170,1,0xAAFF00;
+		close;
+	case 3:
+		mes "[Raffli]";
+		mes "Lali?";
+		mes "Há muitas coisas que eu quero comprar.";
+		mes "Você pode encontrar toneladas de coisas nestes "+F_Navi("lugares","mora,112,110")+" para comer, e toneladas de coisas para comprar.";
+		viewpoint 1,112,110,2,0xDA70D6;
+		close;
+	case 4:
+		mes "[Raffli]";
+		mes "Lali?";
+		mes "O "+F_Navi("Armazém","mora,182,161")+" é o local onde você poderá guarda seus objetos de valor.";
+		mes "Mas não seja roubado.";
+		viewpoint 1,182,161,3,0xFF1493;
+		close;
+	case 5:
+		mes "[Raffli]";
+		mes "Eu removerei todas as marcações.";
+		viewpoint 2,1,1,0,0xFFFF00;
+		viewpoint 2,1,1,1,0xFFFF00;
+		viewpoint 2,1,1,2,0xFFFF00;
+		viewpoint 2,1,1,3,0xFFFF00;
+		close;
+	case 6:
+		mes "[Raffli]";
+		mes "Lali?";
+		mes "Irmão parece estar chatead"+((Sex) ? "o":"a")+" hoje li. Eu te fiz algo errado?";
+		close;
+	}
+}

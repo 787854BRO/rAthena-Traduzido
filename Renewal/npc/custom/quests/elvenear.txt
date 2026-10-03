@@ -1,0 +1,68 @@
+//===== rAthena Script =======================================
+//= Daily Job Quest For Elven Ears
+//===== By: ==================================================
+//= someone
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Elven Ears (require 75+ Base Level)
+//===== Additional Comments: =================================
+//= Optimized [Lupus], 1.1 misc fix
+//= 1.2 Fixed exploit [Lupus]
+//============================================================
+
+geffen,127,49,5	script	Missão Orelhas de Elfo	84,{
+	mes "[Missão Orelhas de Elfo]";
+	mes "Olá, a missão de hoje é....";
+	mes "Ah, as ^61B031Orelhas de Elfo ^000000!";
+	next;
+	menu "Requisitos.",L_Bl, "Faser Item.",-,"Cancelar!",L_Cancel;
+
+	mes "[Missão Orelhas de Elfo]";
+	mes "Bom, deixe-me verificar.";
+	next;
+	if(countitem(2213)<1 || countitem(1040)<20 || countitem(919)<20) goto L_NoMake;
+	delitem 2213,1;
+	delitem 1040,20;
+	delitem 919,20;
+	mes "[Missão Orelhas de Elfo]";
+	mes "Me dê um segundo.....";
+	next;
+	getitem 2286,1;
+	mes "[Missão Orelhas de Elfo]";
+	mes "Ok, pronto!";
+	close;
+
+L_NoMake:
+	mes "[Missão Orelhas de Elfo]";
+	mes "Você não tem os requisitos.";
+	mes "Por favor, volte outra hora...";
+	close;
+
+L_Bl:
+	mes "[Missão Orelhas de Elfo]";
+	mes "Ok, tudo que você precisa fazer é coletar:";
+	mes "^362ED61 Orelha de Gato^000000";
+	mes "^362ED620 Bigode de Anão Ancião^000000";
+	mes "e ^362ED620 Couro de Animal^000000";
+	next;
+	menu "Aceitar",-, "Sair",L_Leave;
+
+	mes "[Missão Orelhas de Elfo]";
+	mes "Quando você terminar, traga os itens para mim. Ok, boa sorte para encontrar esses itens.";
+	close;
+
+L_Leave:
+	mes "[Missão Orelhas de Elfo]";
+	mes "Talvez outra hora?";
+	close;
+
+L_Cancel:
+	mes "[Missão Orelhas de Elfo]";
+	mes "Ah, que pena";
+	mes "desistindo já?";
+	mes "Oh bem, talvez você participe da missão de amanhã.";
+	close;
+}

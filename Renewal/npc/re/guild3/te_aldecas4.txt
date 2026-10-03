@@ -1,0 +1,72 @@
+//===== rAthena Script =======================================
+//= War of Emperium (Al De Baran) - Kafragarten 4
+//===== Description: =========================================
+//= [Official Conversion]
+//= NPCs that relate to Al De Baran Training Guild Castle 4
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+// Bandeiras Simples (sem mensagens)
+//============================================================
+alde_gld,216,180,4	duplicate(flag_te)	Bianca#te_aldecas4	GUILD_FLAG
+
+// Bandeiras de Informações Simples
+//============================================================
+te_aldecas4,167,61,2	duplicate(simple_info_TE)	Bianca#1	GUILD_FLAG
+te_aldecas4,164,90,2	duplicate(simple_info_TE)	Bianca#2	GUILD_FLAG
+te_aldecas4,129,193,2	duplicate(simple_info_TE)	Bianca#3	GUILD_FLAG
+te_aldecas4,112,206,2	duplicate(simple_info_TE)	Bianca#4	GUILD_FLAG
+te_aldecas4,113,212,2	duplicate(simple_info_TE)	Bianca#5	GUILD_FLAG
+te_aldecas4,77,117,2	duplicate(simple_info_TE)	Bianca#6	GUILD_FLAG
+te_aldecas4,186,42,2	duplicate(simple_info_TE)	Bianca#7	GUILD_FLAG
+te_aldecas4,30,69,2	duplicate(simple_info_TE)	Bianca#8	GUILD_FLAG
+te_aldecas4,55,97,2	duplicate(simple_info_TE)	Bianca#9	GUILD_FLAG
+te_aldecas4,45,98,2	duplicate(simple_info_TE)	Bianca#10	GUILD_FLAG
+te_aldecas4,33,116,2	duplicate(simple_info_TE)	Bianca#11	GUILD_FLAG
+te_aldecas4,130,180,2	duplicate(simple_info_TE)	Bianca#12	GUILD_FLAG
+te_aldecas4,129,193,2	duplicate(simple_info_TE)	Bianca#13	GUILD_FLAG
+te_aldecas4,33,107,2	duplicate(simple_info_TE)	Bianca#14	GUILD_FLAG
+te_aldecas4,133,220,2	duplicate(simple_info_TE)	Bianca#15	GUILD_FLAG
+te_aldecas4,169,22,2	duplicate(simple_info_TE)	Bianca#16	GUILD_FLAG
+te_aldecas4,169,15,2	duplicate(simple_info_TE)	Bianca#17	GUILD_FLAG
+
+// Bandeiras de Informações + Portal do Mestre da Guilda no Interior.
+//============================================================
+te_alde_gld,239,246,2	script	Bianca#18	GUILD_FLAG,{
+	// callfunc( "F_flag_woe_TE",1,"te_aldecas1",218,170 );
+	callfunc( "F_flag_woe_TE",1,"te_aldecas4",45,88 );
+OnFlagTEBianca:
+	flagemblem getcastledata( "te_aldecas4",1 );
+	end;
+}
+// te_alde_gld,45,87,8	duplicate(Bianca#18)	Bianca#19	GUILD_FLAG
+te_alde_gld,239,239,2	duplicate(Bianca#18)	Bianca#20	GUILD_FLAG
+
+// Kafra da Guilda
+//============================================================
+te_aldecas4,45,88,0	duplicate(Kafra_Staff_TE)	Funcionária Kafra#te_alde4	4_F_KAFRA1
+
+// Nível 1 (portal para o tesouro externo)
+//============================================================
+te_aldecas4,79,15,0	duplicate(lever1_TE)	#lever1_te_aldecas4	HIDDEN_NPC
+
+// Nível 2 (portal para o calabouço)
+//============================================================
+te_aldecas4,76,64,0	duplicate(lever2_TE)	#lever2_te_aldecas4	HIDDEN_NPC
+
+// Investimento econômico / defesa / guardião
+//============================================================
+te_aldecas4,67,116,0	duplicate(invest_TE)	Alpores	1_M_JOBTESTER
+
+// Invocação do Tesouro
+//============================================================
+te_aldecas4,1,1,0	duplicate(treasure_TE)	treasure_TE#te_aldecas4	-1
+
+// Npc de Aluguel de Itens.
+//============================================================
+te_alde_gld,240,245,3	duplicate(rental_woe_TE)	Gerente de Aluguel#ag04	4_F_HUWOMAN
+
+// Administração GdE
+//============================================================
+te_aldecas4,1,1,0	duplicate(Manager_TE)	Manager_TE#Bianca	-1

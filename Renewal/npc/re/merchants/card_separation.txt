@@ -1,0 +1,367 @@
+//===== rAthena Script ======================================= 
+//= Card Separation System
+//===== By: ================================================== 
+//= Muad_Dib
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Separates cards from equipment.
+//===== Additional Comments: ================================= 
+//= 1.0 First Version. [Euphy]
+//= 1.1 Added "Richard" NPC. [Euphy]
+//============================================================ 
+
+-	script	::CardSeparation_mal	-1,{
+	disable_items;
+	if (checkweight(1201,1) == 0) {
+		mes "Você possui muitos tipos de objetos. Vamos continuar depois de reduzir esses objetos.";
+		close;
+	}
+	if (MaxWeight - Weight < 10000) {
+		mes "Não pode continuar porque você tem muitos objetos pesados. Vamos tentar continuar depois de reduzir o peso.";
+		close;
+	}
+	if (strnpcinfo(1) == "Jeremy") {
+		set .@Jeremy,1;
+		set .@n$, "[Jeremy]";
+		setarray .@equip_name$[0], "Armadura", "Botas", "Vestimenta", "Cabeça Topo";
+		setarray .@equip_slot[0], EQI_ARMOR,EQI_SHOES,EQI_GARMENT,EQI_HEAD_TOP;
+
+		mes .@n$;
+		mes "Muito tempo sem ver~";
+		mes "Eu aprendi uma habilidade nova que separa cartas de Armaduras, Sapatos, Vestimentas e Chapéus. Você quer experimentar?";
+	} else {
+		set .@Jeremy,0;
+		set .@n$, "[Richard]";
+		setarray .@equip_name$[0], "Mão Esquerda", "Mão Direita";
+		setarray .@equip_slot[0], EQI_HAND_L,EQI_HAND_R;
+
+		mes .@n$;
+		mes "O Bobo Jeremy não quer tocar em armas e escudos por causa do medo de danificar os equipamentos após adquirir as cartas. É por isso que eu aprendi uma habilidade de separar cartas para armas e escudos...";
+	}
+	next;
+	mes .@n$;
+	mes "Geralmente, a taxa é de 1.000.000 Zeny. Durante a separação das cartas, você pode usar ^990000itens especiais que reduzem a taxa de destruição de equipamentos ou cartas^000000. Nós não cobramos zeny adicionais por isso.";
+	next;
+	mes .@n$;
+	mes "Existe a possibilidade de destruí-los mesmo usando um item especial. Além disso, ^ff0000o nível de refinamento pode ser perdido^000000. Você tem algum equipamento para separar?";
+	next;
+
+	for(set .@i,0; .@i<getarraysize(.@equip_slot); set .@i,.@i+1) {
+		if (getequipisequiped(.@equip_slot[.@i]))
+			set .@menu$, .@menu$+getequipname(.@equip_slot[.@i])+":";
+		else
+			set .@menu$, .@menu$+"^999999"+.@equip_name$[.@i]+" (vazio)^000000:";
+	}
+
+	set .@i, select("Parar o trabalho:"+((.@Jeremy)?"Como é possível?":"")+":"+.@menu$);
+	switch(.@i) {
+	case 1:
+		mes .@n$;
+		mes "Sempre que você precisar do meu trabalho, visite-me aqui.";
+		close;
+	case 2:
+		mes .@n$;
+		mes "Você quer saber o que é tão especial. Bem, eu odeio dar apenas um guia, então deixe-me contar a história...";
+		next;
+		mes "^000099Jeremy está esticando os ombros e as mãos. Ele pode estar esperando alguém falar com ele.^000000";
+		next;
+		mes .@n$;
+		mes "Você sabe que a especialidade de Malangdo é comida enlatada?";
+		next;
+		select("Eu sei muito bem. Isso é tão limitado?");
+		mes .@n$;
+		mes "Hehe... Todo mundo adora. Mas houve alguns problemas antes.";
+		next;
+		select("Problemas? Existe algum peixe defeituoso?");
+		mes .@n$;
+		mes "Não, os peixes não tem nenhum problema. O problema é muito óleo de peixe produzido após o processamento. Isso é um desperdício industrial.";
+		next;
+		mes .@n$;
+		mes "No entanto, depois de um processo de refino revitalizante, este óleo de peixe se tornou valioso para uso em equipamentos antigos e lubrificantes industriais.";
+		next;
+		mes .@n$;
+		mes "Além disso, este óleo é tão útil para separar relíquias de armas equipadas que não podemos comprar Lubrificante Premium e Lubrificante Comum com Zeny.";
+		next;
+		mes .@n$;
+		mes "Bem, não se preocupe com dinheiro. Certamente o Lubrificante Premium é caro. Se você pagar um pouco, eu posso te dar um lubrificante mais barato.";
+		next;
+		mes .@n$;
+		mes "Não tenho certeza sobre a qualidade do sucesso. De qualquer forma, isso é tão barato, certo?";
+		close;
+	default:
+		set .@equip_num, .@equip_slot[.@i-3];
+		if (!getequipisequiped(.@equip_num)) {
+			mes .@n$;
+			if (.@Jeremy)
+				mes "Nesta parte, não há nada?";
+			else
+				mes "Não há nada nessa parte?";
+			close;
+		}
+		break;
+	}
+
+	setarray .@check_equip_card[0], getequipcardid(.@equip_num,0),getequipcardid(.@equip_num,1),getequipcardid(.@equip_num,2),getequipcardid(.@equip_num,3);
+	setarray .@equip_card[0], .@check_equip_card[0], .@check_equip_card[1], .@check_equip_card[2], .@check_equip_card[3];
+	set .@mvp_list$,
+		"|4408|4128|4456|4168|4142"+  //Gloom_Under_Night_Card, Golden_Bug_Card, Nidhogg_Shadow_Card, Dark_Lord_Card, Doppelganger_Card
+		"|4134|4137|4386|4407|4357"+  //Dracula_Card, Drake_Card, Detale_Card, Randgris_Card, B_Seyren_Card
+		"|4146|4132|4147|4372|4145"+  //Maya_Card, Mistress_Card, Baphomet_Card, Bacsojin_Card, Berzebub_Card
+		"|4374|4352|4367|4236|4425"+  //Apocalips_H_Card, B_Ygnizem_Card, B_Shecil_Card, Amon_Ra_Card, Atroce_Card
+		"|4359|4123|4144|4135|4143"+  //B_Eremes_Card, Eddga_Card, Osiris_Card, Orc_Load_Card, Orc_Hero_Card
+		"|4263|4131|4430|4276|4419"+  //Incant_Samurai_Card, Moonlight_Flower_Card, Ifrit_Card, Lord_Of_Death_Card, Ktullanux_Card
+		"|4403|4399|4376|4441|4302"+  //Kiel_Card, Thanatos_Card, Lady_Tanee_Card, Fallen_Bishop_Card, Tao_Gunka_Card
+		"|4305|4148|4318|4121|4365"+  //Turtle_General_Card, Pharaoh_Card, Knight_Windstorm_Card, Phreeoni_Card, B_Katrinn_Card
+		"|4363|4324|4361|4330|4342|"; //B_Magaleta_Card, Garm_Card, B_Harword_Card, Dark_Snake_Lord_Card, Rsx_0806_Card
+
+	if (.@Jeremy) {
+		for ( .@i = 0; .@i < MAX_SLOTS; .@i++ ) {
+			if (getiteminfo(.@equip_card[.@i], ITEMINFO_SUBTYPE) == CARD_ENCHANT)
+				.@equip_card[.@i] = 0;// Sistema de Encantamento de Armadura
+		}
+		if (!getarraysize(.@equip_card)) {
+			mes .@n$;
+			mes "A carta não está equipada. Você quer checar novamente?";
+			close;
+		}
+		if ((.@equip_card[0] && compare(.@mvp_list$,"|"+.@equip_card[0]+"|")) ||
+			(.@equip_card[1] && compare(.@mvp_list$,"|"+.@equip_card[1]+"|")) ||
+			(.@equip_card[2] && compare(.@mvp_list$,"|"+.@equip_card[2]+"|")) ||
+			(.@equip_card[3] && compare(.@mvp_list$,"|"+.@equip_card[3]+"|")))
+			set .@boss_chk,1;
+	} else {
+		// O script oficial "Richard" usa uma lista codificada incluindo todos os itens possíveis.
+		//if (!getequipisequiped(.@equip_num)) {
+		//	mes "[Richard]";
+		//	mes "Sinto muito. Nós não fornecemos esse equipamento ainda.";
+		//	close;
+		//}
+
+		mes "[Richard]";
+		mes "Qual o número do slot que você quer separar o carta? Do slot esquerdo, eles são ordenados 1,2,3,4.";
+		next;
+		set .@menu$,"";
+		for ( .@i = 0; .@i < MAX_SLOTS; .@i++ ) {
+			if (.@equip_card[.@i] && getiteminfo(.@equip_card[.@i], ITEMINFO_SUBTYPE) == CARD_NORMAL) // Sistema de Encantamento de Armadura
+				.@menu$ = .@menu$ + "Slot " + (.@i+1) + " - " + getitemname(.@equip_card[.@i])+":";
+			else {
+				.@menu$ = .@menu$ + "^777777Slot " + (.@i+1) + " - Sem Carta^000000:";
+			}
+		}
+		set .@i, select("Parar o trabalho:"+.@menu$);
+		switch(.@i) {
+		case 1:
+			mes .@n$;
+			mes "Sempre que você precisar dos meus serviços, por favor venha até mim.";
+			close;
+		default:
+			set .@slot, .@i-2;
+			if (.@equip_card[.@slot] == 0 || getiteminfo(.@equip_card[.@slot], ITEMINFO_SUBTYPE) == CARD_ENCHANT) {
+				mes .@n$;
+				mes "Este slot não está equipado com nenhuma carta. Por que você não checa novamente?";
+				close;
+			}
+			break;
+		}
+		if (compare(.@mvp_list$,"|"+.@equip_card[.@slot]+"|"))
+			set .@boss_chk,1;
+	}
+	if (.@boss_chk == 0) {
+		mes .@n$;
+		if (.@Jeremy)
+			mes "Exceto cartas, ^ff0000todos os efeitos encantados desaparecerão.^000000 Se você concorda com isso, por favor escolha o tipo de trabalho:";
+		else
+			mes "Por favor, escolha a taxa do trabalho.";
+		next;
+		set .@menu$,
+			"Da próxima vez...:"+
+			((Zeny >= 1000000)?"Usar 1,000,000z (não use item especial):":"^999999Use 1,000,000z (insuficiente)^000000:")+
+			((countitem(6441))?"Usar Lubrificante Premium:":"^999999Lubrificante Premium (insuficiente)^000000:")+
+			((countitem(6440))?"Usar Lubrificante Comum":"^999999Lubrificante Comum (insuficiente)^000000");
+		switch(select(.@menu$)) {
+		case 1:
+			mes .@n$;
+			mes "Sempre que você precisar dos meus serviços, visite-me aqui.";
+			close;
+		case 2:
+			if (Zeny < 1000000) {
+				mes .@n$;
+				mes "Você não tem zeny suficiente. Por favor, volte com taxas suficientes.";
+				close;
+			}
+			mes .@n$;
+			mes "Este é um equipamento bastante antigo. Há uma alta taxa de destruição de cartas ou equipamentos durante o processo. Tem certeza de que deseja continuar?";
+			next;
+			if(select("Na próxima vez...:Continuar") == 1) {
+				mes .@n$;
+				mes "Sempre que você precisar dos meus serviços, visite-me aqui.";
+				close;
+			}
+			set .@sf_c_num,150;
+			set .@sf_r_num,150;
+			set .@sf_w_num,150;
+			set Zeny, Zeny - 1000000;
+			break;
+		case 3:
+			if (countitem(6441) == 0) {
+				mes .@n$;
+				mes "Você não tem Lubrificante Premium.";
+				close;
+			}
+			mes .@n$;
+			mes "Se você usar o Lubrificante Premium, a taxa de destruição será altamente reduzida, mas eu não posso lhe dar uma garantia de 100%. Você tem certeza que quer continuar?";
+			next;
+			if(select("Na próxima vez...:Continuar") == 1) {
+				mes .@n$;
+				mes "Sempre que você precisar dos meus serviços, visite-me aqui.";
+				close;
+			}
+			set .@sf_c_num,75;
+			set .@sf_r_num,75;
+			set .@sf_w_num,75;
+			delitem 6441,1; //Lubrificante_Premium
+			break;
+		case 4:
+			if (countitem(6440) == 0) {
+				mes .@n$;
+				mes "Você não tem Lubrificante Comum.";
+				close;
+			}
+			mes .@n$;
+			mes "Se você usar o Lubrificante Comum, a taxa de destruição diminuirá muito, mas eu não posso lhe dar uma garantia de 100%. Você tem certeza que quer continuar?";
+			next;
+			if(select("Na próxima vez...:Continuar") == 1) {
+				mes .@n$;
+				mes "Sempre que você precisar dos meus serviços, visite-me aqui.";
+				close;
+			}
+			set .@sf_c_num,75;
+			set .@sf_r_num,150;
+			set .@sf_w_num,150;
+			delitem 6440,1; //Lubrificante_Comum
+			break;
+		}
+	} else if (.@boss_chk == 1) {
+		mes .@n$;
+		mes "Este equipamento contém uma preciosa carta de MVP. Esta carta não pode ser separada com lubrificante. Se você trouxer o super surfactante ^ 0000ffÓleo Removedor Especial^000000, eu poderei trabalhar.";
+		next;
+		switch(select("Na próxima vez...:Eu tenho um Óleo Removedor Especial.")) {
+		case 1:
+			mes .@n$;
+			mes "Sempre que você precisar dos meus serviços, visite-me aqui.";
+			close;
+		case 2:
+			if (countitem(6443) == 0) {
+				mes .@n$;
+				mes "Você não tem o Óleo Removedor Especial.";
+				close;
+			}
+			break;
+		}
+		mes .@n$;
+		if (.@Jeremy) {
+			mes "Exceto cartas, ^ff0000todos os efeitos encantados desaparecerão.^000000 Se você concorda com isso, por favor escolha o tipo de trabalho:";
+			set .@menu$,"Tudo bem, vamos fazer isso!";
+		} else {
+			mes "Posso continuar?";
+			set .@menu$,"Eu entendi. Basta fazer isso rapidamente!";
+		}
+		next;
+		switch(select("Na próxima vez...:"+.@menu$)) {
+		case 1:
+			mes .@n$;
+			mes "Sempre que você precisar dos meus serviços, visite-me aqui.";
+			close;
+		case 2:
+			set .@sf_c_num,60;
+			set .@sf_r_num,60;
+			set .@sf_w_num,60;
+			delitem 6443,1; //Óleo_Removedor_Especial
+			break;
+		}
+	}
+
+	set .@equip_id, getequipid(.@equip_num);
+	set .@equip_refine, getequiprefinerycnt(.@equip_num);
+
+	// anti-roubo
+	if (callfunc("F_IsEquipCardHack", .@equip_num, .@check_equip_card[0], .@check_equip_card[1], .@check_equip_card[2], .@check_equip_card[3]))
+		close;
+
+	delequip .@equip_num;
+
+	// Chance de manter o nível de refinamento.
+	if (rand(1,.@sf_r_num) >= 61)
+		set .@equip_refine,0;
+
+	if (.@Jeremy) {
+		// Chance de reter equipamentos.
+		if (rand(1,.@sf_w_num) < 61) {
+			set .@equip_safe,1;
+			getitem2 .@equip_id,1,1,.@equip_refine,0,0,0,0,0;
+		}
+
+		// Chance de reter cartas.
+		for(set .@i,0; .@i<4; set .@i,.@i+1) {
+			if (.@equip_card[.@i]) {
+				if (rand(1,.@sf_c_num) < 61)
+					getitem .@equip_card[.@i],1;
+				else
+					set .@card_break,1;
+			}
+		}
+	} else {
+		set .@card, .@equip_card[.@slot];
+		set .@check_equip_card[.@slot],0;
+
+		// Chance de reter equipamentos (todos os encantamentos são preservados).
+		if (rand(1,.@sf_w_num) < 61) {
+			set .@equip_safe,1;
+			getitem2 .@equip_id,1,1,.@equip_refine,0,.@check_equip_card[0],.@check_equip_card[1],.@check_equip_card[2],.@check_equip_card[3];
+		}
+
+		// Chance de manter o cartas.
+		if (rand(1,.@sf_c_num) < 61)
+			getitem .@card,1;
+		else
+			set .@card_break,1;
+	}
+
+	// Exibe o efeito correspondente.
+	if (!.@equip_safe && .@card_break)
+		specialeffect2 EF_LORD;
+	else if (.@equip_safe && .@card_break)
+		specialeffect2 EF_SUI_EXPLOSION;
+	else if (!.@equip_safe && !.@card_break)
+		specialeffect2 EF_FIREPILLAR;
+	else
+		specialeffect2 EF_MAXPOWER;
+
+	// Resultados de saída.
+	mes "-- Resultado de Separação de Cartas --";
+	if (.@equip_safe) {
+		mes "Não ocorreu rachaduras durante o processo de separação de cartas.";
+		mes "^0000FFA separação de equipamentos foi feita com SUCESSO.^000000";
+	} else {
+		mes "Ocorreu uma rachadura durante o processo de separação de cartas.";
+		mes "O equipamento foi danificado. ^ff0000Irrecuperável.^000000";
+	}
+	mes "-------------------";
+	if (!.@card_break) {
+		mes "A erosão da superfície não ocorreu durante o processo de separação de cartas.";
+		mes "^0000ffA separação de cartas ocorreu com SUCESSO.^000000";
+	} else {
+		mes "A erosão da superfície ocorreu durante o processo de separação de cartas.";
+		mes "A carta foi danificado. ^ff0000Irrecuperável.^000000";
+	}
+	next;
+	mes .@n$;
+	mes "Isso é tudo sobre os resultados da separação de cartas. Por favor, me procure novamente quando quiser.";
+	close;
+}
+malangdo,215,166,4	duplicate(CardSeparation_mal)	Jeremy#pa0829	553	// Armaduras :: mal_yong
+malangdo,208,166,6	duplicate(CardSeparation_mal)	Richard#pa0829	559	// Armas :: soc_weapon

@@ -1,0 +1,605 @@
+//===== rAthena Script =======================================
+//= 2012 Headgear Quests
+//===== By: ==================================================
+//= Euphy, -SkittleNugget-
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Enhance gears by synthesizing them with Energy Crystals.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//=     Script is a little messy, could use some cleaning.
+//============================================================
+
+// NPC Principal :: 2012_hat_quest
+//==========================================================
+moc_para01,41,169,3	script	Reno#2012hat	64,{
+
+	// iRO tem (muitas) pequenas diferenças nos diálogos do script original.
+	// Para usar a versão do iRO, descomente a linha abaixo.
+	//set .@features_iRO,1;
+
+	//tradução personalizada - todas as verificações abaixo
+	if (checkweight(1301,1) == 0 || MaxWeight - Weight < 800) {
+		mes "- Carregando muitos itens, não é possível prosseguir. -";
+		close;
+	}
+
+	setarray .@type$[0],"Inferior","Intermediária","Avançada","Superior";
+	setarray .@crystal$[0],"Brutos","Refinados","Puros";
+
+	// verificações de tempo do jogo
+	setarray .@quests_playtime[0],5161,5169,5174,5225,5226,5227;
+	for (set .@i,0; .@i<6; set .@i,.@i+1) {
+		if (checkquest(.@quests_playtime[.@i],PLAYTIME) == 2) {
+			erasequest .@quests_playtime[.@i];
+			mes "[Reno]";
+			if (.@i < 3) // tempo de espera da missão de caça
+				mes "O tempo de espera para a missão de coleta "+.@type$[.@i]+" expirou. Agora você já pode aceitar outra solicitação.";
+			else // tempo de espera do buff
+				mes "O tempo de espera para armazenar os Cristais "+.@crystal$[.@i]+" de Energia expirou. Agora você já pode armazená-los novamente.";
+			close;
+		}
+	}
+
+	// verificações de missões de caça
+	callsub L_CheckHunting,5161,5162,7,.@type$[0],6623,10; //Cristal Bruto de Energia
+	callsub L_CheckHunting,5169,5170,4,.@type$[1],6624,10; //Cristal Refinado de Energia
+	callsub L_CheckHunting,5174,5175,4,.@type$[2],6625,5; //Cristal Puro de Energia
+	callsub L_CheckHunting,5174,5179,4,.@type$[3],6625,10; //Cristal Puro de Energia
+
+	// verificações de buffs
+	set .@energy_buf00, getstatus(SC_QUEST_BUFF1) + getstatus(SC_QUEST_BUFF2) + getstatus(SC_QUEST_BUFF3);
+	if (!.@energy_buf00) {
+		for (set .@i,0; .@i<3; set .@i,.@i+1) {
+			if (isbegin_quest(.@i + 5222)) {
+				set .@item, 6623 + .@i;
+				set .@amount, 2 + rand(3);
+				mes "[Reno]";
+				mes getitemname(.@item)+" o armazenamento agora está completo.";
+				next;
+				setquest 5225 + .@i;
+				erasequest 5222 + .@i;
+				getitem .@item,.@amount;
+				mes "[Reno]";
+				mes "^0000FF"+.@amount+" "+getitemname(.@item)+"s^000000 foram extraídos.";
+				close;
+			}
+		}
+	}
+	mes "[Reno]";
+	mes "Olá? Eu sou Reno da Associação de Pesquisa dos Cristais de Energia, ou APCE.";
+	next;
+	switch(select("APCE?:Missão para obter Cristais de Energia.:Bônus de Cristais de Energia.:Comprimir Cristais de Energia.:Trocar Cristais por Elmos.:Equipamento Aleatório por Cristais " + ((.@features_iRO)?":Ver Lista de Equipamentos":""))) {
+	case 1:
+		mes "[Reno]";
+		mes "APCE é a Associação de Pesquisa dos '^0000FFCristais de Energia^000000' que serão usados como uma fonte de energia alternativa no Reino de Rune-Midgard, que sofre com a escassez de energia.";
+		next;
+		select("O motivo para fazer isso?");
+		mes "[Reno]";
+		mes "Gostaria de explicar que não estamos tentando dar uma desculpa para fugir do problema antes que eu explique o motivo. Nunca! Então, por favor, deixe-me terminar.";
+		next;
+		mes "[Reno]";
+		mes "A Equipe de Pesquisa me enviou os resultados que encontraram.";
+		next;
+		mes "[Reno]";
+		mes "Cristais de energia acabaram sendo ^0000FFgerados dentro dos corpos de alguns monstros^000000, e de acordo com a pesquisa, monstros mais fortes geram Cristais de Energia da classe superior em seus corpos.";
+		next;
+		mes "[Reno]";
+		mes "A Equipe de Pesquisa decidiu coletar Cristais de Energia dando solicitações aos aventureiros, com recompensas apropriadas. Isso nos permite coletar melhor e ser mais ^FF0000eficientes^000000.";
+		next;
+		mes "[Reno]";
+		mes "Cristais de Energia, acumulados através da caça de monstros a meu pedido, serão usados para minha pesquisa. ^0000FFAlguns deles estão planejados para serem devolvidos aos aventureiros.^000000";
+		next;
+		mes "[Reno]";
+		mes "Aventureiros podem usar Cristais de Energia coletados para ^FF0000atualizar equipamentos^000000 através de mim.";
+		next;
+		mes "[Reno]";
+		mes "Se funcionar bem, parece ser bom tanto para a APCE quanto para os aventureiros.";
+		close;
+	case 2:
+		mes "[Reno]";
+		mes "As missões de caça são classificadas pelo nível dos monstros e a dificuldade em derrotá-los. As missões são de nível Inferior, Intermediário e Avançado, e só podem ser realizadas uma vez por dia.";
+		next;
+
+		setarray .@quest_status[0],
+			isbegin_quest(5162) + isbegin_quest(5163) + isbegin_quest(5164) + isbegin_quest(5165) + isbegin_quest(5166) + isbegin_quest(5167) + isbegin_quest(5168),
+			isbegin_quest(5170) + isbegin_quest(5171) + isbegin_quest(5172) + isbegin_quest(5173),
+			isbegin_quest(5175) + isbegin_quest(5176) + isbegin_quest(5177) + isbegin_quest(5178) + isbegin_quest(5179) + isbegin_quest(5180) + isbegin_quest(5181) + isbegin_quest(5182);
+		setarray .@quest_index[0],5161,5169,5174;
+
+		set .@select, select("Caça de nível Inferior [61-80]:Caça de nível Intermediário [80-99]:Caça de nível Avançado [90 e acima]:Cancelar minha missão atual.") - 1;
+		if (.@select < 3) {
+			setarray .@min_level[0],60,80,90,100;
+			if (BaseLevel < .@min_level[.@select]) {
+				mes "[Reno]";
+				mes "Sinto muito, mas a solicitação para a coleção "+.@type$[.@select]+" está disponível apenas para aqueles de nível "+.@min_level[.@select]+" e superior. Você não parece ser capaz de executar esta solicitação.";
+				close;
+			}
+			if (.@quest_status[.@select]) {
+				mes "[Reno]";
+				mes "Você parece estar sob outra solicitação de coleção "+.@type$[.@select]+". Se a missão parece muito difícil... que tal você ^FF0000desistir do pedido^000000?";
+				close;
+			}
+			set .@playtime, checkquest(.@quest_index[.@select],PLAYTIME);
+			if (.@playtime == 0 || .@playtime == 1) {
+				mes "[Reno]";
+				mes "Atualmente esperando pela comissão de coleta "+.@type$[.@select]+". As tarefas em cada coleta só podem ser concluídas uma vez por dia."; //tradução personalizada
+				close;
+			}
+			mes "[Reno]";
+			mes "Você selecionou caçar um monstro da coleção "+.@type$[.@select]+". Após caçar esses monstros, você receberá "+((.@features_iRO)?"10 ":"")+"^0000FF"+.@crystal$[.@select]+" Cristais de Energia^000000 quando retornar para mim.";
+			next;
+			mes "[Reno]";
+			mes "Por favor, selecione o monstro que você acha que pode caçar facilmente na lista.";
+			next;
+			switch (.@select) {
+			case 0:
+				set .@quest, select(
+					"[Classe Inferior] Réquiem",
+					"[Classe Inferior] Bathory",
+					"[Classe Inferior] Coelho",
+					"[Classe Inferior] Rochoso",
+					"[Classe Inferior] Druida Maligno",
+					"[Classe Inferior] Petite",
+					"[Classe Inferior] Relógio"
+				);
+				break;
+			case 1:
+				set .@quest, select(
+					"[Classe Intermediária] Siroma",
+					"[Classe Intermediária] Sacerdote Maldito",
+					"[Classe Intermediária] Stapo",
+					"[Classe Intermediária] Soldado"
+				);
+				break;
+			case 2:
+				set .@quest, select(
+					"[Avançada] Lobo do Deserto",
+					"[Avançada] Medusa",
+					"[Avançada] Pinguicula",
+					"[Avançada] Majoruros",
+					"[Superior] Raydric",
+					"[Superior] Naga",
+					"[Superior] Múmia Anciâ",
+					"[Superior] Mímico Antigo"
+				);
+				if (.@quest > 4 && BaseLevel < .@min_level[3]) {
+					mes "[Reno]";
+					mes "Sinto muito, mas a solicitação para a coleta mais avançada está disponível apenas para aqueles de nível "+.@min_level[3]+" ou superior. Você não parece ser capaz de executar esta solicitação.";
+					close;
+				}
+				break;
+			}
+			setquest .@quest_index[.@select] + .@quest;
+			mes "[Reno]";
+			mes "A solicitação para monstros da coleção "+.@type$[.@select]+" foi emitida. Por favor, verifique os detalhes no documento emitido.";
+			close;
+		} else {
+			setarray .@quest_count[0],7,4,8;
+			for (set .@i,0; .@i<3; set .@i,.@i+1) {
+				if (.@quest_status[.@i]) {
+					mes "[Reno]";
+					mes "Você está atualmente sob a solicitação da coleção "+.@type$[.@i]+". Se você desistir agora, todo seu histórico será perdido. Você realmente quer desistir?";
+					next;
+					set .@erase_quest, select("Sim:Não");
+					switch (.@erase_quest) {
+					case 1:
+						for (set .@quest,.@quest_index[.@i]+1; .@quest<=.@quest_index[.@i]+.@quest_count[.@i]; set.@quest,.@quest+1) {
+							if (isbegin_quest(.@quest))
+								erasequest .@quest;
+						}
+						break;
+					case 2:
+						break;
+					}
+				}
+			}
+			switch (.@erase_quest) {
+			case 0:
+				mes "[Reno]";
+				mes "Você não está sob nenhuma solicitação.";
+				close;
+			case 1:
+				mes "[Reno]";
+				mes "A solicitação escrita para você foi retirado.";
+				close;
+			case 2:
+				mes "[Reno]";
+				mes "Por favor, continue assim.";
+				close;
+			}
+		}
+	case 3:
+		mes "[Reno]";
+		mes "Você quer acumular Cristais de Energia dentro do seu corpo para receber um bônus?";
+		next;
+		set .@select, select("Acumular Cristais de Energia?:Acumular Cristal Bruto de Energia.:Acumular Cristal Refinado de Energia.:Acumular Cristal Puro de Energia.");
+		switch (.@select) {
+		case 1:
+			mes "[Reno]";
+			mes "Cristais de Energia são acumulados em seu corpo quando você caça os monstros que pedimos.";
+			next;
+			mes "[Reno]";
+			mes "Nossa pesquisa mostra que alguns métodos permitem que os humanos acumulem Cristais de Energia dentro do corpo na forma de um lustre.";
+			next;
+			mes "[Reno]";
+			mes "Se você gastar cerca de 3 horas, você será capaz de ganhar uma pequena quantidade de Cristais de Energia. Então você quer receber o buff?";
+			close;
+		case 2:
+			set .@playtime, checkquest(5225,PLAYTIME);
+			set .@quest,5222;
+			set .@min_level,60;
+			set .@rate,1;
+			set .@buff, SC_QUEST_BUFF1;
+			break;
+		case 3:
+			set .@playtime, checkquest(5226,PLAYTIME);
+			set .@quest,5223;
+			set .@min_level,80;
+			set .@rate,2;
+			set .@buff, SC_QUEST_BUFF2;
+			break;
+		case 4:
+			set .@playtime, checkquest(5227,PLAYTIME);
+			set .@quest,5224;
+			set .@min_level,90;
+			set .@rate,3;
+			set .@buff, SC_QUEST_BUFF3;
+			break;
+		}
+		if (.@playtime == 0 || .@playtime == 1) {
+			mes "[Reno]";
+			mes "Você teve sucesso? Embora armazenar outros Cristais de Energia não tenha muito efeito em seu corpo, armazenar o mesmo pode causar danos a você."; //tradução personalizada
+			close;
+		}
+		if (BaseLevel < .@min_level) {
+			mes "[Reno]";
+			mes "Com um corpo como esse, você não pode acumular Cristais de Energia "+.@crystal$[.@select-2]+". Você deverá estar no nível "+.@min_level+" ou seu corpo será prejudicado no processo."; //tradução personalizada
+			close;
+		}
+		if (.@energy_buf00) {
+			mes "[Reno]";
+			mes "A acumulação de Cristais de Energia já começou. Sinto muito, mas é impossível acumular dois tipos diferentes de Cristais de Energia ao mesmo tempo.";
+			close;
+		}
+		if (isbegin_quest(.@quest) > 0) {
+			erasequest .@quest;
+			mes "[Reno]";
+			mes "Ocorreu um erro. Por favor, perdoe-me pelo inconveniente."; //tradução personalizada
+			close;
+		}
+		mes "[Reno]";
+		mes "Leva 3 horas para seu corpo acumular de 2 a 4 Cristais "+.@crystal$[.@select-2]+" de Energia. Você quer começar?";
+		next;
+		if(select("Cancelar.:Iniciar.") == 1) {
+			mes "[Reno]";
+			mes "Eu recomendo que você tente acumular Cristais de Energia quando tiver tempo.";
+			close;
+		}
+		mes "[Reno]";
+		mes "Você pode sentir um leve formigamento.";
+		next;
+		specialeffect2 EF_BASH3D;
+		percentheal .@rate * -5,0;
+		//consumeitem ??; //Keep_Connection_[.@rate]
+		sc_start .@buff,10800000,.@rate;	// Atq/atqM + 5*taxa (+5, +10, +15)
+		setquest .@quest;
+		mes "[Reno]";
+		mes "- Puck -";
+		next;
+		mes "[Reno]";
+		mes "Parece que tudo está em ordem. Vamos começar a acumular Cristais "+.@crystal$[.@select-2]+" de Energia. Lembre-se de voltar para mim depois de 3 horas para pegar os Cristais "+.@crystal$[.@select-2]+" de Energia.";
+		close;
+	case 4:
+		mes "[Reno]";
+		mes "Você quer comprimir os Cristais de Energia?";
+		next;
+		switch(select("O que a compressão faz?:Comprimir Cristal Bruto em Refinado.:Comprimir Cristal Refinado em Puro.")) {
+		case 1:
+			mes "[Reno]";
+			mes "Você está curioso sobre a compressão dos Cristais de Energia? Eu posso comprimir Cristais de Energia de nível inferior em Cristais de nível superior.";
+			next;
+			mes "[Reno]";
+			mes "Aqui está o que eu posso fazer.";
+			mes "^FF000010 Cristais Brutos de Energia^000000 = ^FF00001 Cristal Refinado de Energia^000000";
+			mes "^FF00005 Cristais Refinados de Energia^000000 = ^FF00001 Cristal Puro de Energia^000000";
+			next;
+			mes "[Reno]";
+			mes "Se você precisa de Cristais de Energia de grau mais alto, esta é uma boa maneira de obtê-los, já que os de menor grau são mais fáceis de obter.";
+			close;
+		case 2:
+			set .@crystal,6623; //Cristal Bruto de Energia
+			set .@crystal_,6624; //Cristal Refinado de Energia
+			set .@rate,10;
+			break;
+		case 3:
+			set .@crystal,6624; //Cristal Refinado de Energia
+			set .@crystal_,6625; //Cristal Puro de Energia
+			set .@rate,5;
+			break;
+		}
+		set .@crystal_count, countitem(.@crystal);
+		set .@crystal_get, .@crystal_count / .@rate;
+		mes "[Reno]";
+		mes sprintf("^FF0000%d %s^000000 = ^FF00001 %s^000000",.@rate,getitemname(.@crystal),getitemname(.@crystal_));
+		next;
+		mes "[Reno]";
+		mes sprintf("%d %ss será comprimido para %d %ss.",.@crystal_count,getitemname(.@crystal),.@crystal_get,getitemname(.@crystal_));
+		mes "Você quer comprimir?";
+		next;
+		if(select("Comprimir.:Parar.") == 2) {
+			mes "[Reno]";
+			mes "Ok, entre em contato se precisar de mim no futuro.";
+			close;
+		}
+		while(1) {
+			if (.@crystal_count >= .@rate) { //tradução personalizada
+				delitem .@crystal,.@rate;
+				getitem .@crystal_,1;
+				set .@crystal_count, countitem(.@crystal);
+				set .@crystal_get, .@crystal_count / .@rate;
+				mes "[Reno]";
+				mes "A compressão foi bem sucedida.";
+				mes "Há "+.@crystal_count+" Cristais de Energia restantes, que podem ser compactados em "+.@crystal_get+" Cristais de Energia. Você quer continuar?";
+				next;
+				if(select("Comprimir.:Parar.") == 2)
+					break;
+			} else {
+				mes "[Reno]";
+				mes "Você não tem "+getitemname(.@crystal)+"s suficientes.";
+				next;
+				break;
+			}
+		}
+		mes "[Reno]";
+		mes "Compressão concluída.";
+		close;
+	case 5:
+		disable_items;
+		mes "[Reno]";
+		mes "Você quer trocar Cristais de Energia por equipamentos? Selecione o tipo de Cristal de Energia que você deseja trocar.";
+		next;
+		setarray .@crystals[0], countitem(6623), countitem(6624), countitem(6625);
+		switch(select("Ver Lista de Equipamentos.:["+.@crystals[0]+"] Cristal Bruto de Energia:["+.@crystals[1]+"] Cristal Refinado de Energia:["+.@crystals[2]+"] Cristal Puro de Energia")) {
+		case 1:
+			mes "[Reno]";
+			mes "Este é o folheto sobre a atualização de equipamentos que nossa Associação de Pesquisa de Cristais de Energia fornece. Por favor, dê uma olhada.";
+			close2;
+			readbook 11060,1; //Livro de Combinação de Itens por Cristais.
+			end;
+
+		// Descrições de variáveis
+		// .@crystal : Cristal de Energia usado.
+		// .@materials[] : Equipamento para atualizar.
+		// .@showslot[] : Exibi slots com nome do equipamento (-1 para desabilitar)
+		// .@costs[] : Quantidade de Cristais de Energia necessários.
+		// .@rewards[] : Equipamento atualizado.
+		case 2:
+			set .@crystal,6623; //Cristal Bruto de Energia
+			setarray .@materials[0], 5027, 5045, 5069, 5003, 2214, 5167, 5168, 5043;
+			setarray .@showslot[0],    -1,   -1,   -1,   -1,   -1,    1,    1,   -1;
+			setarray .@costs[0],      100,  100,  100,  100,  100,  100,  100,  100;
+			setarray .@rewards[0],  18760,18761,18762,18763,18764,18769,18770,18771;
+			break;
+		case 3:
+			set .@crystal,6624; //Cristal Refiando de Energia
+			setarray .@materials[0], 2296, 5014, 5096, 2292,2615, 2355,2116, 2420, 2521, 5125;
+			setarray .@showslot[0],    -1,   -1,   -1,   -1,  -1,    1,   1,    1,    1,    1;
+			setarray .@costs[0],      200,  200,  200,  200, 200,  100, 100,  100,  100,  100;
+			setarray .@rewards[0],  18772,18773,18774,18775,2956,15068,2183,22015,20710,18776;
+			break;
+		case 4:
+			set .@crystal,6625; //Cristal Puro de Energia
+			setarray .@materials[0], 5019, 5162, 5025, 5022, 5353, 2423,2678,2679, 2355,2116, 2420, 2521, 5125;
+			setarray .@showslot[0],    -1,    1,   -1,    0,    1,   -1,  -1,  -1,    1,   1,    1,    1,    1;
+			setarray .@costs[0],      300,  300,  300, 1000,  100,  300, 300, 300,   20,  20,   20,   20,   20;
+			setarray .@rewards[0],  18765,18768,18766,18767,18767,22014,2957,2958,15068,2183,22015,20710,18776;
+			break;
+		}
+		mes "[Reno]";
+		mes "Por favor, selecione o equipamento a ser trocado por "+getitemname(.@crystal)+"s.";
+		next;
+		set .@crystal_count, countitem(.@crystal);
+		set .@menu$,"";
+		for (set .@i,0; .@i<getarraysize(.@materials); set .@i,.@i+1) {
+			set .@item_name$, getitemname(.@materials[.@i]) + ((.@showslot[.@i] > -1)?"["+.@showslot[.@i]+"]":"");
+			set .@menu$, .@menu$ + sprintf("%s (%d/%d):",.@item_name$,.@crystal_count,.@costs[.@i]);
+		}
+		set .@index, select(.@menu$) - 1;
+		set .@material, .@materials[.@index];
+		set .@item_name$, getitemname(.@material) + ((.@showslot[.@index] > -1)?"["+.@showslot[.@index]+"]":"");
+		set .@cost, .@costs[.@index];
+		set .@reward, .@rewards[.@index];
+
+		//traduções personalizadas
+		if (.@material == 2615) { // Caso especial: Anel de Defesa
+			if (countitem(2615) < 1 || countitem(2621) < 1 || countitem(2622) < 1 || countitem(2624) < 1 ||
+			    countitem(2625) < 1 || countitem(2623) < 1 || countitem(2626) < 1 || countitem(.@crystal) < .@cost) {
+				mes "[Reno]";
+				mes "Os materiais para fazer um Anel de Defesa[1] são insuficientes. Por favor, verifique seu inventário.";
+				close;
+			}
+			mes "[Reno]";
+			mes "Antes de atualizar seu Anel de Defesa, por favor, leia estas ^FF0000precauções^000000.";
+			next;
+			mes "[Reno]";
+			mes "^FF0000Além do Anel de Defesa, todos os refinamentos e cartas dos materiais necessários também desaparecerão.^000000";
+			next;
+		} else {
+			if (countitem(.@material) < 1 || countitem(.@crystal) < .@cost) {
+				mes "[Reno]";
+				mes "Os materiais são insuficientes. Por favor, verifique seus materiais.";
+				close;
+			}
+			mes "[Reno]";
+			mes "Antes de atualizar seus equipamentos, por favor leia estas ^FF0000precauções^000000.";
+			next;
+			mes "[Reno]";
+			mes "^FF0000Ao usar Cristais de Energia para melhorar equipamentos, saiba que todos os refinamentos, encantamentos e cartas serão perdidos.^000000";
+			next;
+		}
+		mes "[Reno]";
+		mes "Você já está familiarizado com as ^FF0000precauções^000000?";
+		next;
+		if(select("Sim, eu estou.:Não.") == 2) {
+			mes "[Reno]";
+			mes "Ok. Da próxima vez, então.";
+			close;
+		}
+		mes "[Reno]";
+		mes "Então vamos começar a atualizar o item "+.@item_name$+".";
+		next;
+		specialeffect2 EF_REPAIRWEAPON;
+		progressbar "ffff00",2;
+		delitem .@material,1;
+		if (.@material == 2615) {
+			delitem 2621,1; //Anel_
+			delitem 2622,1; //Brinco_
+			delitem 2624,1; //Luva_
+			delitem 2625,1; //Broche_
+			delitem 2623,1; //Colar_
+			delitem 2626,1; //Rosário_
+		}
+		delitem .@crystal,.@cost;
+		getitem .@reward,1;
+		mes "[Reno]";
+		mes "A atualização foi bem-sucedida. Seus Cristais de Energia ajudarão muito em nossa pesquisa.";
+		close;
+	case 6:
+		mes "[Reno]";
+		mes "Você quer doar Cristais de Energia para ganhar um novo Elmo aleatório?";
+		next;
+		switch(select("Doar Cristais de Energia?:Doar 300 Cristais Brutos de Energia.:Doar 600 Cristais Refinados de Energia.:Doar 900 Cristais Puros de Energia.")) {
+		case 1:
+			mes "[Reno]";
+			mes "Estamos coletando Cristais de Energia para que possamos pesquisar mais combinações de elmos para os aventureiros.";
+			next;
+			mes "[Reno]";
+			mes "Graças ao apoio dos aventureiros, podemos usar esses Cristais de Energia para promover nossa Pesquisa.";
+			next;
+			mes "[Reno]";
+			mes "Então recebemos um mínimo de 300 Cristais Brutos de Energia, 600 Cristais Refinados de Energia e 900 Cristais Puros de Energia.";
+			if (!.@features_iRO) {
+				next;
+				mes "[Reno]";
+				mes "Você pode achar que isso é um fardo, mas para o bem da nossa pesquisa, por favor, continuea a nos ajudar."; //tradução personalizada
+				close;
+			}
+			mes "Pela doação, eu lhe darei um novo elmo aleatório.";
+			next;
+			mes "[Reno]";
+			mes "300 Cristais Brutos de Energia:";
+			mes "- Chapéu do Mago Implacável";
+			mes "- Cartola Magnificente";
+			mes "- Máscara Kyuubi";
+			mes "- Espírito do Humor";
+			mes "- Orelhas do Dono da Lua";
+			mes "- Chapéu Mandarin Vermelho";
+			mes "- Chapéu Mandarin Azul";
+			mes "- Disfarce do Fantasma.";
+			next;
+			mes "[Reno]";
+			mes "600 Cristais Refinados de Energia:";
+			mes "- Visor Além do Alcance";
+			mes "- Nadadeiras Verdes";
+			mes "- Máscara do Executor";
+			mes "- Máscara do Ferreiro";
+			mes "- Proteção dos Nibelungos";
+			mes "- Proteção Arcangelical";
+			mes "- Guardião Arcangelical";
+			mes "- Reencarnação do Arcanjo";
+			mes "- Cardigã Arcangelical";
+			mes "- Beijo do Arcanjo.";
+			next;
+			mes "[Reno]";
+			mes "900 Cristais Puros de Energia:";
+			mes "- Corsário Prerigoso";
+			mes "- Elmo de Marfim";
+			mes "- Elmo de Angelus";
+			mes "- Sapatos Convergentes";
+			mes "- Anel do Vulcão";
+			mes "- Anel da Vibração.";
+			close;
+		case 2:
+			if (countitem(6623) < 300) {
+				mes "[Reno]";
+				mes "Obrigado pelo seu apoio, mas precisamos de 300 Cristais Brutos de Energia.";
+				close;
+			}
+			delitem 6623,300; //Cristais Brutos de Energia
+			set .@r, rand(1,17);
+			     if (.@r <= 2)  getitem 18760,1; //Chapéu do Mago Implacável
+			else if (.@r <= 4)  getitem 18761,1; //Cartola Magnificente
+			else if (.@r <= 6)  getitem 18762,1; //Máscara Kyuubi
+			else if (.@r <= 8)  getitem 18763,1; //Espírito do Humor
+			else if (.@r <= 10) getitem 18764,1; //Orelhas do Dono da Lua
+			else if (.@r <= 13) getitem 18769,1; //Chapéu Mandarin Vermelho
+			else if (.@r <= 16) getitem 18770,1; //Chapéu Mandarin Azul
+			else                getitem 18771,1; //Disfarce do Fantasma
+			break;
+		case 3:
+			if (countitem(6624) < 600) {
+				mes "[Reno]";
+				mes "Obrigado pelo seu apoio, mas precisamos de 600 Cristais Refinados de Energia.";
+				close;
+			}
+			delitem 6624,600; //Cristais Refinados de Energia
+			set .@r, rand(1,18);
+			     if (.@r <= 3)  getitem 18772,1; //Visor Além do Alcance
+			else if (.@r <= 6)  getitem 18773,1; //Nadadeiras Verdes
+			else if (.@r <= 9)  getitem 18774,1; //Máscara do Executor
+			else if (.@r <= 12) getitem 18775,1; //Máscara do Ferreiro
+			else if (.@r <= 13) getitem 2956,1;  //Proteção dos Nibelungos
+			else if (.@r <= 14) getitem 15068,1; //Proteção Arcangelical
+			else if (.@r <= 15) getitem 2183,1;  //Guardião Arcangelical
+			else if (.@r <= 16) getitem 22015,1; //Reencarnação do Arcanjo
+			else if (.@r <= 17) getitem 20710,1; //Cardigã Arcangelical
+			else                getitem 18776,1; //Beijo do Arcanjo
+			break;
+		case 4:
+			if (countitem(6625) < 900) {
+				mes "[Reno]";
+				mes "Obrigado pelo seu apoio, mas precisamos de 900 Cristais Puros Energia.";
+				close;
+			}
+			delitem 6625,900; //Cristais Puros Energia
+			set .@r, rand(1,33);
+			     if (.@r <= 10) getitem 18765,1; //Corsário Prerigoso
+			else if (.@r <= 20) getitem 18768,1; //Elmo de Marfim
+			else if (.@r <= 25) getitem 18766,1; //Elmo de Angelus
+			else if (.@r <= 30) getitem 22014,1; //Sapatos Convergentes
+			else if (.@r <= 31) getitem 2957,1; //Anel do Vulcão
+			else                getitem 2958,1; //Anel da Vibração
+			break;
+		}
+		mes "[Reno]";
+		mes "Muito obrigado. Os Cristais de Energia que você doou serão muito úteis para nossa pesquisa. Esta é sua recompensa pela sua doação."; //tradução personalizada
+		close;
+	case 7:  // iRO apenas
+		mes "[Reno]";
+		mes "Este é o folheto falando sobre atualização de equipamentos que nossa Associação de Pesquisa de Cristais de Energia fornece. Por favor, dê uma olhada.";
+		close2;
+		readbook 11060,1; //Livro de Combinação de Itens por Cristais.
+		end;
+	}
+
+//callsub L_CheckHunting,<ID de missões>,<iniciar missão>,<número de missões>,"<tipo>",<id da recompensa>,<valor da recompensa>;
+L_CheckHunting:
+	for (set .@quest,getarg(0)+1; .@quest<getarg(1)+getarg(2); set .@quest,.@quest+1) {
+		if (checkquest(.@quest,HUNTING) == 2) {
+			mes "[Reno]";
+			mes "Concluída a missão de caça à coleção "+getarg(3)+".";
+			next;
+			setquest getarg(0);
+			erasequest .@quest;
+			getitem getarg(4),getarg(5);
+			mes "Você recebeu "+getarg(5)+" "+getitemname(getarg(4))+"s como recompensa da coleção "+getarg(3)+".";
+			close;
+		}
+	}
+	return;
+}

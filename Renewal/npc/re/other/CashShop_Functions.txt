@@ -1,0 +1,41 @@
+//===== rAthena Script =======================================
+//= Cash Shop Functions
+//===== Description: =========================================
+//= Functions related to the VIP system.
+//===== Changelogs: ==========================================
+//= 1.0 Moved VIP_Third_Class function
+//=		from other/CashShop_Functions. [Capuche]
+//============================================================
+
+// Funções VIP
+//============================================================
+function	script	VIP_Third_Class	{
+	if (!vip_status(VIP_STATUS_ACTIVE)) {
+		mes "[Voz do nada]";
+		mes "O acesso ao conteúdo VIP está disponível apenas para aqueles que possuem uma certa quantidade de 'Pedra de Reset de Atributos'.";
+		next;
+		if (countitem(6320) < 1) {
+			mes "[Voz do nada]";
+			mes "Para evoluir para a terceira classe, você deverá me trazer 1 ^0000CCPedra de Reset de Atributos^000000 ou ter uma conta VIP.";
+			//mes "Visite nossa 'Loja Online' para comprar a ^0000CCPedra de Reset de Atributos^000000.";
+			close;
+		} else {
+			mes "[Voz do nada]";
+			mes "Você gostaria de participar desta missão por 1 ^0000CCPedra de Reset de Atributos^000000?";
+			next;
+			switch(select("Sim:Não")) {
+			case 1:
+				mes "[Voz do nada]";
+				mes "Boa sorte, aventureiro.";
+				delitem 6320,1; //Pedra de Reset de Atributos
+				next;
+				break;
+			case 2:
+				mes "[Voz do nada]";
+				mes "Muito bem.";
+				close;
+			}
+		}
+	}
+	return;
+}

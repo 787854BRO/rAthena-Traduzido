@@ -1,0 +1,1188 @@
+//===== rAthena Script ======================================= 
+//= Mora Village
+//===== By: ================================================== 
+//= Euphy
+//===== Current Version: ===================================== 
+//= 1.4
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Mora Town Script
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [SuperHulk]
+//= 1.1 Translations to English. [Flaid]
+//= 1.1a Standardized. [Euphy]
+//= 1.2 Added new NPCs. [Flaid]
+//= 1.3 Replaced with full iRO town NPCs. [Euphy]
+//= 1.4 Updated to match the official scripts. [Euphy]
+//============================================================ 
+
+// Set 1 :: mora_resident
+//============================================================
+mora,52,138,5	script	Mungmung#p	516,{
+	mes "[Mungmung]";
+	mes "Eu não sou o Estalajadeiro!";
+	mes "Por que as pessoas querem me pagar quando me veem?";
+	close;
+}
+
+mora,160,123,3	script	Nemnem#p	517,{
+	mes "[Nemnem]";
+	mes "Minha dor está ficando cada vez pior";
+	mes "desde que a fenda apareceu em Bifrost.";
+	mes "Você é responsável por isso, jovem?";
+	next;
+	switch(select("Claro que sou!:Essa é uma acusação injusta!")) {
+	case 1:
+		mes "[Nemnem]";
+		mes "Bravo!";
+		emotion ET_COOL;
+		close;
+	case 2:
+		mes "[Nemnem]";
+		mes "Se não, não importa!";
+		emotion ET_PROFUSELY_SWEAT, playerattached();
+		close;
+	}
+}
+
+mora,105,104,3	script	Boaster#podo	514,{
+	mes "[Boaster]";
+	mes "Então a situação";
+	mes "estava no seu pior.";
+	next;
+	mes "[Raffles]";
+	mes "Ah~!";
+	next;
+	mes "[Boaster]";
+	mes "Entediado até a morte, comecei a chorar.";
+	mes "Aí adormeci, cansado de tanto chorar.";
+	mes "E quando acordei,";
+	mes "fiquei ainda mais entediado";
+	mes "do que antes!";
+	next;
+	mes "[Raffles]";
+	mes "Ah, ah!";
+	mes "Isso é terrível, tão terrível.";
+	mes "Como isso pôde acontecer?!";
+	next;
+	mes "[Boaster]";
+	mes "Então a situação ficou";
+	mes "cada vez mais séria...";
+	mes "Agora me dê mais algumas moedas.";
+	emotion ET_PROFUSELY_SWEAT, playerattached();
+	close;
+}
+
+mora,105,100,1	script	Rangrang#p	518,{
+	mes "[Rangrang]";
+	mes "Nunca ouvi uma história tão chata e triste.";
+	mes "Acho que vou chorar!";
+	close;
+}
+
+/*
+// Desativado devido à sobreposição com RangRang,
+// e não é clicável em servidores oficiais.
+mora,105,100,1	script	Gurgur#p	516,{
+      mes "[Gurgur]";
+      mes "Ele está chorando, adormecendo,";
+      mes "e depois acorda umas 210 vezes.";
+      mes "Não é tão original?";
+      mes "Eu me pergunto como a história terminará.";
+      close;
+}
+*/
+
+mora,99,100,7	script	Decoy#podo	515,{
+	mes "[Decoy]";
+	mes "Ah~!";
+	mes "Isso é tão";
+	mes "inacreditável!";
+	mes "Estou tão curioso, vamos dar algumas moedas para ele!";
+	close;
+}
+
+mora,98,104,5	script	Raffle Andarilho#podo	516,{
+	mes "[Raffle Andarilho]";
+	mes "Isso é triste, muito triste!";
+	mes "Não sei por que,";
+	mes "mas deve ser triste";
+	mes "porque todo mundo diz isso.";
+	close;
+}
+
+mora,102,107,5	script	Raffle Aliviado#podo	517,{
+	mes "[Raffle Aliviado]";
+	mes "Uau~!";
+	mes "Isso é emocionante.";
+	mes "Ele acordou são e salvo novamente!";
+	mes "Bem, tenho certeza que ele fará isso na próxima vez!";
+	mes "...";
+	next;
+	mes "[Raffle Aliviado]";
+	mes "Eh?";
+	close;
+}
+
+mora,101,107,5	script	Raffle Excitado#podo	518,{
+	mes "[Raffle Excitado]";
+	mes "Uau ~";
+	mes "A história não é nada divertida.";
+	mes "Uau~!";
+	mes "Mas é como se estivéssemos cantando em coro -";
+	mes "é realmente divertido.";
+	mes "Uau~!";
+	close;
+}
+
+mora,103,100,5	script	Raffle Impressionado#podo	518,{
+	mes "[Raffle Impressionado]";
+	mes "Uau! Uau!";
+	close;
+}
+
+mora,123,94,7	script	Visitante de Mora#podo1	515,{
+	mes "[Visitante de Mora]";
+	mes "Estou preso aqui por causa da fenda, que apareceu do nada.";
+	mes "Ha......";
+	close;
+}
+
+mora,155,72,3	script	Visitante de Mora#podo2	513,{
+	mes "[Visitante de Mora]";
+	mes "Esta não é uma aldeia alegre?";
+	mes "Com a Bifrost bloqueada assim, estou pensando em me estabelecer aqui permanentemente.";
+	close;
+}
+
+mora,184,169,5	script	Trabalhador#mo1	516,{
+	mes "[Trabalhador]";
+	mes "Ouvi dizer que alguém saiu vivo da Floresta do Labirinto.";
+	mes "Seja quem for, quero conhecer essa pessoa pessoalmente.";
+	close;
+}
+
+mora,179,155,1	script	Trabalhador Aprendiz#mo	516,{
+	mes "[Trabalhador Aprendiz]";
+	mes "Sairei da Floresta do Labirinto e me tornarei um herói!";
+	next;
+	mes "[Trabalhador Indiferente]";
+	mes "Ouvi dizer que alguém já fez isso.";
+	next;
+	mes "[Trabalhador Aprendiz]";
+	mes "E se eu disser que sou esse alguém?";
+	next;
+	mes "[Trabalhador Indiferente]";
+	mes "Esqueça.";
+	mes "Dizer que eu fiz isso.";
+	next;
+	mes "[Trabalhador Aprendiz]";
+	mes "Bem, isso é verdade.";
+	close;
+}
+
+mora,177,157,5	script	Trabalhador Indiferente#mo	518,{
+	mes "[Trabalhador Aprendiz]";
+	mes "Sairei da Floresta do Labirinto e me tornarei um herói!";
+	next;
+	mes "[Trabalhador Indiferente]";
+	mes "Ouvi dizer que alguém já fez isso.";
+	next;
+	mes "[Trabalhador Aprendiz]";
+	mes "E se eu disser que sou esse alguém?";
+	next;
+	mes "[Trabalhador Indiferente]";
+	mes "Esqueça.";
+	mes "Dizer que eu fiz isso.";
+	next;
+	mes "[Trabalhador Aprendiz]";
+	mes "Bem, isso é verdade.";
+	close;
+}
+
+mora,108,182,5	script	Trabalhador#mo4	516,{
+	mes "[Trabalhador]";
+	mes "Fique longe da Floresta do Labirinto.";
+	mes "Nunca sonhe em espiar por curiosidade.";
+	mes "Muitos viajantes desapareceram depois de irem para lá.";
+	close;
+}
+
+// Set 2 :: npc
+//============================================================
+mora,122,97,6	script	Raffle Relaxando#ep14_1	517,{
+	mes "[Rafflesia Relaxando]";
+	mes "O banho público no centro da vila é um símbolo da Vila de Mora.";
+	next;
+	mes "[Rafflesia Relaxando]";
+	mes "Não é apenas uma simples poça.";
+	mes "Tem um poder tremendo";
+	mes "para curar feridas.";
+	next;
+	mes "[Rafflesia Relaxando]";
+	mes "Experimente caminhar nesse lugar";
+	mes "se você quiser ver por si mesmo.";
+	mes "Isso irá curar lenta mas seguramente suas feridas.";
+	close;
+}
+
+mora,174,171,0	script	Trabalhador do Armazém#mo1	518,{
+	mes "[Shortffle]";
+	mes "Eu quero subir a escada,";
+	mes "mas minhas pernas são curtas demais para fazer isso.";
+	emotion ET_CRY;
+	next;
+	mes "[Shortffle]";
+	mes "Eu me pergunto quem trouxe isso aqui.";
+	close;
+}
+
+mora,113,185,4	script	Raffle Leitor#ep14_1	516,{
+	mes "Você vê uma Raflésia";
+	mes "perdida na leitura.";
+	next;
+	switch(select("Ver o que ele está lendo.:Deixá-lo em paz.")) {
+	case 1:
+		mes "Curioso sobre o que ele está lendo,";
+		mes "você se aproxima dele silenciosamente por trás.";
+		mes "A Rafflesia está lendo em voz baixa.";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "Seiren estava indo para a casa de Eremes.";
+		mes "Ele estava indo lá para pedir emprestado";
+		mes "livros de referência de Eremes,";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "mas ele também esperava ver";
+		mes "sua linda irmã, Seiren.";
+		mes "Seiren bateu na porta de Eremes";
+		mes "com o coração batendo forte.";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "Knock! Knock! Knock!";
+		mes "Com licença. ";
+		mes "... ... ...";
+		mes "Ele não ouve nada.";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "Não há ninguém em casa?";
+		mes "Ele bateu novamente,";
+		mes "com medo de que tenha";
+		mes "feito a viagem por nada.";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "Knock! Knock! Knock!";
+		mes "Nenhuma resposta novamente.";
+		mes "Ele sabia que era rude fazer isso,";
+		mes "mas ele decidiu entrar mesmo assim";
+		mes "e esperar Eremes voltar para casa.";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "Seiren abriu a porta da frente";
+		mes "com o coração pulsando.";
+		mes "*rangido*";
+		mes "A porta não estava trancada.";
+		mes "Eremes parece já estar ausente por um tempo.";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "Seiren entrou em casa hesitante.";
+		mes "No momento em que ele entrou na casa,";
+		mes "ele ouviu um som de água correndo.";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "Seiren de repente voltou a si,";
+		mes "e voltou para sair.";
+		mes "Mas neste momento!!";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "*baque*";
+		mes "A porta do banheiro se abriu,";
+		mes "e com o vapor branco saindo veio um pé.";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "O coração de Seiren quase parou";
+		mes "ao vê-lo.";
+		mes "Alguém saiu do banheiro,";
+		mes "com apenas uma toalha em volta do corpo.";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "Com o corpo ainda molhado";
+		mes "do chuveiro...";
+		next;
+		mes "[Rafflesia Leitor]";
+		mes "*Suspiro* Quem é você?";
+		mes "Você estava parado aí?";
+		emotion ET_HUK;
+		next;
+		mes "A Rafflesia fechou o livro apressadamente.";
+		mes "Você está curioso para saber o que acontecerá a seguir,";
+		mes "mas você foi rude o suficiente,";
+		mes "então você simplesmente desiste.";
+		close;
+	case 2:
+		mes "Você sai do lugar silenciosamente";
+		mes "para não incomodar";
+		mes "a Rafflesia, que estava perdida na leitura.";
+		close;
+	}
+}
+
+mora,99,65,6	script	Rafflesia Banana#ep14_1	516,{
+	mes "[Rafflesia Banana]";
+	mes "Você quer uma banana?";
+	next;
+	switch(select("Sim, eu quero.:Não, obrigado.")) {
+	case 1:
+		mes "[Rafflesia Banana]";
+		mes "Pegue se puder.";
+		mes "Se você tiver sucesso, poderá obtê-la gratuitamente.";
+		emotion ET_OK;
+		close;
+	case 2:
+		mes "[Rafflesia Banana]";
+		mes "Bem, eu ia dar de graça,";
+		mes "mas se você não quiser, por mim tudo bem.";
+		emotion ET_HNG;
+		close;
+	}
+}
+
+mora,30,128,4	script	Viajante Relaxando#ep14_1	514,{
+	mes "[Viajante]";
+	mes "A Pousada Mora é famosa";
+	mes "por suas peças de mobiliário incomuns.";
+	mes "Armários de cogumelo e cômodas de maçã...";
+	mes "Eles não são tão inovadores?";
+	next;
+	select("... ... ...");
+	mes "[Viajante]";
+	mes "Desculpe... Talvez seja só eu...";
+	emotion ET_SORRY;
+	close;
+}
+
+mora,130,96,4	script	Viajante Relaxando#ep14_2	513,{
+	mes "[Viajante]";
+	mes "Todos os Rafflesia em Mora Village são parecidos, então é tão confuso.";
+	mes "É como olhar para centuplos...";
+	next;
+	mes "[Viajante]";
+	mes "No entanto!";
+	mes "Você descobrirá que cada um deles tem uma personalidade.";
+	mes "Encontrá-lo é uma das coisas divertidas";
+	mes "que você pode fazer na aldeia.";
+	close;
+}
+
+mora,43,113,4	script	Rafflesia Ferida#ep14_1	517,{
+	mes "[Rafflesia Ferida]";
+	mes "Uggh... O que foi";
+	mes "isso que estava no banho... Arrrghh...";
+	mes "Para atacar de repente assim... Tenha cuidado...";
+	mes "Seja o que for que esteja lá, é muito agressivo.";
+	close;
+}
+
+mora,168,161,4	script	Trabalhador do Armazém#mo2	513,{
+	mes "[Lively]";
+	mes "A pousada ali~";
+	mes "Deveria ter sido minha~";
+	next;
+	mes "[Lively]";
+	mes "A loja ali~";
+	mes "Deveria ter sido minha também~";
+	next;
+	mes "[Lively]";
+	mes "O armazém aqui~";
+	mes "E todas as coisas nele~";
+	mes "Tudo isso deveria ter sido meu~";
+	mes "Tudo isso deveria ter sido meu~";
+	next;
+	mes "[Lively]";
+	mes "Ahhh... eu gostaria de ganhar dinheiro...";
+	emotion ET_CRY;
+	close;
+}
+
+mora,175,161,6	script	Trabalhador do Armazém#mo3	518,{
+	mes "[Kuorita]";
+	mes "Ah... esse pato...";
+	next;
+	mes "[Kuorita]";
+	mes "Seu fino bico vermelho...";
+	mes "E o rubor em suas bochechas...";
+	mes "E suas asas, prontas para decolar";
+	mes "a qualquer momento...";
+	emotion ET_SHY;
+	next;
+	mes "[Kuorita]";
+	mes "Eu quero muito ter isso...";
+	mes "O que aconteceria se eu roubasse?";
+	emotion ET_HUNGRY;
+	close;
+}
+
+mora,140,186,3	script	Raffle Filósofo	517,{
+	mes "[Raffle Filósofo]";
+	mes "Com uma pequena demonstração de agradecimento, direi uma citação que o ajudará em sua vida.";
+	next;
+	if(select("Dar um sinal de agradecimento.:Não pode simplesmente me dizer?") == 2) {
+		mes "[Raffle Filósofo]";
+		mes "Você não ganha algo por nada.";
+		close;
+	}
+	mes "[Raffle Filósofo]";
+	mes "Quanto você está disposto a me dar?";
+	mes "Você pode me pagar com as moedas listadas abaixo.";
+	mes "Insira a quantia que você está disposto a pagar. Digite 0 se não quiser pagar nada.";
+	next;
+	input .@input;
+	if (.@input == 0) {
+		mes "[Raffle Filósofo]";
+		mes "Então você não quer ouvir uma citação, hein?";
+		close;
+	} else if (.@input < 100 || .@input > 1000000) {
+		mes "[Raffle Filósofo]";
+		mes "Você pode pagar entre ^FF0000100 e 1,000,000^000000.";
+		close;
+	} else if (Zeny < .@input) {
+		mes "[Raffle Filósofo]";
+		mes "Então você acha que é isso que vale o meu tempo?";
+		close;
+	}
+	mes "[Raffle Filósofo]";
+	mes "A citação que vou pronúnciar é...";
+	mes "Vamos ver... Espere um segundo.";
+	set Zeny, Zeny-.@input;
+	next;
+	mes ". . . . . . . . .";
+	next;
+	mes ". . . . . . . . .";
+	next;
+	mes ". . . . . . . . .";
+	next;
+	mes "[Raffle Filósofo]";
+	mes "Ok! Acho que essa é a opção para você.";
+	next;
+	mes "[Raffle Filósofo]";
+	mes strcharinfo(0)+", a citação que vou pronúnciar é...";
+	switch(rand(1,70)) {
+	case 1:
+		mes "Nada é mais difícil,";
+		mes "e, portanto, mais precioso,";
+		mes "do que poder decidir.";
+		mes "- Napoleão Bonaparte -";
+		break;
+	case 2:
+		mes "Às vezes ficamos tanto tempo olhando para uma porta que está se fechando,";
+		mes "que vemos tarde demais aquela que está aberta.";
+		mes "- Alexander Graham Bell -";
+		break;
+	case 3:
+		mes "Se é tão doloroso, por que você continua fazendo isso?";
+		mes "A resposta é simples.";
+		mes "Porque faz meu coração bater,";
+		mes "porque isso me excita.";
+		mes "Meu corpo pode sofrer, mas estou muito mais feliz";
+		mes "fazendo o que sempre quis fazer.";
+		mes "- Biya Han -";
+		break;
+	case 4:
+		mes "Você não pode persuadir ninguém";
+		mes "antes de você mudar a si mesmo.";
+		mes "- Cheoljong Ko -";
+		break;
+	case 5:
+		mes "Nunca se arrependa do que você escolheu.";
+		mes "- Miyoung Ko -";
+		break;
+	case 6:
+		mes "Um homem não está acabado quando é derrotado.";
+		mes "Ele termina quando desiste.";
+		mes "- Richard Nixon -";
+		break;
+	case 7:
+		mes "O fracasso é instrutivo.";
+		mes "A pessoa que realmente é sabia,";
+		mes "aprende muito com seus fracassos";
+		mes "a partir de seus sucessos.";
+		mes "- John Dewey -";
+		break;
+	case 8:
+		mes "Semeamos nossos pensamentos e colhemos nossas ações;";
+		mes "semeamos nossas ações e colhemos nossos hábitos;";
+		mes "semeamos nossos hábitos e colhemos nosso caráter;";
+		mes "semeamos nosso caráter e colhemos nosso destino.";
+		mes "- Erasmus -";
+		break;
+	case 9:
+		mes "Não há loucura maior";
+		mes "no mundo do que";
+		mes "um homem se desesperar.";
+		mes "- Miguel de Cervantes -";
+		break;
+	case 10:
+		mes "Humildade é a mais difícil";
+		mes "de todas as virtudes a alcançar,";
+		mes "nada morre mais do que o desejo";
+		mes "de pensar bem sobre si mesmo.";
+		mes "- T. S. Eliot -";
+		break;
+	case 11:
+		mes "Você tem que avaliar seu talento...";
+		mes "E pergunte a si mesmo se isso vai ser";
+		mes "uma vocação ou um trabalho.";
+		mes "- Norma Clayton -";
+		break;
+	case 12:
+		mes "Olho por olho";
+		mes "só acaba tornando";
+		mes "o mundo inteiro cego.";
+		mes "- Gandhi -";
+		break;
+	case 13:
+		mes "Um homem sem talento";
+		mes "anseia por vida longa,";
+		mes "ainda assim, um tolo, se lhe for oferecida a eternidade,";
+		mes "não saberia o que fazer com ela.";
+		mes "- Solzhenitsyn -";
+		break;
+	case 14:
+		mes "Não é porque a verdade é muito difícil de ver que cometemos erros...";
+		mes "Cometemos erros porque o caminho mais fácil e confortável para nós";
+		mes "é buscar o entendimento onde ele está de acordo com nossas emoções – especialmente os egoístas.";
+		mes "- Solzhenitsyn -";
+		break;
+	case 15:
+		mes "Cuidado com um homem";
+		mes "de um livro.";
+		mes "- Provérbio Inglês -";
+		break;
+	case 16:
+		mes "As abelhas bebem água para fazer mel,";
+		mes "e as cobras bebem água para fazer veneno.";
+		mes "- Provérbio Inglês -";
+		break;
+	case 17:
+		mes "O desespero é uma doença que leva à morte.";
+		mes "- Kierkegaard -";
+		break;
+	case 18:
+		mes "Comer pão sem esperança é";
+		mes "ainda morrer de fome lentamente.";
+		mes "- Pearl Buck -";
+		break;
+	case 19:
+		mes "O otimismo é a fé que leva à realização.";
+		mes "Nada pode ser feito";
+		mes "sem esperança e confiança.";
+		mes "- Helen Keller -";
+		break;
+	case 20:
+		mes "Olhe profundamente para a natureza,";
+		mes "e então você entenderá";
+		mes "tudo melhor.";
+		mes "- Albert Einstein -";
+		break;
+	case 21:
+		mes "Muitos dos fracassos da vida são";
+		mes "de pessoas que não perceberam";
+		mes "o quão perto elas estavam";
+		mes "do sucesso quando";
+		mes "elas desistiram.";
+		mes "- Thomas Edison -";
+		break;
+	case 22:
+		mes "Eu me divirto mais e tenho mais sucesso financeiro";
+		mes "quando eu parar de tentar";
+		mes "conseguir o que eu quero";
+		mes "e começar a ajudar as outras pessoas";
+		mes "a conseguirem o que elas querem.";
+		mes "- Spencer Johnson, Larry Wilson -";
+		break;
+	case 23:
+		mes "A idade é como o amor, não pode ser escondida.";
+		mes "- Thomas Dekker -";
+		break;
+	case 24:
+		mes "Não podemos nos tornar";
+		mes "o que precisamos ser";
+		mes "permanecendo o que somos.";
+		mes "- Oprah Winfrey -";
+		break;
+	case 25:
+		mes "Transforme suas feridas.";
+		mes "em sabedoria.";
+		mes "- Oprah Winfrey -";
+		break;
+	case 26:
+		mes "A dor é a grande mestra da humanidade.";
+		mes "- Marie E. Eschenbach -";
+		break;
+	case 27:
+		mes "O homem superior pensa sempre";
+		mes "de virtude; o homem comum";
+		mes "pensa em conforto.";
+		mes "- Confúcio -";
+		break;
+	case 28:
+		mes "O prazer muitas vezes é estragado ao ser descrito.";
+		mes "- Stendhal -";
+		break;
+	case 29:
+		mes "O fim chega quando nós";
+		mes "não falamos mais conosco mesmos.";
+		mes "É o fim do pensamento genuíno";
+		mes "e o início da solidão final.";
+		mes "- Edward Gibbon -";
+		break;
+	case 30:
+		mes "Aqueles que venceram a dúvida e o medo";
+		mes "venceram o fracasso.";
+		mes "- James Allen -";
+		break;
+	case 31:
+		mes "Nosso maior orgulho foi";
+		mes "não que nunca falhemos, mas sim";
+		mes "que sempre nos levantamos quando caímos.";
+		mes "- Confúcio -";
+		break;
+	case 32:
+		mes "Quando você ama uma pessoa";
+		mes "todo o medo desaparece.";
+		mes "E quando você tem medo todo o amor desaparece.";
+		mes "- Osho Rajneesh -";
+		break;
+	case 33:
+		mes "O poder da nossa mente inconsciente é enorme;";
+		mes "o que não podemos fazer em nosso estado consciente,";
+		mes "podemos fazer com a ajuda";
+		mes "da mente inconsciente de forma";
+		mes "mais sensata que quando consciente.";
+		mes "- Osho Rajneesh -";
+		break;
+	case 34:
+		mes "A verdade é simples. Muito simples-";
+		mes "tão simples que uma criança pode entender.";
+		mes "Na verdade, é tão simples que só uma criança consegue entender.";
+		mes "A menos que você se torne uma criança novamente";
+		mes "você não será capaz de entendê-lo.";
+		mes "É uma experiência, não uma especulação.";
+		mes "- Osho Rajneesh -";
+		break;
+	case 35:
+		mes "As melhores e mais lindas coisas do mundo";
+		mes "não podem ser vistas ou mesmo tocadas -";
+		mes "elas devem ser sentidas com o coração.";
+		mes "- Helen Keller -";
+		break;
+	case 36:
+		mes "Nunca incline a cabeça. ";
+		mes "Olhe o mundo diretamente nos olhos.";
+		mes "- Helen Keller -";
+		break;
+	case 37:
+		mes "Sozinhos podemos fazer tão pouco;";
+		mes "juntos podemos fazer muito.";
+		mes "- Helen Keller -";
+		break;
+	case 38:
+		mes "O resultado mais elevado da educação é a tolerância.";
+		mes "- Helen Keller -";
+		break;
+	case 39:
+		mes "Nós somos, cada um de nós,";
+		mes "anjos com apenas uma asa;";
+		mes "e só podemos voar";
+		mes "abraçando um ao outro.";
+		mes "- Luciano de Crescenzo -";
+		break;
+	case 40:
+		mes "Quem se alimenta da espera pode morrer de fome.";
+		mes "- Provérbio Dinamarquês -";
+		break;
+	case 41:
+		mes "Uma paz ruim é melhor";
+		mes "do que uma boa guerra.";
+		mes "- Provérbio Russo -";
+		break;
+	case 42:
+		mes "Quem quer se aquecer";
+		mes "na velhice deve construir";
+		mes "uma lareira em sua juventude.";
+		mes "- Provérbio Alemão -";
+		break;
+	case 43:
+		mes "Aqueles que são exigentes geralmente escolhem o pior.";
+		mes "- Provérbio Ilocano -";
+		break;
+	case 44:
+		mes "Até um Deus perderá dinheiro";
+		mes "depois de três dias de jogo.";
+		mes "- Provérbio Chinês -";
+		break;
+	case 45:
+		mes "Não temo o homem";
+		mes "que praticou 10.000 chutes uma vez,";
+		mes "mas eu temo o homem";
+		mes "que praticou um chute 10.000 vezes.";
+		mes "- Bruce Lee -";
+		break;
+	case 46:
+		mes "A melhor maneira de ser lembrado";
+		mes "é ter uma vida.";
+		mes "Vale lembrar.";
+		mes "- Bruce Lee -";
+		break;
+	case 47:
+		mes "Conhecer-se é estudar-se";
+		mes "em ação com outra pessoa.";
+		mes "- Bruce Lee -";
+		break;
+	case 48:
+		mes "Eu não sou um desses,";
+		mes "quem não acredita";
+		mes "em paixão à primeira vista,";
+		mes "mas acredito em dar uma segunda olhada.";
+		mes "- Bruce Lee -";
+		break;
+	case 49:
+		mes "Nunca se deve apressar o casamento.";
+		mes "Ao contrário da fruta, o casamento é";
+		mes "sempre numa temporada.";
+		mes "- Leo Tolstoy -";
+		break;
+	case 50:
+		mes "Aqueles que querem ter sucesso";
+		mes "encontrarão o caminho, aqueles que";
+		mes "não vão encontrar uma desculpa.";
+		mes "- Leo Águila -";
+		break;
+	case 51:
+		mes "Motivação é o que faz com que você comece.";
+		mes "Habito é o que te mantém nesse caminho.";
+		mes "- Jim Ryan -";
+		break;
+	case 52:
+		mes "Alcançou o sucesso quem viveu bem,";
+		mes "ria muitas vezes e ame muito.";
+		mes "- Bessie Stanley -";
+		break;
+	case 53:
+		mes "Uma pessoa pobre gasta seu dinheiro";
+		mes "e investe o resto.";
+		mes "Uma pessoa rica investe seu dinheiro";
+		mes "e gasta o que sobra.";
+		mes "- Jim Rohn -";
+		break;
+	case 54:
+		mes "Se você não consegue encontrar a chave do sucesso,";
+		mes "pegue o cadeado.";
+		mes "Um dos princípios mais importantes do sucesso é";
+		mes "desenvolver o hábito de ir além.";
+		mes "- Napoleon Hill -";
+		break;
+	case 55:
+		mes "A raça humana tem";
+		mes "uma arma realmente eficaz,";
+		mes "e isso é o riso.";
+		mes "- Mark Twain -";
+		break;
+	case 56:
+		mes "Um dia sem riso é um dia desperdiçado.";
+		mes "-Charlie Chaplin-";
+		break;
+	case 57:
+		mes "Quem ri melhor hoje,";
+		mes "também vai rir por último.";
+		mes "- Nietzsche -";
+		break;
+	case 58:
+		mes "O riso é o sol que";
+		mes "afasta o inverno do rosto humano.";
+		mes "- Victor Hugo -";
+		break;
+	case 59:
+		mes "Ria, e o mundo rirá";
+		mes "com você; Porém";
+		mes "você chorará sozinho.";
+		mes "- Ella Wheeler Wilcox -";
+		break;
+	case 60:
+		mes "É impossível você ficar com raiva";
+		mes "e rir ao mesmo tempo.";
+		mes "Raiva e riso são mutuamente exclusivos";
+		mes "e você tem o poder de escolher qualquer um deles.";
+		mes "- Wayne Dyer -";
+		break;
+	case 61:
+		mes "Nós não rimos porque estamos felizes";
+		mes "- estamos felizes porque rimos.";
+		mes "- William James -";
+		break;
+	case 62:
+		mes "A pessoa que sabe rir de si mesma";
+		mes "nunca deixará de ser divertida.";
+		mes "- Shirley MacLaine -";
+		break;
+	case 63:
+		mes "O jovem que nunca chorou é um selvagem,";
+		mes "e o homem mais velho que não ri é um tolo.";
+		mes "- George Santayana -";
+		break;
+	case 64:
+		mes "Eu não tenho muita paciência";
+		mes "com uma coisa bela";
+		mes "que precisa ser explicada";
+		mes "para ser entendida.";
+		mes "Se precisa de interpretação";
+		mes "adicional, então eu questiono";
+		mes "se cumpriu o seu propósito.";
+		mes "- Charlie Chaplin -";
+		break;
+	case 65:
+		mes "A vida é uma tragédia";
+		mes "quando vista de perto,";
+		mes "mas uma comédia";
+		mes "vista de longe.";
+		mes "- Charlie Chaplin -";
+		break;
+	case 66:
+		mes "O sinal mais claro de sabedoria é a alegria contínua.";
+		mes "- Michel de Montaigne -";
+		break;
+	case 67:
+		mes "O tempo que você gostou de perder";
+		mes "não foi desperdiçado.";
+		mes "- John Lennon -";
+		break;
+	case 68:
+		mes "O verdadeiro humor não brota mais da cabeça do que do coração.";
+		mes "Não é desprezo;";
+		mes "Não resulta em risadas,";
+		mes "mas em sorrisos imóveis, que são muito mais profundos.";
+		mes "- Thomas Carlyle -";
+		break;
+	case 69:
+		mes "Através do humor, você poderá suavizar";
+		mes "alguns dos piores golpes";
+		mes "que a vida lhe entregará.";
+		mes "E uma vez que você encontrar o riso,";
+		mes "não importa o quão doloroso";
+		mes "sua situação possa ser,";
+		mes "você poderá sobreviver a isso.";
+		mes "- Bill Cosby -";
+		break;
+	case 70:
+		mes "Minha grande esperança é encontrar";
+		mes "o riso por mais que eu chore;";
+		mes "para fazer meu trabalho,";
+		mes "tentar amar alguém";
+		mes "e ter a coragem de";
+		mes "aceitar o amor em troca.";
+		mes "- Maya Angelou -";
+		break;
+	}
+	next;
+	mes "[Raffle Filósofo]";
+	mes "As pessoas entendem o que ouvem";
+	mes "diferentemente.";
+	next;
+	mes "[Raffle Filósofo]";
+	mes "Eu me pergunto o que você pensa";
+	mes "sobre o que eu te contei.";
+	next;
+	input .@inputstr$;
+	mes "[Raffle Filósofo]";
+	mes "Então você acha que "+.@inputstr$+".";
+	next;
+	mes "[Raffle Filósofo]";
+	mes "... ... ... ...";
+	next;
+	mes "[Raffle Filósofo]";
+	mes "Não sei. Não há uma resposta única";
+	mes "para esta pergunta...";
+	mes "Segure seu pensamento.";
+	close;
+}
+
+-	script	#mora_traveler	-1,{
+	mes "[Viajante Chateado]";
+	mes "Você... você se atreve a jogar comigo?";
+	emotion ET_ANGER, getnpcid(0, "Viajante Chateado#ep14_1_1");
+	next;
+	mes "[Viajante Curioso]";
+	mes "O que...? Você tem provas?";
+	mes "Você tem provas?!!";
+	emotion ET_FRET, getnpcid(0, "Viajante Curioso#ep14_1_2");
+	next;
+	mes "[Viajante Pacificador]";
+	mes "Olha, pare com isso, apenas pare com isso!";
+	mes "Tenho medo que isso se transforme em uma grande briga...";
+	emotion ET_PROFUSELY_SWEAT, getnpcid(0, "Viajante Pacificador#ep14_1_3");
+	next;
+	mes "[Viajante Pacificador]";
+	mes "Oh! Por que não perguntamos";
+	mes "aquela pessoa ali...?";
+	next;
+	mes "[Viajante Chateado]";
+	mes "Oh sim! Essa é uma ótima ideia.";
+	mes "Bem~ Olá~";
+	mes "Você aí, viajante!";
+	emotion ET_AHA, getnpcid(0, "Viajante Chateado#ep14_1_1");
+	next;
+	mes "Eles parecem estar chamando você.";
+	next;
+	if(select("Veja qual é o problema.:Não tenho nada a ver com isso.") == 2) {
+		mes "Você seguiu seu caminho";
+		mes "deixando os viajantes para trás.";
+		close;
+	}
+	mes "["+strcharinfo(0)+"]";
+	mes "O que está acontecendo aqui?";
+	emotion ET_QUESTION, playerattached();
+	next;
+	mes "[Viajante Chateado]";
+	mes "Eu te direi uma coisa.";
+	mes "A mãe de Rose teve 10 filhas.";
+	mes "A filha mais velha se chama Roseum,";
+	mes "a segunda Rosedois,";
+	mes "a terceira Rosetrês...";
+	mes "a nona Rosenove...";
+	mes "você entendeu como funciona, certo?";
+	emotion ET_ANGER, getnpcid(0, "Viajante Chateado#ep14_1_1");
+	next;
+	mes "[Viajante Curioso]";
+	mes "Certo, é assim que funciona.";
+	mes "Então perguntei como se chamaria a mais nova,";
+	mes "e quando eu lhe disse a resposta,";
+	mes "ele ficou todo chateado e começou a me xingar.";
+	emotion ET_FRET, getnpcid(0, "Viajante Curioso#ep14_1_2");
+	next;
+	mes "[Viajante Chateado]";
+	mes "Você... seu bastardo!";
+	mes "Olá, qual você acha";
+	mes "que é a resposta para essa pergunta?";
+	emotion ET_ANGER, getnpcid(0, "Viajante Chateado#ep14_1_1");
+	next;
+	switch(select("Rosedez.:Rose.:Como eu saberia disso?")) {
+	case 1:
+		mes "["+strcharinfo(0)+"]";
+		mes "A resposta à pergunta é Rosedez.";
+		mes "Por que você está brigando por um assunto tão trivial?";
+		next;
+		mes "[Viajante Chateado]";
+		mes "Ver? Até este viajante diz que";
+		mes "Rosedez é a resposta.";
+		mes "Como você ousa tentar pregar peças em mim?";
+		emotion ET_KIK, getnpcid(0, "Viajante Chateado#ep14_1_1");
+		next;
+		mes "[Viajante Curioso]";
+		mes "Seu idiota... você não tem a menor ideia!";
+		emotion ET_FRET, getnpcid(0, "Viajante Curioso#ep14_1_2");
+		break;
+	case 2:
+		mes "["+strcharinfo(0)+"]";
+		mes "A resposta à pergunta é Rose.";
+		mes "Você disse que a mãe de Rose teve 10 filhas.";
+		mes "Portanto, mesmo que os nomes das outras filhas sejam";
+		mes "Roseum, Rosedois, ... Rosenove,";
+		mes "a mais nova deve ser Rose,";
+		mes "ou ela não seria dito mãe da Rose.";
+		next;
+		mes "[Viajante Curioso]";
+		mes "É exatamente isso que quero dizer!";
+		mes "Não posso ficar com ele.";
+		mes "Acho que vivemos em dois mundos diferentes.";
+		emotion ET_OK, getnpcid(0, "Viajante Curioso#ep14_1_2");
+		next;
+		mes "[Viajante Chateado]";
+		mes "Seu bastardo... O que você";
+		mes "recebeu desse cara...?";
+		emotion ET_ANGER, getnpcid(0, "Viajante Chateado#ep14_1_1");
+		break;
+	case 3:
+		mes "["+strcharinfo(0)+"]";
+		mes "Eu não faço ideia.";
+		mes "Tente resolver isso sozinho.";
+		next;
+		mes "[Viajante Pacificador]";
+		mes "Seu bastardo imprestável,";
+		mes "você está tentando deixar essa bagunça comigo?";
+		emotion ET_FRET, getnpcid(0, "Viajante Pacificador#ep14_1_3");
+		break;
+	}
+	next;
+	mes "*baque*";
+	mes "Você sente um impacto repentino na parte de trás da cabeça.";
+	mes "Sua visão está ficando embaçada.";
+	specialeffect2 EF_HIT1;
+	sc_start SC_BLIND,20000,0;
+	next;
+	mes "Você sente alguém vasculhando seus bolsos antes de desmaiar.";
+	if (Zeny >= 5000)
+		set Zeny, Zeny-5000;
+	else
+		set Zeny, 0;
+	close2;
+	percentheal -99,0;
+	warp "mora",31,132;
+	end;
+}
+mora,140,72,4	duplicate(#mora_traveler)	Viajante Chateado#ep14_1_1	513	//Viajante Chateado
+mora,138,72,6	duplicate(#mora_traveler)	Viajante Curioso#ep14_1_2	513	//Viajante Curioso
+mora,139,73,4	duplicate(#mora_traveler)	Viajante Pacificador#ep14_1_3	513	//Viajante Pacificador
+
+// Set 3 :: três
+//============================================================
+mora,132,185,5	script	Aldeão de Mora#sleep5	518,{
+	mes "[Aldeão de Mora]";
+	mes "Ufa~ Ufa~";
+	close;
+}
+
+mora,133,185,5	script	Aldeão de Mora#sleep2	524,{
+	mes "[Aldeão de Mora]";
+	mes "Ronco...";
+	close;
+}
+
+mora,134,185,3	script	Aldeão de Mora#sleep1	525,{
+	mes "[Aldeão de Mora]";
+	mes "Bufar--";
+	close;
+}
+
+mora,132,184,5	script	Aldeão de Mora#sleep6	522,{
+	mes "[Aldeão de Mora]";
+	mes "Bufar--";
+	close;
+}
+
+mora,133,184,1	script	Aldeão de Mora#sleep4	1790,{
+	mes "[Aldeão de Mora]";
+	mes "Gemido...";
+	close;
+}
+
+mora,134,184,1	script	Aldeão de Mora#sleep3	516,{
+	mes "[Aldeão de Mora]";
+	mes "Phew phew pheeew~";
+	close;
+}
+
+mora,132,183,7	script	Aldeão de Mora#sleep7	524,{
+	mes "[Aldeão de Mora]";
+	mes "z Z";
+	close;
+}
+
+mora,133,183,7	script	Aldeão de Mora#sleep8	518,{
+	mes "[Aldeão de Mora]";
+	mes "z Z";
+	close;
+}
+
+mora,134,183,1	script	Aldeão de Mora#sleep9	522,{
+	mes "[Aldeão de Mora]";
+	mes "z Z";
+	close;
+}
+
+mora,43,127,3	script	Estalajadeiro#mora_inn	522,{
+	mes "[Estalajadeiro]";
+	mes "Oh~ parece que temos outro aventureiro.";
+	mes "De onde você é?";
+	next;
+	switch(select("Salvar jogo apenas.:Descansar um pouco.:O lugar onde eu morava se chama...:Como posso usar o Armazém?")) {
+	case 1:
+		mes "[Estalajadeiro]";
+		mes "Uau, qual é a pressa?";
+		mes "Você acabou de chegar aqui e já está indo para outro lugar?";
+		next;
+		mes "[Estalajadeiro]";
+		mes "Você sabe, a pressa gera desperdício. Tsc tsc.";
+		mes "Bem, o jogo foi salvo.";
+		savepoint "mora",56,143,1,1;
+		close;
+	case 2:
+		mes "[Estalajadeiro]";
+		mes "Meu Deus, eu também preciso descansar um pouco.";
+		mes "A taxa é de 5.000 zenys. Você quer um quarto?";
+		next;
+		switch(select("Sim:Não")) {
+		case 1:
+			if (Zeny < 5000) {
+				mes "[Estalajadeiro]";
+				mes "A taxa é de 5.000z.";
+				close;
+			}
+			mes "[Estalajadeiro]";
+			mes "Fique à vontade.";
+			close2;
+			set Zeny, Zeny-5000;
+			percentheal 100,100;
+			warp "mora",32,123;
+			end;
+		case 2:
+			mes "[Estalajadeiro]";
+			mes "Se não tiver dinheiro, mergulhe na fonte que fica no centro da vila.";
+			mes "Isso vai te aquecer.";
+			close;
+		}
+	case 3:
+		input .@inputstr$;
+		mes "["+strcharinfo(0)+"]";
+		mes "Eu venho de um lugar chamado "+.@inputstr$+".";
+		next;
+		mes "[Estalajadeiro]";
+		mes "Ah, acho que já ouvi falar do lugar antes!";
+		next;
+		if (.@inputstr$ == "Shinlim") {
+			mes "[Estalajadeiro]";
+			mes "Ouvi dizer que há uma torre antiga onde bruxas horríveis colocam Selvagens em um caldeirão gigante e lançam feitiços malignos sobre eles, certo?";
+			next;
+			mes "[Estalajadeiro]";
+			mes "O pior é que quem toma remédio feito de Selvagens voltará para buscar mais!";
+			mes "E ele vagará por aí procurando a torre e eventualmente se transformará em um enorme Selvagem!";
+			emotion ET_STARE_ABOUT, playerattached();
+			next;
+		} else {
+			mes "[Estalajadeiro]";
+			mes "Ouvi dizer que tem gente esquisita por lá que não se levanta mesmo que chova ou neve, ou que seus namorados ou pais liguem para eles!";
+			mes "E que nuvens negras pairam sobre elas o tempo todo, causando tempestade!";
+			next;
+		}
+		mes "[Estalajadeiro]";
+		mes "Que terrível!";
+		close;
+	case 4:
+		mes "[Estalajadeiro]";
+		mes "Procure na gaveta em formato de vegetal à minha direita.";
+		close;
+	}
+}
+
+mora,48,128,0	script	Gaveta#mora_warehouse	111,{
+	if(!callfunc("F_CanOpenStorage")){
+		mes "- Você não lembra como abrir o armazém. -";
+		close;
+	}
+	mes "- O número 1 0 0 está escrito em letras minúsculas na gaveta em formato de vegetal. -";
+	next;
+	switch(select("Insira 100 zenys.:Não faser nada.")) {
+	case 1:
+		if (Zeny < 100) {
+			mes "- Você não parece ter 100 zenys com você. -";
+			close;
+		}
+		set Zeny, Zeny-100;
+		openstorage;
+		close;
+	case 2:
+		mes "- Você desistiu de usar o armazém. -";
+		close;
+	}
+}

@@ -1,0 +1,1415 @@
+//===== rAthena Script =======================================
+//= Enchants and exchange NPCs.
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Exchangers and enchanters NPCs on Verus.
+//===== Additional Comments: =================================
+//= 1.0 Added NPCs coming along Charleston instance. [Capuche]
+//= 1.1 Added Excellion Wing/Suit trader and enchant NPCs. [Capuche]
+//============================================================
+
+// Charleston
+verus04,69,108,5	script	Mass Charleston#1	4_F_CHARLESTON01,{
+	if (!checkweight(1201,1) || (MaxWeight - Weight) < 1000) {
+		mes "^ff0000Você está carregando muitos itens, reduza e volte depois.^000000";
+		close;
+	}
+	cutin "dalle01.bmp",2;
+	if (countitem(6752) < 10) {
+		if (isbegin_quest(13186) == 0) {
+			mes "[Mass Charleston]";
+			mes "Eu não sei onde você pode encontrar Componente de Charleston,";
+			next;
+			mes "[Mass Charleston]";
+			mes "mas se tiver 10 ou mais, posso trocá-los por produtos da fábrica.";
+			close3;
+		}
+		mes "[Mass Charleston]";
+		mes "Diversas tentativas e erros foram feitos antes da versão 'Mass Charleston' ser desenvolvida.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Não quero me desvalorizar, mas versões em massa são versões em massa; são econômicas e práticas, mas nunca tão boas quanto as versões de ponta.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Alguns Charlestons, especialmente na fase de desenvolvimento, estão equipados com recursos mais avançados. Para estudá-los, preciso de mais componentes.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Se você tiver 10 ou mais Componentes de Charleston, posso trocá-los por produtos da fábrica.";
+		close3;
+	}
+	mes "[Mass Charleston]";
+	mes "Você trouxe algumas peças boas! Gostaria de trocá-las por mercadorias produzidas na fábrica?";
+	next;
+	mes "[Mass Charleston]";
+	mes "É uma coleção das vantagens do Charleston em uma mercadoria, mas não pode ser vendida separadamente. SE trouxer boas peças, posso trocá-las para você.";
+	next;
+	.@s = select( "Sair.", "Trocar por Autopeça.", "Trocar por Peça Suplementar." ) - 2;
+	if (.@s == -1) {
+		mes "[Mass Charleston]";
+		mes "Te vejo na próxima!";
+		close3;
+	}
+	setarray .@job_aft$[0], "Autopeça", "Peça Suplementar";
+	mes "[Mass Charleston]";
+	mes "Qual parte de " + .@job_aft$[.@s] + " você quer selecionar?";
+	next;
+	switch(.@s) {
+	case 0:
+		setarray .@item[0],
+			20733,	// Autopeça - Motor
+			22044,	// Autopeça - Acelerador
+			2996;	// Autopeça - Exaustor
+		break;
+	case 1:
+		setarray .@item[0],
+			20732,	// Peça de VIT Suplementar
+			22043,	// Peça de AGI Suplementar
+			2995;	// Peça de DES Suplementar
+		break;
+	default:
+		mes "[Mass Charleston]";
+		mes "Te vejo na próxima!";
+		close;
+	}
+	// tradução personalizada a partir daqui
+	.@index = select( "Sair.", getitemname(.@item[0]) + " (capa)", getitemname(.@item[1]) + " (sapatos)", getitemname(.@item[2]) + " (acessório)" ) - 2;
+	if (.@index == -1) {
+		mes "[Mass Charleston]";
+		mes "Te vejo na próxima!";
+		close3;
+	}
+	if (countitem(6752) < 10) {
+		mes "[Mass Charleston]";
+		mes "Se você encontrar peças suficientes de Charleston, pode voltar para mim?";
+		close3;
+	}
+	delitem 6752,10;	// Componente de Charleston
+	getitem .@item[.@index],1;
+	mes "[Mass Charleston]";
+	mes "Troquei 10 " + getitemname(6752) + " por " + .@job_aft$[.@s] + ". Se encontrar mais peças, venha falar comigo de novo!";
+	close3;
+}
+
+verus04,71,106,5	script	Mass Charleston#2	4_F_CHARLESTON01,{
+	disable_items;
+	if (!checkweight(1201,1)) {
+		mes "Você está com muitos tipos de itens. Dê uma aliviada no seu inventário.";
+		close;
+	}
+	if ((MaxWeight - Weight) < 10000) {
+		mes "Os itens no seu inventário estão muito pesados. Reduza o peso primeiro.";
+		close;
+	}
+	cutin "dalle01.bmp",2;
+	mes "[Mass Charleston]";
+	mes "Posso aprimorar os produtos da Fábrica de Charleston. Me avise se estiver interessado.";
+	next;
+	switch( select( "Mais informações.", "Adicionar habilidades ao seu item.", "Redefinir item." ) ) {
+	case 1:
+		mes "[Mass Charleston]";
+		mes "Cada tentativa de aprimoramento ou redefinição custa 100.000 zenys e 1 Componente de Charleston.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Também ofereço uma seleção mais ampla de opções de aprimoramento para Equipamentos Charleston com refino ^ff0000+9^000000 ou mais.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Fique tranquilo, minha tecnologia de aprimoramento não envolve danos acidentais ao nível de refino ou às cartas equipadas no item.";
+		close3;
+	case 2:
+		.@type_action = 1;
+		.@string$ = "Aprimoramento";
+		break;
+	case 3:
+		.@type_action = 2;
+		.@string$ = "Reinicialização";
+		break;
+	}
+	if (Zeny < 100000 || countitem(6752) < 1) {
+		mes "[Mass Charleston]";
+		mes "" + .@string$ + " de um produto Charleston custa 1 Componente de Charleston e 100.000 Zeny. Por favor, saiba que todas as despesas são destinadas à " + strtolower(.@string$) + " do seu produto.";
+		close3;
+	}
+	mes "[Mass Charleston]";
+	mes "Por favor, certifique-se de estar equipado com o equipamento que deseja aprimorar.";
+	next;
+	.@s = select( "Deixe-me equipar primeiro.", "Calçado", "Capa", "Armadura", "Acessório" ) - 2;
+	if (.@s == -1) {
+		mes "[Mass Charleston]";
+		mes "Claro, volte depois de se equipar.";
+		close3;
+	}
+	if (Zeny < 100000 || countitem(6752) < 1) {
+		mes "[Mass Charleston]";
+		mes "Parece que os materiais necessários para o aprimoramento estão insuficientes!";
+		close3;
+	}
+	setarray .@eq_num[0], EQI_SHOES, EQI_GARMENT, EQI_ARMOR, EQI_ACC_R;
+
+	.@part = .@eq_num[.@s];
+	.@item_id = getequipid(.@part);
+	.@refine = getequiprefinerycnt(.@part);
+	setarray .@card_saved[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+	copyarray .@card[0], .@card_saved[0], 4;
+
+	switch(.@item_id) {
+	case -1:
+		mes "[Mass Charleston]";
+		mes "Como se trata de um aprimoramento personalizado, certifique-se de estar com o equipamento equipado.";
+		close3;
+	case 15111:	// Autopeça - Carburador
+		.@en_type = 3;
+		.@en_type_9 = 1;
+		.@max_slot = 1;
+		break;
+	case 20733:	// Autopeça - Motor
+		.@en_type = 4;
+		.@en_type_9 = 5;
+		.@max_slot = 1;
+		break;
+	case 22044:	// Autopeça - Acelerador
+		.@en_type = 6;
+		.@en_type_9 = 7;
+		.@max_slot = 1;
+		break;
+	case 2996:	// Autopeça - Exaustor
+		.@en_type = 8;
+		.@en_type_9 = 8;
+		.@max_slot = 2;
+		break;
+	case 15110:	// Peça de FOR Suplementar
+		.@en_type = 3;
+		.@en_type_9 = 2;
+		.@max_slot = 1;
+		break;
+	case 20732:	// Peça de VIT Suplementar
+		.@en_type = 4;
+		.@en_type_9 = 5;
+		.@max_slot = 1;
+		break;
+	case 22043:	// Peça de AGI Suplementar
+		.@en_type = 6;
+		.@en_type_9 = 7;
+		.@max_slot = 1;
+		break;
+	case 2995:	// Peça de DES Suplementar
+		.@en_type = 8;
+		.@en_type_9 = 8;
+		.@max_slot = 2;
+		break;
+	default:
+		mes "[Mass Charleston]";
+		mes "^990099" + getequipname(.@part) + "^000000??";
+		mes "Não tenho interesse neste equipamento.";
+		close3;
+	}
+
+	switch(.@type_action) {
+	case 1:	// Adicionar habilidades
+		if (.@refine >= 9) {
+			setarray .@menu_en_type$[1],
+				"Aprimoramento de Ataque",
+				"Aprimoramento de Defesa",
+				"Aprimoramento de Aceleração",
+				"Melhoria da Capa",
+				"Melhoria Avançada da Capa",
+				"Melhoria do Calçado",
+				"Melhoria Avançada do Calçado",
+				"Melhoria do Acessório";
+			if (.@menu_en_type$[.@en_type] == "" || .@menu_en_type$[.@en_type_9] == "") {
+				mes "[Mass Charleston]";
+				mes "Algo está errado!";
+				close3;
+			}
+			mes "[Mass Charleston]";
+			mes "Este é um nível considerável de aprimoramento de equipamento. Este tipo pode oferecer desempenho expandido. Escolha a série desejada para aprimorá-lo!";
+			next;
+			if (select( .@menu_en_type$[.@en_type], .@menu_en_type$[.@en_type_9] ) == 2)
+				.@en_type = .@en_type_9;
+		}
+		if (.@card[3] < 1 && .@max_slot < 4) {
+			.@slot = 4;
+			mes "[Mass Charleston]";
+			mes "Vou aprimorar a primeira habilidade. O nível de aprimoramento e as cartas existentes não serão danificados. Deseja continuar?";
+			next;
+			if (select( "Vou pensar melhor.", "Continuar." ) == 1) {
+				mes "[Mass Charleston]";
+				mes "Sem problemas. Volte quando mudar de ideia.";
+				close3;
+			}
+		}
+		else if (.@card[2] < 1 && .@max_slot < 3) {
+			.@slot = 3;
+			mes "[Mass Charleston]";
+			mes "Vou aprimorar a segunda habilidade. O nível de aprimoramento e as cartas existentes não serão danificados.";
+			next;
+			mes "[Mass Charleston]";
+			mes "Porém, há uma pequena chance de falha, nesse caso o nível de aprimoramento atual será reiniciado. O que deseja fazer?";
+			next;
+			if (select( "Vou pensar melhor.", "Continuar." ) == 1) {
+				mes "[Mass Charleston]";
+				mes "Sem problemas. Volte quando mudar de ideia.";
+				close3;
+			}
+		}
+		else if (.@card[1] < 1 && .@max_slot < 2) {
+			.@slot = 2;
+			mes "[Mass Charleston]";
+			mes "Vou aprimorar a terceira habilidade. Este é o estágio mais avançado de aprimoramento, com chances de ^990000destruir o equipamento ou redefinir o aprimoramento existente.^000000 Deseja continuar?";
+			next;
+			if (select( "Vou pensar melhor.", "Continuar." ) == 1) {
+				mes "[Mass Charleston]";
+				mes "Sem problemas. Volte quando mudar de ideia.";
+				close3;
+			}
+		}
+		else if (.@card[0] < 1 && .@max_slot < 1)
+			.@slot = 1;
+		else {
+			cutin "dalle02.bmp",2;
+			mes "[Mass Charleston]";
+			mes "Este equipamento já foi aprimorado ao máximo. Por favor, traga outro.";
+			close3;
+		}
+		switch(.@en_type) {
+		case 1:
+			if (.@slot == 4) {
+				.@en_brk1 = 1;
+				.@en_brk2 = 100;
+			}
+			else if (.@slot == 3) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 200;
+			}
+			else if (.@slot == 2) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 300;
+			}
+			else {
+				mes "[Mass Charleston]";
+				mes "Ocorreu um erro desconhecido.";
+				close3;
+			}
+			.@r = rand( .@en_brk1, .@en_brk2 );
+			if (.@r < 11) .@en_name = 4700;	// Força1
+			else if (.@r < 21) .@en_name = 4720;	// Destreza1
+			else if (.@r < 36) .@en_name = 4832;	// Pedra da Mira Apurada1
+			else if (.@r < 51) .@en_name = 4811;	// Espírito do Lutador1
+			else if (.@r < 61) .@en_name = 4701;	// Força2
+			else if (.@r < 71) .@en_name = 4721;	// Destreza2
+			else if (.@r < 86) .@en_name = 4833;	// Pedra da Mira Apurada2
+			else if (.@r < 101) .@en_name = 4810;	// Espírito do Lutador2
+			else if (.@r < 111) .@en_name = 4700;	// Força1
+			else if (.@r < 121) .@en_name = 4720;	// Destreza1
+			else if (.@r < 132) .@en_name = 4832;	// Pedra da Mira Apurada1
+			else if (.@r < 143) .@en_name = 4811;	// Espírito do Lutador1
+			else if (.@r < 151) .@en_name = 4701;	// Força2
+			else if (.@r < 159) .@en_name = 4721;	// Destreza2
+			else if (.@r < 167) .@en_name = 4833;	// Pedra da Mira Apurada2
+			else if (.@r < 175) .@en_name = 4810;	// Espírito do Lutador2
+			else if (.@r < 182) .@en_name = 4702;	// Força3
+			else if (.@r < 189) .@en_name = 4722;	// Destreza3
+			else if (.@r < 190) .@en_name = 4834;	// Pedra da Mira Apurada3
+			else if (.@r < 191) .@en_name = 4809;	// Espírito do Lutador3
+			else if (.@r < 201) .@en_name = 0;
+			else if (.@r < 207) .@en_name = 4700;	// Força1
+			else if (.@r < 213) .@en_name = 4720;	// Destreza1
+			else if (.@r < 221) .@en_name = 4832;	// Pedra da Mira Apurada1
+			else if (.@r < 229) .@en_name = 4811;	// Espírito do Lutador1
+			else if (.@r < 238) .@en_name = 4701;	// Força2
+			else if (.@r < 247) .@en_name = 4721;	// Destreza2
+			else if (.@r < 260) .@en_name = 4810;	// Espírito do Lutador2
+			else if (.@r < 273) .@en_name = 4833;	// Pedra da Mira Apurada2
+			else if (.@r < 280) .@en_name = 4702;	// Força3
+			else if (.@r < 287) .@en_name = 4722;	// Destreza3
+			else if (.@r < 289) .@en_name = 4834;	// Pedra da Mira Apurada3
+			else if (.@r < 291) .@en_name = 4809;	// Espírito do Lutador3
+			else if (.@r < 296) .@en_name = 0;
+			else if (.@r < 301) .@en_name = 9;
+			else .@en_name = 0;
+			break;
+		case 2:
+			if (.@slot == 4) {
+				.@en_brk1 = 1;
+				.@en_brk2 = 100;
+			}
+			else if (.@slot == 3) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 200;
+			}
+			else if (.@slot == 2) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 310;
+			}
+			else {
+				mes "[Mass Charleston]";
+				mes "Ocorreu um erro desconhecido.";
+				close3;
+			}
+			.@r = rand( .@en_brk1, .@en_brk2 );
+			if (.@r < 11) .@en_name = 4740;	// Vitalidade1
+			else if (.@r < 21) .@en_name = 4791;	// Def3
+			else if (.@r < 36) .@en_name = 4933;	// Neutralidade1
+			else if (.@r < 51) .@en_name = 4861;	// HPM1
+			else if (.@r < 61) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 71) .@en_name = 4792;	// Def6
+			else if (.@r < 86) .@en_name = 4934;	// Neutralidade2
+			else if (.@r < 101) .@en_name = 4862;	// HPM2
+			else if (.@r < 111) .@en_name = 4740;	// Vitalidade1
+			else if (.@r < 121) .@en_name = 4791;	// Def3
+			else if (.@r < 132) .@en_name = 4933;	// Neutralidade1
+			else if (.@r < 143) .@en_name = 4861;	// HPM1
+			else if (.@r < 151) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 159) .@en_name = 4792;	// Def6
+			else if (.@r < 167) .@en_name = 4934;	// Neutralidade2
+			else if (.@r < 173) .@en_name = 4862;	// HPM2
+			else if (.@r < 179) .@en_name = 4742;	// Vitalidade3
+			else if (.@r < 185) .@en_name = 4793;	// Def9
+			else if (.@r < 188) .@en_name = 4935;	// Neutralidade3
+			else if (.@r < 191) .@en_name = 4867;	// HPM3
+			else if (.@r < 201) .@en_name = 0;
+			else if (.@r < 207) .@en_name = 4740;	// Vitalidade1
+			else if (.@r < 213) .@en_name = 4791;	// Def3
+			else if (.@r < 221) .@en_name = 4933;	// Neutralidade1
+			else if (.@r < 229) .@en_name = 4861;	// HPM1
+			else if (.@r < 238) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 247) .@en_name = 4792;	// Def6
+			else if (.@r < 258) .@en_name = 4934;	// Neutralidade2
+			else if (.@r < 269) .@en_name = 4862;	// HPM2
+			else if (.@r < 276) .@en_name = 4742;	// Vitalidade3
+			else if (.@r < 283) .@en_name = 4793;	// Def9
+			else if (.@r < 287) .@en_name = 4867;	// HPM3
+			else if (.@r < 291) .@en_name = 4935;	// Neutralidade3
+			else if (.@r < 296) .@en_name = 0;
+			else if (.@r < 301) .@en_name = 9;
+			else .@en_name = 0;
+			break;
+		case 3:
+			if (.@slot == 4) {
+				.@en_brk1 = 1;
+				.@en_brk2 = 100;
+			}
+			else if (.@slot == 3) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 200;
+			}
+			else if (.@slot == 2) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 310;
+			}
+			else {
+				mes "[Mass Charleston]";
+				mes "Ocorreu um erro desconhecido.";
+				close3;
+			}
+			.@r = rand( .@en_brk1, .@en_brk2 );
+			if (.@r < 11) .@en_name = 4860;	// Esquiva3
+			else if (.@r < 21) .@en_name = 4750;	// Sorte1
+			else if (.@r < 36) .@en_name = 4869;	// Anti-Atraso1
+			else if (.@r < 51) .@en_name = 4730;	// Agilidade1
+			else if (.@r < 61) .@en_name = 4762;	// Esquiva6
+			else if (.@r < 71) .@en_name = 4751;	// Sorte2
+			else if (.@r < 86) .@en_name = 4872;	// Anti-Atraso2
+			else if (.@r < 101) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 111) .@en_name = 4860;	// Esquiva3
+			else if (.@r < 121) .@en_name = 4750;	// Sorte1
+			else if (.@r < 132) .@en_name = 4869;	// Anti-Atraso1
+			else if (.@r < 143) .@en_name = 4730;	// Agilidade1
+			else if (.@r < 151) .@en_name = 4762;	// Esquiva6
+			else if (.@r < 159) .@en_name = 4751;	// Sorte2
+			else if (.@r < 166) .@en_name = 4872;	// Anti-Atraso2
+			else if (.@r < 173) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 180) .@en_name = 4763;	// Esquiva12
+			else if (.@r < 187) .@en_name = 4752;	// Sorte3
+			else if (.@r < 191) .@en_name = 4732;	// Agilidade3
+			else if (.@r < 201) .@en_name = 0;
+			else if (.@r < 207) .@en_name = 4860;	// Esquiva3
+			else if (.@r < 213) .@en_name = 4750;	// Sorte1
+			else if (.@r < 221) .@en_name = 4869;	// Anti-Atraso1
+			else if (.@r < 229) .@en_name = 4730;	// Agilidade1
+			else if (.@r < 239) .@en_name = 4762;	// Esquiva6
+			else if (.@r < 249) .@en_name = 4751;	// Sorte2
+			else if (.@r < 261) .@en_name = 4872;	// Anti-Atraso2
+			else if (.@r < 273) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 280) .@en_name = 4763;	// Esquiva12
+			else if (.@r < 287) .@en_name = 4752;	// Sorte3
+			else if (.@r < 291) .@en_name = 4732;	// Agilidade3
+			else if (.@r < 296) .@en_name = 0;
+			else if (.@r < 301) .@en_name = 9;
+			else .@en_name = 0;
+			break;
+		case 4:
+			if (.@slot == 4) {
+				.@en_brk1 = 1;
+				.@en_brk2 = 100;
+			}
+			else if (.@slot == 3) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 200;
+			}
+			else if (.@slot == 2) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 310;
+			}
+			else {
+				mes "[Mass Charleston]";
+				mes "Ocorreu um erro desconhecido.";
+				close3;
+			}
+			.@r = rand( .@en_brk1, .@en_brk2 );
+			if (.@r < 8) .@en_name = 4700;	// Força1
+			else if (.@r < 17) .@en_name = 4701;	// Força2
+			else if (.@r < 24) .@en_name = 4720;	// Destreza1
+			else if (.@r < 33) .@en_name = 4721;	// Destreza2
+			else if (.@r < 40) .@en_name = 4730;	// Agilidade1
+			else if (.@r < 47) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 54) .@en_name = 4740;	// Vitalidade1
+			else if (.@r < 63) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 69) .@en_name = 4750;	// Sorte1
+			else if (.@r < 77) .@en_name = 4751;	// Sorte2
+			else if (.@r < 83) .@en_name = 4710;	// Inteligência1
+			else if (.@r < 91) .@en_name = 4711;	// Inteligência2
+			else if (.@r < 101) .@en_name = 4832;	// Pedra da Mira Apurada1
+			else if (.@r < 111) .@en_name = 4700;	// Força1
+			else if (.@r < 121) .@en_name = 4701;	// Força2
+			else if (.@r < 131) .@en_name = 4720;	// Destreza1
+			else if (.@r < 141) .@en_name = 4721;	// Destreza2
+			else if (.@r < 149) .@en_name = 4730;	// Agilidade1
+			else if (.@r < 158) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 164) .@en_name = 4740;	// Vitalidade1
+			else if (.@r < 170) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 177) .@en_name = 4750;	// Sorte1
+			else if (.@r < 184) .@en_name = 4751;	// Sorte2
+			else if (.@r < 187) .@en_name = 4710;	// Inteligência1
+			else if (.@r < 190) .@en_name = 4711;	// Inteligência2
+			else if (.@r < 192) .@en_name = 4832;	// Pedra da Mira Apurada1
+			else if (.@r < 201) .@en_name = 0;
+			else if (.@r < 207) .@en_name = 4700;	// Força1
+			else if (.@r < 213) .@en_name = 4701;	// Força2
+			else if (.@r < 220) .@en_name = 4720;	// Destreza1
+			else if (.@r < 227) .@en_name = 4721;	// Destreza2
+			else if (.@r < 237) .@en_name = 4730;	// Agilidade1
+			else if (.@r < 247) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 257) .@en_name = 4740;	// Vitalidade1
+			else if (.@r < 267) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 271) .@en_name = 4750;	// Sorte1
+			else if (.@r < 276) .@en_name = 4751;	// Sorte2
+			else if (.@r < 281) .@en_name = 4710;	// Inteligência1
+			else if (.@r < 286) .@en_name = 4711;	// Inteligência2
+			else if (.@r < 291) .@en_name = 4832;	// Pedra da Mira Apurada1
+			else if (.@r < 296) .@en_name = 0;
+			else if (.@r < 301) .@en_name = 9;
+			else .@en_name = 0;
+			break;
+		case 5:
+			if (.@slot == 4) {
+				.@en_brk1 = 1;
+				.@en_brk2 = 100;
+			}
+			else if (.@slot == 3) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 200;
+			}
+			else if (.@slot == 2) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 310;
+			}
+			else {
+				mes "[Mass Charleston]";
+				mes "Ocorreu um erro desconhecido.";
+				close3;
+			}
+			.@r = rand( .@en_brk1, .@en_brk2 );
+			if (.@r < 9) .@en_name = 4701;	// Força2
+			else if (.@r < 16) .@en_name = 4702;	// Força3
+			else if (.@r < 25) .@en_name = 4721;	// Destreza2
+			else if (.@r < 32) .@en_name = 4722;	// Destreza3
+			else if (.@r < 41) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 46) .@en_name = 4732;	// Agilidade3
+			else if (.@r < 55) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 62) .@en_name = 4742;	// Vitalidade3
+			else if (.@r < 70) .@en_name = 4751;	// Sorte2
+			else if (.@r < 76) .@en_name = 4752;	// Sorte3
+			else if (.@r < 84) .@en_name = 4711;	// Inteligência2
+			else if (.@r < 90) .@en_name = 4712;	// Inteligência3
+			else if (.@r < 95) .@en_name = 4832;	// Pedra da Mira Apurada1
+			else if (.@r < 101) .@en_name = 4833;	// Pedra da Mira Apurada2
+			else if (.@r < 111) .@en_name = 4701;	// Força2
+			else if (.@r < 121) .@en_name = 4702;	// Força3
+			else if (.@r < 131) .@en_name = 4721;	// Destreza2
+			else if (.@r < 141) .@en_name = 4722;	// Destreza3
+			else if (.@r < 149) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 157) .@en_name = 4732;	// Agilidade3
+			else if (.@r < 163) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 169) .@en_name = 4742;	// Vitalidade3
+			else if (.@r < 176) .@en_name = 4751;	// Sorte2
+			else if (.@r < 183) .@en_name = 4752;	// Sorte3
+			else if (.@r < 185) .@en_name = 4711;	// Inteligência2
+			else if (.@r < 187) .@en_name = 4712;	// Inteligência3
+			else if (.@r < 189) .@en_name = 4833;	// Pedra da Mira Apurada2
+			else if (.@r < 191) .@en_name = 4834;	// Pedra da Mira Apurada3
+			else if (.@r < 201) .@en_name = 0;
+			else if (.@r < 207) .@en_name = 4701;	// Força2
+			else if (.@r < 213) .@en_name = 4702;	// Força3
+			else if (.@r < 220) .@en_name = 4721;	// Destreza2
+			else if (.@r < 227) .@en_name = 4722;	// Destreza3
+			else if (.@r < 237) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 247) .@en_name = 4732;	// Agilidade3
+			else if (.@r < 257) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 261) .@en_name = 4742;	// Vitalidade3
+			else if (.@r < 266) .@en_name = 4751;	// Sorte2
+			else if (.@r < 271) .@en_name = 4752;	// Sorte3
+			else if (.@r < 276) .@en_name = 4711;	// Inteligência2
+			else if (.@r < 281) .@en_name = 4712;	// Inteligência3
+			else if (.@r < 286) .@en_name = 4832;	// Pedra da Mira Apurada1
+			else if (.@r < 291) .@en_name = 4833;	// Pedra da Mira Apurada2
+			else if (.@r < 296) .@en_name = 0;
+			else if (.@r < 301) .@en_name = 9;
+			else .@en_name = 0;
+			break;
+		case 6:
+			if (.@slot == 4) {
+				.@en_brk1 = 1;
+				.@en_brk2 = 100;
+			}
+			else if (.@slot == 3) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 200;
+			}
+			else if (.@slot == 2) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 310;
+			}
+			else {
+				mes "[Mass Charleston]";
+				mes "Ocorreu um erro desconhecido.";
+				close3;
+			}
+			.@r = rand( .@en_brk1, .@en_brk2 );
+			if (.@r < 11) .@en_name = 4700;	// Força1
+			else if (.@r < 21) .@en_name = 4701;	// Força2
+			else if (.@r < 31) .@en_name = 4720;	// Destreza1
+			else if (.@r < 41) .@en_name = 4721;	// Destreza2
+			else if (.@r < 51) .@en_name = 4730;	// Agilidade1
+			else if (.@r < 61) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 71) .@en_name = 4740;	// Vitalidade1
+			else if (.@r < 81) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 91) .@en_name = 4869;	// Anti-Atraso1
+			else if (.@r < 101) .@en_name = 4815;	// Pedra de Encantamento1
+			else if (.@r < 111) .@en_name = 4700;	// Força1
+			else if (.@r < 121) .@en_name = 4701;	// Força2
+			else if (.@r < 132) .@en_name = 4720;	// Destreza1
+			else if (.@r < 143) .@en_name = 4721;	// Destreza2
+			else if (.@r < 151) .@en_name = 4730;	// Agilidade1
+			else if (.@r < 159) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 169) .@en_name = 4740;	// Vitalidade1
+			else if (.@r < 179) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 185) .@en_name = 4869;	// Anti-Atraso1
+			else if (.@r < 191) .@en_name = 4815;	// Pedra de Encantamento1
+			else if (.@r < 201) .@en_name = 0;
+			else if (.@r < 209) .@en_name = 4700;	// Força1
+			else if (.@r < 217) .@en_name = 4701;	// Força2
+			else if (.@r < 225) .@en_name = 4720;	// Destreza1
+			else if (.@r < 233) .@en_name = 4721;	// Destreza2
+			else if (.@r < 244) .@en_name = 4730;	// Agilidade1
+			else if (.@r < 255) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 265) .@en_name = 4740;	// Vitalidade1
+			else if (.@r < 275) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 283) .@en_name = 4869;	// Anti-Atraso1
+			else if (.@r < 291) .@en_name = 4815;	// Pedra de Encantamento1
+			else if (.@r < 296) .@en_name = 0;
+			else if (.@r < 301) .@en_name = 9;
+			else .@en_name = 0;
+			break;
+		case 7:
+			if (.@slot == 4) {
+				.@en_brk1 = 1;
+				.@en_brk2 = 100;
+			}
+			else if (.@slot == 3) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 200;
+			}
+			else if (.@slot == 2) {
+				.@en_brk1 = 101;
+				.@en_brk2 = 310;
+			}
+			else {
+				mes "[Mass Charleston]";
+				mes "Ocorreu um erro desconhecido.";
+				close3;
+			}
+			.@r = rand( .@en_brk1, .@en_brk2 );
+			if (.@r < 11) .@en_name = 4702;	// Força3
+			else if (.@r < 21) .@en_name = 4701;	// Força2
+			else if (.@r < 31) .@en_name = 4722;	// Destreza3
+			else if (.@r < 41) .@en_name = 4721;	// Destreza2
+			else if (.@r < 51) .@en_name = 4732;	// Agilidade3
+			else if (.@r < 61) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 71) .@en_name = 4742;	// Vitalidade3
+			else if (.@r < 81) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 86) .@en_name = 4869;	// Anti-Atraso1
+			else if (.@r < 91) .@en_name = 4872;	// Anti-Atraso2
+			else if (.@r < 96) .@en_name = 4815;	// Pedra de Encantamento1
+			else if (.@r < 101) .@en_name = 4814;	// Pedra de Encantamento2
+			else if (.@r < 111) .@en_name = 4702;	// Força3
+			else if (.@r < 121) .@en_name = 4701;	// Força2
+			else if (.@r < 132) .@en_name = 4722;	// Destreza3
+			else if (.@r < 143) .@en_name = 4721;	// Destreza2
+			else if (.@r < 151) .@en_name = 4732;	// Agilidade3
+			else if (.@r < 159) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 169) .@en_name = 4742;	// Vitalidade3
+			else if (.@r < 179) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 182) .@en_name = 4869;	// Anti-Atraso1
+			else if (.@r < 185) .@en_name = 4815;	// Pedra de Encantamento1
+			else if (.@r < 188) .@en_name = 4872;	// Anti-Atraso2
+			else if (.@r < 191) .@en_name = 4814;	// Pedra de Encantamento2
+			else if (.@r < 201) .@en_name = 0;
+			else if (.@r < 209) .@en_name = 4702;	// Força3
+			else if (.@r < 217) .@en_name = 4701;	// Força2
+			else if (.@r < 225) .@en_name = 4722;	// Destreza3
+			else if (.@r < 233) .@en_name = 4721;	// Destreza2
+			else if (.@r < 244) .@en_name = 4732;	// Agilidade3
+			else if (.@r < 255) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 265) .@en_name = 4742;	// Vitalidade3
+			else if (.@r < 275) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 279) .@en_name = 4869;	// Anti-Atraso1
+			else if (.@r < 283) .@en_name = 4815;	// Pedra de Encantamento1
+			else if (.@r < 287) .@en_name = 4872;	// Anti-Atraso2
+			else if (.@r < 291) .@en_name = 4814;	// Pedra de Encantamento2
+			else if (.@r < 296) .@en_name = 0;
+			else if (.@r < 301) .@en_name = 9;
+			else .@en_name = 0;
+			break;
+		case 8:
+			if (.@slot == 4) {
+				.@en_brk1 = 1;
+				.@en_brk2 = 100;
+			}
+			else if (.@slot == 3) {
+				.@en_brk1 = 1;
+				.@en_brk2 = 111;
+			}
+			else if (.@slot == 2) {
+				.@en_brk1 = 1;
+				.@en_brk2 = 111;
+			}
+			else {
+				mes "[Mass Charleston]";
+				mes "Ocorreu um erro desconhecido.";
+				close3;
+			}
+			.@r = rand( .@en_brk1, .@en_brk2 );
+			if (.@r < 11) .@en_name = 4700;	// Força1
+			else if (.@r < 21) .@en_name = 4701;	// Força2
+			else if (.@r < 31) .@en_name = 4720;	// Destreza1
+			else if (.@r < 41) .@en_name = 4721;	// Destreza2
+			else if (.@r < 50) .@en_name = 4730;	// Agilidade1
+			else if (.@r < 59) .@en_name = 4731;	// Agilidade2
+			else if (.@r < 69) .@en_name = 4740;	// Vitalidade1
+			else if (.@r < 79) .@en_name = 4741;	// Vitalidade2
+			else if (.@r < 89) .@en_name = 4710;	// Inteligência1
+			else if (.@r < 99) .@en_name = 4711;	// Inteligência2
+			else if (.@r < 100) .@en_name = 4869;	// Anti-Atraso1
+			else if (.@r < 101) .@en_name = 4815;	// Pedra de Encantamento1
+			else .@en_name = 0;
+			break;
+		default:
+			mes "[Mass Charleston]";
+			mes "Ocorreu um erro desconhecido.";
+			close3;
+		}
+		if (Zeny < 100000 || countitem(6752) < 1) {
+		mes "[Mass Charleston]";
+		mes "Parece que os materiais necessários para o aprimoramento estão insuficientes!";
+		close3;
+	}
+
+	// anti-roubo
+	if (callfunc("F_IsEquipIDHack", .@part, .@item_id) ||
+			callfunc("F_IsEquipCardHack", .@part, .@card_saved[0], .@card_saved[1], .@card_saved[2], .@card_saved[3]) ||
+			callfunc("F_IsEquipRefineHack", .@part, .@refine)) {
+		mes "[Mass Charleston]";
+		mes "Ocorreu um erro desconhecido.";
+		close3;
+	}
+
+	.@card[.@slot-1] = .@en_name;
+	delitem 6752,1;	// Componente de Charleston
+	Zeny -= 100000;
+	delequip .@part;
+
+	switch(.@en_name) {
+	case 0:
+		cutin "dalle02.bmp",2;
+		specialeffect2 EF_SHIELDCHARGE;
+		mes "[Mass Charleston]";
+		mes "Como o equilíbrio de poder não corresponde, a habilidade existente foi destruída. Que pena... mas tente novamente na próxima vez.";
+		getitem2 .@item_id,1,1,.@refine,0, .@card[0], .@card[1], .@card[2], .@card[3];
+		close3;
+	case 9:
+		cutin "dalle04.bmp",2;
+		specialeffect2 EF_SUI_EXPLOSION;
+		mes "[Mass Charleston]";
+		mes "Isto!";
+		mes "Desculpe, mas o equipamento foi destruído.";
+		close3;
+	default:
+		specialeffect2 EF_REPAIRWEAPON;
+		mes "[Mass Charleston]";
+		mes "O ^990000Slot" + .@slot + "^000000 será aprimorado.";
+		getitem2 .@item_id,1,1,.@refine,0, .@card[0], .@card[1], .@card[2], .@card[3];
+		close3;
+	}
+case 2:	// Reinicialização
+	// Nota: o NPC não verifica se o equipamento já está encantado
+	if (getiteminfo(.@card[0], ITEMINFO_SUBTYPE) == CARD_ENCHANT) .@card[0] = 0;
+	if (getiteminfo(.@card[1], ITEMINFO_SUBTYPE) == CARD_ENCHANT) .@card[1] = 0;
+	if (getiteminfo(.@card[2], ITEMINFO_SUBTYPE) == CARD_ENCHANT) .@card[2] = 0;
+	if (getiteminfo(.@card[3], ITEMINFO_SUBTYPE) == CARD_ENCHANT) .@card[3] = 0;
+	specialeffect2 EF_REPAIRWEAPON;
+	mes "[Mass Charleston]";
+	mes "As habilidades do produto foram reinicializadas.";
+	delitem 6752,1;	// Componente de Charleston
+	Zeny -= 100000;
+	delequip .@part;
+	getitem2 .@item_id,1,1,.@refine,0, .@card[0], .@card[1], .@card[2], .@card[3];
+	close3;
+dfault:
+	mes "[Mass Charleston]";
+	mes "Ocorreu um erro desconhecido.";
+	close3;
+}
+end;
+}
+
+verus04,63,112,4	script	Mass Charleston#3	4_F_CHARLESTON01,{
+	if (!checkweight(1201,1) || (MaxWeight - Weight) < 1000) {
+		mes "^ff0000Você está carregando muitos itens. Por favor, reduza a quantidade e volte mais tarde.^000000";
+		close;
+	}
+	cutin "dalle03.bmp",2;
+	mes "[Mass Charleston]";
+	mes "Eh, eu tenho um cliente? Ativando modo Vendedor...";
+	next;
+	cutin "dalle01.bmp",2;
+	mes "[Mass Charleston]";
+	mes "Itens mais vendidos da Fábrica de Charleston: ^FF0000Autopeça - Carburador^000000 e ^FF0000Peça de FOR Suplementar^000000 agora à venda!";
+	next;
+	mes "[Mass Charleston]";
+	mes "Por apenas ^FF00003.999.999^000000 Zeny! Garanta já seus equipamentos de ação de ultra desempenho!";
+	next;
+	mes "[Mass Charleston]";
+	mes "Também disponível: o serviço de ^FF0000Aprimoramento^000000 do ^FF0000Bate-Estacas^000000!";
+	next;
+	switch( select( "Conversar.", "Trocar Autopeças.", "Trocar Peças Suplementares.", "Aprimorar Bate-Estacas." ) ) {
+	case 1:
+		if (isbegin_quest(13186) == 0) {
+			mes "[Mass Charleston]";
+			mes "A Fábrica de Charleston foi desativada, mas sua tecnologia e produtos ainda estão conosco.";
+			next;
+			mes "[Mass Charleston]";
+			mes "Oh, você não ouviu as notícias? Ops, foi mal. Por favor, esqueça o que eu disse.";
+			close3;
+		}
+		cutin "dalle03.bmp",2;
+		mes "[Mass Charleston]";
+		mes "Sou uma versão do Mass Charleston. Nem mesmo recebi um número de série. Quem sabe quantas cópias de mim existem? Podem ser cem, talvez mil.";
+		next;
+		mes "[Mass Charleston]";
+		mes "O Charleston original está ali, mas...";
+		next;
+		mes "[Mass Charleston]";
+		mes "Quando os Charlestons 1 e 2 escaparam da fábrica, estavam severamente danificados. A batalha naquele dia foi incrível.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Ainda me lembro como os Charlestons 1 e 2 destruíram inúmeras criaturas do Dr. Ve como se fosse ontem.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Eles também destruíram os Mass Charlestons modificados pelo Dr. Ve para obedecer às suas ordens.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Claro que existem outros — como nós, que trabalhamos no aprimoramento de produtos — que tivemos sorte suficiente de escapar das garras do Dr. Ve e encontrar o Charleston 1, que nos salvou.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Após fugir com o Charleston 3 modificado, viemos para cá.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Só para constar, este lugar já estava destruído quando chegamos. Não tivemos nada a ver com isso. Talvez...";
+		next;
+		mes "[Mass Charleston]";
+		mes "Desculpe, me desviei do assunto. De qualquer forma, este é o problema.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Charleston 1 e Charleston 2 foram destruídas a ponto de ficarem inutilizáveis. Elas tentaram se reparar mutuamente, mas sem sucesso.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Elas perceberam que estavam danificadas além do conserto. Reaproveitaram todas as peças possíveis e construíram um único corpo com um único SO.";
+		next;
+		mes "[Mass Charleston]";
+		mes "E esse é o corpo recém-construído. Elas se culparam pela destruição da fábrica e queriam consertá-la. Mas temo que os dados estejam corrompidos ou que memórias importantes estejam faltando.";
+		next;
+		mes "[Mass Charleston]";
+		mes "As características dos dados mostram mais traços da Charleston 2, enquanto o método de acesso do sistema operacional se assemelha mais ao da Charleston 1. A Charleston 1 sempre foi a mais sentimental.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Eu não sei se a nova Charleston é a 1 ou a 2. Nem consigo dizer o que ela mais esqueceu ou o que mais se lembra.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Ela continua se culpando por ter perdido seus dados, por ter decepcionado suas amigas. Toda vez que tentamos consolá-la,";
+		next;
+		mes "[Mass Charleston]";
+		mes "ela diz que não tem coração ou cérebro para se lembrar ou saber. Eu me pergunto se ela sabe";
+		next;
+		mes "[Mass Charleston]";
+		mes "que as memórias dos humanos se apagam e são distorcidas ou glorificadas com o tempo.";
+		next;
+		mes "[Mass Charleston]";
+		mes "E que os humanos aprendem com seus erros e fracassos. Eu li isso naqueles dispositivos de memória de papel chamados ^FF0000livros^000000 na fábrica.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Havia um pequeno estudo na ^FF0000ala sul da fábrica^000000. Depois, foi transformado em uma sala de desenvolvimento de robôs.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Talvez a Charleston seja mais parecida com os humanos do que o resto de nós. Só espero que ela não precise ser tão triste.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Me sinto tão congestionada no SO que acabei desabafando. Talvez eu precise desfragmentar minha memória.";
+		close3;
+	case 2:
+		mes "[Mass Charleston]";
+		mes "Autopeça - Carburador";
+		mes "Classe: Armadura, indestrutível.";
+		mes "-10% de dano de monstros Pequenos e Médios.";
+		mes "-10% de dano de monstros Grandes ao refinar até +7.";
+		mes "Redução adicional de -5% de dano de monstros Pequenos e Médios ao refinar até +9.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Peso: 300";
+		mes "Nível necessário: 100";
+		callsub S_Buy, 15111;	// Autopeça - Carburador
+	case 3:
+		mes "[Mass Charleston]";
+		mes "Peça de FOR Suplementar";
+		mes "ATQ +5%!";
+		mes "ATQ adicional +1% a cada 4 níveis de refinamento.";
+		mes "Use com os dispositivos suplementares de VIT/AGI/DEX para melhores resultados.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Peso: 200";
+		mes "Nível necessário: 100";
+		callsub S_Buy, 15110;	// Peça de FOR Suplementar
+	case 4:
+		mes "[Mass Charleston]";
+		mes "A última obra-prima da Fábrica de Charleston! Você não encontrará Equipamento tão refinado em nenhum outro lugar.";
+		next;
+		mes "[Mass Charleston]";
+		mes "Para aprimorar o Bate-Estacas,";
+		mes "^FF00001 Bate-Estacas^000000,";
+		mes "^FF0000300 Placas de Ferro Amassadas^000000,";
+		mes "e ^FF000015 Motores Quebrados^000000 são necessários.";
+		next;
+		switch( select( "Bate-Estacas S", "Bate-Estacas P", "Bate-Estacas T" ) ) {
+		case 1:
+			mes "[Mass Charleston]";
+			mes "Bate-Estacas S";
+			mes "Classe: Maça";
+			mes "ATQ: 400";
+			mes "Bônus de Velocidade de Ataque a cada 2 níveis de refino.";
+			next;
+			mes "[Mass Charleston]";
+			mes "Peso: 300";
+			mes "Nível da Arma: 4";
+			mes "Nível necessário: 130";
+			mes "Apenas para Mecânicos. Possui 1 slot para carta.";
+			.@item_id = 16030;	// Bate-Estacas S
+			break;
+		case 2:
+			mes "[Mass Charleston]";
+			mes "Bate-Estacas P";
+			mes "Classe: Maça";
+			mes "ATQ: 450";
+			mes "ATQ +5 a cada nível de refinamento.";
+			next;
+			mes "[Mass Charleston]";
+			mes "Peso: 400";
+			mes "Nível da Arma: 4";
+			mes "Nível necessário: 130";
+			mes "Apenas para Mecânicos.";
+			.@item_id = 16031;	// Bate-Estacas P
+			break;
+		case 3:
+			mes "[Mass Charleston]";
+			mes "Bate-Estacas T";
+			mes "Classe: Maça";
+			mes "ATQ: 400";
+			mes "Custo de SP -1% a cada nível de refinamento.";
+			next;
+			mes "[Mass Charleston]";
+			mes "Peso: 350";
+			mes "Nível da Arma: 4";
+			mes "Nível necessário: 130";
+			mes "Apenas para Mecânicos. Possui 1 slot para carta.";
+			.@item_id = 16032;	// Bate-Estacas T
+			break;
+		}
+		break;
+	}
+	next;
+	mes "[Mass Charleston]";
+	mes "Você realmente deseja aprimorar o(a) ^FF0000" + getitemname(.@item_id) + "^000000?";
+	next;
+	if (select( "Acho melhor reconsiderar.", "Comprar." ) == 1) {
+		mes "[Mass Charleston]";
+		mes "É uma boa compra, mas ainda assim, decida com cuidado.";
+		close;
+	}
+	if (countitem(6751) > 299 && countitem(6750) > 14 && countitem(1549) > 0) {
+		mes "[Mass Charleston]";
+		mes "Você não vai se arrepender! Esta é a Fábrica de Charleston!";
+		delitem 6751,300;	// Placa de Ferro Amassada
+		delitem 6750,15;	// Motor Quebrado
+		delitem 1549,1;		// Bate-Estacas
+		getitem .@item_id,1;
+		close3;
+	}
+	mes "[Mass Charleston]";
+	mes "Materiais insuficientes para o aprimoramento.";
+	close3;
+
+S_Buy:
+	.@item_id = getarg(0);
+	mes "^FF0000Apenas para Mecânico^000000";
+	mes "^FF0000Preço: 3.999.999 zenys^000000";
+	next;
+	mes "[Mass Charleston]";
+	mes "Você realmente deseja comprar ^FF0000" + getitemname(.@item_id) + "^000000?";
+	next;
+	if (select("Acho melhor reconsiderar.", "Comprar.") == 1) {
+		mes "[Mass Charleston]";
+		mes "É uma boa compra, mas ainda assim, decida com cuidado.";
+		close3;
+	}
+	//if (Zeny >= 3999998) {// erro de digitação?
+	if (Zeny >= 3999999) {
+		mes "[Mass Charleston]";
+		mes "Você não vai se arrepender! Esta é a fábrica Charleston!";
+		Zeny -= 3999999;
+		getitem .@item_id,1;
+		close3;
+	}
+	mes "[Mass Charleston]";
+	mes "É comum encontrar bons produtos, mas confirme se tem zenys suficientes!";
+	close3;
+}
+
+
+// Excelência
+verus04,161,222,4	script	Vovô Catador	1_M_HOF,{
+	switch( isbegin_quest(12368) ) {
+	case 0:
+		mes "[Vovô Catador]";
+		mes "Tem dois pedaços de sucata que achei valiosos, mas parece que por não serem ferro de verdade, o ponto de reciclagem se recusa a aceitar.";
+		next;
+		mes "[Vovô Catador]";
+		mes "Será que não é ferro mesmo? Nenhum centro de reciclagem quer comprar isso, é tão frustrante!";
+		close;
+	case 1:
+		mes "[Vovô Catador]";
+		mes "Ei! Você estava conversando com aquela sucata? Ou será que minha visão está falhando?";
+		close;
+	case 2:
+		mes "[Vovô Catador]";
+		mes "Meu Deus! Isso aí não dá pra vender no ponto de reciclagem!";
+		close;
+	}
+}
+
+verus04,163,219,4	script	PLUTO_09#pa0829	4_SCR_AT_ROBOTS,{
+	disable_items;
+	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 10000) {
+		mes "^ff0000Você está carregando muitos itens. Reduza o peso e volte depois.^000000";
+		close;
+	}
+	if (isbegin_quest(12368) < 2) {
+		mes "^0000ffEmbora o LCD ainda esteja escuro, parece que não funciona mais.^000000";
+		close;
+	}
+	mes "^0000ffQuando o padrão de dinossauro estranho aparecer, vá para a tela de introdução.^000000";
+	next;
+	mes "[PLUTO_09]";
+	mes "" + strcharinfo(0) + ",";
+	mes "Olá. Como posso ajudar?";
+	next;
+	switch( select("Nota", "Trocar Tanque Velho e Bloco de Sucata por equipe.", "Desenhos para criação de Encantamentos.") ) {
+	case 1:
+		mes "^0000ffAparece uma tela com dinossauros e uma voz de garota fofa começa a falar.^000000";
+		next;
+		mes "[PLUTO_09]";
+		mes "Se passaram 100 anos desde a criação do novo PLUTO_09.";
+		next;
+		mes "[PLUTO_09]";
+		mes "Traga o Bloco de Sucata e Tanque Velho que posso criar algo útil para você~";
+		next;
+		mes "[PLUTO_09]";
+		mes "Quer criar equipamentos com encantamento? Traga o tanque! Posso encantá-lo com base nos desenhos. Oh, boa sorte.";
+		next;
+		mes "[PLUTO_09]";
+		mes "Este é o Tiranossauro Rex que aparece no conto de fadas dos dinossauros, muito bonito... (continua a história entediante dos dinossauros)";
+		next;
+		mes "^0000ffNesta introdução, presume-se que o estado psicológico do criador do robô esteja extremamente instável.^000000";
+		close;
+	case 2:
+		setarray .@id[0],20773,15128; // Motor E.X.C., Colete E.X.C.
+		mes "[PLUTO_09]";
+		mes "Para produzir equipamentos, são necessários ^0000ff10 Blocos de Sucata e 5 Tanques Velhos^000000.";
+		next;
+		switch( select("Sair.", "Criar " + getitemname(.@id[0]), "Criar " + getitemname(.@id[1]) ) ) {
+		case 1:
+			mes "^0000ffOs dinossauros observam a imagem e depois fecham lentamente.^000000";
+			close;
+		case 2:
+			.@item_id = .@id[0];
+			break;
+		case 3:
+			.@item_id = .@id[1];
+			break;
+		}
+		if (countitem(6961) < 10 || countitem(6962) < 5) {
+			mes "[PLUTO_09]";
+			mes "Eu já disse: é necessário ^0000ff10 " + getitemname(6961) + " e 5 " + getitemname(6962) + "^000000. Você não tem esses itens o suficiente.";
+			close;
+		}
+		specialeffect EF_SPELLBREAKER;
+		delitem 6962,5; // Tanque Velho
+		delitem 6961,10; // Bloco de Sucata
+		getitem .@item_id,1;
+		mes "[PLUTO_09]";
+		mes "Seu equipamento está pronto. Veja se está do seu gosto.";
+		close;
+	case 3:
+		while(1) {
+			if (countitem(6962) < 5)
+				.@string$ = "^aaaaaaCombustível insuficiente para criar os projetos.^000000";
+			else
+				.@string$ = "Produção de projeto (^ff0000 taxa de sucesso 30%^000000)";
+			mes "[PLUTO_09]";
+			mes "Se você me der 5 " + getitemname(6962) + ", eu posso tentar criar o projeto de encantamento!";
+			mes "----------";
+			mes "^0000ffUm pequeno dinossauro corre pela tela.^000000";
+			next;
+			if (select( "Sair.", .@string$ ) == 1) {
+				mes "^0000ffA animação termina mostrando os dinossauros se empanturrando de comida.^000000";
+				close;
+			}
+			.@fail = false;
+			.@reac_rnd = rand(1,10000);
+			if (.@reac_rnd < 26)		.@en_name = 6977;	// Diagrama de A-FOR
+			else if (.@reac_rnd < 51)	.@en_name = 6978;	// Diagrama de A-INT
+			else if (.@reac_rnd < 251)	.@en_name = 6979;	// Diagrama de A-DEF
+			else if (.@reac_rnd < 326)	.@en_name = 6981;	// Diagrama de A-ATQ
+			else if (.@reac_rnd < 401)	.@en_name = 6982;	// Diagrama de A-ATQM
+			else if (.@reac_rnd < 601)	.@en_name = 6980;	// Diagrama de A-ESQV
+			else if (.@reac_rnd < 801)	.@en_name = 6983;	// Diagrama de A-HP
+			else if (.@reac_rnd < 1001)	.@en_name = 6984;	// Diagrama de A-SP
+			else if (.@reac_rnd < 1151)	.@en_name = 6986;	// Diagrama de A-VdA
+			else if (.@reac_rnd < 1401)	.@en_name = 6975;	// Diagrama de C-Físico
+			else if (.@reac_rnd < 1551)	.@en_name = 6976;	// Diagrama de C-Mental
+			else if (.@reac_rnd < 1751)	.@en_name = 6973;	// Diagrama de C-Corpo
+			else if (.@reac_rnd < 1851)	.@en_name = 6974;	// Diagrama de C-Alma
+			else if (.@reac_rnd < 1901)	.@en_name = 6985;	// Diagrama de I-Gelo
+			else if (.@reac_rnd < 2101)	.@en_name = 6970;	// Diagrama de R-Água
+			else if (.@reac_rnd < 2301)	.@en_name = 6971;	// Diagrama de R-Terra
+			else if (.@reac_rnd < 2501)	.@en_name = 6969;	// Diagrama de R-Fogo
+			else if (.@reac_rnd < 2701)	.@en_name = 6972;	// Diagrama de R-Vento
+			else if (.@reac_rnd < 2776)	.@en_name = 6966;	// Diagrama de E-Água
+			else if (.@reac_rnd < 2851)	.@en_name = 6967;	// Diagrama de E-Terra
+			else if (.@reac_rnd < 2926)	.@en_name = 6965;	// Diagrama de E-Fogo
+			else if (.@reac_rnd < 3001)	.@en_name = 6968;	// Diagrama de E-Vento
+			else {
+				.@fail = true;
+				.@reac_rnd2 = rand(1,13000);
+				if (.@reac_rnd2 < 2)
+					.@en_name = 969;	// Ouro
+				else if (.@reac_rnd2 < 1002)
+					.@en_name = 999;	// Aço
+				else if (.@reac_rnd2 < 3002)
+					.@en_name = 998;	// Ferro
+				else if (.@reac_rnd2 < 8002)
+					.@en_name = 1002;	// Minério de Ferro
+				else
+					.@en_name = 7054;	// Brigan
+			}
+			if (countitem(6962) < 5)
+				mes "^0000ffA imagem mostra um dinossauro olhando silenciosamente para a tigela vazia. Isso pode ser uma mensagem de erro por falta de materiais!^000000";
+			else {
+				specialeffect EF_SPELLBREAKER;;
+				delitem 6962,5;// Tanque Velho
+				getitem .@en_name,1;
+				mes "[PLUTO_09]";
+				if (.@fail)
+					mes "Que pena, o projeto falhou.";
+				else
+					mes "Ótimo, o projeto foi criado com sucesso.";
+			}
+			next;
+		}
+		end;
+	default:
+			mes "^0000ffUma tela mostra um dinossauro uivando, como se não entendesse o comando.^000000";
+		close;
+	}
+	end;
+}
+
+verus04,165,217,4	script	MARS_01#pa0829	4_SCR_MT_ROBOTS,{
+	disable_items;
+	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 10000) {
+		mes "^ff0000Você está carregando muitos itens, por favor, reduza a quantidade e volte mais tarde.^000000";
+		close;
+	}
+	switch( isbegin_quest(12368) ) {
+	case 0:
+		mes "A tela de LCD borrada pode estar assustada ou feliz e treme intensamente, talvez pela falta de energia e por isso não consegue completar a apresentação.";
+		next;
+		if (select( "Apenas ignorar.", "Apertar todos os botões." ) == 1) {
+			mes "Pode ser um robô pré-sucateado comum por aí, que não exige muita atenção.";
+			close;
+		}
+		mes "[?????]";
+		mes "Olá! Eu sou o MARS_01, um Robô de Exploração. Atualmente estou em modo de hibernação para economizar energia. As funções relacionadas estão configuradas da seguinte forma.";
+		next;
+		if (select( "Interromper a máquina", "Fornecer combustível" ) == 1) {
+			mes "O robô volta ao modo de hibernação após um som fraco.";
+			close;
+		}
+		mes "[MARS_01]";
+		mes "Somos robôs superpoderosos, basta 1 Tanque Velho para mim e meu companheiro PLUTO ficarmos com mais de 90% de energia.";
+		next;
+		mes "[MARS_01]";
+		mes "Se você encontrar um Tanque Velho, insira-o na entrada na parte inferior da tela para encerrar o modo de hibernação.";
+		setquest 12368;	// Operar o Robô Antigo
+		close;
+	case 1:
+		if (countitem(6962) < 1) {
+			mes "[MARS_01]";
+			mes "Se você encontrar 1 " + getitemname(6962) + ", por favor, insira o combustível na entrada na parte inferior da tela para encerrar o modo de hibernação.";
+			close;
+		}
+		mes "Talvez tenhamos ficado sem energia procurando combustível. Devemos colocar o combustível?";
+		next;
+		if (select( "Desistir.", "Colocar o combustível" ) == 1) {
+			mes "O velho robô pode estar sem energia e não responde.";
+			close;
+		}
+		mes "Quando o combustível é inserido, a tela sonora se ativa.";
+		npctalk "Opa, opa?! Está se movendo!!!", "Vovô Catador";
+		next;
+		mes "[MARS_01]";
+		mes "Iniciando sistema de inspeção e confirmando danos em cada parte.";
+		next;
+		mes "[MARS_01]";
+		mes "Medidor de energia: 10%, painel normal, esqueleto corporal: 13%, capaz de realizar operações de mineração.";
+		next;
+		mes "[MARS_01]";
+		mes "Pluto_09 começou a injetar energia no robô auxiliar de mineração.";
+		npctalk "Resposta de energia confirmada. Está funcionando.", "PLUTO_09#pa0829";
+		next;
+		mes "[MARS_01]";
+		mes "Obrigado por me reativar. Vou registrar quem me ativou como gerente.";
+		next;
+		select("Inserir um nome.");
+		mes "[MARS_01]";
+		mes "" + strcharinfo(0) + ",";
+		mes "Olá! O combustível foi totalmente carregado.";
+		delitem 6962,1;// Tanque Velho
+		completequest 12368;
+		close;
+	case 2:
+		break;
+	}
+	mes "[MARS_01]";
+	mes "" + strcharinfo(0) + ",";
+	mes "Olá! Posso te ajudar?";
+	next;
+	switch( select( "Anotações.", "Aprimorar " + getitemname(20773), "Aprimorar " + getitemname(15128) ) ) {	// Motor E.X.C., Colete E.X.C.
+	case 1:
+		mes "^0000ffAs instruções aparecerão em breve novamente.^000000";
+		next;
+		mes "[MARS_01]";
+		mes "Enquanto aguardamos um novo proprietário, continuamos atualizando para a versão mais recente.";
+		next;
+		mes "[MARS_01]";
+		mes "Se você trouxer o Motor E.X.C., o Colete E.X.C. e me falar seu estilo, irei fortalecê-los conforme o projeto.";
+		next;
+		mes "[MARS_01]";
+		mes "De acordo com os desenhos padrões da operação, o equipamento não será danificado durante o processo, mas a quantidade máxima de aprimoramentos pode variar dependendo do tipo do equipamento.";
+		next;
+		mes "[MARS_01]";
+		mes "Volte sempre~";
+		close;
+	case 2:
+		.@part = EQI_GARMENT;
+		break;
+	case 3:
+		.@part = EQI_ARMOR;
+		break;
+	}
+	// <ID do item necessário>, <ID do encantamento>, <número máximo desse encantamento na armadura>, <número máximo desse encantamento na vestimenta>, <encantar apenas no primeiro slot>
+	setarray .@list[0],
+		6965, 4970, 1,0,3,	// Diagrama de E-Fogo		E-Fogo
+		6966, 4971, 1,0,3,	// Diagrama de E-Água		E-Água
+		6967, 4972, 1,0,3,	// Diagrama de E-Terra		E-Terra
+		6968, 4973, 1,0,3,	// Diagrama de E-Vento		E-Vento
+		6969, 4974, 0,3,0,	// Diagrama de R-Fogo		R-Fogo
+		6970, 4975, 0,3,0,	// Diagrama de R-Água		R-Água
+		6971, 4976, 0,3,0,	// Diagrama de R-Terra		R-Terra
+		6972, 4977, 0,3,0,	// Diagrama de R-Vento		R-Vento
+		6973, 4978, 3,3,0,	// Diagrama de C-Corpo		C-Corpo
+		6974, 4979, 3,3,0,	// Diagrama de C-Alma		C-Alma
+		6975, 4980, 3,3,0,	// Diagrama de C-Físico		C-Físico
+		6976, 4981, 3,3,0,	// Diagrama de C-Mental		C-Mental
+		6977, 4982, 1,0,0,	// Diagrama de A-FOR		A-FOR
+		6978, 4983, 1,0,0,	// Diagrama de A-INT		A-INT
+		6979, 4984, 3,3,0,	// Diagrama de A-DEF		A-DEF
+		6980, 4985, 1,1,0,	// Diagrama de A-ESQV		A-ESQV
+		6981, 4986, 3,3,0,	// Diagrama de A-ATQ		A-ATQ
+		6982, 4987, 3,3,0,	// Diagrama de A-ATQM		A-ATQM
+		6983, 4988, 3,3,0,	// Diagrama de A-HP			A-HP
+		6984, 4989, 3,3,0,	// Diagrama de A-SP			A-SP
+		6985, 4990, 1,0,0,	// Diagrama de I-Gelo		I-Gelo
+		6986, 4991, 1,1,0;	// Diagrama de A-VdA		A-VdA
+	.@size = getarraysize(.@list);
+
+	for ( .@i = 0; .@i < .@size; .@i += 5 ) {
+		if (countitem(.@list[.@i]) < 1)
+			.@menu$ += sprintf( "^aaaaaa%s (Faltando)^000000:", getitemname(.@list[.@i]) );
+		else
+			.@menu$ += sprintf( "%s:", getitemname(.@list[.@i]) );
+	}
+	mes "[MARS_01]";
+	mes "" + strcharinfo(0) + ",";
+	mes "Escolha o encantamento que deseja utilizar!";
+	next;
+	.@s = select("Sair.:" + .@menu$) - 2;
+	if (.@s < 0) {
+		mes "[MARS_01]";
+		mes "Até aqui.";
+		close;
+	}
+	.@s *= 5;
+	.@item_req = .@list[.@s];
+	.@item_enchant_id = .@list[.@s+1];
+	.@first_slot_only = .@list[.@s+4];
+
+	.@equip_id = getequipid(.@part);
+	.@equip_refine = getequiprefinerycnt(.@part);
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+
+	if (countitem(.@item_req) < 1) {
+		mes "[MARS_01]";
+		mes "Até aqui.";
+		close;
+	}
+	if (.@part == EQI_ARMOR)
+		.@max_num_enchant = .@list[.@s+2];
+	else if (.@part == EQI_GARMENT)
+		.@max_num_enchant = .@list[.@s+3];
+	else {
+		mes "[MARS_01]";
+		mes "Por favor, entre em contato com o administrador.";
+		close;
+	}
+
+	// Anti-roubo
+	if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@equip_refine)) {
+		mes "[MARS_01]";
+		mes "Você removeu seu equipamento?";
+		close;
+	}
+
+	if (.@card[0] > 0 && .@item_enchant_id == .@card[0]) { .@slot_sum++; }
+	if (.@card[1] > 0 && .@item_enchant_id == .@card[1]) { .@slot_sum++; }
+	if (.@card[2] > 0 && .@item_enchant_id == .@card[2]) { .@slot_sum++; }
+	if (.@card[3] > 0 && .@item_enchant_id == .@card[3]) { .@slot_sum++; }
+
+	if (.@max_num_enchant < 1) {
+		mes "[MARS_01]";
+		mes "O estilo escolhido é incompatível com o equipamento.";
+		close;
+	}
+	if (.@first_slot_only > 0 && .@card[3] != 0) {
+		mes "[MARS_01]";
+		mes "Esse estilo é apenas para o primeiro encantamento, mas o equipamento já possui outros atributos. Por favor, use outro estilo!";
+		close;
+	}
+	if (.@slot_sum >= .@max_num_enchant) {
+		mes "[MARS_01]";
+		mes "O número máximo de encantamentos é " + .@max_num_enchant + ". O item atingiu o limite.";
+		close;
+	}
+	if (.@card[1] != 0) {
+		mes "[MARS_01]";
+		mes "O número de encantamentos no equipamento atingiu o limite.";
+		close;
+	}
+
+	// Anti-roubo novamente
+	if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@equip_refine)) {
+		mes "[MARS_01]";
+		mes "Preste atenção, o equipamento pode ter sido removido.";
+		close;
+	}
+
+	switch( .@equip_id ) {
+	case 20773:	// Motor E.X.C.
+	case 15128:	// Colete E.X.C.
+		break;
+	default:
+		mes "[MARS_01]";
+		mes "O produto não possui número de série. Produtos fora das especificações não podem ser encantados.";
+		close;
+	}
+	mes "[MARS_01]^0000ff";
+	mes "Você escolheu " + getequipname(.@part) + " + " + getitemname(.@item_req) + ",";
+	mes "^000000------------------";
+	mes "Seu estilo selecionado pode ser aplicado até ^0000ff" + .@max_num_enchant + " vez(es)^000000 no equipamento. Até agora foi aplicado ^0000ff" + .@slot_sum + " vez(es)^000000. Deseja continuar?";
+	next;
+	if (select( "Vou pensar melhor...", "Continuar." ) == 1) {
+		mes "[MARS_01]";
+		mes "Volte quando precisar de mim~";
+		close;
+	}
+
+	// Anti-roubo final
+	if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@equip_refine))
+		close;
+
+	if (.@card[3] == 0) {
+		.@enchant_count = 1;
+		.@card[3] = .@item_enchant_id;
+	}
+	else if (.@card[2] == 0) {
+		.@enchant_count = 2;
+		.@card[2] = .@item_enchant_id;
+	}
+	else if (.@card[1] == 0) {
+		.@enchant_count = 3;
+		.@card[1] = .@item_enchant_id;
+	}
+	else {
+		mes "[MARS_01]";
+		mes "O equipamento atingiu o limite de encantamentos!";
+		close;
+	}
+	specialeffect2 EF_REPAIRWEAPON;
+	mes "[MARS_01]";
+	if (.@enchant_count < 5)
+		mes "O equipamento foi encantado ^990000" + .@enchant_count + " vez(es)^000000.";
+	else
+		mes "Encantamento adicional aplicado ao equipamento.";	// nunca exibido
+
+	delitem .@item_req, 1;
+	delequip .@part;
+	getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+	close;
+}

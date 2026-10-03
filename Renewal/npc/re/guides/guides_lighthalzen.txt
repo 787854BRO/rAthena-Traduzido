@@ -1,0 +1,181 @@
+//===== rAthena Script =======================================
+//= Lighthalzen Guides
+//===== Description: =========================================
+//= Guides for the city of Lighthalzen.
+//===== Changelogs: ==========================================
+//= 1.0 Initial release for Renewal [L0ne_W0lf]
+//= 1.1 Optimized. [Euphy]
+//= 1.2 Navigation system update. [Euphy]
+//============================================================
+
+lighthalzen,207,310,5	script	Guia de Lighthalzen#lhz01::GuiaLighthazlen	852,{
+	cutin "ein_soldier",2;
+	mes "[Guia de Lighthalzen]";
+	mes "Bem vind"+((Sex) ? "o":"a")+" à ^8B4513Lighthalzen^000000,";
+	mes "a Cidade-Estado da Corporação.";
+	mes "Se você precisar de alguma orientação";
+	mes "referente à cidade, fique à vontade";
+	mes "para me perguntar e eu farei o";
+	mes "melhor para ajudá-lo.";
+	next;
+	mes "[Guia de Lighthalzen]";
+	mes "Por favor, esteja ciente de que eu sou";
+	mes "encarregado de fornecer informações";
+	mes "em relação ao Distrito Oeste";
+	mes "de ^8B4513Lighthalzen^000000. Agora, por favor";
+	mes "selecione o local que você";
+	mes "deseja obter informações.";
+	F_Navi("[Guia de Lighthalzen]");
+	next;
+	while (1) {
+		switch(select("[ Lugares Principais ]:[ Lojas & Ajudantes ]:Remover Marcações do Mini-mapa:Cancelar")) {
+		case 1:
+			set .@loop,1;
+			while (.@loop) {
+				switch(select("[ Hotel ]:[ Banco ]:[ Aeroporto ]:[ Loja de Armas ]:[ Shopping ]:[ Central de Polícia ]:[ Joalheria ]:[ Corp. Eventos Incríveis ]:[ Laboratório de Somatologia ]:[ Associação dos Alquimistas ]:Menu Anterior")) {
+				case 1:
+					callsub L_Mark, F_Navi("Hotel","lighthalzen,159,133","^FF0000");
+					viewpoint 1,160,217,0,0xFF0000;
+					next;
+					break;
+				case 2:
+					callsub L_Mark, F_Navi("Banco","lighthalzen,203,257","^FF4500");
+					viewpoint 1,203,257,1,0xFF4500;
+					next;
+					break;
+				case 3:
+					callsub L_Mark, F_Navi("Aeroporto","lighthalzen,262,75","^DAA520");
+					viewpoint 1,262,75,2,0xDAA520;
+					next;
+					break;
+				case 4:
+					callsub L_Mark, F_Navi("Loja de Armas","lighthalzen,194,35","^7B68EE");
+					viewpoint 1,194,35,3,0x7B68EE;
+					next;
+					break;
+				case 5:
+					callsub L_Mark, F_Navi("Shopping","lighthalzen,199,164","^B91A4D");
+					viewpoint 1,202,106,4,0xB91A4D;
+					next;
+					break;
+				case 6:
+					callsub L_Mark, F_Navi("Central de Polícia","lighthalzen,234,276","^008000");
+					viewpoint 1,234,276,5,0x008000;
+					next;
+					break;
+				case 7:
+					callsub L_Mark, F_Navi("Joalheria","lighthalzen,96,110","^0000FF");
+					viewpoint 1,96,110,6,0x0000FF;
+					next;
+					break;
+				case 8:
+					callsub L_Mark, F_Navi("Corp. Eventos Incríveis","lighthalzen,238,217","^000080");
+					viewpoint 1,238,217,7,0x000080;
+					next;
+					break;
+				case 9:
+					callsub L_Mark, F_Navi("Laboratório de Somatologia","lighthalzen,101,243","^800080");
+					viewpoint 1,101,243,8,0x800080;
+					next;
+					break;
+				case 10:
+					callsub L_Mark, F_Navi("Associação dos Alquimistas","lighthalzen,54,132","^0A9696");
+					viewpoint 1,54,132,9,0x0A9696;
+					next;
+					break;
+				case 11:
+					set .@loop,0;
+					break;
+				}
+			}
+			break;
+		case 2:
+			set .@loop,1;
+			while (.@loop) {
+				switch(select("[ Armeiro ]:[ Seiayablem ]:[ Loja de Bichinhos ]:[ Funcionárias Kafra ]:[ Corp. Eventos Incríveis ]:Menu Anterior")) {
+				case 1:
+					mes "[Guia de Lighthalzen]";
+					mes "Você pode ir até Fulerr,";
+					mes "o ^0A9696Armeiro^000000";
+					mes "no 1° andar da loja de armas.";
+					viewpoint 1,194,35,10,0x0A9696;
+					next;
+					callsub L_Mark, "^0A9696Armeiro^000000";
+					next;
+					break;
+				case 2:
+					mes "[Guia de Lighthalzen]";
+					mes "^4B0082Seiyablem^000000 pode adicionar";
+					mes "slots em seus itens";
+					mes "no 1° andar";
+					mes "da Loja de Armas.";
+					viewpoint 1,194,35,11,0x4B0082;
+					next;
+					callsub L_Mark, "^4B0082Seiyablem^000000",1;
+					next;
+					break;
+				case 3:
+					callsub L_Mark, F_Navi("Loja de Bichinhos","lighthalzen,222,191","^FF4500");
+					viewpoint 1,222,191,12,0xFF4500;
+					next;
+					break;
+				case 4:
+					callsub L_Mark, "^008080Funcionárias Kafra^000000";
+					viewpoint 1,164,99,13,0x008080;
+					viewpoint 1,164,99,14,0x008080;
+					next;
+					break;
+				case 5:
+					callsub L_Mark, F_Navi("Corp. Eventos Incríveis","lighthalzen,94,247","^FF1493");
+					viewpoint 1,94,247,15,0xFF1493;
+					next;
+					break;
+				case 6:
+					set .@loop,0;
+					break;
+				}
+			}
+			break;
+		case 3:
+			mes "[Guia de Lighthalzen]";
+			mes "Claro, eu removerei todas as marcações do seu Mini-mapa.";
+			mes "Há mais alguma coisa que eu possa fazer por você?";
+			viewpoint 2,160,217,0,0xFFFFFF;
+			viewpoint 2,203,257,1,0xFFFFFF;
+			viewpoint 2,262,75,2,0xFFFFFF;
+			viewpoint 2,194,35,3,0xFFFFFF;
+			viewpoint 2,202,106,4,0xFFFFFF;
+			viewpoint 2,234,276,5,0xFFFFFF;
+			viewpoint 2,96,110,6,0xFFFFFF;
+			viewpoint 2,238,217,7,0xFFFFFF;
+			viewpoint 2,101,243,8,0xFFFFFF;
+			viewpoint 2,54,132,9,0xFFFFFF;
+			viewpoint 2,194,35,10,0xFFFFFF;
+			viewpoint 2,194,35,11,0xFFFFFF;
+			viewpoint 2,222,191,12,0xFFFFFF;
+			viewpoint 2,164,99,13,0xFFFFFF;
+			viewpoint 2,164,99,14,0xFFFFFF;
+			viewpoint 2,94,247,15,0xFFFFFF;
+			next;
+			break;
+		case 4:
+			mes "[Guia de Lighthalzen]";
+			mes "Aproveite suas aventuras!";
+			close2;
+			cutin "ein_soldier",255;
+			end;
+		}
+	}
+	end;
+L_Mark:
+	mes "[Guia de Lighthalzen]";
+	mes "Eu vou marcar a localização";
+	mes "da"+((getarg(1,0))?"(o) ":"(o/s) ")+getarg(0);
+	mes "em seu Mini-mapa.";
+	mes "Você gostaria de conhecer outros locais?";
+	return;
+}
+lighthalzen,220,310,3	duplicate(GuiaLighthazlen)	Guia de Lighthalzen#lhz02	852
+lighthalzen,154,100,5	duplicate(GuiaLighthazlen)	Guia de Lighthalzen#lhz03	852
+lighthalzen,307,224,3	duplicate(GuiaLighthazlen)	Guia de Lighthalzen#lhz04	852
+lighthalzen,247,82,3	duplicate(GuiaLighthazlen)	Guia de Lighthalzen#lhz05	852

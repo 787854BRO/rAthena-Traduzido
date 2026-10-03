@@ -1,0 +1,2167 @@
+//===== rAthena Script =======================================
+//= Rune Knight Job Quest
+//===== By: ==================================================
+//= L0ne_W0lf, Muad_Dib
+//===== Current Version: =====================================
+//= 1.6
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Job change Quest from Knight / Lord Knight -> Rune Knight.
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//= 1.1 Added forgotten Header. [Masao]
+//= 1.2 Added Energy Rune item reward. [Masao]
+//= 1.3 Updated script, optimized. [Euphy]
+//= 1.3a Added 'npcskill' command. [Euphy]
+//= 1.4 Fixed a few bugs. [Euphy]
+//= 1.4a Moved Kafra to main file. [Euphy]
+//= 1.5 Added GM management function. [Euphy]
+//= 1.6 Added VIP features. [Euphy]
+//============================================================
+
+prt_in,162,24,3	script	Cavaleiro Imponente	470,2,2,{
+//	[Cavaleiro Rúnico Manuel]
+	mes "[Cavaleiro Rúnico Manuel]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "Agora você faz parte da nossa seleta irmandade. Ainda me lembro de quando nos conhecemos.";
+		next;
+		mes "[Cavaleiro Rúnico Manuel]";
+		mes "Esforce-se para viver o caminho da espada com honra...";
+		next;
+		mes "[Cavaleiro Rúnico Manuel]";
+		mes "Um brinde ao nosso novo futuro...";
+		close;
+	}
+	if (job_rune_edq == 0) {
+		mes "Há muitos caminhos que alguém pode seguir no mundo. A maioria das pessoas consegue ver seu caminho, mas não o segue de verdade...";
+		next;
+		mes "[Cavaleiro Rúnico Manuel]";
+		mes "De qualquer forma, as bebidas aqui são realmente boas. Gostaria de tomar uma?";
+		next;
+		if(select("Claro, vamos beber.:Eu recuso.") == 2) {
+			mes "[Cavaleiro Rúnico Manuel]";
+			mes "Tem certeza? Você não conhece a verdadeira elegância dessas bebidas...";
+			close;
+		}
+		mes "[Cavaleiro Rúnico Manuel]";
+		if (BaseJob == Job_Knight) {
+			mes "Você também trilha o caminho da espada, não é? Então podemos nos entender. Bebidas têm um gosto melhor quando é com um companheiro Espadachim.";
+			next;
+			mes "[Cavaleiro Rúnico Manuel]";
+			mes "Esta rodada é por minha conta.";
+			mes "Um brinde à amizade~";
+			next;
+			mes "[Cavaleiro Rúnico Manuel]";
+			if (BaseLevel > 98 && JobLevel > 49) {
+				mes "Na minha opinião, você parece pronto para iniciar um novo caminho...";
+				next;
+				mes "[Cavaleiro Rúnico Manuel]";
+				mes "Trilhar o caminho da espada é uma batalha perpétua. A partir de agora, você pode enfrentar uma jornada difícil...";
+				next;
+				mes "[Cavaleiro 	 Manuel]";
+				mes "Se quiser seguir esse novo caminho e superar seus limites atuais, estou disposto a ajudá-lo.";
+				next;
+				mes "[Cavaleiro Rúnico Manuel]";
+				mes "O verdadeiro caminho de um Espadachim que aprendeu a harmonia para romper os limites da espada é tornar-se um Cavaleiro Rúnico.";
+				next;
+				mes "[Cavaleiro Rúnico Manuel]";
+				mes "Você não gostaria de se juntar à nossa irmandade? Você parece totalmente qualificado para se tornar um de nós.";
+				next;
+				mes "[Cavaleiro Rúnico Manuel]";
+				mes "Se estiver interessado, vou apresentá-lo aos mestres que o guiarão no caminho do Cavaleiro Rúnico com minha recomendação.";
+				next;
+				switch(select("Ainda não estou pronto.:Estou pronto para ser um Cavaleiro Rúnico.")) {
+				case 1:
+					mes "[Cavaleiro Rúnico Manuel]";
+					mes "Certo. Todo desafio exige preparação. Ok, esperarei por você.";
+					next;
+					mes "[Cavaleiro Rúnico Manuel]";
+					mes "Claro, eu só o aceitarei se você estiver cem por cento convicto de se tornar um Cavaleiro Rúnico.";
+					close;
+				case 2:
+					if (VIP_SCRIPT) {
+						callfunc "VIP_Third_Class";
+						set job_rune_edq,1;
+						setquest 3200;
+						next;
+					}
+					mes "[Cavaleiro Rúnico Manuel]";
+					mes "Tem certeza agora?";
+					mes "Deixe-me enviar uma mensagem aos meus camaradas de que você deseja se juntar às nossas fileiras.";
+					next;
+					set job_rune_edq,1;
+					setquest 3200;
+					mes "[Cavaleiro Rúnico Manuel]";
+					mes "Você conhece um lugar chamado Glast Heim? Há um Cavaleiro Rúnico esperando por você lá, ele irá guiá-lo até a entrada da Torre de Glast Heim.";
+					next;
+					mes "[Cavaleiro Rúnico Manuel]";
+					mes "Meu nome é Manuel. Sou chamado de o Cavaleiro Rúnico do Brilho. Quando disser a ele que é um candidato a Cavaleiro Rúnico com minha recomendação, ele cuidará do resto.";
+					next;
+					mes "[Cavaleiro Rúnico Manuel]";
+					mes "Aguardarei o dia em que você se torne nosso camarada como um verdadeiro Cavaleiro Rúnico.";
+					close;
+				}
+			}
+			mes "Se você continuar trilhando o caminho da espada, eventualmente sentirá os limites do seu poder. Assim como eu senti antes...";
+			next;
+			mes "[Cavaleiro Rúnico Manuel]";
+			mes "Quando esse dia chegar, haverá um caminho para ajudá-lo a superar esse limite. Até o dia em que sua força tenha crescido, ao menos podemos beber juntos.";
+			next;
+			mes "[Cavaleiro Rúnico Manuel]";
+			mes "Um brinde ao dia em que sua força será digna do poder de um Cavaleiro Rúnico!";
+			close;
+		}
+		mes "Acredito que o vento da mudança nem sempre é bom.";
+		next;
+		mes "[Cavaleiro Rúnico Manuel]";
+		mes "Assim como o sabor desta bebida. Eu gostaria que o sabor desta bebida permanecesse o mesmo para sempre.";
+		close;
+	} else if (job_rune_edq == 1) {
+		mes "O Cavaleiro Rúnico está esperando por você em Glast Heim. Ele o guiará até a entrada da Torre de Glast Heim.";
+		next;
+		mes "[Cavaleiro Rúnico Manuel]";
+		mes "Diga a ele que você é um candidato a Cavaleiro Rúnico e ele cuidará do resto.";
+		next;
+		mes "[Cavaleiro Rúnico Manuel]";
+		mes "Aguardarei o dia em que você se torne nosso camarada como um verdadeiro Cavaleiro Rúnico.";
+		close;
+	}
+	mes "Você não tem coisas para fazer agora?";
+	next;
+	mes "[Cavaleiro Rúnico Manuel]";
+	mes "Não? Então deixe pra lá.";
+	mes "Você não adora o cheiro do álcool?";
+	close;
+}
+
+glast_01,44,363,3	script	Líder Rúnico Jungberg	468,2,2,{
+	mes "[Líder Rúnico Jungberg]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "Ah, você deve ser "+strcharinfo(0)+".";
+		mes "Bem-vindo.";
+		next;
+		mes "[Líder Rúnico Jungberg]";
+		mes "Estamos ansiosos para que você nos ajude a espalhar a honra dos Cavaleiros Rúnicos pelo mundo.";
+		next;
+		mes "[Líder Rúnico Jungberg]";
+		mes "Então, como posso ajudá-lo?";
+		next;
+		switch(select("Ir ao local de encontro.:Nada.")) {
+		case 1:
+			mes "[Líder Rúnico Jungberg]";
+			mes "Certo. Irei enviá-lo agora. Até breve.";
+			close2;
+			warp "job3_rune01",80,65;
+			end;
+		case 2:
+			close;
+		}
+	}
+	if (BaseJob != Job_Knight) {
+	mes "Sou o único cavaleiro que mantém o caminho do Espadachim neste lugar amaldiçoado, Glast Heim.";
+	next;
+	mes "[Líder Rúnico Jungberg]";
+	mes "Como você não segue o caminho da Espada, não entenderia nosso espírito. Eu consigo me virar sozinho. Siga o seu próprio caminho.";
+	close;
+}
+if (job_rune_edq < 2) {
+	mes "Você é um fantasma amaldiçoado deste lugar? Ou é apenas um aventureiro ignorante?";
+	next;
+	mes "[Líder Rúnico Jungberg]";
+	mes "Se você é um humano vivo, então escute-me com atenção. Eu não arriscaria minha vida aqui apenas para conversar com qualquer um.";
+	next;
+	if (job_rune_edq == 0) {
+		switch(select("Quem é você?:O que está fazendo aqui?:Cancelar.")) {
+		case 1:
+			mes "[Líder Rúnico Jungberg]";
+			mes "Sou o único cavaleiro que mantém o caminho do Espadachim neste lugar amaldiçoado, Glast Heim.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Se você também segue o caminho do Espadachim, nossos caminhos certamente se cruzarão novamente quando alcançar seu verdadeiro potencial.";
+			close;
+		case 2:
+			mes "[Líder Rúnico Jungberg]";
+			mes "Sou um homem que segue o caminho da Espada. Mas não sou exatamente como vocês, cavaleiros de Rune-Midgard.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Não somos como os outros Cavaleiros, que estão obcecados com pompas e cerimônias, então talvez ainda não tenha ouvido falar de nós.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Somos os Cavaleiros Rúnicos. Um grupo que conduz o verdadeiro poder, bem como a força física, ao caminho justo da Espada.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Temos vivido em segredo aqui nas profundezas de Glast Heim por meio século, mas chegou a hora de revelar nosso propósito ao mundo.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Agora existem vários instrutores procurando por espadachins talentosos em diversas partes de Rune-Midgard. Eles buscam pessoas que seguirão o verdadeiro caminho da Espada.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Se deseja tornar-se um Cavaleiro Rúnico, obtenha uma recomendação de um dos guias e volte a falar comigo.";
+			close;
+		case 3:
+			close;
+		}
+	} else if (job_rune_edq == 1) {
+		switch(select("Vim me tornar um Cavaleiro Rúnico.:Cancelar.")) {
+		case 1:
+			mes "[Líder Rúnico Jungberg]";
+			mes "Hm... Você é o candidato a Cavaleiro Rúnico de quem o Manuel falou?";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Seu nome é "+strcharinfo(0)+", certo? Posso ver claramente que está qualificado para se tornar nosso camarada.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Ótimo. Não preciso mais perguntar sobre sua qualificação para se juntar aos nossos irmãos...1.S... Agora lhe darei sua primeira missão.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Encontre o local de encontro dos Cavaleiros Rúnicos escondido dentro de Glast Heim.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Há um lugar que leva à sala secreta de reunião dos Cavaleiros Rúnicos dentro da Cavalaria de Glast Heim. Encontre esse lugar por conta própria.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Se conseguir encontrá-lo, haverá alguém esperando para recebê-lo. Então vamos começar.";
+			next;
+			mes "[Líder Rúnico Jungberg]";
+			mes "Claro que sua vida pode estar em risco por causa dos fantasmas de Glast Heim... mas superar esse risco não deve ser difícil para um candidato a Cavaleiro Rúnico.";
+			set job_rune_edq,2;
+			changequest 3200,3201;
+			close;
+		case 2:
+			close;
+		}
+	}
+} else if (job_rune_edq == 2) {
+	mes "A 1ª missão é encontrar o local de encontro dos Cavaleiros Rúnicos escondido dentro de Glast Heim.";
+	next;
+	mes "[Líder Rúnico Jungberg]";
+	mes "Há um lugar que leva ao local secreto de reunião dos Cavaleiros Rúnicos dentro da Cavalaria de Glast Heim. Encontre esse lugar por conta própria.";
+	next;
+	mes "[Líder Rúnico Jungberg]";
+	mes "Se conseguir encontrá-lo, haverá alguém esperando para recebê-lo. Então vamos começar.";
+	next;
+	mes "[Líder Rúnico Jungberg]";
+	mes "Claro que sua vida pode estar em risco por causa dos fantasmas de Glast Heim... mas superar esse risco não deve ser difícil para um candidato a Cavaleiro Rúnico.";
+	close;
+}
+	mes "Parece que você ainda está realizando o teste. Faça o seu melhor e passe por todas as provas.";
+	next;
+	switch(select("Quero ir ao local de encontro.:Encerrar conversa.")) {
+	case 1:
+		mes "[Líder Rúnico Jungberg]";
+		mes "Certo. Vou te enviar agora. Verificarei você depois.";
+		close2;
+		warp "job3_rune01",80,65;
+		end;
+	case 2:
+		close;
+	}
+}
+
+gl_knt02,150,55,3	script	Funcionário dos Rúnicos	83,2,2,{
+	mes "[Funcionário dos Cavaleiros Rúnicos]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "Bem-vindo, "+strcharinfo(0)+". Deseja ir ao local de encontro?";
+		next;
+		switch(select("Sim, leve-me até lá.:Tenho outros assuntos.:Cancelar.")) {
+		case 1:
+			mes "[Funcionário dos Cavaleiros Rúnicos]";
+			mes "Certo, entre. Eu o guiarei.";
+			close2;
+			warp "job3_rune01",80,65;
+			end;
+		case 2:
+			mes "[Funcionário dos Cavaleiros Rúnicos]";
+			mes "Ah, é mesmo? Então continue com seu trabalho. Eu continuarei com minha missão.";
+			close;
+		case 3:
+			close;
+		}
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq == 1) {
+	mes "Ah... esta área é restrita, você está proibido de estar aqui. Por favor, não faça nada que atrapalhe nossos esforços.";
+	next;
+	mes "[Funcionário dos Cavaleiros Rúnicos]";
+	mes "Embora... você pareça ter potencial para se tornar um companheiro daqueles que seguem o caminho da espada.";
+	next;
+	mes "[Funcionário dos Cavaleiros Rúnicos]";
+	mes "Tenho certeza de que nossos caminhos irão se cruzar em breve. Acredito que nos encontraremos novamente.";
+	close;
+} else if (job_rune_edq > 1) {
+	mes "Você encontrou este lugar corretamente. Jungberg me enviou para levá-lo ao local de encontro.";
+	next;
+	mes "[Funcionário dos Cavaleiros Rúnicos]";
+	mes "Quando chegar ao local de encontro, fale com o Capitão Tigris. Ele está sempre esperando novos membros aparecerem.";
+	next;
+	mes "[Funcionário dos Cavaleiros Rúnicos]";
+	mes "Bem, por favor, me siga.";
+	close2;
+	warp "job3_rune01",80,65;
+	end;
+	}
+}
+mes "Espere! Este lugar é proibido. Não me importo que ande por aí, mas nunca mais me perturbe.";
+close;
+}
+
+job3_rune01,80,60,3	script	Capitão dos Rúnicos	470,2,2,{
+	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1000) {
+		mes "Você está carregando coisas demais. Não pode continuar. Por favor, tente novamente depois de se livrar de algum peso.";
+		close;
+	}
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "[Capitão Tigris]";
+		if (job_rune_edq == 23) {
+			mes "Ah, entendo... Por favor, aguarde um momento.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Esqueci de verificar se você está qualificado para receber o presente de celebração pela mudança de classe...";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Deixe-me verificar o relatório dos instrutores que cuidaram dos seus testes.";
+			next;
+			mes "[Capitão Tigris]";
+			if (job_rune_edq3 == 0) {
+				mes "Hm... Isso é perfeito. Você chegou aqui com registros muito raros e excelentes.";
+				set .@item,2140; //Escudo Espiritual
+			} else if (job_rune_edq3 > 2 && job_rune_edq3 < 6) {
+				mes "Hmm... Isso é ótimo. Você chegou aqui com registros decentes.";
+				set .@item,2794; //Anel de Runa Mágica
+			} else {
+				mes "Hmm, nada mal. Não é um grande registro, mas você deu o seu melhor.";
+				set .@item,15002; //Armadura Rúnica
+			}
+			next;
+			mes "[Capitão Tigris]";
+			mes "Aqui, pegue isto. É um presente que gosto de dar à geração mais jovem como você.";
+			getitem .@item,1; //Escudo Espiritual
+			set job_rune_edq,24;
+			close;
+		}
+		mes "Ei, há quanto tempo, "+strcharinfo(0)+". Não acho que tenhamos assuntos importantes a tratar, mas fique à vontade.";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq == 2) {
+			mes "Um homem usando uma armadura gloriosa e com paixão nos olhos está diante de mim.";
+			next;
+			mes "Ele me encara com um olhar distante e, após um momento, começa a falar.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Ei, você é o candidato a Cavaleiro Rúnico que o Manuel recomendou? Sou o Capitão Tigris dos Cavaleiros Rúnicos, e seu nome é?";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Ah, já ouvi antes, mas esqueci. Certo, era você, "+strcharinfo(0)+", não é? Sinceramente, seja muito bem-vindo por ter vindo até aqui.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Vamos ver. Quantos candidatos já vieram a esta sala? Ei, Lunarea, qual o número deste candidato?";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "... 172º.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Foi o que ela disse, meu amigo. Na verdade, eu não queria ver o próximo. Então, por favor, faça o seu melhor.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Vamos ver... Manuel e Jungberg já devem ter feito a verificação básica, então vamos iniciar o teste imediatamente.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Lunarea, prossiga com o primeiro teste.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "...";
+			next;
+			mes "Essa Cavaleira Rúnica de pele pálida chamada Lunarea está acenando com a cabeça silenciosamente e me observando.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "O teste começa agora. Primeiro, você fará o 1º teste com essa bela dama gelada, então dê o seu melhor.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Quando o teste terminar, fale comigo. De qualquer forma, você precisará acompanhar o progresso dos testes com outras pessoas.";
+			next;
+			set job_rune_edq,3;
+			changequest 3201,3202;
+			mes "[Capitão Tigris]";
+			mes "Pois bem, estarei esperando aqui. Vá fazer o teste.";
+			close;
+		} else if (job_rune_edq == 3) {
+			mes "[Capitão Tigris]";
+			mes "Agora o teste começa. Primeiro, você fará o 1º teste com essa bela dama gelada, então dê o seu melhor.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Quando o teste terminar, fale comigo... de qualquer forma, você precisará acompanhar o progresso dos testes com outras pessoas.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Pois bem, estarei esperando aqui. Vá fazer o teste.";
+			close;
+		} else if (job_rune_edq > 3 && job_rune_edq < 6) {
+			mes "[Capitão Tigris]";
+			mes "Ei você, não estava fazendo um teste? Lunarea, o que aconteceu? O teste já acabou?";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "......";
+			next;
+			mes "Ela apenas balança a cabeça sem dizer uma palavra e me encara. Seu olhar é penetrante.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Certo, Lunarea. Ei, escute com atenção. Lunarea é uma pessoa de poucas palavras e muito quieta, mas você não deve subestimá-la.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Mesmo para mim... não, qualquer um de nós que a irrite não conseguirá lidar com as consequências.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "......";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Whoa, não me olhe assim. Está vendo isso? Aspirante a Cavaleiro Rúnico. Volte para Lunarea e siga o teste conforme ela indicar. Será melhor para você.";
+			close;
+		} else if (job_rune_edq == 6) {
+			mes "[Capitão Tigris]";
+			mes "Hmm, parece que você passou no teste da Lunarea? Acho que não será necessário mais testes básicos.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Indiscutivelmente, nós Cavaleiros Rúnicos temos nossas diferenças, mas não devemos esquecer nossas raízes como Espadachins.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "A partir de agora, este será o verdadeiro teste para se tornar o Cavaleiro Rúnico que deseja ser. Você precisará se preparar para o próximo teste.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Renoa, sei que você esperou por muito tempo, mas agora é sua vez.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Realmente esperei bastante, mas o teste da Lunarea e o meu são tão diferentes quanto o céu e a terra. Espero que você não seja apenas mais um brutamontes sem cérebro.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Hahaha. Ouviu isso? Não será fácil desta vez. Espero que consiga superar, meu amigo.";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Vá até aquela dama flamejante na sala da biblioteca para realizar o próximo teste e depois volte.";
+			set job_rune_edq,7;
+			changequest 3204,3205;
+			close;
+} else if (job_rune_edq > 6 && job_rune_edq < 16) {
+	mes "[Capitão Tigris]";
+	mes "Agora sim, este será o verdadeiro teste como um Cavaleiro Rúnico. Você precisa se preparar para o próximo teste.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Renoa, sei que você esperou por muito tempo, mas agora é a sua vez.";
+	next;
+	mes "[Cavaleira Rúnica, Renoa]";
+	mes "Realmente esperei bastante, mas o teste da Lunarea e o meu são tão diferentes quanto o céu e a terra. Espero que você não seja só mais um brutamontes sem cérebro.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Hahaha. Ouviu isso? Não vai ser fácil desta vez. Espero que consiga passar, meu amigo.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Vá até aquela dama flamejante na sala da biblioteca para realizar o próximo teste e depois volte.";
+	close;
+} else if (job_rune_edq == 16) {
+	mes "[Capitão Tigris]";
+	mes "Ah, ouvi dizer que você passou no teste da Renoa, que poucos conseguiram superar.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Soube que muitos candidatos desistiram durante o teste dela.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Você precisa entender. Acredito que esse teste expressa exatamente a personalidade da instrutora. Hmm...";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Agora, só resta o último teste. Quando passar por ele, estará a caminho de se tornar oficialmente um Cavaleiro Rúnico.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Faça o teste final com o Cavaleiro Rúnico Velpino, que está ao lado direito do arsenal.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Não estou brincando, estou realmente ansioso pelo seu novo começo como Cavaleiro Rúnico.";
+	mes "Então, por favor, dê o seu melhor.";
+	set job_rune_edq,17;
+	changequest 3215,3216;
+	close;
+} else if (job_rune_edq > 16 && job_rune_edq < 22) {
+	mes "[Capitão Tigris]";
+	mes "Faça o teste final com o Cavaleiro Rúnico Velpino, que está ao lado direito do arsenal.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Não estou brincando, estou realmente ansioso pelo seu novo começo como Cavaleiro Rúnico. Então, por favor, dê o seu melhor.";
+	close;
+} else if (job_rune_edq == 22) {
+	mes "[Capitão Tigris]";
+	mes "Parabéns. Agora você passou por todos os testes e pode seguir o caminho de um Cavaleiro Rúnico.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Estou feliz do fundo do meu coração. Estou muito orgulhoso de você.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Agora pode ser você mesmo entre nós e se orgulhar como um dos nossos.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Aqui estão as avaliações da Lunarea, da Renoa e do Velpino, que conduziram seus testes.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Não é muito, mas temos alguns presentes para os novos Cavaleiros Rúnicos que obtiveram boas notas nos testes.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Haverá diferenças dependendo da pontuação, mas todos são úteis para qualquer Cavaleiro Rúnico.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Por fim, há algumas coisas a se atentar como um Cavaleiro que passou pela mudança de classe para Lorde em Valhalla.";
+	next;
+	callsub L_Warning;
+	mes "[Capitão Tigris]";
+	mes "Bem, meu trabalho está concluído agora. Gostaria de começar sua nova vida como Cavaleiro Rúnico?";
+	next;
+	switch(select("Tudo está pronto.:Preciso de mais tempo para pensar.")) {
+	case 1:
+		if (SkillPoint != 0 || checkriding()) {
+			mes "[Capitão Tigris]";
+			mes "Você não estava prestando atenção?";
+			next;
+			callsub L_Warning;
+			mes "[Capitão Tigris]";
+			mes "Se entendeu, então prepare-se e volte.";
+			close;
+		}
+		if (BaseLevel < 99 || JobLevel < 50) {
+			mes "[Capitão Tigris]";
+			mes "Parece que ainda não está pronto?";
+			close;
+		}
+		if (ismounting()) {
+			mes "[Capitão Tigris]";
+			mes "Por favor, desmonte da montaria e volte novamente.";
+			close;
+		}
+		mes "[Capitão Tigris]";
+		mes "Nosso Mestre, Beljeve... e o Grande Sábio, Serpeone...";
+		next;
+		mes "[Capitão Tigris]";
+		mes "Este Cavaleiro irá trilhar o caminho dos Cavaleiros Rúnicos conosco, então por favor, dêem sua bênção.";
+		next;
+		getitem 5746,1; //Poder das Runas
+		getitem 2795,1; //Anel de Maçã Verde
+		set job_rune_edq,23;
+		completequest 3219;
+		jobchange roclass(eaclass()|EAJL_THIRD);
+		mes "[Capitão Tigris]";
+		mes "Parabéns.";
+		mes "Agora você é um honrado Cavaleiro Rúnico.";
+		mes "Lembre-se deste dia a partir de hoje!";
+		next;
+		mes "[Capitão Tigris]";
+		mes "Há um presente real do Reino de Rune-Midgard para todos os novos Cavaleiros Rúnicos.";
+		next;
+		mes "[Capitão Tigris]";
+		mes "Me dê um momento para pegar o presente real e fale comigo novamente.";
+		close;
+	case 2:
+		close;
+	}
+		}
+	}
+	mes "[Capitão Tigris]";
+	mes "Não sei como conseguiu chegar até aqui. Mas parece que está em um lugar onde não deveria estar.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Volte para onde pertence.";
+	close2;
+	warp "gl_knt02",150,55;
+	end;
+L_Warning:
+	mes "[Capitão Tigris]";
+	mes "Se estiver usando algum equipamento ou segurando algo, por favor, esvazie isso para o momento da mudança de classe.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Fale com a Funcionária Kafra para utilizar o armazém.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Você talvez já saiba, mas se estiver montado em um Peco Peco, deveria tê-lo deixado para trás. Se trouxe, deixe-o e volte novamente.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Mais uma coisa. Se tiver pontos de habilidade restantes, use todos e aprenda as habilidades. Não será possível mudar de classe se ainda tiver pontos não utilizados.";
+	next;
+return;
+}
+
+job3_rune01,90,50,3	script	Cavaleira Rúnica Lunarea	469,2,2,{
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "Ela levanta o queixo silenciosamente, acena levemente com a cabeça e me percebe.";
+		next;
+		mes "Depois de um momento, abaixa o rosto e parece absorvida em outros pensamentos.";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq == 3) {
+			mes "Ela finalmente abre a boca e começa a falar.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "5 minutos... Se você aguentar e eliminar tudo, terá sucesso.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Neste teste, o Capitão Tigris, a Renoa, o Velpino e eu estaremos presentes.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Se quiser, pode pedir ajuda a um de nós. Mas não pense que vamos ajudar sempre.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Como é um teste, aceitar ajuda nossa é totalmente sua escolha. Não importa se fizer o teste com nossa ajuda ou sozinho.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Quando estiver pronto para ir ao campo de teste, fale comigo.";
+			next;
+			switch(select("Ir para o campo de teste agora.:Quero um tempo para me preparar.")) {
+			case 1:
+				callsub L_Test,0;
+				close;
+			case 2:
+				close;
+			}
+		} else if (job_rune_edq == 4) {
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Você falhou? Mas não há limite para o número de tentativas.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Se quiser tentar novamente, posso enviá-lo ao campo de teste.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "5 minutos... Se você aguentar e eliminar tudo, terá sucesso.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Se estiver pronto para ir ao campo de teste, fale comigo.";
+			next;
+			switch(select("Ir para o campo de teste agora.:Quero um tempo para me preparar.")) {
+			case 1:
+				if (checkquest(3220,PLAYTIME) == 1) {
+					mes "[Cavaleira Rúnica, Lunarea]";
+					mes "Uma vez que alguém entra no campo de teste, você não pode entrar diretamente. O teste é realizado um por um.";
+					next;
+					mes "[Cavaleira Rúnica, Lunarea]";
+					mes "Quando for sua vez, você será enviado diretamente para lá.";
+					close;
+				}
+				callsub L_Test,1;
+				close;
+			case 2:
+				close;
+			}
+		} else if (job_rune_edq == 5) {
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Seu teste foi bem-sucedido?";
+			next;
+			mes "Ela mostra um leve sorriso quase imperceptível e me encara.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Esta parte do teste está encerrada. Vá falar com o Capitão Tigris.";
+			set job_rune_edq,6;
+			changequest 3203,3204;
+			close;
+		} else if (job_rune_edq > 5) {
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Esta parte do teste está encerrada. Vá falar com o Capitão Tigris.";
+			next;
+			mes "[Cavaleira Rúnica, Lunarea]";
+			mes "Há outros testes que você precisa completar. Espero que faça um bom trabalho.";
+			close;
+		}
+	}
+	mes "Essa Cavaleira Rúnica de pele pálida e olhar ausente parece não se importar. Claro, ela também não parece interessada com minha presença.";
+	close;
+L_Test:
+	mes "Ela acena com a cabeça e estende levemente a mão. Em seguida, saca sua espada e faz um sinal.";
+	if ($@job_rune_test1 == 0) {
+		if (getarg(0) == 0) {
+			set job_rune_edq,4;
+			changequest 3202,3203;
+			setquest 3220; // ?
+		} else if (checkquest(3220) > -1) {
+			erasequest 3220;
+			setquest 3220;
+		}
+		set $@job_rune_test1,1;
+		close2;
+		warp "job3_rune02",38,40;
+		end;
+	}
+	// Tradução personalizada
+	next;
+	mes "Mas sua expressão mudou de repente enquanto olhava e começava a falar.";
+	next;
+	mes "[Cavaleira Rúnica, Lunarea]";
+	mes "Agora... a sala de testes está ocupada no momento...";
+	next;
+	mes "[Cavaleira Rúnica, Lunarea]";
+	mes "Você terá que esperar... é regra que o teste ocorra um por vez.";
+	next;
+	mes "[Cavaleira Rúnica, Lunarea]";
+	mes "Espere apenas 5 minutos e será sua vez.";
+	close;
+}
+
+job3_rune01,55,50,3	script	Cavaleira Rúnica Renoa	469,2,2,{
+	mes "[Cavaleira Rúnica, Renoa]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "Parabéns por se tornar um dos nossos. Cavaleiro Rúnico Júnior, "+strcharinfo(0)+".";
+		next;
+		mes "[Cavaleira Rúnica, Renoa]";
+		mes "Em breve você verá claramente o caminho que devemos seguir.";
+		next;
+		mes "[Cavaleira Rúnica, Renoa]";
+		mes "Até lá, estarei aqui buscando mais candidatos como você.";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq < 7) {
+			mes "Você é mais um que quer se tornar um Cavaleiro Rúnico? Já vieram tantos hoje.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "É uma pena que poucos candidatos chegaram até a minha parte do teste, então estou apenas descansando um pouco.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Se você vai fazer o teste dos Cavaleiros Rúnicos, espero que dê o seu melhor. Isso não será tão fácil quanto o teste da Lunarea, ok?";
+			close;
+		} else if (job_rune_edq == 7) {
+			mes "Finalmente! É a minha vez? Estou tão feliz.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Tantos candidatos têm falhado no teste da Lunarea que já perdi a conta.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Sou Renoa. Sou responsável pelo ensino e teste de runas e magia para os candidatos a Cavaleiro Rúnico.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Obrigada por todo o esforço que teve até agora. Certo, então vamos lá.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Primeiro, vou lhe dar uma tarefa. Vamos começar estudando. Vá até a biblioteca e estude estes livros.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Hmm, ^0000FFRunas e Cavaleiros Rúnicos^000000, ^0000FFOs Princípios das Runas^000000, ^0000FFRunas, Fabricação e Uso^000000. Comece com esses três...";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Leia os livros com atenção e volte. Se você for do tipo que não gosta de ler e estudar, não será fácil viver como um Cavaleiro Rúnico.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Não se preocupe, não exigiremos o mesmo conhecimento que os magos de Geffen ou Juno. Mas também não pode ser um ignorante.";
+			set job_rune_edq,8;
+			changequest 3205,3206;
+			close;
+		} else if (job_rune_edq > 7 && job_rune_edq < 11) {
+			mes "Primeiro, vou lhe dar uma tarefa. Vamos começar estudando. Vá até a biblioteca e estude estes livros.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Hmm, ^0000FFRunas e Cavaleiros Rúnicos^000000, ^0000FFOs Princípios das Runas^000000, ^0000FFRunas, Fabricação e Uso^000000. Comece com esses três...";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Leia os livros com atenção e volte. Se você for do tipo que não gosta de ler e estudar, não será fácil viver como um Cavaleiro Rúnico.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Não se preocupe, não exigiremos o mesmo conhecimento que os magos de Geffen ou Juno. Mas também não pode ser um ignorante.";
+			close;
+		} else if (job_rune_edq == 11) {
+			mes "Você leu todos os livros da biblioteca? Não será fácil de ler, mas se estiver determinado a se tornar um Cavaleiro Rúnico, precisa ter esse tipo de conhecimento básico.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Basicamente, o poder da magia não pode ser usado sem treinamento para extrair o poder da natureza e dos elementos.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Por isso, classes como Feiticeiro e Sábio surgiram, e a magia se tornou um campo sagrado só deles.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "O líder dos Cavaleiros Rúnicos, Beljeve, já tinha contato com as fadas antes mesmo da criação da porta dimensional do Ash-Vacuum, quando Satan Morroc ressuscitou.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Ouvi de estudiosos da magia sobre uma tecnologia capaz de materializar a essência da magia. Comecei a estudar como transformá-la em uma runa com a ajuda deles.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Nosso Cavaleiro Rúnico nasceu como resultado desse estudo, que permite usar tanto o poder da espada quanto da magia com runas.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Você parece não entender por que estou repetindo o que já está escrito nos livros.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Então, para o segundo teste, você precisa visitar os estudiosos mágicos Laphine que ajudaram diretamente no nascimento dos Cavaleiros Rúnicos no Ash-Vacuum.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Encontre a sábia Serpeone, que tem estudado e ajudado os Cavaleiros Rúnicos no acampamento de Midgard no Ash-Vacuum.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "A sábia já está em contato conosco há muito tempo, então não se preocupe em entender a linguagem dela.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Se estiver pronto, vou guiá-lo até o portal que o levará diretamente até Serpeone. Encontre-a e receba as instruções dela.";
+			set job_rune_edq_book,0;
+			set job_rune_edq,12;
+			changequest 3206,3207;
+			close;
+		} else if (job_rune_edq > 11 && job_rune_edq < 14) {
+			mes "Se estiver pronto, abrirei o caminho até a sábia Serpeone, que está no posto de Midgard no Ash-Vacuum. Está preparado?";
+			next;
+			switch(select("Sim, estou preparado.:Ainda não.")) {
+			case 1:
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "Ótimo. Então vou te enviar agora. Mas tem uma coisa que preciso te dizer.";
+				next;
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "Você será enviado ao Ash-Vacuum. As pessoas enviadas ao posto de Midgard são aventureiros e oficiais certificados.";
+				next;
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "Beljeve tem um acordo com os outros países da aliança garantindo liberdade aos nossos Cavaleiros Rúnicos, mas...";
+				next;
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "Se quiser circular livremente por todo o Ash-Vacuum, precisará obter qualificação com a Aliança de Midgard. Isso não está sob nosso controle.";
+				next;
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "Esse acordo só nos permite enviar candidatos para o acampamento de Midgard e nenhum outro lugar.";
+				next;
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "Boa sorte.";
+				close2;
+				warp "mid_camp",235,250;
+				end;
+			case 2:
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "Quando estiver pronto, fale comigo novamente. Estou sempre por aqui.";
+				close;
+			}
+		} else if (job_rune_edq == 14) {
+			mes "Hmm, você voltou? Como está o Ash-Vacuum?";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Bem, alguém com sua força provavelmente já esteve por lá, certo?";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Agora é hora de realizar o teste relacionado às runas. Sei que passou por um processo bem complicado.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Vou lhe dar um teste que permitirá lidar diretamente com runas.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Neste teste, você criará uma Pedra Rúnica por conta própria, que também será usada no teste final.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Se lembrar do que leu na biblioteca, será capaz de criar a Pedra Rúnica aqui sem precisar da minha explicação.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Se for bem-sucedido, essa Pedra Rúnica será usada por você quando se tornar um Cavaleiro Rúnico, então dê o seu melhor.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Você precisa fabricar um total de 20 Pedras Rúnicas.";
+			mes "Lembre-se bem disso.";
+			set job_rune_edq,15;
+			changequest 3213,3214;
+			close;
+		} else if (job_rune_edq == 15) {
+			mes "Neste teste, você fabricará uma Pedra Rúnica que será usada no seu teste final.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Se lembrar dos livros que leu na biblioteca, poderá produzi-la sem minha explicação.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Se for bem-sucedido, a pedra será automaticamente enviada ao Capitão Tigris... então, esforce-se.";
+			next;
+			mes "[Cavaleira Rúnica, Renoa]";
+			mes "Você precisa fabricar exatamente 20 Pedras Rúnicas. Lembre-se disso.";
+			next;
+			switch(select("Checar quantidade de runas feitas?:Já fiz as 20 Pedras Rúnicas.")) {
+			case 1:
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "O número de Pedras Rúnicas feitas até agora é " + job_rune_edq2 + ".";
+				close;
+			case 2:
+				if (job_rune_edq2 < 20) {
+					mes "[Cavaleira Rúnica, Renoa]";
+					mes "Ei! Acho que eu disse para fazer no mínimo 20.";
+					close;
+				}
+				if (job_rune_edq2 == 20) {
+					mes "[Cavaleira Rúnica, Renoa]";
+					mes "Você trouxe exatamente a quantidade certa. Vou entregar todas as pedras ao Capitão Tigris.";
+					next;
+				} else {
+					mes "[Cavaleira Rúnica, Renoa]";
+					mes "Uau! O que é isso? Você fez mais de 20? Tudo bem por agora, mas siga as instruções da próxima vez.";
+					mes "Vou entregar todas as pedras ao Capitão Tigris.";
+					next;
+				}
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "Há um teste esperando por você que usará essas Pedras Rúnicas.";
+				next;
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "Pronto, você passou. Volte ao Capitão Tigris e conclua o próximo teste.";
+				next;
+				mes "[Cavaleira Rúnica, Renoa]";
+				mes "Ha! Você foi muito bem, considerando a dificuldade do meu teste. Se estava nervoso, agora pode relaxar.";
+				set job_rune_edq,16;
+				if (job_rune_edq2 == 20)
+					changequest 3214,3215;
+				close;
+			}
+		}
+		mes "Torne-se um orgulhoso Cavaleiro Rúnico.";
+		close;
+	}
+	mes "Como... como você entrou aqui?! Capitão, temos um espião!";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Ah? Do que está falando, Renoa? Não fale assim! Está nos fazendo parecer criminosos.";
+	next;
+	mes "[Cavaleira Rúnica, Renoa]";
+	mes "Bem, há uma pessoa não identificada aqui.";
+	next;
+	mes "[Capitão Tigris]";
+	mes "Ah... ei, amigo, venha aqui e vamos conversar por um minuto...";
+	close;
+}
+
+job3_rune01,58,51,1	script	Fornalha Rúnica	844,{
+	if (job_rune_edq < 15) {
+		mes "[Cavaleira Rúnica Renoa]";
+		mes "Você não vai querer mexer nisso. Acredite, não estou brincando.";
+		close;
+	} else if (job_rune_edq == 15) {
+		mes "Consigo ver um buraco sob a enorme Estátua da Pedra Rúnica atrás de Renoa. Claramente este é uma Fornalha de aquecimento de runas em massa, como li no livro.";
+		next;
+		if(select("Usar Fornalha de Aquecimento.:Parar.") == 2) close;
+		switch(rand(24)) {
+			case 0: setarray .@str$[0],"Ehwaz","Esta espiral em brasa é..."; break;
+			case 1: setarray .@str$[0],"Othila","A runa brilhando com esta linha oblíqua violeta é..."; break;
+			case 2: setarray .@str$[0],"Mannaz","Esta runa em formato de diamante esmeralda vivo é..."; break;
+			case 3: setarray .@str$[0],"Ansuz","A runa brilhando com este formato circular esmeralda é..."; break;
+			case 4: setarray .@str$[0],"Hagalaz","A runa brilhando com este formato de estrela azul-claro é..."; break;
+			case 5: setarray .@str$[0],"Kano","A runa brilhando com este formato de diamante vermelho é..."; break;
+			case 6: setarray .@str$[0],"Raido","A runa brilhando com esta linha oblíqua azul-claro é..."; break;
+			case 7: setarray .@str$[0],"Thurisaz","A runa brilhando com este formato circular amarelo é..."; break;
+			case 8: setarray .@str$[0],"Dagaz","A runa brilhando com este formato de espiral esmeralda é..."; break;
+			case 9: setarray .@str$[0],"Sowilo","A runa brilhando com este formato de leque azul-claro é..."; break;
+			case 10: setarray .@str$[0],"Luxanima","A runa brilhando com este formato de diamante amarelo é..."; break;
+			case 11: setarray .@str$[0],"Isa","A runa brilhando com esta espiral violeta é..."; break;
+			case 12: setarray .@str$[0],"Wyrd","A runa brilhando com este formato de espiral prateada é..."; break;
+			case 13: setarray .@str$[0],"Berkana","A runa brilhando com este formato de estrela dourada é..."; break;
+			case 14: setarray .@str$[0],"Gebo","A runa brilhando com este formato de cone amarelo é..."; break;
+			case 15: setarray .@str$[0],"Algiz","A runa brilhando com esta linha oblíqua esmeralda é..."; break;
+			case 16: setarray .@str$[0],"Arwez","A runa brilhando com este diamante cinza é..."; break;
+			case 17: setarray .@str$[0],"Teiwaz","A runa brilhando com esta esfera dourada é..."; break;
+			case 18: setarray .@str$[0],"Wunjo","A runa brilhando com este formato de estrela esmeralda é..."; break;
+			case 19: setarray .@str$[0],"Jera","A runa brilhando com esta esfera amarela é..."; break;
+			case 20: setarray .@str$[0],"Nauthiz","A runa brilhando com este formato de leque amarelo é..."; break;
+			case 21: setarray .@str$[0],"Ingz","A runa brilhando com este formato de diamante violeta é..."; break;
+			case 22: setarray .@str$[0],"Fehu","A runa brilhando com este formato circular prateado é..."; break;
+			case 23: setarray .@str$[0],"Uruz","A runa brilhando com esta espiral violeta é..."; break;
+		}
+		progressbar "ffff00",5;
+		mes "O poder mágico da runa pulsa e se agita enquanto está sendo moldado.";
+		next;
+		mes .@str$[1];
+		next;
+		input .@inputstr$;
+		if (.@inputstr$ == .@str$[0]) {
+			mes "[Cavaleira Rúnica Renoa]";
+			mes "Uau! Isso é incrível. A imagem da pedra rúnica na minha mente e a pedra rúnica modelada combinam perfeitamente. Está muito bem feita.";
+			next;
+			mes "[Cavaleira Rúnica Renoa]";
+			mes "1 runa "+.@str$[0]+" foi criada com sucesso.";
+			set job_rune_edq2, job_rune_edq2+1;
+			close;
+		}
+		if (rand(1,(6 + job_rune_edq3)) == 3) {
+			mes "[Cavaleira Rúnica Renoa]";
+			mes "Tive sorte. A imagem da pedra rúnica na minha mente e a pedra modelada não combinavam, mas ela foi criada normalmente. Isso é raro.";
+			next;
+			mes "[Cavaleira Rúnica Renoa]";
+			mes "1 runa "+.@str$[0]+" foi criada com sucesso.";
+			set job_rune_edq2, job_rune_edq2+1;
+			close;
+		}
+		mes "[Cavaleira Rúnica Renoa]";
+		mes "Era de se esperar. A imagem da pedra rúnica na minha mente e a pedra modelada não combinavam, então a taxa de sucesso foi reduzida.";
+		next;
+		mes "[Cavaleira Rúnica Renoa]";
+		mes "O refinamento da pedra rúnica falhou... Por favor, tente novamente.";
+		set job_rune_edq3, job_rune_edq3+1;
+		close;
+	}
+	mes "[Cavaleira Rúnica Renoa]";
+	mes "Você não vai querer mexer nisso. Acredite, não estou brincando.";
+	close;
+}
+
+job3_rune01,40,54,1	script	Runas e Cavaleiros Rúnicos	844,{
+	if (job_rune_edq < 8) {
+		mes "[Cavaleira Rúnica Renoa]";
+		mes "Além de mexer nas coisas deste lugar sem permissão... você conseguiria entender o conteúdo do livro?";
+		next;
+		mes "[Capitão Tigris]";
+		mes "Ei, Renoa, pega leve com esse Cavaleiro. Você aí também, é melhor parar de mexer nas coisas sem permissão.";
+		close;
+	}
+	while(1) {
+		switch(select("O nascimento dos Cavaleiros Rúnicos.:Runas e Energia Mágica.:Parar de ler.")) {
+		case 1:
+			set .@book1,1;
+			mes "Os Cavaleiros Rúnicos são o grupo de espadachins evoluídos que alcançaram a harmonia entre a espada e a magia.";
+			next;
+			mes "Isso foi conquistado pelo lendário espadachim Beljeve, conhecido como Mestre Espadachim e fundador desta arte.";
+			next;
+			mes "Os Cavaleiros Rúnicos usam Pedras Rúnicas como um meio de canalizar poder mágico, em vez de gerar energia mágica diretamente em seus corpos.";
+			next;
+			mes "Anteriormente, o poder mágico só podia ser usado por aqueles que, após longos anos de estudo, conseguiam canalizá-lo dentro de si.";
+			next;
+			mes "Porém, agora está em andamento uma pesquisa direta sobre o poder mágico das runas, que rompeu com o conceito humano tradicional.";
+			next;
+			mes "Sabe-se que o Mestre Espadachim Beljeve sentiu o limite de seu poder e estudou uma forma de superar as limitações físicas dos mortais.";
+			next;
+			mes "Acredita-se que ele já estivesse em contato com a tribo Laphine muito antes da fenda dimensional para o Ash-Vacuum ser descoberta.";
+			next;
+			mes "A tribo Laphine, composta por fadas do Ash-Vacuum, é conhecida por ter relação direta com o nascimento dos Cavaleiros Rúnicos.";
+			next;
+			mes "Agora, mesmo aqueles normalmente incapazes de usar poder mágico podem portar um meio para canalizar energia mágica que antes era inalcançável.";
+			next;
+			mes "O resultado desses estudos são as Pedras Rúnicas, sintonizadas em harmonia com o poder físico da espada.";
+			next;
+			mes "Os discípulos de Beljeve, que aprenderam a imbuir suas espadas com Pedras Rúnicas, ficaram conhecidos como Cavaleiros Rúnicos.";
+			next;
+			break;
+		case 2:
+			set .@book2,1;
+			mes "Uma joia chamada Runa é um meio que contém uma existência sem forma: o poder mágico. Sua essência pode ser utilizada diretamente.";
+			next;
+			mes "A sábia Laphine Serpeone e o fundador dos Cavaleiros Rúnicos, Beljeve, pesquisaram juntos sobre runas, e o resultado de seu trabalho só recentemente se tornou conhecido.";
+			next;
+			mes "É uma fonte de energia alternativa ilimitada e sua pesquisa continua em andamento.";
+			next;
+			mes "Ao contrário dos humanos, os seres vivos no Ash-Vacuum preservam energia mágica armazenando-a em seus corpos.";
+			next;
+			mes "A descoberta de como transferir essa energia mágica para runas foi refinada por Beljeve e Serpeone e compartilhada com os Cavaleiros Rúnicos.";
+			next;
+			break;
+		case 3:
+			if (.@book1 && .@book2 && job_rune_edq < 11 && (job_rune_edq_book & 1) == 0) {
+				set job_rune_edq_book, job_rune_edq_book | 1;
+				set job_rune_edq, job_rune_edq+1;
+			}
+			close;
+		}
+	}
+}
+
+job3_rune01,43,44,1	script	Os Princípios das Runas	844,{
+	if (job_rune_edq < 8) {
+		mes "[Cavaleira Rúnica Renoa]";
+		mes "Além de mexer nas coisas deste lugar sem permissão... Você conseguiria entender o conteúdo do livro?";
+		next;
+		mes "[Capitão Tigris]";
+		mes "Ei, Renoa, pega leve com esse Cavaleiro. Você aí também, é melhor parar de mexer nas coisas aqui sem permissão.";
+		close;
+	}
+	while(1) {
+		switch(select("Uso principal das Runas.:Tipos de Runas.:Parar de Ler.")) {
+		case 1:
+			set .@book1,1;
+			mes "Uma runa é um tipo de símbolo usado no continente de Midgard desde tempos antigos. Até hoje, era utilizada apenas por círculos ocultistas.";
+			next;
+			mes "As runas são usadas como um sistema de símbolos, mas, segundo histórias transmitidas oralmente, sabe-se que eram utilizadas para adivinhação ou para acessar o subconsciente humano.";
+			next;
+			mes "As runas possuem seu próprio sistema e tipos, e podem invocar diversos poderes de acordo com a forma como são organizadas. Porém, seu nível de poder não pode ser medido pelos métodos conhecidos atualmente.";
+			next;
+			mes "Felizmente, os Cavaleiros Rúnicos descobriram um uso positivo para elas. As runas não têm sido usadas para magia negra, mas certamente é possível que sejam mal utilizadas se caírem em mãos erradas.";
+			next;
+			break;
+		case 2:
+			set .@book2,1;
+			mes "As runas são feitas a partir de um total de 25 pequenas pedras, que são muito frágeis a impactos físicos. Portanto, exigem cuidados especiais ao serem manuseadas.";
+			next;
+			mes "As 25 pedras possuem significados diferentes e, entre elas, 14 quando posicionadas de forma invertida podem ter poder e significado totalmente diferentes do original. Por isso, é essencial estudar esses aspectos excepcionais.";
+			next;
+			mes "As outras 11 runas possuem poder consistente, não influenciado pela posição. Se você não dominar todas as 11 runas comuns e as 14 runas invertidas, não conseguirá extrair todo o poder.";
+			next;
+			mes "Entre as 11 runas comuns, a runa em branco é uma exceção.";
+			next;
+			mes "Os nomes das 25 Pedras Rúnicas são os seguintes:";
+			next;
+			mes "Ehwaz, Othila, Mannaz, Ansuz, Hagalaz, Kano, Raido, Thurisaz, Dagaz, Sowilo, Luxanima, Isa, Wyrd, Berkana, Gebo, Algiz, Arwez, Teiwaz, Wunjo, Jera, Nauthiz, Ingz, Fehu, Uruz.";
+			next;
+			break;
+		case 3:
+			if (.@book1 && .@book2 && job_rune_edq < 11 && (job_rune_edq_book & 2) == 0) {
+				set job_rune_edq_book, job_rune_edq_book | 2;
+				set job_rune_edq, job_rune_edq+1;
+			}
+			close;
+		}
+	}
+}
+
+job3_rune01,50,36,1	script	Runas, Fabricação e Uso	844,{
+	if (job_rune_edq < 8) {
+		mes "[Cavaleira Rúnica Renoa]";
+		mes "Além de mexer nas coisas deste lugar sem permissão... Você conseguiria entender o conteúdo do livro?";
+		next;
+		mes "[Capitão Tigris]";
+		mes "Ei, Renoa, pega leve com esse Cavaleiro. Você aí também, é melhor parar de mexer nas coisas aqui sem permissão.";
+		close;
+	}
+	while(1) {
+		switch(select("Fabricação das Pedras Rúnicas.:Detalhes das Hab. das Pedras Rúnicas.:Parar de Ler.")) {
+		case 1:
+			set .@book1,1;
+			mes "A fabricação das Pedras Rúnicas é realizada através de uma habilidade chamada Perícia em Runas, aprendida quando alguém se torna um Cavaleiro Rúnico.";
+			next;
+			mes "A Perícia em Runas é como um código inserido no corpo como uma marca de um Cavaleiro Rúnico.";
+			next;
+			mes "Pessoas comuns também podem aprender essa habilidade, mas ela exige uma máquina especial chamada Fornalha Rúnica.";
+			next;
+			mes "Ao criar uma pedra rúnica com a Fornalha Rúnica, o tipo da runa é determinado pela energia mágica colocada nela, e isso não pode ser alterado.";
+			next;
+			mes "Ao criar uma pedra rúnica usando Perícia em Runas, é possível fazê-la com a propriedade desejada, mas isso é considerado uma habilidade exclusiva dos Cavaleiros Rúnicos.";
+			next;
+			mes "Ao operar a Fornalha Rúnica, a energia mágica do corpo é concentrada através dele, possibilitando a transformação em uma Pedra Rúnica.";
+			next;
+			break;
+		case 2:
+			set .@book2,1;
+			switch(select("Capítulo Um.:Capítulo Dois.:Capítulo Três.:Capítulo Quatro.:Parar de Ler.")) {
+			case 1:
+				mes "Ehwaz - Esta runa significa o aumento da sorte e do poder positivo. Forma-se como uma espiral vermelha na Fornalha Rúnica.";
+				next;
+				mes "Othila - Esta runa representa troca equivalente, significando que você perde algo e ganha algo, além de simbolizar o poder que exige um custo. Forma-se como uma linha oblíqua violeta na Fornalha Rúnica.";
+				next;
+				mes "Mannaz - Esta runa significa esperança e um novo começo, além do poder positivo capaz de reverter uma situação desesperadora. Forma-se como um diamante esmeralda na Fornalha Rúnica.";
+				next;
+				mes "Ansuz - Esta runa significa preparação ou organização, e o poder de superar a incerteza do futuro. Forma-se como uma esfera esmeralda na Fornalha Rúnica.";
+				next;
+				mes "Hagalaz - Esta runa significa liberdade e o poder que resiste à restrição. Forma-se como uma estrela azul-celeste na Fornalha Rúnica.";
+				next;
+				mes "Kano - Esta runa significa chama e paixão, e o poder que põe fim a tudo. Forma-se como um diamante vermelho na Fornalha Rúnica.";
+				next;
+				break;
+			case 2:
+				mes "Raido - Esta runa significa combinação e recombinação, e o poder da conclusão. Forma-se como uma linha oblíqua azul-celeste na Fornalha Rúnica.";
+				next;
+				mes "Thurisaz - Esta runa significa fronteira e o poder da limitação. Forma-se como uma esfera amarela na Fornalha Rúnica.";
+				next;
+				mes "Dagaz - Esta runa significa talento e o poder de suportar adversidades. Forma-se como uma espiral esmeralda na Fornalha Rúnica.";
+				next;
+				mes "Sowilo - Esta runa significa vitória e sucesso, e o poder de organização e cessação. Forma-se como um leque azul-celeste na Fornalha Rúnica.";
+				next;
+				mes "Luxanima - Esta runa significa incerteza e o poder que protege o interior. Forma-se como um diamante amarelo na Fornalha Rúnica.";
+				next;
+				mes "Isa - Esta runa significa o poder que interrompe tudo. Forma-se como uma espiral violeta na Fornalha Rúnica.";
+				next;
+				break;
+			case 3:
+				mes "Wyrd - Esta runa significa revelação e o poder do acaso. Forma-se como uma espiral prateada na Fornalha Rúnica.";
+				next;
+				mes "Berkana - Esta runa significa riqueza, nascimento e o poder de defesa e proteção. Forma-se como uma estrela dourada na Fornalha Rúnica.";
+				next;
+				mes "Gebo - Esta runa significa cooperação e o poder da harmonia. Forma-se como um cone amarelo na Fornalha Rúnica.";
+				next;
+				mes "Algiz - Esta runa significa oportunidade e o poder do desafio. Forma-se como uma linha oblíqua esmeralda na Fornalha Rúnica.";
+				next;
+				mes "Arwez - Esta runa significa mudança, convulsão e o poder de movimento. Forma-se como um diamante cinza na Fornalha Rúnica.";
+				next;
+				mes "Teiwaz - Esta runa significa vitória perfeita e o poder de solução absoluta. Forma-se como uma esfera dourada na Fornalha Rúnica.";
+				next;
+				break;
+			case 4:
+				mes "Wunjo - Esta runa significa inteligência e o poder da sabedoria. Forma-se como uma estrela esmeralda na Fornalha Rúnica.";
+				next;
+				mes "Jera - Esta runa significa conforto e o poder do descanso. Forma-se como uma esfera amarela na Fornalha Rúnica.";
+				next;
+				mes "Nauthiz - Esta runa significa fraqueza e o poder de enfraquecer. Forma-se como um leque amarelo na Fornalha Rúnica.";
+				next;
+				mes "Ingz - Esta runa significa ruptura e o poder de separação. Forma-se como um diamante violeta na Fornalha Rúnica.";
+				next;
+				mes "Fehu - Esta runa significa conquista e o poder de materialização. Forma-se como uma esfera prateada na Fornalha Rúnica.";
+				next;
+				mes "Uruz - Esta runa significa destino e o poder de restrição. Forma-se como uma linha espiral violeta na Fornalha Rúnica.";
+				next;
+				break;
+			case 5:
+				close;
+			}
+			break;
+		case 3:
+			if (.@book1 && .@book2 && job_rune_edq < 11 && (job_rune_edq_book & 4) == 0) {
+				set job_rune_edq_book, job_rune_edq_book | 4;
+				set job_rune_edq, job_rune_edq+1;
+			}
+			close;
+		}
+	}
+}
+
+mid_camp,238,250,3	script	Guarda da Sábia 	468,2,2,{
+	mes "[Guarda dos Cavaleiros Rúnicos da Sábia]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "A sábia Serpeone está conosco desde o início dos Cavaleiros Rúnicos.";
+		next;
+		mes "[Guarda dos Cavaleiros Rúnicos da Sábia]";
+		mes "Tenho muito orgulho, como Cavaleiro Rúnico, de servir ao lado dela.";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq < 11) {
+			mes "Você pode estar trilhando o caminho da espada, mas ainda não é um Cavaleiro Rúnico. Não fique vagando por aqui, se é que me entende.";
+			close;
+		}
+		mes "Esplendor é a terra dos Laphine. Estamos oferecendo essa conveniência por um acordo entre os Cavaleiros Rúnicos e a equipe de expedição.";
+		next;
+		mes "[Guarda dos Cavaleiros Rúnicos da Sábia]";
+		mes "Nossos agentes estão abrindo caminho para Esplendor apenas para os aprendizes que estão realizando o teste de mudança de classe para Cavaleiro Rúnico.";
+		next;
+		mes "[Guarda dos Cavaleiros Rúnicos da Sábia]";
+		mes "Mas, quando você se tornar um Cavaleiro Rúnico, precisará se unir à equipe de expedição para explorar totalmente o Ash-Vacuum.";
+		close;
+	}
+	mes "Ficar por aqui perto desse homem não vai ser bom para você. Continue o seu caminho.";
+	close;
+}
+
+mid_camp,13,138,3	script	Rúnico Designado#1	83,2,2,{
+	mes "[Cavaleiro Rúnico Designado]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "Obrigado pelo seu trabalho. Continuaremos nossa missão para os candidatos a Cavaleiro Rúnico.";
+		close;
+	}
+	if (BaseJob == Job_Knight && job_rune_edq > 10) {
+		mes "Estava esperando por você, candidato a Cavaleiro Rúnico. Estou ajudando os candidatos como um favor para a Sra. Serpeone.";
+		next;
+		mes "[Cavaleiro Rúnico Designado]";
+		if (strnpcinfo(0) == "Rúnico Designado#1") {
+			mes "Você quer ir para o campo de Esplendor?";
+			next;
+			if(select("Ir para o campo de Esplendor:Cancelar.") == 1)
+				warp "spl_fild01",355,325;
+			close;
+		} else if (strnpcinfo(0) == "Rúnico Designado#2") {
+			mes "Quer voltar para o posto da equipe de expedição?";
+			next;
+			if(select("Sim, por favor.:Ainda não.") == 1)
+				warp "mid_camp",50,153;
+			close;
+		}
+		close;
+	}
+	mes "Shhh... Nossa missão não é algo que deva ser revelado ao público. Por favor, siga seu caminho.";
+	close;
+}
+spl_fild01,361,327,3	duplicate(Rúnico Designado#1)	Rúnico Designado#2	83,2,2
+
+spl_fild02,13,241,0	script	#Barricade1	139,10,10,{
+	end;
+OnTouch:
+	if (job_rune_edq > 0 && job_rune_edq < 23) {
+		mes "- Sussurros da sábia Serpeone chegam à minha mente. -";
+		next;
+		mes "[Sábia Serpeone]";
+		mes "Até que você se torne um honrado Cavaleiro Rúnico, não posso ajudá-lo a controlar seus poderes em Midgard.";
+		next;
+		mes "[Sábia Serpeone]";
+		mes "Por favor, compreenda isso e dedique-se a este teste.";
+		close2;
+		warp "spl_fild02",25,245;
+		end;
+	}
+	end;
+}
+
+mid_camp,235,250,3	script	Sábia Serpeone	435,2,2,{
+	mes "[Sábia Serpeone]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "Finalmente, você é um honrado Cavaleiro Rúnico. Fico feliz em ajudá-lo.";
+		next;
+		mes "[Sábia Serpeone]";
+		mes "O poder das runas não é perfeito e ainda é necessário mais pesquisa para torná-lo totalmente seguro. Cabe a mim e a outros Cavaleiros Rúnicos como você garantir que essa pesquisa continue.";
+		next;
+		mes "[Sábia Serpeone]";
+		mes "Por favor, dedique-se às runas e, com sorte, sua vida será iluminada por elas.";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq < 12) {
+			mes "Deve ser surpreendente que eu, uma Laphine, esteja aqui na base do seu povo.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Alguns de nós mantemos contato com humanos em situações especiais desde antes mesmo da abertura da fenda dimensional.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Tenho me correspondido com humanos há alguns anos, por interesses mútuos. Foi assim que aprendi seu idioma.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Talvez seja necessária uma máquina que traduza o idioma Laphine para facilitar a comunicação com os humanos.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Mais do que isso... não posso dizer. Não devo falar descuidadamente, pois represento meu povo aqui e estou com um passe especial para estar no seu acampamento.";
+			close;
+		} else if (job_rune_edq == 12) {
+			mes "Bem-vindo, você é o participante do teste de treinamento para se tornar Cavaleiro Rúnico. Eu sou Serpeone.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Todos os Cavaleiros Rúnicos que você encontrou até agora são discípulos que foram treinados por mim e por Beljeve. Agora está a caminho de se juntar a eles.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Acredito que você já tenha recebido uma explicação básica e instruções da Renoa. Agora parece que é a minha vez de ajudá-lo.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "O poder mágico que os Cavaleiros Rúnicos utilizam não é exatamente o mesmo que o poder mágico gerado no mundo humano.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Este lugar... a esfera que vocês chamam de Ash-Vacuum... é formada por um tipo diferente de energia mágica.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Os seres vivos desta região preservam energia mágica em seus corpos, ao contrário das criaturas do mundo humano.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "O poder das Pedras Rúnicas é a forma de moldar essa energia mágica do corpo em runas, que funcionam como um meio.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Para usar a pedra rúnica, você precisa compreender diretamente os seres vivos dessa outra esfera.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Mas ainda é cedo para você extrair energia mágica das criaturas desta terra.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Agora lançarei um feitiço em seu corpo para que possa reunir energia mágica de outros seres vivos.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Temporariamente, você poderá extrair energia mágica de criaturas malignas no mundo humano. Claro, não poderá usá-la diretamente...";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Se acumular energia derrotando criaturas malignas no mundo humano, eu a converterei em energia utilizável para você.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "As almas perversas que permanecem mesmo após a morte são uma grande fonte de poder mágico.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Por favor, derrote ^0000FF10 Dullahans^000000, ^0000FF10 Mascarados^000000, ^0000FF10 Quves^000000, ^0000FF10 Poltergeists^000000 e colete suas energias.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Aviso de antemão que não irei testar ou julgar sua qualificação. Um Cavaleiro Rúnico fará isso.";
+			next;
+			mes "[Sábia Serpeone]";
+			mes "Se tiver algum problema ou dúvida, fale comigo.";
+			set job_rune_edq,13;
+			changequest 3207,3208;
+			setquest 3209;
+			setquest 3210;
+			setquest 3211;
+			setquest 3212;
+			close;
+		} else if (job_rune_edq == 13) {
+			mes "Você está reunindo energia mágica suficiente? Ou tem alguma dúvida?";
+			next;
+			switch(select("Eu reuni energia suficiente.:Para o local de reunião.:Encerrar a conversa.")) {
+			case 1:
+				mes "[Sábia Serpeone]";
+				mes "É mesmo? Então vamos verificar isso.";
+				next;
+				if (checkquest(3209,HUNTING) == 2 && checkquest(3210,HUNTING) == 2 && checkquest(3211,HUNTING) == 2 && checkquest(3212,HUNTING) == 2) {
+					mes "[Sábia Serpeone]";
+					mes "Hmm, isso é ótimo. Uma quantidade suficiente de energia mágica corporal foi acumulada em seu corpo.";
+					next;
+					mes "[Sábia Serpeone]";
+					mes "A Cavaleira Rúnica Renoa lhe ensinará a forma de usar as Pedras Rúnicas.";
+					next;
+					mes "[Sábia Serpeone]";
+					mes "Acho que minha parte está concluída. Espero que você se torne uma honrada Cavaleira Rúnica.";
+					next;
+					mes "[Sábia Serpeone]";
+					mes "Se tiver algum assunto aqui, posso enviá-lo ao local de reunião dos Cavaleiros Rúnicos. Se estiver pronto, é só me avisar.";
+					set job_rune_edq,14;
+					changequest 3208,3213;
+					completequest 3209;
+					completequest 3210;
+					completequest 3211;
+					completequest 3212;
+					close;
+				}
+				mes "[Sábia Serpeone]";
+				mes "Você ainda não reuniu energia mágica suficiente.";
+				next;
+				mes "[Sábia Serpeone]";
+				mes "Por favor, esforce-se e colete energia suficiente derrotando aqueles monstros.";
+				close;
+			case 2:
+				mes "[Sábia Serpeone]";
+				mes "Quer voltar ao local de reunião? Se quiser, posso enviá-lo imediatamente. Mas, para continuar o teste, precisará falar comigo novamente.";
+				next;
+				mes "[Sábia Serpeone]";
+				mes "Você quer voltar ao local de reunião dos Cavaleiros Rúnicos?";
+				next;
+				if(select("Quero voltar.:Quero cancelar.") == 1)
+					warp "job3_rune01",80,65;
+				close;
+			case 3:
+				close;
+			}
+		} else if (job_rune_edq == 14) {
+			mes "Está pronto para voltar ao local de reunião dos Cavaleiros Rúnicos?";
+			next;
+			if(select("Quero voltar agora.:Ainda não estou pronto.") == 1)
+				warp "job3_rune01",80,65;
+			close;
+		}
+		mes "Os preparativos estão indo bem?";
+		next;
+		mes "[Sábia Serpeone]";
+		mes "Você não está no estado correto agora?";
+		next;
+		mes "[Sábia Serpeone]";
+		mes "Então vou enviá-lo ao local de reunião dos Cavaleiros Rúnicos, onde você deveria estar.";
+		next;
+		if(select("Vou voltar agora.:Vou ficar.") == 1)
+			warp "job3_rune01",80,65;
+		close;
+	}
+	mes "Deve ser surpreendente que eu, uma Laphine, esteja aqui na base do seu povo.";
+	next;
+	mes "[Sábia Serpeone]";
+	mes "Alguns de nós têm contato com humanos em situações especiais desde antes mesmo da fenda dimensional se abrir.";
+	next;
+	mes "[Sábia Serpeone]";
+	mes "Tenho me correspondido com humanos há vários anos. Foi por interesses mútuos. De qualquer forma, foi assim que aprendi seu idioma.";
+	next;
+	mes "[Sábia Serpeone]";
+	mes "Talvez seja necessário criar uma máquina que traduza o idioma Laphine para facilitar o entendimento dos humanos.";
+	next;
+	mes "[Sábia Serpeone]";
+	mes "Mais do que isso... não posso dizer. Não posso falar de forma imprudente, pois represento meu povo aqui e estou com uma permissão especial para permanecer no seu acampamento.";
+	close;
+}
+
+job3_rune01,114,50,3	script	Cavaleiro Rúnico Velpino	468,{
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "[Cavaleiro Rúnico Velpino]";
+		mes "Você ainda cheira como um iniciante. Traga honra aos Cavaleiros Rúnicos e aumente seu poder...";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq < 17) {
+			mes "Um Cavaleiro Rúnico de aparência muito fria, vestido de preto dos pés à cabeça, está me encarando com uma carranca.";
+			next;
+			mes "Por que todos os Cavaleiros Rúnicos são tagarelas ou antissociais e combativos...?";
+			next;
+			mes "[Capitão Tigris]";
+			mes "Ei... E eu? Não sou assim!";
+			close;
+		} else if (job_rune_edq == 17) {
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Não achei que um candidato chegaria até mim hoje...";
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Parabéns! Você está no tão esperado teste final... Acho que já dominou o básico.";
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "O teste final é relativamente simples. Tudo termina quando você eliminar todos os monstros mágicos deste Glast Heim...";
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "A única condição é que você deve derrotar esses monstros usando as Pedras Rúnicas que fabricou no teste anterior.";
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Para este teste, só é permitido equipar uma arma de uma mão com escudo, ou uma arma de duas mãos.";
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "O conjunto de armas que pode usar deve estar dentro do limite de peso de 400. As Pedras Rúnicas fornecidas serão 30 Pedras Rúnicas de ataque e 30 Pedras Rúnicas de defesa.";
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Para usar essas runas, lançarei um feitiço especial de aprimoramento sobre você.";
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Os monstros mágicos são 3 tipos de monstros de Glast Heim que você provavelmente já conhece... Não será uma luta fácil, mas se suportar este último desafio, seguirá o caminho de um Cavaleiro Rúnico.";
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Para auxiliar nos preparativos, firmamos um contrato com a sede da Kafra em Al De Baran, empregando uma funcionária Kafra especialmente para este local de reunião. Então será bom visitá-la.";
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Se estiver pronto, fale comigo novamente.";
+			set job_rune_edq,18;
+			changequest 3216,3217;
+			close;
+		} else if (job_rune_edq > 17 && job_rune_edq < 21) {
+			if (countitem(12388)+countitem(12389)+countitem(12390) == 0) {
+				mes "[Cavaleiro Rúnico Velpino]";
+				mes "Se todos os seus preparativos estiverem concluídos, enviarei você para o campo do teste final.";
+				set job_rune_edq,18;
+				next;
+				if(select("Entrar no campo do teste final.:Ainda não estou pronto.") == 2) close;
+				if (getequipisequiped(EQI_HEAD_TOP) || getequipisequiped(EQI_ARMOR) || getequipisequiped(EQI_GARMENT) || getequipisequiped(EQI_SHOES) ||
+				    getequipisequiped(EQI_ACC_L) || getequipisequiped(EQI_ACC_R) || getequipisequiped(EQI_HEAD_MID) || getequipisequiped(EQI_HEAD_LOW)) {
+					mes "[Cavaleiro Rúnico Velpino]";
+					mes "Para este teste, só é permitido equipar uma arma de uma mão com escudo, ou uma arma de duas mãos. Guarde os outros equipamentos com a Funcionária Kafra no centro.";
+					close;
+				}
+				if (checkquest(3220,PLAYTIME) == 1) {
+					mes "[Cavaleiro Rúnico Velpino]";
+					mes "Você não falhou no teste...? Se falhar uma vez, não poderá entrar novamente por 10 minutos.";
+					next;
+					mes "[Cavaleiro Rúnico Velpino]";
+					mes "Isso é uma consideração pelos outros candidatos que estão esperando pelo teste, assim como você, então volte após o tempo determinado.";
+					close;
+				}
+				if ($@job_rune_test1 == 0) {
+					if (Weight < 4001) {
+						set $@job_rune_test1,1;
+						sc_start SC_INCINT,300000,40;
+						getitem 12389,30; //Runa Wyrd para Iniciantes
+						getitem 12390,30; //Runa Berkana para Iniciantes
+						if (checkquest(3220) > -1) erasequest 3220;
+						setquest 3220;
+						warp "job3_rune02",38,40;
+						end;
+					}
+					mes "[Cavaleiro Rúnico Velpino]";
+					mes "O conjunto de armas que pode usar deve estar dentro do limite de peso de 400. As Pedras Rúnicas fornecidas serão 30 Pedras Rúnicas de ataque e 30 Pedras Rúnicas de defesa.";
+					next;
+					mes "[Cavaleiro Rúnico Velpino]";
+					mes "O restante dos itens que você estiver carregando deve ser guardado pela Funcionária Kafra no centro.";
+					close;
+				}
+				// Tradução personalizada
+				mes "[Cavaleiro Rúnico Velpino]";
+				mes "Parece que já há um candidato na sala de testes.";
+				next;
+				mes "[Cavaleiro Rúnico Velpino]";
+				mes "Tenha paciência e aguarde sua vez.";
+				close;
+			}
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Espere, vou recolher todas as Pedras Rúnicas fornecidas antes. Existe um limite para o uso das Pedras Rúnicas feitas para o teste.";
+			if (countitem(12388)) delitem 12388,countitem(12388); //Runa Raido para Iniciantes
+			if (countitem(12389)) delitem 12389,countitem(12389); //Runa Wyrd para Iniciantes
+			if (countitem(12390)) delitem 12390,countitem(12390); //Runa Berkana para Iniciantes
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Vou buscar novas Pedras Rúnicas, então, se estiver pronto, fale comigo novamente.";
+			close;
+		} else if (job_rune_edq == 21) {
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Você foi muito bem-sucedido até o último teste.";
+			next;
+			if (countitem(12388)+countitem(12389)+countitem(12390) == 0) {
+				mes "[Cavaleiro Rúnico Velpino]";
+				mes "Agora todos os testes que precisava realizar chegaram ao fim. Volte ao Capitão Tigris e informe o resultado deste teste, então sinta a profunda emoção de renascer como um Cavaleiro Rúnico.";
+				next;
+				mes "[Cavaleiro Rúnico Velpino]";
+				mes "Parabéns!";
+				mes "Bem, é melhor eu ir agora atender os outros candidatos restantes.";
+				set job_rune_edq,22;
+				changequest 3218,3219;
+				close;
+			}
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Espere, vou recolher todas as Pedras Rúnicas fornecidas antes. Existe um limite para o uso das Pedras Rúnicas feitas para o teste.";
+			if (countitem(12388)) delitem 12388,countitem(12388); //Runa Raido para Iniciantes
+			if (countitem(12389)) delitem 12389,countitem(12389); //Runa Wyrd para Iniciantes
+			if (countitem(12390)) delitem 12390,countitem(12390); //Runa Berkana para Iniciantes
+			next;
+			mes "[Cavaleiro Rúnico Velpino]";
+			mes "Preciso reutilizar essas Pedras Rúnicas não usadas. Fale comigo novamente assim que eu tiver recolhido todas as pedras do teste.";
+			close;
+		}
+	}
+	mes "Um Cavaleiro Rúnico de aparência muito fria, vestido de preto dos pés à cabeça, está me encarando com uma carranca.";
+	close;
+}
+
+job3_rune02,38,40,0	script	#Portal Escondido do Teste CR 1	139,15,15,{
+	end;
+OnEnable:
+	enablenpc "#Portal Escondido do Teste CR 1";
+	end;
+OnDisable:
+	disablenpc "#Portal Escondido do Teste CR 1";
+	end;
+OnTouch:
+	if (job_rune_edq == 4) {
+		donpcevent "job_rune_edq#1st_tb::OnEnable";
+		donpcevent "#Portal Escondido do Teste CR 1::OnDisable";
+		end;
+	} else if (job_rune_edq > 17 && job_rune_edq < 21) {
+		donpcevent "job_rune_edq#3rd_tb::OnEnable";
+		donpcevent "#Portal Escondido do Teste CR 1::OnDisable";
+		end;
+	} else {
+		donpcevent "#Portal Escondido do Teste CR 1::OnDisable";
+		donpcevent "job_rune_edq#1st_tb::OnDisable";
+		donpcevent "job_rune_edq#1st_tc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc2::OnDisable";
+		donpcevent "job_rune_edq#1st_tcnc::OnDisable";
+		donpcevent "job_rune_edq#3rd_tb::OnDisable";
+		donpcevent "job_rune_edq#3rd_tc::OnDisable";
+		set $@job_rune_test1,0;
+		set $@job_rune_test2,0;
+		donpcevent "#Portal Escondido do Teste CR 1::OnEnable";
+		mapwarp "job3_rune02","job3_rune01",80,65;
+		end;
+	}
+}
+
+job3_rune02,1,1,0	script	job_rune_edq#1st_tb	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#1st_tb";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#1st_tb";
+	initnpctimer;
+	end;
+OnDisable:
+	stopnpctimer;
+	disablenpc "job_rune_edq#1st_tb";
+	end;
+OnTimer5000:
+	mapannounce "job3_rune02","Começarei o primeiro teste para a Mudança de Classe para Cavaleiro Rúnico.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer8000:
+	mapannounce "job3_rune02","O conteúdo do teste é eliminar todos os monstros por 5 minutos e sobreviver.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer11000:
+	mapannounce "job3_rune02","Se você não sobreviver ou não conseguir eliminar todos os monstros dentro do tempo limite, será considerado uma falha.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer14000:
+	mapannounce "job3_rune02","Agora vamos começar o teste.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	donpcevent "job_rune_edq#1st_tc::OnEnable";
+	donpcevent "job_rune_edq#1st_tb::OnDisable";
+	end;
+}
+
+job3_rune02,1,2,0	script	job_rune_edq#1st_tc	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#1st_tc";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#1st_tc";
+	initnpctimer;
+	donpcevent "job_rune_edq#1st_tcmc::OnEnable";
+	donpcevent "job_rune_edq#1st_tcnc::OnEnable";
+	end;
+OnDisable:
+	stopnpctimer;
+	disablenpc "job_rune_edq#1st_tc";
+	end;
+OnTimer300000:
+	killmonster "job3_rune02","job_rune_edq#1st_tc::OnMyMobDead";
+	mapannounce "job3_rune02","Você atingiu o tempo limite, então considerarei o teste como uma falha.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer305000:
+	donpcevent "#Portal Escondido do Teste CR 1::OnDisable";
+	donpcevent "job_rune_edq#1st_tb::OnDisable";
+	donpcevent "job_rune_edq#1st_tc::OnDisable";
+	donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+	donpcevent "job_rune_edq#1st_tcmc2::OnDisable";
+	donpcevent "job_rune_edq#1st_tcnc::OnDisable";
+	donpcevent "job_rune_edq#3rd_tb::OnDisable";
+	donpcevent "job_rune_edq#3rd_tc::OnDisable";
+	donpcevent "#Portal Escondido do Teste CR 1::OnEnable";
+	mapwarp "job3_rune02","job3_rune01",80,65;
+	set $@job_rune_test1,0;
+	set $@job_rune_test2,0;
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,3,10,0	script	job_rune_edq#1st_tcmc	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#1st_tcmc";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#1st_tcmc";
+	initnpctimer;
+	end;
+OnDisable:
+	killmonster "job3_rune02","job_rune_edq#1st_tcmc::OnMyMobDead";
+	stopnpctimer;
+	disablenpc "job_rune_edq#1st_tcmc";
+	end;
+OnReset:
+	killmonster "job3_rune02","job_rune_edq#1st_tcmc::OnMyMobDead";
+	end;
+OnTimer5000:
+	monster "job3_rune02",0,0,"Raydric",1467,1,"job_rune_edq#1st_tcmc::OnMyMobDead";
+	monster "job3_rune02",0,0,"Raydric Arqueiro",1453,2,"job_rune_edq#1st_tcmc::OnMyMobDead";
+	end;
+OnTimer50000:
+OnTimer100000:
+OnTimer150000:
+OnTimer200000:
+	switch(rand(6)) {
+	case 0:
+		monster "job3_rune02",0,0,"Raydric",1467,1,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		monster "job3_rune02",0,0,"Raydric Arqueiro",1453,2,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		end;
+	case 1:
+	case 2:
+		monster "job3_rune02",0,0,"Rideword",1478,4,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		end;
+	case 3:
+	case 4:
+		monster "job3_rune02",0,0,"Fendark",1484,1,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		monster "job3_rune02",0,0,"Rybio",1483,1,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		end;
+	case 5:
+		monster "job3_rune02",0,0,"Aparição",1475,4,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		end;
+	}
+	end;
+OnTimer250000:
+	killmonster "job3_rune02","job_rune_edq#1st_tcmc::OnMyMobDead";
+	donpcevent "job_rune_edq#1st_tcmc2::OnEnable";
+	donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+	end;
+OnMyMobDead:
+	end;
+}
+
+job3_rune02,3,11,0	script	job_rune_edq#1st_tcmc2	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#1st_tcmc2";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#1st_tcmc2";
+	switch(rand(6)) {
+	case 0:
+		monster "job3_rune02",0,0,"Raydric",1467,1,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		monster "job3_rune02",0,0,"Raydric Arqueiro",1453,2,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		end;
+	case 1:
+	case 2:
+		monster "job3_rune02",0,0,"Rideword",1478,4,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		end;
+	case 3:
+	case 4:
+		monster "job3_rune02",0,0,"Fendark",1484,1,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		monster "job3_rune02",0,0,"Rybio",1483,1,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		end;
+	case 5:
+		monster "job3_rune02",0,0,"Aparição",1475,4,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		end;
+	}
+	end;
+OnDisable:
+	killmonster "job3_rune02","job_rune_edq#1st_tcmc2::OnMyMobDead";
+	disablenpc "job_rune_edq#1st_tcmc2";
+	end;
+OnMyMobDead:
+	if (mobcount("job3_rune02","job_rune_edq#1st_tcmc2::OnMyMobDead") < 1) {
+		set job_rune_edq,5;
+		erasequest 3220;
+		killmonster "job3_rune02","job_rune_edq#1st_tcmc2::OnMyMobDead";
+		mapannounce "job3_rune02","Parabéns. Você passou no primeiro teste.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		mapwarp "job3_rune02","job3_rune01",80,65;
+		donpcevent "job_rune_edq#1st_tb::OnDisable";
+		donpcevent "job_rune_edq#1st_tc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcnc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc2::OnDisable";
+		donpcevent "#Portal Escondido do Teste CR 1::OnEnable";
+		set $@job_rune_test1,0;
+		set $@job_rune_test2,0;
+		end;
+	}
+	end;
+}
+
+job3_rune02,1,10,0	script	job_rune_edq#1st_tcnc	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#1st_tcnc";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#1st_tcnc";
+	initnpctimer;
+	end;
+OnDisable:
+	stopnpctimer;
+	set $@job_rune_test2,0;
+	donpcevent "Capitão Tigris#jrt1::OnDisable";
+	donpcevent "Cavaleira Rúnica Lunarea#jrt1::OnDisable";
+	donpcevent "Cavaleira Rúnica Renoa#jrt1::OnDisable";
+	donpcevent "Cavaleiro Rúnico Velpino#jrt1::OnDisable";
+	disablenpc "job_rune_edq#1st_tcnc";
+	end;
+OnUse:
+	mapannounce "job3_rune02","Capitão Tigris : Senhores, vamos assistir ao teste por um momento.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	stopnpctimer;
+	set $@job_rune_test2,0;
+	donpcevent "Capitão Tigris#jrt1::OnDisable";
+	donpcevent "Cavaleira Rúnica Lunarea#jrt1::OnDisable";
+	donpcevent "Cavaleira Rúnica Renoa#jrt1::OnDisable";
+	donpcevent "Cavaleiro Rúnico Velpino#jrt1::OnDisable";
+	donpcevent "job_rune_edq#1st_tcnc::OnEnable";
+	end;
+OnTimer30000:
+	mapannounce "job3_rune02","Capitão Tigris : Aspirantes a Cavaleiro Rúnico... Se quiserem emprestado o nosso poder, conversem com um de nós.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	donpcevent "Capitão Tigris#jrt1::OnEnable";
+	donpcevent "Cavaleira Rúnica Lunarea#jrt1::OnEnable";
+	donpcevent "Cavaleira Rúnica Renoa#jrt1::OnEnable";
+	donpcevent "Cavaleiro Rúnico Velpino#jrt1::OnEnable";
+	end;
+OnTimer60000:
+	mapannounce "job3_rune02","Capitão Tigris : Parece que não precisam da nossa ajuda... Vamos assistir ao teste por um momento.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	stopnpctimer;
+	donpcevent "Capitão Tigris#jrt1::OnDisable";
+	donpcevent "Cavaleira Rúnica Lunarea#jrt1::OnDisable";
+	donpcevent "Cavaleira Rúnica Renoa#jrt1::OnDisable";
+	donpcevent "Cavaleiro Rúnico Velpino#jrt1::OnDisable";
+	donpcevent "job_rune_edq#1st_tcnc::OnEnable";
+	end;
+}
+
+job3_rune02,34,46,5	script	Capitão Tigris#jrt1	470,2,2,{
+	if (job_rune_edq != 4 || $@job_rune_test2 != 0) {
+		donpcevent "job_rune_edq#1st_tcnc::OnUse";
+		end;
+	}
+	switch(rand(6)) {
+	case 0:
+		mapannounce "job3_rune02","Capitão Tigris : Que Beljeve o abençoe!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_BLESSING",1,0,0;
+		break;
+	case 1:
+	case 2:
+		mapannounce "job3_rune02","Capitão Tigris : A centelha da vida... que volte a brilhar.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_HEAL",8,70,99;
+		break;
+	case 3:
+		mapannounce "job3_rune02","Capitão Tigris : Demônios malignos! Vou mandá-los de volta para suas covas!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		specialeffect2 EF_METEORSTORM;
+		donpcevent "job_rune_edq#1st_tcmc::OnReset";
+		break;
+	case 4:
+		mapannounce "job3_rune02","Capitão Tigris : Para um Cavaleiro Rúnico, este tipo de provação não é nada!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_STUN,10000,0;
+		break;
+	case 5:
+		mapannounce "job3_rune02","Capitão Tigris : Para um Cavaleiro Rúnico, este tipo de provação não é nada!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_BLEEDING,10000,0;
+		break;
+	}
+	set $@job_rune_test2,1;
+	initnpctimer;
+	end;
+OnInit:
+OnDisable:
+	disablenpc "Capitão Tigris#jrt1";
+	end;
+OnEnable:
+	enablenpc "Capitão Tigris#jrt1";
+	end;
+OnTimer5000:
+	donpcevent "job_rune_edq#1st_tcnc::OnUse";
+	set $@job_rune_test2,0;
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,43,46,3	script	Cavaleira Rúnica Lunarea#jrt1	469,2,2,{
+	if (job_rune_edq != 4 || $@job_rune_test2 != 0) {
+		donpcevent "job_rune_edq#1st_tcnc::OnUse";
+		end;
+	}
+	switch(rand(6)) {
+	case 0:
+		mapannounce "job3_rune02","Cavaleira Rúnica Lunarea : Rápido... encontre e ataque o ponto fraco do inimigo!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_INCAGI",1,0,0;
+		break;
+	case 1:
+	case 2:
+		mapannounce "job3_rune02","Cavaleira Rúnica Lunarea : Ainda não acabou... você precisa de mais poder...",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_HEAL",8,60,90;
+		break;
+	case 3:
+		mapannounce "job3_rune02","Cavaleira Rúnica Lunarea : Tudo começa do início!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_CURE",1,0,0;
+		break;
+	case 4:
+		mapannounce "job3_rune02","Cavaleira Rúnica Lunarea : Não pode haver crescimento sem provação.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_POISON,30000,0;
+		break;
+	case 5:
+		mapannounce "job3_rune02","Cavaleira Rúnica Lunarea : Não pode haver crescimento sem provação.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_CURSE,30000,0;
+		break;
+	}
+	set $@job_rune_test2,1;
+	initnpctimer;
+	end;
+OnInit:
+OnDisable:
+	disablenpc "Cavaleira Rúnica Lunarea#jrt1";
+	end;
+OnEnable:
+	enablenpc "Cavaleira Rúnica Lunarea#jrt1";
+	end;
+OnTimer5000:
+	donpcevent "job_rune_edq#1st_tcnc::OnUse";
+	set $@job_rune_test2,0;
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,43,34,1	script	Cavaleira Rúnica Renoa#jrt1	469,2,2,{
+	if (job_rune_edq != 4 || $@job_rune_test2 != 0) {
+		donpcevent "job_rune_edq#1st_tcnc::OnUse";
+		end;
+	}
+	switch(rand(6)) {
+	case 0:
+		mapannounce "job3_rune02","Cavaleira Rúnica Renoa : A Runa do Vento! Que ela lhe dê força!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_INCAGI",1,0,0;
+		break;
+	case 1:
+	case 2:
+		mapannounce "job3_rune02","Cavaleira Rúnica Renoa : A Runa do Nascimento! Que ela lhe conceda o poder da vida!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_HEAL",8,60,90;
+		break;
+	case 3:
+		mapannounce "job3_rune02","Cavaleira Rúnica Renoa : Sou mais rápida que todos eles! Diferente de todos os outros!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		specialeffect2 EF_PIERCESELF;
+		donpcevent "job_rune_edq#1st_tcmc::OnReset";
+		break;
+	case 4:
+		mapannounce "job3_rune02","Cavaleira Rúnica Renoa : Para um Cavaleiro Rúnico, esse tipo de provação não é nada!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_POISON,30000,0;
+		break;
+	case 5:
+		mapannounce "job3_rune02","Cavaleira Rúnica Renoa : Para um Cavaleiro Rúnico, esse tipo de provação não é nada!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_CURSE,30000,0;
+		break;
+	}
+	set $@job_rune_test2,1;
+	initnpctimer;
+	end;
+OnInit:
+OnDisable:
+	disablenpc "Cavaleira Rúnica Renoa#jrt1";
+	end;
+OnEnable:
+	enablenpc "Cavaleira Rúnica Renoa#jrt1";
+	end;
+OnTimer5000:
+	set $@job_rune_test2,0;
+	donpcevent "job_rune_edq#1st_tcnc::OnUse";
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,34,34,7	script	Cavaleiro Rúnico Velpino#jrt1	468,2,2,{
+	if (job_rune_edq != 4 || $@job_rune_test2 != 0) {
+		donpcevent "job_rune_edq#1st_tcnc::OnUse";
+		end;
+	}
+	switch(rand(6)) {
+	case 0:
+		mapannounce "job3_rune02","Cavaleiro Rúnico Velpino : Você não é alguém que vai cair em um lugar como este.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_HEAL",8,60,90;
+		break;
+	case 1:
+	case 2:
+		mapannounce "job3_rune02","Cavaleiro Rúnico Velpino : Continue em frente! Há obstáculos a superar.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_INCAGI",1,0,0;
+		break;
+	case 3:
+		mapannounce "job3_rune02","Cavaleiro Rúnico Velpino : Você não está sozinho. Estamos ao seu lado.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_BLESSING",1,0,0;
+		break;
+	case 4:
+		mapannounce "job3_rune02","Cavaleiro Rúnico Velpino : Lute e vença! Não ceda à dor!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_FREEZE,10000,0;
+		break;
+	case 5:
+		mapannounce "job3_rune02","Cavaleiro Rúnico Velpino : Isso não é uma grande provação para um verdadeiro Cavaleiro Rúnico!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_SLEEP,10000,0;
+		break;
+	}
+	set $@job_rune_test2,1;
+	initnpctimer;
+	end;
+OnInit:
+OnDisable:
+	disablenpc "Cavaleiro Rúnico Velpino#jrt1";
+	end;
+OnEnable:
+	enablenpc "Cavaleiro Rúnico Velpino#jrt1";
+	end;
+OnTimer5000:
+	set $@job_rune_test2,0;
+	donpcevent "job_rune_edq#1st_tcnc::OnUse";
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,2,1,0	script	job_rune_edq#3rd_tb	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#3rd_tb";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#3rd_tb";
+	initnpctimer;
+	end;
+OnDisable:
+	stopnpctimer;
+	disablenpc "job_rune_edq#3rd_tb";
+	end;
+OnTimer5000:
+	mapannounce "job3_rune02","Vou iniciar o último teste para a mudança de classe para Cavaleiro Rúnico.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer8000:
+	mapannounce "job3_rune02","Derrote todos os monstros que aparecerem aqui dentro de 8 minutos usando as pedras rúnicas fornecidas.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer11000:
+	mapannounce "job3_rune02","Se você morrer ou não conseguir derrotar todos os monstros dentro do tempo, considerarei o teste como falhado.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer14000:
+	mapannounce "job3_rune02","Agora vou começar o teste.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	donpcevent "job_rune_edq#3rd_tc::OnEnable";
+	donpcevent "job_rune_edq#3rd_tb::OnDisable";
+	end;
+}
+
+job3_rune02,2,2,0	script	job_rune_edq#3rd_tc	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#3rd_tc";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#3rd_tc";
+	initnpctimer;
+	donpcevent "job_rune_edq#3rd_tc1::OnEnable";
+	end;
+OnDisable:
+	stopnpctimer;
+	donpcevent "job_rune_edq#3rd_tc1::OnDisable";
+	donpcevent "job_rune_edq#3rd_tc2::OnDisable";
+	donpcevent "job_rune_edq#3rd_tc3::OnDisable";
+	disablenpc "job_rune_edq#3rd_tc";
+	end;
+OnTimer480000:
+	killmonster "job3_rune02","job_rune_edq#3rd_tc::OnMyMobDead";
+	mapannounce "job3_rune02","Você atingiu o tempo limite, então considerarei o teste como um fracasso.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer482000:
+	mapwarp "job3_rune02","job3_rune01",80,65;
+	donpcevent "job_rune_edq#1st_tb::OnDisable";
+	donpcevent "job_rune_edq#1st_tc::OnDisable";
+	donpcevent "job_rune_edq#1st_tcnc::OnDisable";
+	donpcevent "job_rune_edq#1st_tcmc2::OnDisable";
+	donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+	donpcevent "job_rune_edq#3rd_tb::OnDisable";
+	donpcevent "job_rune_edq#3rd_tc::OnDisable";
+	donpcevent "#Portal Escondido do Teste CR 1::OnEnable";
+	set $@job_rune_test1,0;
+	set $@job_rune_test2,0;
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,2,3,0	script	job_rune_edq#3rd_tc1	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#3rd_tc1";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#3rd_tc1";
+	monster "job3_rune02",40,40,"Executor",2039,1,"job_rune_edq#3rd_tc1::OnMyMobDead";
+	end;
+OnDisable:
+	killmonster "job3_rune02","job_rune_edq#3rd_tc1::OnMyMobDead";
+	disablenpc "job_rune_edq#3rd_tc1";
+	end;
+OnMyMobDead:
+	if (mobcount("job3_rune02","job_rune_edq#3rd_tc1::OnMyMobDead") < 1) {
+		set job_rune_edq,19;
+		killmonster "job3_rune02","job_rune_edq#3rd_tc1::OnMyMobDead";
+		donpcevent "job_rune_edq#3rd_tc2::OnEnable";
+		donpcevent "job_rune_edq#3rd_tc1::OnDisable";
+		end;
+	}
+	end;
+}
+
+job3_rune02,2,4,0	script	job_rune_edq#3rd_tc2	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#3rd_tc2";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#3rd_tc2";
+	monster "job3_rune02",40,40,"Tirfing",2040,1,"job_rune_edq#3rd_tc2::OnMyMobDead";
+	end;
+OnDisable:
+	killmonster "job3_rune02","job_rune_edq#3rd_tc2::OnMyMobDead";
+	disablenpc "job_rune_edq#3rd_tc2";
+	end;
+OnMyMobDead:
+	if (mobcount("job3_rune02","job_rune_edq#3rd_tc2::OnMyMobDead") < 1) {
+		set job_rune_edq,20;
+		killmonster "job3_rune02","job_rune_edq#3rd_tc2::OnMyMobDead";
+		donpcevent "job_rune_edq#3rd_tc3::OnEnable";
+		donpcevent "job_rune_edq#3rd_tc2::OnDisable";
+		end;
+	}
+	end;
+}
+
+job3_rune02,2,5,0	script	job_rune_edq#3rd_tc3	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#3rd_tc3";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#3rd_tc3";
+	monster "job3_rune02",40,40,"Mysteltainn",2041,1,"job_rune_edq#3rd_tc3::OnMyMobDead";
+	end;
+OnDisable:
+	killmonster "job3_rune02","job_rune_edq#3rd_tc3::OnMyMobDead";
+	disablenpc "job_rune_edq#3rd_tc3";
+	end;
+OnMyMobDead:
+	if (mobcount("job3_rune02","job_rune_edq#3rd_tc3::OnMyMobDead") < 1) {
+		set job_rune_edq,21;
+		changequest 3217,3218;
+		erasequest 3220;
+		killmonster "job3_rune02","job_rune_edq#3rd_tc3::OnMyMobDead";
+		mapannounce "job3_rune02","Parabéns. Você passou no teste.",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		mapwarp "job3_rune02","job3_rune01",80,65;
+		donpcevent "job_rune_edq#1st_tb::OnDisable";
+		donpcevent "job_rune_edq#1st_tc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcnc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc2::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+		donpcevent "job_rune_edq#3rd_tb::OnDisable";
+		donpcevent "job_rune_edq#3rd_tc::OnDisable";
+		donpcevent "#Portal Escondido do Teste CR 1::OnEnable";
+		set $@job_rune_test1,0;
+		set $@job_rune_test2,0;
+		end;
+	}
+	end; 
+}
+
+sec_in02,34,167,3	script	Ger. Mudança de Classe	470,1,1,{
+	callfunc "F_GM_NPC";
+	mes "Digite a senha.";
+	next;
+	if (callfunc("F_GM_NPC","1854",1) == 1) {
+		mes "Módulo de Gerenciamento de Mudança de Classe para Cavaleiro Rúnico iniciado.";
+		next;
+		switch(select("Checar ValoresGlobais.:Modificar ValoresGlobais imediatamente.")) {
+		case 1:
+			mes "O valor atual dos ValoresGlobais da Mudança de Classe para Cavaleiro Rúnico é " + $@job_rune_test1 + ".";
+			mes "O número atual de jogadores no campo de teste do Cavaleiro Rúnico é de... " + getmapusers("job3_rune02") + ".";
+			close;
+		case 2:
+			set $@job_rune_test1,0;
+			mes "O valor de ValoresGlobais da Mudança de Classe para Cavaleiro Rúnico foi modificado para 0. O uso do campo de teste está agora disponível.";
+			close;
+		}
+	}
+	close;
+}
+job3_rune01,1,1,3	duplicate(Ger. Mudança de Classe)	#renshucheck	844

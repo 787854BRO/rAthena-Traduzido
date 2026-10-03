@@ -1,0 +1,67 @@
+//===== rAthena Script =======================================
+//= Hall of Abyss - NPC Duplicates
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Expansion for War of Emperium FE.
+//= Invest in each realm to unlock new maps:
+//= - Guild Dungeon F2, total 20,000,000z.
+//= - Hall of Abyss, total 70,000,000z.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//============================================================
+
+//  Reinos - Guilda de Mercadores, Gerentes dos Portais, Quadros de Status
+//============================================================
+alde_gld,186,157,3	duplicate(Guilda dos Mercadores Pata de Gato)	M. Pata de Gato Megrez	549
+alde_gld,191,164,3	duplicate(Gerente de Portal#realm)	Gerente de Portal#alde_f00	421
+alde_gld,188,158,3	duplicate(Quadro de Investimentos)	Status de Investimentos::InvestStatus_Alde	857
+
+gef_fild13,187,208,3	duplicate(Guilda dos Mercadores Pata de Gato)	M. Pata de Gato Meraq	549
+gef_fild13,189,206,3	duplicate(Gerente de Portal#realm)	Gerente de Portal#gef_f00	421
+gef_fild13,190,209,3	duplicate(Quadro de Investimentos)	Status de Investimentos::InvestStatus_Gef	857
+
+pay_gld,203,189,3	duplicate(Guilda dos Mercadores Pata de Gato)	M. Pata de Gato Phecda	549
+pay_gld,206,189,3	duplicate(Gerente de Portal#realm)	Gerente de Portal#pay_f00	421
+pay_gld,200,189,5	duplicate(Quadro de Investimentos)	Status de Investimentos::InvestStatus_Pay	857
+
+prt_gld,158,96,5	duplicate(Guilda dos Mercadores Pata de Gato)	M. Pata de Gato Dubae	549
+prt_gld,161,96,3	duplicate(Gerente de Portal#realm)	Gerente de Portal#prt_f00	421
+prt_gld,163,99,3	duplicate(Quadro de Investimentos)	Status de Investimentos::InvestStatus_Prt	857
+
+// Interior dos Castelos - Gerente dos Portais
+//============================================================
+aldeg_cas01,85,105,4	duplicate(Gerente de Portal#castle)	Gerente de Portal#alde_f01	421
+aldeg_cas02,124,49,3	duplicate(Gerente de Portal#castle)	Gerente de Portal#alde_f02	421
+aldeg_cas03,121,75,3	duplicate(Gerente de Portal#castle)	Gerente de Portal#alde_f03	421
+aldeg_cas04,25,67,7	duplicate(Gerente de Portal#castle)	Gerente de Portal#alde_f04	421
+aldeg_cas05,54,200,3	duplicate(Gerente de Portal#castle)	Gerente de Portal#alde_f05	421
+
+gefg_cas01,39,49,4	duplicate(Gerente de Portal#castle)	Gerente de Portal#gef_f01	421
+gefg_cas02,10,65,4	duplicate(Gerente de Portal#castle)	Gerente de Portal#gef_f02	421
+gefg_cas03,100,87,4	duplicate(Gerente de Portal#castle)	Gerente de Portal#gef_f03	421
+gefg_cas04,35,44,3	duplicate(Gerente de Portal#castle)	Gerente de Portal#gef_f04	421
+gefg_cas05,84,46,3	duplicate(Gerente de Portal#castle)	Gerente de Portal#gef_f05	421
+
+payg_cas01,129,59,3	duplicate(Gerente de Portal#castle)	Gerente de Portal#pay_f01	421
+payg_cas02,27,277,3	duplicate(Gerente de Portal#castle)	Gerente de Portal#pay_f02	421
+payg_cas03,51,266,3	duplicate(Gerente de Portal#castle)	Gerente de Portal#pay_f03	421
+payg_cas04,39,264,4	duplicate(Gerente de Portal#castle)	Gerente de Portal#pay_f04	421
+payg_cas05,272,252,4	duplicate(Gerente de Portal#castle)	Gerente de Portal#pay_f05	421
+
+prtg_cas01,114,178,3	duplicate(Gerente de Portal#castle)	Gerente de Portal#prt_f01	421
+prtg_cas02,89,63,5	duplicate(Gerente de Portal#castle)	Gerente de Portal#prt_f02	421
+prtg_cas03,72,109,3	duplicate(Gerente de Portal#castle)	Gerente de Portal#prt_f03	421
+prtg_cas04,29,263,4	duplicate(Gerente de Portal#castle)	Gerente de Portal#prt_f04	421
+prtg_cas05,24,23,4	duplicate(Gerente de Portal#castle)	Gerente de Portal#prt_f05	421
+
+// Localização dos NPCs no IRO
+//============================================================
+prt_gld,148,253,4	duplicate(Aviso de M. Pata de Gato)	Aviso de M. Pata de Gato::CatPawNotice_iRO	857
+prt_gld,145,255,6	duplicate(Namis#invest)	Namis::Namis_iRO	545,4,4
+prt_gld,165,50,4	duplicate(M. B. de Agradecimento)	M. B. de Agradecimento::ThanksMachine_iRO	564

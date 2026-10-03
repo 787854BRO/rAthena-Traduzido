@@ -1,0 +1,72 @@
+//===== rAthena Script =======================================
+//= War of Emperium TE (Al De Baran) - Kafragarten 1
+//===== Description: =========================================
+//= [Official Conversion]
+//= NPCs that relate to Al De Baran Training Guild Castle 1
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+// Bandeiras Simples (sem mensagens)
+//============================================================
+alde_gld,222,186,4	duplicate(flag_te)	Sofia#te_aldecas1	GUILD_FLAG
+
+// Bandeiras de Informações Simples
+//============================================================
+te_aldecas1,30,248,4	duplicate(simple_info_TE)	Sofia#1	GUILD_FLAG
+te_aldecas1,37,248,4	duplicate(simple_info_TE)	Sofia#2	GUILD_FLAG
+te_aldecas1,37,246,4	duplicate(simple_info_TE)	Sofia#3	GUILD_FLAG
+te_aldecas1,30,246,4	duplicate(simple_info_TE)	Sofia#4	GUILD_FLAG
+te_aldecas1,95,80,2	duplicate(simple_info_TE)	Sofia#5	GUILD_FLAG
+te_aldecas1,90,09,2	duplicate(simple_info_TE)	Sofia#6	GUILD_FLAG
+te_aldecas1,62,75,2	duplicate(simple_info_TE)	Sofia#7	GUILD_FLAG
+te_aldecas1,66,75,2	duplicate(simple_info_TE)	Sofia#8	GUILD_FLAG
+te_aldecas1,70,75,2	duplicate(simple_info_TE)	Sofia#9	GUILD_FLAG
+te_aldecas1,74,75,2	duplicate(simple_info_TE)	Sofia#10	GUILD_FLAG
+te_aldecas1,62,64,2	duplicate(simple_info_TE)	Sofia#11	GUILD_FLAG
+te_aldecas1,66,64,2	duplicate(simple_info_TE)	Sofia#12	GUILD_FLAG
+te_aldecas1,70,64,2	duplicate(simple_info_TE)	Sofia#13	GUILD_FLAG
+te_aldecas1,74,64,2	duplicate(simple_info_TE)	Sofia#14	GUILD_FLAG
+te_aldecas1,74,64,2	duplicate(simple_info_TE)	Sofia#15	GUILD_FLAG
+te_aldecas1,203,150,4	duplicate(simple_info_TE)	Sofia#16	GUILD_FLAG
+te_aldecas1,210,150,4	duplicate(simple_info_TE)	Sofia#17	GUILD_FLAG
+
+// Bandeiras de Informações + Portal do Mestre da Guilda no Interior.
+//============================================================
+te_alde_gld,61,87,6	script	Sofia#18	GUILD_FLAG,{
+	callfunc( "F_flag_woe_TE", 1, "te_aldecas1" ,218,170 );
+OnFlagTESofia:
+	flagemblem getcastledata( "te_aldecas1",1 );
+	end;
+}
+te_alde_gld,61,79,6	duplicate(Sofia#18)	Sofia#19	GUILD_FLAG
+te_alde_gld,45,87,8	duplicate(Sofia#18)	Sofia#20	GUILD_FLAG
+te_alde_gld,51,87,8	duplicate(Sofia#18)	Sofia#21	GUILD_FLAG
+
+// Kafra da Guilda
+//============================================================
+te_aldecas1,218,170,0	duplicate(Kafra_Staff_TE)	Funcionária Kafra#te_alde1	4_F_KAFRA1
+
+// Nível 1 (portal para o tesouro externo)
+//============================================================
+te_aldecas1,123,223,0	duplicate(lever1_TE)	#lever1_te_aldecas1	HIDDEN_NPC
+
+// Nível 2 (portal para o calabouço)
+//============================================================
+te_aldecas1,211,181,0	duplicate(lever2_TE)	#lever2_te_aldecas1	HIDDEN_NPC
+
+// Investimento econômico / defesa / guardião
+//============================================================
+te_aldecas1,218,175,0	duplicate(invest_TE)	Clode	1_M_JOBTESTER
+
+// Invocação do Tesouro
+//============================================================
+te_aldecas1,1,1,0	duplicate(treasure_TE)	treasure_TE#te_aldecas1	-1
+
+// Npc de Aluguel de Itens.
+//============================================================
+te_alde_gld,45,84,3	duplicate(rental_woe_TE)	Gerente de Aluguel#ag01	4_F_HUWOMAN
+
+// Administração GdE
+//============================================================
+te_aldecas1,1,1,0	duplicate(Manager_TE)	Manager_TE#Sofia	-1

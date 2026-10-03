@@ -1,0 +1,810 @@
+//===== rAthena Script =======================================
+//= Eden Group Quests - Mission [121-130]
+//===== By: ==================================================
+//= Capuche
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Repeatable quests for players between BaseLevel 121 - 130.
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//= 1.1 Added support to Para_Team_Mark_ in Eden Group. [Ragno]
+//= 1.2 Added use of F_HasEdenGroupMark function. [Ragno]
+//============================================================
+
+moc_para01,44,81,3	script	Jack-Melodia#1	4_M_MELODY,8,8,{
+	mes "[Jack-Melodia]";
+	if (!callfunc("F_HasEdenGroupMark")) {
+		mes "Quem diabos é você? Cai fora daqui!";
+		mes "Só falo com aventureiros com nível de base entre ^FF0000121-130^000000.";
+	}
+	else if (para_120lv01 == 0)
+		mes "O quê? Não me incomode. Estou ocupado agora.";
+	else if (para_120lv01 == 1) {
+		mes "Você recebeu um pedido daquela garotinha? A pequena, tagarela e seminua ali?";
+		next;
+		select("Dizer que sim.", "Evitar responder.");
+		mes "[Jack-Melodia]";
+		mes "Não. Não me importo. Está tudo bem se você entrou aqui não por estar perdido. Eu preciso de qualquer um, exceto daquele tipo de tolo.";
+		next;
+		mes "[Jack-Melodia]";
+		mes "Por favor, me escute, vou te oferecer uma proposta atrativa.";
+		next;
+		mes "[Jack-Melodia]";
+		mes "Eu sou ^ff0000Jack - Melodia!^000000 O melhor homem com as melhores habilidades com adagas.";
+		next;
+		mes "Jack-Melodia passa uma adaga na sua direção.";
+		next;
+		mes "[Jack-Melodia]";
+		mes "Sou qualificado para missões secretas. E agora você está com sorte.";
+		next;
+		mes "[Jack-Melodia]";
+		mes "Parece que vou ter que abrir mão de uma missão, acordo e promessa, não posso cumprir agora.";
+		next;
+		mes "[Jack-Melodia]";
+		mes "Aceite minha missão e resolva o pedido da Aigu. Eu vou te recompensar.";
+		next;
+		mes "[Jack-Melodia]";
+		mes "Nosso acordo será mantido em segredo da Aigu. Se você não tem 9 vidas... vamos começar.";
+		para_120lv01 = 2;
+	}
+	else if (para_120lv01 > 1) {
+		mes "......";
+		next;
+		if (select( "Mostre-me os pedidos!", "Conversa fiada." ) == 2) {
+			mes "[Jack-Melodia]";
+			mes "O quê? Está interessado em mim?";
+			next;
+			switch( select( "Estou interessado.", "Sobre os pedidos.", "Sobre um acordo.", "O que é uma promessa?" ) ) {
+				mes "[Jack-Melodia]";
+			case 1:
+				mes "Então vá embora. Não tenho interesse em você.";
+				close;
+			case 2:
+				mes "Não consigo parar por causa do meu mau crédito. Isso me enlouquece.";
+				next;
+				mes "[Jack-Melodia]";
+				mes "Tive sorte de fazer um contrato duplo com um aventureiro como você. Eles não estão incluídos em nosso contrato.";
+				close;
+			case 3:
+				mes "Para ser honesto, não acho que exista alguém digno de confiança. Confiança ou promessas são bobagens.";
+				next;
+				mes "[Jack-Melodia]";
+				mes "Confio apenas em mim e no meu acordo. Confiança ou promessas são vazias se forem quebradas, mas se um acordo for quebrado, há compensação ou vingança.";
+				close;
+			case 4:
+				mes "Quem são todas essas crianças?";
+				next;
+				mes "[Jack-Melodia]";
+				mes "Saí por nada, mas se é meu dever, devo cumprir. Não devo nada a ninguém.";
+				close;
+			}
+		}
+		mes "[Jack-Melodia]";
+		if (BaseLevel < 121)
+			mes "Ah, cometi um erro. Você não é o tipo de aventureiro que estou procurando. Estou atrás de aventureiros com nível de base entre 121 e 130.";
+		else if (BaseLevel < 131) {
+			mes "Não gosto disso, mas um acordo é um acordo. Volte depois de limpar os monstros dos lugares que a Aigu pediu para investigar.";
+			next;
+			switch( select( "Relacionado à Torre de Thanatos.", "Relacionado ao Templo de Rachel.", "Relacionado à Ilha Desconhecida.", "Relacionado ao Lago do Abismo." ) ) {
+				mes "[Jack-Melodia]";
+			case 1:
+				mes "A Torre de Thanatos é o lugar mais irritante. Não se preocupe com sua recompensa. Eu cumpro minha palavra.";
+				next;
+				switch( select( "Baronesa da Retribuição.", "Senhora do Conforto.", "Senhora do Abrigo.", "Dama da Guarda." ) ) {
+					mes "[Jack-Melodia]";
+				case 1:
+					if (checkquest(13120,PLAYTIME) == 0)
+						mes "Acho que já fiz minha apresentação de hoje. Não posso relaxar, e se os monstros aparecerem de repente?";
+					else if (checkquest(13119,HUNTING) == 1) {
+						cutin "½Å¹úÀÇ´ëÇàÀÚÄ«µå",3;  //Carta Baronesa da Retribuição
+						mes "Não gosto daquela criatura, não é só porque a Aigu também não gosta... Como ousa? Quem está punindo quem?";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Essas são algumas das criaturas mais perigosas do mundo. Elas não merecem justiça alguma.";
+						next;
+						cutin "",255;
+						mes "[Jack-Melodia]";
+						mes "Claro que pode confiar em mim. Porque eu acredito em acordos de verdade. Vamos exterminar essas criaturas.";
+					}
+					else if (checkquest(13119,HUNTING) == 2) {
+						mes "Você os derrotou? Então isso não incomodará aquele garotinho por um dia. Bom trabalho.";
+						callsub S_Quest,13119,13120,1;
+					}
+					else {
+						cutin "½Å¹úÀÇ´ëÇàÀÚÄ«µå",3;  //Carta Baronesa da Retribuição
+						mes "Como você sabe, a Torre de Thanatos é o lugar que mais importa para a Aigu. É um dos lugares mais perigosos.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Por favor, elimine os monstros para ajudar a Aigu. Amadores só vão atrapalhar.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Deve haver muitos deles. Não se esqueça de manter isso em segredo.";
+							callsub S_Quest,13120,13119;
+						}
+					}
+					close;
+				case 2:
+					if (checkquest(13122,PLAYTIME) == 0)
+						mes "Acho que já fiz minha apresentação de hoje. Não posso relaxar... E se monstros aparecerem de repente?";
+					else if (checkquest(13121,HUNTING) == 1) {
+						cutin "À§·ÎÇÏ´ÂÀÚ",3;  //Carta Senhora do Conforto
+						mes "A construção não parece ter sido feita por seres humanos e uma melodia estranha toca o tempo todo por lá.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Não se deixe levar pela melodia, pois pode ser a última que você ouvirá.";
+						next;
+						cutin "",255;
+						mes "[Jack-Melodia]";
+						mes "Lembre-se, há músicas estranhas tão afiadas quanto uma lâmina capazes de matar pessoas neste mundo.";
+					}
+					else if (checkquest(13121,HUNTING) == 2) {
+						mes "Já ouviu a melodia que estão tocando? Você terá uma chance se aquele garotinho começar a apresentação novamente.";
+						callsub S_Quest,13121,13122,1;
+					}
+					else {
+						cutin "À§·ÎÇÏ´ÂÀÚ",3;  //Carta Senhora do Conforto
+						mes "Melodia bonita. Talvez pareça bonita porque são as criaturas que a estão tocando.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "No entanto, isso é apenas mais um obstáculo. Um acordo tem prioridade sobre interesses pessoais. Então derrote a Senhora do Conforto.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Estamos apenas cumprindo nossa parte do acordo. Elimine essas criaturas agora.";
+							callsub S_Quest,13122,13121;
+						}
+					}
+					close;
+				case 3:
+					if (checkquest(13124,PLAYTIME) == 0)
+						mes "Acho que já fiz minha apresentação de hoje. Não posso relaxar... E se monstros aparecerem de repente?";
+					else if (checkquest(13123,HUNTING) == 1) {
+						cutin "¾È½ÄÀ»ÁÖ´ÂÀÚÄ«µå",3;  //Carta Senhora do Abrigo
+						mes "Você conhece um anjo que se transformou em monstro? Não sei se era um anjo de verdade, mas sua aparência era angelical.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Não se deixe enganar por aparências belas, sejam anjos ou criaturas. Faça o seu trabalho.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Tudo tem seu tempo. Talvez você tenha recebido este pedido porque esse tempo chegou.";
+						cutin "",255;
+					}
+					else if (checkquest(13123,HUNTING) == 2) {
+						mes "Ótimo. Me avise se alguém estiver me procurando. Se for o caso, talvez eu tenha que alterar os termos do acordo.";
+						callsub S_Quest,13123,13124,1;
+					}
+					else {
+						cutin "¾È½ÄÀ»ÁÖ´ÂÀÚÄ«µå",3;  //Carta Senhora do Abrigo
+						mes "Você conhece um anjo que se transformou em monstro? Não sei se era um anjo de verdade, mas sua aparência era angelical.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Não me importa se é um anjo de verdade ou apenas uma criatura. Derrote a Senhora do Abrigo.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Flores murchas caem com a chuva e o vento. É isso que você precisa fazer.";
+							emotion ET_BEST;
+							callsub S_Quest,13124,13123;
+						}
+					}
+					close;
+				case 4:
+					if (checkquest(13126,PLAYTIME) == 0)
+						mes "Terminei minha apresentação por hoje. Não posso relaxar, e se monstros aparecerem de repente?";
+					else if (checkquest(13125,HUNTING) == 1) {
+						cutin "°¨½ÃÇÏ´ÂÀÚÄ«µå",3;  //Carta Dama da Guarda
+						mes "Você pode ter sentido que estavam te observando assim que entrou na parte superior da Torre de Thanatos.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "A Dama da Guarda não é fácil de lidar, então esteja preparado para lutar.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "É um ótimo dia para morrer. Será você ou eles, então faça o seu melhor.";
+						cutin "",255;
+					}
+					else if (checkquest(13125,HUNTING) == 2) {
+						mes "Você parece bem. Talvez seja melhor do que eu pensava? Embora eu não tenha conferido com meus próprios olhos.";
+						callsub S_Quest,13125,13126,1;
+					}
+					else {
+						cutin "°¨½ÃÇÏ´ÂÀÚÄ«µå",3;  //Carta Dama da Guarda
+						mes "Você os encontrará se a Aigu solicitar. As Damas da Guarda.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Espero que também sejam eliminadas para que ela possa fazer esse pedido com facilidade.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Um pedido por um pedido... Tanto faz.";
+							callsub S_Quest,13126,13125;
+						}
+					}
+					close;
+				}
+			case 2:
+				mes "A aventura da Aigu leva ao Templo de Rachel. Certo... Não seria estranho se ^FF0000aquele humano^000000 que a Aigu procura fosse encontrado em qualquer lugar.";
+				next;
+				switch( select( "Vanberk e Isilla.", "Hodremlin.", "Agav e Echio." ) ) {
+					mes "[Jack-Melodia]";
+				case 1:
+					if (checkquest(13128,PLAYTIME) == 0)
+						mes "Você pode descansar por um dia. Já eliminou o suficiente, mas o fanatismo aumentou.";
+					else if (checkquest(13127,HUNTING) == 1) {
+						cutin "ÀÌ½Ç¶óÄ«µå",3;  //Carta Isilla
+						mes "Alguém que acredita estar certo é o mais perigoso. Este mundo está cheio de tolos.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "No fim, obrigam os outros a acreditarem no que eles acreditam. Vamos eliminar Vanberk e Isilla.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Não é da minha conta. Mas desta vez é diferente. Um garotinho pode estar em perigo, então vamos apressar e acabar com esses monstros.";
+						cutin "",255;
+					}
+					else if (checkquest(13127,HUNTING) == 2) {
+						mes "Só um dia. Vai ficar tudo bem.";
+						callsub S_Quest,13127,13128,1;
+					}
+					else {
+						cutin "ÆÇº£¸£Å©Ä«µå",3;  //Carta Vanberk
+						mes "O Santuário de Rachel é proibido para pessoas comuns. Você deveria saber disso.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Eles acham que podem encontrar pistas lá, mas não é um lugar seguro. Elimine o Vanberk e a Isilla com antecedência.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Elimine todos o mais rápido que puder.";
+							emotion ET_SPARK;
+							callsub S_Quest,13128,13127;
+						}
+					}
+					close;
+				case 2:
+					if (checkquest(13130,PLAYTIME) == 0)
+						mes "Monstros desconhecidos são perigosos, então elimine-os primeiro. Eu te informarei se algo acontecer.";
+					else if (checkquest(13129,HUNTING) == 1) {
+						cutin "È£µå·½¸°Ä«µå",3;  //Carta Hodremlin
+						mes "Dentes frios podem estar se aproximando. Eles são mais rápidos que suas mãos.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "O santuário de Rachel pode te surpreender de qualquer lugar. Cuidado com esse aí.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Apenas concentre-se na missão. Isso será suficiente.";
+						cutin "",255;
+					}
+					else if (checkquest(13129,HUNTING) == 2) {
+						mes "Não estou tão preocupado, mas você está bem? Não foi mordido?";
+						callsub S_Quest,13129,13130,1;
+					}
+					else {
+						cutin "È£µå·½¸°Ä«µå",3;  //Carta Hodremlin
+						mes "Fanáticos são um problema. O problema mais sério é que aparecem de repente.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Elimine o ^FF0000Hodremlin^000000 sem hesitação. Eles são muito perigosos.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Eles exigem mãos mais rápidas do que a cabeça. Eu não me preocupo, mas você deveria.";
+							callsub S_Quest,13130,13129;
+						}
+					}
+					close;
+				case 3:
+					if (checkquest(13132,PLAYTIME) == 0)
+						mes "Se você pode conversar, então não há pedidos agora. Descanse por hoje.";
+					else if (checkquest(13131,HUNTING) == 1) {
+						cutin "¿¡Å°¿ÀÄ«µå",3;  //Carta Echio
+						mes "Cheio de loucura por aqui. Me dá nojo.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "É o que eu sinto, mas talvez você goste. Tenho certeza que ^FF0000Agav^000000 e ^FF0000Echio^000000 não gostarão de você.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Eles vão te encontrar. Não hesite e mantenha o foco na missão.";
+						cutin "",255;
+					}
+					else if (checkquest(13131,HUNTING) == 2) {
+						mes "Encontrou alguém? Eu não me preocuparia. Uma promessa é uma promessa, e um acordo é um acordo.";
+						callsub S_Quest,13131,13132,1;
+					}
+					else {
+						cutin "¾Æ°¡ºêÄ«µå",3;  //Carta Agav
+						mes "É verdade que está ficando mais perigoso dentro do Santuário de Rachel, mas a Aigu não se importa com coisas incertas.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Não foi tão ruim. Mas alguém precisa ajudar? Vamos eliminar ^FF0000Agav^000000 e ^FF0000Echio^000000 dentro do Templo de Rachel.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Não posso sair daqui, então adeus.";
+							callsub S_Quest,13132,13131;
+						}
+					}
+					close;
+				}
+			case 3:
+				mes "A Ilha Desconhecida não é conhecida pelos aventureiros comuns. Aigu também está interessada naquele lugar.";
+				next;
+				switch( select( "Caça aos Zumbis Dilacerados.", "Caça aos Massacres.", "Caça às Banshees." ) ) {
+					mes "[Jack-Melodia]";
+				case 1:
+					if (checkquest(13134,PLAYTIME) == 0)
+						mes "A quantidade de Zumbis Dilacerados diminuiu. É um bom momento para continuar o pedido da Aigu por um instante.";
+					else if (checkquest(13133,HUNTING) == 1) {
+						cutin "´©´õ±âÁ»ºñÄ«µå",3;  //Carta Zumbi Dilacerado
+						mes "É fácil encontrar de tudo na Ilha Desconhecida. Que tédio.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Acabe com eles e ajude a Aigu e os outros aventureiros.";
+						cutin "",255;
+					}
+					else if (checkquest(13133,HUNTING) == 2) {
+						mes "Tomou banho? Está um cheiro horrível aqui. Mas imagino que tenha sido difícil suportar o fedor.";
+						callsub S_Quest,13133,13134,1;
+					}
+					else {
+						cutin "´©´õ±âÁ»ºñÄ«µå",3;  //Carta Zumbi Dilacerado
+						mes "Os mortos voltam à noite. 'Voltar' soa estranho. Vamos parar com o papo furado.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Quero que elimine os ^FF0000Zumbis Dilacerados^000000. É fácil, eles aparecem por toda parte.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Parar." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Tome um ^FF0000banho^000000 e você não vai mais feder.";
+							callsub S_Quest,13134,13133;
+						}
+					}
+					close;
+				case 2:
+					if (checkquest(13136,PLAYTIME) == 0)
+						mes "Eu sei que o pedido na Ilha Desconhecida não é fácil, mas ficarei feliz se você voltar a ajudar.";
+					else if (checkquest(13135,HUNTING) == 1) {
+						cutin "Á»ºñ½½·¯ÅÍÄ«µå",3;  //Carta Massacre
+						mes "Também não foi fácil para mim pisar na Ilha Desconhecida. Não sou tão paciente assim.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Mas aventureiros devem se desafiar ao menos uma vez. ^FF0000Massacres^000000 merecem ser eliminados.";
+						cutin "",255;
+					}
+					else if (checkquest(13135,HUNTING) == 2) {
+						mes "Você é muito bom! Conseguiu eliminá-los. Vai levar um tempo para retornar.";
+						callsub S_Quest,13135,13136,1;
+					}
+					else {
+						cutin "Á»ºñ½½·¯ÅÍÄ«µå",3;  //Carta Massacre
+						mes "Eles são perigosos, diferente dos Zumbis Dilacerados, pois empunham algo afiado.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Por favor, elimine os ^FF0000Massacres^000000. Cuidado para não ser atingido pelas lâminas.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Você tem muitas coisas para lidar, então serei breve. Elimine-os.";
+							callsub S_Quest,13136,13135;
+						}
+					}
+					close;
+				case 3:
+					if (checkquest(13138,PLAYTIME) == 0)
+						mes "As Banshees foram eliminadas. O pedido foi resolvido de qualquer forma, mas isso não é o fim. Será necessário de novo em breve.";
+					else if (checkquest(13137,HUNTING) == 1) {
+						cutin "¹ê½ÃÄ«µå",3;  //Carta Banshee
+						mes "Você verá que há coisas desagradáveis ao aventurar-se, independentemente de monstros ou companheiros.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Este pedido é assim para mim. Eu simplesmente não gosto das criaturas ou do motivo desse pedido.";
+						cutin "",255;
+					}
+					else if (checkquest(13137,HUNTING) == 2) {
+						mes "Você deve estar exausto. Foi até aquele lugar difícil além da sua capacidade. Não fique bravo. Eu vou te recompensar por isso.";
+						callsub S_Quest,13137,13138,1;
+					}
+					else {
+						cutin "¹ê½ÃÄ«µå",3;  //Carta Banshee
+						mes "Por favor, elimine as ^FF0000Banshees^000000 na Ilha Desconhecida. Não diga não. Você sabe que é pela Aigu também.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Tanto as Banshees quanto a Aigu são irritantes. Eu não faria esse pedido, mas você é diferente. Certo?";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Viu? Alguém precisa desse pedido. Elimine as ^FF0000Banshees^000000 na Ilha Desconhecida.";
+							callsub S_Quest,13138,13137;
+						}
+					}
+					close;
+				}
+			case 4:
+				mes "O Lago do Abismo tem pedidos de uma garotinha. Muito diligente.";
+				next;
+				if (select( "Eliminar Ferus e Ferus Verde.", "Eliminar Acidus Dourado e Azul." ) == 1) {
+					mes "[Jack-Melodia]";
+					if (checkquest(13140,PLAYTIME) == 0)
+						mes "Dragões verdes e vermelhos me lembram melancias.";
+					else if (checkquest(13139,HUNTING) == 1) {
+						cutin "·¹µåÆä·¯½ºÄ«µå",3;  //Carta Ferus
+						mes "Lago do Abismo... Você por acaso sabe como entrar lá? Você não seria um aventureiro com esse tipo de informação?";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Só por precaução, vou te dar uma dica: uma chave e uma entrada podem ser encontradas por ali.";
+						cutin "",255;
+					}
+					else if (checkquest(13139,HUNTING) == 2) {
+						mes "Você derrotou todos os Dragões? Descanse por um dia.";
+						callsub S_Quest,13139,13140,1;
+					}
+					else {
+						cutin "±×¸°Æä·¯½ºÄ«µå",3;  //Carta Ferus Verde
+						mes "O Lago do Abismo está cheio de Dragões por dentro e por fora. Dragões não são tão especiais, mas há muitos.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Qual é o mais perigoso entre Ferus e Ferus Verde? Eu não sei. Elimine ambos.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Nem verde e nem vermelho me incomodam. Mas de qualquer forma, volte depois de eliminar todos.";
+							callsub S_Quest,13140,13139;
+						}
+					}
+				}
+				else {
+					mes "[Jack-Melodia]";
+					if (checkquest(13142,PLAYTIME) == 0)
+						mes "Descanse um pouco. Depois devemos ir subjugar os dragões Acidus novamente.";
+					else if (checkquest(13141,HUNTING) == 1) {
+						cutin "ºí·ç¾î½Ã´õ½ºÄ«µå",3;  //Carta Acidus Dourado
+						mes "O Lago do Abismo não é perto. Mas vale a visita.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Tecnicamente isso é um exercício de treinamento, mas finja que está ajudando alguém. Haverá recompensa.";
+						cutin "",255;
+					}
+					else if (checkquest(13141,HUNTING) == 2) {
+						mes "Você é um aventureiro mais talentoso do que pensei. Se encontrou uma tática, use da próxima vez. Este estudo é com você.";
+						callsub S_Quest,13141,13142,1;
+					}
+					else {
+						cutin "°ñµå¾î½Ã´õ½º",3;  //Carta Acidus Azul
+						mes "Existe uma caverna onde dragões vivem dentro do Lago do Abismo. Há muitos deles, mas as criaturas voadoras são irritantes.";
+						next;
+						mes "[Jack-Melodia]";
+						mes "Subjugue-os o melhor que puder. Não ligue para as cores, pois todos devem ser derrotados.";
+						next;
+						cutin "",255;
+						if (select( "Aceitar o pedido.", "Desistir." ) == 1) {
+							mes "[Jack-Melodia]";
+							mes "Subjugue os monstros Acidus Dourado e Azul no último nível do Lago do Abismo.";
+							callsub S_Quest,13142,13141;
+						}
+					}
+				}
+				close;
+			}
+		}
+		else {
+			mes "Você terminou de ajudar a Aigu ou desistiu? De qualquer forma, não tenho mais negócios com você.";
+
+			next;
+			callsub S_Erasequest,
+				13119,"Baronesa da Retribuição",
+				13121,"Senhora do Conforto",
+				13123,"Senhora do Abrigo",
+				13125,"Dama da Guarda",
+				13127,"Vanberk e Isilla",
+				13129,"Hodremlin",
+				13131,"Agav e Echio",
+				13133,"Zumbi Dilacerado",
+				13135,"Massacre",
+				13137,"Banshee",
+				13139,"Ferus ",
+				13141,"Acidus";
+			mes "[Jack-Melodia]";
+			mes "Não sei se você encontrou o que procurava... Não posso mais me envolver. Obrigado.";
+		}
+	}
+	close;
+S_Quest:
+	if (isbegin_quest(getarg(0)))
+		erasequest getarg(0);
+	setquest getarg(1);
+	if (getarg(2,0))
+		getexp 900000,200000;
+	return;
+S_Erasequest:
+	.@total = getargcount();
+	for ( .@i = 0; .@i < .@total; .@i += 2 ) {
+		.@quest_id = getarg(.@i);
+		switch( checkquest(.@quest_id,HUNTING) ) {
+		case -1:
+			if (checkquest(.@quest_id+1) > -1)
+				erasequest (.@quest_id+1);
+			continue;
+		case 0:
+		case 1:
+			mes "[Jack-Melodia]";
+			mes getarg(.@i+1) +" foi concluída. Não é necessário ter mais pedidos.";
+			break;
+		case 2:
+			mes "[Jack-Melodia]";
+			mes getarg(.@i+1) +" foi concluída. Um acordo é um acordo. Preciso ser recompensado.";
+			getexp 900000,200000;
+			break;
+		}
+		erasequest .@quest_id;
+		next;
+	}
+	return;
+OnTouch_:
+	if (para_120lv01 == 1) {
+		emotion ET_SURPRISE;
+		mes "[Jack-Melodia]";
+		mes "Ei você aí! ... Espera?";
+		close;
+	}
+	end;
+}
+
+moc_para01,17,77,5	script	Aigu#1	4_F_IU,{
+	mes "[Aigu]";
+	if (!callfunc("F_HasEdenGroupMark")) {
+		mes "Ah, por que você não faz parte do Grupo do Éden?";
+		mes "Eu só falo com aventureiros com nível de base ^FF0000121-130^000000.";
+	}
+	else if (para_120lv01 == 0) {
+		cutin "igu01",2;
+		mes "Oi? Um dia bonito como hoje. Posso te pedir um favor? Ouvi dizer que os aventureiros do Grupo do Éden são gentis.";
+		next;
+		if (select( "Não sou do tipo gentil.", "Claro, vou ajudar." ) == 1) {
+			cutin "igu05",2;
+			mes "[Aigu]";
+			mes "Eca... Eu odeio isso.";
+		}
+		else {
+			cutin "igu03",2;
+			mes "[Aigu]";
+			mes "Sério? Deixe-me me apresentar! Sou a líder da ^ff0000Banda Dente-de-Leão, Aigu.^000000";
+			next;
+			mes "[Aigu]";
+			mes "Acabei de voltar de uma apresentação local. Tinha alguém que eu queria encontrar, mas essa pessoa está desaparecida agora, então vim ao Grupo do Éden com um pedido.";
+			next;
+			mes "[Aigu]";
+			mes "Decidi fazer o pedido por conta própria porque ninguém estava disponível e todos estavam ocupados. Obrigada pela ajuda.";
+			para_120lv01 = 1;
+		}
+	}
+	else if (para_120lv01 > 0) {
+		cutin "igu01",2;
+		mes "É tão bom estar de volta a Midgard! Tão empolgante como no primeiro dia.";
+		next;
+		if (select( "Qual é o seu pedido?", "Falar sobre outra coisa." ) == 2) {
+			cutin "igu01",2;
+			mes "[Aigu]";
+			mes "A banda Dente-de-Leão viaja por todo o mundo e transmite música de cura para as pessoas.";
+			next;
+			cutin "igu02",2;
+			mes "[Aigu]";
+			mes "Na verdade, nossas canções não têm magia, mas tenho certeza de que ajudam as pessoas, porque sou eu quem está cantando.";
+		}
+		else if (BaseLevel < 121) {
+			cutin "igu04",2;
+			mes "[Aigu]";
+			mes "Acho que é difícil para você aceitar meu pedido. Por agora, acho que só fará mais pessoas se perderem. Que tal ampliar sua visão viajando?";
+		}
+		else if (BaseLevel < 131) {
+			mes "[Aigu]";
+			mes "Eu criei um abrigo para alguém que estou procurando e para aventureiros perdidos. Quero saber qual aventureiro esteve lá.";
+			next;
+			switch( select( "Busca na Torre de Thanatos.", "Busca no Santuário de Rachel.", "Busca na Ilha Desconhecida.", "Busca no Lago do Abismo." ) ) {
+				mes "[Aigu]";
+			case 1:
+				if (checkquest(13115,PLAYTIME) == 0)
+					mes "Pedirei para buscar novamente depois de um tempo porque há esperança, já que foi encontrado um rastro de alguém.";
+				else if (isbegin_quest(13111) == 1) {
+					cutin "igu04",2;
+					mes "Você sabe que alguém esteve lá, mas não sabe quem foi? Obrigada. Mas deixe-me pedir que você busque novamente amanhã, pois ainda não sabemos quem é.";
+					callsub S_Quest,13111,13115,1250000,300000;
+				}
+				else if (isbegin_quest(13107) == 1)
+					mes "Talvez você encontre um abrigo no topo da torre. Mesmo esse abrigo só tem água e uma fogueira.";
+				else {
+					mes "Aventureiros se perdem facilmente por causa dos monstros perigosos e da altura da Torre de Thanatos. Mas não é impossível para alguns, então por favor verifique isso para mim.";
+					next;
+					if (select( "Começar a busca.", "Cancelar." ) == 1) {
+						mes "[Aigu]";
+						mes "A Torre de Thanatos fica ao norte da República de Schwarzwald! Não é longe de Juno ou Hugel.";
+						callsub S_Quest,13115,13107; // Busca na Torre de Thanatos
+					}
+				}
+				break;
+			case 2:
+				if (checkquest(13116,PLAYTIME) == 0)
+					mes "A busca em Rachel já foi suficiente. Pedirei sua ajuda novamente depois de um tempo.";
+				else if (isbegin_quest(13112) == 1) {
+					mes "Como foi sua viagem? Nenhuma notícia especial. Mas ainda não terminou, então peço que busque novamente.";
+					callsub S_Quest,13112,13116,1000000,300000;
+				}
+				else if (isbegin_quest(13108) == 1)
+					mes "Não é possível entrar no santuário da forma comum. Não é fácil, mas podemos encontrar pistas em Rachel.";
+				else {
+					cutin "igu03",2;
+					mes "Existe um santuário dentro do Templo de Rachel. Você pode acabar preso lá depois que entrar.";
+					next;
+					mes "[Aigu]";
+					mes "Por favor, veja se há vestígios de aventureiros perdidos na parte sudeste do 2º andar na Zona Central.";
+					next;
+					if (select( "Começar a busca.", "Parar." ) == 1) {
+						cutin "igu05",2;
+						mes "[Aigu]";
+						mes "Desejo que tenha segurança em sua busca.";
+						callsub S_Quest,13116,13108;// Busca no solo sagrado de Rachel
+					}
+				}
+				break;
+			case 3:
+				if (checkquest(13117,PLAYTIME) == 0)
+					mes "A busca pela Ilha Desconhecida continuará em outro momento. Que tal descansar um pouco?";
+				else if (isbegin_quest(13113) == 1) {
+					mes "Obrigada! Há aventureiros vagando que também estão ajudando! Devemos continuar a busca. Por favor, me ajude novamente da próxima vez.";
+					callsub S_Quest,13113,13117,900000,300000;
+				}
+				else if (isbegin_quest(13109) == 1) {
+					cutin "igu04",2;
+					mes "Talvez... esteja por aí bebendo e convivendo com os mortos. Mas, por favor, fale comigo.";
+				}
+				else {
+					cutin "igu03",2;
+					mes "Sim, talvez não possam vir porque foram capturados pelos mortos! A Ilha Desconhecida ficará bem! Por favor, vá investigar a ilha.";
+					next;
+					if (select( "Começar a busca.", "Parar." ) == 1) {
+						cutin "igu01",2;
+						mes "[Aigu]";
+						mes "Peço que procure no 1º subsolo do monastério na Ilha Desconhecida. Não posso te forçar a correr esse risco, a menos que você se ofereça.";
+						callsub S_Quest,13117,13109;// Busca na Ilha Desconhecida
+					}
+				}
+				break;
+			case 4:
+				if (checkquest(13118,PLAYTIME) == 0)
+					mes "Vou tentar buscar o Lago do Abismo novamente depois de um tempo.";
+				else if (isbegin_quest(13114) == 1) {
+					cutin "igu05",2;
+					mes "Você voltou em segurança, mas parece que não teve bons resultados. Vou continuar procurando, então não se decepcione! Obrigada.";
+					callsub S_Quest,13114,13118,900000,200000;
+				}
+				else if (isbegin_quest(13110) == 1) {
+					cutin "igu05",2;
+					mes "Talvez tenha se decepcionado e caído porque não encontrou nenhum monstro no solo do lago.";
+				}
+				else {
+					mes "Sugiro investigar o Lago do Abismo, especialmente a caverna no centro do lago.";
+					next;
+					mes "[Aigu]";
+					mes "Sim! O fim de uma boa aventura precisa de um dragão! Ouvi dizer que há um monstro no fundo do lago.";
+					next;
+					if (select( "Começar a busca.", "Parar." ) == 1) {
+						mes "[Aigu]";
+						mes "O Lago do Abismo é o caminho mais rápido até Hugel. Por favor, visite o 3º andar da caverna subterrânea!";
+						callsub S_Quest,13118,13110;// Busca no Lago do Abismo
+					}
+				}
+			}
+		}
+		else {
+			cutin "igu04",2;
+			mes "[Aigu]";
+			mes "Não posso te dar mais missões de busca agora! Você precisa de desafios mais difíceis adequados ao seu nível.";
+			callsub S_Erasequest,
+				13107,"Torre de Thanatos",
+				13108,"Templo de Rachel",
+				13109,"Ilha Desconhecida",
+				13110,"Lago do Abismo";
+			callsub S_Erasequest2,
+				13111,"Torre de Thanatos",1250000,300000,
+				13112,"Templo de Rachel",1000000,300000,
+				13113,"Ilha Desconhecida",900000,300000,
+				13114,"Lago do Abismo",900000,200000;
+			for ( .@i = 13115; .@i <= 13118; .@i++ )
+				if (isbegin_quest(.@i)) erasequest .@i;
+		}
+	}
+	close2;
+	cutin "",255;
+	end;
+S_Quest:
+	if (isbegin_quest(getarg(0)))
+		erasequest(getarg(0));
+	setquest(getarg(1));
+	if (getarg(2,0))
+		getexp getarg(2),getarg(3);
+	return;
+S_Erasequest:
+	.@total = getargcount();
+	for ( .@i = 0; .@i < .@total; .@i += 2 ) {
+		if (isbegin_quest(getarg(.@i))) {
+			next;
+			mes "[Aigu]";
+			mes "Ah, você estava trabalhando na Tarefa de Aventura em "+ getarg(.@i+1) +". Vou limpar seu histórico para que possa focar em tarefas melhores.";
+			erasequest getarg(.@i);
+		}
+	}
+	return;
+S_Erasequest2:
+	.@total = getargcount();
+	for ( .@i = 0; .@i < .@total; .@i += 4 ) {
+		if (isbegin_quest(getarg(.@i))) {
+			next;
+			mes "[Aigu]";
+			mes "Ah, você já finalizou a Aventura em "+ getarg(.@i+1) +". Obrigada por me ajudar nessa missão!";
+			erasequest getarg(.@i);
+			getexp getarg(.@i+2),getarg(.@i+3);
+		}
+	}
+	return;
+}
+
+-	script	Rastro de um Aventureiro	-1,{
+	.@quest = 13106 + atoi(strnpcinfo(2));
+	.@delay = 13110 + atoi(strnpcinfo(2));
+	if (isbegin_quest(.@quest) == 1) {
+		mes "Encontrei vestígios de alguém que esteve aqui, mas não consegui encontrar nenhuma pista. Vamos voltar e relatar para a Aigu.";
+		erasequest .@quest;
+		setquest .@delay;
+	}
+	else
+		mes "Há vestígios de que alguém esteve por aqui.";
+	close;
+}
+thana_step,167,292,5	duplicate(Rastro de um Aventureiro)	Rastro de um Aventureiro#1	4_TRACE
+ra_san05,265,69,5	duplicate(Rastro de um Aventureiro)	Rastro de um Aventureiro#2	4_TRACE
+abbey02,155,290,5	duplicate(Rastro de um Aventureiro)	Rastro de um Aventureiro#3	4_TRACE
+abyss_03,102,140,5	duplicate(Rastro de um Aventureiro)	Rastro de um Aventureiro#4	4_TRACE
+
+tha_t06,126,128,3	script	Monstro Suspeito#1	4_DEVIRUCHI,{
+	mes "[Aventureiro Disfarçado]";
+	mes "Estou trabalhando neste lugar perigoso por 5000 zenys... Você é o aventureiro que recebeu um pedido do Grupo do Éden?";
+	next;
+	switch( select( "Sim.","Não." ) ) {
+		mes "[Aventureiro Disfarçado]";
+	case 1:
+		if (BaseLevel < 121 || BaseLevel > 130) {
+			mes "Dá para ver de cara que não é você!";
+			close;
+		}
+		mes "Os aventureiros que estão realizando o pedido da Aigu são teleportados para o andar superior em nome dela.";
+		next;
+		if (select( "Subir.", "Não subir." ) == 1) {
+			mes "[Aventureiro Disfarçado]";
+			if (isbegin_quest(13107) != 1)
+				mes "Parece que você não está cumprimdo o pedido de aventura na Torre de Thanatos no momento. Me desculpe, mas estou fazendo isso pela Aigu, não por você.";
+			else {
+				mes "Tome cuidado! Não é possível descer depois que subir. Pela Aigu!";
+				close2;
+				warp "thana_step",69,369;
+				end;
+			}
+		}
+		close;
+	case 2:
+		mes "Então, por favor, finja que não me conhece! Estarei em perigo se você revelar minha identidade!";
+		close;
+	}
+}

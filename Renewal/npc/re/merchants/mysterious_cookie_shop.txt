@@ -1,0 +1,96 @@
+//===== rAthena Script ======================================= 
+//= Mysterious Cookie Shop
+//===== Changelogs: ==========================================
+//= 1.0 Initial version from replays. [Capuche]
+//============================================================
+
+malangdo,124,152,3	script	Confeitaria Misteriosa#stone	4_COOKIEHOUSE,{
+	mes "[Confeitaria Misteriosa]";
+	mes "A <ITEM>Moeda de Pedra de Evento<INFO>7000</INFO></ITEM> pode ser trocada por qualquer coisa que você desejar.";
+	next;
+	switch( select( "^4d4dffPedras (Topo)^000000", "^1C8008Pedras (Meio)^000000", "^ff0000Pedras (Baixo)^000000", "^9905d8Pedras (Capa)^000000", "^8B4513Pedras Duplas e de Efeito^000000", "^9905d8Trajes^000000 no Varal." ) ) {
+	case 1:
+		mes "[Confeitaria Misteriosa]";
+		mes "Vamos ver em que pedras você pode transformar suas moedas!";
+		close2;
+		callshop( "barter_stone_top" );
+		end;
+	case 2:
+		mes "[Confeitaria Misteriosa]";
+		mes "Vamos ver em que pedras você pode transformar suas moedas!";
+		close2;
+		callshop( "barter_stone_mid" );
+		end;
+	case 3:
+		mes "[Confeitaria Misteriosa]";
+		mes "Vamos ver em que pedras você pode transformar suas moedas!";
+		close2;
+		callshop( "barter_stone_low" );
+		end;
+	case 4:
+		mes "[Confeitaria Misteriosa]";
+		mes "Vamos ver em que pedras você pode transformar suas moedas!";
+		close2;
+		callshop( "barter_stone_garment" );
+		end;
+	case 5:
+		mes "[Confeitaria Misteriosa]";
+		mes "Vamos ver em que pedras você pode transformar suas moedas!";
+		close2;
+		callshop( "barter_stone_dual" );
+		end;
+	case 6:
+		mes "[Confeitaria Misteriosa]";
+		mes "Use as moedas que você tem para sacudir o varal onde estão penduradas todas as roupas!";
+		next;
+		switch( select( "Primeiro varal.", "Segundo varal." ) ) {
+		case 1:
+			callshop( "barter_costume_1" );
+			end;
+		case 2:
+			callshop( "barter_costume_2" );
+			end;
+		}
+	}
+}
+
+malangdo,116,152,3	script	Manequim da Moda#Models1	HIDDEN_NPC,{
+	end;
+OnInit:
+	.@npc_id = getnpcid(0);
+	setunitdata .@npc_id, UNPC_CLASS, JOB_MINSTREL;
+	setunitdata .@npc_id, UNPC_SEX, 1;
+	setunitdata .@npc_id, UNPC_HAIRSTYLE, 30;
+	end;
+}
+
+malangdo,118,152,3	script	Manequim da Moda#Models2	HIDDEN_NPC,{
+	end;
+OnInit:
+	.@npc_id = getnpcid(0);
+	setunitdata .@npc_id, UNPC_CLASS, JOB_CARDINAL;
+	setunitdata .@npc_id, UNPC_CLOTHCOLOR, 3;
+	setunitdata .@npc_id, UNPC_HAIRSTYLE, 27;
+	setunitdata .@npc_id, UNPC_HEADTOP, 1550;
+	end;
+}
+
+malangdo,120,152,3	script	Manequim da Moda#Models3	HIDDEN_NPC,{
+	end;
+OnInit:
+	.@npc_id = getnpcid(0);
+	setunitdata .@npc_id, UNPC_CLASS, JOB_BIOLO;
+	setunitdata .@npc_id, UNPC_SEX, 1;
+	setunitdata .@npc_id, UNPC_HAIRSTYLE, 27;
+	end;
+}
+
+malangdo,122,152,7	script	Manequim da Moda#Models4	HIDDEN_NPC,{
+	end;
+OnInit:
+	.@npc_id = getnpcid(0);
+	setunitdata .@npc_id, UNPC_CLASS, JOB_MECHANIC;
+	setunitdata .@npc_id, UNPC_SEX, 1;
+	setunitdata .@npc_id, UNPC_HAIRSTYLE, 27;
+	end;
+}

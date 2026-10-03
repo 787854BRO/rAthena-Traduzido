@@ -1,0 +1,71 @@
+//===== rAthena Script =======================================
+//= Brasilis Guide
+//===== Description: =========================================
+//= [Official Conversion based on bRO & jRO servers]
+//= Guide for the city of Brasilis.
+//===== Changelog: ===========================================
+//= 1.0 First Version, Renewal guide. [L0ne_W0lf]
+//= 1.1 Added a missing close. [L0ne_W0lf]
+//= 1.2 Navigation system update. [Euphy]
+//============================================================
+
+brasilis,219,97,3	script	Guia de Brasilis	478,{
+	mes "[Guia de Brasilis]";
+	mes "Bem vind"+((Sex) ? "o":"a")+" à ^8B4513Brasilis^000000, um país apaixonado pelo sol.";
+	mes "Se você tiver alguma dúvida, por favor, me pergunte.";
+	F_Navi("[Guia de Brasilis]");
+	next;
+	switch(select("Perguntar Sobre Locais:Remover Marcações do Mini-mapa:Cancelar")) {
+	case 1:
+		mes "[Guia de Brasilis]";
+		mes "Para onde posso te guiar?";
+		next;
+		switch(select("[ Hotel ]:[ Teleférico ]:[ Museu de Arte ]:[ Mercado ]:[ Monumento Verass ]")) {
+		case 1:
+			mes "[Guia de Brasilis]";
+			mes "O "+F_Navi("Hotel de Brasilis","brasilis,274,151")+" está localizado logo acima, ^FF3355+^000000.";
+			mes "Há mais alguma coisa que eu possa fazer por você?";
+			viewpoint 1,274,151,2,0xFF3355;
+			close;
+		case 2:
+			mes "[Guia de Brasilis]";
+			mes "Você quer passar pela selva? Você pode pegar um";
+			mes F_Navi("Teleférico","brasilis,308,335")+" aqui ^CE6300+^000000.";
+			mes "Há mais alguma coisa que eu possa fazer por você?";
+			viewpoint 1,308,335,3,0xCE6300;
+			close;
+		case 3:
+			mes "[Guia de Brasilis]";
+			mes "O orgulho de Brasilis, em escala mundial o "+F_Navi("Museu de Arte","brasilis,137,167")+" fica em ^A5BAAD+^000000.";
+			mes "Há mais alguma coisa que eu possa fazer por você?";
+			viewpoint 1,137,167,4,0x00FF00;
+			close;
+		case 4:
+			mes "[Guia de Brasilis]";
+			mes "Você pode comprar itens para caça no "+F_Navi("Mercado","brasilis,254,248")+" aqui ^55FF33+^000000.";
+			mes "Há mais alguma coisa que eu possa fazer por você?";
+			viewpoint 1,254,248,5,0x55FF33;
+			close;
+		case 5:
+			mes "[Guia de Brasilis]";
+			mes "O icônico monumento de Brasilis, o "+F_Navi("Monumento Verass","brasilis,195,222")+" está em ^3355FF+^000000.";
+			mes "Há mais alguma coisa que eu possa fazer por você?";
+			viewpoint 1,195,235,6,0x3355FF;
+			close;
+		}
+	case 2:
+		mes "[Guia de Brasilis]";
+		mes "Eu removerei todas as marcações do seu Mini-mapa.";
+		mes "Há mais alguma coisa que eu possa fazer por você?";
+		viewpoint 0,274,151,2,0x00FF00;
+		viewpoint 0,308,335,3,0x00FF00;
+		viewpoint 0,137,167,4,0x00FF00;
+		viewpoint 0,254,248,5,0x00FF00;
+		viewpoint 0,195,235,6,0x00FF00;
+		close;
+	case 3:
+		mes "[Guia de Brasilis]";
+		mes "Andar sozinho é sempre a melhor forma de se explorar. De qualquer forma, tome cuidado.";
+		close;
+	}
+}

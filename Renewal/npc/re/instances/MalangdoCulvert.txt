@@ -1,0 +1,1033 @@
+//===== rAthena Script ======================================= 
+//= Malangdo Culvert
+//===== By: ================================================== 
+//= Euphy
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Clean the culverts and defeat the Coelacanth.
+//= Daily and weekly quests are available.
+//= Contains a normal mode and hard mode.
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [Euphy]
+//=     Letters "n" and "h" in NPC names indicate difficulty.
+//= 1.0a There is no minimum party size on official servers.
+//= 1.0b Fixed incorrect use of 'close'. [Joseph]
+//= 1.1 Instance system rewrite. [Euphy]
+//============================================================ 
+
+// NPCs de Missão :: mal_yong
+//============================================================
+mal_in01,172,28,2	script	Albo#mal	561,{
+	if (checkweight(1201,1) == 0) {
+		mes "Você tem muitos tipos de itens. Tente continuar depois de reduzir esses itens.";
+		close;
+	}
+	if (MaxWeight - Weight < 1000) {
+		mes "Você está carregando muitos itens pesados. Tente continuar depois de reduzir o peso.";
+		close;
+	}
+	if (BaseLevel < 90) {
+		mes "[Albo]";
+		mes "Quem é você?";
+		mes "Nós não precisamos de um fraco!!";
+		close;
+	}
+	setarray .@quests[0],12271,12272,12273,12274;
+	setarray .@names$[0],
+		"Serviço Diário do Esgoto Modo Normal","^990000Serviço Diário do Esgoto Modo Difícil^000000",
+		"Serviço Semanal do Esgoto Modo Normal","^990000Serviço Semanal do Esgoto Modo Difícil^000000";
+	set .@menu$,"Por que você está fazendo esse trabalho?:";
+	for(set .@i,0; .@i<4; set .@i,.@i+1) {
+		if (checkquest(.@quests[.@i],PLAYTIME) > -1) {
+			set .@status[.@i],2;
+			set .@menu$, .@menu$+"^aaaaaa- Não há novas tarefas. -^000000:";
+		} else if (.@i%2 && BaseLevel < 140) {
+			set .@status[.@i],0;
+			set .@menu$, .@menu$+"^aaaaaaNão é possível aceitar esta missão, pois o nível é muito baixo^000000:";
+		} else {
+			set .@status[.@i],1;
+			set .@menu$, .@menu$+.@names$[.@i]+":";
+		}
+	}
+	mes "[Albo]";
+	mes "Nós atravessamos o mar!";
+	mes "Nós somos grandes heróis do Esgoto! Não perdoamos os seres marinhos que miram no Esgoto!";
+	next;
+	set .@i, select(.@menu$)-1;
+	if (.@i == 0) {
+		mes "[Albo]";
+		mes "Nós costumávamos ser os capangas do Sr. Missing! Quase nos tornamos guardas de um local histórico.";
+		next;
+		mes "[Albo]";
+		mes "Porém, quando a água do mar inundou todos os recursos preciosos, meu sonho... todos os meus sonhos se desfizeram...";
+		next;
+		mes "[Albo]";
+		mes "Não perdoamos os seres marinhos que invadiram nosso território. Eu vou comê-los com pasta de pimenta!!!";
+		next;
+		mes "^0000ffA voz de Albo treme de raiva. Ele lambeu os lábios quando mencionou pasta de pimenta.^000000";
+		close;
+	}
+	switch(.@status[.@i-1]) {
+	case 0:
+		mes "[Albo]";
+		mes "Essa tarefa é muito difícil para você, então não posso lhe falar sobre ela. Que tal procurar outra?";
+		close;
+	case 1:
+		break;
+	case 2:
+		mes "[Albo]";
+		mes "Desculpe. Ainda não há nova tarefa! Se eu encontrar algum trabalho, eu lhe aviso!";
+		close;
+	}
+	switch(.@i) {
+	case 1: // Serviço Diário Normal do Esgoto
+		switch(rand(1,6)) {
+			case 1: callsub L_GiveQuest,.@i,12255,12271,"Caranguejo das Profundezas";
+			case 2: callsub L_GiveQuest,.@i,12256,12271,"Marte das Profundezas";
+			case 3: callsub L_GiveQuest,.@i,12257,12271,"Vadon Ancestral";
+			case 4: callsub L_GiveQuest,.@i,12258,12271,"Ostra das Profundezas";
+			case 5: callsub L_GiveQuest,.@i,12259,12271,"Kukre Ancestral";
+			case 6: callsub L_GiveQuest,.@i,12260,12271,"Cornutus das Profundezas";
+		}
+	case 2: // Serviço Diário Difícil do Esgoto
+		switch(rand(1,6)) {
+			case 1: callsub L_GiveQuest,.@i,12261,12272,"Cavalo-Marinho Ancestral";
+			case 2: callsub L_GiveQuest,.@i,12262,12272,"Peixe-Espada Ancestral";
+			case 3: callsub L_GiveQuest,.@i,12263,12272,"Strouf Ancestral";
+			case 4: callsub L_GiveQuest,.@i,12264,12272,"Anolian Mutante";
+			case 5: callsub L_GiveQuest,.@i,12265,12272,"Obeaune Ancestral";
+			case 6: callsub L_GiveQuest,.@i,12266,12272,"Kapha Metamorfo";
+		}
+	case 3: // Serviço Semanal Normal do Esgoto
+		switch(rand(1,2)) {
+			case 1: callsub L_GiveQuest,.@i,12267,12273,"Celacanto Cruel";
+			case 2: callsub L_GiveQuest,.@i,12268,12273,"Celacanto Sombrio";
+		}
+	case 4: // Serviço Semanal Difícil do Esgoto
+		switch(rand(1,2)) {
+			case 1: callsub L_GiveQuest,.@i,12269,12274,"Celacanto Violento";
+			case 2: callsub L_GiveQuest,.@i,12270,12274,"Celacanto Mutante";
+		}
+	default:
+		mes "[Albo]";
+		mes "Uh!? Onde está a tarefa? Deixe-me encontrar isso rapidamente. Você deve falar com a Madeca!";
+		close;
+	}
+	end;
+
+// callsub L_GiveQuest,.@i,<missão 1>,<missão 2>,<monstro>;
+L_GiveQuest:
+	setquest getarg(1);
+	setquest getarg(2);
+	mes "[Albo]";
+	mes "Hoje, os heróis do Esgoto!";
+	mes "Nós erguemos nossas vozes e marcamos uma data para o extermínio de ^0000ff"+getarg(3)+"^000000!";
+	next;
+	mes "[Albo]";
+	switch(getarg(0)) {
+	case 1:
+	case 2:
+		mes "Vamos, heróis! Não tenham medo deles! Apenas sigam em frente, já que é uma missão de um dia!";
+		break;
+	case 3:
+		mes "Eu lhe darei uma semana para terminar esse trabalho! Extermine todos no Esgoto, no Modo Normal!";
+		break;
+	case 4:
+		mes "Eu lhe darei uma semana para terminar esse trabalho! Extermine todos no Esgoto, no Modo Difícil!";
+		break;
+	}
+	next;
+	mes "Você recebeu um pedido para o Extermínio de ^005500"+getarg(3)+"^000000. Se precisar de mais detalhes, verifique a Janela de Missões.";
+	close;
+}
+
+mal_in01,172,26,2	script	Madeca#mal	544,{
+	if (checkweight(1201,1) == 0) {
+		mes "Você tem muitos tipos de itens. Tente continuar depois de reduzir esses itens.";
+		close;
+	}
+	if (MaxWeight - Weight < 1000) {
+		mes "Você está carregando muitos itens pesados. Tente continuar depois de reduzir o peso.";
+		close;
+	}
+	if (BaseLevel < 90) {
+		mes "[Madeca]";
+		mes "Karrrrrrr!!";
+		mes "Vamos comer alguns frutos do mar ruins que podem ser fervidos ou grelhados!";
+		next;
+		mes "[Madeca]";
+		mes "Quem é você? Você é tão cambaleante. Até mesmo uma alga poderia te matar!";
+		close;
+	}
+	mes "[Madeca]";
+	mes "Oh?";
+	mes "Você é aquele que cuidou do pedido do meu irmão mais velho Albo. Foi um trabalho difícil!";
+	next;
+	set .@i, select("O que está fazendo aqui?:Recompensa do Serviço Diário Normal.:Recompensa do Serviço Diário Difícil.:Recompensa do Serviço Semanal Normal.:Recompensa do Serviço Semanal Difícil.")-1;
+	if (.@i == 0) {
+		mes "[Madeca]";
+		mes "Estou aqui para ajudar meu irmão mais velho Albo!";
+		next;
+		mes "[Madeca]";
+		mes "Nós fornecemos materiais preciosos aos humanos que transformam os frutos do mar ruins do Esgoto em lodo!";
+		next;
+		mes "[Madeca]";
+		mes "Nós fornecemos Moedas Classe A~B como recompensa pelo serviço diário, e a preciosa Ira do Deus do Mar como recompensa pelo serviço semanal.";
+		next;
+		mes "[Madeca]";
+		mes "Se você cuidar do pedido do meu irmão Albo, eu vou te ver muito frequentemente. Então, vamos nos dar bem!";
+		close;
+	}
+	mes "[Madeca]";
+	mes "Não posso te dar recompensa por um pedido expirado, então deixe-me verificar se algum dos seus expirou.";
+	next;
+	specialeffect2 EF_SPHERE;
+	progressbar "0xFFFF00",3;
+	specialeffect2 EF_STEAL;
+	switch(.@i) {
+	case 1: // Recompensa do Serviço Diário do Esgoto - Modo Normal
+		if (checkquest(12271,PLAYTIME) == 2)
+			callsub L_EraseQuest,12255,12256,12257,12258,12259,12260,12271;
+		else {
+			// Recompensa: 2x Moeda Classe B
+			callsub L_CheckQuest,12255,"Caranguejo das Profundezas",6419,2;
+			callsub L_CheckQuest,12256,"Marte das Profundezas",6419,2;
+			callsub L_CheckQuest,12257,"Vadon Ancestral",6419,2;
+			callsub L_CheckQuest,12258,"Ostra das Profundezas",6419,2;
+			callsub L_CheckQuest,12259,"Kukre Ancestral",6419,2;
+			callsub L_CheckQuest,12260,"Cornutus das Profundezas",6419,2;
+		}
+		break;
+	case 2: // Recompensa do Serviço Diário do Esgoto - Modo Difício
+		if (checkquest(12272,PLAYTIME) == 2)
+			callsub L_EraseQuest,12261,12262,12263,12264,12265,12266,12272;
+		else {
+			// Recompensa: 1x Moeda Classe A
+			callsub L_CheckQuest,12261,"Cavalo-Marinho Ancestral",6418,1;
+			callsub L_CheckQuest,12262,"Peixe-Espada Ancestral",6418,1;
+			callsub L_CheckQuest,12263,"Strouf Ancestral",6418,1;
+			callsub L_CheckQuest,12264,"Anolian Mutante",6418,1;
+			callsub L_CheckQuest,12265,"Obeaune Ancestral",6418,1;
+			callsub L_CheckQuest,12266,"Kapha Metamorfo",6418,1;
+		}
+		break;
+	case 3: // Recompensa do Serviço Semanal do Esgoto - Modo Normal
+		if (checkquest(12273,PLAYTIME) == 2)
+			callsub L_EraseQuest,12267,12268,12273;
+		else {
+			// Recompensa: 1x Ira do Deus do Mar
+			callsub L_CheckQuest,12267,"Celacanto Cruel",6423,1;
+			callsub L_CheckQuest,12268,"Celacanto Sombrio",6423,1;
+		}
+		break;
+	case 4: // Recompensa do Serviço Semanal do Esgoto - Modo Difício
+		if (checkquest(12274,PLAYTIME) == 2)
+			callsub L_EraseQuest,12269,12270,12274;
+		else {
+			// Recompensa: 5x Ira do Deus do Mar
+			callsub L_CheckQuest,12269,"Celacanto Violento",6423,5;
+			callsub L_CheckQuest,12270,"Celacanto Mutante",6423,5;
+		}
+		break;
+	default:
+		mes "[Madeca]";
+		mes "Algo está errado. Por favor, verifique novamente!";
+		close;
+	}
+	mes "[Madeca]";
+	mes "Não vejo nenhuma missão concluída!";
+	close;
+
+L_EraseQuest:
+	for(set .@j,0; .@j<getargcount(); set .@j,.@j+1) {
+		if (checkquest(getarg(.@j)) > -1)
+			erasequest getarg(.@j);
+	}
+	mes "[Madeca]";
+	mes "Hm, me desculpe. Você excedeu o limite de tempo, então não posso lhe dar nenhuma recompensa.";
+	close;
+
+// callsub L_CheckQuest,<ID da missão>,<monstro>,<ID do item recompensa>,<quantidade do item recompensa>;
+L_CheckQuest:
+	if (checkquest(getarg(0),HUNTING) == 2) {
+		mes "[Madeca]";
+		mes "Você puniu ^0000ff"+getarg(1)+"^000000!";
+		mes "Aqui está seu pagamento!";
+		erasequest getarg(0);
+		specialeffect2 EF_STEAL;
+		getitem getarg(2),getarg(3);
+		close;
+	}
+	return;
+}
+
+// Criação de Instância :: pump
+//============================================================
+mal_in01,160,34,4	script	Missing, o Faxineiro	545,{
+	if (BaseLevel < 90) {
+		mes "[Missing, o Faxineiro]";
+		mes "Está falando comigo?!";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Não sei o que te trouxe até aqui, mas você não pode entrar!";
+		mes "Ordens do Tomas...";
+		next;
+		mes "^770099Você deverá possuir o nível de base 90 para entrar.^000000";
+		close;
+	}
+	if (in_canal_n == 0) {
+		mes "[Missing, o Faxineiro]";
+		mes "(tremendo)";
+		next;
+		mes "^660066Esse gato parece estar em má forma. Ele está tremendo levemente.^000000";
+		next;
+		if(select("Acariciar o Gato.:Você está bem?") == 1) {
+			mes "[Missing, o Faxineiro]";
+			mes "Está falando comigo?!";
+			next;
+			mes "^660066Um gato trêmulo olha para você.^000000";
+			close;
+		}
+		mes "[Missing, o Faxineiro]";
+		mes "Atchim!";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Tivemos muitos problemas durante";
+		mes "a limpeza dos esgotos. Mas um gato";
+		mes "tem que fazer isso...";
+		next;
+		select("Que esgoto você está limpando?");
+		mes "[Missing, o Faxineiro]";
+		mes "Pode parecer estranho para um";
+		mes "forasteiro, mas na verdade este lugar";
+		mes "foi feito para guardar lembranças e";
+		mes "coisas luxuosas.";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Depois que houve um grande tremor nesta";
+		mes "ilha, as coisas começaram a vazar por aqui.";
+		mes "Então foi por isso que me tornei zelador aqui,";
+		mes "embora eu já tenha sido um gerente.";
+		next;
+		mes "^660066O gato parece ter chorado...^000000";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Há um esgoto que leva ao porão.";
+		mes "Existem muitos malfeitores que me machucam.";
+		mes "Estou cansado de lutar com eles tantas vezes por dia!";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Ohh! Você tocou na minha pelagem!";
+		mes "Minha pelagem está caindo... é tudo";
+		mes "culpa daqueles caras~";
+		next;
+		mes "^660066Você só percebe agora que a pelagem do gato está faltando em alguns lugares.^000000";
+		next;
+		select("Por que você simplesmente não desiste!");
+		mes "[Missing, o Faxineiro]";
+		mes "Ainda preciso ganhar a vida, não é?";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Às vezes consigo uma Caixa da Sorte,";
+		mes "ou melhor ainda, consigo latas...";
+		next;
+		if(select("Ok, boa sorte!:Eu vou ajudar se possível...") == 1) {
+			mes "[Missing, o Faxineiro]";
+			mes "Obrigado. Estou voltando para despejar a água!";
+			close;
+		}
+		mes "[Missing, o Faxineiro]";
+		mes "(abaixa a voz)";
+		mes "Se você realmente quer ajudar, chegue mais perto!";
+		next;
+		select("(se aproximar)");
+		mes "[Missing, o Faxineiro]";
+		mes "Nem todos podem ser assistentes aqui.";
+		mes "Mas não posso escolher qualquer um no momento...";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Se você quer descer por aqui, deixe-me lhe passar este código.";
+		next;
+		mes "^660066O gato rabisca um bilhete com um código para você.^000000";
+		next;
+		select("Abrir o bilhete.");
+		mes "^660000Aragam me insultou.^000000";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Você deve estar aqui com amigos,";
+		mes "pois não pode entrar sozinho! E o";
+		mes "código da senha virá do líder da";
+		mes "party!";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "O que também é importante é que você";
+		mes "deve ter uma Proteção do Deus do Mar com você.";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Não se esqueça! Eu não abrirei a";
+		mes "porta se você não tiver a Proteção do Deus do Mar!";
+		set in_canal_n,1;
+		close;
+	}
+	if (rentalcountitem(6436) == 0) {
+		mes "[Missing, o Faxineiro]";
+		mes "Parece que você não tem uma Proteção do Deus do Mar. Não posso abrir a porta no momento!";
+		close;
+	}
+	set .@party_id,getcharid(1);
+	set .@md_name$,"Esgoto";
+	if (!.@party_id) {
+		mes "^0000ffVocê deve organizar um grupo com";
+		mes "mais de 1 membro ou ser membro";
+		mes "de um e voltar.^000000";
+		close;
+	}
+	set .@playtime, checkquest(12254,PLAYTIME);
+	if (.@playtime == -1) {
+		if (is_party_leader() == true) {
+			mes "[Missing, o Faxineiro]";
+			mes "Hmm? O que houve? Diga a senha se você for o líder!";
+			next;
+			switch(select("Não... nada.:Aragam me insultou.:Entrar no Esgoto.")) {
+			case 1:
+				mes "[Missing, o Faxineiro]";
+				mes "Que novato.";
+				close;
+			case 2:
+				if (instance_create(.@md_name$) < 0) {
+					mes "Nome do Grupo: "+getpartyname(.@party_id);
+					mes "Líder do Grupo: "+strcharinfo(0);
+					mes "^0000ff"+.@md_name$+"^000000 - Falha na Reserva!";
+					close;
+				}
+				mes "^3333FF"+.@md_name$+"^000000 - Reservando";
+				mes "Após fazer a reserva, você deve";
+				mes "selecionar Entrar no Esgoto.";
+				close;
+			case 3:
+				callsub L_Enter,0;
+			}
+		}
+		if(select("Entrar no Esgoto.:Cancelar.") == 2)
+			end;
+		callsub L_Enter,1;
+	} else if (.@playtime == 0 || .@playtime == 1) {
+		mes "Você pode entrar no Esgoto se o portão estiver aberto.";
+		next;
+		if(select("Entrar no Esgoto.:Cancelar.") == 2)
+			close;
+		callsub L_Enter,0;
+	} else if (.@playtime == 2) {
+		mes "^0000ffO portão para o Esgoto foi aberto novamente.^000000";
+		erasequest 12254;
+		close;
+	}
+	end;
+L_Enter:
+	switch(instance_enter("Esgotos de Malangdo")) {
+	case IE_OTHER:
+		mes "Ocorreu um erro desconhecido.";
+		close;
+	case IE_NOINSTANCE:
+		mes "O portão para o Esgoto ainda está fechado.";
+		mes "Você deve esperar até poder entrar ou encontrar um líder do grupo que possa criar a instância.";
+		close;
+	case IE_NOMEMBER:
+		mes "Apenas membros do grupo podem participar.";
+		close;
+	case IE_OK:
+		mapannounce "mal_in01", strcharinfo(0)+" do Grupo "+getpartyname(getcharid(1))+" está entrando no Esgoto.",bc_map,"0x00ff99";
+		if (checkquest(12254) == -1) setquest 12254;
+		//warp "1@pump",63,98;
+		if (getarg(0) == 0) close;
+		else end;
+	}
+}
+
+// Instância: Scripts Comuns
+//============================================================
+1@pump,63,100,4	script	Missing, o Faxineiro#0	545,{
+	if (is_party_leader() == false) {
+		mes "[Missing, o Faxineiro]";
+		mes "Estou tentando conversar com o seu líder agora. Por favor, não atrapalhe e aguarde!";
+		close;
+	}
+	mes "[Missing, o Faxineiro]";
+	mes "Este é o subterrâneo dos Esgotos de Malangdo onde você vai limpar junto com seus amigos!";
+	next;
+	mes "[Missing, o Faxineiro]";
+	mes "Vou abrir a porta primeiro. Mas diga, você sabe lutar?";
+	next;
+	switch(select("Sou bom mesmo é em entregar pão.:Eu sei lutar.:^ffffffMe dê o diamante.^000000")) {
+	case 1:
+		mes "[Missing, o Faxineiro]";
+		mes "Ok então, vou deixar você limpar os Esgotos como de costume! Eu vou me preparar no canto da direita, por favor me siga!";
+		next;
+		if(select("Espere! Mudei de ideia!:Como desejar~") == 1) {
+			mes "[Missing, o Faxineiro]";
+			mes "Hã? Ainda não está pronto? Fale comigo novamente quando estiver.";
+			close;
+		}
+		set 'party_id,getcharid(1);
+		mapannounce instance_mapname("1@pump"),"Missing: Sigam na direção das 3 horas e aguardem minhas próximas ordens!",bc_map,"0xff88ff",FW_NORMAL,15;
+		disablenpc instance_npcname("Missing, o Faxineiro#0");
+		enablenpc instance_npcname("Missing, o Faxineiro#n");
+		close;
+	case 2:
+		if (BaseLevel < 140) {
+			mes "[Missing, o Faxineiro]";
+			mes "Hmmm... Missing acha que você é fraco! Fale a verdade!!";
+			close;
+		}
+		mes "[Missing, o Faxineiro]";
+		mes "Hã? Você tem algumas habilidades de luta? Então, existe um lugar que eu não consegui limpar... que tal você ir até lá?!";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Mas devo avisar que faz muuuuito tempo desde a última vez que limpamos aquele lugar, então qualquer um abaixo do nível 140 nem consegue entrar! Tem certeza que ainda quer ir?";
+		next;
+		if(select("Espere! Mudei de ideia!:Sim, estou preparado~") == 1) {
+			mes "[Missing, o Faxineiro]";
+			mes "Hmm? Fale comigo novamente quando estiver pronto.";
+			close;
+		}
+		set 'party_id,getcharid(1);
+		mapannounce instance_mapname("1@pump"),"Missing: Eu vou na frente, então me sigam! Vou abrir um portal na direção das 3 horas!",bc_map,"0xff88ff",FW_NORMAL,15;
+		disablenpc instance_npcname("Missing, o Faxineiro#0");
+		enablenpc instance_npcname("Entrada do Esgoto#i");
+		close;
+	case 3:
+		mes "[Missing, o Faxineiro]";
+		mes "Eu disse para não brincar comigo~!";
+		close;
+	}
+	end;
+}
+
+1@pump,84,105,0	script	Entrada do Esgoto#i	45,3,3,{
+	end;
+OnInstanceInit:
+	disablenpc instance_npcname("Entrada do Esgoto#i");
+	disablenpc instance_npcname("Entrada do Esgoto#n");	// desabilita o teleporte de saída
+	end;
+OnTouch:
+	if (BaseLevel >= 140)
+		warp instance_mapname("2@pump"),38,88;
+	else
+		warp instance_mapname("1@pump"),74,105;
+	end;
+}
+
+function	script	F_mal_missing	{
+	mes "[Missing, o Faxineiro]";
+	mes "Eu vou te explicar como limpar em breve. Você consegue ver os Esgotos de Malangdo ao seu redor?";
+	next;
+	if(select("Quais Esgotos de Malangdo??:Sim, eu vejo.") == 1) {
+		mes "[Missing, o Faxineiro]";
+		mes "Hã? Essa é a sua primeira vez vendo os Esgotos de Malangdo? Você verá muitas máquinas enterradas no chão. Pode olhar em volta e depois voltar!";
+		close;
+	}
+	mes "[Missing, o Faxineiro]";
+	mes "Isso mesmo! Esses Esgotos são muito importantes! Precisamos limpá-los para evitar que algas marinhas os bloqueiem. Esse é o trabalho de nós, os limpadores!";
+	next;
+	mes "[Missing, o Faxineiro]";
+	mes "Cuidado! Alguns monstros vão atrás de você enquanto estiver limpando os Esgotos! Mas não desista!";
+	next;
+	mes "[Missing, o Faxineiro]";
+	mes "E... NUNCA deixe 6 algas acumularem! Até 5 é aceitável! Se houver 6, eu vou te arrastar para fora daqui!!";
+	next;
+	mes "[Missing, o Faxineiro]";
+	mes "Não me importa se você recebe ajuda dos seus amigos ou não. Eu quero que você limpe todos os Esgotos! Não se esqueça! Eu vou observar e dar as instruções. Apenas faça o que eu disser!!";
+	next;
+	if (is_party_leader() == false) {
+		mes "[Missing, o Faxineiro]";
+		mes "Quando o seu líder terminar de se preparar, vai começar, então estejam prontos!!";
+		close;
+	}
+	mes "[Missing, o Faxineiro]";
+	mes "Então, você está pronto para limpar agora?";
+	next;
+	switch(select("Espere! Ainda não!:Vamos começar!")) {
+	case 1:
+		mes "[Missing, o Faxineiro]";
+		mes "Hã? Ainda não está pronto? Então fale comigo quando estiver.";
+		close;
+	case 2:
+		mes "[Missing, o Faxineiro]";
+		mes "Certo! Agora vai começar!";
+		return;
+	}
+}
+
+// Instância: Modo Normal :: in_pump1
+//============================================================
+1@pump,84,105,4	script	Missing, o Faxineiro#nf	545,{
+	mes "[Missing, o Faxineiro]";
+	mes "Eu faço esse trabalho de limpeza há 40 anos e nunca vi uma equipe tão terrível!!";
+	next;
+	mes "[Missing, o Faxineiro]";
+	mes "Eu vejo algas por toda parte porque vocês estão se atrapalhando! Todos os Esgotos vão ficar bloqueados!";
+	next;
+	if (is_party_leader() == false) {
+		mes "[Missing, o Faxineiro]";
+		mes "Quando o seu líder terminar de se preparar, o julgamento será decidido, então estejam prontos!!";
+		close;
+	}
+	mes "[Missing, o Faxineiro]";
+	mes "Se vocês tiverem coragem de tentar de novo, eu dou outra chance! Qual vai ser a escolha de vocês!?";
+	next;
+	switch(select("Espere! Ainda não!:Ok, vamos começar de novo!")) {
+	case 1:
+		mes "[Missing, o Faxineiro]";
+		mes "Vocês ainda estão lentos! Fale comigo novamente quando estiverem prontos.";
+		close;
+	case 2:
+		mes "[Missing, o Faxineiro]";
+		mes "Ok! Vamos começar agora!";
+		set .@i$, charat(strnpcinfo(2),0);
+		enablenpc instance_npcname("Missing, o Faxineiro#"+.@i$);
+		donpcevent instance_npcname("Missing, o Faxineiro#"+.@i$)+"::OnStart";
+		disablenpc instance_npcname("Entrada do Esgoto#"+.@i$);
+		disablenpc instance_npcname("Missing, o Faxineiro#"+.@i$+"o");
+		donpcevent instance_npcname("Buraco do Monstro#"+.@i$)+"::OnClear";
+		disablenpc();
+		close;
+	}
+	close;
+OnInstanceInit:
+	disablenpc();
+	end;
+}
+
+1@pump,84,105,4	script	Missing, o Faxineiro#n	545,{
+	callfunc "F_mal_missing";
+	donpcevent instance_npcname("Missing, o Faxineiro#n")+"::OnStart";
+	close;
+OnInstanceInit:
+	disablenpc instance_npcname("Missing, o Faxineiro#n");
+	end;
+OnStart:
+	killmonster instance_mapname("1@pump"),instance_npcname("Missing, o Faxineiro#n")+"::OnMyMobDead";
+	disablenpc instance_npcname("Missing, o Faxineiro#n");
+	initnpctimer;
+	end;
+OnAddSeaweed:
+	set .@map$, instance_mapname("1@pump");
+	areamonster .@map$,55,99,61,105,"Alga Contaminada",2191,1,instance_npcname("Missing, o Faxineiro#n")+"::OnMyMobDead";
+	set .@mob_dead_num, mobcount(.@map$,instance_npcname("Missing, o Faxineiro#n")+"::OnMyMobDead");
+	if (.@mob_dead_num >= 6)
+		donpcevent instance_npcname("Missing, o Faxineiro#n")+"::OnFail";
+	else
+		mapannounce .@map$,"Alga Contaminada: "+.@mob_dead_num+" talo(s)",bc_map,"0xff3333",FW_NORMAL,20;
+	end;
+OnMyMobDead:
+	end;
+OnFail:
+	stopnpctimer;
+	donpcevent instance_npcname("Buraco do Monstro#n")+"::OnClear";
+	set .@map$, instance_mapname("1@pump");
+	killmonster .@map$,instance_npcname("Missing, o Faxineiro#n")+"::OnMyMobDead";
+	enablenpc instance_npcname("Missing, o Faxineiro#nf");
+	mapannounce .@map$,"O que é isso!! Algas estão por todo o Esgoto! Sua faxina acabou! Fora daqui!!",bc_map,"0xff88ff",FW_NORMAL,15;
+	disablenpc instance_npcname("Missing, o Faxineiro#n");
+	end;
+OnTimer100:
+	mapannounce instance_mapname("1@pump"),"O primeiro Esgoto será aberto em 5 seg. O faxineiro deve encontrar o dreno aberto e clicar para começar a limpeza.",bc_map,"0x00ffcc",FW_NORMAL,15;
+	end;
+OnTimer5500:
+	mapannounce instance_mapname("1@pump"),"O encarregado da limpeza do Esgoto não poderá se mover nem ser atacado até que a conjuração termine.",bc_map,"0x00ffcc",FW_NORMAL,15;
+	donpcevent instance_npcname("Buraco do Monstro#n")+"::OnSpawn";
+	end;
+OnTimer45000:
+OnTimer95000:
+OnTimer145000:
+OnTimer195000:
+OnTimer245000:
+OnTimer295000:
+OnTimer345000:
+OnTimer395000:
+OnTimer445000:
+	mapannounce instance_mapname("1@pump"),"O próximo Esgoto será aberto em 5 seg. Apresse-se e encontre o local do próximo dreno.",bc_map,"0x00ffcc",FW_NORMAL,15;
+	end;
+OnTimer50000:
+OnTimer100000:
+OnTimer150000:
+	donpcevent instance_npcname("Buraco do Monstro#n")+"::OnSpawn";
+	end;
+OnTimer200000:
+OnTimer250000:
+OnTimer300000:
+OnTimer350000:
+OnTimer400000:
+OnTimer450000:
+	set .@mob_dead_num, mobcount(instance_mapname("1@pump"),instance_npcname("Missing, o Faxineiro#n")+"::OnMyMobDead");
+	if (.@mob_dead_num >= 6)
+		donpcevent instance_npcname("Missing, o Faxineiro#n")+"::OnFail";
+	else
+		donpcevent instance_npcname("Buraco do Monstro#n")+"::OnSpawn";
+	end;
+OnTimer515000:
+	set .@map$, instance_mapname("1@pump");
+	set .@mob_dead_num, mobcount(.@map$,instance_npcname("Missing, o Faxineiro#n")+"::OnMyMobDead");
+	mapannounce .@map$,"Alga Contaminada: "+.@mob_dead_num+" talo(s). Missing virá inspecionar os resultados da faxina em breve.",bc_map,"0xff3333",FW_NORMAL,20;
+	end;
+OnTimer520000:
+	stopnpctimer;
+	set .@mob_dead_num, mobcount(instance_mapname("1@pump"),instance_npcname("Missing, o Faxineiro#n")+"::OnMyMobDead");
+	if (.@mob_dead_num >= 6)
+		donpcevent instance_npcname("Missing, o Faxineiro#n")+"::OnFail";
+	else
+		donpcevent instance_npcname("Invocação do Chefe#n")+"::OnEnable";
+	end;
+}
+
+1@pump,1,1,4	script	Buraco do Monstro#n	-1,{
+	end;
+OnSpawn:
+	set .@i$, charat(strnpcinfo(2),0);
+	if (.@i$ == "n")
+		set .@n,6;
+	else if (.@i$ == "h")
+		set .@n,10;
+	donpcevent instance_npcname("#Esgotos de Malangdo_"+.@i$+rand(1,.@n))+"::OnEnable";
+	end;
+OnClear:
+	set .@i$, charat(strnpcinfo(2),0);
+	if (.@i$ == "n")
+		set .@n,6;
+	else if (.@i$ == "h")
+		set .@n,10;
+	for(set .@i,1; .@i<=.@n; set .@i,.@i+1)
+		donpcevent instance_npcname("#Esgotos de Malangdo_"+.@i$+.@n)+"::OnClear";
+	end;
+}
+
+1@pump,36,111,4	script	#Esgotos de Malangdo_n1	844,14,14,{ //solução temporária para ALL_SAMEMAP
+	progressbar "0xFFFF00",10;
+	stopnpctimer;
+	disablenpc();
+	end;
+OnInstanceInit:
+	disablenpc();
+	end;
+OnEnable:
+	enablenpc();
+	set .@label$, instance_npcname(strnpcinfo(0))+"::OnMyMobDead";
+	set .@map$, instance_mapname("1@pump");
+	set .@index, atoi(charat(strnpcinfo(2),9));
+	switch(.@index) {
+		case 1: setarray .@c[0],32,107,40,115; break;
+		case 2: setarray .@c[0],64,120,72,128; break;
+		case 3: setarray .@c[0],76,110,84,118; break;
+		case 4: setarray .@c[0],36,76,44,84; break;
+		case 5: setarray .@c[0],71,76,79,84; break;
+		case 6: setarray .@c[0],54,97,62,105; break;
+	}
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Caranguejo das Profundezas",2176,rand(1,3),.@label$;
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Marte das Profundezas",2175,rand(1,3),.@label$;
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Vadon Ancestral",2174,rand(1,3),.@label$;
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Ostra das Profundezas",2178,rand(1,3),.@label$;
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Kukre Ancestral",2179,rand(1,3),.@label$;
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Cornutus das Profundezas",2177,rand(1,3),.@label$;
+	specialeffect EF_MAPPILLAR2,ALL_SAMEMAP; //atualmente com problemas
+	getmapxy(.@map$,.@x,.@y,BL_NPC);
+	getpartymember 'party_id,2;
+	copyarray .@partymemberaid[0],$@partymemberaid[0],$@partymembercount;
+	for(set .@i,0; .@i<$@partymembercount; set .@i,.@i+1) {
+		if (attachrid(.@partymemberaid[.@i])) {
+			if (strcharinfo(3) == .@map$)
+				viewpoint 0,.@x,.@y,.@index,0xFFFF00;
+			detachrid;
+		}
+	}
+	initnpctimer;
+	end;
+OnMyMobDead:
+	end;
+OnClear:
+	stopnpctimer;
+	killmonster instance_mapname("1@pump"),instance_npcname(strnpcinfo(0))+"::OnMyMobDead";
+	end;
+OnTimer49500:	//OnTimer50000 conflita com o cronômetro em "Missing, o Faxineiro#h".
+	donpcevent instance_npcname("Missing, o Faxineiro#n")+"::OnAddSeaweed";
+	donpcevent instance_npcname(strnpcinfo(0))+"::OnClear";
+	disablenpc();
+	end;
+OnTouch:
+	specialeffect EF_MAPPILLAR2;
+	end;
+}
+1@pump,68,124,4	duplicate(#Esgotos de Malangdo_n1)	#Esgotos de Malangdo_n2	844,14,14
+1@pump,80,114,4	duplicate(#Esgotos de Malangdo_n1)	#Esgotos de Malangdo_n3	844,14,14
+1@pump,40,80,4	duplicate(#Esgotos de Malangdo_n1)	#Esgotos de Malangdo_n4	844,14,14
+1@pump,75,80,4	duplicate(#Esgotos de Malangdo_n1)	#Esgotos de Malangdo_n5	844,14,14
+1@pump,58,101,4	duplicate(#Esgotos de Malangdo_n1)	#Esgotos de Malangdo_n6	844,14,14
+
+1@pump,1,1,4	script	Invocação do Chefe#n	-1,{
+	end;
+OnInstanceInit:
+	disablenpc();
+	end;
+OnEnable:
+	enablenpc();
+	initnpctimer;
+	end;
+OnTimer100:
+	set .@i$, charat(strnpcinfo(2),0);
+	if (.@i$ == "n")
+		mapannounce instance_mapname("1@pump"),"Hmm! Isso não foi tão ruim!",bc_map,"0xff88ff",FW_NORMAL,15;
+	else if (.@i$ == "h")
+		mapannounce instance_mapname("2@pump"),"Hmm! Vocês são muito bons!!",bc_map,"0xff88ff",FW_NORMAL,15;
+	end;
+OnTimer5000:
+	mapannounce strnpcinfo(4),"Vamos arrumar e ir... O QUÊ!!?",bc_map,"0xff88ff",FW_NORMAL,15;
+	end;
+OnTimer10000:
+	mapannounce strnpcinfo(4),"Estou sentindo algo estranho!! Não relaxem— preparem-se para lutar!!",bc_map,"0xff88ff",FW_NORMAL,15;
+	end;
+OnTimer20000:
+	stopnpctimer;
+	set .@i$, charat(strnpcinfo(2),0);
+	set .@label$, instance_npcname(strnpcinfo(0))+"::OnMyMobDead";
+	if (rand(1,100) > 50) {
+		if (.@i$ == "n")
+			monster instance_mapname("1@pump"),0,0,"Celacanto Cruel",2188,1,.@label$;
+		else if (.@i$ == "h")
+			monster instance_mapname("2@pump"),0,0,"Celacanto Mutante",2189,1,.@label$;
+		mapannounce strnpcinfo(4),"Algo enorme nas profundezas aparece com um estrondo.",bc_map,"0x00ffcc",FW_NORMAL,15;
+	} else {
+		if (.@i$ == "n")
+			monster instance_mapname("1@pump"),0,0,"Celacanto Sombrio",2187,1,.@label$;
+		else if (.@i$ == "h")
+			monster instance_mapname("2@pump"),0,0,"Celacanto Violento",2190,1,.@label$;
+		mapannounce strnpcinfo(4),"Algo selvagem nas profundezas aparece com um estrondo.",bc_map,"0x00ffcc",FW_NORMAL,15;
+	}
+	end;
+OnMyMobDead:
+	if (mobcount(strnpcinfo(4),instance_npcname(strnpcinfo(0))+"::OnMyMobDead") < 1) {
+		mapannounce strnpcinfo(4),"Você destruiu todos os monstros nos Esgotos. Há troféus espalhados no chão, por favor, procure por eles.",bc_map,"0xffff00",FW_NORMAL,15;
+		set .@i$, charat(strnpcinfo(2),0);
+		set .@map$, strnpcinfo(4);
+		enablenpc instance_npcname("Entrada do Esgoto#"+.@i$);
+		enablenpc instance_npcname("Missing, o Faxineiro#"+.@i$+"o");
+		if (.@i$ == "n") {
+			for(set .@i,0; .@i<10; set .@i,.@i+1) {
+				set .@j, rand(1,6401);
+				     if (.@j < 5001) set .@item,12636; //Peixes Enlatados de Malangdo
+				else if (.@j < 5501) set .@item,12615; //Bolsa Inferior de Moedas
+				else if (.@j < 6001) set .@item,12621; //Bolsa Tipo E
+				else if (.@j < 6201) set .@item,12620; //Bolsa Tipo D
+				else if (.@j < 6401) set .@item,12623; //Caixa das Melhores Armas
+				else continue;
+				makeitem .@item,1,.@map$,rand(40,77),rand(87,120);
+			}
+		} else if (.@i$ == "h") {
+			for(set .@i,0; .@i<10; set .@i,.@i+1) {
+				set .@j, rand(1,5001);
+				     if (.@j < 2001) set .@item,12615; //Bolsa Inferior de Moedas
+				else if (.@j < 3001) set .@item,12621; //Bolsa Tipo E
+				else if (.@j < 4001) set .@item,12620; //Bolsa Tipo D
+				else if (.@j < 4501) set .@item,12619; //Bolsa Tipo C
+				else if (.@j < 5001) set .@item,12623; //Caixa das Melhores Armas
+				else continue;
+				makeitem .@item,1,.@map$,rand(40,77),rand(87,120);
+			}
+		}
+	} else
+		mapannounce strnpcinfo(4),"Ainda restam monstros vivos.",bc_map,"0x00ff99",FW_NORMAL,20;
+	end;
+}
+
+1@pump,84,105,4	script	Missing, o Faxineiro#no	545,{
+	set .@i$, charat(strnpcinfo(2),0);
+	if (.@i$ == "n") {
+		mes "[Missing, o Faxineiro]";
+		mes "Fiquei muito surpreso!!";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Aquele peixe estranho parece ser um dos Celacantos que vivem por aqui. É a primeira vez que vejo um vindo sozinho!";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Vou limpar os restos. Arrume suas coisas e saia! A saída está localizada do outro lado, procure por ela!";
+		next;
+	} else if (.@i$ == "h") {
+		mes "[Missing, o Faxineiro]";
+		mes "Você derrotou um monstro imenso!";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Aquele que você derrotou era um dos vários tipos de Celacantos. Outros já tentaram derrotá-los, mas falharam.";
+		next;
+		mes "[Missing, o Faxineiro]";
+		mes "Vou limpar os restos. Vá coletar os troféus e saia!";
+		next;
+	}
+	mes "[Missing, o Faxineiro]";
+	mes "Mais uma coisa! NÃO FALE com NINGUÉM sobre o que viu aqui hoje!!";
+	next;
+	mes "[Missing, o Faxineiro]";
+	mes "Se o Tomas fechar esse lugar, nós perderemos nossos empregos!";
+	close;
+OnInstanceInit:
+	disablenpc();
+	end;
+}
+
+1@pump,32,100,0	warp2	Entrada do Esgoto#n	3,3,mal_in01,161,32
+
+//MD_Putmob "1@pump" 0 0 0 0 20 HIDRA 0 0 2
+1@pump,1,1,4	script	Hidra#n	-1,{
+OnInstanceInit:
+	monster strnpcinfo(4),0,0,"Hidra",1068,20;
+	end;
+}
+
+// Instância: Modo Difícil :: in_pump2
+//============================================================
+2@pump,39,88,4	duplicate(Missing, o Faxineiro#nf)	Missing, o Faxineiro#hf	545
+
+2@pump,39,88,4	script	Missing, o Faxineiro#h	545,{
+	callfunc "F_mal_missing";
+	donpcevent instance_npcname("Missing, o Faxineiro#h")+"::OnStart";
+	close;
+OnStart:
+	killmonster instance_mapname("2@pump"),instance_npcname("Missing, o Faxineiro#h")+"::OnMyMobDead";
+	disablenpc instance_npcname("Missing, o Faxineiro#h");
+	initnpctimer;
+	end;
+OnAddSeaweed:
+	set .@map$, instance_mapname("2@pump");
+	areamonster .@map$,75,78,85,88,"Alga Contaminada",2191,1,instance_npcname("Missing, o Faxineiro#h")+"::OnMyMobDead";
+	set .@mob_dead_num, mobcount(.@map$,instance_npcname("Missing, o Faxineiro#h")+"::OnMyMobDead");
+	if (.@mob_dead_num >= 6)
+		donpcevent instance_npcname("Missing, o Faxineiro#h")+"::OnFail";
+	else
+		mapannounce .@map$,"Proliferação de Algas Contaminadas: "+.@mob_dead_num+" hastes",bc_map,"0xff3333",FW_NORMAL,20;
+	end;
+OnMyMobDead:
+	end;
+OnFail:
+	stopnpctimer;
+	donpcevent instance_npcname("Buraco do Monstro#h")+"::OnClear";
+	set .@map$, instance_mapname("2@pump");
+	killmonster .@map$, instance_npcname("Missing, o Faxineiro#h")+"::OnMyMobDead";
+	enablenpc instance_npcname("Missing, o Faxineiro#hf");
+	mapannounce .@map$,"O que é isso!! Algas tomaram conta dos Esgotos de Malangdo! A limpeza acabou! Saia daqui!!",bc_map,"0xff88ff",FW_NORMAL,15;
+	disablenpc instance_npcname("Missing, o Faxineiro#h");
+	end;
+OnTimer100:
+	mapannounce instance_mapname("2@pump"),"O primeiro Esgoto será aberto em 5 segundos. O Faxineiro deve encontrar o dreno aberto e clicar para iniciar a limpeza.",bc_map,"0x00ffcc",FW_NORMAL,15;
+	end;
+OnTimer5500:
+	mapannounce instance_mapname("2@pump"),"O responsável pela limpeza dos Esgotos não poderá se mover nem ser atacado até o término da conjuração.",bc_map,"0x00ffcc",FW_NORMAL,15;
+	donpcevent instance_npcname("Buraco do Monstro#h")+"::OnSpawn";
+	end;
+OnTimer35000:
+OnTimer75000:
+OnTimer115000:
+OnTimer155000:
+OnTimer195000:
+OnTimer235000:
+OnTimer275000:
+OnTimer315000:
+OnTimer355000:
+	mapannounce instance_mapname("2@pump"),"O próximo Esgoto será aberto em 5 segundos. Por favor, apresse-se e encontre a posição do próximo dreno.",bc_map,"0x00ffcc",FW_NORMAL,15;
+	end;
+OnTimer40000:
+OnTimer80000:
+OnTimer120000:
+	donpcevent instance_npcname("Buraco do Monstro#h")+"::OnSpawn";
+	end;
+OnTimer160000:
+OnTimer200000:
+OnTimer240000:
+OnTimer280000:
+OnTimer320000:
+OnTimer360000:
+	set .@mob_dead_num, mobcount(instance_mapname("2@pump"),instance_npcname("Missing, o Faxineiro#h")+"::OnMyMobDead");
+	if (.@mob_dead_num >= 6)
+		donpcevent instance_npcname("Missing, o Faxineiro#h")+"::OnFail";
+	else
+		donpcevent instance_npcname("Buraco do Monstro#h")+"::OnSpawn";
+	end;
+OnTimer420000:
+	mapannounce instance_mapname("2@pump"),"Parece que o Missing virá inspecionar os resultados da limpeza em breve. Vamos limpar a bagunça por aqui?",bc_map,"0xff3333",FW_NORMAL,20;
+	end;
+OnTimer425000:
+	stopnpctimer;
+	set .@mob_dead_num, mobcount(instance_mapname("2@pump"),instance_npcname("Missing, o Faxineiro#h")+"::OnMyMobDead");
+	if (.@mob_dead_num >= 6)
+		donpcevent instance_npcname("Missing, o Faxineiro#h")+"::OnFail";
+	else
+		donpcevent instance_npcname("Invocação do Chefe#h")+"::OnEnable";
+	end;
+}
+
+2@pump,53,114,4	script	#Esgotos de Malangdo_h1	844,14,14,{ //solução temporária para ALL_SAMEMAP
+	progressbar "0xFFFF00",15;
+	stopnpctimer;
+	disablenpc();
+	end;
+OnInstanceInit:
+	disablenpc();
+	end;
+OnEnable:
+	enablenpc();
+	set .@label$, instance_npcname(strnpcinfo(0))+"::OnMyMobDead";
+	set .@map$, instance_mapname("2@pump");
+	set .@index, atoi(substr(strnpcinfo(2),9,getstrlen(strnpcinfo(2))-1));
+	switch(.@index) {
+		case 1: setarray .@c[0],49,110,57,118; break;
+		case 2: setarray .@c[0],75,105,83,113; break;
+		case 3: setarray .@c[0],110,110,118,118; break;
+		case 4: setarray .@c[0],94,94,102,102; break;
+		case 5: setarray .@c[0],58,92,66,100; break;
+		case 6: setarray .@c[0],53,66,61,74; break;
+		case 7: setarray .@c[0],43,45,51,53; break;
+		case 8: setarray .@c[0],77,59,85,67; break;
+		case 9: setarray .@c[0],96,70,104,78; break;
+		case 10: setarray .@c[0],111,46,119,54; break;
+	}
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Cavalo-Marinho Ancestral",2182,rand(2,3),.@label$;
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Peixe-Espada Ancestral",2181,rand(2,3),.@label$;
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Strouf Ancestral",2180,rand(2,3),.@label$;
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Anolian Mutante",2183,rand(2,3),.@label$;
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Obeaune Ancestral",2184,rand(2,3),.@label$;
+	areamonster .@map$,.@c[0],.@c[1],.@c[2],.@c[3],"Kapha Metamorfo",2185,rand(2,3),.@label$;
+	specialeffect EF_MAPPILLAR2,ALL_SAMEMAP; //atualmente com problemas
+	initnpctimer;
+	end;
+OnMyMobDead:
+	end;
+OnClear:
+	stopnpctimer;
+	killmonster instance_mapname("2@pump"),instance_npcname(strnpcinfo(0))+"::OnMyMobDead";
+	end;
+OnTimer39500:	//OnTimer40000 conflita com o cronômetro em "Missing, o Faxineiro#h".
+	donpcevent instance_npcname("Missing, o Faxineiro#h")+"::OnAddSeaweed";
+	donpcevent instance_npcname(strnpcinfo(0))+"::OnClear";
+	disablenpc();
+	end;
+OnTouch:
+	specialeffect EF_MAPPILLAR2;
+	end;
+}
+2@pump,79,109,4	duplicate(#Esgotos de Malangdo_h1)	#Esgotos de Malangdo_h2	844,14,14
+2@pump,114,114,4	duplicate(#Esgotos de Malangdo_h1)	#Esgotos de Malangdo_h3	844,14,14
+2@pump,98,98,4	duplicate(#Esgotos de Malangdo_h1)	#Esgotos de Malangdo_h4	844,14,14
+2@pump,62,96,4	duplicate(#Esgotos de Malangdo_h1)	#Esgotos de Malangdo_h5	844,14,14
+2@pump,57,70,4	duplicate(#Esgotos de Malangdo_h1)	#Esgotos de Malangdo_h6	844,14,14
+2@pump,47,49,4	duplicate(#Esgotos de Malangdo_h1)	#Esgotos de Malangdo_h7	844,14,14
+2@pump,81,63,4	duplicate(#Esgotos de Malangdo_h1)	#Esgotos de Malangdo_h8	844,14,14
+2@pump,100,74,4	duplicate(#Esgotos de Malangdo_h1)	#Esgotos de Malangdo_h9	844,14,14
+2@pump,115,50,4	duplicate(#Esgotos de Malangdo_h1)	#Esgotos de Malangdo_h10	844,14,14
+
+2@pump,1,1,4	duplicate(Buraco do Monstro#n)	Buraco do Monstro#h	-1
+2@pump,1,1,4	duplicate(Invocação do Chefe#n)	Invocação do Chefe#h	-1
+2@pump,39,88,4	duplicate(Missing, o Faxineiro#no)	Missing, o Faxineiro#ho	545
+2@pump,38,100,0	duplicate(Entrada do Esgoto#n)	Entrada do Esgoto#h	3,3
+
+//MD_Putmob "2@pump" 0 0 0 0 20 HIDRA 0 0 2
+2@pump,1,1,4	duplicate(Hidra#n)	Hidra#h	-1

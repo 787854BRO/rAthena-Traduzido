@@ -1,0 +1,42 @@
+//===== rAthena Script =======================================
+//= Rudus Dungeon Monster Spawn Script
+//===== Description: =========================================
+//= Spawns monsters inside Rudus Dungeon F1-3
+//===== Changelog: ===========================================
+//= 1.0 First version. [crazyarashi]
+//= 1.1 Some corrections [Everade]
+//============================================================
+
+// sp_rudus - Rudus, Eliminação de Resíduos ( 1° Andar )
+sp_rudus,0,0	monster	Peçonha	20363,30,5000
+sp_rudus,0,0	monster	Dor	20361,30,5000
+sp_rudus,0,0	monster	Gêmeos Caput	20365,30,5000
+
+sp_rudus2,0,0	monster	Bellare Mutante		20356,40,5000
+sp_rudus2,0,0	monster	Sanare Mutante	20358,37,5000
+sp_rudus2,0,0	monster	Praga	20359,58,5000
+sp_rudus2,0,0	monster	Dor Mutante	20362,45,5000
+sp_rudus2,0,0	boss_monster	Besta R48-85	20381,1,21600000,600000,0
+
+sp_rudus3,0,0	monster	Dor Mutante	20362,60,5000
+sp_rudus3,0,0	monster	Praga Mutante	20360,53,5000
+sp_rudus3,0,0	monster	Peçonha Mutante	20364,65,5000
+sp_rudus3,0,0	monster	Gêmeos Caput Mutante	20366,65,5000
+
+sp_rudus4	monster	Caput Gigante	20929,75
+sp_rudus4	monster	Doriano	20930,75
+sp_rudus4	monster	Deadre	20932,75
+sp_rudus4	monster	Venedi	20933,75
+sp_rudus4	monster	Pragarion	20931,75
+sp_rudus4	boss_monster	Besta R001	20934,1,21600000,600000,0
+
+//========================================================
+//---- MESMOS MOSNTROS COM IDENTIFICAÇÕES ATUALIZADAS ----
+//----- POR ENQUANTO NÃO SUPORTADO POR ESTE EMULADOR -----
+//========================================================
+//sp_rudus4	monster	Caput Gigante	GIANT_CAPUT,75
+//sp_rudus4	monster	Doriano	DOLORIAN,75
+//sp_rudus4	monster	Deadre	DEADRE,75
+//sp_rudus4	monster	Venedi	VENEDI,75
+//sp_rudus4	monster	Pragarion	PLAGARION,75
+//sp_rudus4	boss_monster	Besta R001	R001_BESTIA,1,21600000,600000,0

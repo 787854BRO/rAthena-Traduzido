@@ -1,0 +1,4383 @@
+//===== rAthena Script =======================================
+//= Eden Group Quest - Quests NPCs
+//===== Description: =========================================
+//= Eden Group Headquarter NPCs.
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [L0ne_W0lf]
+//= 1.1 Removed unencoded comments (Korean -> Gibberish)
+//=     Readded the GM helper NPC, commented out.
+//= 1.2 Some little optimization here and there. [Masao]
+//= 1.3 Added Instructor Ur and the new Quests which come
+//=     alongside him. Special thanks to Chilly for the base. [Masao]
+//= 1.4 Partial cleaning and bug fixing. [Euphy]
+//= 1.4a Added 'npcskill' command. [Euphy]
+//= 1.4b Added 'disable_items' command. [Euphy]
+//= 1.5 Added GM management function. [Euphy]
+//= 1.6 Kagerou/Oboro support (Class -> BaseClass) [Euphy]
+//= 2.0 Updated Instructor Ur's quests. [Capuche]
+//= 2.1 Updated Blacksmith Thorn and Weapons Expert NPC. [Capuche]
+//= 2.2 Added support to Para_Team_Mark_ in Eden Group. [Ragno]
+//= 2.3 Added use of F_HasEdenGroupMark function. [Ragno]
+//============================================================
+
+moc_para01,25,35,4	script	Instrutor Boya#para01	4_M_KNIGHT_GOLD,{
+	mes "[Boya]";
+	if (!callfunc("F_HasEdenGroupMark")) {
+		mes "Você não faz parte do meu grupo, faz?";
+		mes "Não tenho nada a dizer para forasteiros.";
+		mes "Se quiser algo, registre-se no meu grupo.";
+		next;
+		mes "[Boya]";
+		mes "Para se registrar no Grupo do Éden, fale com Laime Evenor aqui ao lado.";
+		close;
+	}
+	if (para_suv01 == 0) {
+		mes "E aí, o que manda?";
+		mes "Se tiver missões normais, use o quadro de avisos.";
+		next;
+		switch (select("Você é responsável pelo quê?:Você não tem equipamentos?:Ignorar.")) {
+			mes "[Boya]";
+		case 1:
+			mes "Eu dou missões de treinamento para os membros.";
+			mes "É por isso que eles participam.";
+			mes "Se não quiserem encrenca, é essencial.";
+			next;
+			mes "[Boya]";
+			mes "Através dos treinamentos em batalha, eles podem adquirir experiência real.";
+			mes "Os membros que se destacam até recebem recompensas.";
+			next;
+			mes "[Boya]";
+			mes "Nós fornecemos equipamentos especiais que desenvolvemos.";
+			mes "Esses presentes são para quem realmente dá o seu melhor.";
+			next;
+			mes "[Boya]";
+			mes "Se estiver curioso, pode participar.";
+			mes "O curso de batalhas de treinamento não é muito difícil.";
+			mes "Não há com o que se preocupar.";
+			next;
+			mes "[Boya]";
+			mes "Se quiser participar, não hesite.";
+			next;
+			switch (select("Participar do treinamento.:Ignorar.")) {
+				mes "[Boya]";
+			case 1:
+				callsub S_Quest1;
+				callsub S_Quest2;
+				callsub S_Quest3;
+			case 2:
+				mes "A decisão é sua.";
+				mes "Não é da minha conta, mas talvez devesse reconsiderar.";
+				close;
+			}
+		case 2:
+			mes "Hã?";
+			mes "Você é tão direto!";
+			mes "Poxa. Queria saber sobre equipamentos?";
+			next;
+			mes "[Boya]";
+			mes "Tenho um conjunto de uniforme que é gratuito para membros do grupo.";
+			mes "Mas não posso entregar assim, de graça.";
+			next;
+			mes "[Boya]";
+			mes "Só damos para participantes exemplares que se dedicam nos treinamentos.";
+			next;
+			mes "-Boya te observa da cabeça aos pés.-";
+			mes "Hmm... parece estar pensando que há algo errado.-";
+			next;
+			mes "[Boya]";
+			mes "Motivo: emoção.";
+			next;
+			select("O quê?!");
+			mes "[Boya]";
+			mes "Então, vai participar do treinamento ou não?";
+			mes "Posso parecer meio estranho, mas na verdade estou muito ocupado. Já fui chamado de Cavaleiro Rúnico Brilhante.";
+			mes "Decida-se, rápido.";
+			next;
+			switch (select("Participar do treinamento.:Recusar!!")) {
+				mes "[Boya]";
+			case 1:
+				callsub S_Quest1;
+				callsub S_Quest2;
+				callsub S_Quest3;
+			case 2:
+				mes "Você é tão rude!";
+				specialeffect2 EF_HIT1;
+				percentheal -50,0;
+				next;
+				mes "-Ele te acerta rapidamente e esse Cavaleiro Rúnico Brilhante desaparece.";
+				mes "Isso dói muito-";
+				close;
+			}
+		case 3:
+			mes "Não me incomode.";
+			close;
+		}
+	}
+	else if (para_suv01 < 5) {
+		mes "Ei, já falei tudo sobre as áreas de treinamento.";
+		mes "Vou explicar novamente, preste atenção.";
+		next;
+		mes "[Boya]";
+		mes "Um oásis ao sudeste de Morroc.";
+		mes "Tem um cachorro enorme no centro.";
+		mes "A história detalhada está escrita no diário, veja só?";
+	}
+	else if (para_suv01 == 5) {
+		mes "Oh, você voltou.";
+		mes "Bom trabalho.";
+		mes "Agora está se adaptando.";
+		next;
+		mes "[Boya]";
+		mes "Etapa 1 concluída.";
+		mes "Parabéns.";
+		mes "Vamos te dar um uniforme e alguns equipamentos.";
+		next;
+		mes "[Boya]";
+		mes "Está vendo um grande portão azul ao lado do quadro?";
+		mes "Entre por ele e continue andando até o final do corredor à direita. Lá fica o depósito de equipamentos.";
+		next;
+		mes "[Boya]";
+		mes "Informe ao responsável que fui eu quem te enviou. Ele vai te entregar algumas coisas.";
+		mes "Vai, vai, vai!";
+		para_suv01 = 11;
+		completequest 7132;
+	}
+	else if (para_suv01 < 10) {
+		mes "O nome do treinamento era 'Conquiste os Esgotos!'.";
+		mes "Você explorou completamente os esgotos?";
+		next;
+		mes "[Boya]";
+		mes "Volte quando tiver completado todos os cursos com o instrutor local.";
+	}
+	else if (para_suv01 == 10) {
+		mes "Oh, você voltou.";
+		mes "Bom trabalho.";
+		mes "Agora está se adaptando.";
+		next;
+		mes "[Boya]";
+		mes "Etapa 1 concluída.";
+		mes "Parabéns.";
+		mes "Minha equipe vai te entregar um uniforme e alguns equipamentos.";
+		next;
+		mes "[Boya]";
+		mes "Está vendo um grande portão azul ao lado do quadro?";
+		mes "Entre por ele e continue andando até o final do corredor à direita. Lá fica o depósito de equipamentos.";
+		next;
+		mes "[Boya]";
+		mes "Informe ao responsável que fui eu quem te enviou. Ele vai te entregar algumas coisas.";
+		mes "Vai, vai, vai!";
+		para_suv01 = 11;
+		completequest 7137;
+	}
+	else if (para_suv01 == 11) {
+		mes "O que está fazendo?";
+		mes "Vá pegar o equipamento com o responsável pelo depósito.";
+		mes "Nosso uniforme é bem estiloso, haha.";
+	}
+	else if (para_suv01 == 12) {
+		mes "Hmm, gostou dos suprimentos?";
+		mes "Eu gosto do chapéu vermelho.";
+		mes "A fita vermelha é muito fofa.";
+		next;
+		mes "[Boya]";
+		if (BaseLevel > 25) {
+			mes "E você parece...";
+			mes "Capaz de entrar para a classe avançada agora.";
+			mes "E então, quer isso?";
+			next;
+			switch (select("Nem pensar.:Com certeza, eu quero.")) {
+				mes "[Boya]";
+			case 1:
+				mes "Sério?";
+				mes "Na verdade, tanto faz pra mim, mas o uniforme será alterado para a classe avançada.";
+				close;
+			case 2:
+				mes "Legal.";
+				mes "Deixe-me escolher um lugar adequado para você.";
+				next;
+				mes "[Boya]";
+				callsub S_Quest2;
+				callsub S_Quest3;
+			}
+		}
+		else {
+			mes "O treinamento de batalha é organizado em etapas.";
+			mes "Quando puder entrar na próxima etapa, volte aqui após upar mais.";
+			next;
+			mes "[Boya]";
+			mes "A próxima etapa de treinamento está disponível para quem estiver acima do Nível 26.";
+			mes "Quando alcançar esse nível, volte aqui. Entendido?";
+		}
+	}
+	else if (para_suv01 < 16) {
+		mes "A área de treinamento fica na caverna ao norte de Payon.";
+		mes "Um membro da equipe já foi enviado para lá.";
+		mes "Encontre-o e siga suas instruções.";
+	}
+	else if (para_suv01 == 16) {
+		mes "Você concluiu a segunda etapa do treinamento.";
+		mes "Agora entende melhor como o mundo está estruturado?";
+		next;
+		mes "[Boya]";
+		mes "Vou certificar que você concluiu o treinamento.";
+		mes "O responsável pelo depósito vai fornecer o que você precisa.";
+		next;
+		mes "[Boya]";
+		mes "Escolha o equipamento que se adequa ao seu estilo de combate.";
+		para_suv01 = 22;
+		completequest 7141;
+	}
+	else if (para_suv01 < 21) {
+		mes "A área de treinamento fica a sudoeste de Morroc.";
+		mes "Entre na Fortaleza de São Damião para acessá-la diretamente.";
+		next;
+		mes "[Boya]";
+		mes "Há alguém lá chamado... hmm... ele está esperando você para dar as instruções.";
+	}
+	else if (para_suv01 == 21) {
+		mes "Você concluiu a segunda etapa do treinamento.";
+		mes "Agora entende melhor como o mundo está estruturado?";
+		next;
+		mes "[Boya]";
+		mes "Vou certificar que você concluiu o treinamento.";
+		mes "O responsável pelo depósito vai fornecer o que você precisa.";
+		para_suv01 = 22;
+		completequest 7146;
+	}
+	else if (para_suv01 == 22) {
+		mes "Oferecemos equipamentos e armaduras aos recrutas após completarem a segunda etapa do treinamento.";
+		mes "Vá até o depósito e fale com o responsável.";
+		next;
+		mes "[Boya]";
+		mes "Para encontrar o depósito, passe pelo portão azul ao lado do quadro de missões e siga até o final do corredor à direita.";
+	}
+	else if (para_suv01 == 23) {
+		mes "Ei, quanto tempo!";
+		mes "Então, o que manda?";
+		next;
+		switch (select("Participar do treinamento.:Nada.")) {
+			mes "[Boya]";
+		case 1:
+			mes "Hmm... sério?";
+			mes "Deixe-me ver... qual etapa seria boa para você...";
+			next;
+			mes "[Boya]";
+			if (BaseLevel < 40) {
+				mes "Sinto muito, mas para participar deste treinamento você precisa ter pelo menos nível 40.";
+				mes "Concentre-se em subir de nível e volte depois.";
+				close;
+			}
+			callsub S_Quest3;
+		case 2:
+			mes "Veio me ver?";
+			mes "Só isso? De mãos abanando?";
+			mes "Pelo menos poderia ter trazido um chocolate...";
+			next;
+			mes "[Boya]";
+			mes "Rolo de banana ou canudinho de morango... qualquer coisa.";
+			mes "Ah, eu não como lanches com canela...";
+			close;
+		}
+	}
+else if (para_suv01 < 28) {
+	mes "Hmm. A Vila dos Orcs tem uma Funcionária Kafra, então você pode usar os serviços da Kafra lá.";
+	next;
+	mes "[Boya]";
+	mes "Um dos nossos membros enviados está esperando no prédio próximo à Funcionária Kafra.";
+}
+else if (para_suv01 == 28) {
+	mes "Legal! Você concluiu a terceira etapa do treinamento.";
+	mes "Vou certificar que completou o treinamento.";
+	mes "O responsável pelo depósito irá te fornecer alguns equipamentos.";
+	next;
+	mes "[Boya]";
+	mes "Servimos os recrutas com equipamentos e armaduras após a segunda etapa do treinamento.";
+	mes "Vá até o depósito e fale com o encarregado.";
+	next;
+	mes "[Boya]";
+	mes "Para encontrar o depósito, passe pelo portão azul ao lado do quadro de missões e vá até o final do corredor à direita.";
+	para_suv01 = 37;
+	completequest 7151;
+}
+else if (para_suv01 < 32) {
+	mes "Hmm. A Vila dos Orcs tem uma Funcionária Kafra, então você pode usar os serviços da Kafra lá.";
+	next;
+	mes "[Boya]";
+	mes "Um dos nossos membros enviados está esperando no prédio próximo à Funcionária Kafra.";
+}
+else if (para_suv01 == 32) {
+	mes "Legal! Você concluiu a terceira etapa do treinamento.";
+	mes "Vou certificar que completou o treinamento.";
+	mes "O responsável pelo depósito irá te fornecer alguns equipamentos.";
+	next;
+	mes "[Boya]";
+	mes "Servimos os recrutas com equipamentos e armaduras após a segunda etapa do treinamento.";
+	mes "Vá até o depósito e fale com o encarregado.";
+	next;
+	mes "[Boya]";
+	mes "Para encontrar o depósito, passe pelo portão azul ao lado do quadro de missões e vá até o final do corredor à direita.";
+	para_suv01 = 37;
+	completequest 7155;
+}
+else if (para_suv01 < 36) {
+	mes "Primeiro, pegue um navio saindo de Izlude com destino a Bayalan!";
+	mes "Há uma caverna subterrânea. Entre nela e vá até o último andar onde encontrará uma cidade subaquática histórica.";
+	next;
+	mes "[Boya]";
+	mes "Há um recruta enviado próximo à entrada da Cidade Oceânica.";
+}
+else if (para_suv01 == 36) {
+	mes "Legal! Você concluiu a terceira etapa do treinamento.";
+	mes "Vou certificar que completou o treinamento.";
+	mes "O responsável pelo depósito irá te fornecer alguns equipamentos.";
+	next;
+	mes "[Boya]";
+	mes "Servimos os recrutas com equipamentos e armaduras após a segunda etapa do treinamento.";
+	mes "Vá até o depósito e fale com o encarregado.";
+	next;
+	mes "[Boya]";
+	mes "Para encontrar o depósito, passe pelo portão azul ao lado do quadro de missões e vá até o final do corredor à direita.";
+	para_suv01 = 37;
+	completequest 7159;
+}
+else if (para_suv01 == 37) {
+	mes "[Boya]";
+	mes "Se você concluiu todas as etapas, vá buscar seus suprimentos.";
+	mes "Oferecemos equipamentos para quem conclui o treinamento.";
+	next;
+	mes "[Boya]";
+	mes "Talvez ofereçamos outras coisas também.";
+	mes "Se tiver dúvidas, fale com o responsável pelo arsenal.";
+	next;
+	mes "[Boya]";
+	mes "O arsenal fica além do portão azul, no final do corredor à direita.";
+}
+else if (para_suv01 >= 38) {
+	mes "Meu chefe criou todos os cursos de treinamento.";
+	mes "Depois de fabricar os uniformes e suprimentos, ele mudou de ideia e disse que não poderia distribuí-los de graça.";
+	next;
+	mes "[Boya]";
+	mes "Pessoas que demonstram esforço pela nossa equipe e pelo mundo podem receber esses suprimentos.";
+	mes "Foi por isso que esses cursos foram criados.";
+	next;
+	mes "[Boya]";
+	mes "Basicamente, deveríamos oferecer esses suprimentos para iniciantes;";
+	mes "mas se especialistas quiserem participar do treinamento, nós aceitamos.";
+	next;
+	mes "[Boya]";
+	mes "Embora o uniforme e os equipamentos possam ser inúteis,";
+	mes "participar desse treinamento significa que querem se tornar membros do nosso grupo.";
+	next;
+	mes "[Boya]";
+	mes "É isso.";
+	mes "Por isso, quando decidimos o design do chapéu, foi bem difícil.";
+	next;
+	mes "[Boya]";
+	mes "Lembre-se disso ao usar os equipamentos.";
+	mes "Mas se decidir vendê-los ou trocá-los, não é da nossa conta.";
+}
+else {
+	mes "O que você quer?";
+	mes "Duvido que precise de mais treinamento.";
+	next;
+	mes "[Boya]";
+	mes "Não há mais nada que eu possa ensinar a um mestre da batalha como você.";
+}
+close;
+S_Quest1:
+	mes "Sério? Você já parece estar pronto.";
+	mes "Temos um total de 3 etapas no treinamento.";
+	mes "Deixe-me ver...";
+	next;
+	mes "[Boya]";
+	if (BaseLevel < 12) {
+		mes "Hmm. Você deveria subir mais de nível!";
+		mes "Precisa estar pelo menos no nível 12!";
+		mes "Desculpe, mas essas são as regras.";
+		close;
+	}
+	if (BaseLevel < 20) {
+		mes "A primeira etapa é o curso A.";
+		mes "O curso A se chama 'Conquiste o Deserto!'.";
+		mes "É a missão mais adequada para o seu nível.";
+		next;
+		mes "[Boya]";
+		mes "^4d4dffExiste uma cidade desértica chamada Morroc.";
+		mes "De lá, vá para o sul e depois para o leste. Há um pequeno oásis no centro daquele campo.^000000";
+		next;
+		mes "[Boya]";
+		mes "Se for até lá, encontrará um cachorro perto do oásis.";
+		mes "Ele é bem misterioso e sabe falar, então não se assuste.";
+		next;
+		mes "[Boya]";
+		mes "Diga ao cachorro ^4d4dffBoya é realmente incrível.^000000";
+		mes "Se tiver dúvidas, pergunte a ele.";
+		next;
+		mes "[Boya]";
+		mes "Por que está me encarando?";
+		mes "Tive que pensar em uma senha, certo?";
+		mes "Qual o problema com essa senha?";
+		next;
+		mes "[Boya]";
+		mes "De qualquer forma, esse lugar não é longe daqui, então é razoável para um iniciante como você.";
+		mes "Ok, que Freya te abençoe~!";
+		para_suv01 = 1;
+		setquest 7128;
+		close;
+	}
+	if (BaseLevel < 26) {
+		mes "Vou te enviar para a primeira etapa do curso B.";
+		mes "O curso B se chama 'Conquiste os Esgotos!'.";
+		mes "É a missão mais adequada para o seu nível.";
+		next;
+		mes "[Boya]";
+		mes "Você precisa se registrar para explorar os esgotos de Prontera na Guilda dos Cavaleiros.";
+		mes "Após se registrar, vá para o portão oeste de Prontera. O gerente do esgoto fica perto da entrada.";
+		next;
+		mes "[Boya]";
+		mes "Assim que entrar no esgoto, encontrará um gato enviado por nós. Não se assuste se ele falar com você.";
+		next;
+		mes "[Boya]";
+		mes "Diga ao gato ^4d4dffA ajuda de Boya é como um atum gigante e lindo^000000.";
+		mes "Ele é bem misterioso e fala, então não se assuste.";
+		mes "Ele lhe dará um alvo de batalha após ouvir isso.";
+		mes "Se tiver dúvidas, pergunte ao gato.";
+		next;
+		mes "[Boya]";
+		mes "Por que está me encarando assim?";
+		mes "É só uma senha que inventei.";
+		next;
+		mes "[Boya]";
+		mes "De qualquer forma...";
+		mes "Esse lugar não é longe daqui, então é razoável para um iniciante como você.";
+		mes "Ok, que Freya te abençoe~!";
+		para_suv01 = 6;
+		setquest 7133;
+		close;
+	}
+	return;
+S_Quest2:
+	if (BaseLevel < 33) {
+		mes "Legal.";
+		mes "Deixe-me escolher um lugar adequado para você.";
+		next;
+		mes "[Boya]";
+		mes "Vou te enviar para a segunda etapa do curso A.";
+		mes "Este curso se chama 'Conquiste a Caverna dos Fantasmas!'.";
+		mes "É a missão mais adequada para o seu nível.";
+		next;
+		mes "[Boya]";
+		mes "Há uma pequena Vila dos Arqueiros ao norte de Payon.";
+		mes "Há uma caverna na colina a oeste da Vila dos Arqueiros.";
+		next;
+		mes "[Boya]";
+		mes "Enviamos alguém para frente da caverna.";
+		mes "O nome dele é... hm...";
+		mes "...";
+		next;
+		mes "[Boya]";
+		mes "Enfim, ele é um dos nossos, então vai me reconhecer.";
+		mes "Ele te dará uma missão.";
+		mes "Se tiver dúvidas, pergunte a ele.";
+		next;
+		mes "[Boya]";
+		mes "Por que está me encarando?";
+		mes "Faz muito tempo que não o vejo, por isso não lembro o nome dele!";
+		next;
+		mes "[Boya]";
+		mes "De qualquer forma...";
+		mes "Esse lugar não é longe daqui, então volte rápido.";
+		mes "Ok, que Freya te abençoe~!";
+		para_suv01 = 13;
+		setquest 7138;
+		close;
+	}
+	if (BaseLevel < 40) {
+		mes "Vou te enviar para a segunda etapa do curso B.";
+		mes "Este curso se chama 'Conquiste o Formigueiro Infernal!'.";
+		mes "É a missão mais adequada para o seu nível.";
+		next;
+		mes "[Boya]";
+		mes "Viaje para sudoeste da cidade de Morroc.";
+		mes "Lá você encontrará um buraco no chão que leva à caverna chamada Formigueiro Infernal.";
+		next;
+		mes "[Boya]";
+		mes "Há muitas formigas lá. kk?";
+		mes "Está tudo coberto de areia, então tenha cuidado, ok?";
+		next;
+		mes "[Boya]";
+		mes "Por isso se chama Formigueiro Infernal.";
+		mes "Um dos nossos membros estará esperando lá.";
+		mes "O nome dele é... K? M? Hmm? Enfim, não consigo lembrar.";
+		next;
+		mes "[Boya]";
+		mes "Ele é um dos nossos, então vai me reconhecer.";
+		mes "Ele te dará uma missão.";
+		mes "Se tiver dúvidas, pergunte a ele.";
+		next;
+		mes "[Boya]";
+		mes "Por que está me encarando?";
+		mes "Faz muito tempo que não o vejo, por isso não lembro o nome dele!";
+		next;
+		mes "[Boya]";
+		mes "De qualquer forma...";
+		mes "Esse lugar não é longe daqui, então volte rápido.";
+		mes "Ok, te abençoo~!!";
+		para_suv01 = 17;
+		setquest 7142;
+		close;
+	}
+	return;
+S_Quest3:
+	if (BaseLevel < 50) {
+		mes "Você está na terceira etapa do curso A.";
+		mes "Esse curso se chama 'Conquiste a Vila dos Orcs!'.";
+		mes "Deixe-me ver...";
+		next;
+		mes "[Boya]";
+		mes "Saia pelos portões de Prontera e continue indo para oeste. A Vila dos Orcs fica nessa direção.";
+		mes "Ou você pode sair pelo portão oeste de Geffen e seguir sudeste.";
+		next;
+		mes "[Boya]";
+		mes "Hmm. A Vila dos Orcs tem uma Funcionária Kafra, então você pode usar os serviços da Kafra lá.";
+		mes "Fica a seu critério.";
+		next;
+		mes "[Boya]";
+		mes "Uma das nossas integrantes está esperando em um prédio perto da Funcionária Kafra.";
+		next;
+		mes "[Boya]";
+		mes "Ela vai te explicar o que precisa ser feito por lá.";
+		mes "Se tiver dúvidas, pergunte a ela.";
+		next;
+		mes "[Boya]";
+		mes "Ok, que Freya te abençoe!";
+		para_suv01 = 24;
+		setquest 7147;
+	}
+	else if (BaseLevel < 60) {
+		mes "Você está na terceira etapa do curso B.";
+		mes "Esse curso se chama 'Conquiste a Caverna dos Orcs!'.";
+		mes "É a missão mais adequada para o seu nível.";
+		next;
+		mes "[Boya]";
+		mes "Saia pelos portões de Prontera e continue indo para oeste. A Vila dos Orcs fica nessa direção.";
+		mes "Ou você pode sair pelo portão oeste de Geffen e seguir sudeste.";
+		next;
+		mes "[Boya]";
+		mes "Hmm. A Vila dos Orcs tem uma Funcionária Kafra, então você pode usar os serviços da Kafra lá.";
+		mes "Fica a seu critério.";
+		next;
+		mes "[Boya]";
+		mes "Uma das nossas integrantes está esperando em um prédio perto da Funcionária Kafra.";
+		next;
+		mes "[Boya]";
+		mes "Ela vai te explicar o que precisa ser feito por lá.";
+		mes "Se tiver dúvidas, pergunte a ela.";
+		next;
+		mes "[Boya]";
+		mes "Ok, que Freya te abençoe!";
+		para_suv01 = 29;
+		setquest 7152;
+	}
+	else {
+		mes "Você está na última etapa.";
+		mes "Esse curso se chama 'Conquiste a Cidade Oceânica!'.";
+		mes "Não sei se é o curso ideal ou não, mas de qualquer forma é o último do nosso treinamento.";
+		next;
+		mes "[Boya]";
+		mes "Primeiro, pegue um navio para a Ilha de Byalan a partir de Izlude!";
+		mes "Há uma caverna subterrânea. Entre e vá até o último andar onde encontrará uma cidade subaquática histórica.";
+		next;
+		mes "[Boya]";
+		mes "Apesar de ser subaquática, você consegue respirar, então não se preocupe.";
+		mes "Há um recruta próximo à entrada da Cidade Oceânica.";
+		next;
+		mes "[Boya]";
+		mes "Diga a ele que fui eu quem te enviou e siga suas instruções.";
+		mes "Ok, que Freya te abençoe!";
+		para_suv01 = 33;
+		setquest 7156;
+	}
+	close;
+}
+
+moc_fild11,180,253,5	script	Cachorro Falante#para03	972,{
+	if (para_suv01 == 1) {
+		mes "[Cachorro Falante]";
+		mes "kkkkuuuuahhh.";
+		mes "rrrrrruuuuhh.";
+		mes "au au..";
+		next;
+		mes "[Cachorro Falante]";
+		mes "O que foi?";
+		mes "É você!";
+		mes "Um membro do Grupo do Éden.";
+		mes "Veio me trazer uma refeição? Eu não gosto de bebidas.";
+		next;
+		switch (select("Boya é realmente perfeito.:Boya é realmente incrível.:Boya é muito fofinho.")) {
+		case 1:
+			mes "[Cachorro Falante]";
+			mes "Uhh...";
+			mes "O que você está dizendo.";
+			close;
+		case 2:
+			mes "[Cachorro Falante]";
+			mes "Ahh... uh...";
+			mes "Nossa, veio aqui para participar do treinamento?";
+			mes "Se o Boya te mandou, então sabe que é treinamento de combate.";
+			mes "Au au...";
+			next;
+			mes "[Cachorro Falante]";
+			mes "Se for isso, devo começar a proteger melhor esse oásis?";
+			mes "Está vendo aquele Condor voando?";
+			next;
+			mes "[Cachorro Falante]";
+			mes "Pode espantá-los para mim?";
+			mes "Assim as pessoas podem usar o oásis com mais segurança e conforto.";
+			next;
+			mes "[Cachorro Falante]";
+			mes "Devemos caçar pelo menos 10 Condores, certo?";
+			mes "Vou tirar um cochilo enquanto isso.";
+			mes "Krrrr woo au...";
+			set para_suv01,2;
+			changequest 7128,7129;
+			close;
+		case 3:
+			mes "[Cachorro Falante]";
+			mes "Você está bem?";
+			mes "Nunca viu um cachorro falante antes?";
+			mes "Do que está falando?";
+			close;
+		}
+	}
+	if (para_suv01 == 2) {
+		if (checkquest(7129,HUNTING) == 2) {
+		mes "[Cachorro Falante]";
+		mes "Woooohh...";
+		mes "Incrível!";
+		mes "Sinto a juventude emanando de você.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Deixa pra lá.";
+		mes "Vamos encontrar o próximo alvo, kk!";
+		mes "Certo. Vamos expulsar os Lobos do Deserto daqui.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Se crescerem, se tornarão perigosos.";
+		mes "......";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Por que... por que está me olhando assim?";
+		mes "Eles são lobos, e eu sou um cachorro bonzinho.";
+		mes "Mas nem sempre fui um cachorro na vida.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Vou te mostrar que não precisa ter pena de mim.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Eles fazem xixi em qualquer lugar e não têm vergonha nenhuma.";
+		mes "Ficam abanando o rabo e mordendo as pessoas sem se importar!";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Você precisa caçar pelo menos 10!";
+		mes "Exatamente 10!";
+		mes "Vai vai vai!";
+		set para_suv01,3;
+		changequest 7129,7130;
+		close;
+	}
+	mes "[Cachorro Falante]";
+	mes "Primeiro vamos seguir aquele pássaro careca e barulhento.";
+	mes "Sim, os Condores.";
+	mes "Mate 10 Condores. Parece fácil, não?";
+	mes "Ah, se estiver cansado, eu posso te ajudar.";
+	next;
+	mes "- Quando o cachorro latiu, seu HP e SP foram recuperados. -";
+	npcskill "AL_HEAL",11,99,60;
+	percentheal 100,100;
+	close;
+}
+if (para_suv01 == 3) {
+	if (checkquest(7130,HUNTING) == 2) {
+		mes "[Cachorro Falante]";
+		mes "Você é perfeito.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Ou não. Hehe, de qualquer forma obrigado pela ajuda.";
+		mes "O oásis agora está quase seguro.";
+		mes "Certo, é a última etapa!";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Há um monstro irritante que se esconde na areia e envenena as pessoas do nada.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Todas as coisas belas têm um pouco de veneno por dentro, mas esses realmente matam.";
+		mes "Mate Escorpiões, que são chamados de o veneno do deserto!";
+		next;
+		mes "[Cachorro Falante]";
+		mes "É a última etapa então vamos manter simples.";
+		mes "Apenas cace 5!";
+		mes "Au au!";
+		set para_suv01,4;
+		changequest 7130,7131;
+		close;
+	}
+	mes "[Cachorro Falante]";
+	mes "Não quero que sinta pena de mim.";
+	mes "Sou um cachorro de coração dourado.";
+	next;
+	mes "[Cachorro Falante]";
+	mes "Depois de caçar os 10 Lobos do Deserto, volte aqui.";
+	mes "Ah, se estiver cansado, eu posso te ajudar.";
+	next;
+	mes "- Quando o cachorro latiu, seu HP e SP foram recuperados. -";
+	npcskill "AL_HEAL",11,99,60;
+	percentheal 100,100;
+	close;
+}
+if (para_suv01 == 4) {
+	if (checkquest(7131,HUNTING) == 2) {
+		mes "[Cachorro Falante]";
+		mes "Hm. Excelente.";
+		mes "Você é incrível!";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Graças ao seu esforço, o oásis está seguro.";
+		mes "Não olhe em volta!";
+		mes "Se eu disse que está seguro, então está!";
+		mes "Uhuhuhuh aaaang!";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Aqui, aqui, aqui.";
+		mes "Se eu cavar mais e mais, posso encontrar Escorpiões, mas";
+		mes "esse oásis estará mais seguro com certeza.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Você pode se orgulhar e confiar em si mesmo e dar o seu melhor.";
+		mes "Você ajudou muito a tornar meu descanso mais confortável.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Você ajudou a conquistar o deserto,";
+		mes "e concluiu as etapas de treinamento iniciais, então vou carimbar com minhas patas.";
+		mes "krrrrreuung. hup.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Volte para a sede do Grupo do Éden e mostre ao Cavaleiro Rúnico Brilhante.";
+		mes "Deixe-me dizer novamente: você é incrível!";
+		mes "Hooooohooo~";
+		set para_suv01,5;
+		changequest 7131,7132;
+		close;
+		}
+		mes "[Cachorro Falante]";
+		mes "Vamos caçar apenas 5 Escorpiões.";
+		mes "Assim poderemos trazer paz para este oásis.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Quando eu tirar um cochilo eles não vão mais morder meu rabo.";
+		mes "Por causa do erro dele, minhas patas não vão se machucar mais.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Você pode lutar.";
+		mes "E eu posso descansar mais confortavelmente.";
+		mes "Outras pessoas também estarão mais seguras.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Todos vão pensar bem do Grupo do Éden.";
+		mes "Ah, se estiver cansado, posso te ajudar.";
+		next;
+		mes "-Quando o cachorro latiu, seu HP e SP foram recuperados.-";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 == 5) {
+		mes "[Cachorro Falante]";
+		mes "kkkkkaaaaauuuunnng.";
+		mes "oopssss kup.";
+		next;
+		mes "[Cachorro Falante]";
+		mes "Por que você ainda está aqui?";
+		mes "Você já terminou aqui.";
+		mes "Hooooo au au.";
+		close;
+	}
+	if (para_suv01 > 5) {
+		mes "[Cachorro Falante]";
+		mes "Ei, amigo~ Como vai?";
+		mes "E o Cavaleiro Rúnico, hein?";
+		mes "Krrrrr...";
+		mes "Hyuk huk...";
+		next;
+		mes "[Cachorro Falante]";
+		mes "O Grupo do Éden é legal.";
+		mes "Eles são um grupo realmente bom.";
+		mes "Eles aceitaram um cachorro falante errante.";
+		mes "Se cuida e boa sorte.";
+		close;
+	}
+	mes "Ei, olha aqui.";
+	mes "Sou um cachorro falante.";
+	mes "Não um lobo.";
+	mes "Eu não era originalmente um cachorro...";
+	next;
+	if (callfunc("F_HasEdenGroupMark")) {
+		mes "[Cachorro Falante]";
+		mes "Enfim, você é um membro do Grupo do Éden?";
+		mes "Ah, que bom te ver.";
+		mes "Eu também sou do Grupo do Éden.";
+		mes "Se cuida e boa sorte.";
+		close;
+	}
+	mes "[Cachorro Falante]";
+	mes "Por que está me olhando assim?";
+	mes "......";
+	close;
+}
+
+prt_sewb1,131,262,3	script	Gato Tímido#para04	422,{
+	if (para_suv01 < 6) {
+		mes "[Gato Tímido]";
+		mes "Miau...";
+		mes "Quem é você, miau?";
+		mes "Por que está aqui, miau?";
+		close;
+	}
+	if (para_suv01 == 6) {
+		mes "[Gato Tímido]";
+		mes "Vamos lá, miau...";
+		mes "Pode até parecer que estou aqui de pé falando com você assim, miau, mas ainda sou um gato, miau...";
+		next;
+		mes "[Gato Tímido]";
+		mes "Querido humano, você é";
+		mes "um membro do meu grupo?";
+		mes "Re... realmente...!";
+		mes "A ajuda do Boya é como um gigante e...";
+		next;
+		switch (select("Lindo Sanma:Cavala Fresca:Lindo Atum")) {
+		case 1:
+			mes "[Gato Tímido]";
+			mes "Sanma grande e bonito...";
+			mes "Estou com vergonha.";
+			close;
+		case 2:
+			mes "[Gato Tímido]";
+			mes "Quero comer cavala.";
+			mes "Onde estão as cavalas grandes e frescas, miau?";
+			close;
+		case 3:
+			mes "[Gato Tímido]";
+			mes "Você conhece o Atum grande e bonito?";
+			mes "Com certeza foi o querido Boya quem te mandou aqui.";
+			mes "Como eu explico isso...?";
+			next;
+			mes "[Gato Tímido]";
+			mes "Algo acabou de passar debaixo das minhas patas, miau?";
+			mes "Quer matar um gato?";
+			mes "O ambiente aqui é terrível.";
+			next;
+			mes "[Gato Tímido]";
+			mes "De qualquer forma, estou fazendo o que me foi designado.";
+			mes "Então oi, olá e bem-vindo.";
+			next;
+			mes "[Gato Tímido]";
+			mes "Você veio aqui para uma batalha?";
+			mes "Cace esses Besouros-Ladrões, depressa!";
+			mes "Cace pelo menos 10!";
+			mes "Miaaaau!";
+			next;
+			mes "[Gato Tímido]";
+			mes "Eu realmente não gosto dessas criaturas rastejantes nojentas...";
+			mes "Miau~!";
+			next;
+			mes "^4d4dffO gato se assustou com";
+			mes "um Inseto Ladrão e ficou paralisado";
+			mes "no lugar. Cace esses";
+			mes "Besouros-Ladrões por aqui.^000000";
+			set para_suv01,7;
+			changequest 7133,7134;
+			close;
+		}
+	}
+	if (para_suv01 == 7) {
+		if (checkquest(7134,HUNTING) == 2) {
+			mes "[Gato Tímido]";
+			mes "Agora você entende como os esgotos subterrâneos são sujos e úmidos?";
+			mes "Eeeh, veja o que vem a seguir, miau.";
+			next;
+			mes "[Gato Tímido]";
+			mes "É um símbolo de sujeira junto daqueles Besouros-Ladrões.";
+			mes "Cace alguns Tarous para deixar os esgotos mais limpos.";
+			next;
+			mes "[Gato Tímido]";
+			mes "Para nossos membros que estão participando dessa missão.";
+			mes "Cace 10 Tarous.";
+			mes "Fácil, né?";
+			next;
+			mes "[Gato Tímido]";
+			mes "Por que eu não pedi isso logo de cara? kkk..??";
+			mes "Umm........";
+			mes "Porque é só uma missão de treinamento.";
+			next;
+			mes "[Gato Tímido]";
+			mes "Missões de treinamento são difíceis e irritantes.";
+			mes "Então vá logo caçar 10 Tarous.";
+			set para_suv01,8;
+			changequest 7134,7135;
+			close;
+		}
+		mes "[Gato Tímido]";
+		mes "Limpe os esgotos. O primeiro passo é caçar Besouros-Ladrões.";
+		mes "Não é simples, miau?";
+		next;
+		mes "[Gato Tímido]";
+		mes "Lembre-se de verificar o mapa para não se perder.";
+		mes "É um serviço, miaaau.";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 == 8) {
+		if (checkquest(7135,HUNTING) == 2) {
+			mes "[Gato Tímido]";
+			mes "Bom trabalho~!";
+			mes "Como você se livrou daqueles insetos imundos e Tarous. Você é corajoso.";
+			next;
+			mes "[Gato Tímido]";
+			mes "Agora tenha coragem porque vou te mandar para um oponente mais forte.";
+			mes "Mas primeiro, para testar sua coragem, cace Familiares.";
+			next;
+			mes "[Gato Tímido]";
+			mes "Familiares mordem, então tome cuidado.";
+			mes "Eles são maus.";
+			mes "Eles me assustam, então só cace 5 e já é suficiente.";
+			next;
+			mes "[Gato Tímido]";
+			mes "Isso vai me mostrar que você é corajoso.";
+			mes "Miau~!";
+			next;
+			mes "[Gato Tímido]";
+			mes "Eu não tenho nada...";
+			mes "......";
+			mes "O que você quer, miau? Os Familiares estão esperando para lutar com você, anda logo, vá~!";
+			set para_suv01,9;
+			changequest 7135,7136;
+			close;
+		}
+		mes "[Gato Tímido]";
+		mes "Se não conseguir derrotar os Tarous, pode acabar contraindo todo tipo de doenças.";
+		mes "Então tenha orgulho de si mesmo e dê o seu melhor para eliminá-los.";
+		next;
+		mes "[Gato Tímido]";
+		mes "Vou te ajudar um pouco.";
+		mes "Aqui, recuperei sua força, miau..";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 == 9) {
+		if (checkquest(7136,HUNTING) == 2) {
+			mes "[Gato Tímido]";
+			mes "Você é incrível, miau~";
+			mes "Você os derrotou tão rápido!";
+			mes "Miau...";
+			next;
+			mes "[Gato Tímido]";
+			mes "Agora você não tem mais medo de insetos nem de Tarous.";
+			mes "Obrigado por participar da missão de treinamento Conquiste os Esgotos.";
+			next;
+			mes "[Gato Tímido]";
+			mes "Agora volte para a sede e peça ao Instrutor Boya para garantir que ele tenha o lindo atum...";
+			mes "Estarei esperando aqui.";
+			next;
+			mes "[Gato Tímido]";
+			mes "Você sabe como chegar à Sede do Grupo do Éden?";
+			mes "Prontera é a cidade mais próxima daqui.";
+			mes "Vá para Prontera e encontre um Teletransportador do Grupo do Éden.";
+			set para_suv01,10;
+			changequest 7136,7137;
+			close;
+		}
+		mes "[Gato Tímido]";
+		mes "Os Familiares são realmente assustadores.";
+		mes "Eles estão sempre voando.";
+		next;
+		mes "[Gato Tímido]";
+		mes "É o último curso, então anime-se.";
+		mes "Vou te ajudar um pouco.";
+		mes "Aqui, recuperei sua força, miau..";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 >= 10) {
+		mes "[Gato Tímido]";
+		mes "Você completou 'Conquiste os Esgotos'.";
+		mes "Volte para a sede do Grupo do Éden para relatar ao Boya.";
+		next;
+		mes "[Gato Tímido]";
+		mes "O Boya pode acabar comendo meu atum enquanto espera por você.";
+		close;
+	}
+	mes "[Gato Tímido]";
+	mes "Como vai, miau?";
+	mes "Você se voluntariou para conquistar os Esgotos?";
+	mes "Com certeza é um membro do Grupo do Éden.";
+	mes "Está ajudando a tornar o mundo um lugar melhor.";
+	close;
+}
+
+pay_arche,41,136,3	script	Karl, Membro do Éden#para05	904,{
+	if (para_suv01 < 13) {
+		if (callfunc("F_HasEdenGroupMark")) {
+			mes "[Karl]";
+			mes "Ei, como você está?";
+			mes "Prazer em vê-lo~";
+			mes "Você está indo para dentro?";
+			close;
+		}
+		mes "[Karl]";
+		mes "Umm...?";
+		mes "Você não é aquele por quem estou esperando.";
+		close;
+	}
+	if (para_suv01 == 13) {
+		mes "[Karl]";
+		mes "Olá?";
+		mes "Desde que recebi o relatório, estava esperando por você.";
+		mes "Você veio aqui para participar da missão de treinamento, certo?";
+		next;
+		mes "[Karl]";
+		mes "Você já entrou nessa caverna antes?";
+		mes "Não sei se você já ouviu algumas histórias nesta vila.";
+		next;
+		mes "[Karl]";
+		mes "Há muitas almas mortas que mudam de aparência como se fossem pessoas reais e fazem comentários ameaçadores.";
+		mes "É triste, não é?";
+		next;
+		mes "[Karl]";
+		mes "Por isso escolhemos este lugar como o passo 2 do treinamento de combate.";
+		mes "Este passo se chama 'Conquiste a Caverna dos Fantasmas~'.";
+		mes "Ajude as pessoas a terem noites tranquilas.";
+		next;
+		mes "[Karl]";
+		mes "Há muitas coisas perigosas lá. Hmm...";
+		mes "Para você, o 1º andar é o suficiente.";
+		next;
+		mes "[Karl]";
+		mes "Vamos conquistar a perigosa Caverna dos Fantasmas...";
+		mes "Mate os esqueletos de ossos que estão lá dentro.";
+		next;
+		mes "[Karl]";
+		mes "Os ossos são de Esqueletos.";
+		mes "Na verdade, Esqueletos ou apenas ossos normais são todos iguais, mas...";
+		next;
+		mes "[Karl]";
+		mes "Esqueletos são uma das classes básicas dos mortos-vivos.";
+		mes "Mortos-vivos nunca morrem. Cace 15 Esqueletos.";
+		next;
+		mes "[Karl]";
+		mes "Se sentir que está em perigo, não hesite em sair.";
+		mes "Você não está com medo de se machucar, está?";
+		set para_suv01,14;
+		changequest 7138,7139;
+		close;
+	}
+	if (para_suv01 == 14) {
+		if (checkquest(7139,HUNTING) == 2) {
+			mes "[Karl]";
+			mes "Você entendeu como funcionam os mortos-vivos?";
+			mes "Como você sabe, mortos-vivos nunca morrem, então a bênção de uma pessoa viva é como uma maldição para eles.";
+			next;
+			mes "[Karl]";
+			mes "Então... habilidades que salvam pessoas como 'Curar' e 'Ressuscitar'.";
+			mes "Essas coisas são ataques realmente fortes contra classes mortas-vivas.";
+			next;
+			mes "[Karl]";
+			mes "Enfim... é isso...";
+			mes "Próximo... acho que você já viu enquanto matava os Esqueletos.";
+			mes "Algumas coisas verdes estavam pegando tudo que os monstros mortos deixavam cair.";
+			next;
+			mes "[Karl]";
+			mes "Você conhece os Porings? Talvez estejam relacionados a eles.";
+			mes "Eles parecem bem estranhos, talvez tenham comido veneno ou algo assim.";
+			next;
+			mes "[Karl]";
+			mes "Certo, se estiver pronto, vá e mate esses Poporings.";
+			mes "Você deve caçar 10 deles.";
+			next;
+			set para_suv01,15;
+			changequest 7139,7140;
+			close;
+		}
+		mes "[Karl]";
+		mes "Esqueletos são mortos-vivos básicos.";
+		mes "Use as habilidades 'Cura' ou 'Ressuscitar'.";
+		mes "Se puder.";
+		next;
+		mes "[Karl]";
+		mes "Só por precaução, vou recuperar toda sua energia.";
+		mes "É a última etapa, então tome cuidado.";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 == 15) {
+		if (checkquest(7140,HUNTING) == 2) {
+			mes "[Karl]";
+			mes "Você recuperou o que os Poporings roubaram?";
+			mes "Essa caverna é muito profunda e há muitas coisas preciosas que eles podem ter pegado.";
+			next;
+			mes "[Karl]";
+			mes "Você fez um ótimo trabalho. Excelente.";
+			mes "O 1º andar agora está mais seguro. Obrigado por ajudar.";
+			next;
+			mes "[Karl]";
+			mes "Você completou todas as missões de treinamento, então volte para a sede e receba a aprovação do Cavaleiro Rúnico Brilhante.";
+			next;
+			mes "[Karl]";
+			mes "Você pode até receber um novo uniforme.";
+			mes "Haha. Vou acompanhar o seu progresso.";
+			set para_suv01,16;
+			changequest 7140,7141;
+			close;
+		}
+		mes "[Karl]";
+		mes "Poporings são mais fortes do que você imagina.";
+		mes "Se tratá-los como um Poring normal, você vai acabar se dando mal.";
+		next;
+		mes "[Karl]";
+		mes "Só por precaução, vou recuperar toda a sua energia.";
+		mes "É a última etapa, então tenha cuidado.";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 >= 16) {
+		mes "[Karl]";
+		mes "Já informei o Boya na sede do Grupo do Éden.";
+		mes "Se você for até lá, ele vai te receber de braços abertos.";
+		next;
+		mes "[Karl]";
+		mes "Você vai receber um novo uniforme, não está animado?";
+		mes "Hahaha..";
+		close;
+	}
+	mes "[Karl]";
+	mes "Eliminando mortos-vivos?";
+	mes "Dê o seu melhor para tornar o mundo mais seguro.";
+	mes "Esse é um dos objetivos do Grupo do Éden.";
+	close;
+}
+
+anthell01,29,264,5	script	Cloud, Membro do Éden#para06	899,{
+	if (para_suv01 < 17) {
+		if (callfunc("F_HasEdenGroupMark")) {
+			mes "[Cloud]";
+			mes "Opa.";
+			mes "Você é um membro do meu grupo.";
+			mes "Por que veio até aqui, está procurando perigo?";
+			next;
+			mes "[Cloud]";
+			mes "Um dos monstros chefes mais fortes está aqui dentro.";
+			mes "Tenha cuidado ao explorar esta área.";
+			close;
+		}
+		mes "[Cloud ]";
+		mes "O que está olhando?";
+		mes "Não temos nenhuma relação, não é mesmo...";
+		close;
+	}
+	if (para_suv01 == 17) {
+		mes "[Cloud]";
+		mes "Olá?";
+		mes "Por que veio até aqui, procurando perigo?";
+		next;
+		switch (select("Conquistar o Formigueiro.:Só queria te ver.:Onde estou?")) {
+		case 1:
+			mes "[Cloud]";
+			mes "Ah. Conquistar o Formigueiro? Foi isso que você disse?";
+			mes "Você é um recruta.";
+			mes "Veio ao lugar certo.";
+			next;
+			mes "[Cloud]";
+			mes "Primeiro vou te explicar sobre o Formigueiro.";
+			mes "As formigas cavaram uma caverna na areia que está conectada à superfície. Isso é o Formigueiro.";
+			next;
+			mes "[Cloud]";
+			mes "A areia foi escorrendo para dentro do buraco gradualmente.";
+			mes "Se alguém pisar sobre o buraco, vai acabar caindo na caverna através do buraco na areia...";
+			next;
+			mes "[Cloud]";
+			mes "É difícil sobreviver depois disso.";
+			mes "Para nós parece algo normal, então não é uma questão de sobrevivência como seria para pessoas comuns.";
+			next;
+			mes "[Cloud]";
+			mes "Muitos tipos de formigas vieram morar aqui.";
+			mes "Há um monstro chefe chamado Maya, então é melhor ter cuidado.";
+			next;
+			mes "[Cloud]";
+			mes "Certo, vamos caçar a formiga mais fraca primeiro.";
+			mes "Piere é o nome da formiga mais fraca.";
+			mes "Elas estão logo aqui embaixo.";
+			next;
+			mes "[Cloud]";
+			mes "No caso das formigas, elas se ajudam quando são atacadas.";
+			mes "Tenha cuidado e derrote 15 Pieres.";
+			set para_suv01,18;
+			changequest 7142,7143;
+			close;
+		case 2:
+			mes "[Cloud]";
+			mes "......";
+			mes "Haha... está brincando comigo?";
+			mes "Você está exausto por causa do calor extremo do deserto.";
+			next;
+			mes "[Cloud]";
+			mes "Sou um homem ocupado.";
+			mes "Um dos recrutas estava planejando me visitar, mas ainda não apareceu. Estou começando a ficar nervoso.";
+			close;
+		case 3:
+			mes "[Cloud]";
+			mes "Onde você está?";
+			mes "Você está no Formigueiro, a sudoeste de Morroc.";
+			mes "Morroc é a cidade mais próxima, ao nordeste daqui.";
+			close;
+		}
+	}
+	if (para_suv01 == 18) {
+		if (checkquest(7143,HUNTING) == 2) {
+			mes "[Cloud]";
+			mes "Ei, o que foi?";
+			mes "Talvez você tenha visto um Andre enquanto caçava Pieres.";
+			next;
+			mes "[Cloud]";
+			mes "Bem, agora vamos caçar Andre também.";
+			mes "Ahah, pelo seu olhar, parece que está pensando: ''por que ele não me pediu isso tudo de uma vez?'' certo?";
+			next;
+			mes "[Cloud]";
+			mes "Não é mais divertido assim?";
+			mes "Ei, agora seu próximo alvo são 15 Andres!";
+			mes "Você é forte, então vai ficar tudo bem!";
+			next;
+			mes "[Cloud]";
+			mes "Se não encontrar Andre, vá mais fundo na caverna.";
+			mes "Ah, e cuidado com a Maya.";
+			set para_suv01,19;
+			changequest 7143,7144;
+			close;
+		}
+		mes "[Cloud]";
+		mes "O que achou do Formigueiro?";
+		mes "Pode continuar por mais tempo?";
+		mes "Certo, vou recuperar suas forças, então continue.";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 == 19) {
+		if (checkquest(7144,HUNTING) == 2) {
+			mes "[Cloud]";
+			mes "Ótimo. Parece que você eliminou todos os Andres.";
+			mes "O que acha de lutar contra formigas?";
+			mes "Foi bom?";
+			next;
+			mes "[Cloud]";
+			mes "Ei, anime-se.";
+			mes "Para conquistar o Formigueiro falta só um passo.";
+			mes "Talvez já tenha adivinhado qual será seu próximo alvo.";
+			next;
+			mes "[Cloud]";
+			mes "Vitata!";
+			mes "Como posso dizer... Parece mel.";
+			mes "Piere é um operário. Andre é um guardião e então... Vitata é como uma mãe.";
+			next;
+			mes "[Cloud]";
+			mes "Elas são realmente gentis com crianças e mulheres, mas não demonstram piedade com formigas.";
+			mes "Derrote as Vitatas que cuidam dos Ovos das formigas.";
+			next;
+			mes "[Cloud]";
+			mes "Se alguém cair no Formigueiro, pode ser que agora esteja um pouco mais seguro do que antes.";
+			mes "Agora é a última etapa, então anime-se e derrote 10 Vitatas.";
+			next;
+			mes "[Cloud]";
+			mes "Se sentir que está em muito perigo, apenas volte.";
+			mes "Eu vou te curar.";
+			set para_suv01,20;
+			changequest 7144,7145;
+			close;
+		}
+		mes "[Cloud]";
+		mes "Veja, para te animar eu vou te curar até você terminar o treinamento.";
+		mes "Ânimo e sorria.";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+if (para_suv01 == 20) {
+	if (checkquest(7145,HUNTING) == 2) {
+		mes "[Cloud]";
+		mes "Oh... deve ter sido uma luta chata.";
+		mes "Você terminou tão rápido.";
+		next;
+		mes "[Cloud]";
+		mes "Bom trabalho. Volte para a sede e faça o relatório.";
+		mes "Você completou o treinamento rapidamente.";
+		next;
+		mes "[Cloud]";
+		mes "Você receberá boas notícias.";
+		mes "Você fez um ótimo trabalho mesmo com esse calor.";
+		set para_suv01,21;
+		changequest 7145,7146;
+		close;
+	}
+	mes "[Cloud]";
+	mes "Veja, para te animar eu vou te curar até você terminar o treinamento.";
+	mes "Ânimo e sorria.";
+	next;
+	mes "[Cloud]";
+	mes "Apenas Vitata, não é um oponente fácil?";
+	mes "Se você ver a Maya, apenas fuja.";
+	npcskill "AL_HEAL",11,99,60;
+	percentheal 100,100;
+	close;
+}
+if (para_suv01 >= 21) {
+	mes "[Cloud]";
+	mes "É o suficiente para dizer que você conquistou o Formigueiro Infernal.";
+	mes "Você não está se acostumando com aqui?";
+	next;
+	mes "[Cloud]";
+	mes "Volte para a sede e reporte que completou a missão, rápido";
+	mes "você receberá boas notícias.";
+	mes "Você também receberá o uniforme do Grupo do Éden.";
+	close;
+}
+mes "[Cloud]";
+mes "Tenho muito orgulho do Grupo do Éden.";
+mes "O uniforme ficou bom em mim?";
+mes "Haha...";
+close;
+}
+
+in_orcs01,38,175,3	script	Hooksha, Membro do Éden	803,{
+	if (para_suv01 < 24) {
+		if (callfunc("F_HasEdenGroupMark")) {
+			mes "[Hooksha]";
+			mes "Inacreditável, por que você veio aqui?";
+			mes "Hum... Você não está na terceira etapa do treinamento?";
+			mes "Yeeee~ Estou animada~";
+			next;
+			mes "[Hooksha]";
+			mes "Estou um pouco entediada esperando pelos recrutas. Onde eles estão?";
+			close;
+		}
+		mes "[Hooksha]";
+		mes "Olá.";
+		mes "Por que você veio aqui?";
+		mes "Hmm... Aaaaa...";
+		next;
+		mes "[Hooksha]";
+		mes "Por que não se junta ao meu grupo?";
+		mes "Se tiver interesse em se juntar a nós,";
+		mes "você não vai se arrepender da decisão.";
+		close;
+	}
+	if (para_suv01 == 24) {
+		mes "[Hooksha]";
+		mes "Olá.";
+		mes "Você é um recruta?";
+		mes "Sim, dá pra perceber.";
+		mes "Então vamos começar?";
+		next;
+		mes "[Hooksha]";
+		mes "Na verdade eu não gosto muito dessa missão de treinamento, mas enfim, deixe-me te explicar.";
+		next;
+		mes "[Hooksha]";
+		mes "Como você sabe, esta é a Vila dos Orcs.";
+		mes "Orcs não gostam de humanos.";
+		mes "Eles não tentam se comunicar conosco. Quando veem humanos, atacam imediatamente.";
+		next;
+		mes "[Hooksha]";
+		mes "Infelizmente os humanos também não querem se comunicar com eles.";
+		mes "Então decidimos tomar uma abordagem mais dura contra eles.";
+		mes "Na verdade, queremos nos livrar de todos.";
+		next;
+		mes "[Hooksha]";
+		mes "Estamos tentando conquistar a Vila dos Orcs.";
+		mes "É o lugar ideal para finalizar o treinamento de iniciantes para um aventureiro como você.";
+		next;
+		mes "[Hooksha]";
+		mes "É por isso que escolhemos este lugar para esta missão.";
+		mes "Ok, não temos muito tempo, então vamos começar.";
+		mes "Primeiro, vamos eliminar os mais fracos.";
+		next;
+		mes "[Hooksha]";
+		mes "É melhor eliminá-los antes que cresçam.";
+		mes "Derrote 10 Filhotes de Orc.";
+		mes "Não tenha pena, pois quando crescem se tornam Guerreiros Orc agressivos.";
+		next;
+		mes "[Hooksha]";
+		mes "Seja bom ou ruim, é assim que vai ser.";
+		mes "Mesmo que sejam filhotes, não hesite.";
+		set para_suv01,25;
+		changequest 7147,7148;
+		close;
+	}
+	if (para_suv01 == 25) {
+		if (checkquest(7148,HUNTING) == 2) {
+		mes "[Hooksha]";
+		mes "Ótimo. Excelente.";
+		mes "Não é muito agradável, então vamos continuar.";
+		next;
+		mes "[Hooksha]";
+		mes "Na próxima etapa vamos lutar contra os Guerreiros Orc.";
+		mes "Quando os Filhotes de Orc crescem, se tornam fortes Guerreiros Orc.";
+		next;
+		mes "[Hooksha]";
+		mes "Todos eles são guerreiros poderosos.";
+		mes "Enquanto lutava contra os Filhotes de Orc, provavelmente foi atacado por eles.";
+		next;
+		mes "[Hooksha]";
+		mes "Agora é hora de caçar 10 Guerreiros Orc.";
+		mes "Se estiver com problemas, apenas volte aqui para um local seguro.";
+		mes "Entendeu?";
+		set para_suv01,26;
+		changequest 7148,7149;
+		close;
+	}
+	mes "[Hooksha]";
+	mes "Há Guerreiros Orc, Senhoras Orc e Filhotes de Orc na Vila dos Orcs.";
+	mes "Eles são realmente agressivos.";
+	next;
+	mes "[Hooksha]";
+	mes "Você parece cansado, eu vou recuperar sua vida.";
+	mes "Se estiver com problemas, apenas volte aqui para um local seguro.";
+	npcskill "AL_HEAL",11,99,60;
+	percentheal 100,100;
+	close;
+}
+if (para_suv01 == 26) {
+	if (checkquest(7149,HUNTING) == 2) {
+		mes "[Hooksha]";
+		mes "Agora você pode seguir para a próxima etapa.";
+		next;
+		mes "[Hooksha]";
+		mes "Exatamente... agora é hora de caçar Senhoras Orc.";
+		mes "Se quiser conquistar completamente a Vila dos Orcs, deve eliminá-las antes que tenham mais Filhotes de Orc.";
+		next;
+		mes "[Hooksha]";
+		mes "Mas você não precisa eliminar todas.";
+		mes "Vá e derrote 10 Senhoras Orc.";
+		next;
+		mes "[Hooksha]";
+		mes "Você já pode sentir o poder vindo de fora...";
+		mes "Não hesite em atacá-las.";
+		set para_suv01,27;
+		changequest 7149,7150;
+		close;
+	}
+	mes "[Hooksha]";
+	mes "Você já deve estar exausto.";
+	mes "Mas ainda há mais alvos, entenda isso.";
+	next;
+	mes "[Hooksha]";
+	mes "Você parece cansado, eu vou recuperar sua vida.";
+	mes "Se estiver com problemas, apenas volte aqui para um local seguro.";
+	npcskill "AL_HEAL",11,99,60;
+	percentheal 100,100;
+	close;
+}
+if (para_suv01 == 27) {
+	if (checkquest(7150,HUNTING) == 2) {
+		mes "[Hooksha]";
+		mes "Ótimo trabalho.";
+		mes "Agora você deve entender como funciona a tribo Orc aqui na Vila dos Orcs.";
+		mes "Você seguiu a missão de treinamento bem mesmo com esse clima quente e úmido.";
+		mes "Agora você completou a missão de treinamento 'Conquistar a Vila dos Orcs!'. Parabéns.";
+		next;
+		mes "[Hooksha]";
+		mes "Volte e reporte à sede do Grupo do Éden.";
+		mes "Tenho certeza que eles terão boas notícias para você.";
+		set para_suv01,28;
+		changequest 7150,7151;
+		close;
+	}
+	mes "[Hooksha]";
+	mes "A Senhora Orc é o último alvo.";
+	mes "Ânimo~!";
+	next;
+	mes "[Hooksha]";
+	mes "Você parece cansado, eu vou recuperar sua vida.";
+	mes "Se estiver com problemas, apenas volte aqui para um local seguro.";
+	npcskill "AL_HEAL",11,99,60;
+	percentheal 100,100;
+	close;
+}
+if (para_suv01 == 28) {
+	mes "[Hooksha]";
+	mes "Você completou a missão de treinamento.";
+	mes "Volte para a sede do Grupo do Éden e faça seu relatório.";
+	close;
+}
+if (para_suv01 == 29) {
+	mes "[Hooksha]";
+	mes "Você veio aqui para participar do treinamento?";
+	mes "Você parece um especialista.";
+	next;
+	mes "[Hooksha]";
+	mes "Este não é um bom lugar para conversar, então vamos com pressa.";
+	mes "Este lugar está ligado à Caverna da Vila dos Orcs.";
+	next;
+	mes "[Hooksha]";
+	mes "Consegue ver aquele caminho.";
+	mes "Há uma caverna subterrânea, os Orcs normais não vêm aqui.";
+	next;
+	mes "[Hooksha]";
+	mes "O lugar mais seguro é aqui dentro.";
+	mes "Há muitos monstros mortos-vivos lá embaixo.";
+	next;
+	mes "[Hooksha]";
+	mes "Os monstros mortos-vivos são perigosos e ameaçadores.";
+	mes "Não hesite ao enfrentá-los.";
+	next;
+	mes "[Hooksha]";
+	mes "Agora vá caçar esses monstros mortos-vivos lá embaixo.";
+	next;
+	mes "[Hooksha]";
+	mes "Tente caçar 20 Orcs Zumbis na Caverna.";
+	mes "Eles são realmente bem organizados.";
+	next;
+	mes "[Hooksha]";
+	mes "Eles vão te atacar em qualquer lugar sem hesitar.";
+	mes "Que Freya te abençoe.";
+	set para_suv01,30;
+	changequest 7152,7153;
+	close;
+}
+	if (para_suv01 == 30) {
+		if (checkquest(7153,HUNTING) == 2) {
+			mes "[Hooksha]";
+			mes "É diferente do que você viu em Payon, não é?";
+			mes "Embora tenha conseguido derrotar os Orcs Zumbis, isso não significa que você está muito mais forte...";
+			next;
+			mes "[Hooksha]";
+			mes "Então não vá mais fundo naquela caverna ou você vai morrer com certeza.";
+			next;
+			mes "[Hooksha]";
+			mes "O próximo alvo é o Orc Esqueleto que andava junto com os Orcs Zumbis.";
+			mes "Cace 20 Orcs Esqueletos.";
+			next;
+			mes "[Hooksha]";
+			mes "Essa é a última etapa da missão de treinamento na Caverna dos Orcs.";
+			mes "Agora depende de você.";
+			next;
+			mes "[Hooksha]";
+			mes "Ok, anime-se e até logo.";
+			mes "Cace 20 Orcs Esqueletos.";
+			set para_suv01,31;
+			changequest 7153,7154;
+			close;
+		}
+		mes "[Hooksha]";
+		mes "Pode ficar mais um pouco?";
+		mes "Você parece cansado, vou recuperar sua energia.";
+		mes "Se estiver em apuros, apenas volte aqui para um lugar seguro.";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 == 31) {
+		if (checkquest(7154,HUNTING) == 2) {
+			mes "[Hooksha]";
+			mes "Sua missão de treinamento foi concluída.";
+			mes "Volte à sede do Grupo do Éden e faça o relatório.";
+			mes "Eu gostaria de falar mais, mas estou ficando muito cansado.";
+			next;
+			mes "[Hooksha]";
+			mes "Ultimamente, os recrutas têm vindo para cá com mais frequência, então não consigo dormir nada.";
+			mes "Não é por sua causa, claro.";
+			mes "De qualquer forma, vou informar o grupo, então vá até lá e faça seu relatório.";
+			next;
+			set para_suv01,32;
+			changequest 7154,7155;
+			close;
+		}
+		mes "[Hooksha]";
+		mes "Pode ficar mais um pouco?";
+		mes "Você parece cansado, vou recuperar sua energia.";
+		mes "Se estiver em apuros, apenas volte aqui para um lugar seguro.";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 == 32) {
+		mes "[Hooksha]";
+		mes "Você não deveria voltar para a sede do Grupo do Éden para fazer o relatório?";
+		mes "Estou tão cansado... me deixe em paz.";
+		close;
+	}
+	if (para_suv01 > 32) {
+		mes "[Hooksha]";
+		mes "Hã? Que Orc? Explorar a Caverna?";
+		mes "Você está passando por maus bocados.";
+		next;
+		mes "[Hooksha]";
+		mes "Este lugar é ótimo para descansar porque os Orcs não vêm até aqui.";
+		mes "Zzz...";
+		close;
+	}
+}
+
+iz_dun04,43,46,3	script	Callandiva, Membro do Éden 	745,{
+	if (para_suv01 < 33) {
+		if (callfunc("F_HasEdenGroupMark")) {
+			mes "[Callandiva]";
+			mes "Como você chegou tão fundo nessa cidade submarina?";
+			mes "Ah, esse símbolo é do nosso grupo.";
+			mes "Você é um recruta, com certeza.";
+			next;
+			mes "[Callandiva]";
+			mes "O quê? Você não é?";
+			mes "Eu... entendo... entendo...";
+			mes "Certo... continue.";
+			close;
+		}
+		mes "[Callandiva]";
+		mes "Misteriosamente, mesmo estando debaixo do mar, ainda conseguimos respirar aqui.";
+		mes "Você sabe por quê?";
+		next;
+		mes "[Callandiva]";
+		mes "Vamos ver... por causa da umidade, minha pele está tão macia.";
+		mes "Meus dedos das mãos e dos pés não estão colados, é incrível.";
+		next;
+		mes "[Callandiva]";
+		mes "Fiquei realmente chocada e com medo quando o Grupo do Éden me enviou para cá.";
+		mes "Agora eu amo esse ambiente.";
+		mes "É muito calmo...";
+		close;
+	}
+	if (para_suv01 == 33) {
+		mes "[Callandiva]";
+		mes "Como você chegou tão fundo nessa cidade submarina?";
+		mes "Ah, esse símbolo é do nosso grupo.";
+		mes "Você é um recruta, com certeza.";
+		next;
+		mes "[Callandiva]";
+		mes "Que bom ver você!";
+		mes "Certo, olhe para baixo.";
+		mes "Construções antigas estão adormecidas sob as águas. Elas foram construídas mesmo abaixo do mar.";
+		next;
+		mes "[Callandiva]";
+		mes "Como você pode ver, conseguimos viver aqui sem problemas.";
+		mes "Mas se olhar ali... isso, bem ali.";
+		next;
+		mes "[Callandiva]";
+		mes "Consegue ver um peixe humanoide com uma lança ameaçadora?";
+		mes "Ele se chama Tritão e é um guerreiro realmente profissional.";
+		next;
+		mes "[Callandiva]";
+		mes "Certo, vá e cace 15 Tritões.";
+		mes "Essa será sua 1ª missão de treinamento aqui.";
+		set para_suv01,34;
+		changequest 7156,7157;
+		close;
+	}
+	if (para_suv01 == 34) {
+		if (checkquest(7157,HUNTING) == 2) {
+			mes "[Callandiva]";
+			mes "Ah, você voltou~!";
+			mes "O que achou daqueles ameaçadores Tritões?";
+			mes "Para ser honesta, achei que você iria desistir~";
+			next;
+			mes "[Callandiva]";
+			mes "Muito bem, seu próximo oponente será...~";
+			mes "Sim, este aqui...";
+			mes "O monstro que carrega um tridente.";
+			next;
+			mes "[Callandiva]";
+			mes "Suas habilidades principais são mágicas.";
+			mes "O monstro se chama Strouf!";
+			mes "Agora, é hora de lutar contra um verdadeiro mago!";
+			next;
+			mes "[Callandiva]";
+			mes "Tente evitar os Tritões e cace 10 Strouf, elimine-os.";
+			set para_suv01,35;
+			changequest 7157,7158;
+			close;
+		}
+		mes "[Callandiva]";
+		mes "Ah, está cansado?";
+		mes "Os Tritões não são oponentes fáceis.";
+		mes "Vou ajudar você a se recuperar, anime-se.";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 == 35) {
+		if (checkquest(7158,HUNTING) == 2) {
+			mes "[Callandiva]";
+			mes "Você já derrotou todos os Stroufs?";
+			mes "Eu não esperava que você fosse conseguir.";
+			mes "Tenho olhos até no topo da cabeça haha.";
+			next;
+			mes "[Callandiva]";
+			mes "Claro que estou brincando.";
+			mes "Não me olhe assim~ foi uma piada~!";
+			mes "Agora você está se sentindo mais confiante com isso.";
+			next;
+			mes "[Callandiva]";
+			mes "Volte para a sede do Grupo do Éden e faça o relatório.~";
+			mes "Você vai receber o último uniforme da sede do Grupo do Éden.";
+			next;
+			mes "[Callandiva]";
+			mes "Essa missão de treinamento foi feita para iniciantes.";
+			mes "Então pode ser inútil pra você... ou não.";
+			next;
+			mes "[Callandiva]";
+			mes "De qualquer forma, você fez um ótimo trabalho!";
+			set para_suv01,36;
+			changequest 7158,7159;
+			close;
+		}
+		mes "[Callandiva]";
+		mes "Ah, está cansado?";
+		mes "Strouf não são oponentes fáceis.";
+		mes "Posso ajudar você a se recuperar, anime-se.";
+		npcskill "AL_HEAL",11,99,60;
+		percentheal 100,100;
+		close;
+	}
+	if (para_suv01 >= 36) {
+		mes "[Callandiva]";
+		mes "Não vou te ajudar mais.";
+		mes "Volte à sede e faça o relatório desta missão de treinamento.";
+		close;
+	}
+	mes "[Callandiva]";
+	mes "Misteriosamente, mesmo estando debaixo do mar, ainda conseguimos respirar aqui.";
+	mes "Você sabe por quê?";
+	next;
+	mes "[Callandiva]";
+	mes "Vamos ver... por causa da umidade, minha pele está tão macia.";
+	mes "Meus dedos das mãos e dos pés não estão colados, é incrível.";
+	next;
+	mes "[Callandiva]";
+	mes "Fiquei realmente chocada e com medo quando o Grupo do Éden me enviou para cá.";
+	mes "Agora eu amo esse ambiente.";
+	mes "É muito calmo...";
+	close;
+}
+
+moc_para01,112,96,5	script	Administrador Michael	4_M_RUSMAN1,{
+	mes "[Michael]";
+	mes "Por que você veio até aqui?";
+	next;
+	switch (select("Receber Equipamentos.:Que lugar é esse?:Aprimorar equipamento.")) {
+		mes "[Michael]";
+	case 1:
+		if (para_suv01 == 11) {
+			mes "Se você completou a Etapa 1,";
+			mes "podemos fornecer um Chapéu, Uniforme, Capa e Botas do Grupo do Éden.";
+			mes "^4d4dffVerifique seu inventário primeiro.^000000";
+			next;
+			if (select("Verificar meu inventário.:Tenho espaço suficiente.") == 1) {
+				mes "[Michael]";
+				mes "Certifique-se de ter espaço suficiente para receber os suprimentos.";
+				close;
+			}
+			mes "[Michael]";
+			mes "Dois dos suprimentos, o ^4d4dffChapéu e a Capa^000000,";
+			mes "serão fornecidos apenas uma vez.";
+			mes "Então trate-os com cuidado.";
+			next;
+			mes "[Michael]";
+			mes "Quanto às Botas e ao Uniforme, você receberá versões de melhor qualidade de acordo com suas notas do curso.";
+			next;
+			mes "[Michael]";
+			mes "Um Chapéu Valhalla.";
+			mes "Um Capa Valhalla.";
+			mes "Um par de Botas Valhalla Iniciantes.";
+			mes "Um Uniforme Valhalla Iniciante.";
+			mes "Total de 4 suprimentos, isso é tudo.";
+			para_suv01 = 12;
+			para_suv02 = 1;
+			getitem 5583,1; //Chapéu Valhalla
+			getitem 2560,1; //Capa Valhalla
+			getitem 2456,1; //Botas Valhalla Iniciantes
+			getitem 15009,1; //Uniforme Valhalla Iniciante
+			next;
+			mes "[Michael]";
+			mes "Está tudo certo?";
+			mes "Eles são feitos para iniciantes, então não têm os melhores efeitos, mas ainda assim são mais baratos que os equipamentos das lojas.";
+			next;
+			mes "[Michael]";
+			mes "Fizemos esses suprimentos especialmente para o Grupo do Éden.";
+		}
+		else if (para_suv01 == 22) {
+			mes "Se você completou a Etapa 2, oferecemos armas adicionais junto com o equipamento básico.";
+			next;
+			mes "[Michael]";
+			mes "Selecionamos a arma apropriada para cada classe.";
+			mes "Mas não podemos apoiar algumas classes que não podem se juntar a nós.";
+			next;
+			mes "[Michael]";
+			mes "Não conseguimos fabricar todas as armas do mundo, concorda?";
+			next;
+			mes "[Michael]";
+			mes "Vamos fornecer 1 Arma, Sapatos e Uniforme, totalizando três itens.";
+			mes "Também fornecemos itens extras considerando membros que não podem usar certos equipamentos.";
+			next;
+			mes "[Michael]";
+			mes "^4d4dffPor favor, verifique seu inventário para receber os itens.^000000";
+			next;
+			if (select("Vou liberar mais espaço.:Tenho espaço suficiente.") == 1) {
+				mes "[Michael]";
+				mes "Libere espaço suficiente.";
+				close;
+			}
+			mes "[Michael]";
+			if (Class == Job_Swordman || Class == Job_Swordman_High || Class == Job_Knight || Class == Job_Crusader) {
+				callsub S_Select,"Temos Espadas de Uma e Duas Mãos.",
+					1192,"Espada Valhalla Iniciante","Espada de Duas Mãos","ATQ 162","",//P_Slayer1
+					13423,"Sabre Valhalla Iniciante","Espada de Uma Mão","ATQ 147","É isso que buscamos!";//P_Sabre1
+			}
+			if (Class == Job_Thief || Class == Job_Thief_High || Class == Job_Assassin || Class == Job_Rogue || Class == Job_Ninja || Class == Job_Novice || Class == Job_Novice_High) {
+				callsub S_Select,"",
+					13050,"Adaga Valhalla Iniciante","Adaga","ATQM+60, ATQ 124","É isso que buscamos!";//P_Dagger1
+			}
+			if (Class == Job_Merchant || Class == Job_Merchant_High || Class == Job_Blacksmith || Class == Job_Alchemist) {
+				callsub S_Select,"Temos um Maça e uma Espada de Uma Mão",
+					13423,"Sabre Valhalla Iniciante","Espada de Uma Mão","ATQ 147","É isso que buscamos!",// P_Sabre1
+					16004,"Maça Valhalla Iniciante","Maça","ATQ 142","";// P_Mace1
+			}
+			if (Class == Job_Archer || Class == Job_Archer_High || Class == Job_Hunter || Class == Job_Dancer || Class == Job_Bard) {
+				callsub S_Select,"",
+					1747,"Arco Valhalla Iniciante","Arco","ATQ 82","";//P_Bow1
+			}
+			if (Class == Job_Acolyte || Class == Job_Acolyte_High || Class == Job_Priest || Class == Job_Monk) {
+				callsub S_Select,"Temos uma maça e um cajado",
+					16004,"Maça Valhalla Iniciante","Maça","ATQ 142","", //P_Mace1
+					1650,"Cajado Valhalla Iniciante","Cajado","INT+2, ATQM+125, ATQ 60",""; //P_Staff1
+			}
+			if (Class == Job_Mage || Class == Job_Mage_High || Class == Job_Wizard || Class == Job_Sage) {
+				callsub S_Select,"",
+					1650,"Cajado Valhalla Iniciante","Cajado","INT+2, ATQM+125, ATQ 60","";//P_Staff1
+			}
+			if (Class == Job_Gunslinger) {
+				callsub S_Select,"",
+					13112,"Revólver Valhalla Iniciante","Revólver","Precisão-5, ATQ 44","";//P_Revolver1
+			}
+			if (Class == Job_Summoner) {
+				callsub S_Select,"",
+					1699,"Cauda de Gato I","Cajado","ATQM+135, ATQ 120","";//P_Foxtail1
+			}
+			mes "Deixe-me ver... você receberá...";
+			mes "As Botas Valhalla Intermediárias e o Uniforme Valhalla Intermediário.";
+			next;
+			mes "[Michael]";
+			para_suv01 = 23;
+			getitem 13050,1; //Adaga Valhalla Iniciante
+			getitem 2457,1; //Botas Valhalla Intermediárias
+			getitem 15010,1; //Uniforme Valhalla Intermediário
+			if (para_suv02 == 0) {
+				mes "Não sei qual arma se encaixa melhor para você, então, você receberá uma Adaga.";
+				mes "Você não tem registro de recebimento de suprimentos";
+				mes "então, receberá também o Chapéu Valhalla e a Capa Valhalla.";
+				getitem 5583,1; //Chapéu Valhalla
+				getitem 2560,1; //Capa Valhalla
+				para_suv02 = 2;
+				next;
+				mes "[Michael]";
+				mes "Verifique seus suprimentos novamente e cuide bem deles.";
+				close;
+			}
+			para_suv02 = 2;
+			mes "Uma arma, uniforme e botas, um total de 3 suprimentos.";
+			mes "Não sei qual arma se encaixa melhor para você, então, você receberá uma Adaga.";
+			mes "Por favor, verifique novamente.";
+			next;
+			mes "[Michael]";
+			mes "Espero que eles sejam úteis para você.";
+		}
+		else if (para_suv01 == 37) {
+			mes "Você concluiu o último curso de treinamento.";
+			mes "É hora de receber uma nova arma.";
+			next;
+			mes "[Michael]";
+			mes "Temos armas, uniformes e botas mais aprimorados.";
+			mes "Ah, sobre a arma feita apenas para as 1ª classes.";
+			mes "Portanto, não posso oferecê-las para classes avançadas.";
+			next;
+			mes "[Michael]";
+			mes "^4d4dffPor favor, verifique seu inventário para receber os suprimentos.^000000";
+			next;
+			if (select("Volto mais tarde.:Tenho espaço suficiente.") == 1) {
+				mes "[Michael]";
+				mes "Certifique-se de que tem espaço suficiente.";
+				close;
+			}
+			mes "[Michael]";
+			if (Class == Job_Swordman || Class == Job_Swordman_High || Class == Job_Knight || Class == Job_Crusader) {
+				callsub S_Select,"Temos Espadas de Uma e Duas Mãos",
+					13424,"Sabre Valhalla Intermediário","Espada de Uma Mão","ATQ 170","",///P_Sabre2
+					1193,"Espada Valhalla Intermediária","Espada de Duas Mãos","ATQ 185","";//P_Slayer2
+			}
+			if (Class == Job_Thief || Class == Job_Thief_High || Class == Job_Assassin || Class == Job_Rogue || Class == Job_Novice || Class == Job_Novice_High || Class == Job_Super_Novice || Class == Job_Soul_Linker || Class == Job_Ninja) {
+				callsub S_Select,"",
+					13051,"Adaga Valhalla Intermediária","Adaga","ATQM+70, ATQ 158","";//P_Dagger2
+			}
+			if (Class == Job_Acolyte || Class == Job_Acolyte_High || Class == Job_Priest || Class == Job_Monk) {
+				callsub S_Select,"Temos uma Maça e um Cajado",
+					16005,"Maça Valhalla Intermediária","Maça","ATQ 163","", //P_Mace2
+					1651,"Cajado Valhalla Intermediário","Cajado","INT+3, ATQM+150, ATQ 60",""; //P_Staff2
+			}
+			if (Class == Job_Archer || Class == Job_Archer_High || Class == Job_Hunter || Class == Job_Dancer || Class == Job_Bard) {
+				callsub S_Select,"",
+					1748,"Arco Valhalla Intermediário","Arco","ATQ 82","";//P_Bow2
+			}
+			if (Class == Job_Mage || Class == Job_Mage_High || Class == Job_Wizard || Class == Job_Sage) {
+				callsub S_Select,"",
+					1651,"Cajado Valhalla Intermediário","Cajado","INT+3, ATQM+155, ATQ 60","";//P_Staff2
+			}
+			if (Class == Job_Merchant || Class == Job_Merchant_High || Class == Job_Blacksmith || Class == Job_Alchemist) {
+				callsub S_Select,"Temos uma Maça e uma Espada de Uma Mão",
+					13424,"Sabre Valhalla Intermediário","Espada de Uma Mão","ATQ 170","",//P_Sabre2
+					16005,"Maça Valhalla Intermediária","Maça","ATQ 163","";// P_Mace2
+			}
+			if (Class == Job_Gunslinger) {
+				callsub S_Select,"",
+					13113,"Revólver Valhalla Intermediário","Revólver","Precisão-5, ATQ 60","";//P_Revolver2
+			}
+			if (Class == Job_Summoner) {
+				callsub S_Select,"",
+					26100,"Cauda de Gato II","Cajado","ATQM+165, ATQ 135","";//P_Foxtail1
+			}
+			mes "Deixe-me ver... você receberá...";
+			mes "As Botas Valhalla Avançadas e o Uniforme Valhalla Avançado.";
+			next;
+			para_suv01 = 38;
+			getitem 2458,1; //Botas Valhalla Avançadas
+			getitem 15011,1; //Uniforme Valhalla Avançado
+			mes "[Michael]";
+			if (para_suv02 == 0) {
+				mes "Você não tem registro de recebimento de suprimentos";
+				mes "então, receberá também o Chapéu Valhalla e a Capa Valhalla.";
+				para_suv02 = 3;
+				getitem 5583,1; //Chapéu Valhalla
+				getitem 2560,1; //Capa Valhalla
+				next;
+				mes "[Michael]";
+				mes "Verifique seus suprimentos novamente e cuide bem deles.";
+				close;
+			}
+			para_suv02 = 3;
+			mes "Um uniforme e botas, totalizando 2 suprimentos.";
+			mes "Por favor, verifique novamente.";
+			next;
+			mes "[Michael]";
+			mes "Espero que sejam úteis para você.";
+		}
+		else {
+			mes "Espere... vou verificar o registro...";
+			mes "...";
+			mes "...hummmm.";
+			next;
+			mes "[Michael]";
+			mes "Desculpe, mas não encontrei nenhum registro que permita a você obter suprimentos.";
+			mes "Tem certeza?";
+		}
+		close;
+	case 2:
+		mes "Armazenamos armas, armaduras e outros itens criados pelo Grupo do Éden aqui.";
+		mes "Também temos muitas coisas especiais.";
+		next;
+		mes "[Michael]";
+		mes "Para nos prepararmos para emergências, temos equipamentos e suprimentos suficientes para um exército inteiro.";
+		mes "Sinceramente... não temos uso para isso agora, mas caso algo aconteça como em Morroc.";
+		next;
+		mes "[Michael]";
+		mes "Apenas dê uma olhada e não toque em nada.";
+		next;
+		mes "[Michael]";
+		mes "Se eu cometer um erro, a Reke vai me punir.";
+		close;
+	case 3:
+		mes "Você quer dizer aprimorar equipamento, certo?";
+		mes "Só podemos aprimorar o Chapéu Valhalla.";
+		next;
+		mes "[Michael]";
+		if (para_suv02 == 3) {
+			if (countitem(5583) > 0) {
+				disable_items;
+				mes "Qual bônus de atributo você deseja aprimorar?";
+				next;
+				switch (select("Aprimorar FOR:Aprimorar AGI:Aprimorar VIT:Aprimorar INT:Aprimorar DES:Aprimorar SOR:Deixar pra lá.")) {
+				case 1: callsub S_Upgrade,"FOR",4701;
+				case 2: callsub S_Upgrade,"AGI",4731;
+				case 3: callsub S_Upgrade,"VIT",4741;
+				case 4: callsub S_Upgrade,"INT",4711;
+				case 5: callsub S_Upgrade,"DES",4721;
+				case 6: callsub S_Upgrade,"SOR",4751;
+				case 7:
+					mes "[Michael]";
+					mes "Por quê? Ele ficará melhor do que é.";
+					mes "De qualquer forma, só podemos oferecer um Chapéu.";
+					next;
+					mes "[Michael]";
+					mes "O que você fizer com ele é com você.";
+					close;
+				}
+			}
+			mes "Primeiro, venha com um Chapéu que deseja que eu aprimore.";
+			mes "Certifique-se de que está no seu inventário, certo?";
+			close;
+		}
+		if (para_suv02 == 4) {
+			mes "Umm, você já não aprimorou este?";
+			mes "De acordo com os registros";
+			mes ""+strcharinfo(0)+": Já aprimorou seu Chapéu.";
+			next;
+			mes "[Michael]";
+			mes "Só podemos oferecer 1 aprimoramento.";
+			mes "Desculpe, mas não posso fazer isso duas vezes.";
+			close;
+		}
+		mes "Você ainda não recebeu todos os suprimentos até a Etapa 3.";
+		mes "Aprimorar o Chapéu é um serviço especial.";
+		next;
+		mes "[Michael]";
+		mes "Desculpe, mas não posso ajudar com isso.";
+		close;
+	}
+S_Upgrade:
+	mes "[Michael]";
+	mes "Entendi.";
+	mes "Eu vou ^4d4dffAprimorar "+ getarg(0) +"^000000.";
+	mes "Tem certeza?";
+	next;
+	switch (select("Sim, eu tenho certeza.:Não, espere.")) {
+	case 1:
+		mes "[Michael]";
+		mes "Eu vou começar o aprimoramento.";
+		next;
+		mes "[Michael]";
+		mes "Aqui está.";
+		para_suv02 = 4;
+		delitem 5583,1;
+		getitem2 5583,1,1,0,0,0,0,0,getarg(1);
+		close;
+	case 2:
+		mes "[Michael]";
+		mes "Você não quer aprimorar?";
+		close;
+	}
+
+S_Select:
+	.@total_arg = getargcount();
+	if (.@total_arg < 7)
+		mes "Nós temos apenas uma arma para você.";
+	else {
+		mes "Que tipo de arma você deseja?";
+		mes getarg(0);
+		mes "Aqui estão as opções.";
+	}
+	next;
+	mes "[Michael]";
+	for ( .@i = 1; .@i < .@total_arg; .@i += 5 ) {
+		set .@menu$, .@menu$ + getarg(.@i+1) + ":";
+		mes getarg(.@i+1)+": "+ getarg(.@i+2) +". "+ getarg(.@i+3) +".";
+	}
+	if (.@total_arg < 7)
+		mes "É de Nível 2 e o nível necessário é "+ (para_suv01 == 22 ? "26" : "40") +".";
+	else
+		mes "Ambas são Armas de Nível 2 e o nível necessário é "+ (para_suv01 == 22 ? "26" : "40") +".";
+	next;
+	mes "[Michael]";
+	mes "Elas também não podem ser trocadas com outros jogadores nem refinadas.";
+	next;
+	//			callsub S_Select,"Temos Espadas de Uma e Duas Mãos.",
+		//			13424,"Sabre do Éden II","Espada de Uma Mão","Ataque 170","",///P_Sabre2
+			//		1193,"Lâmina do Éden II","Espada de Duas Mãos","Ataque 185","";//P_Slayer2
+	if (.@total_arg < 7) {
+		.@i = 1;
+		mes "[Michael]";
+		mes "Você receberá "+ getarg(.@i+1) +".";
+		next;
+		mes "[Michael]";
+	}
+	else {
+		.@i = (select(.@menu$) -1) *5 +1;
+		mes "[Michael]";
+		mes "Você escolheu "+ getarg(.@i+1) +".";
+	}
+	if (para_suv01 == 22) {
+		mes "Além disso, você receberá as Botas Valhalla Intermediárias e o Uniforme Valhalla Intermediário.";
+		next;
+		getitem 2457,1;	// Botas Valhalla Intermediárias
+		getitem 15010,1;// Uniforme Valhalla Intermediário
+		para_suv01 = 23;
+	}
+	else {
+		mes "Além disso, você receberá as Botas Valhalla Avançadas e o Uniforme Valhalla Avançado.";
+		next;
+		getitem 2458,1;// Botas Valhalla Avançadas
+		getitem 15011,1;// Uniforme Valhalla Avançado
+		para_suv01 = 38;
+	}
+	getitem getarg(.@i),1;
+	mes "[Michael]";
+	if (para_suv02 == 0) {
+		mes "Você não tem registro de ter recebido nenhum suprimento";
+		mes "então, também receberá o Chapéu e o Capa Valhalla.";
+		getitem 5583,1;// Chapéu Valhalla
+		getitem 2560,1;// Capa Valhalla
+		if (para_suv01 == 22)
+			para_suv02 = 2;
+		else
+			para_suv02 = 3;
+		next;
+		mes "[Michael]";
+		mes "Verifique seus suprimentos novamente e cuide bem deles.";
+	}
+	else {
+		if (para_suv01 == 22)
+			para_suv02 = 2;
+		else
+			para_suv02 = 3;
+		mes "Um(a) "+ getarg(.@i+2) +", Uniforme e Botas — os três suprimentos.";
+		mes "Por favor, verifique novamente.";
+		next;
+		mes "[Michael]";
+		mes "Espero que sejam úteis para você.";
+		mes getarg(.@i+4);
+	}
+	close;
+}
+
+moc_para01,179,44,3	script	Chefe	820,{
+	mes "[Chefe]";
+	mes "Tudo certo?";
+	mes "Você quer uma refeição? Ou tem outro assunto?";
+	next;
+	switch (select("Pedir uma refeição.:Conversar.")) {
+	case 1:
+		mes "[Chefe]";
+		mes "Escolha um dos três pratos: A, B ou C.";
+		mes "Quer uma explicação?";
+		next;
+		switch (select("Quero uma explicação.:Pedir prato A:Pedir prato B:Pedir prato C:Encerrar conversa.")) {
+		case 1:
+			mes "[Chefe]";
+			mes "Hm? O que você quer saber?";
+			next;
+			switch (select("Sobre o prato A.:Sobre o prato B.:Sobre o prato C.:Encerrar conversa.")) {
+			case 1:
+				mes "[Chefe]";
+				mes "O prato A é para pessoas normais.";
+				mes "Ele tem três tipos de pratos e o principal é...";
+				mes " ";
+				mes "- O chefe tenta apontar para um prato na foto. Há um rolo preto. -";
+				next;
+				mes "[Chefe]";
+				mes "É feito de alga marinha, então é seco como papel.";
+				mes "É um rolo com arroz cozido no vapor, vegetais e carne dentro.";
+				mes "Parece simples, mas é muito bom e saudável.";
+				next;
+				mes "[Chefe]";
+				mes "Os ingredientes combinam bem com o molho apimentado.";
+				mes "Também é misturado com carne picada como salsichas.";
+				next;
+				mes "[Chefe]";
+				mes "É simples e barato, por isso é muito popular entre todos.";
+				mes "Apenas 3.000 Zenys.";
+				mes "Você vai se sentir satisfeito depois de comer.";
+				close;
+			case 2:
+				mes "[Chefe]";
+				mes "Hmm, o prato B é...";
+				mes "Eu preparo um molho com vegetais aromáticos e carne em uma sopa.";
+				next;
+				mes "[Chefe]";
+				mes "A carne é cozida até ficar macia ao ponto de desmanchar.";
+				mes "Quando a sopa está quase pronta, adiciono macarrão para finalizar.";
+				next;
+				mes "[Chefe]";
+				mes "É um ótimo prato para compartilhar com amigos.";
+				mes "Custa 4.000 Zenys.";
+				mes "É um prato muito divertido de saborear.";
+				close;
+			case 3:
+				mes "[Chefe]";
+				mes "Agora o prato C...";
+				mes "É uma obra-prima de carne... A lenda da categoria de carnes!";
+				next;
+				mes "[Chefe]";
+				mes "Carne bovina, bacon,";
+				mes "contra-filé,";
+				mes "entrecôte";
+				mes "...";
+				next;
+				mes "[Chefe]";
+				mes "Precisa de mais informações?";
+				mes "Não se preocupe.";
+				mes "Uso o melhor carvalho para defumar.";
+				mes "Ah, custa 5.000 Zenys. Barato, né? Eu só uso a melhor carne, então não se preocupe.";
+				close;
+			case 4:
+				mes "[Chefe]";
+				mes "Não tenho tempo suficiente para conversar com você...";
+				close;
+			}
+		case 2:
+			mes "[Chefe]";
+			mes "Prato A?";
+			mes "Ah, Kim-dduck-soon.";
+			mes "É a refeição representativa dos cidadãos comuns.";
+			next;
+			if (callfunc("F_HasEdenGroupMark")) {
+				if (Zeny > 2699) {
+					mes "[Chefe]";
+					mes "Aqui está.";
+					mes "Aproveite sua refeição.";
+					next;
+					mes "- Após comer a refeição, você se sente um pouco cheio.";
+					mes "Você recuperou um pouco de HP e SP. -";
+					set Zeny, Zeny - 2700;
+					percentheal 50,0;
+					percentheal 0,50;
+					close;
+				}
+				mes "[Chefe]";
+				mes "Essa refeição custa 3.000 Zenys, mas eu vou servir por 2.700.";
+				mes "Como você é um membro do Grupo do Éden, recebe 10% de desconto, então ficará por 2.700 Zenys.";
+				close;
+			}
+			if (Zeny > 2999) {
+				mes "[Chefe]";
+				mes "Aqui está.";
+				mes "Aproveite sua refeição.";
+				next;
+				mes "- Após comer a refeição, você se sente um pouco cheio.";
+				mes "Você recuperou um pouco de HP e SP. -";
+				set Zeny, Zeny - 3000;
+				percentheal 50,0;
+				percentheal 0,50;
+				close;
+			}
+			mes "[Chefe]";
+			mes "Essa refeição custa 3.000 Zenys.";
+			mes "Quantas vezes preciso repetir isso?";
+			close;
+		case 3:
+			mes "[Chefe]";
+			mes "Prato B?";
+			mes "Uma comida com carne e vegetais em sopa quente tem origem na vida nômade sob a natureza fria e seca.";
+			next;
+			if (callfunc("F_HasEdenGroupMark")) {
+				if (Zeny > 3599) {
+					mes "[Chefe]";
+					mes "Aqui está.";
+					mes "Aproveite sua refeição.";
+					next;
+					mes "- Após comer a refeição, você se sente um pouco cheio.";
+					mes "Você recuperou um pouco de HP e SP. -";
+					set Zeny, Zeny - 3600;
+					percentheal 75,0;
+					percentheal 0,75;
+					close;
+				}
+				mes "[Chefe]";
+				mes "Essa refeição custa 4.000 Zenys, mas eu vou servir por 3.600.";
+				mes "Como você é um membro do Grupo do Éden, recebe 10% de desconto, então ficará por 3.600 Zenys.";
+				close;
+			}
+			if (Zeny > 3999) {
+				mes "[Chefe]";
+				mes "Aqui está.";
+				mes "Aproveite sua refeição.";
+				next;
+				mes "- Após comer a refeição, você se sente um pouco cheio.";
+				mes "Você recuperou um pouco de HP e SP. -";
+				set Zeny, Zeny - 4000;
+				percentheal 75,0;
+				percentheal 0,75;
+				close;
+			}
+			mes "[Chefe]";
+			mes "Essa refeição custa 4.000 Zenys.";
+			mes "Quantas vezes preciso repetir isso?";
+			close;
+		case 4:
+			if (callfunc("F_HasEdenGroupMark")) {
+				if (Zeny > 4499) {
+					mes "[Chefe]";
+					mes "Aqui está.";
+					mes "Aproveite sua refeição.";
+					next;
+					mes "- O Entrecôte foi grelhado no carvalho.";
+					mes "- Após comer a refeição, você se sente um pouco cheio.";
+					mes "Você recuperou seu HP e SP. -";
+					set Zeny, Zeny - 4500;
+					percentheal 100,0;
+					percentheal 0,100;
+					close;
+				}
+				mes "[Chefe]";
+				mes "Essa refeição custa 5.000 Zenys, mas eu vou servir por 4.500.";
+				mes "Como você é um membro do Grupo do Éden, recebe 10% de desconto, então ficará por 4.500 Zenys.";
+				close;
+			}
+			if (Zeny > 4999) {
+				mes "[Chefe]";
+				mes "Aqui está.";
+				mes "Aproveite sua refeição.";
+				next;
+				mes "Aqui está.";
+				mes "- O Entrecôte foi grelhado no carvalho.";
+				mes "- Após comer a refeição, você se sente um pouco cheio.";
+				mes "Você recuperou seu HP e SP. -";
+				set Zeny, Zeny - 5000;
+				percentheal 100,0;
+				percentheal 0,100;
+				close;
+			}
+			mes "[Chefe]";
+			mes "Essa refeição custa 5.000 Zenys.";
+			mes "Quantas vezes preciso repetir isso?";
+			close;
+		case 5:
+			mes "[Chefe]";
+			mes "Você quem sabe.";
+			close;
+		}
+	case 2:
+		if (callfunc("F_HasEdenGroupMark")) {
+			mes "[Chefe]";
+			mes "A maioria dos trabalhos deve ser feito por conta própria. Então pode ser difícil, não é?";
+			mes "Na verdade isso é prejudicial, então eles continuam solicitando.";
+			next;
+			mes "[Chefe]";
+			mes "Será que não podemos todos trabalhar juntos ajudando uns aos outros?";
+			mes "De qualquer forma, você...";
+			next;
+			if (para_suv01 == 0) {
+				if (BaseLevel < 41) {
+					mes "[Chefe]";
+					mes "Como vai?";
+					mes "Ah... agora você não parece mais um iniciante.";
+					mes "Quer saber uma boa informação?";
+					next;
+					mes "[Chefe]";
+					mes "O Grupo do Éden... às vezes recebe missões.";
+					mes "Mas eles também fabricam armaduras e armas por conta própria.";
+					next;
+					mes "[Chefe]";
+					mes "Se quiser, você pode conseguir um uniforme do Grupo do Éden.";
+					next;
+					mes "[Chefe]";
+					mes "Para consegui-lo, você precisa completar as missões deles.";
+					mes "Se tiver interesse, fale com a Instrutora Boya no balcão.";
+					close;
+				}
+				mes "[Chefe]";
+				mes "Você parece um especialista...";
+				mes "umm emm.. ";
+				mes "umm emm.. ummm..";
+				next;
+				mes "[Chefe]";
+				mes "Sim! Eu percebi algo que está faltando em você!";
+				mes "Você ainda não pegou o uniforme do Grupo do Éden?";
+				next;
+				mes "[Chefe]";
+				mes "Hmm, não é necessário, mas se continuar com o Grupo do Éden, seria um bom símbolo.";
+				next;
+				mes "[Chefe]";
+				mes "Não é fácil consegui-lo, mas...";
+				mes "Se tiver interesse, pergunte à Instrutora Boya no balcão.";
+				close;
+			}
+		mes "[Chefe]";
+		mes "Claro, o uniforme combina com você.";
+		mes "Ah, claro.";
+		mes "O líder é quem faz os desenhos atualmente.";
+		next;
+		mes "[Chefe]";
+		mes "Ahah... especialmente o chapéu.";
+		mes "Pa...ra mim... o chapéu... hum.";
+		mes "Combina com a Laime, mas com o Luke... eu não sei...";
+		next;
+		switch (select("E o chapéu?:Luke?")) {
+		case 1:
+			mes "[Chefe]";
+			mes "Nada. É tão fofo.";
+			mes "Estou preocupado com o laço.";
+			mes "Mas é essencial que eu use esse chapéu...";
+			next;
+			mes "[Chefe]";
+			mes "Hahahah não me importo.";
+			mes "Não me importo nem um pouco!";
+			mes "Hahaha... aaaahahahaha...";
+			close;
+		case 2:
+			mes "[Chefe]";
+			mes "Ele é um especialista em facas.";
+			mes "Um dos nossos líderes da guarda.";
+			mes "Ele também é responsável pela segurança neste escritório.";
+			next;
+			mes "[Chefe]";
+			mes "Quase todos os novos contratados se perguntam sobre ele.";
+			mes "Mas Laime e Luke são totalmente diferentes.";
+			next;
+			mes "[Chefe]";
+			mes "Os líderes trabalham juntos há muito tempo.";
+			mes "Mas o líder quer esconder seu passado...";
+			next;
+			mes "[Chefe]";
+			mes "O que eu acho é... ele pode ser filho de uma família rica.";
+			mes "Dizem que Luke era o guarda da família.";
+			mes "A Laime era uma criada? Não era?";
+			mes "O que você acha da minha história?";
+			next;
+			select(".....");
+			mes "[Chefe]";
+			mes "............";
+			mes "Ahah... ei~ mesmo que eu fale coisas inúteis, não olhe assim pra mim";
+			mes "mas é verdade que foram três pessoas que fundaram o Grupo do Éden.";
+			close;
+		}
+	}
+	mes "[Chefe]";
+	mes "Hã? Missões. Você encontrou o lugar certo?";
+	mes "Deixe-me ver... você não é um dos nossos membros. Como posso te dar trabalho?";
+	next;
+	mes "[Chefe]";
+	mes "Apenas coma no restaurante.";
+	mes "Servimos refeições para todos.";
+	mes "Tenho certeza de que estão deliciosas!";
+	close;
+}
+}
+
+moc_para01,23,35,5	script	Instrutor Uru#2nd01	4_M_KNIGHT_BLACK,{
+	mes "[Instrutor Uru]";
+	if (!callfunc("F_HasEdenGroupMark")) {
+		mes "Ei, você aí!";
+		mes "Vejo que você não é um dos nossos agentes?";
+		mes "Está interessado em se juntar a nós?";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Não há taxas para se juntar!";
+		mes "Somos intermediários que enviam ajuda onde for necessária. Mais aventureiros como você significam mais lucro.";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Se estiver interessado, fale com o Raim.";
+		mes "O Raim é um cara legal.";
+		mes "Hahaha...";
+	}
+	else if (para_2nd01 == 0) {
+		mes "Olá?";
+		mes "Você precisa de ajuda?";
+		mes "Esse é um pedido geral para receber a próxima missão do quadro.";
+		next;
+		if (select("O que você está fazendo aqui?", "Nada demais.") == 2) {
+			mes "[Instrutor Uru]";
+			mes "Então acho que não temos negócios.";
+			close;
+		}
+		mes "[Instrutor Uru]";
+		mes "Bem, eu sou um instrutor do Grupo do Éden.";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Estou aqui para te passar missões baseadas no seu nível de base atual.";
+		mes "Essas missões não são muito difíceis.";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Sou o instrutor Sênior aqui do Grupo do Éden.";
+		mes "E então? Pronto para o desafio?";
+		next;
+		if (select("Hoje não.", "Ok, vou tentar.") == 1) {
+			mes "[Instrutor Uru]";
+			mes "Sério?";
+			mes "Que pena.";
+			mes "Quando você concluir essas missões, eu ainda te darei uma recompensa bem decente.";
+			close;
+		}
+		mes "[Instrutor Uru]";
+		mes "Beleza!";
+		mes "Ok, deixe-me verificar qual missão você deve receber.";
+		next;
+		mes "[Instrutor Uru]";
+		if (BaseLevel < 60) {
+			mes "Bem... sei que você tem garra, mas está um pouco fraco ainda.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Desculpe, mas seu nível de base deve ser pelo menos 60 para ajudar nessas missões.";
+		}
+		else if (BaseLevel < 70) {
+			mes "Ok, acho que você está no nível mínimo para essas missões.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Com base no seu nível, acho que a área de Comodo é ideal para você.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Você sabe onde fica Comodo?";
+			mes "Você pode chegar lá indo para Morroc e depois passando pelo Farol de Pharos.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Comodo é uma pequena cidade costeira com muitas cavernas.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Procure pela caverna localizada ao norte. Há alguém lá chamado Romeu.";
+			mes "Sabe? Como em Romeu, Romeu, por que és tu Romeu.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Vá até lá e pegue a missão com ele.";
+			mes "Depois volte aqui vivo, hein!";
+			para_2nd01 = 1;
+			setquest 7214;// Treinamento Avançado em Comodo
+		}
+		else if (BaseLevel < 80) {
+			mes "Vejamos...";
+			mes "Seu nível sugere que Comodo é muito fácil para você.";
+			mes "Aham, aqui está.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Você sabe onde fica Glast Heim?";
+			mes "Se um acidente trágico ocorresse agora, a capital do Reino de Rune-Midgard poderia voltar a ser lá.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Bem, se não fosse infestada por monstros mortos-vivos, seria a nova capital de Rune-Midgard.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Por favor, volte vivo.";
+			para_2nd01 = 7;
+			setquest 7219;// Treinamento Avançado em Glast Heim
+		}
+		else if (BaseLevel < 90) {
+			mes "Ah, ok, para você...";
+			mes "Hmm, para onde devo te mandar?";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Há uma cidade industrial chamada Einbroch.";
+			mes "Conhece? É uma cidade coberta por fumaça.";
+			mes "É uma cidade bem sombria, pensando bem.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "De qualquer forma, vá para Einbroch e procure o Instrutor Despachado por lá. Ele deve estar no campo ao sul da cidade principal.";
+			setquest 7223;// Treinamento Avançado em Einbroch
+			para_2nd01 = 12;
+		}
+		else
+			callsub S_Quest89100;
+	}
+	else if (para_2nd01 == 5) {
+		mes "Ah, aí está ele.";
+		mes "Parece que o Romeu voltou do relatório de campo.";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Temos recompensas para você.";
+		mes "Tenho certeza de que o Romeu já te deu alguns itens, mas nós trouxemos coisas mais úteis.";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Você sabe onde fica o depósito de armas?";
+		mes "Saia por aquela grande porta azul e vá até o fim do corredor.";
+		mes "Pergunte ao Ferreiro, ele te dará novos equipamentos.";
+		next;
+		mes "[Instrutor Uru]";
+		mes "E o treinamento e as missões da 2ª fase começam no nível 70, então volte quando atingir esse nível.";
+		mes "Não se esqueça, estarei te esperando.";
+		para_2nd01 = 6;
+		para_2nd02 = 1;
+		erasequest 7218;// Reportar-se ao Instrutor Uru
+	}
+else if (para_2nd01 == 6) {
+	if (BaseLevel > 69) {
+	mes "Ei, camarada~";
+	mes "O que está pegando?";
+	next;
+	switch( select( "Quero começar o treinamento.", "Só estou de visita." ) ) {
+		mes "[Instrutor Uru]";
+	case 1:
+		mes "Hmm... Você tem uma boa postura!";
+		mes "Deixe-me ver....";
+		mes "Qual local seria adequado para você...?";
+		next;
+		mes "[Instrutor Uru]";
+		if (BaseLevel < 80) {
+			mes "Ah, este lugar deve ser bom!";
+			mes "Você sabe onde fica Glast Heim?";
+			mes "Se não fosse por aquele terrível acidente, Glast Heim ainda seria";
+			mes "a capital de Rune-Midgard, e não Prontera.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "De qualquer forma, aquele castelo antigo agora está cheio de monstros mortos-vivos.";
+			mes "Está especialmente ruim ao redor da Abadia ao sul.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Todos esses monstros mortos-vivos vêm do cemitério subterrâneo.";
+			mes "Bem... acho que você não precisa ir até lá no fundo...";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Quando chegar à Abadia, verá um membro da nossa unidade posicionado em frente à entrada.";
+			mes "Siga as instruções dele para ajudar a limpar aquela área.";
+			next;
+			mes "[Instrutor Uru]";
+			mes "Por favor, volte vivo.";
+			para_2nd01 = 7;
+			setquest 7219;// Treinamento Avançado em Glast Heim
+		}
+		else if (BaseLevel < 90)
+			callsub S_Quest7990;
+		else
+			callsub S_Quest89100;
+		close;
+	case 2:
+		mes "Sério? No seu nível, acho que você consegue concluir facilmente as missões de mais alto nível..";
+		mes "Estarei aqui se mudar de ideia.";
+		close;
+		}
+	}
+	else {
+		mes "As missões do treinamento da 2ª fase começam no nível 70.";
+		mes "Te vejo então.";
+		mes "Você pegou o equipamento necessário no depósito?";
+		mes "Hahaha!";
+	}
+}
+else if (para_2nd01 == 10) {
+	mes "Oh! Você chegou!";
+	mes "Acabei de receber uma mensagem do Johan.";
+	mes "Acho que ele está escondendo algo de mim, mas não consigo descobrir o que é.";
+	next;
+	mes "[Instrutor Uru]";
+	mes "De qualquer forma, bom trabalho. Fico feliz que você não se machucou.";
+	mes "O Ferreiro BK disse que vai reforçar sua arma.";
+	next;
+	callsub S_Para2;
+	mes "[Instrutor Uru]";
+	mes "Você sabe onde fica o Ferreiro, certo??";
+	mes "Saia pela porta azul, até o final do corredor.";
+	mes "BK é um ótimo ferreiro, ele vai deixar sua arma mais forte.";
+	mes "Está esperando o quê?";
+	para_2nd01 = 11;// Reportar-se ao Instrutor Uru
+	erasequest 7222;
+}
+else if (para_2nd01 == 11) {
+	if (BaseLevel > 79) {
+		mes "Ah, sempre evoluindo, "+ strcharinfo(0) +"?";
+		mes "A que devo o prazer?";
+		next;
+		switch( select( "Vim para mais treinamento.", "Só estou de visita." ) ) {
+			mes "[Instrutor Uru]";
+		case 1:
+			mes "Hmm... Você tem uma boa postura!";
+			mes "Deixe-me ver....";
+			next;
+			mes "[Instrutor Uru]";
+			if (BaseLevel < 90)
+				callsub S_Quest7990;
+			else
+				callsub S_Quest89100;
+			close;
+		case 2:
+			mes "Sério? No seu nível, acho que você consegue concluir facilmente as missões de mais alto nível..";
+			mes "Estarei aqui se mudar de ideia.";
+			close;
+		}
+	}
+	else {
+		mes "O treinamento da 3ª fase começa no nível 80.";
+		mes "Te vejo então.";
+		mes "Ah, se ainda não reforçou sua arma, fale com o BK.";
+	}
+}
+else if (para_2nd01 == 15) {
+	mes "Ah, você voltou.";
+	mes "Acabei de receber uma mensagem do Kiren.";
+	mes "Como ele estava? Não fez birra por ter sido acordado?";
+	mes "Eu não me surpreenderia se fizesse.";
+	next;
+	mes "[Instrutor Uru]";
+	mes "De qualquer forma, bom trabalho. Fico feliz que você não se machucou.";
+	mes "O Ferreiro BK disse que vai reforçar sua arma.";
+	next;
+	callsub S_Para2;
+	mes "[Instrutor Uru]";
+	mes "Você sabe onde fica o Ferreiro, certo??";
+	mes "Saia pela porta azul, até o final do corredor.";
+	mes "BK é um ótimo ferreiro, ele vai deixar sua arma mais forte.";
+	mes "Está esperando o quê?";
+	erasequest 7228;// Reportar-se ao Instrutor Uru
+	para_2nd01 = 16;
+}
+else if (para_2nd01 == 16) {
+	if (BaseLevel > 89) {
+		mes "É bom ver que você ainda está forte!";
+		mes "O que te traz aqui hoje?";
+		next;
+		if (select( "Continuar o treinamento.", "Só estou de visita." ) == 2) {
+			mes "[Instrutor Uru]";
+			mes "Sério? No seu nível, acho que você consegue concluir facilmente as missões de mais alto nível..";
+			mes "Estarei aqui se mudar de ideia.";
+			close;
+		}
+		mes "[Instrutor Uru]";
+		callsub S_Quest89100;
+	}
+	else {
+		mes "O treinamento da 4ª fase começa no nível 90.";
+		mes "Te vejo então.";
+		mes "Ah, se ainda não reforçou sua arma, fale com o BK.";
+	}
+}
+else if (para_2nd01 == 20) {
+	mes "Parabéns por concluir todas as etapas do treinamento!";
+	mes "Levou um bom tempo, hein?";
+	mes "O Ferreiro BK disse que vai reforçar sua arma.";
+	next;
+	callsub S_Para2;
+	mes "[Instrutor Uru]";
+	mes "Você sabe onde fica o Ferreiro, certo??";
+	mes "Saia pela porta azul, até o final do corredor.";
+	mes "BK é um ótimo ferreiro, ele vai deixar sua arma mais forte.";
+	next;
+	mes "[Instrutor Uru]";
+	mes "Bom trabalho!";
+	para_2nd01 = 30;
+	erasequest 7232;// Reportar-se ao Instrutor Uru
+}
+else if (para_2nd01 == 29) {
+	mes "Parabéns por concluir todas as etapas do treinamento!";
+	mes "Como foi a Expedição? Pelo visto, deve ter sido bem difícil.";
+	next;
+	mes "[Instrutor Uru]";
+	mes "Bom trabalho..";
+	mes "O Ferreiro BK disse que vai reforçar sua arma.";
+	next;
+	callsub S_Para2;
+	mes "[Instrutor Uru]";
+	mes "Você sabe onde fica o Ferreiro, certo??";
+	mes "Saia pela porta azul, até o final do corredor.";
+	mes "BK é um ótimo ferreiro, ele vai deixar sua arma mais forte.";
+	next;
+	mes "[Instrutor Uru]";
+	mes "Ah, e parecia que o Michael também queria falar com você.";
+	mes "Vá falar com ele, ele também está no depósito de armas.";
+	mes "Pode ir.";
+	para_2nd01 = 30;
+	erasequest 7237;// Reportar-se ao Instrutor Uru
+}
+else if (para_2nd01 == 30) {
+	mes "Bom trabalho.";
+	mes "Ah, se ainda não reforçou sua arma, vá falar com o BK.";
+	next;
+	mes "[Instrutor Uru]";
+	mes "Além disso, às vezes o Michael precisa de ajuda, então se tiver tempo, tente ajudá-lo.";
+	mes "Tenho certeza de que ele te recompensará pelo esforço.";
+}
+else if (para_2nd01 < 5)
+	callsub S_Direction,"Comodo";
+else if (para_2nd01 < 10)
+	callsub S_Direction,"Castelo de Glast Heim";
+else if (para_2nd01 < 15)
+	callsub S_Direction,"Einbroch";
+else if (para_2nd01 < 20)
+	callsub S_Direction,"Templo de Gelo";
+else if (para_2nd01 < 29) {
+	mes "Você terá que viajar muito para chegar ao ^4d4dffCampo de Expedição de Midgard^000000!";
+	mes "Se quiser ficar por lá, então mereça isso realizando missões. Entendido?";
+}
+close;
+S_Para2:
+	if (para_2nd02 == 0) {
+		mes "[Instrutor Uru]";
+		mes "Acabei de perceber... essa foi sua primeira missão, não foi?";
+		mes "Você ainda não pegou os equipamentos básicos, certo?";
+		mes "Pegue-os no depósito de armas.";
+		mes "Fale com o Ferreiro Michael e ele te dará o equipamento.";
+		para_2nd02 = 1;
+		next;
+	}
+	return;
+S_Direction:
+	mes "Então, você já foi para ^4d4dff"+ getarg(0) +"^000000?";
+	mes "Eu não te disse para ir até lá?";
+	mes "Vá lá primeiro e depois volte para falar comigo. Ok?";
+	return;
+
+S_Quest7990:
+	mes "Hmm... Nada mal...";
+	mes "Você está começando a pegar o jeito disso...";
+	mes "Vamos com uma missão simples desta vez.";
+	next;
+	mes "[Instrutor Uru]";
+	mes "Existe uma cidade industrial chamada Einbroch.";
+	mes "Já ouviu falar? É uma cidade coberta por poluição.";
+	mes "Você vai dar mais valor ao meio ambiente aqui depois de visitar aquela cidade...";
+	mes "Todos nós deveríamos ser gratos.";
+	next;
+	mes "[Instrutor Uru]";
+	mes "De qualquer forma, vá até o campo ao sul de Einbroch e encontrará o Instrutor Despachado.";
+	mes "Tenho certeza de que ele vai te reconhecer primeiro.";
+	mes "Não se esqueça de levar o Emblema do Éden.";
+	next;
+	mes "[Instrutor Uru]";
+	mes "A poluição da cidade é insuportável";
+	mes "Mas os campos ao redor são relativamente limpos...";
+	mes "Isso deve ser bem fácil pra você.";
+	para_2nd01 = 12;
+	setquest 7223;// Treinamento Avançado em Einbroch
+	return;
+
+S_Quest89100:
+	if (BaseLevel < 100) {
+		mes "Uhum....";
+		mes "Hmm...";
+		mes "Você parece uma pessoa de cabeça fria. O que acha das Cavernas de Gelo?";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Ao norte da cidade de Rachel existe uma Caverna coberta de Gelo.";
+		mes "Encontre o Instrutor Despachado lá.";
+		para_2nd01 = 17;
+		setquest 7229;// Treinamento Avançado na Caverna de Gelo
+	}
+	else {
+		mes "Ora, ora...";
+		mes "Nem sei mais pra onde te enviar.";
+		mes "Tenho certeza de que você já conhece a maioria dos lugares por aqui.";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Então, devo te mandar para um lugar mais distante desta vez?";
+		mes "Há um Agente da Pata de Gato aqui.";
+		mes "Está vendo ele ali?";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Com ele, você pode chegar facilmente até Ash Vacuum.";
+		mes "Já que há um Campo de Expedição por lá...";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Tudo o que você precisa fazer é encontrar o Agente do Grupo do Éden por lá.";
+		mes "Diga que fui eu quem te enviou e ele te dará instruções.";
+		mes "Você poderá explorar o novo mundo.";
+		mes "É quase como umas férias, não é?";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Hahaha!";
+		mes "... Talvez eu vá no seu lugar.";
+		mes "Enfim, os nomes deles eram Ma~ alguma coisa... Não lembro.";
+		next;
+		mes "[Instrutor Uru]";
+		mes "Então, sua missão, mais uma vez, é encontrar nosso agente no Campo de Expedição de Midgard.";
+		mes "Não é a missão mais fácil que você já teve?";
+		mes "Não se esqueça do meu presente quando voltar~!";
+		para_2nd01 = 22;
+		setquest 7233;// Treinamento Avançado em Ash Vacuum
+	}
+	return;
+}
+
+//--60~69
+// comodo,173,354,5	script	Instrutor Despachado#2nd02	1_M_JOBTESTER,{
+comodo,173,354,5	script	Instrutor Despachado#02	1_M_JOBTESTER,{
+	mes "[Romeu]";
+	if (para_2nd01 < 1) {
+	mes "Como vai você?";
+	mes "Comodo tem o melhor clima do mundo inteiro.";
+	mes "Mesmo durante o inverno, Comodo tem um clima excelente.";
+	next;
+	mes "[Romeu]";
+	mes "Sabe por quê?";
+	mes "Comodo é cercada pelo oceano e cavernas.";
+	mes "As mudanças de estação não afetam a temperatura por aqui.";
+	next;
+	mes "[Romeu]";
+	mes "Relaxe por aqui.";
+	mes "Essa área é um lugar para descanso.";
+}
+else if (para_2nd01 == 1) {
+	mes "Como vai você?";
+	mes "Você foi enviado pelo Instrutor Uru, certo?";
+	mes "Veio aqui por uma missão?";
+	next;
+	mes "[Romeu]";
+	mes "Não sei se isso vai se encaixar bem pra você";
+	mes "Por que não tenta mesmo assim?";
+	next;
+	mes "[Romeu]";
+	mes "O lance dessa caverna é que muitos monstros surgem das pedras.";
+	mes "Se você for cauteloso, eles não devem representar muita ameaça...";
+	next;
+	mes "[Romeu]";
+	mes "Mas a maioria tem ataques à distância...";
+	mes "E às vezes, um bem forte aparece por aí.";
+	next;
+	mes "[Romeu]";
+	mes "Bem... é por isso que você está treinando, certo?";
+	mes "Vamos tentar enfrentar um dos monstros grandes.";
+	next;
+	mes "[Romeu]";
+	mes "Eles se chamam 'Golem Estalactítico'.";
+	mes "Tente derrotar alguns deles.";
+	mes "Não é tão difícil, certo?";
+	para_2nd01 = 2;
+	erasequest 7214;
+	setquest 7215;
+}
+else if (para_2nd01 == 2) {
+	if (checkquest(7215,HUNTING) == 2) {
+		mes "Então, quão bom explorador você é agora?";
+		mes "Você já lutou contra eles antes, então limpar essa caverna deve ser possível.";
+		next;
+		mes "[Romeu]";
+		mes "Como eu disse antes, já que Comodo é uma cidade dentro de uma caverna...";
+		mes "O acesso ao mundo exterior é feito principalmente pela entrada leste, mas...";
+		next;
+		mes "[Romeu]";
+		mes "Vamos tentar sair pela parte norte.";
+		mes "Devem haver coisas para você caçar por lá.";
+		next;
+		mes "[Romeu]";
+		mes "E ao invés de simplesmente sair andando,";
+		mes "vamos matar cerca de 10 Golems Estalactíticos no caminho.";
+		next;
+		mes "[Romeu]";
+		mes "Assim, os viajantes vindos do norte poderão passar em segurança.";
+		mes "Lembre-se, 10 Golems Estalactíticos. Depois vá até o outro lado da parte norte da caverna.";
+		next;
+		mes "[Romeu]";
+		mes "Estarei esperando do lado de fora.";
+		para_2nd01 = 3;
+		getexp 10000,10000;
+		erasequest 7215;// Caçada ao Golem Estalactítico
+		setquest 7216;// Mais Caçada aos Golems
+	}
+	else {
+		mes "Como teste da dificuldade dessa caverna";
+		mes "Vá derrotar 3 Golems Estalactíticos.";
+		mes "Tome cuidado com os outros monstros também.";
+		next;
+		mes "[Romeu]";
+		mes "Deixe-me te ajudar a se recuperar, caso esteja cansado.";
+		npcskill "AL_HEAL",10,99,60;
+		percentheal 0,100;
+	}
+}
+else if (para_2nd01 == 3) {
+	mes "Você precisa atravessar essa caverna até o lado de fora.";
+	mes "Não se esqueça de derrotar os Golems Estalactíticos que encontrar pelo caminho.";
+}
+else {
+	mes "Sempre dou o mesmo teste para os recrutas que vêm aqui...";
+	mes "Mas nunca vi ninguém passá-lo tão perfeitamente quanto você.";
+}
+close;
+}
+
+um_fild01,34,280,5	script	Instrutor Romeu#2nd02	1_M_JOBTESTER,{
+	mes "[Romeu]";
+	if (para_2nd01 < 2) {
+		mes "Se você foi enviado pelo Grupo do Éden para o treinamento, espere por mim na cidade.";
+		mes "Estou aguardando outro recruta neste momento.";
+	}
+	else if (para_2nd01 == 2) {
+		mes "Não não... Aqui não.";
+		mes "Estou aguardando outro recruta neste momento.";
+		mes "Volte.";
+	}
+	else if (para_2nd01 == 3) {
+		if (checkquest(7216,HUNTING) == 2) {
+			mes "Ah, vejo que não se perdeu.";
+			mes "Suas habilidades contra os Golems Estalactíticos foram melhores do que eu esperava.";
+			mes "Isso só mostra o quanto você melhorou.";
+			next;
+			mes "[Romeu]";
+			mes "Agora olhe ao redor daqui.";
+			mes "Estamos em uma floresta densa agora.";
+			mes "Existem Dríades e Wootans por aqui...";
+			next;
+			mes "[Romeu]";
+			mes "A próxima tarefa é limpar essa área dos monstros.";
+			mes "Traga os seguintes itens deles.";
+			next;
+			mes "[Romeu]";
+			mes "5 Ombreiras do Guerreiro Wootan.";
+			mes "7 Folhas Afiadas da Dríade.";
+			next;
+			mes "[Romeu]";
+			mes "Esse é o teste final.";
+			mes "Boa sorte.";
+			para_2nd01 = 4;
+			erasequest 7216;// Mais Caçada aos Golems
+			setquest 7217;// Itens de Campo
+			getexp 10000,10000;
+		}
+		else {
+			mes "Vejo que você não se perdeu.";
+			mes "Mas não derrotou Golems suficientes...";
+			mes "Volte e termine o serviço.";
+			next;
+			mes "[Romeu]";
+			mes "Vou te ajudar a se recuperar, caso esteja cansado.";
+			npcskill "AL_HEAL",10,99,60;
+			percentheal 0,100;
+		}
+	}
+	else if (para_2nd01 == 4) {
+		if (countitem(7196) > 4 && countitem(7100) > 6) {// Ombreira, Folha Afiada
+			mes "Você conseguiu isso mesmo derrotando os monstros?";
+			mes "Eu acredito em você. Quero sair daqui mesmo assim.";
+			next;
+			mes "[Romeu]";
+			mes "Não há mais tarefas de treinamento por aqui.";
+			mes "Volte e reporte-se ao Uru.";
+			delitem 7196,5;
+			delitem 7100,7;
+			para_2nd01 = 5;
+			erasequest 7217;// Itens de Campo
+			setquest 7218;// Reportar-se ao Instrutor Uru
+			getexp 10000,10000;
+		}
+		else {
+			mes "Eu já te disse qual era a última tarefa, não foi?";
+			mes "Derrote os monstros nesta floresta e traga os itens que pedi.";
+			next;
+			mes "[Romeu]";
+			mes "5 Ombreiras do Guerreiro Wootan.";
+			mes "7 Folhas Afiadas da Dríade.";
+			mes "Você precisa me trazer esses itens para passar neste, teste...";
+			next;
+			mes "[Romeu]";
+			mes "Vou te ajudar a recuperar, caso esteja cansado.";
+			npcskill "AL_HEAL",10,99,60;
+			percentheal 0,100;
+		}
+	}
+	else {
+		mes "Aff, está calor demais aqui.";
+		mes "Pode ir embora agora.";
+	}
+	close;
+}
+
+//--70~79
+// glast_01,195,131,5	script	Instrutor Despachado#2nd03	4_F_SISTER,{
+glast_01,195,131,5	script	Instrutor Despachado#03	4_F_SISTER,{
+	mes "[Johan]";
+	if (para_2nd01 < 7) {
+		mes "Ah~ Que tédio.";
+		mes "Você não foi enviado pelo Uru, foi?";
+		mes "Ah~ Tudo bem.";
+		next;
+		mes "[Johan]";
+		mes "Aqui é a Abadia de Glast Heim.";
+		mes "Tome cuidado, há muitas almas perdidas por aqui.";
+	}
+	else if (para_2nd01 == 7) {
+		mes "Oh oh!!";
+		mes "Você finalmente chegou!";
+		mes "Pedi ao Uru que enviasse alguém para me ajudar aqui!";
+		next;
+		select("O quê? Eu vim para treinamento...");
+		mes "[Johan]";
+		mes "Não não, é a mesma coisa!";
+		mes "Sua missão de treinamento é me ajudar a limpar esta Abadia!";
+		next;
+		mes "[Johan]";
+		mes "Ufa... Tem sido difícil.";
+		mes "Não posso entrar sozinho, e os Gárgulas me atacam aqui fora...";
+		mes "Hahaha...";
+		next;
+		mes "[Johan]";
+		mes "Essa abadia é nossa responsabilidade.";
+		mes "Como outros monastérios, esta também possui um cemitério subterrâneo, mas...";
+		next;
+		mes "[Johan]";
+		mes "Como você deve saber, esse castelo... não está em um estado normal.";
+		mes "Acho que é isso que impede essas almas de descansarem em paz.";
+		next;
+		mes "[Johan]";
+		mes "Vamos derrotar os que estão aqui primeiro, já que descer pode ser demais só para nós dois.";
+		mes "Também vou avaliar suas habilidades...";
+		next;
+		mes "[Johan]";
+		mes "O primeiro alvo são as Almas Penadas.";
+		mes "Você vai reconhecê-los pela risada estranha.";
+		mes "Eles parecem demônios, mas não temos certeza...";
+		next;
+		mes "[Johan]";
+		mes "Derrote 20 Almas Penadas.";
+		mes "Vou te dar suporte a partir daqui!";
+		para_2nd01 = 8;
+		erasequest 7219;// Treinamento Avançado em Glast Heim
+		setquest 7220;// Caçada às Almas Penadas
+	}
+	else if (para_2nd01 == 8) {
+		if (checkquest(7220,HUNTING) == 2) {
+			mes "Oh~ Você é bem forte!";
+			mes "Estou tão feliz que alguém forte como você veio.";
+			mes "Eu não teria durado muito aqui sozinho.";
+			next;
+			mes "[Johan]";
+			mes "Aliás, viu aqueles outros monstros além das Almas Penadas?";
+			mes "São as almas corrompidas de sacerdotes.";
+			mes "Também são chamados de 'Druidas Malignos'.";
+			next;
+			mes "[Johan]";
+			mes "Vamos lidar com esses Druidas Malignos agora.";
+			mes "Cace 10 deles.";
+			mes "Você consegue, né?";
+			mes "Eu acredito em você!";
+			para_2nd01 = 9;
+			erasequest 7220;// Caçada às Almas Penadas
+			setquest 7221;// Caçada aos Druidas Malignos
+			getexp 20000,20000;
+		}
+		else {
+			mes "20 Almas Penadas!";
+			mes "Estarei cuidando das suas costas!";
+			mes "... É claaaro... que eu também vou lutar!";
+			npcskill "AL_HEAL",10,99,60;
+			percentheal 0,100;
+		}
+	}
+	else if (para_2nd01 == 9) {
+		if (checkquest(7221,HUNTING) == 2) {
+			mes "...Oh, você voltou!";
+			mes "(Johan abre a porta e verifica)";
+			mes "....!";
+			mes "Beleza!!";
+			next;
+			mes "[Johan]";
+			mes "Obrigado! Eu realmente agradeço!";
+			mes "Acho que agora posso entrar sem preocupações!";
+			mes "Espero que aquelas almas malignas tenham deixado o lugar em paz...";
+			next;
+			mes "[Johan]";
+			mes "Hehe, vou fazer um bom relato para o Uru!";
+			mes "Você é um exorcista valente e habilidoso!";
+			next;
+			mes "[Johan]";
+			mes "Pode voltar para o Éden agora.";
+			mes "Eu vou ficar aqui e cuidar do resto, hehe.";
+			para_2nd01 = 10;
+			erasequest 7221;// Caçada aos Druidas Malignos
+			setquest 7222;// Reportar-se ao Instrutor Uru
+			getexp 20000,20000;
+		}
+		else {
+			mes "10 Druidas Malignos!";
+			mes "Cuidarei de você como da última vez.";
+			mes "... É claaaro... que eu também vou lutar!";
+			npcskill "AL_HEAL",10,99,60;
+			percentheal 0,100;
+		}
+	}
+	else if (para_2nd01 == 10) {
+		mes "Volte e reporte-se ao Uru.";
+		mes "A Abadia de Glast Heim já está limpa.";
+		mes "Preciso ficar e procurar algo... Até mais.";
+	}
+	else {
+		mes "Aff, ainda não encontrei o que perdi.";
+		mes "Hmm... Talvez eu tenha que esperar o próximo recruta antes de procurar de novo... Ai!";
+		next;
+		mes "[Johan]";
+		mes "Uh... Você não ouviu isso, ouviu?";
+		mes "Hahahahahahaha!!!";
+		mes "Hahahahaha!!";
+	}
+	close;
+}
+
+//--80~89
+// ein_fild08,172,359,3	script	Instrutor Despachado#2nd02	4_M_4THPRIN1,{
+ein_fild08,172,359,3	script	Instrutor Despachado#04	4_M_4THPRIN1,{
+	mes "[Kiren]";
+	if (para_2nd01 < 12) {
+		mes "Tá olhando o quê?";
+		mes "Quer alguma coisa comigo?";
+		mes "Cuide da sua vida e vá embora...";
+	}
+	else if (para_2nd01 == 12) {
+		mes "O quê?";
+		mes "....";
+		mes "Hmm, Uru te enviou?";
+		mes "Ah, aquela missão de treinamento.";
+		next;
+		mes "[Kiren]";
+		mes "Você veio de longe, não vou te passar nada muito difícil, relaxa.";
+		mes "Os campos ao redor de Einbroch não são tão ruins.";
+		next;
+		mes "[Kiren]";
+		mes "E os monstros geralmente me deixam em paz, então eu posso tirar cochilos o dia todo.";
+		mes "Mas tem uns que me incomodam.";
+		next;
+		mes "[Kiren]";
+		mes "Você conhece os Porcellios?";
+		mes "Insetos de aparência horrível... E ainda roubam também...";
+		next;
+		mes "[Kiren]";
+		mes "Vamos derrotar alguns deles para aquecer.";
+		mes "Tem vários por aqui. 30 não deve ser muito difícil, né?";
+		next;
+		mes "[Kiren]";
+		mes "Não é rancor só porque eles comeram meu almoço.";
+		mes "Vou descansar aqui enquanto você cuida disso.";
+		para_2nd01 = 13;
+		erasequest 7223;// Treinamento Avançado em Einbroch
+		setquest 7224;// Caçada aos Porcellios
+	}
+	else if (para_2nd01 == 13) {
+		if (checkquest(7224,HUNTING) == 2) {// Caçada aos Porcellios
+			mes "O quê, já terminou?";
+			mes "Eu tava quase pegando no sono... Ah, tudo bem...";
+			mes "Fazer o quê, né? Vamos pra outro lugar então...";
+			next;
+			mes "[Kiren]";
+			mes "Não, do que você tá falando?";
+			mes "Ir... com você?";
+			mes "Você consegue ir sozinho, né?";
+			next;
+			mes "[Kiren]";
+			mes "Beleza, próxima tarefa!";
+			mes "O pessoal de Einbroch diz que a poluição está muito ruim no norte.";
+			mes "Eles estão preocupados que a poluição acabe chegando na cidade.";
+			next;
+			mes "[Kiren]";
+			mes "Provavelmente é por causa das fábricas por lá mesmo...";
+			mes "Mas acho que ainda assim devo investigar.";
+			mes "A causa da poluição... Encontre e destrua.";
+			next;
+			mes "[Kiren]";
+			mes "30 Nuvens Tóxicas e 5 Ursinhos.";
+			mes "Isso deve ser suficiente.";
+			next;
+			mes "[Kiren]";
+			mes "Tenho certeza que você consegue sem eu precisar vigiar.";
+			mes "Pra mostrar meu apoio, vou te dar um pouco de EXP e recuperar seu HP.";
+			next;
+			mes "[Kiren]";
+			mes "Os monstros estão nos campos ao norte de Einbroch.";
+			mes "Beleza então, se cuida.";
+			mes "Eu vou tirar um cochilo.";
+			para_2nd01 = 14;
+			erasequest 7224;// Caçada aos Porcellios
+			setquest 7226;// Caçada´às Nuvens Tóxicas
+			setquest 7227;// Caçada aos Ursinhos
+			getexp 30000,30000;
+		}
+		else {
+			mes "Então, já puniu aqueles Porcellios?";
+			mes "Acho que ainda não terminou, certo?";
+			next;
+			mes "[Kiren]";
+			mes "Se estiver machucado, vou te curar um pouco.";
+		}
+		npcskill "AL_HEAL",10,99,60;
+		percentheal 0,100;
+	}
+	else if (para_2nd01 == 14) {
+		if (checkquest(7226,HUNTING) == 2 && checkquest(7227,HUNTING) == 2) {
+			mes "Hmm...";
+			mes "Tá quase tudo pronto.";
+			mes "Hmm...";
+			mes "Ainda tô cansado pra terminar...";
+			next;
+			mes "[Kiren]";
+			mes "Bom. Aqueles monstros estavam incomodando os trabalhadores de Einbroch.";
+			mes "Você mandou bem...";
+			next;
+			mes "[Kiren]";
+			mes "Tenho algumas coisas pra relatar ao Instrutor Uru.";
+			mes "Estive te observando bem de perto e você foi muito bem. Volte até o Uru e entregue este relatório.";
+			para_2nd01 = 15;
+			erasequest 7226;// Caçada´às Nuvens Tóxicas
+			erasequest 7227;// Caçada aos Ursinhos
+			setquest 7228;// Reportar-se ao Instrutor Uru
+			getexp 30000,30000;
+			// erasequest 7225;
+		}
+		else {
+			mes "Os monstros estão nos campos ao norte de Einbroch.";
+			mes "Procure pelas Nuvens Tóxicas...";
+			mes "Não tente mentir dizendo que já terminou a caçada.";
+			next;
+			// if (isbegin_quest(7225) > 0)
+				// erasequest 7225;
+			// else {
+			mes "[Kiren]";
+			mes "Tá, tudo bem assim?";
+			mes "Ugh, isso tá difícil.";
+			mes "Mas vou fazer você se sentir melhor.";
+			// }
+			npcskill "AL_HEAL",10,99,60;
+			percentheal 0,100;
+		}
+	}
+	else if (para_2nd01 == 15) {
+		mes "É sério isso?";
+		mes "Já fez o relatório pro Instrutor Uru?";
+		mes "Einbroch contratou ajuda externa, então isso significa mais treinamento.";
+	}
+	else {
+		mes "Eu não sou ladrão...";
+		mes "É uma vida difícil.";
+		mes "E também não tenho grandes ambições.";
+		next;
+		mes "[Kiren]";
+		mes "Chegam os praticantes?";
+		mes "Eles constroem coisas.";
+		mes "Que conveniente, Witchinya.";
+		mes "Heumnya. Vou dormir com um só respiro...";
+	}
+	close;
+}
+
+//--90~99
+// ice_dun01,154,13,5	script	Instrutor Despachado#2nd02	4_F_JOB_BLACKSMITH,{
+ice_dun01,154,13,5	script	Instrutor Despachado#05	4_F_JOB_BLACKSMITH,{
+	mes "[Naomi]";
+	if (para_2nd01 <= 17) {
+		mes "É mais do que isso~";
+		mes "Onde foi parar o tempo~";
+		mes "Pensei que você disse que já tinha me enviado~!";
+		next;
+		mes "[Naomi]";
+		if (para_2nd01 < 17) {
+			mes "O que é? Você vai me ajudar, é isso?";
+			mes "Não, não precisa fazer isso.";
+			mes "Estou esperando por alguém que foi escalado para me ajudar.";
+			close;
+		}
+		mes "E você é?";
+		mes "Ah, foi enviado pelo Uru?";
+		mes "Não sei há quanto tempo estou esperando aqui na neve.";
+		next;
+		mes "[Naomi]";
+		mes "Essa é a Caverna de Gelo nas planícies do norte.";
+		mes "Nada como uma caverna gelada o ano todo.";
+		next;
+		mes "[Naomi]";
+		mes "É aqui que o pessoal de Rachel vem buscar gelo.";
+		mes "Mas, essa área está infestada de monstros perigosos.";
+		next;
+		mes "[Naomi]";
+		mes "Um desses monstros é conhecido como Siroma.";
+		mes "Eles devem ser um bom desafio pra você.";
+		next;
+		mes "[Naomi]";
+		mes "Certo, então entre na caverna e encontre os Siroma.";
+		mes "Está frio lá dentro, mas esse trabalho precisa ser feito.";
+		next;
+		mes "[Naomi]";
+		mes "AH, às vezes...";
+		mes "Tome cuidado lá dentro.";
+		mes "Boa sorte~!";
+		para_2nd01 = 18;
+		erasequest 7229;// Treinamento Avançado na Caverna de Gelo
+		setquest 7230;// Caçada aos Siromas
+	}
+	else if (para_2nd01 == 18) {
+		if (checkquest(7230,HUNTING) == 2) {
+			mes "Ah... Acabou...";
+			mes "Ótimo!";
+			mes "Suas habilidades foram confirmadas.";
+			next;
+			mes "[Naomi]";
+			mes "Agora, o que era mesmo que eu precisava fazer agora?";
+			mes "Esses Siromas parecem estar se multiplicando mais rápido.";
+			mes "Como antes, cace mais 30 Siromas e me traga alguns materiais.";
+			next;
+			mes "[Naomi]";
+			mes "E escuta isso... Bem...";
+			mes "Preste atenção, por favor:";
+			mes "30 Cubos de Gelo.";
+			mes "1 Molho Doce.";
+			mes "1 Leite.";
+			next;
+			mes "[Naomi]";
+			mes "Não estou fazendo isso só por mim, sabia?";
+			mes "Estou fazendo isso por todos.";
+			next;
+			mes "[Naomi]";
+			mes "Essa é a última parte de qualquer forma.";
+			mes "Então cace os Siromas e pegue os materiais.";
+			mes "Estamos entendidos?";
+			next;
+			select("E você?");
+			mes "[Naomi]";
+			mes "Eu? Bem, é claro... Eu vou ficar de guarda aqui.";
+			mes "Eu... sou uma pessoa ocupada!";
+			mes "Além disso, isso é um treinamento, quem é você pra me perguntar o que eu vou fazer?";
+			next;
+			mes "[Naomi]";
+			mes "Vai logo!";
+			mes "Esses Siromas estão ficando cada vez mais agitados!";
+			para_2nd01 = 19;
+			erasequest 7230;// Caçada aos Siroma
+			setquest 7231;// Caça e Coleta
+			getexp 40000,40000;
+			npcskill "AL_HEAL",10,99,60;
+			percentheal 0,100;
+		}
+		else {
+			mes "O maior obstáculo é lidar com os Siromas.";
+			mes "Você já caçou 30 deles?";
+			next;
+			mes "[Naomi]";
+			mes "Ah, quer ajuda pra recuperar HP/SP, né?";
+			mes "Não vai ganhar nada de mim~!";
+			mes "Que desafio seria se eu fizesse isso?";
+		}
+	}
+	else if (para_2nd01 == 19) {
+		if (checkquest(7231,HUNTING) == 2 && countitem(7066) > 29 && countitem(7453) > 0 && countitem(519) > 0) {// Cubo de Gelo, Molho Doce, Leite
+			mes "Ohh!";
+			mes "Você trouxe tudo.";
+			mes "Certo, então só falta uma coisa...!";
+			next;
+			select("...... Olhe.");
+			mes "[Naomi]";
+			mes "Sim, sim? Por que não?";
+			mes "...";
+			mes "Ah, é verdade! Eu deveria te dar algo.";
+			mes "Você já fez o suficiente, eu sei disso.";
+			next;
+			mes "[Naomi]";
+			mes "Vou informar o Instrutor Uru.";
+			mes "Faltam só mais algumas etapas, então não se preocupe!";
+			next;
+			mes "[Naomi]";
+			mes "Ah, e parabéns!";
+			mes "Esse é o último estágio de treinamento preparado!";
+			next;
+			mes "[Naomi]";
+			mes "Acho que deveria fazer uma parte disso eu mesma~";
+			mes "Muahaha~";
+			delitem 7066,30;
+			delitem 7453,1;
+			delitem 519,1;
+			para_2nd01 = 20;
+			erasequest 7231;// Caça e Coleta
+			setquest 7232;// Reportar-se ao Instrutor Uru
+			getexp 40000,40000;
+		}
+		else {
+			mes "Você já terminou de caçar os 30 Siromas?";
+			mes "Você já fez isso uma vez, então não deve ser tão difícil...";
+			next;
+			mes "[Naomi]";
+			mes "E não se esqueça dos 30 Cubos de Gelo, 1 Molho Doce e 1 Leite.";
+		}
+	}
+	else if (para_2nd01 == 20) {
+		mes "Você já foi lá?";
+		mes "Outras pessoas já vieram e foram desde sua última vez aqui.";
+		mes "Agora eu não preciso mais pegar os materiais sozinha.";
+		next;
+		mes "[Naomi]";
+		mes "Volte e reporte-se ao Instrutor Uru e diga que a tarefa foi concluída.";
+		mes "Não enrole.";
+	}
+	else
+		mes "Afinal, existe algum outro lugar com mais acúmulo de gelo do que aqui?";
+	close;
+}
+
+// mid_camp,212,229,3	script	Instrutor Despachado#2nd02	4_F_HUWOMAN,{
+mid_camp,212,229,3	script	Instrutor Despachado#06	4_F_HUWOMAN,{
+		mes "[Margaret]";
+	if (para_2nd01 < 22) {
+		mes "Ah, desculpe.";
+		mes "Não entendo muito sobre a vida de um aventureiro.";
+		mes "Sou apenas uma integrante do Grupo do Éden...";
+	}
+	else if (para_2nd01 == 22) {
+		mes "Essa prova que você tem aí...";
+		mes "Você está aqui no paraíso.";
+		mes "O Instrutor Uru te enviou?";
+		next;
+		if (select( "Sim.", "Não." ) == 2) {
+			mes "[Margaret]";
+			mes "Ah, meu erro.";
+			close;
+		}
+		mes "[Margaret]";
+		mes "Como vai você?";
+		mes "Ah, então você veio para o treinamento enviado pelo Instrutor Uru.";
+		next;
+		mes "[Margaret]";
+		mes "Ok, estou em uma situação no momento e pedi ao Instrutor Uru para incluir isso como parte das missões.";
+		next;
+		select("Uma situação?");
+		mes "[Margaret]";
+		mes "Sim.";
+		mes "Encontre o Mine e faça o que ele pedir.";
+		next;
+		mes "[Margaret]";
+		mes "Nós o enviamos para uma tarefa e ele ainda não concluiu. Ou ele fugiu ou fracassou.";
+		next;
+		mes "[Margaret]";
+		mes "Você pode encontrá-lo lá no Campo de Esplendor?";
+		next;
+		mes "[Margaret]";
+		mes "Vá até ele e descubra o que ele está fazendo, por favor.";
+		para_2nd01 = 23;
+		erasequest 7233;// Treinamento Avançado em Ash Vacuum
+		setquest 7234;// Favor da Margaret
+	}
+	else if (para_2nd01 < 27) {
+		mes "Você pode encontrar aqueles dois irmãos?";
+		mes "Descubra o que está acontecendo com eles.";
+	}
+	else if (para_2nd01 == 27) {
+		mes "E aí, o que descobriu?!";
+		next;
+		mes "- Você conta a ela sobre Meeru e Mine. -";
+		next;
+		mes "[Margaret]";
+		mes "Sério? Ah, o quê?";
+		mes "Isso não é exatamente...";
+		mes "Ok, eu mesma vou lidar com eles.";
+		next;
+		mes "[Margaret]";
+		mes "Bem, tanto as provas dos Nepenthes quanto dos Pinguiculas foram coletadas.";
+		next;
+		mes "[Margaret]";
+		mes "Seu treinamento está concluído, então volte e fale com o Instrutor Uru.";
+		para_2nd01 = 29;
+		erasequest 7234;// Favor da Margaret
+		setquest 7237;// Reportar-se ao Instrutor Uru
+	}
+	else if (para_2nd01 == 29) {
+		mes "Bem, tanto as provas dos Nepenthes quanto dos Pinguiculas foram coletadas.";
+		next;
+		mes "[Margaret]";
+		mes "Seu treinamento está concluído, então volte e fale com o Instrutor Uru.";
+	}
+	else
+		mes "........";
+	close;
+}
+
+// man_fild01,43,234,3	script	Instrutor Despachado#2nd02	4_DST_SOLDIER,{
+man_fild01,43,234,3	script	Instrutor Despachado#07	4_DST_SOLDIER,{
+	mes "[Meeru]";
+	if (para_2nd01 < 23) {
+		mes "Você acha que eu vou perder!";
+		mes "...?";
+		mes "Todos eles... Quem é você?!";
+		mes "O Mine é um idiota?";
+		mes "Ele te mandou me vigiar!?";
+		next;
+		mes "[Meeru]";
+		mes "O quê? Não foi isso?";
+		mes "... ...";
+		mes "O Mine não te mandou, foi?";
+	}
+	else if (para_2nd01 == 23) {
+		mes "Você acha que eu vou perder!";
+		mes "...?";
+		mes "Todos eles... Quem é você?!";
+		mes "O Mine é um idiota?";
+		mes "Ele te mandou me vigiar!?";
+		next;
+		mes "[Meeru]";
+		mes "O quê? Não foi isso?";
+		mes "... ...";
+		mes "O Mine não te mandou, foi?";
+		mes "Então por que está aqui?";
+		next;
+		select("A Margaret me enviou");
+		mes "[Meeru]";
+		mes "Ah, a Margaret!";
+		mes "Mine e Margaret sempre tentam me sacanear por causa da minha vitória-!";
+		mes "Afff...";
+		next;
+		select( "O que aconteceu?", "O que você venceu?" );
+		mes "[Meeru]";
+		mes "Tudo começou com uma discussão.";
+		mes "A Margaret foi encarregada de nos observar, assim como você está fazendo agora.";
+		next;
+		mes "[Meeru]";
+		mes "O Mine disse que era forte o bastante para derrotar qualquer monstro.";
+		mes "Então eu insisti para ele ir para leste ou oeste do acampamento e me mostrar.";
+		next;
+		mes "[Meeru]";
+		mes "Mine ameaçou, se gabou e bufou, mas não fez nada.";
+		next;
+		mes "[Meeru]";
+		mes "No fim, a Margaret não acreditou nele e o desafiou a derrotar 1 Nepenthes.";
+		next;
+		mes "[Meeru]";
+		mes "E agora eu fiquei com a tarefa de pedir para as pessoas irem caçar 1 Nepenthes por causa dessa briga.";
+		next;
+		mes "[Meeru]";
+		mes "Não é difícil caçar um, então vá até o campo a leste daqui e derrote um deles.";
+		para_2nd01 = 24;
+		setquest 7235;// Caçada ao Nepenthes
+	}
+	else if (para_2nd01 == 24) {
+		if (checkquest(7235,HUNTING) == 2) {
+			mes "Hmm, sim, eu vi.";
+			mes "Devia ter pedido pra você caçar mais de 1, hein.";
+			next;
+			mes "[Meeru]";
+			mes "De qualquer forma, você provou ser mais forte do que o Mine jamais foi.";
+			next;
+			mes "[Meeru]";
+			mes "Bom, aqui vai uma pequena recompensa.";
+			next;
+			mes "[Meeru]";
+			mes "Eu vou ficar por aqui pedindo para outras pessoas caçarem os Nepenthes. Talvez peça pra caçarem mais de um.";
+			para_2nd01 = 25;
+			erasequest 7235;// Caçada ao Nepenthes
+			getexp 50000,50000;
+		}
+		else {
+			mes "Caçar Nepenthes é demais pra você?";
+			mes "Você parece meio esgotado.";
+			mes "Tá bom, vou te curar!";
+			npcskill "AL_HEAL",10,99,60;
+			percentheal 0,100;
+		}
+	}
+	else if (para_2nd01 == 25)
+		mes "Eu vou ficar por aqui pedindo para outras pessoas caçarem os Nepenthes. Talvez peça pra caçarem mais de um.";
+	else {
+		mes "Algo errado?";
+		mes "Teve problemas com aquele Nepenthes...";
+		mes ".........hyuk huk.";
+	}
+	close;
+}
+
+// spl_fild02,377,149,3	script	Instrutor Despachado#2nd02	4_M_DST_MASTER,{
+spl_fild02,377,149,3	script	Instrutor Despachado#08	4_M_DST_MASTER,{
+	mes "[Mine]";
+	if (para_2nd01 < 25) {
+		mes "Ah, mundo cruel.";
+		mes "...";
+		mes "Lá vai você passando direto.";
+		mes "Que fiasco isso tudo virou.";
+	}
+	else if (para_2nd01 == 25) {
+		mes "Ah, mundo cruel...";
+		mes "...";
+		mes "Quem é você?";
+		next;
+		if (select( "A Margaret me enviou.", "É, tô aqui..." ) == 1) {
+			mes "[Mine]";
+			mes "Hã? Quem?!";
+			mes "Entendi. Já está na hora então?";
+			mes "Isso tem sido complicado.";
+			mes "Estou numa crise aqui!";
+		}
+		else {
+			mes "[Mine]";
+			mes "Ah, então você não veio por vontade própria?";
+			mes "Então por que veio afinal?";
+			next;
+			mes "[Mine]";
+			mes "Você nem queria estar aqui, né?";
+			mes "Aposto que a Margaret te mandou no lugar de outra pessoa.";
+			mes "Enfim, estou numa crise aqui!";
+		}
+		next;
+		mes "[Mine]";
+		mes "Ok, eu não queria admitir, mas você tem que me ajudar.";
+		next;
+		mes "[Mine]";
+		mes "Só porque eu estava reclamando não quer dizer que tinham que me mandar pra cá!";
+		next;
+		mes "[Mine]";
+		mes "Estão exigindo demais de alguém simples como eu.";
+		next;
+		mes "[Mine]";
+		mes "Aqui está o lance.";
+		mes "Eu deveria caçar aqueles Pinguiculas. Só 5 deles.";
+		mes "Mas você vai fazer isso por mim, né?";
+		next;
+		mes "[Mine]";
+		mes "Prometo que te darei algo bom.";
+		mes "Valeu.";
+		para_2nd01 = 26;
+		setquest 7236;// Caçada aos Pinguiculas
+	}
+	else if (para_2nd01 == 26) {
+		if (checkquest(7236,HUNTING) == 2) {
+			mes "Excelente!";
+			mes "Agora posso voltar pro acampamento e...";
+			next;
+			mes "[Mine]";
+			mes "Quer dizer, pode avisar a Margaret que está tudo feito?";
+			next;
+			mes "[Mine]";
+			mes "Ah, não se preocupe, ela não vai se importar. Eu só vou voltar a fazer o que estava fazendo. Aqui está sua recompensa.";
+			para_2nd01 = 27;
+			erasequest 7236;// Caçada aos Pinguiculas
+			getexp 50000,50000;
+		}
+		else {
+			mes "Vamos lá, são só 5 Pinguiculas.";
+			mes "Sério, como é que você chegou até aqui então?";
+			next;
+			mes "[Mine]";
+			mes "Você não tá mentindo sobre ser um aventureiro de verdade, tá?";
+			npcskill "AL_HEAL",10,99,60;
+			percentheal 0,100;
+		}
+	}
+	else if (para_2nd01 == 27) {
+		mes "A Margaret consegue tudo o que quer lá no acampamento.";
+		mes "Fica tranquilo, vou voltar em breve.";
+	}
+	else
+		mes ".........";
+	close;
+}
+
+moc_para01,111,83,3	script	Ferreiro Thorn#2nd10	2_M_OLDBLSMITH,{
+	if (checkweight(2571,5) == 0) {
+		mes "- Você está com itens demais no inventário para continuar. -";
+		close;
+	}
+	mes "[Thorn]";
+	if (!callfunc("F_HasEdenGroupMark")) {
+		mes "Hmm, você é membro do Grupo do Éden?";
+		mes "Você precisa ser um dos nossos membros para usar meus serviços.";
+		close;
+	}
+	mes "Qual é o assunto?";
+	next;
+	switch( select( "Reforçar Equipamento", "Pedido Pessoal", "Me dê novo equipamento." ) ) {
+		mes "[Thorn]";
+	case 1:
+		if (para_2nd01 < 6) {
+			mes "Hmm, reforço de equipamento.";
+			mes "Não faço isso pra qualquer um.";
+			mes "O primeiro passo é ter completado um nível mais alto de treinamento. Já concluiu o treinamento do Grupo do Éden?";
+			next;
+			mes "[Thorn]";
+			mes "Você ainda não despertou.";
+			mes "Primeiro, faça as missões definidas pelo Instrutor Uru, então poderei reforçar seu equipamento.";
+			next;
+			mes "[Thorn]";
+			mes "Não vou ajudar até você fazer isso!";
+		}
+		else if (para_2nd04 == 3) {
+			mes "Quer reforçar seu equipamento, é?";
+			mes "Posso reforçar o novo equipamento do Grupo do Éden aplicando um bônus aleatório de atributo.";
+			next;
+			mes "[Thorn]";
+			mes "Então, qual equipamento deseja aprimorar?";
+			next;
+			switch( select( "Capa II do Grupo Éden.", "Armadura do Grupo Éden.", "Botas IV do Grupo Éden." ) ) {
+				case 1: callsub S_Enchant,2571,"Capa";// Capa II do Grupo Éden
+				case 2: callsub S_Enchant,15031,"Armadura";// Armadura do Grupo Éden
+				case 3: callsub S_Enchant,2473,"Botas";// Botas IV do Grupo Éden
+			}
+		}
+		else {
+			mes "Só vou reforçar seu equipamento depois que concluir um pedido pessoal meu.";
+			next;
+			mes "[Thorn]";
+			mes "Quero ter certeza de que você é digno de usar meus serviços.";
+		}
+		close;
+	case 2:
+		if (para_2nd02 < 2) {
+			mes "Você já começou o pedido do Instrutor Uru?";
+			mes "Só empresto meus serviços a quem for digno.";
+			next;
+			mes "[Thorn]";
+			mes "Além disso, você nem terá o equipamento que posso melhorar até completar essas missões.";
+		}
+		else if (para_2nd04 == 0) {
+			mes "Ainda bem que veio.";
+			mes "Como ferreiro, estou sempre precisando de materiais de Ferro.";
+			next;
+			mes "[Thorn]";
+			mes "Claro, haverá uma recompensa mais tarde...";
+			mes "Então...";
+			next;
+			mes "[Thorn]";
+			if (BaseLevel < 80) {
+				mes "Traga alguns materiais pra mim.";
+				mes "Preciso de 20 Minérios de Ferro e 10 Ferros.";
+			}
+			else {
+				mes "Traga alguns materiais pra mim.";
+				mes "Traga 20 Placas de Ferro Usadas.";
+				.@add = 1;
+			}
+			mes "Não deve ser difícil conseguir isso. Pode trazer agora mesmo?";
+			next;
+			switch( select( "Pode deixar.", "Não quero." ) ) {
+				mes "[Thorn]";
+			case 1:
+				mes "Agradeço.";
+				mes "Leve o tempo que precisar, estarei esperando.";
+				para_2nd04 = 1 + .@add;
+				setquest (7238 + .@add);// Tarefa para Thorn (fácil/difícil)
+				close;
+			case 2:
+				mes "É...?";
+				mes "Acho que você está ocupado demais pra me ajudar.";
+				close;
+			}
+		}
+		else if (para_2nd04 == 1 || para_2nd04 == 2) {
+			if (para_2nd04 == 1) {
+				setarray .@item[0],1002,998;// Minério de Ferro, Ferro
+				setarray .@amount[0],20,10;
+				setarray .@countitem[0],countitem(1002),countitem(998);
+				.@string$ = "Pedi 20 Minérios de Ferro e 10 Ferros.";
+			}
+			else {
+				.@item[0] = 7319;// Placa de Ferro Usada
+				.@amount[0] = 20;
+				.@countitem[0] = countitem(7319);
+				.@add = 1;
+				.@string$ = "Pedi 20 Placas de Ferro Usadas.";
+			}
+			if (.@countitem[0] >= .@amount[0] && .@countitem[1] >= .@amount[1]) {
+				mes "Deixa eu adivinhar...";
+				mes "Você trouxe materiais da melhor qualidade.";
+				mes "Ótimo.";
+				next;
+				mes "[Thorn]";
+				mes "Sempre posso usar mais materiais de ferro.";
+				mes "Ao invés de uma recompensa normal, vou te dar um equipamento avançado.";
+				next;
+				mes "[Thorn]";
+				mes "Se algum dia achar que precisa reforçar um equipamento, me procure de novo.";
+				delitem .@item[0],.@amount[0];
+				if (.@countitem[1])
+					delitem .@item[1],.@amount[1];
+				para_2nd04 = 3;
+				erasequest (7238 + .@add);
+				setquest 7240;
+			}
+			else {
+				mes .@string$;
+				mes "Tenho certeza de que isso não é tão difícil de conseguir.";
+			}
+		}
+		else if (para_2nd04 == 3) {
+			mes "Pronto, isso é tudo por hoje.";
+			mes "Por enquanto, se quiser reforçar seu equipamento,"; 
+			mes "só me pedir.";
+			next;
+			mes "[Thorn]";
+			mes "Se tiver algum desses, traga pra mim:";
+			mes "Capa II do Grupo Éden, Armadura do Grupo Éden, Botas IV do Grupo Éden.";
+		}
+		else if (para_2nd04 == 4) {
+			if (checkquest(7241,PLAYTIME) == 0) {
+				mes "Volte mais tarde.";
+				mes "Você precisa esperar um pouco antes de continuar.";
+			}
+			else {
+				mes "Uhum...";
+				mes "O que vamos fazer... ah, não se preocupe.";
+				mes "Volte pra mim mais tarde.";
+				erasequest 7241;// Tempo de espera para tarefa de Thorn
+				para_2nd04 = 0;
+			}
+		}
+		close;
+	case 3:
+		if (para_2nd02 < 1) {
+			mes "O Instrutor Uru não me deu permissão para isso.";
+			mes "Não brinque comigo.";
+		}
+		else if (para_2nd02 == 1) {
+			mes "Ok, vou te dar o equipamento.";
+			mes "Vou te dar armaduras e equipamentos dos quais você vai se orgulhar.";
+			next;
+			mes "[Thorn]";
+			mes "Então agora, ^4d4dffcertifique-se de ter espaço livre no inventário.^000000";
+			next;
+			if (select( "Deixa eu organizar meu inventário.", "Tenho espaço livre." ) == 1) {
+				mes "[Thorn]";
+				mes "Faça isso.";
+				mes "Libere espaço no inventário para receber as armas, botas e todo o resto do equipamento.";
+				close;
+				}
+			mes "[Thorn]";
+		if (BaseJob == Job_Knight || BaseJob == Job_Crusader) {
+			callsub L_Select,"Espada de Uma Mão, Espada de Duas Mãos ou Lança.",
+				1197,"Espada Matadora III do Éden","Espada de Duas Mãos, ATQ 200",
+				13434,"Sabre III do Grupo Éden","Espada de Uma Mão, ATQ 185",
+				1434,"Lança I do Grupo Éden","Lança de Uma Mão, ATQ 165";
+		}
+		else if (BaseJob == Job_Assassin) {
+			callsub L_Select,"Você pode escolher entre Adaga ou Katar.",
+				13066,"Adaga III do Grupo Éden","Adaga, ATQM +80, ATQ 165",
+				1289,"Katar I do Grupo Éden","Katar, ATQ 155";
+		}
+		else if (BaseJob == Job_Rogue || BaseClass == Job_Novice)
+			getitem 13066,1;// Adaga III do Grupo Éden
+		else if (BaseJob == Job_Alchemist || BaseJob == Job_Blacksmith) {
+			callsub L_Select,"Suas opções são Maça, Sabre e Machado.",
+				16014,"Maça III do Grupo Éden","Maça, ATQ 172",
+				13434,"Sabre III do Grupo Éden","Espada, ATQ 185",
+				1391,"Machado de 2 Mãos I do Éden","Machado, ATQ 195";
+		}
+		else if (BaseJob == Job_Wizard)
+			getitem 1658,1;// Cajado III do Grupo Éden
+		else if (BaseJob == Job_Sage) {
+			callsub L_Select,"",
+				1658,"Cajado III do Grupo Éden","Cajado, ATQM +170, INT +4, ATQ 60",
+				1583,"Dicionário I do Grupo Éden","Livro, ATQM +100, ATQ 135";
+		}
+		else if (BaseJob == Job_Priest) {
+			callsub L_Select,"",
+				1658,"Cajado III do Grupo Éden","Cajado, ATQM +170, INT +4, ATQ 60",
+				1583,"Dicionário I do Grupo Éden","Livro, ATQM +100, ATQ 135",
+				16014,"Maça III do Grupo Éden","Maça, ATQ 172";
+		}
+		else if (BaseJob == Job_Monk) {
+			callsub L_Select,"",
+				1831,"Garra I do Grupo Éden","Soqueira, ATQ 120",
+				16014,"Maça III do Grupo Éden","Maça, ATQ 172";
+		}
+		else if (BaseJob == Job_Hunter)
+			getitem 18106,1;// Arco III do Grupo Éden
+		else if (BaseJob == Job_Bard) {
+			callsub L_Select,"",
+				18106,"Arco III do Grupo Éden","Arco, ATQ 140",
+				1931,"Guitarra I do Grupo Éden","Guitarra, ATQ 125";
+		}
+		else if (BaseJob == Job_Dancer) {
+			callsub L_Select,"",
+				18106,"Arco III do Grupo Éden","Arco, ATQ 140",
+				1986,"Chicote I do Grupo Éden","Chicote, ATQ 125";
+		}
+		else if (Class == Job_Ninja) {
+			callsub L_Select,"",
+				13066,"Adaga III do Grupo Éden","Adaga, ATQM +80, ATQ 165",
+				13310,"Shuriken Huuma I do Éden","Shuriken Fuuma, ATQM +50, ATQ 170";
+		}
+		else if (Class == Job_Star_Gladiator)
+			getitem 1583,1; // Dicionário I do Grupo Éden
+		else if (Class == Job_Soul_Linker) {
+			callsub L_Select,"",
+				13066,"Adaga III do Grupo Éden","Adaga, ATQM +80, ATQ 165",
+				1658,"Cajado III do Grupo Éden","Cajado, ATQM +170, INT +4, ATQ 60";
+		}
+		else if (Class == Job_Gunslinger)
+			getitem 13114,1; // Revólver III do Grupo Éden
+		else if (Class == Job_Summoner)
+			getitem 26101,1; // Cauda de Gato III
+		else {
+			mes "Hmm, você está qualificado para receber o equipamento.";
+			mes "Sim, entendi.";
+			next;
+			mes "[Thorn]";
+			mes "Hmm, algo deu errado, não sei exatamente o que...";
+			close;
+		}
+		para_2nd02 = 2;
+		getitem 18514,1;// Chapéu II do Grupo Éden
+		getitem 2571,1;// Capa II do Grupo Éden
+		getitem 2473,1;// Botas IV do Grupo Éden
+		getitem 15031,1;// Armadura do Grupo Éden
+		mes "Aqui está seu equipamento.";
+		mes "Também vou te dar o restante dos itens que fazem parte do conjunto.";
+		}
+		else if (para_2nd02 == 2) {
+			mes "Você pode aprimorar o equipamento que eu te dei.";
+			mes "O Mestre em Armas BK está na Sede do Grupo do Éden e pode fazer isso por você.";
+			next;
+			mes "[Thorn]";
+			mes "Então vá até ele, ele pode tornar seu equipamento mais forte.";
+		}
+		else {
+			mes "Você já recebeu seu equipamento?";
+			mes "Eu posso te entregar o equipamento, mas não posso aprimorá-lo.";
+			next;
+			mes "[Thorn]";
+			mes "Sua armadura pode ser aprimorada por outra pessoa.";
+			mes "Eu gostaria de poder, mas não posso.";
+		}
+	}
+	close;
+L_Select:
+	mes "Escolha uma arma.";
+	mes getarg(0);
+	mes "Escolha entre as seguintes opções.";
+	for ( .@i = 1; .@i < getargcount(); .@i += 3 ) {
+		set .@menu$, .@menu$ + getarg(.@i+1) + ":";
+		mes getarg(.@i+1)+" : "+ getarg(.@i+2);
+	}
+	next;
+	.@i = (select(.@menu$) -1) *3 +1;
+	mes "[Toren]";
+	getitem getarg(.@i),1;
+	return;
+S_Enchant:
+	mes "[Thorn]";
+	if (countitem(getarg(0)) > 0) {
+		// .@1st = rand(1,12);
+		// .@2nd = rand(1,12);
+
+		// if (.@1st == 1) .@1st = 4751;// Sorte2
+		// else if (.@1st == 2) .@1st = 4787;// DefM4
+		// else if (.@1st == 3) .@1st = 4791;// Def3
+		// else if (.@1st == 4) .@1st = 4701;// Força2
+		// else if (.@1st == 5) .@1st = 4788;// DefM6
+		// else if (.@1st == 6) .@1st = 4792;// Def6
+		// else if (.@1st == 7) .@1st = 4731;// Agilidade2
+		// else if (.@1st == 8) .@1st = 4789;// DefM8
+		// else if (.@1st == 9) .@1st = 4793;// Def9
+		// else if (.@1st == 10) .@1st = 4721;// Destreza2
+		// else if (.@1st == 11) .@1st = 4711;// Inteligência2
+		// else if (.@1st == 12) .@1st = 4741;// Vitalidade2
+
+		// if (.@2nd == 1) .@2nd = 4701;// Força2
+		// else if (.@2nd == 2) .@2nd = 4787;// DefM4
+		// else if (.@2nd == 3) .@2nd = 4741;// Vitalidade2
+		// else if (.@2nd == 4) .@2nd = 4791;// Def3
+		// else if (.@2nd == 5) .@2nd = 4788;// DefM6
+		// else if (.@2nd == 6) .@2nd = 4792;// Def6
+		// else if (.@2nd == 7) .@2nd = 4721;// Destreza2
+		// else if (.@2nd == 8) .@2nd = 4793;// Def9
+		// else if (.@2nd == 9) .@2nd = 4751;// Sorte2
+		// else if (.@2nd == 10) .@2nd = 4789;// DefM8
+		// else if (.@2nd == 11) .@2nd = 4731;// Agilidade2
+		// else if (.@2nd == 12) .@2nd = 4711;// Inteligência2
+		setarray .@bonus[1],
+			4751,// Sorte2
+			4787,// DefM4
+			4791,// Def3
+			4701,// Força2
+			4788,// DefM6
+			4792,// Def6
+			4731,// Agilidade2
+			4789,// DefM8
+			4793,// Def9
+			4721,// Destreza2
+			4711,// Inteligência2
+			4741;// Vitalidade2
+		.@1st = .@bonus[ rand(1,12) ];
+		.@2nd = .@bonus[ rand(1,12) ];
+		mes "Grupo do Éden "+ getarg(1) +"?";
+		mes "Entendi.";
+		mes "Lembre-se de que os atributos aprimorados serão aleatórios.";
+		mes "Tem certeza de que deseja que eu realize o aprimoramento?";
+		next;
+		switch( select( "Mudei de ideia.", "Sim, pode aprimorar." ) ) {
+		mes "[Thorn]";
+	case 1:
+		mes "Tem certeza de que não quer aprimorar?";
+		mes "A escolha é sua.";
+		close;
+	case 2:
+		mes "Entendido.";
+		mes "Vamos começar o aprimoramento.";
+		next;
+		specialeffect EF_REPAIRWEAPON;
+		progressbar "ffff00",3;
+		delitem getarg(0),1;
+		para_2nd04 = 4;
+		// erasequest 7240;// Melhoria de Equipamentos
+		// setquest 7241;// Tempo de espera para tarefa de Thorn
+		changequest 7240,7241;
+		getitem2 getarg(0),1,1,0,0,0,0,.@1st,.@2nd;						
+		mes "[Thorn]";
+		mes "Pronto, parece que o aprimoramento foi bem-sucedido.";
+		mes "Se não gostar do resultado, pode voltar amanhã.";
+		close;
+		}
+	}
+	mes "Hmm... Você não está com o(a) "+ getarg(1) +"?";
+	mes "Acho que não trouxe com você.";
+	close;
+	}
+
+moc_para01,112,79,3	script	Mestre em Armas BK#2nd11	4_M_REPAIR,{
+setarray .@wplist[0],
+	1197,	// Espada Matadora III do Éden
+	13434,	// Sabre III do Grupo Éden
+	13066,	// Adaga III do Grupo Éden
+	1289,	// Katar I do Grupo Éden
+	1391,	// Machado de 2 Mãos I do Éden
+	1434,	// Lança I do Grupo Éden
+	1658,	// Cajado III do Grupo Éden
+	16014,	// Maça III do Grupo Éden
+	18106,	// Arco III do Grupo Éden
+	1583,	// Dicionário I do Grupo Éden
+	1931,	// Guitarra I do Grupo Éden
+	1986,	// Chicote I do Grupo Éden
+	13114,	// Revólver III do Grupo Éden
+	1831,	// Garra I do Grupo Éden
+	13310,	// Shuriken Huuma I do Éden
+	26101;	// Cauda de Gato III
+.@wplist_size = getarraysize(.@wplist);
+
+.@menu$ = "Espada Matadora III do Éden:" +
+	"Sabre III do Grupo Éden:" +
+	"Adaga III do Grupo Éden:" +
+	"Katar I do Grupo Éden:" +
+	"Machado de 2 Mãos I do Éden:" +
+	"Lança I do Grupo Éden:" +
+	"Cajado III do Grupo Éden:" +
+	"Maça III do Grupo Éden:" +
+	"Arco III do Grupo Éden:" +
+	"Dicionário I do Grupo Éden:" +
+	"Guitarra I do Grupo Éden:" +
+	"Chicote I do Grupo Éden:" +
+	"Revólver III do Grupo Éden:" +
+	"Garra I do Grupo Éden:" +
+	"Shuriken Huuma I do Éden:" +
+	"Cauda de Gato III";
+	mes "[BK]";
+	mes "O que está acontecendo?";
+	mes "Não pode ser?!";
+	next;
+	if (select( "Aprimorar Armas.", "O quê?" ) == 2) {
+		mes "[BK]";
+		mes "É mesmo?";
+		mes "Está perguntando se eu sei algo?";
+		next;
+		select("...??");
+		mes "[BK]";
+		mes ".....????";
+		close;
+	}
+	mes "[BK]";
+	mes "Ah, veio aprimorar seu equipamento.";
+	mes "Beleza, vamos lá?";
+	next;
+	mes "[BK]";
+	if (para_2nd02 < 2) {
+		mes "Você precisa ter o equipamento primeiro pra eu fazer algo.";
+		mes "Ainda não pegou nada com o Thorn?";
+	}
+	else if (para_2nd02 == 2) {
+		if (para_2nd01 < 11) {
+			mes "Hmm, ainda não.";
+			mes "Não tenho autorização do Instrutor Uru.";
+			mes "Você precisa concluir seu treinamento.";
+			next;
+			mes "[BK]";
+			mes "Assim que terminar, poderei te ajudar.";
+			mes "Até lá, não posso fazer nada.";
+		}
+		else {
+			mes "Certo, qual arma você quer aprimorar?";
+			next;
+			.@s = select(.@menu$) -1;
+			mes "[BK]";
+			if (countitem(.@wplist[.@s]) > 0) {
+				mes "Ok, para o primeiro reforço.";
+				mes "Deseja ATQ +3% ou ATQM +3%?";
+				mes "Você pode aplicar esse efeito no equipamento selecionado.";
+				next;
+				mes "[BK]";
+				mes "Não poderá voltar atrás depois, então escolha com sabedoria.";
+				next;
+				if (select( "ATQ +3%","ATQM +3%" ) == 1) {
+					.@string$ = "Certo, você escolheu aumentar o ataque físico.";
+					.@card = 4767;
+				}
+				else {
+					.@string$ = "Certo, você escolheu aumentar o ataque mágico.";
+					.@card = 4806;
+					.@add = 1;
+				}
+				mes "[BK]";
+				mes .@string$;
+				mes "Veja só. Sua arma ficará ainda mais forte.";
+				para_2nd03 = 1 + .@add;
+				next;
+				specialeffect EF_REPAIRWEAPON;
+				progressbar "ffff00",3;
+				para_2nd02 = 3;
+				delitem .@wplist[.@s],1;
+				getitem2 .@wplist[.@s],1,1,0,0,0,0,0,.@card;
+				mes "[BK]";
+				mes "Não está magnífica?";
+				mes "Eu sei, eu sei, eu sou incrível!";
+			}
+			else {
+			mes "Você está brincando comigo?";
+			mes "Parece que você não tem essa arma com você.";
+			}
+		}
+	}
+	else if (para_2nd02 == 3) {
+		if (para_2nd01 < 16) {
+		mes "Hmm, não tenho certeza se você está pronto.";
+		mes "As 3 etapas das missões do Instrutor Uru precisam ser concluídas primeiro.";
+		next;
+		mes "[BK]";
+		mes "Entendeu o que estou dizendo?";
+		mes "Conclua a terceira missão do Instrutor Uru.";
+	}
+	else {
+		mes "Ótimo. Então você recebeu anteriormente um acréscimo de Atq ou AtqM.";
+		mes "Para esta opção, você pode escolher entre Monstros do tipo, Humanóide, Planta, Inseto, Peixe, Dragão ou Aumento de Cura.";
+		next;
+		mes "[BK]";
+		mes "Depois de escolher, não poderá mudar de ideia.";
+		mes "Mas sua arma aumentará o dano contra o tipo de aprimoramento que você escolher.";
+		next;
+		mes "[BK]";
+		mes "Basicamente, vou adicionar uma carta de monstro aleatória com o tipo de propriedade que você escolher.";
+		mes "Boa sorte!";
+		next;
+		switch( select( "Tipo Humanóide.", "Tipo Planta.", "Tipo Inseto.", "Tipo Peixe.", "Tipo Dragão.", "Aumento de Cura." ) ) {
+		case 1:
+			setarray .@arg[0],4060,4472,111;// Carta Goblin, Carta Golem de Bradium
+			.@type$ = "Monstro";
+			break;
+		case 2:
+			setarray .@arg[0],4068,4470,121;// Carta Escorpião, Carta Nepenthes
+			.@type$ = "Planta";
+			break;
+		case 3:
+			setarray .@arg[0],4063,4476,131;// Carta Caramelo, Carta Pinguicula
+			.@type$ = "Inseto";
+			break;
+		case 4:
+			setarray .@arg[0],4080,4469,141;// Carta Flora, Carta Naga
+			.@type$ = "Peixe";
+			break;
+		case 5:
+			setarray .@arg[0],4118,4471,151;// Carta Petit, Carta Ovo de Draco
+			.@type$ = "Dragão";
+			break;
+		case 6:
+			setarray .@arg[0],4805,4805,161;// Aumento de Cura 2
+		}
+		mes "[BK]";
+		for ( .@i = 0; .@i < .@wplist_size; .@i++ ) {
+			if (countitem(.@wplist[.@i]) > 0) {
+				if (.@arg[0] == 4805)
+					mes "Ótimo. Sua arma agora aumentará a eficácia de cura.";
+				else
+					mes "Ótimo. Sua arma aumentará o dano contra monstros do tipo "+ .@type$ +".";
+				next;
+				specialeffect EF_REPAIRWEAPON;
+				progressbar "ffff00",3;
+				delitem .@wplist[.@i],1;
+				para_2nd02 = 4;
+				if (para_2nd03 == 1) {
+					para_2nd03 = .@arg[2];
+					getitem2 .@wplist[.@i],1,1,0,0,0,0,.@arg[0],4767;
+				}
+				else {
+					para_2nd03 = .@arg[2] + 100;
+					getitem2 .@wplist[.@i],1,1,0,0,0,0,.@arg[1],4806;
+				}
+				mes "[BK]";
+				mes "Não é magnífico?";
+				mes "Eu sei, eu sei, eu sou incrível!";
+				close;
+			}
+		}
+		mes "Desculpe, mas parece que você não tem uma arma que possa ser aprimorada.";
+		mes "Como isso aconteceu?";
+		close;
+	}
+}
+else if (para_2nd02 == 4) {
+	if (para_2nd01 < 30) {
+		mes "O Instrutor Uru tem muitas missões de treinamento, não é?";
+		mes "Só falta uma etapa.";
+		mes "Alcance o estágio final do treinamento.";
+	}
+	else {
+		mes "Certo, esta é a última etapa.";
+		mes "Vou deixar sua arma ainda mais aprimorada.";
+		next;
+		mes "[BK]";
+		mes "A carta adicionada na etapa anterior será duplicada.";
+		mes "E se você tiver uma arma de cura, ela aumentará sua eficiência.";
+		mes "Entendeu?";
+		next;
+		mes "[BK]";
+		mes "Ok, qual arma você tem agora?";
+		next;
+		.@s = select(.@menu$) -1;
+		mes "[BK]";
+		if (countitem(.@wplist[.@s]) > 0) {
+			mes "Duplicando a Força do seu bônus de atributo.";
+			next;
+			specialeffect EF_REPAIRWEAPON;
+			progressbar "ffff00",3;
+			delitem .@wplist[.@s],1;
+			para_2nd02 = 5;
+			if (para_2nd03 == 111)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4060,4060,4767;// Carta Goblin, Carta Goblin, Atq3
+			else if (para_2nd03 == 121)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4068,4068,4767;// Carta Escorpião, Carta Escorpião, Atq3
+			else if (para_2nd03 == 131)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4063,4063,4767;// Carta Caramelo, Carta Caramelo, Atq3
+			else if (para_2nd03 == 141)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4080,4080,4767;// Carta Flora, Carta Flora, Atq3
+			else if (para_2nd03 == 151)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4118,4118,4767;// Carta Petit, Carta Petit, Atq3
+			else if (para_2nd03 == 161)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4805,4805,4767;// Aumento de Cura 2, Aumento de Cura 2, Atq3
+			else if (para_2nd03 == 211)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4472,4472,4806;// Carta Golem de Bradium, Carta Golem de Bradium, AtqM3
+			else if (para_2nd03 == 221)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4470,4470,4806;// Carta Nepenthes, Carta Nepenthes, AtqM3
+			else if (para_2nd03 == 231)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4476,4476,4806;// Carta Pinguicula, Carta Pinguicula, AtqM3
+			else if (para_2nd03 == 241)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4469,4469,4806;// Carta Naga, Carta Naga, AtqM3
+			else if (para_2nd03 == 251)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4471,4471,4806;// Carta Ovo de Draco, Carta Ovo de Draco, AtqM3
+			else if (para_2nd03 == 261)
+				getitem2 .@wplist[.@s],1,1,0,0,0,4805,4805,4806;// Aumento de Cura 2, Aumento de Cura 2, AtqM3
+			mes "[BK]";
+			mes "Não é magnífico?";
+			mes "Eu sei, eu sei, eu sou incrível!";
+			}
+			else {
+				mes "Ei, acha que estou brincando?";
+				mes "Você tem a arma ou não?";
+			}
+		}
+		}
+		else if (para_2nd02 > 4) {
+		mes "Está gostando da sua arma aprimorada?";
+		mes "Espero que ela esteja te ajudando.";
+		next;
+		mes "[BK]";
+		mes "Eu te dei o ápice da eficiência da sua arma.";
+		mes "Mas não são só as armas que precisam de Força, concorda?";
+		next;
+		mes "[BK]";
+		mes "Vamos, admita.";
+		mes "Thorn deu a inspiração e eu pretendo fornecer equipamentos poderosos, é assim que se vive a vida.";
+		mes "Hahahaha!";
+	}
+	close;
+}
+
+sec_in02,25,33,4	script	Assistente#para_suvquest	422,{
+	callfunc "F_GM_NPC";
+	mes "Senha.";
+	next;
+	if (callfunc("F_GM_NPC",1854,0) == 1) {
+		mes "Por favor, selecione a variável que deseja modificar.";
+		next;
+		set .@var, select("para_suv01:para_suv02");
+		mes "Insira o valor modificado:";
+		next;
+		input .@input,0,9999;
+		mes "O valor de para_suv0"+.@var+" foi alterado para "+.@input+".";
+		setd "para_suv0"+.@var,.@input;
+		close;
+	} else {
+		mes "......miau niinhau.";
+		close;
+	}
+}

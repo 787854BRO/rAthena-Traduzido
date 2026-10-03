@@ -1,0 +1,237 @@
+//===== rAthena Script ======================================= 
+//= Bandit Beard Quest
+//===== By: ================================================== 
+//= Mega Man Expert & Lupus
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= A harmless quest for a simply item w/o any bonuses "Bandit Beard"
+//===== Additional Comments: ================================= 
+//= Fully working.
+//= 1.0 First release
+//= 1.1 Fixed some exploits, bugs and typos. Optimized 8) [Lupus]
+//= 1.1b fixed some typos
+//= 1.2 fixed donpcevent label [Lupus]
+//= 1.3 Removed duplicates [L0ne_W0lf]
+//============================================================
+
+umbala,126,129,4	script	Homem Barbudo#bandit	120,{
+	if(BEARD_QUEST == 4 ) goto L_MAKE;
+	if(BEARD_QUEST >= 5 ) goto L_DONE;
+	if(BEARD_QUEST >= 1 ) goto L_THREAD;
+
+	mes "[Homem Barbudo]";
+	mes "Barbas! Peguem suas maravilhosas barbas!";
+	mes "Você gostaria de uma barba?";
+	next;
+	menu "^0000ff•^000000 Sim, eu gostaria de alguns pêlos faciais!",-,"Não, obrigado, isso é nojento!",M_NO;
+
+	mes "[Homem Barbudo]";
+	mes "HoHo~ Então você quer alguns bigodes.";
+	emotion ET_SMILE;
+	mes "Bem, eu daria a você minhas barbas, mas não é barato.";
+	mes "De fato eu tenho apenas uma sobrando...";
+	mes "mas eu não estou vendendo essa.";
+	mes "Mas não fique bravo! Eu posso fazer uma para você.";
+	next;
+	set BEARD_QUEST,1;
+L_THREAD:
+	mes "[Homem Barbudo]";
+	mes "Eu precisaria de algumas ^8080FFLinhas^000000 para a Barba.";
+	mes "Fale com meu amigo em Izlude por alguumas ^8080FFLinhas^000000.";
+	next;
+
+	mes "[Homem Barbudo]";
+	mes "Eu também precisaria que você me trouxesse algumas coisas para faser a barba.";
+	mes "Elas são:";
+L_LIST:
+	mes "^8080FFElástico^000000";
+	mes "^8080FF5 Couro de Animal^000000";
+	mes "^8080FFTintura Preta^000000";
+	mes "^8080FFBigode Grisalho^000000";
+	mes "^8080FF100 Muco Pegajoso^000000";
+	mes "^8080FFAntígeno^000000";
+	mes " e um ^8080FFDiamante de 2 quilates^000000.";
+	close;
+
+M_NO:
+	mes "[Homem Barbudo]";
+	mes "Bem, que assim seja!";
+	emotion ET_ANGER;
+	close;
+
+L_DONE:
+	mes "[Homem Barbudo]";
+	mes "Desculpe, eu só posso fazer uma por pessoa.";
+	mes "Nós não queremos barbas demais agora. Certo?";
+	emotion ET_KIK;
+	close;
+
+L_MAKE:
+	mes "[Homem Barbudo]";
+	mes "Vamos fazer sua barba!";
+	next;
+	if(countitem(7200) < 1 || countitem(919) < 1 ||	countitem(983) < 1 || countitem(2241) < 1 ||
+	countitem(938) < 100 || countitem(973) < 1 || countitem(731) < 1) goto L_NOITEMS;
+	delitem 7200, 1;
+	delitem 919, 1;
+	delitem 983, 1;
+	delitem 2241, 1;
+	delitem 938, 100;
+	delitem 973, 1;
+	delitem 731, 1;
+	mes "^8080FF~Você o vê cortando e costurando a barba~^000000";
+	next;
+	mes "^8080FF~Ele te entrega a barba já acabada~^000000";
+	next;
+	getitem 2237, 1;
+	set BEARD_QUEST, 5;
+	mes "[Homem Barbudo]";
+	mes "Tenha um bom dia!";
+	emotion ET_KIK;
+	close;
+
+L_NOITEMS:
+	mes "[Homem Barbudo]";
+	mes "Que diabos! Eu não posso fazer barba sem os itens!";
+	mes "Aqui está a lista novamente:";
+	emotion ET_HUK;
+	goto L_LIST;
+}  
+
+//Mestre Alfaiate----------
+izlude_in,123,175,4	script	Mestre Alfaiate#bandit	50,{
+	mes "[Mestre Alfaiate]";
+	mes "Boa noite! Eu sou o Mestre Alfaiate!";
+	if(BEARD_QUEST != 1 ) close;
+
+	next;
+	mes "[Mestre Alfaiate]";
+	mes "O que? Um Homem Barbudo enviou você...";
+	mes "Bem, sinto muito em dizer que estou sem ^8080FFLinha^000000.";
+	mes "Mas eu tenho o endereço de onde eu recebo as remessas.";
+	mes "Está na área de armazém da sede da Kafra em Al de Baran.";
+	mes "O endereço é: Al de Baran 59, 221";
+	mes "Até mais tarde.";
+	set BEARD_QUEST, 2;
+	close;
+}
+// Kafra Balconista da Linha---
+aldeba_in,70,179,5	script	Balconista Kafra#bandit	113,{
+	mes "[Balconista Kafra]";
+	if(BEARD_QUEST == 3 ) goto L_REPEAT;
+	if(BEARD_QUEST > 3 ) goto L_DONE;
+
+	mes "O que eu posso fazer por você?";
+	next;
+	if(BEARD_QUEST == 2 ) goto L_DELIVERY;
+
+	menu "O que há nas caixas?",-,"Nada.",M_NOPE;
+
+	mes "[Balconista Kafra]";
+	mes "Elas estão vazias.";
+M_NOPE:
+	close;
+
+L_DELIVERY:
+
+	mes "[Balconista Kafra]";
+	mes "Desculpe, mas não recebemos nenhuma ^8080FFLinha^000000.";
+	mes "Nossos embarques foram adiados até que seja seguro.";
+	mes "Você sabe que nós pegamos a nossa ^8080FFLinha^000000 de Alberta, mas um monstro continua atacando nossos mercadores.";
+	next;
+	mes "[Balconista Kafra]";
+	mes "Esses monstros não fasiam isso antes, mas agora estão fazendo.";
+	mes "Pode ter a ver com os meses mais quentes.";
+	mes "Por favor nos ajude!";
+	set BEARD_QUEST,3;
+	next;
+	mes "[Balconista Kafra]";
+L_REPEAT:
+	mes "Ah, a propósito, esse Comerciante de Linha está em algum lugar em torno de Alberta entre as coordenadas 60 e 100...";
+L_DONE:
+	mes "Obrigado!";
+	close;
+}
+
+//Comerciante de Linha ------
+alberta,65,123,6	script	Homem#bandit	85,{
+	if(BEARD_QUEST == 3 && $@beardMobD) goto L_KILLED;
+	if(BEARD_QUEST > 3) goto L_DONE;
+
+	mes "[Comerciante de Linha]";
+	mes "ARGGG!! Eu nunca consigo levar minhas coisas para Al de Baran!";
+	mes "Eu continuo sendo atacado por alguns insetos.";
+	mes "Eles roubam todos os meus suprimentos de ^8080FFLinha^000000.";
+	next;
+	mes "[Comerciante de Linha]";
+
+	if(BEARD_QUEST != 3) mes "O que devo fazer?";
+	if(BEARD_QUEST != 3) close;
+
+	if($@beardmob > 0) mes "Matar! Matá-los já!!!";
+	if($@beardmob > 0) close;
+	mes "Você está aqui para me ajudar?";
+	emotion ET_QUESTION;
+	next;
+	menu "^0000ff•^000000 Sim",-,"Não",M_NO;
+
+	mes "[Comerciante de Linha]";
+	mes "Oh, agradeço aos deuses!";
+	mes "Se você puder apenas matar os Besouros, eu seria capaz de fazer a minha entrega.";
+	next;
+	mes "[Comerciante de Linha]";
+	mes "Oh NÃO! Aqui eles vêm!!";
+	emotion ET_PROFUSELY_SWEAT;
+	donpcevent "BRDQ_MOBS::OnStart";
+	close;
+
+L_KILLED:
+	set $@beardMobD,0;
+	mes "[Comerciante de Linha]";
+	mes "Obrigado por matar os Besouros-Ladrões.";
+	mes "Como um sinal da minha gratidão, aqui está uma caixa cheia de ^8080FFLinhas^000000.";
+	set BEARD_QUEST,4;
+	close;
+
+L_DONE:
+	mes "[Comerciante de Linha]";
+	mes "Obrigado de novo!";
+	emotion ET_THANKS;
+	close;
+
+M_NO:
+	mes "[Comerciante de Linha]";
+	mes "O que fazer...";
+	close;
+}
+
+//Monstros Invocados -------
+alberta,1,1,1	script	BRDQ_MOBS	-1,{
+OnStart:
+	set $@beardMob,10;
+	set $@beardMobD,0;
+	monster "alberta",65,120,"Besouro-Ladrão Macho",1054,1,"BRDQ_MOBS::OnDie";
+	monster "alberta",66,120,"Besouro-Ladrão Macho",1054,1,"BRDQ_MOBS::OnDie";
+	monster "alberta",67,120,"Besouro-Ladrão Macho",1054,1,"BRDQ_MOBS::OnDie";
+	monster "alberta",68,120,"Besouro-Ladrão Macho",1054,1,"BRDQ_MOBS::OnDie";
+	monster "alberta",66,121,"Besouro-Ladrão Macho",1054,1,"BRDQ_MOBS::OnDie";
+	monster "alberta",67,121,"Besouro-Ladrão Macho",1054,1,"BRDQ_MOBS::OnDie";
+	monster "alberta",68,121,"Besouro-Ladrão Macho",1054,1,"BRDQ_MOBS::OnDie";
+	monster "alberta",66,122,"Besouro-Ladrão Macho",1054,1,"BRDQ_MOBS::OnDie";
+	monster "alberta",67,122,"Besouro-Ladrão Macho",1054,1,"BRDQ_MOBS::OnDie";
+	monster "alberta",68,122,"Besouro-Ladrão Macho",1054,1,"BRDQ_MOBS::OnDie";
+	end;
+OnDie:
+	set $@beardmob, $@beardmob - 1;
+	if($@beardmob > 0) end;
+	set $@beardMobD,1;
+	end;
+On1201:
+On0001:
+	set $@beardMob,0;
+	set $@beardMobD,0;
+	end;
+}

@@ -1,0 +1,31 @@
+//===== rAthena Script =======================================
+//= Lasagna Dungeons Monsters Spawn Script
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//= 1.1 Correct Spawn by Navigation's mob data. [attackjom]
+//============================================================
+
+//==================================================
+// lasa_dun01 - Ninho do Dragão
+//==================================================
+lasa_dun01	monster	Esporo de Água Doce	3501,30
+lasa_dun01	monster	Basilisco Guarda	3502,60
+lasa_dun01	boss_monster	Gemaring	3505,1,3600000,1800000,1
+
+//==================================================
+// lasa_dun02 - Ninho do Dragão
+//==================================================
+lasa_dun02	monster	Basilisco Guerreiro	3503,60
+lasa_dun02	monster	Mandrágora da Selva	3506,30
+
+//==================================================
+// lasa_dun03 - Ninho do Dragão
+//==================================================
+lasa_dun03	monster	Basilisco Guerreiro	3504,110
+lasa_dun03	monster	Aranha Pomar	3507,60
+
+//==================================================
+// lasa_dun_q - Ninho do Dragão
+//==================================================
+lasa_dun_q	monster	Basilisco Guarda	3502,70
+lasa_dun_q	monster	Esporo de Água Doce	3501,30

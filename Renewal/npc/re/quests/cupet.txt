@@ -1,0 +1,232 @@
+//===== rAthena Script =======================================
+//= Cute Pet Manager
+//===== By: ==================================================
+//= Z3R0
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Exchanges Hunted Items for Tames
+//===== Additional Comments: =================================
+//= 1.0 First / Optimized Version
+//= 1.1 Little clean-up & added a delitem. [Capuche]
+//============================================================
+
+// 1º NPC
+-	script	CPM1	-1,{
+	
+	set .@npc$, "[Treinador de Pets Fofos]";
+	
+	setarray .@tame_id[0],619,620,622,623,624,627,628,629,630;
+	setarray .@tame_amount[0],3,3,3,3,3,3,3,3,3;
+	setarray .@hunt_id[0],909,909,705,916,935,919,919,940,921;
+	setarray .@hunt_amount[0],500,600,500,500,500,500,600,500,500;
+	setarray .@mob_id[0],1002,1113,1063,1049,1011,1167,1107,1052,1014;
+	set .@tame_gets, 3;
+
+	if (cpm_one == .@tame_gets) {
+		mes "[Treinador de Pets Fofos]";
+		mes "Você já trocou";
+		mes .@tame_amount + " vezes este item de domesticação.";
+		mes "Você não pode mais realizar trocas.";
+		next;
+		mes "[Treinador de Pets Fofos]";
+		mes "Além de mim, há outros";
+		mes "Treinadores de Pets Fofos. Se você quiser";
+		mes "domar outros pets, eu sugiro";
+		mes "que você vá vê-los.";
+		close;
+	}
+	
+	callfunc "treinador_pet_fofos",.@tame_id,.@tame_amount,.@hunt_id,.@hunt_amount,.@mob_id,cpm_one,.@tame_gets,.@hunt_id2,.@hunt_amount2;
+}
+
+// 2º NPC
+-	script	CPM2	-1,{
+	
+	set .@npc$, "[Treinador de Pets Fofos]";
+	
+	setarray .@tame_id[0],621,625,632,631,633,634,635,636,659,637,639,640;
+	setarray .@tame_amount[0],2,2,2,2,2,2,2,2,2,2,2,2;
+	setarray .@hunt_id[0],938,935,925,7033,945,942,931,901,1094,1021,936,1035;
+	setarray .@hunt_amount[0],500,600,500,300,500,500,500,500,500,500,500,500;
+	setarray .@mob_id[0],1031,1042,1019,1077,1056,1057,1023,1026,1188,1110,1029;
+	set .@tame_gets, 2;
+
+	if (cpm_two == .@tame_gets) {
+		mes "[Treinador de Pets Fofos]";
+		mes "Você já trocou";
+		mes .@tame_amount + " vezes este item de domesticação.";
+		mes "Você não pode mais realizar trocas.";
+		next;
+		mes "[Treinador de Pets Fofos]";
+		mes "Além de mim, há outros";
+		mes "Treinadores de Pets Fofos. Se você quiser";
+		mes "domar outros pets, eu sugiro";
+		mes "que você vá vê-los.";
+		close;
+	}
+	
+	callfunc "treinador_pet_fofos",.@tame_id,.@tame_amount,.@hunt_id,.@hunt_amount,.@mob_id,cpm_two,.@tame_gets,.@hunt_id2,.@hunt_amount2;
+}
+
+// 3º NPC
+-	script	CPM3	-1,{
+	
+	set .@npc$, "[Treinador de Pets Fofos]";
+	
+	setarray .@tame_id[0],638,626,641,661,660,642;
+	setarray .@tame_amount[0],1,1,1,1,1,1;
+	setarray .@hunt_id[0],1020,943,1038,7047,1970,923;
+	setarray .@hunt_amount[0],600,600,600,500,1,100;
+	setarray .@hunt_id2[0],0,0,0,0,7017,0;
+	setarray .@hunt_amount2[0],0,0,0,0,20,0;
+	setarray .@mob_id[0],1170,1035,1109,1275,1200,1101;
+	set .@tame_gets, 1;
+
+	if (cpm_three == .@tame_gets) {
+		mes "[Treinador de Pets Fofos]";
+		mes "Você já trocou";
+		mes .@tame_amount + " vezes este item de domesticação.";
+		mes "Você não pode mais realizar trocas.";
+		next;
+		mes "[Treinador de Pets Fofos]";
+		mes "Além de mim, há outros";
+		mes "Treinadores de Pets Fofos. Se você quiser";
+		mes "domar outros pets, eu sugiro";
+		mes "que você vá vê-los.";
+		close;
+	}
+	
+	callfunc "treinador_pet_fofos",.@tame_id,.@tame_amount,.@hunt_id,.@hunt_amount,.@mob_id,cpm_three,.@tame_gets,.@hunt_id2,.@hunt_amount2;
+}
+
+function	script	treinador_pet_fofos	{
+	// getarg(0) -> .@tame_id Array
+	// getarg(1) -> .@tame_amount Array
+	// getarg(2) -> .@hunt_id Array
+	// getarg(3) -> .@hunt_amount Array
+	// getarg(4) -> .@mob_id Array
+	// getarg(5) ->  Attempt Variable
+	// getarg(6) -> .@tame_gets Variable
+	// getarg(7) -> .@hunt_id2 Array
+	// getarg(8) -> .@hunt_amount2 Array
+
+	mes "[Treinador de Pets Fofos]";
+	mes "Olá~! Eu sou o Treinador de Pets Fofos,";
+	mes "sou o responsável pelas relações públicas";
+	mes "do sistema de Evoluçã de Novos Pets.";
+	next;
+	mes "[Treinador de Pets Fofos]";
+	mes "Se você tiver alguma dúvida sobre";
+	mes "o Sistema Pet Bonito, eu estou aqui para guiá-lo.";
+	mes "Deixe-me saber qual é o item";
+	mes "de domesticar que deseja,";
+	mes "então eu lhe direi qual o monstro";
+	mes "que você poderá domar com esse item.";
+	next;
+	mes "[Treinador de Pets Fofos]";
+	mes "Também vou lhe explicar quais os materiais";
+	mes "que você precisa levar a fim de";
+	mes "obter o item domesticador.";
+	next;
+	mes "[Treinador de Pets Fofos]";
+	mes "Se você já trouxe os materiais";
+	mes "para trocar pelo item de domesticar,";
+	mes "poderei trocá-los pelo item imediatamente.";
+	next;
+	mes "[Treinador de Pets Fofos]";
+	mes "No entanto, há um limite";
+	mes "para a troca de itens de domesticar.";
+	mes "Você só pode obter itens de domesticar";
+	mes getarg(6) + " vezes. Então, por favor certifique-se";
+	mes "quantas vezes você já trocou.";
+	next;
+	mes "[Treinador de Pets Fofos]";
+	mes "Então, qual o item de dosmesticar que você quer?";
+	mes "Por favor, escolha um da lista.";
+	next;
+	
+	// Cria o Sistema de Menu
+	set .@size, getarraysize(getarg(0));
+	for (set .@a, 0; .@a < .@size; set .@a, .@a + 1)
+		set .@menu$, .@menu$ + (.@menu$ == "" ? "" : ":") + getitemname(getelementofarray(getarg(0), .@a));
+	
+	// Consultar a escolha do jogador
+	set .@choice, select(.@menu$) - 1;
+
+	// Variáveis do Armazém (menos pesquisa)
+	set .@tame_id, getelementofarray(getarg(0), .@choice);
+	set .@tame_amount, getelementofarray(getarg(1), .@choice);
+	set .@hunt_id, getelementofarray(getarg(2), .@choice);
+	set .@hunt_amount, getelementofarray(getarg(3), .@choice);
+	set .@mob_id, getelementofarray(getarg(4), .@choice);
+	set .@hunt_id2, getelementofarray(getarg(7), .@choice);
+	set .@hunt_amount2, getelementofarray(getarg(8), .@choice);
+
+	dispbottom "ID Comida: " + .@tame_id;
+	dispbottom "Quantidade Comida: " + .@tame_amount;
+	dispbottom "ID Item de Caça: " + .@hunt_id;
+	dispbottom "Nome do Item de Caça: " + getitemname(.@hunt_id);
+	dispbottom "Quantidade de Caça: " + .@hunt_amount;
+	dispbottom "ID do Monstro: " + .@mob_id;
+	if (.@hunt_id2) { 
+	dispbottom "ID de Caça 2: " + .@hunt_id2;
+	dispbottom "Quantidade de Caça 2: " + .@hunt_amount2;
+		set .@hunt2_count, countitem(.@hunt_id2);
+	}
+	if (countitem(.@hunt_id) >= .@hunt_amount && countitem(6083) > 0 && .@hunt2_count >= .@hunt_amount2) {
+		mes "[Treinador de Pets Fofos]";
+		mes "Ah, você juntou todos os itens";
+		mes "com seus amigos. Agora você pode";
+		mes "trocá-los por um " + getitemname(.@tame_id) + ".";
+		mes "Você quer trocar comigo?";
+		next;
+		if  (select("Trocar:Não Trocar") == 2) { 
+			mes "[Treinador de Pets Fofos]";
+			mes "Você não quer? Então até logo.";
+			close;
+		}
+		delitem .@hunt_id, .@hunt_amount;
+		delitem 6083, 1;
+		if (.@hunt_id2)
+			delitem .@hunt_id2, .@hunt_amount2;
+		set getarg(5), getarg(5) + 1;
+		getitem .@tame_id, .@tame_amount;
+		
+		mes "[Treinador de Pets Fofos]";
+		mes "Sábia escolha.";
+		mes "Espero que você e seu animal de estimação se deêm bem.";
+		close;
+	} else {
+		mes "[Treinador de Pets Fofos]";
+		mes "Você escolheu " + getitemname(.@tame_id) + ".";
+		mes "Você pode usá-lo para domar";
+		mes "o monstro ^FF0000" + strmobinfo(1,.@mob_id) + "^000000.";
+		next;
+		mes "[Treinador de Pets Fofos]";
+		mes "Traga ^FF0000" + .@hunt_amount + " " + getitemname(.@hunt_id) + "^000000s " + (.@hunt_id2 ? ", ^FF0000" + .@hunt_amount2 + " " + getitemname(.@hunt_id2) : "") + " ^000000 e ^FF00001 Capsula de Bonecos^000000";
+		mes "então você pode trocá-los";
+		mes "por uma " + getitemname(.@tame_id) + ".";
+		close;
+	}
+}
+
+// Duplicatas de NPCs
+prontera,67,212,5	duplicate(CPM1)	Treinador de Pets Fofos#1	4_M_ALCHE_C
+prontera,242,92,3	duplicate(CPM2)	Treinador de Pets Fofos#2	4_M_ALCHE_C
+prontera,179,92,3	duplicate(CPM3)	Treinador de Pets Fofos#3	4_M_ALCHE_C
+
+geffen,180,125,5	duplicate(CPM1)	Treinador de Pets Fofos#4	4_M_ALCHE_C
+geffen,152,66,3	duplicate(CPM2)	Treinador de Pets Fofos#5	4_M_ALCHE_C
+geffen,197,95,3	duplicate(CPM3)	Treinador de Pets Fofos#6	4_M_ALCHE_C
+
+morocc,115,83,5	duplicate(CPM1)	Treinador de Pets Fofos#7	4_M_ALCHE_C
+morocc,218,130,3	duplicate(CPM2)	Treinador de Pets Fofos#8	4_M_ALCHE_C
+morocc,236,225,3	duplicate(CPM3)	Treinador de Pets Fofos#9	4_M_ALCHE_C
+
+payon,109,278,5	duplicate(CPM1)	Treinador de Pets Fofos#10	4_M_ALCHE_C
+payon,157,124,3	duplicate(CPM2)	Treinador de Pets Fofos#11	4_M_ALCHE_C
+payon,85,237,3	duplicate(CPM3)	Treinador de Pets Fofos#12	4_M_ALCHE_C

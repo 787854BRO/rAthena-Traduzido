@@ -1,0 +1,1321 @@
+//===== rAthena Script =======================================
+//= Eden iRO NPCs
+//===== By: ==================================================
+//= -SkittleNugget-
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Eden scripts custom to iRO (disabled by default).
+//= You may need iRO's data.grf to view some of the items.
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//= 1.1 Edited and added more NPCs, lots of placeholders. [Euphy]
+//= 1.2 Added VIP NPCs and features. [Euphy]
+//= 1.3 Added Mail Annex Station scripts, commented out. [Euphy]
+//= 1.4 Added Merry Badger. [Euphy/-SkittleNugget-]
+//============================================================
+
+// Portal do Noviço (parte de outros/portal_novico.txt)
+//============================================================
+moc_para01,14,32,5	script	Aperture#acolytewarp	90,{
+	mes "[Aperture]";
+	mes "Olá, aventureiro!";
+	mes "Tenho estudado magia de toda Midgard para atualizar o que acredito ser uma das maiores habilidades disponíveis para a classe Noviço.";
+	next;
+
+	if (is_function("VIP_iRO_Acolyte"))
+		callfunc "VIP_iRO_Acolyte","[Aperture]","Prontera";
+
+	mes "[Aperture]";
+	mes "Eu sou o único Noviço que atingiu a habilidade Portal em nível 10.";
+	emotion ET_THINK, playerattached();
+	next;
+	mes "[Aperture]";
+	mes "É isso mesmo! E...";
+	mes "Eu prometo que não esqueço os locais que já memorizei.";
+	mes "Um dia irei melhorar minhas habilidades para me teletransportar para onde eu quiser...";
+	next;
+	mes "[Aperture]";
+	mes "Estou disposto a teletransportar você para os muitos locais que memorizei por uma pequena taxa.";
+	mes "Você gostaria de usar este serviço?";
+	next;
+	switch(select("Sim.:Não.")) {
+	case 1:
+		mes "[Aperture]";
+		mes "Para onde você gostaria de ir?";
+		mes "Desejo-lhe boa sorte na sua viagem.";
+		next;
+
+		setarray .@towns$[0], "Prontera", "Izlude", "Geffen", "Payon", "Morroc", "Alberta", "Al De Baran", "Comodo", "Umbala", "Juno", "Einbroch", "Lighthalzen", "Hugel", "Rachel";
+		setarray .@cost[0],          600,      600,     1200,    1200,     1200,      1800,          2200,     2200,     2200,   1800,       2200,          2200,    2200,     2200;
+
+		set .@size, getarraysize(.@towns$);
+		for(set .@i,0; .@i<.@size; set .@i,.@i+1)
+			set .@menu$, .@menu$+.@towns$[.@i]+" -> "+.@cost[.@i]+"z:";
+		set .@i, select(.@menu$+"Cancelar")-1;
+		if (.@i == .@size) {
+			mes "[Aperture]";
+			mes "Volte quando precisar se teletransportar.";
+			close;
+		}
+		if (Zeny < .@cost[.@i]) {
+			mes "[Aperture]";
+			mes "Sinto muito, mas você não tem";
+			mes "bastante zeny para o Serviço de";
+			mes "Teletransporte. A taxa do Teletransporte";
+			mes "para "+.@towns$[.@i]+" é "+.@cost[.@i]+" zenys.";
+			close;
+		}
+		specialeffect2 EF_READYPORTAL;
+		specialeffect2 EF_TELEPORTATION;
+		specialeffect2 EF_PORTAL;
+		next;
+		set Zeny, Zeny - .@cost[.@i];
+		switch(.@i) {
+			case 0: warp "prontera",116,72; break;
+			case 1: warp "izlude",128,98; break;
+			case 2: warp "geffen",120,39; break;
+			case 3: warp "payon",161,58; break;
+			case 4: warp "morocc",156,46; break;
+			case 5: warp "alberta",117,56; break;
+			case 6: warp "aldebaran",168,112; break;
+			case 7: warp "comodo",209,143; break;
+			case 8: warp "umbala",100,154; break;
+			case 9: warp "yuno",158,125; break;
+			case 10: warp "einbroch",67,195; break;
+			case 11: warp "lighthalzen",159,90; break;
+			case 12: warp "hugel",98,150; break;
+			case 13: warp "rachel",119,135; break;
+		}
+		close;
+	case 2:
+		mes "[Aperture]";
+		mes "Volte quando precisar de um Teletransporte.";
+		close;
+	}
+}
+
+function	script	VIP_iRO_Acolyte	{
+	if (!vip_status(VIP_STATUS_ACTIVE)) {
+		mes getarg(0);
+		mes "Mas, meus plenos poderes só estão disponíveis para aqueles que são VIPs.";
+		mes "Ainda posso lhe oferecer um portal para "+getarg(1)+" e ir embora.";
+		next;
+		switch(select(getarg(0)+" -> 1800z.:Cancelar.")) {
+		case 1:
+			if (Zeny < 1800) {
+				mes getarg(0);
+				mes "Sinto muito, mas você não tem";
+				mes "bastante zeny para o Serviço de";
+				mes "Teletransporte". A taxa do Teletransporte";
+				mes "para "+getarg(1)+" é de 1.800 zenys.";
+				close;
+			}
+			specialeffect2 EF_READYPORTAL;
+			specialeffect2 EF_TELEPORTATION;
+			specialeffect2 EF_PORTAL;
+			next;
+			set Zeny, Zeny - 1800;
+			if (getarg(1) == "Juno")
+				warp "yuno",158,125;
+			else
+				warp "prontera",116,72;
+			close;
+		case 2:
+			close;
+		}
+	}
+	return;
+}
+
+// Primo d'Buffer, bônus de atributos VIP
+//============================================================
+moc_para01,26,15,3	script	Primo d'Buffer	790,{
+	mes "[Primo d'Buffer]";
+	mes "Olá aventureiro, parece que você está louco para sair e salvar o mundo.";
+	if (!vip_status(VIP_STATUS_ACTIVE)) {
+		mes "Eu também posso dizer que você ainda não foi abençoado com o '^6666ffStatus de VIP^000000'.";
+		next;
+		mes "[Primo d'Buffer]";
+		mes "Minhas ordens são para ajudar qualquer Aventureiro marcado como VIP com Buffs especiais.";
+		mes "Atualmente lhe darei ^ff0000+7 em todos os seus Atributos por 30 minutos^000000 se você for VIP.";
+		next;
+		mes "[Primo d'Buffer]";
+		mes "Se você gostaria de se tornar VIP, você pode entrar no site da 'WarpPortal' para ^FF8C42Atualizar^000000 sua conta de jogo com o Status de VIP. É claro que há muitas outras vantagens em ser VIP, como taxas de EXP e Drop mais altos, mais Armazenamento, e NPCs de buffs especiais como eu.";
+		mes "Happy Journeys!";
+		close;
+	}
+	mes "Eu também posso dizer que você já foi abençoado com o '^007FFFStatus de VIP^000000'.";
+	next;
+	mes "[Primo d'Buffer]";
+	mes "Isso é fantástico!";
+	mes "Aqui está +7 para todos os seus Atributos por 30 minutos para ajudá-lo em sua viagem. Volte apenas quando precisar recarregar seus Atributos.";
+	close2;
+	sc_start SC_FOOD_STR_CASH,1200000,7;
+	sc_start SC_FOOD_AGI_CASH,1200000,7;
+	sc_start SC_FOOD_VIT_CASH,1200000,7;
+	sc_start SC_FOOD_DEX_CASH,1200000,7;
+	sc_start SC_FOOD_INT_CASH,1200000,7;
+	sc_start SC_FOOD_LUK_CASH,1200000,7;
+	end;
+}
+
+// Clearchus, Aluguel de Mercenários VIP
+//============================================================
+moc_para01,53,30,3	script	Clearchus	470,{
+	if (checkquest(62238,PLAYTIME) > -1 && checkquest(62238,PLAYTIME) < 2) {
+		mes "Você deve esperar que o cronômetro terminar antes de poder contratar um novo Mercenário.";
+		close;	
+	}
+	mes "[Clearchus]";
+	mes "Saudações, jovem aventureiro! Eu represento a Missão dos Mercenários Midgardiana.";
+	next;
+	mes "[Clearchus]";
+	mes "Oferecemos treinamento a mercenários aspirantes, juntando-os com aventureiros como você.";
+	next;
+	mes "[Clearchus]";
+	mes "Nossa organização é 10.000 forte! Agora deixe-me ver se você está registrado para usar este serviço.";
+	next;
+	if (!vip_status(VIP_STATUS_ACTIVE)) {
+		mes "[Clearchus]";
+		mes "Infelizmente parece que você não é VIP, por favor, obtenha acesso VIP para que possa usar este serviço. Você pode obter um acesso VIP temporário conversando com o Vovô na sede do Grupo do Éden.";
+		next;.
+		mes "[Clearchus]";
+		mes "VIP é uma ferramenta muito útil para os aventureiros terem, dando acesso a serviços Kafra extras, portais com desconto, conteúdo exclusivo e o acesso ao Primo d'Buffer. Se um aventureiro possui o VIP, eles recebem até mesmo EXP, Drops, e um impulso no Armazém.";
+		close;
+	}
+	mes "[Clearchus]";
+	mes "Seu nome está na lista.";
+	next;
+	mes "[Clearchus]";
+	mes "Que tipo de conjunto de habilidades você está procurando em um Mercenário?";
+	next;
+
+	switch(select("Espadachim:Arqueiro:Templário")) {
+	case 1:
+		set .@base_id,12163; //Pergaminho de Espadachim 1
+		break;
+	case 2:
+		set .@base_id,12153; //Pergaminho de Arqueiro 1
+		break;
+	case 3:
+		set .@base_id,12173; //Pergaminho de Lanceiro 1
+		break;
+	}
+	     if (BaseLevel < 11) set .@i,0;
+	else if (BaseLevel < 21) set .@i,1;
+	else if (BaseLevel < 31) set .@i,2;
+	else if (BaseLevel < 41) set .@i,3;
+	else if (BaseLevel < 51) set .@i,4;
+	else if (BaseLevel < 61) set .@i,5;
+	else if (BaseLevel < 71) set .@i,6;
+	else if (BaseLevel < 81) set .@i,7;
+	else if (BaseLevel < 91) set .@i,8;
+	else set .@i,9;
+
+	mes "[Clearchus]";
+	mes "Tenho apenas o Mercenário em mente!";
+	next;
+	mes "[Clearchus]";
+	mes "Divirta-se agora, ouviu?";
+	getitem .@base_id + .@i,1;
+	if (isbegin_quest(62238) > 0)
+		erasequest 62238;
+	setquest 62238;
+	close;
+}
+
+// Comerciantes de Cenoura e Poção Vermelha
+//============================================================
+moc_para01,166,51,3	script	Félix#edco	85,{
+	mes "[Félix]";
+	mes "Oh... vejo no seu olhar que você quer que eu trabalhe e lhe dê Carne e Cenouras...";
+	mes "Bem, meu amigo Izaac aqui tem algumas Poções Vermelhas com ele, mas eu só tenho algumas Cenouras.";
+	mes "Então eu posso trocar para você ^0000CC1 Cenoura por 3 Jellopys^000000.";
+	next;
+	mes "[Félix]";
+	mes "Se você estiver interessado na minha oferta, traga-me os Jellopys que mencionei.";
+	next;
+	select("Cenouras, por favor.");
+	mes "[Félix]";
+	mes "Muito bem, vamos ver o que você tem...";
+	next;
+	if (countitem(909) < 3) {
+		mes "[Félix]";
+		mes "Hmm, olha cara, eu disse 3 Jellopys por 1 Cenoura... entendeu?";
+		close;
+	}
+	mes "[Félix]";
+	mes "Nada mal...";
+	mes "Quantos você quer?";
+	next;
+	switch(select("Tantos quantos, por favor.:Quero escolher.:Não importa, gosto do meu Jellopy.")) {
+	case 1:
+		set .@amount, countitem(909) / 3;
+		break;
+	case 2:
+		set .@available, countitem(909) / 3;
+		mes "[Félix]";
+		mes "Quantos você quer?";
+		mes "^ff0000Você tem o suficiente para até " + .@available + " Cenouras.^000000";
+		input .@input;
+		next;
+		if (.@input < 1 || .@input > 10000) {
+			mes "[Félix]";
+			mes "Não quer negociar? É justo...";
+			close;
+		}
+		if (.@input > .@available) {
+			mes "[Félix]";
+			mes "Cara, eu disse que para cada 3 Jellopys eu te darei 1 Cenoura.";
+			close;
+		}
+		set .@amount, .@input;
+		break;
+	case 3:
+		mes "[Félix]";
+		mes "Não me incomode se você não quiser negociar.";
+		close;
+	}
+	if (checkweight(515,.@amount) == 0) {
+		mes "[Félix]";
+		mes "Você está acima do peso.";
+		close;
+	}
+	mes "[Félix]";
+	mes "Lá vai você~! Como eu prometi.";
+	mes "Tente não encher sua cara.";
+	delitem 909,.@amount*3; //Jellopy
+	getitem 515,.@amount; //Cenoura
+	end;
+}
+
+moc_para01,163,51,7	script	Izaac#edco	86,{
+	mes "[Izaac]";
+	mes "Bom dia!";
+	mes "Você já coletou alguma coisa estranha de monstros?";
+	mes "Eu quero coisas como Jellopy, Felpa, Casca, Plumas de Ave, Raiz de Árvore, Pele de Verme, e Crisálida.";
+	mes "Eu preciso disso para alguma coisa.";
+	next;
+	mes "[Izaac]";
+	mes "Claro, não vou pedir-lhe que me dê essas coisas de graça. E se eu trocasse o seguinte por ^CC00001 Poção Vermelha^000000:";
+	mes "^00CC005 Cascas^000000";
+	mes "^0000CC10 Felpas^000000";
+	mes "^00CC0010 Jellopys^000000";
+	mes "^0000CC6 Raizes de Árvore^000000";
+	mes "^00CC001 Pele de Verme^000000";
+	mes "^0000CC7 Plumas de Ave^000000";
+	mes "^00CC006 Crisálidas^000000";
+	next;
+	switch(select("Claro!:Isso é um roubo!:Não, obrigado.")) {
+	case 1:
+		mes "[Izaac]";
+		mes "Então, quais itens você";
+		mes "quer me trazer?";
+		next;
+
+		setarray .@items[0], 935, 914, 909, 902, 955, 916, 915;
+		setarray .@count[0],   5,  10,  10,   6,   1,   7,   6;
+
+		set .@size, getarraysize(.@items);
+		for(set .@i,0; .@i<.@size; set .@i,.@i+1)
+			set .@menu$, .@menu$+getitemname(.@items[.@i])+":";
+		set .@select, select(.@menu$+"Cancelar")-1;
+		if (.@select == .@size) {
+			mes "[Izaac]";
+			mes "Claro~";
+			mes "Sem problemas.";
+			close;
+		}
+		set .@item, .@items[.@select];
+		set .@item$, getitemname(.@item);
+		set .@price, .@count[.@select];
+
+		if (countitem(.@item) < .@price) {
+			mes "[Izaac]";
+			mes "Ei, onde estão os";
+			mes "itens "+.@item$+" que";
+			mes "você me prometeu?";
+			mes "Me dê "+.@item$+"!";
+			close;
+		}
+		mes "[Izaac]";
+		mes "Certo, deixe-me verificar";
+		mes "quantos " +.@item$;
+		mes "você tem com você.";
+		mes "Hmm...";
+		next;
+		set .@amount, countitem(.@item) / .@price;
+		set .@trade_amount, .@amount * .@price;
+		mes "[Izaac]";
+		mes "Você tem um total";
+		mes "de "+countitem(.@item)+" "+.@item$+"...";
+		mes "Para todos esses, eu posso lhe dar";
+		mes "um total de "+.@montante+" Poção(ões) Vermelha(s).";
+		next;
+		mes "[Izaac]";
+		mes "O que você me diz?";
+		mes "Temos um acordo?";
+		next;
+		if(select("Negóciar.:Não negóciar.") == 2) {
+			mes "[Izaac]";
+			mes "Huh~";
+			mes "Tudo bem.";
+			mes "Embora os itens";
+			mes .@item$ + " sejam mais úteis";
+			mes "para aventureiros como você...";
+			close;
+		}
+		if (checkweight(501,.@amount) == 0) { //checagem personalizada
+			mes "[Izaac]";
+			mes "Você está acima do peso.";
+			close;
+		}
+		delitem .@item,.@trade_amount;
+		getitem 501,.@amount; //Poção Vermelha
+		mes "[Izaac]";
+		mes "Aí está!";
+		mes "Verifique quantos dos itens "+.@item$;
+		mes "Eu te dei, deve ser bom.";
+		mes "Obrigado, isso foi um bom negócio~";
+		close;
+	case 2:
+		mes "[Izaac]";
+		mes "Um rip-off...?";
+		mes "Se você verificar o valor de mercado";
+		mes "dos itens que estão sendo negociados, na verdade sou eu que está";
+		mes "sendo roubado aqui...";
+		close;
+	case 3:
+		mes "[Izaac]";
+		mes "Muito bem, sem problemas.";
+		mes "Mas volte para mim se você mudar de idéia.";
+		close;
+	}
+}
+
+// Trocador de Pergaminhos de Aprimoramento +7
+//============================================================
+moc_para01,50,39,4	script	Eve Natalia	882,{
+	mes "[Eve Natalia]";
+	mes "Então estou na cidade por um tempo para ver se consigo fazer algum comércio com caçadores de MVPs.";
+	mes "Estou disposto a pegar algum equipamento MVP e dar-lhe estes Pergaminhos de Aprimoramento que tenho em troca.";
+	mes "Se as coisas correrem bem, abrirei mais oportunidades de negócios!";
+	next;
+	mes "[Eve Natalia]";
+	mes "Então, você tem algum dos equipamentos que estou procurando para obter alguns Pergaminhos de Aprimoramento +7 aleatórios?";
+	next;
+	switch(select("Que equipamento?:Sim, estou!:Não importa.")) {
+	case 1:
+		mes "[Eve Natalia]";
+		mes "4 Pedaços de Pele do Guardião - Pergaminhos de Aprimoramento +7 aleatórios";
+		mes "4 Escudos das Valquírias - Pergaminhos de Aprimoramento +7 aleatórios";
+		mes "5 Armaduras das Valquírias - Pergaminhos de Aprimoramento +7 aleatórios";
+		mes "5 Mantos de Diabolus - Pergaminhos de Aprimoramento +7 aleatórios";
+		mes "2 Armaduras Diabolus - Pergaminhos de Aprimoramento +7 aleatórios";
+		mes "2 Botas de Diabolus - Pergaminhos de Aprimoramento +7 aleatórios";
+		mes "4 Manteaus de Diabolus - Pergaminhos de Aprimoramento +7 aleatórios";
+		mes "2 Lâminas Gêmeas Azuis - Pergaminhos de Aprimoramento +7 aleatórios";
+		mes "2 Lâminas Gêmeas Vermelhas - Pergaminhos de Aprimoramento +7 aleatórios";
+		close;
+	case 2:
+		mes "[Eve Natalia]";
+		mes "Vou lhe perguntar qual equipamento você quer trocar, por favor, verifique se o primeiro do seu inventário é aquele que você quer abrir mão.";
+		mes "^CC0000Então, se ele for cardado, melhorado, encantado etc., você deve colocá-lo no Armazém antes de continuarmos.^000000";
+		next;
+		set .@i, select("Espere um minuto.:4 Pedaço de Pele do Guardião:4 Escudo das Valquírias:5 Armadura das Valquírias:5 Manto de Diabolus:2 Armadura Diabolus:2 Botas de Diabolus:4 Manteau de Diabolus:2 Lâmina Gêmea Azul:2 Lâmina Gêmea Vermelha")-2;
+		if (.@i == -1)
+			break;
+
+		setarray .@items[0],   2554, 2115, 2357, 2374, 2375, 2433, 2537, 13412, 13413;
+		setarray .@tickets[0],    4,    4,    5,    5,    2,    2,    4,     2,     2;
+
+		set .@item, .@items[.@i];
+		set .@amount, .@tickets[.@i];
+
+		mes "[Eve Natalia]";
+		mes "Vejo que você tem "+countitem(.@item)+" "+getitemname(.@item)+"";
+		mes "Então, você quer trocar o 1º em seu inventário por ^00CC00"+.@amount+" Pergaminhos de Aprimoramento +7 aleatórios^000000?";
+		mes "Digite '1' se você quiser fazer, ou '0' para cancelar.";
+		next;
+		input .@input;
+		if (.@input < 0 || .@input > 1) {
+			mes "[Eve Natalia]";
+			mes "É um 0 ou 1, não pode ser tão difícil.";
+			close;
+		} else if (.@input == 0) {
+			mes "[Eve Natalia]";
+			mes "É melhor ter certeza antes de negociar, tenha um bom dia!";
+			close;
+		}
+		if (countitem(.@item) == 0) {
+			mes "[Eve Natalia]";
+			mes "Você não tem nem 1... pare de desperdiçar meu tempo.";
+			close;
+		}
+		mes "[Eve Natalia]";
+		mes "Oh perfeito, você recebe ^CC0000" + .@montante + "^000000 Pergaminhos de Aprimoramento +7!";
+		delitem .@item,1;
+		for(set .@i,0; .@i<.@amount; set .@i,.@i+1) {
+			// Nota: O iRO lista o item 6235 como "Pergaminho de Armadura +7", mas é Pergaminho de Armadura +6 em nosso banco de dados.
+			if (rand(2))
+				getitem 6230,1; //Pergaminho de Arma +7
+			else
+				getitem 6234,1; //Pergaminho de Armadura +7
+		}
+		close;
+	case 3:
+		break;
+	}
+	mes "[Eve Natalia]";
+	mes "É justo, se você tiver negócios comigo no futuro, não seja tão tímido!";
+	close;
+}
+
+// Troca de Goma de Mascar & Manuais de Combate
+//============================================================
+moc_para01,48,184,2	script	Chicletes e Manuais	562,{
+	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+		mes "Você está carregando muitos itens neste momento.";
+		close;	
+	}
+	mes "[Máquina de Troca]";
+	mes "Insira Goma de Mascar e/ou Manual de Combate para trocar por Chicle de Bola e Enciclopédia de Combate de maior eficiência.";
+	next;
+	mes "[Máquina de Troca]";
+	mes "Taxa de câmbio:";
+	mes "2 Gomas de Mascar -> 1 Chicle de Bola";
+	mes "2 Manuais de Combate -> 1 Enciclopédia de Combate";
+	mes "4 Enciclopédias de Combate -> 1 Diário de Aventuras";
+	mes "3 Manuais de Combate 60 -> 2 Diários de Aventuras";
+	mes "O que você gostaria de trocar?";
+	next;
+	switch(select("Chicle de Bola:Enciclopédia de Combate:1 Diário de Aventuras:2 Diários de Aventuras:1 Traje Corsário:Nada.")) {
+	case 1:
+		callsub L_Exchange,12210,2,12412,1;
+		break;
+	case 2:
+		callsub L_Exchange,12208,2,12411,1;
+		break;
+	case 3:
+		callsub L_Exchange,12411,4,14545,1;
+		break;
+	case 4:
+		callsub L_Exchange,12312,3,14545,2;
+		break;
+	case 5:
+		mes "[Máquina de Troca]";
+		mes "Eu posso lhe dar 1 Diário de Aventuras por 1 Traje Corsário.";
+		next;
+		if (countitem(19619) == 0) {
+			mes "[Máquina de Troca]";
+			mes "Você não tem um Traje Corsário para fazer essa troca.";
+			close;
+		}
+		next;
+		if(select("Sim, me dê isso!:Não, espere.") == 2)
+			close;
+		// Diálogo não oficial.
+		mes "[Máquina de Troca]";
+		mes "Você coloca os itens necessários dentro da máquina...";
+		next;
+		mes "[Máquina de Troca]";
+		mes "A Máquina lhe deu um item em troca";
+		delitem 19619,1; //Traje Corsário
+		getitem 14545,1; //Diário de Aventuras
+		close;
+	case 6:
+		close;
+	}
+
+//callsub L_Exchange,<Inserir Item>,<Quantidade>,<Item de Retorno>,<Quantidade>
+L_Exchange:
+	mes "[Máquina de Troca]";
+	mes "Quantos "+getitemname(getarg(2))+" você quer?";
+	mes "Eu posso te dar até 60.";
+	mes "Digite 0 para cancelar.";
+	next;
+	input .@amount;
+	if (.@amount == 0) {
+		mes "[Máquina de Troca]";
+		mes "Cancelado.";
+		close;
+	} else if (.@amount < 0 || .@amount > 60) {
+		mes "[Máquina de Troca]"; 
+		mes "Eu disse apenas 60 no máximo.";
+		close;
+	}
+	mes "[Máquina de Troca]";
+	mes "Isso é um total de "+.@amount+" "+getitemname(getarg(2))+";
+	mes "Isso está correto?";
+	next;
+	if(select("Sim, me dê!:Não, espere.") == 2)
+		close;
+	set .@cost, getarg(1) * .@amount;
+	set .@total_amount, getarg(3) * .@amount;
+	if (countitem(getarg(0)) < .@cost) {
+		mes "[Máquina de Troca]";
+		mes "Você não tem "+getitemname(getarg(0))+" suficiente's para fazer essa troca.";
+		close;
+	}
+	delitem getarg(0),.@cost;
+	getitem getarg(2),.@total_amount;
+	close;
+}
+
+// Texugo Alegre
+//============================================================
+moc_para01,13,22,4	script	Texugo Alegre#xch	882,{
+	disable_items;
+	mes "[Texugo Alegre]";
+	mes "Olá aí! Eu sou o Texugo Alegre e fui contratado para trocar ^00CC00Medalhas de Mérito do Éden^000000!";
+	next;
+	mes "[Texugo Alegre]";
+	mes "Posso pegar suas Medalhas de Mérito do Éden em troca de algumas coisas úteis, ou posso pegar algumas de suas coisas em troca de Medalhas de Mérito do Éden.";
+	mes "Conforme eu obtiver mais autorizações, poderei oferecer mais coisas para negociar com você, então definitivamente tenha-me em mente quando visitar o Grupo do Éden.";
+	next;
+	// switch( select( "Resgatar Emblemas", "Trocar POR Emblemas", "Taxas de Câmbio", "15 Manuais de Classe - 1 Cx MCC[10]?", "Ticket de Acesso", "Especial da Semana" ) ) {// Os Tickets de Acesso da Instância Fortaleza do Céu, não têm sentido sem a instância.
+	switch( select( "Resgatar Emblemas", "Trocar POR Emblemas", "Taxas de Câmbio", "15 Manuais de Classe - 1 Cx MCC[10]?", "", "Especial da Semana " ) ) {
+	case 1:
+		setarray .@menu_list$[0],
+			"4 MME por 10 Emblemas KVM",
+			"4 MME por 10 Emblemas de Bravura",
+			"4 MME por 10 Emblemas de Valor", 
+			"8 MME por 1 Pedra de Reset de Atributos",
+			"5 MME por Manual de Combate",
+			"5 MME por Manual de Combate de Classe",
+			"10 MME por Enciclopédia de Combate",
+			"20 MME por Diário de Aventuras",
+			"5 MME por Goma de Mascar", 
+			"10 MME por Chicle de Bola",
+			"",	// "5 MME por Elixir Ultra Milagroso" (o item não existe no banco de dados)
+			"1 MME por Folha de Yggdrasil",
+			"",	// "5 MME por Asa de Belzebu (240h)" (o item não existe no banco de dados)
+			"5 MME por Cx Rédea Experimental [7Dias]",
+			"5 MME por 20 Ervas Azuis",
+			"Amuleto de Ziegfried",
+			"Nada agora";
+		.@menu$ = implode( .@menu_list$, ":" );
+		while(1) {
+			mes "[Texugo Alegre]";
+			mes "Claro, tenho várias opções atualmente por suas Medalhas.";
+			next;
+			switch( select(.@menu$) ) {
+			case 1:// "4 MME por 10 Emblemas KVM"
+				callsub L_Exchange,4,6376,10;// Emblema KVM
+				break;
+			case 2:// "4 MME por 10 Medalhas de Bravura"
+				callsub L_Exchange,4,7828,10;// Emblema de Bravura
+				break;
+			case 3:// "4 MME por 10 Emblema de Valor"
+				callsub L_Exchange,4,7829,10;// Emblema de Valor
+				break;
+			case 4:// "8 MME por 1 Pedra de Reset de Atributos"
+				callsub L_Exchange,8,6320,1;// Pedra de Reset de Atributos
+				break;
+			case 5:// "5 MME por Manual de Combate"
+				callsub L_Exchange,5,12208,1;// Manual de Combate
+				break;
+			case 6:// "5 MME por Manual de Combate de Classe"
+				callsub L_Exchange,5,14592,1;// Manual de Combate de Classe
+				break;
+			case 7:// "10 MME por Enciclopédia de Combate"
+				callsub L_Exchange,10,12411,1;// Enciclopédia de Combate
+				break;
+			case 8:// "20 MME por Diário de Aventuras"
+				callsub L_Exchange,20,14545,1;// Diário de Aventuras
+				break;
+			case 9:// "5 MME por Goma de Mascar"
+				callsub L_Exchange,5,12210,1;// Goma de Mascar
+				break;
+			case 10:// "10 MME por Chicle de Bola"
+				callsub L_Exchange,10,12412,1;// Chicle de Bola
+				break;
+			case 11:// "5 MME por Elixir Ultra Milagroso"
+				.@item_id = 22819;
+				if (countitem(6495) < 5) {
+					mes "[Texugo Alegre]";
+					mes "Você não tem ^00CC00Medalhas de Mérito do Éden suficientes^000000. Vamos começar de novo!";
+					break;
+				}
+				mes "[Texugo Alegre]";
+				mes "Ok, posso lhe dar ^ff0000" + getitemname(.@item_id) + "^000000 por ^0066CC5 de sua(s) Medalha(s)^000000 de Mérito do Éden.";
+				mes "Você quer?";
+				next;
+				if (select("Sim", "Não") == 2) {
+					mes "[Texugo Alegre]";
+					mes "Eu entendo, vamos ver se você gostaria de algo diferente!";
+					break;
+				}
+				mes "[Texugo Alegre]";
+				mes "Lá vai você! O que mais você gostaria?";
+				delitem 6495, 5;// Medalha de Mérito do Éden
+				consumeitem .@item_id;
+				break;
+			case 12:// "1 MME por Folha de Yggdrasil"
+				callsub L_Exchange,1,610,1;// Folha de Yggdrasil
+				break;
+			case 13:// "5 MME por Asa de Belzebu (240h)"
+				.@item_id = 14645;
+				if (countitem(6495) < 5) {
+					mes "[Texugo Alegre]";
+					mes "Você não tem ^00CC00Medalhas de Mérito do Éden suficientes^000000. Vamos começar de novo!";
+					break;
+				}
+				mes "[Texugo Alegre]";
+				mes "Ok, posso lhe dar ^ff0000" + getitemname(.@item_id) + "^000000 por ^0066CC5 de sua(s) Medalha(s)^000000 de Mérito do Éden.";
+				mes "Você quer?";
+				next;
+				if (select("Sim", "Não") == 2) {
+					mes "[Texugo Alegre]";
+					mes "Eu entendo, vamos ver se você gostaria de algo diferente!";
+					break;
+				}
+				mes "[Texugo Alegre]";
+				mes "Lá vai você! O que mais você gostaria?";
+				delitem 6495, 5;// Medalha de Mérito do Éden
+				rentitem .@item_id, 604800;	// 7 dias
+				break;
+			case 14:// "5 MME por Cx Rédea Experimental [7Dias]"
+				callsub L_Exchange,5,17162,1;// Cx Rédea Experimental [7Dias]
+				break;
+			case 15:// "5 MME por 20 Ervas Azuis"
+				callsub L_Exchange,5,510,20;// Ervas Azuis
+				break;
+			case 16:// Amuleto de Ziegfried
+				if (vip_status(VIP_STATUS_ACTIVE) == false) {
+					mes "[Texugo Alegre]";
+					mes "Os serviços VIP oferecem isso a qualquer usuário VIP!!";
+					close;
+				}
+				// personalizado daqui
+				.@date = gettime(DT_YYYYMMDD);
+				if (.@date <= eden_iro_token_date) {
+					mes "[Texugo Alegre]";
+					mes "Você já recebeu seu Amuleto hoje!";
+					close;
+				}
+				mes "[Texugo Alegre]";
+				mes "Lá vai você! O que mais você gostaria?";
+				Éden_iro_token_date = .@date;
+				getitem 7621,10;// Amuleto de Ziegfried
+				close;
+			case 17:// Nada Agora
+				mes "[Texugo Alegre]";
+				mes "Maravilhoso!";
+				mes "Eu estarei aqui se você quiser fazer trocas por Medalhas de Mérito do Éden!";
+				close;
+			}
+			next;
+		}
+	case 2:
+		mes "[Texugo Alegre]";
+		mes "Tenho uma seleção limitada desde já, mas aqui está o que posso oferecer para obter 1 Medalha de Mérito do Éden.";
+		next;
+		switch( select( "Itens (Outros).", "Equipamentos.", "Cancelar." ) ) {
+		case 1:
+			while(1) {
+				if (select( "5x Velha Caixa Roxa.", "Nada." ) == 2) {
+					mes "[Texugo Alegre]";
+					mes "Maravilhoso!";
+					mes "Eu estarei aqui se você quiser fazer trocas por Medalhas de Mérito do Éden!";
+					close;
+				}
+				while(1) {
+					if (countitem(617) < 5) {
+						mes "[Texugo Alegre]";
+						mes "Você não tem a quantia suficiente disso para receber 1 Medalha de Mérito do Éden. Vamos começar de novo!";
+						break;
+					}
+					mes "[Texugo Alegre]";
+					mes "Ok, eu posso lhe dar ^CC00001 Medalha de Mérito do Éden^000000 por ^0000CC5 de suas Velhas Caixas Roxas^000000. Você quer?";
+					next;
+					if (select( "Sim.", "Não." ) == 2) {
+						mes "[Texugo Alegre]";
+						mes "Eu entendo, vamos ver se você gostaria de algo diferente.";
+						break;
+					}
+					else {
+						mes "[Texugo Alegre]";
+						mes "Lá vai você! O que mais você gostaria?";
+						delitem 617,5;// Velha Caixa Roxa
+						getitem 6495,1;// Medalha de Mérito do Éden
+						next;
+					}
+				}
+				next;
+			}
+		case 2:
+			while(1) {
+				mes "[Texugo Alegre]";
+				mes "Pegarei o item do topo do seu inventário! CERTIFIQUE-SE DE NÃO TER NENHUM DESSES ITENS QUE VOCÊ NÃO QUER TROCAR.";
+				next;
+				switch( select( "Pele da Rainha Verme.", "Pele da Rainha Verme[1].", "Nada.") ) {
+				case 1:
+					.@item_req = 20717;// Pele da Rainha Verme
+					.@item_name$ = "Pele da Rainha Verme";
+					.@amount_reward = 5;
+					break;
+				case 2:
+					.@item_req = 20718;// Pele da Rainha Verme
+					.@item_name$ = "Pele da Rainha Verme[1]";
+					.@amount_reward = 7;
+					break;
+				case 3:
+					mes "[Texugo Alegre]";
+					mes "Maravilhoso!";
+					mes "Eu estarei aqui se você quiser fazer trocar por Medalhas de Mérito do Éden.";
+					next;
+					mes "[Texugo Alegre]";
+					mes "Bem, tudo bem, se você quiser ver o que eu ofereço, é só pedir.";
+					close;
+				}
+				while(1) {
+					if (countitem(.@item_req) < 1) {
+						mes "[Texugo Alegre]";
+						mes "Você não tem a quantidade o suficiente disso para receber 1 Medalha de Mérito do Éden. Vamos começar de novo!";
+						break;
+					}
+					mes "[Texugo Alegre]";
+					mes "Ok, posso lhe dar ^ff0000" + .@amount_reward + " Medalha(s) de Mérito do Éden^000000 por ^00ff00" + .@item_name$ + "^000000. Você quer?";
+					next;
+					if (select( "Sim", "Não" ) == 2) {
+						mes "[Texugo Alegre]";
+						mes "Eu entendo, vamos ver se você gostaria de algo diferente.";
+						break;
+					}
+					delitem .@item_req, 1;
+					getitem 6495, .@amount_reward;// Medalha de Mérito do Éden
+					mes "[Texugo Alegre]";
+					mes "Lá vai você! De que mais você gosta?";
+					next;
+				}
+				next;
+			}
+		case 3:
+			mes "[Texugo Alegre]";
+			mes "Bem, tudo bem, se você quiser ver o que eu ofereço, é só pedir.";
+			close;
+		}
+	case 3:
+		mes "[Texugo Alegre]";
+		mes "Isto é o que eu posso te dar pelas suas ^00CC00Medalhas de Mérito do Éden^000000!";
+		mes "Ok, eu tenho uma promoção especial de 3 Medalhas de Mérito. Esta semana eu poderei te dar ^00CC0040 Partículas de Luz^000000, ^00CC0040 Misturas de Pólvora^000000, ^0000CC3 Izidor^000000, ^00CC0010 Frutas Espinhosas^000000, ^0000CC1 Muda de Mandrágora^000000 e ^00CC003 Galhos Antigos^000000.";
+		mes "^00CC002 Medalhas de Mérito do Éden^000000 = ^0000CC10x Emblemas KVM^000000";
+		mes "^00CC002 Medalhas de Mérito do Éden^000000 = ^0000CC10x Emblemas de Bravura^000000";
+		mes "^00CC002 Medalhas de Mérito do Éden^000000 = ^0000CC10x Emblemas de Valor^000000";
+		mes "^00CC005 Medalhas de Mérito do Éden^000000 = ^0000CC5x Poções Média de Vida^000000";
+		mes "^00CC005 Medalhas de Mérito do Éden^000000 = ^0000CC5x Seguros de Vida^000000";
+		mes "^00CC005 Medalhas de Mérito do Éden^000000 = ^0000CC5x Amuletos de Ziegfried^000000";
+		mes "^00CC007 Medalhas de Mérito do Éden^000000 = ^0000CC1x Manuais de Combate de Classe^000000";
+		mes "^00CC008 Medalhas de Mérito do Éden^000000 = ^0000CC1x Pedra de Reset de Atributos^000000";
+		next;
+		mes "[Texugo Alegre]";
+		mes "Isto é o que você pode me dar para obter ^00CC001 Medalha de Mérito do Éden^000000!";
+		mes "^0000CC5x Velhas Caixas Roxas^000000.";
+		close;
+	case 4:
+		mes "[Texugo Alegre]";
+		mes "Eu fui forçado a te dar isso, mas você vale a pena!";
+		mes "Você quer trocar 15 Manuais de Combate de Classe por 1 Cx Man. Combate de Classe[10]?";
+		mes "Eu sei que 15 não é igual a 10, mas as caixas são caras, sabia?";
+		next;
+		if (countitem(14592) < 15) {
+			mes "[Texugo Alegre]";
+			mes "Você não tem 15 ou mais Manuais de Combate de Classe para obter 1 Caixa!";
+			close;
+		}
+		// diálogo personalizado abaixo
+		if (select("Sim.", "Não.") == 2) {
+			mes "[Texugo Alegre]";
+			mes "Maravilhoso!";
+			mes "Eu estarei aqui se você quiser fazer trocas por Medalhas de Mérito do Éden!";
+			close;
+		}
+		mes "[Texugo Alegre]";
+		mes "Maravilhoso, o que mais você quer?";
+		delitem 14592,15; //Manual de Combate de Classe
+		getitem 13990,1; //Cx Man. Combate de Classe[10]
+		close;
+	case 5:
+		mes "[Texugo Alegre]";
+		mes "Eu realmente não entendo o por que, mas tenho esta pilha de Bilhetes para vender.";
+		mes "Você quer trocar 25 Medalhas de Mérito do Éden por 1 Ticket de Acesso à Instâncias? Se você for VIP, seu Bilhete durará muito mais!";
+		next;
+		if (select( "Sim.", "Não." ) == 2) {
+			mes "[Texugo Alegre]";
+			mes "Eu entendo, vamos ver se você gostaria de algo diferente.";
+			close;
+		}
+		if (countitem(6495) < 25) {
+			mes "[Texugo Alegre]";
+			mes "Você não tem Medalhas suficientes!";
+			close;
+		}
+		delitem 6495,25;
+		if (vip_status(VIP_STATUS_ACTIVE))
+			getitem 17570,1;// Cx. de Acesso (3h)
+		else
+			getitem 17569,1;// Cx. de Acesso (1h)
+		mes "[Texugo Alegre]";
+		mes "Lá vai você! O que mais você gostaria?";
+		close;
+	case 6:
+		while(1) {
+			mes "[Texugo Alegre]";
+			mes "O Especial da Semana é....";
+			next;
+			mes "[Texugo Alegre]";
+			mes "Ok, eu tenho uma Medalha Especial por 3 Medalhas de Mérito do Éden ou 1.000.000 de zenys. Esta semana estou dando ^00CC0040 Partículas de Luz^000000, 40 Misturas de Pólvora^000000, ^0000CC3 Izidor^000000";
+			mes "^00CC0010 Frutas Espinhosas^000000, ^0000CC1 Muda de Mandrágora^000000, e ^00CC003 Galhos Antigos^000000.";
+			next;
+			switch( select( "Medalhas.", "Zenys.", "Nada." ) ) {
+			case 1:
+				if (countitem(6495) < 3) {
+					mes "[Texugo Alegre]";
+					mes "Você não tem ^00CC00Medalhas de Mérito do Éden suficientes^000000. Vamos começar de novo!";
+					next;
+					continue;
+				}
+				delitem 6495,3; //Medalha de Mérito do Éden
+				break;
+			case 2:
+				if (Zeny < 1000000) {
+					mes "[Texugo Alegre]";
+					mes "Você não tem ^00CC00Zenys^000000 suficientes. Vamos começar de novo!";
+					next;
+					continue;
+				}
+				Zeny -= 1000000;
+				break;
+			case 3:
+				mes "[Texugo Alegre]";
+				mes "Eu entendo, vamos ver se você gostaria de algo diferente.";
+				close;
+			}
+			getitem 7938,40;// Partículas de Luz
+			getitem 6244,40;// Mistura de Pólvora
+			getitem 709,3;	// Izidor
+			getitem 576,10;	// Fruta Espinhosa
+			getitem 6217,1;	// Muda de Mandrágora
+			getitem 7939,3;	// Galho Antigo
+			mes "[Texugo Alegre]";
+			mes "Lá vai você! O que mais você gostaria?";
+			next;
+		}
+	}
+	end;
+
+//callsub L_Exchange,<custo do emblema>,<id do item>,<quantidade>;
+L_Exchange:
+	if (countitem(6495) < getarg(0)) {
+		mes "[Texugo Alegre]";
+		mes "Você não tem ^00CC00Medalhas de Mérito do Éden suficientes^000000. Vamos começar de novo!";
+		return;
+	}
+	mes "[Texugo Alegre]";
+	mes sprintf("Ok, eu posso te dar ^ff0000%s^000000 por ^0066CC%d de suas Medalhas de Mérito do Éden^000000.",
+		callfunc("F_InsertPlural",getarg(2),getitemname(getarg(1))), getarg(0));
+	mes "Você quer?";
+	next;
+	if (select("Sim.", "Não.") == 2) {
+		mes "[Texugo Alegre]";
+		mes "Eu entendo, vamos ver se você gostaria de algo diferente!";
+		return;
+	}
+	mes "[Texugo Alegre]";
+	mes "Lá vai você! O que mais você gostaria?";
+	delitem 6495, getarg(0); //Medalha de Mérito do Éden
+	getitem getarg(1),getarg(2);
+	return;
+}
+
+// Kafra Empilhadora
+//============================================================
+moc_para01,41,169,2	script	Kafra Empilhadora#eden	749,{
+	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+		mes "- Espere um momento! -";
+		mes "- Atualmente você está carregando -";
+		mes "- muitos itens. -";
+		mes "- Por favor, volte mais tarde, -";
+		mes "- depois que você colocar um pouco de peso no Armazém Kafra. -";
+		close;
+	}
+	mes "[Toma]";
+	mes "Eu posso pegar seus consumíveis Kafra não empilháveis,";
+	mes "e transformá-los em empilháveis!";
+	next;
+	mes "[Toma]";
+	mes "Por favor, entenda que eu posso";
+	mes "empilhar apenas 10 grupos de cada vez,";
+	mes "então continue falando comigo até";
+	mes "você possuir 1 pilha de cada!";
+	next;
+	while(1) {
+		if(select("Faça-o!:Não importa.") == 2)
+			break;
+		// Algo estranho está acontecendo aqui, ainda não descobri o que é...
+		mes "[Toma]";
+		mes "Dez pilhas abaixo!";
+		mes "Quer fazer outra?";
+		next;
+	}
+	mes "[Toma]";
+	mes "Ok, então, até mais tarde.";
+	close;
+}
+
+// Código Redentor
+//============================================================
+moc_para01,38,162,2	script	Código do Redentor#Give1	405,{
+	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+		mes "^0000ffEspera aí mesmo!";
+		mes "Você está carregando muitos itens e não tem espaço suficiente no inventário para receber qualquer recompensa. Por favor, disponibilize mais espaço no inventário e volte para aceitar este desafio.^000000";
+		close;
+	}
+	mes "[Código do Redentor]";
+	mes "Bem-vindo, "+strcharinfo(0)+"!";
+	mes "Tenho estado à sua espera.";
+	next;
+	mes "[Código do Redentor]";
+	mes "Eu sou o distribuidor de";
+	mes "itens que aventureiros como você,";
+	mes "compram em websites ou";
+	mes "recebem como promoções.";
+	next;
+	mes "[Código do Redentor]";
+	mes "^0000FFSe a lista estiver vazia,";
+	mes "isso significa que você";
+	mes "não comprou, ou não inseriu o";
+	mes "seu código de série do site de compras.^000000";
+	next;
+
+	// Se você tiver um sistema de resgate de código, escreva suas consultas SQL aqui.
+	select("");
+
+	close;
+}
+
+// Lojas de Cash
+//============================================================
+/* Devido à irregularidade dos bancos de dados do iRO, algumas dessas sprites podem não ser exibidas corretamente. */
+
+moc_para01,32,171,6	cashshop	Elmos Kafra#eden1	115,14024:500,14098:150,17081:300,14097:500,14094:1000,14017:400,14099:300
+moc_para01,35,174,2	cashshop	Tinturaria Kafra#dyes2	114,6287:150
+moc_para01,37,170,2	cashshop	Consumíveis Kafra#eden3	112,13810:5,14167:400,16556:100,14111:75,14075:25,16419:30,14107:70,14104:50,14112:25,14082:30,14091:60,14088:30,14085:60,14169:40,14170:40,14172:40,14173:40,14171:40,14174:40,14159:100,14160:100,14161:100,14162:100,14163:100:14164:100,16420:1500
+moc_para01,32,174,2	cashshop	Aluguel Kafra#eden	721,16683:150,16682:50,14126:250,14125:250,16430:250,14137:250,14127:250,14118:250,14119:250,14132:250,16425:250,14124:250,14133:250,14130:250,16424:250,14136:250,14122:250,16426:250,14135:250,14134:250,14138:250,16428:250,16431:250,14139:250,14131:250,16429:250,16427:250
+moc_para01,37,172,2	cashshop	Visuais Kafra#eden5	860,16974:300,16972:600,16973:150,16975:150,16977:150,17014:150,17015:150
+moc_para01,35,168,1	cashshop	Utilidades Kafra#eden	113,16677:25,13990:400,16396:100,16394:100,17106:500,6241:10,6240:10,6225:15,6226:15,14002:5,6294:500,7776:50,7619:30,7620:30,12208:40,14156:400,12210:40,14158:400,14042:50,14044:50,14046:50,14048:50,14114:50,14166:40,16418:500,16381:400,14165:100,14157:100,14178:100
+
+// Duplicatas de NPCs
+//============================================================
+/* Tecnicamente, esses nomes de NPCs são diferentes, mas não vale a pena editar os scripts originais. */
+
+// Refinador de Armas/Armaduras "Normalson" (Mercadores/refinador.txt)
+moc_para01,14,185,4	script	Normalson#ed	826,{
+	callfunc "refinemain","Normalson",0;
+	end;
+}
+
+// Refinador Avançado "Suhnmi" (Mercadores/refinador_avancado.txt)
+moc_para01,26,185,4	duplicate(Suhnbi#cash)	Suhnmi#eden	85
+
+// Refinador HD "Ferreiro Hammer" (Re/Mercadores/refinador_hd.txt)
+// Uma combinação do refino +7~9 e +10 e superiores, atualmente um espaço reservado.
+moc_para01,38,185,4	duplicate(FerreiroHammer)	Ferreiro Hammer#ed	826
+
+// Efeito do Refino
+-	script	#Éden_refine_effect	-1,{
+OnInit:
+	initnpctimer;
+	end;
+OnTimer5000:
+	specialeffect EF_REFINEOK,AREA,"Suhnmi#eden";
+	specialeffect EF_REFINEOK,AREA,"Ferreiro Hammer#ed";
+	initnpctimer;
+	end;
+}
+
+// Treinador do Passe do Ginásio "Mister Peso" (Outros/Mister Peso)
+moc_para01,33,162,6	duplicate(Mister Peso#GymPass)	Mister Peso#ed	899
+
+// Encantador do RWC 2012 "Goldberg" (Eventos/RWC_2012.txt)
+// Uma combinação de caçador de caça-níqueis e encantador, atualmente um substituto.
+moc_para01,27,179,4	script	Encantador RWC#new10	87,{ end; }
+
+// Tintureira de Chapéus por Cash "Alora" (Mercadores/chapeus_coloridos.txt)
+// Também converte alguns elmos com +8 ou mais em visuais, atualmente um espaço reservado.
+moc_para01,21,185,4	duplicate(Alora)	Alora#headgear_dye2	862
+
+// Estilista "Dinorah Lacostt" (?)
+// Tinge roupas, atualmente um espaço reservado.
+moc_para01,33,185,4	script	Dinorah Lacostt#ed	862,{ end; }
+
+// NPCs Comumente Atualizados
+//============================================================
+/* Esses scripts mudam regularmente, então, por enquanto, são apenas marcadores de posição. */
+
+moc_para01,29,35,4	script	Vovô#huntquests	866,{
+	mes "[Vovô]";
+	mes "Quando você chegar a minha";
+	mes "idade, você se tornará amargo.";
+	mes "Há muito tempo que não faço nada sobre os monstros que vagueiam";
+	mes "por Midgard.";
+	next;
+	mes "[Vovô]";
+	mes "É por isso que estou pedindo ajuda aos limpadores de pára-brisas";
+	mes "para caçar alguns monstros.";
+	mes "Você vai me ajudar, jovem aventureiro?";
+	close;
+	//next;
+	//switch(select("Sim, eu ajudo.:Recompense-me!:^ff0000Quero parar de caçar.^000000:^0000ffVocê pode me teletransportar?^000000:Você pode zerar o cronômetro?:Quais missões você está dando?:Me dê um VIP limitado de 3 dias.:Conte-me mais sobre o acesso VIP.:Não, obrigado, pai.")) {
+}
+
+moc_para01,174,33,3	script	Bathory#2012spirits	1102,{
+	mes "[Bathory]";
+	mes "Eheeheeheeee! O centro das atenções está em Glast Heim esta semana, por isso estou transportando pessoas para lá por apenas 1.000z!";
+	next;
+	mes "[Bathory]";
+	mes "Que tal? Quer dar uma volta numa bela vassoura de Bathory?";
+	next;
+	switch(select("Prepare-se para a decolagem!:Não, obrigado.")) {
+	case 1:
+		if (Zeny < 1000) {
+			mes "[Bathory]";
+			mes "Vamos, querido...";
+			mes "Você não tem nem 1.000 zeny?";
+			close;
+		}
+		mes "[Bathory]";
+		mes "Muito bem, segurem-se bem!";
+		close2;
+		set Zeny, Zeny-1000;
+		warp "niflheim",194,185;
+		end;
+	case 2:
+		mes "["+strcharinfo(0)+"]";
+		mes "Não obrigado, talvez mais tarde.";
+		close;
+	}
+}
+
+moc_para01,26,174,4	script	Vovó Boxter#boxx	840,{ end; }
+
+// Estação do Anexo Postal
+//============================================================
+/* O Mapa "auction_03" é uma duplicata do "auction_02".
+
+moc_para01,30,187,4	script	Estação do Anexo Postal	888,{
+	mes "[Estação do Anexo Postal]";
+	mes "Você quer ir para a Estação do Anexo Postal da Kafra?";
+	next;
+	switch(select("Sim, envie-me agora!:Não, obrigado.")) {
+	case 1:
+		mes "[Estação do Anexo Postal]";
+		mes "Enviando você para a Sala do Anexo Postal.";
+		close2;
+		warp "auction_03",151,23;
+		end;
+	case 2:
+		mes "[Estação do Anexo Postal]";
+		mes "Ok então!";
+		close;
+	}
+}
+auction_03,152,16,0	warp	#mail_annex_warp	1,1,moc_para01,30,184
+
+auction_03,152,42,4	script	Funcionária Kafra#annex	117,{
+	mes "[Funcionária Kafra]";
+	mes "Bem-vindos ao Anexo Postal da Kafra. Este é agora o único lugar para enviar e receber correspondências.";
+	next;
+	mes "[Funcionária Kafra]";
+	mes "O que você gostaria de fazer?";
+	next;
+	switch(select("Acessar E-mail.:Armazém.:Cancelar.")) {
+	case 1:
+		if (Zeny < 130) {
+			mes "[Funcionária Kafra]";
+			mes "Sinto muito, mas você não tem dinheiro suficiente.";
+			mes "Para usar o serviço de Caixa Postal,";
+			mes "você precisa pagar 130 zenys.";
+			close;
+		}.
+		mes "[Funcionária Kafra]";
+		mes "Obrigado por usar os Serviços Kafra.";
+		set Zeny, Zeny - 130;
+		close2;
+		openmail;
+		end;
+	case 2:
+		callfunc "F_KafStor",0,1200,0;
+		end;
+	case 3:
+		mes "[Funcionária Kafra]";
+		mes "Obrigado por usar os Serviços Kafra.";
+		close;
+	}
+}
+
+auction_03,145,47,2	shop	Loja de Utilidades#annex	83,611:-1,501:-1,502:-1,503:-1,506:-1,504:-1,645:-1,656:-1,657:-1,601:-1,602:-1,1065:-1,911:-1,910:-1,717:-1,1092:-1,1093:-1,713:400
+*/
+
+// Encantamento das Asas de Arcanjo Caído
+//============================================================
+moc_para01,179,27,3	script	Luhir Sombrio#new10	4_F_VALKYRIE2,{
+	disable_items;
+	mes "[Luhir Sombrio]";
+	mes "Olá~ Estou dando atributos extras para aqueles que têm o item 'Asas de Arcanjo Caído'.";
+	next;
+	if (getequipid(EQI_GARMENT) != 2589) {// Asas de Arcanjo Caído
+		mes "[Luhir Sombrio]";
+		mes "Por favor, ^0000ffuse seu item 'Asas de Arcanjo Caído' primeiro^000000, e então eu lhe darei Atributos extras.";
+		close;
+	}
+	switch( select( "Cancelar.", "Encantar Asas de Arcanjo Caído.", "Repor Atributos nas Asas de Arcanjo Caído." ) ) {
+	case 1:
+		mes "[Luhir Sombrio]";
+		mes "Mais tarde então...";
+		close;
+	case 2:
+		.@refine = getequiprefinerycnt(EQI_GARMENT);
+		setarray .@card[0],
+			getequipcardid(EQI_GARMENT,0),
+			getequipcardid(EQI_GARMENT,1),
+			getequipcardid(EQI_GARMENT,2),
+			getequipcardid(EQI_GARMENT,3);
+		mes "[Luhir Sombrio]";
+		mes "Somente 1 slot poderá obter o atributo extra quando o nível de refino estiver entre 1~6.";
+		mes "Se o nível de refino estiver entre 7~8, poderá receber atributos em 2 slots.";
+		mes "+9 poderá receber atributos para todos os 3 slots.";
+		next;
+		mes "[Luhir Sombrio]";
+		if (.@refine < 7)
+			mes "O nível de refinamento deste item é inferior a 7. Somente o ^ff0000Slot 4^000000 poderá receber atributos extras.";
+		else if (.@refine < 9)
+			mes "O nível de refinamento deste item é entre 7~8. Somente os ^ff0000Slots 3 e 4^000000 poderão receber atributos extras.";
+		else
+			mes "O nível de refinamento deste item é superior a 9. Todos os 3 ^ff0000Slots número 2, 3 e 4^000000 poderão receber atributos extras.";
+		mes "Que tipo de atributos extras você quer?";
+		next;
+		switch( select( "Deixe-me colocar o equipamento.", "1.Espírito de Luta.", "2.Ataque Mágico.", "3.Arco e Flecha.", "4.Crítico.", "5.HPMáx.", "6.SPMáx.", "7.Veloc.de ATQ.", "8.FOR.", "9.AGI.", "10.VIT.", "11.INT.", "12.DES.", "13.SOR." ) ) {
+		case 1:
+			mes "[Luhir Sombrio]";
+			mes "Por favor, volte depois de equipar seu item.";
+			close;
+		case 2:
+			setarray .@enchants[0],4809,4808,4820,4821;		// Espírito de Luta 3~5 / Espírito de Luta 6
+			.@string$ = "Os atributos do Espírito de Luta serão dados aleatoriamente por 3~5 (ATQ+Precisão).";
+			break;
+		case 3:
+			setarray .@enchants[0],4812,4826,4827,4828;		// Ataque Mágico 4~6 / Ataque Mágico 7
+			.@string$ = "Os atributos dos Ataques Mágicos serão dados aleatoriamente por 4~6 (ATQM + Reduz o Tempo de Conjuração para trocar).";
+			break;
+		case 4:
+			setarray .@enchants[0],4832,4833,4834,4835;		// Arqueiro Especialista 1~3 / Arqueiro Especialista 4
+			.@string$ = "Os atributos do Arco e Flecha serão dados aleatoriamente por 1~3 (Taxa de Ataque a Distância).";
+			break;
+		case 5:
+			setarray .@enchants[0],4863,4864,4865,4866;		// Fatal 1~3 / Fatal 4
+			.@string$ = "Os atributos do Crítico serão dados aleatoriamente por 1~4 (Danos Críticos + CRI).";
+			break;
+		case 6:
+			setarray .@enchants[0],4861,4862,4867,4868;		// HPMáx +1~3% / HPMáx +4%
+			.@string$ = "Os atributos do HPM serão dados aleatoriamente por 1~3 (Aumenta o HPM em %).";
+			break;
+		case 7:
+			setarray .@enchants[0],4870,4800,4871,4801;		// +25,50 ou 75 de sp / +100 de sp
+			.@string$ = "Os atributos do SP serão dados aleatoriamente por 25~75.";
+			break;
+		case 8:
+			setarray .@enchants[0],4869,4872,4873,4807;		// Atraso Após o Ataque 1~3 / +1 Velocidade de Ataque
+			.@string$ = "Os atributos do Atraso de Ataque serão dados aleatoriamente por 1~3 (Reduz o atraso de ataque em %).";
+			break;
+		case 9:
+			setarray .@enchants[0],4702,4703,4704,4853;		// For +3~5 / For Especial
+			.@string$ = "Os atributos da FOR serão dados aleatoriamente por 3~5.";
+			break;
+		case 10:
+			setarray .@enchants[0],4731,4732,4733,4854;		// Agi +2~4 / Agi Especial
+			.@string$ = "Os atributos da AGI serão dados aleatoriamente por 2~4.";
+			break;
+		case 11:
+			setarray .@enchants[0],4742,4743,4744,4855;		// Vit +3~5 / Vit Especial
+			.@string$ = "Os atributos da VIT serão dados aleatoriamente por 3~5.";
+			break;
+		case 12:
+			setarray .@enchants[0],4712,4713,4714,4856;		// Int +3~5 / Int Especial
+			.@string$ = "Os atributos da INT serão dados aleatoriamente por 3~5.";
+			break;
+		case 13:
+			setarray .@enchants[0],4722,4723,4724,4857;		// Des +3~5 / Des Especial
+			.@string$ = "Os atributos da DES serão dados aleatoriamente por 3~5.";
+			break;
+		case 14:
+			setarray .@enchants[0],4752,4753,4754,4858;		// Sor +3~5 / Sor Especial
+			.@string$ = "Os atributos da SOR serão dados aleatoriamente por 3~5.";
+			break;
+		}
+		mes "[Luhir Sombrio]";
+		mes .@string$ + " ^ff0000Os Atributos dados não podem ser retirados.^000000 Você quer prosseguir?";
+		next;
+		if (select( "1.Desistir.", "2.Sim, tentar isto." ) == 1) {
+			mes "[Luhir Sombrio]";
+			mes "Talvez mais tarde então...";
+			close;
+		}
+
+		// anti-roubo
+		if (callfunc("F_IsEquipIDHack", EQI_GARMENT, 2589) || callfunc("F_IsEquipCardHack", EQI_GARMENT, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_GARMENT, .@refine))
+			close;
+
+		if (.@card[3] == 0) {
+			.@card[3] = .@enchants[ rand(3) ];
+			.@slot = 4;
+		}
+		else if (.@card[2] == 0 && .@refine >= 7) {
+			.@card[2] = .@enchants[ rand(3) ];
+			.@slot = 3;
+		}
+		else if (.@card[1] == 0 && .@refine >= 9) {
+			.@card[1] = .@enchants[ rand(4) ];
+			.@slot = 2;
+		}
+		else {
+			mes "[Luhir Sombrio]";
+			mes "Parece que este item já tem o máximo de encantamentos. Por favor, traga outro para os Atributos extras.";
+			close;
+		}
+		specialeffect2 EF_REPAIRWEAPON;
+		mes "[Luhir Sombrio]";
+		mes "Dando habilidade ao item no Slot ^990000" + .@slot + "^000000.";
+		delequip EQI_GARMENT;
+		getitem2 2589,1,1, .@refine,0, .@card[0], .@card[1], .@card[2], .@card[3];
+		close;
+	case 3:
+		mes "[Luhir Sombrio]";
+		mes "A restauração das 'Asas de Arcanjo Caído' lhe custará 1.000.000 de zenys...";
+		mes "Você deseja prosseguir?";
+		next;
+		if (select( "Sim.", "Não, obrigado!" ) == 2)
+			close;
+		if (Zeny < 1000000) {
+			mes "[Luhir Sombrio]";
+			mes "Seu mentiroso, você não tem zenys suficientes!";
+			close;
+		}
+		if (getequipid(EQI_GARMENT) == 2589) {
+			.@refine = getequiprefinerycnt(EQI_GARMENT);
+			.@card[0] = getequipcardid(EQI_GARMENT,0);
+
+			mes "[Luhir Sombrio]";
+			specialeffect2 EF_REPAIRWEAPON;
+			mes "Redefinindo os atributos do item.";
+			delequip EQI_GARMENT;
+			Zeny -= 1000000;
+			getitem2 2589,1,1, .@refine,0, .@card[0],0,0,0;// Asas de Arcanjo Caído
+		}
+		close;
+	}
+}

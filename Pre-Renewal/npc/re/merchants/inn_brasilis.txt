@@ -1,0 +1,45 @@
+//===== rAthena Script =======================================
+//= Brasilis Inn Hotel
+//============================================================
+
+// Brasilis
+//============================================================
+bra_in01,27,24,3	script	Guia do Hotel#bra1	478,{
+	mes "[Guia do Hotel]";
+	mes "Bem-vind"+(Sex?"o":"a")+"(a) ao belo Hotel de Brasilis.";
+	next;
+	switch(select("Salvar Ponto de Retorno:Descansar -5000 zenys")) {
+	case 1:
+		mes "[Guia do Hotel]";
+		mes "Você quer salvar seu Ponto de Retorno aqui no Hotel de Brasilis?";
+		next;
+		switch(select("Não, obrigado.:Absolutamente..")) {
+		case 1:
+			mes "[Guia do Hotel]";
+			mes "Ok, aproveite sua estadia.";
+			close;
+		case 2:
+			mes "[Guia do Hotel]";
+			mes "Seu renscimento foi salvo aqui no hotel. Espero que você aproveite sua estadia aqui em Brasilis.";
+			savepoint "bra_in01",144,69,1,1;
+			close;
+		}
+		end;
+	case 2:
+		if (Zeny > 4999) {
+			mes "[Guia do Hotel]";
+			mes "Eu vou te mostrar um quarto grande.";
+			close2;
+			if (Zeny < 5000)
+				end;
+			Zeny -= 5000;
+			percentheal 100,100;
+			warp "bra_in01",144,69;
+			end;
+		}
+		mes "[Guia do Hotel]";
+		mes "Sinto muito, mas a taxa de serviço é de 5.000 zenys por noite.";
+	case 3:
+		close;
+	}
+}

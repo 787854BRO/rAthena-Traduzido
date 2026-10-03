@@ -1,0 +1,129 @@
+//===== rAthena Script ======================================= 
+//= Rachel Guides
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guide for the city of Rachel.
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal guide.
+//= 1.1 Navigation system update. [Euphy]
+//============================================================ 
+
+rachel,138,146,5	script	Guia de Rachel#rachel	934,{
+	mes "[Guia de Rachel]";
+	mes "Bem vind"+((Sex) ? "o":"a")+" a capital de Arunafeltz, ^8B4513Rachel^000000, onde a respiração quente da deusa Freya alcança.";
+	mes "Se esta é a primeira vez que você usa os serviços de guia, sugiro que você tire todas suas dúvidas.";
+	F_Navi("[Guia de Rachel]");
+	next;
+	while (1) {
+		switch(select("[ Principais Lugares ]:[ Lojas & Ajudantes ]:Remover Marcações do Mini-mapa:Cancelar")) {
+		case 1:
+			set .@loop,1;
+			while (.@loop) {
+				switch(select("[ Estalagem ]:[ Loja de Armas ]:[ Loja de Utilidades ]:[ Aeroporto ]:[ Cheshrumnir ]:[ Mansão do Sacerdote Zed ]:Menu Anterior")) {
+				case 1:
+					mes "[Guia de Rachel]";
+					mes "Você pode repousar de sua viagem na "+F_Navi("Estalagem","rachel,115,144")+". O prédio no meu lado à esquerda é a Estalagem de Rachel.";
+					mes "Você gostaria de conhecer outros locais?";
+					viewpoint 1,115,144,0,0xFF0000;
+					next;
+					break;
+				case 2:
+					mes "[Guia de Rachel]";
+					mes "Você quer checar as armas que são vendidas em Rachel?";
+					mes "A "+F_Navi("Loja de Armas","rachel,42,82")+" está localizada perto do portão oeste.";
+					mes "Você gostaria de conhecer outros locais?";
+					viewpoint 1,42,82,1,0xFF4500;
+					next;
+					break;
+				case 3:
+					mes "[Guia de Rachel]";
+					mes "A "+F_Navi("Loja de Utilidades","rachel,83,73")+" de Rachel vende as melhores poções de qualidade. Ela está localizada perto do portão oeste.";
+					mes "Você gostaria de conhecer outros locais?";
+					viewpoint 1,83,73,2,0xDAA520;
+					next;
+					break;
+				case 4:
+					mes "[Guia de Rachel]";
+					mes "O "+F_Navi("Aeroporto","rachel,272,125")+" está localizado fora do portão leste.";
+					mes "Você gostaria de conhecer outros locais?";
+					viewpoint 1,272,125,3,0x008000;
+					next;
+					break;
+				case 5:
+					mes "[Guia de Rachel]";
+					mes F_Navi("Cheshrumnir","rachel,150,243")+" é um local sagrado onde a papisa, que é a encarnação da Deusa Freya, se encontra.";
+					mes "Pegue a estrada para o norte para encontrar o prédio.";
+					mes "Você gostaria de conhecer outros locais?";
+					viewpoint 1,150,243,4,0x0000FF;
+					next;
+					break;
+				case 6:
+					mes "[Guia de Rachel]";
+					mes "Eu vou marcar a localização";
+					mes "da "+F_Navi("Mansão do Sacerdote Zed","rachel,98,238","^000080");
+					mes "no seu Mini-mapa.";
+					mes "Você gostaria de conhecer outros locais?";
+					viewpoint 1,98,238,5,0x000080;
+					next;
+					break;
+				case 7:
+					set .@loop,0;
+					break;
+				}
+			}
+			break;
+		case 2:
+			set .@loop,1;
+			while (.@loop) {
+				switch(select("[ Corporação Eventos Incríveis ]:[ Oficial do Éden ]:Menu Anterior")) {
+				case 1:
+					mes "[Guia de Rachel]";
+					mes "Eu vou marcar a localização";
+					mes "da "+F_Navi("Corp. Eventos Incríveis","rachel,110,138","^803232");
+					mes "em seu Mini-mapa.";
+					mes "Você gostaria de conhecer outros locais?";
+					viewpoint 1,110,138,7,0x803232;
+					next;
+					break;
+				case 2:
+					mes "[Guia de Rachel]";
+					mes "Eu vou marcar a localização";
+					mes "do "+F_Navi("Oficial do Éden","rachel,125,144","^556B2F");
+					mes "em seu Mini-mapa.";
+					mes "Você gostaria de conhecer outros locais?";
+					viewpoint 1,125,144,8,0x556B2F;
+					next;
+					break;
+				case 3:
+					set .@loop,0;
+					break;
+				}
+			}
+			break;
+		case 3:
+			mes "[Guia de Rachel]";
+			mes "Claro, eu removerei todas as marcações do seu Mini-mapa.";
+			mes "Há mais alguma coisa que eu possa fazer por você?";
+			viewpoint 2,115,144,0,0xFFFFFF;
+			viewpoint 2,42,82,1,0xFFFFFF;
+			viewpoint 2,83,73,2,0xFFFFFF;
+			viewpoint 2,272,125,3,0xFFFFFF;
+			viewpoint 2,150,243,4,0xFFFFFF;
+			viewpoint 2,98,238,5,0xFFFFFF;
+			viewpoint 2,110,138,7,0xFFFFFF;
+			viewpoint 2,125,144,8,0xFFFFFF;
+			next;
+			break;
+		case 4:
+			mes "[Guia de Rachel]";
+			mes "Tenha uma jornada segura!";
+			close;
+		}
+	}
+}

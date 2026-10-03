@@ -1,0 +1,620 @@
+//===== rAthena Script =======================================
+//= Easter Event (2010)
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Lift Lina's curse for an Easter Egg Shell.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//============================================================
+
+prontera,202,297,3	script	Rina#Easter	727,{
+	disable_items;
+	if (BaseLevel < 40) {
+		mes "[Rina]";
+		mes "Oi~!";
+		mes "Você é um aventureiro como eu.";
+		next;
+		mes "[Rina]";
+		mes "Estou sob uma maldição.";
+		mes "Eu sei que você quer me ajudar,";
+		mes "mas sua experiência não é suficiente.";
+		next;
+		consumeitem 607; //Fruto de Yggdrasil
+		consumeitem 12068; //Batata-Doce Frita
+		consumeitem 12063; //Salada de Frutas
+		consumeitem 12053; //Sopa de Ostra
+		npcskill "AL_INCAGI",1,0,0;
+		npcskill "AL_BLESSING",1,0,0;
+		mes "[Rina]";
+		mes "Eu não estou em boas condições,";
+		mes "o que posso fazer por você";
+		mes "nessas condições.";
+		mes "Então, adeus.";
+		mes "Tome cuidado~!";
+		close;
+	}
+	set .@quest1, checkquest(9117);
+	if (.@quest1 == -1) {
+		playbgm "30.mp3"; //One Step Closer
+		mes "[Rina]";
+		mes "Oi~!";
+		mes "Você é um aventureiro como eu.";
+		mes "Bem... Na verdade, eu estou";
+		nes "sujeito a uma estranha maldição.";
+		next;
+		mes "[Rina]";
+		mes "Para acabar com esta maldição,";
+		mes "alguém precisará fazer uma";
+		mes "^800080Ocerimônia de Juramento^000000 comigo,";
+		mes "e então resolver várias";
+		mes "questões por mim.";
+		next;
+		if (select("Vou ajudar ^800080Rina^000000.:Só ignore.") == 2) {
+			emotion ET_OHNO;
+			mes "[Rina]";
+			mes "Para me ajudar,";
+			mes "preciso de um aventureiro competente.";
+			mes "Se você conhece essa pessoa,";
+			mes "espero que me apresente mais tarde.";
+			close;
+		}
+		emotion ET_COOL;
+		mes "[Rina]";
+		mes "Você realmente vai me ajudar?";
+		mes "Obrigado.";
+		mes "Você é tão corajoso.";
+		next;
+		playbgm "01.mp3"; //Título
+		mes "[Rina]";
+		mes "Então eu vou começar a ^800080Cerimônia de Juramento^000000.";
+		mes " ";
+		mes "^787878( Uma atmosfera misteriosa paira no ar. )^000000";
+		next;
+		specialeffect2 EF_COUPLECASTING;
+		next;
+		mes "[Rina]";
+		mes "Blah blah blah...";
+		mes " ";
+		mes "Blah blah blah...";
+		mes " ";
+		mes "^787878( ... Este é um feitiço estranho. )^000000";
+		next;
+		specialeffect2 EF_SIGNUM;
+		mes "[Rina]";
+		mes "Haaaaah~";
+		mes "A ^800080Cerimônia de Juramento^000000 já é suficiente.";
+		mes "Não é tão simples?";
+		next;
+		emotion ET_HUM;
+		mes "[Rina]";
+		mes "Ok, de agora em diante,";
+		mes "você precisará ir em";
+		mes "^006400uma verdadeira aventura para me liberar dessa maldição^000000.";
+		mes "Diga-me quando estiver pronto.";
+		setquest 9117;
+		close;
+	} else if (.@quest1 == 0 || .@quest1 == 1) {
+	L_HuntingInfo:
+		mes "[Rina]";
+		mes "O que você precisa fazer é";
+		mes "escolher um monstro entre";
+		mes "^FF0000DEVIRUCHI,^000000 ^FF0000APARIÇÃO,^000000";
+		mes "^FF0000DULLAHAN,^000000 ^FF0000PESADELO SOMBRIO^000000";
+		mes "e então matar ^0000FF50^000000 monstros";
+		mes "da espécie que escolheu e voltar para mim.";
+		next;
+		mes "[Rina]";
+		mes "Deve ser uma tarefa difícil,";
+		mes "mas você é a pessoa certa e é";
+		mes "quem fez a Cerimônia de Juramento.";
+		mes "Espero que você tenha sucesso.";
+		if (.@quest1 < 2) {
+			completequest 9117;
+			setquest 9118;
+			setquest 9119;
+			setquest 9120;
+			setquest 9121;
+		}
+		close2;
+		npcskill "AL_INCAGI",1,0,0;
+		npcskill "AL_BLESSING",1,0,0;
+		end;
+	} else if (.@quest1 == 2) {
+		if (checkquest(9118) < 2 || checkquest(9119) < 2 || checkquest(9120) < 2 || checkquest(9121) < 2) {
+			if (checkquest(9118,HUNTING) == 2 || checkquest(9119,HUNTING) == 2 || checkquest(9120,HUNTING) == 2 || checkquest(9121,HUNTING) == 2) {
+				mes "[Rina]";
+				mes "Você fez isso.";
+				mes "Eu posso sentir que meu corpo está se recuperando.";
+				mes "Mas não é suficiente.";
+				next;
+				mes "[Rina]";
+				mes "^006400Tem mais uma coisa que você deve fazer.^000000";
+				mes "Diga-me quando estiver pronto.";
+				close2;
+				completequest 9118;
+				completequest 9119;
+				completequest 9120;
+				completequest 9121;
+				setquest 9122;
+			} else
+				goto L_HuntingInfo;
+			end;
+		}
+	}
+	set .@quest2, checkquest(9122);
+	if (.@quest2 == 0 || .@quest2 == 1) {
+		mes "[Rina]";
+		mes "Vou verificar uma coisa.";
+		mes "Para esta tarefa,";
+		mes "você precisará sentir a música.";
+		next;
+		mes "[Rina]";
+		mes "Você não pode completar a tarefa";
+		mes "sem a música.";
+		mes "Tem algum problema?";
+		next;
+		mes "- Cheque! -";
+		mes "^787878- A opção BGM deve ser ativada -^000000";
+		mes "^787878- no menu de opções do jogo. -^000000";
+		mes "^787878- Por favor verifique -^000000";
+		mes "^787878- se você pode ouvir -^000000";
+		mes "^787878- o som da música. -^000000";
+		next;
+		if(select("[Estou pronto para ouvir a BGM.]:[Não consigo ouvir a BGM.]") == 2) {
+			mes "[Rina]";
+			mes "Estou tão chocado que";
+			mes "você não pode sentir a música.";
+			mes "O que devemos fazer agora...";
+			close2;
+			emotion ET_CRY;
+			end;
+		}
+		mes "[Rina]";
+		mes "Ouça com atenção";
+		mes "e sinta a emoção disso...";
+		mes "Eu não consigo ouvir,";
+		mes "mas você pode ouvir o som.";
+		next;
+		if (oversea_event2 < 520 || oversea_event3 < 270 || oversea_event6 < 245 || oversea_event9 < 197) {
+			     if (oversea_event2 == 520) playbgm "13.mp3"; // Tema de Geffen
+			else if (oversea_event3 == 270) playbgm "59.mp3"; // Tema de Lutie
+			else if (oversea_event6 == 245) playbgm "70.mp3"; // Tema de Juno
+			else if (oversea_event9 == 197) playbgm "94.mp3"; // Tema de Rachel
+			else {
+				switch(rand(1,4)) {
+					case 1: playbgm "13.mp3"; set oversea_event2,520; break;
+					case 2: playbgm "59.mp3"; set oversea_event3,270; break;
+					case 3: playbgm "70.mp3"; set oversea_event6,245; break;
+					case 4: playbgm "94.mp3"; set oversea_event9,197; break;
+				}
+			}
+		}
+		mes "[Rina]";
+		mes "^006400A música que você está ouvindo agora^000000";
+		mes "tem algo a ver com uma cidade específica.";
+		mes "Pense cuidadosamente ^006400que tipo de cidade^000000";
+		mes "tem a ver com essa música.";
+		next;
+		mes "[Rina]";
+		mes "E...";
+		mes "Vá para ^006400a cidade";
+		mes "onde você acha que tem a ver esta música^000000.";
+		next;
+		mes "[Rina]";
+		mes "Depois disso,";
+		mes "encontre ^FF0000a marca estranha^000000";
+		mes "na entrada da cidade.";
+		mes "Então você poderá liberar a maldição sobre mim.";
+		next;
+		mes "[Rina]";
+		mes "Deve ser difícil";
+		mes "mas espero que consiga, boa sorte!";
+		close2;
+		emotion ET_OHNO;
+		end;
+	} else {
+		set .@quest3, checkquest(9123);
+		if (.@quest3 == 0 || .@quest3 == 1) {
+			emotion ET_CHUP;
+		mes "[Rina]";
+		mes "Você voltou~!";
+		mes "Minha maldição foi liberada.";
+		mes "Muito obrigado.";
+			next;
+			if (checkweight(5852,1) == 0) {
+				mes "[Rina]";
+				mes "Sua bolsa está muito cheia.";
+				mes "Tenho um presente para você,";
+				mes "então deixe sua bolsa mais leve.";
+				mes "Vou esperar por você.";
+				close;
+			}
+			completequest 9123;
+			getitem 5852,1; //Casca de Ovo de Páscoa
+			set .@BaseExp, (BaseLevel * (BaseLevel / 4)) * ((BaseLevel / 29) + (BaseLevel / 6)) + (5 * BaseLevel / 2);
+			if (ADVJOB == 0) {
+				     if (BaseLevel < 40) set .@nBaseExp, .@BaseExp;
+				else if (BaseLevel < 50) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel);
+				else if (BaseLevel < 60) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * (BaseLevel / 20));
+				else if (BaseLevel < 70) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * (BaseLevel / 10));
+				else if (BaseLevel < 80) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * (BaseLevel / 5));
+				else if (BaseLevel < 90) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * (BaseLevel / 3));
+				else if (BaseLevel < 99) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * (BaseLevel / 2));
+				else set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * (BaseLevel / 2) * 2);
+
+				set .@nJobExp, (JobLevel * (JobLevel - 3) * (JobLevel / 25 + 1) + (16 - (JobLevel * 2))) * 2;
+			} else {
+				     if (BaseLevel < 30) set .@nBaseExp, .@BaseExp;
+				else if (BaseLevel < 40) set .@nBaseExp, .@BaseExp + (BaseLevel * 10);
+				else if (BaseLevel < 50) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * 2);
+				else if (BaseLevel < 60) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * (BaseLevel / 10));
+				else if (BaseLevel < 70) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * (BaseLevel / 5));
+				else if (BaseLevel < 80) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * (BaseLevel / 3));
+				else if (BaseLevel < 90) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * (BaseLevel / 2));
+				else if (BaseLevel < 98) set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * BaseLevel);
+				else set .@nBaseExp, .@BaseExp + (BaseLevel * BaseLevel * BaseLevel * 2);
+
+				set .@nJobExp, (JobLevel * JobLevel * (JobLevel / 5 + 2) + (20 - JobLevel)) * 3;
+			}
+			getexp .@nBaseExp,.@nJobExp;
+			mes "[Rina]";
+			mes "Este é o presente para você.";
+			mes "Não é muita coisa,";
+			mes "mas por favor pegue";
+			mes "como prova de minha gratidão.";
+			next;
+			mes "[Rina]";
+			mes "Vou descansar por alguns dias";
+			mes "e então eu irei em uma aventura.";
+			mes "Vejo você de novo.";
+			close2;
+			consumeitem 607; //Fruto de Yggdrasil
+			consumeitem 12068; //Batata-Doce Frita
+			consumeitem 12063; //Salada de Frutas
+			consumeitem 12053; //Sopa de Ostra
+			npcskill "AL_INCAGI",1,0,0;
+			npcskill "AL_BLESSING",1,0,0;
+			end;
+		} else {
+			mes "[Rina]";
+			mes "Obrigado por liberar minha maldição.";
+			mes "Vou descansar por alguns dias";
+			mes "e então irei em uma aventura novamente.";
+			mes "Tenha um dia feliz~!";
+			close2;
+			consumeitem 607; //Fruto de Yggdrasil
+			npcskill "AL_INCAGI",1,0,0;
+			npcskill "AL_BLESSING",1,0,0;
+			end;
+		}
+	}
+}
+
+geffen,207,114,4	script	#Hiddne01Easter	844,{
+	if (oversea_event2 > 519) {
+	OnRelease:
+		specialeffect EF_PATTACK;
+		mes "- Encontrei ^0000FFa marca estranha^000000. -";
+		next;
+		specialeffect2 EF_HOLYHIT;
+		mes "- Eu definitivamente pude sentir isso";
+		mes "- ^0000FFRina^000000 foi liberado";
+		mes "- da maldição.";
+		mes "- ^006400Vamos voltar para Rina!^000000";
+		if (checkquest(9122) < 2) {
+			completequest 9122;
+			setquest 9123;
+		}
+		close;
+	}
+	end;
+}
+
+xmas,144,52,4	script	#Hiddne02Easter	844,{
+	if (oversea_event3 > 269)
+		doevent "#Hiddne01Easter::OnRelease";
+	end;
+}
+
+yuno,164,46,4	script	#Hiddne03Easter	844,{
+	if (oversea_event6 > 244)
+		doevent "#Hiddne01Easter::OnRelease";
+	end;
+}
+
+rachel,36,132,4	script	#Hiddne04Easter	844,{
+	if (oversea_event9 > 196)
+		doevent "#Hiddne01Easter::OnRelease";
+	end;
+}
+
+prontera,204,297,3	script	Amiguinho de Rina	463,{
+	disable_items;
+	if (checkquest(9117) == -1) {
+		emotion ET_PROFUSELY_SWEAT;
+		mes "[Amiguinho de Rina]";
+		mes ".......";
+		mes " ";
+		mes "^787878( Sem resposta. )^000000";
+		close;
+	}
+	if (checkquest(9123) == 2) {
+		emotion ET_MERONG;
+		mes "[Amiguinho de Rina]";
+		mes "Oi.";
+		mes "Acho que você é um amigo confiável.";
+		mes "Você está aqui para fazer um acordo comigo?";
+		next;
+		switch(select("Sim.:Não.:O que você quer dizer?")) {
+		case 1:
+			if (ADVJOB == 0) {
+				if (BaseLevel < 70)
+					set .@nCharge,400000;
+				else if (BaseLevel < 90)
+					set .@nCharge,450000;
+				else
+					set .@nCharge,480000;
+			} else
+				set .@nCharge,500000;
+			if (countitem(574) < 1 || countitem(1001) < 20 || Zeny < .@nCharge) {
+				mes "[Amiguinho de Rina]";
+				mes "Hmm.";
+				mes "O material não é suficiente.";
+				mes "Por favor, cheque as coisas que você precisa trazer.";
+				close;
+			}
+			mes "[Amiguinho de Rina]";
+			mes "Legal... se você me der os materiais,";
+			mes "irei começar agora.";
+			mes "Você está pronto para isso?";
+			next;
+			if(select("Sim, vamos começar.:Não, pare.") == 2) {
+				mes "[Amiguinho de Rina]";
+				mes "Heh. É chato.";
+				close;
+			}
+			mes "[Amiguinho de Rina]";
+			mes "Ok, vou começar agora.";
+			mes " ";
+			mes "^787878( Uma atmosfera misteriosa paira no ar. )^000000";
+			next;
+			specialeffect EF_ASPERSIO;
+			delitem 574,1; //Ovo
+			delitem 1001,20; //Poeira Estelar
+			set Zeny, Zeny - .@nCharge;
+			set .@nPercentage, rand(1,100);
+			if (.@nPercentage <= 41) {
+				mes "[Amiguinho de Rina]";
+				mes "A vida foi dada ao ovo.";
+				mes "Aaaaah~ Eu tenho que descansar um pouco.";
+				mes "Adeus~!";
+				if (.@nPercentage <= 12)
+					getitem 9003,1; //Ovo de Poporing
+				else if (.@nPercentage <= 24)
+					getitem 9005,1; //Ovo de Picky
+				else if (.@nPercentage <= 36)
+					getitem 9009,1; //Ovo de Bebê Selvagem
+				else
+					getitem 9023,1; //Ovo de Deviruchi
+				close2;
+				emotion ET_SLEEPY;
+				end;
+			} else if (.@nPercentage <= 60) {
+				if (.@nPercentage >= 42 && .@nPercentage <= 45)
+					getitem 5852,1; //Casca de Ovo de Páscoa
+				else
+					getitem 12019,5; //Ovo Sagrado
+				mes "[Amiguinho de Rina]";
+				mes "Parece que você tem coisas bem interessantes.";
+				mes "Preciso descansar um pouco.";
+				mes "Adeus~!";
+				close2;
+				emotion ET_SLEEPY;
+				end;
+			} else if (.@nPercentage <= 85) {
+				if (.@nPercentage >= 61 && .@nPercentage <= 75) {
+					getitem 1001,20; //Poeira Estelar
+					getitem 607,1; //Fruto de Yggdrasil
+				} else {
+					getitem 574,1; //Ovo
+					getitem 608,2; //Semente de Yggdrasil
+				}
+				mes "[Amiguinho de Rina]";
+				mes "Não houve mudança.";
+				mes "Eu não queria fazer isso,";
+				mes "mas sinto muito...";
+				mes "Espero vê-lo novamente, meu amigo.";
+				emotion ET_HUM;
+				close;
+			} else {
+				getitem 12093,2; //Torrada Especial
+				mes "[Amiguinho de Rina]";
+				mes "Hmm.";
+				mes "Tornou-se um prato.";
+				mes "Parece delicioso.";
+				mes "Então, adeus~!";
+				close2;
+				emotion ET_HUNGRY;
+				end;
+			}
+		case 2:
+			mes "[Amiguinho de Rina]";
+			mes "Você está aqui só para ver meus lindos looks?";
+			mes "Você não está espiando Rina";
+			mes "fingindo me ver?";
+			mes "É engraçado... haha~";
+			close2;
+			emotion ET_KIK;
+			end;
+		case 3:
+			playbgm "23.mp3"; // Viagem
+			mes "[Amiguinho de Rina]";
+			mes "Hein?!";
+			mes "Eu nunca te disse antes?";
+			mes "Então ouça com atenção.";
+			next;
+			mes "[Amiguinho de Rina]";
+			mes "Eu tenho uma";
+			mes "habilidade especial.";
+			mes "Eu consigo dar uma força especial";
+			mes "para ^0000FFo ovo^000000.";
+			next;
+			mes "[Amiguinho de Rina]";
+			mes "Bem, eu não posso fazer isso ilimitadamente.";
+			mes "Não há mágica que seja feita para sempre.";
+			mes "Então eu preciso de algum custo adicional.";
+			next;
+			mes "[Amiguinho de Rina]";
+			mes "E não tenho certeza";
+			mes "em que o ovo será trocado.";
+			mes "Pode ser um fracasso";
+			mes "e pode ser algo como Ovo de Bichinho de Estimação.";
+			next;
+			if(select("Perguntar o Custo.:Não ouvir, parece um truque.") == 2) {
+				mes "[Amiguinho de Rina]";
+				mes "Bem... eu realmente não me importo.";
+				mes "Adeus.";
+				close2;
+				playbgm "08.mp3"; // Tema de Prontera
+				end;
+			}
+			mes "[Amiguinho de Rina]";
+			mes "Você quer fazer um acordo?";
+			mes "Você precisa";
+			mes "^0000FF1 Ovo^000000, ^0000FF20 Partículas de Luz^000000 e";
+			if (ADVJOB == 0) {
+				if (BaseLevel < 70)
+					mes "^B8860B400,000 Zeny.";
+				else if (BaseLevel < 90)
+					mes "^B8860B450,000 Zeny^000000.";
+				else
+					mes "^B8860B480,000 Zeny^000000.";
+			} else
+				mes "^B8860B500,000 Zeny^000000.";
+			next;
+			mes "[Amiguinho de Rina]";
+			mes "Se você estiver interessado";
+			mes "em fazer, consiga o zeny e volte.";
+			mes "Haha...";
+			mes "Estarei esperando por você.";
+			close2;
+			playbgm "08.mp3"; // Tema de Prontera
+			emotion ET_KIK;
+			end;
+		}
+	}
+	emotion ET_MERONG;
+	mes "[Amiguinho de Rina]";
+	mes "Aham!";
+	mes "Por quê? Você está surpreso em me ver falando?";
+	mes "Bem, eu entendo você.";
+	mes "Somente a pessoa que fez";
+	mes "a Cerimônia de Juramento pode falar comigo.";
+	next;
+	mes "[Amiguinho de Rina]";
+	mes "Se a maldição de Rina for liberada,";
+	mes "eu também poderei";
+	mes "sugerir a você";
+	mes "uma coisa bem interessante.";
+	next;
+	mes "[Amiguinho de Rina]";
+	mes "Eu irei te explicar";
+	mes "detalhadamente mais tarde.";
+	mes "Então te vejo mais tarde, meu amigo.";
+	close;
+}
+
+prontera,116,82,5	script	Viajante#01Easter	85,{
+	mes "[Viajante]";
+	mes "Sou um viajante";
+	mes "e eu frequentemente visito ^8B4513Prontera^000000.";
+	mes "Hmm, acho que já te vi";
+	mes "por aqui antes.";
+	next;
+	if(select("Ouvir um pouco mais.:Apenas ignore.") == 2) {
+		mes "[Viajante]";
+		mes "Como eu esperava,";
+		mes "você é uma pessoa silenciosa. Ha ha.";
+		mes "Adeus.";
+		close;
+	}
+	mes "[Viajante]";
+	mes "Alguns dias atrás,";
+	mes "eu vi uma nova aventureira";
+	mes "que estava de pé";
+	mes "perto da ^8B4513Catedral^000000.";
+	next;
+	emotion e_lv;
+	mes "[Viajante]";
+	mes "Aquela aventureira parecia bonita.";
+	mes "Mas...";
+	mes "Senti uma energia estranha";
+	mes "fasendo com que eu não me aproximasse dessa pessoa.";
+	next;
+	mes "[Viajante]";
+	mes "Parece que";
+	mes "você está interessado";
+	mes "nesse aventureiro?";
+	mes "Ou isso é apenas o seu rosto. Ha ha.";
+	next;
+	if(select("Estou interessado nele.:Eu não me importo.") == 2) {
+		mes "[Viajante]";
+		mes "Ah~ entendi~!";
+		mes "Então, adeus.";
+		close;
+	}
+	mes "[Viajante]";
+	mes "Exatamente como eu esperava!";
+	mes "Você pode encontrar";
+	mes "aquele novo aventureiro";
+	mes "a caminho da ^8B4513Catedral^000000";
+	mes "na direção das 1 hora em ^8B4513Prontera^000000.";
+	next;
+	mes "[Viajante]";
+	mes "Ela estava carregando";
+	mes "^800080uma grande casca de ovo^000000.";
+	mes "Isso é o que eu sei.";
+	close;
+OnInit:
+	initnpctimer;
+	end;
+OnTimer5000:
+	emotion ET_SURPRISE;
+	stopnpctimer;
+	initnpctimer;
+	end;
+}
+
+prontera,163,194,5	script	Viajante#02Easter	92,{
+	mes "[Viajante]";
+	mes "Um tempo atrás,";
+	mes "Eu conheci uma senhora";
+	mes "e ela disse que estava";
+	mes "sob uma estranha maldição.";
+	next;
+	mes "[Viajante]";
+	mes "Eu queria ajudá-la,";
+	mes "mas minha experiência não é suficiente.";
+	mes "Então eu não pude ajudá-la.";
+	next;
+	mes "[Viajante]";
+	mes "Se você tiver mais do que";
+	mes "o nível ^0000FF40^000000,";
+	mes "vá para a ^8B4513Catedral^000000";
+	mes "na direção de 1 hora.";
+	mes "Espero que você possa ajudá-la...";
+	close;
+OnInit:
+	initnpctimer;
+	end;
+OnTimer5000:
+	emotion ET_SURPRISE;
+	stopnpctimer;
+	initnpctimer;
+	end;
+}

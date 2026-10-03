@@ -1,0 +1,100 @@
+//===== rAthena Script =======================================
+//= Healer
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Basic healer script.
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//= 1.1 Aligned coordinates with @go.
+//============================================================
+
+-	script	Curandeira	-1,{
+
+	.@Price = 100000;	// Zeny necessário para curar um jogador (Padrão: 0 Desativado)
+	.@Buffs = 1;	    // Aplicar Buffs em jogadores? (1: Ativado / 0: Desativado)
+	.@Delay = 5;	    // Aplicar tempo de espera(Em segundos) para usar o npc? (Padrão: 0 Desativado)
+
+	if (@HD > gettimetick(2))
+		end;
+	if (.@Price) {
+		message strcharinfo(0), "Para te curar terei que cobrar uma taxa de " + callfunc("F_InsertComma",.@Price) + " zenys.";
+		if (Zeny < .@Price)
+			end;
+		if (select("^0055FFCurar HP/SP^000000:^777777Nada não, obrigado!^000000") == 2)
+			end;
+		Zeny -= .@Price;
+	}
+	specialeffect2 EF_HEAL2;
+	percentheal 100,100;
+	if (.@Buffs) {
+		specialeffect2 EF_INCAGILITY;
+		sc_start SC_INCREASEAGI,240000,10;
+		specialeffect2 EF_BLESSING;
+		sc_start SC_BLESSING,240000,10;
+	}
+	if (.@Delay)
+		@HD = gettimetick(2) + .@Delay;
+		
+//=================== Essa parte foi adicionada pela Equipe de Desenvolvimento rAthena! ===================
+	dispbottom "Curandeira : Você deve aguardar "+.@Delay+" segundo(s) para usar meus serviços novamente!";
+//==========================================================================================================
+		
+	end;
+}
+
+// Duplicatas
+//=============================================================
+alberta,25,240,6	duplicate(Curandeira)	Curandeira#alb	936
+aldebaran,135,118,6	duplicate(Curandeira)	Curandeira#alde	936
+amatsu,200,79,4	duplicate(Curandeira)	Curandeira#ama	936
+ayothaya,207,169,6	duplicate(Curandeira)	Curandeira#ayo	936
+comodo,184,158,6	duplicate(Curandeira)	Curandeira#com	936
+einbech,57,36,6	duplicate(Curandeira)	Curandeira#einbe	936
+einbroch,57,202,6	duplicate(Curandeira)	Curandeira#einbr	936
+geffen,115,72,6	duplicate(Curandeira)	Curandeira#gef	936
+gonryun,156,122,6	duplicate(Curandeira)	Curandeira#gon	936
+hugel,89,150,6	duplicate(Curandeira)	Curandeira#hug	936
+izlude,121,150,6	duplicate(Curandeira)	Curandeira#izl	936	//Na Pré-Renovação: (125,118)
+jawaii,250,139,4	duplicate(Curandeira)	Curandeira#jaw	936
+lighthalzen,151,106,6	duplicate(Curandeira)	Curandeira#lhz	936
+louyang,226,103,4	duplicate(Curandeira)	Curandeira#lou	936
+manuk,272,144,6	duplicate(Curandeira)	Curandeira#man	936
+mid_camp,203,289,6	duplicate(Curandeira)	Curandeira#mid	936
+moc_ruins,72,164,4	duplicate(Curandeira)	Curandeira#moc	936
+morocc,154,97,6	duplicate(Curandeira)	Curandeira#mor	936
+moscovia,220,191,4	duplicate(Curandeira)	Curandeira#mos	936
+niflheim,212,182,5	duplicate(Curandeira)	Curandeira#nif	936
+//payon,179,106,4	duplicate(Curandeira)	Curandeira#pay	936  //Coordenadas Originais
+payon,175,108,4	duplicate(Curandeira)	Curandeira#pay	936
+//prontera,162,193,4	duplicate(Curandeira)	Curandeira#prt	936  //Coordenadas Originais
+prontera,156,182,4	duplicate(Curandeira)	Curandeira#prt	936
+rachel,125,116,6	duplicate(Curandeira)	Curandeira#rac	936
+splendide,201,153,4	duplicate(Curandeira)	Curandeira#spl	936
+thor_camp,249,74,4	duplicate(Curandeira)	Curandeira#thor	936
+umbala,105,148,3	duplicate(Curandeira)	Curandeira#umb	936
+veins,217,121,4	duplicate(Curandeira)	Curandeira#ve	936
+//xmas,143,136,4	duplicate(Curandeira)	Curandeira#xmas	936  //Coordenadas Originais
+xmas,142,136,4	duplicate(Curandeira)	Curandeira#xmas	936
+yuno,164,45,4	duplicate(Curandeira)	Curandeira#yuno	936
+mercado_vip,69,55,3	duplicate(Curandeira)	Curandeira#mercado_vip	936  //Mapa do ''Mercado (VIP)'' do servidor RagnaERO.
+
+// Duplicatas (Renovação)
+//=============================================================
+brasilis,194,221,6	duplicate(Curandeira)	Curandeira#bra	936
+dewata,195,187,4	duplicate(Curandeira)	Curandeira#dew	936
+dicastes01,201,194,4	duplicate(Curandeira)	Curandeira#dic	936
+ecl_in01,45,60,4	duplicate(Curandeira)	Curandeira#ecl	936
+malangdo,132,114,6	duplicate(Curandeira)	Curandeira#mal	936
+malaya,227,204,6	duplicate(Curandeira)	Curandeira#ma	936
+mora,55,152,4	duplicate(Curandeira)	Curandeira#mora	936
+
+prt_fild08,180,358,3	duplicate(Curandeira)	Curandeira#01	936  //Mapa adicionado.
+new_event,56,122,3	duplicate(Curandeira)	Curandeira#02	936  //Mapa adicionado.
+new_zone02,15,176,6	duplicate(Curandeira)	Curandeira#03	936  //Mapa adicionado.
+new_zone02,92,98,6	duplicate(Curandeira)	Curandeira#04	936  //Mapa adicionado.
+new_zone02,177,177,4	duplicate(Curandeira)	Curandeira#05	936  //Mapa adicionado.

@@ -1,0 +1,734 @@
+//===== rAthena Script ======================================= 
+//= Magic Book Seller
+//===== By: ================================================== 
+//= Masao, Muad_Dib (translation)
+//===== Current Version: ===================================== 
+//= 1.4
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= An NPC which sells you different kinds of Magic Books.
+//===== Additional Comments: ================================= 
+//= 1.0 First Version. [Masao]
+//= 1.1 Optimized. [Euphy]
+//= 1.1a Updated NPC name to "Master Velofos". [Euphy]
+//= 1.1b Fixed the rand part in "Mysterious Documents" to match
+//=	 Aegis & fixed a bracket issue. [Capuche]
+//= 1.2 Updates Magic Books gained from Lea. [Aleos]
+//= 1.3 Fixes checkquest calls. [Everade]
+//= 1.4 Added EAJ_WARLOCK so that jobs after Warlock such as 
+//      Arch Mage can enter. [Mazvi]
+//============================================================ 
+
+// Missão Principal :: war_book
+//============================================================
+geffen_in,176,105,4	script	Mestre Velofos	1_M_WIZARD,{
+	if (checkweight(1201,1) == 0) {
+		mes "Você está carregando itens demais. Por favor, libere espaço na sua mochila primeiro.";
+		close;
+	}
+	if ((MaxWeight - Weight) < 1000) {
+		mes "Você está com excesso de peso. Por favor, reduza o peso dos itens primeiro.";
+		close;
+	}
+	if ((Upper == 2) && (Class != Job_Baby_Warlock)) {
+		mes "[Mestre Velofos]";
+		mes "O que você é, um bebê?";
+		mes "Eu não estou aqui para cuidar de criança. Cai fora!";
+		close;
+	}
+	if ((eaclass()&EAJ_THIRDMASK)!=EAJ_WARLOCK) {
+		mes "[Mestre Velofos]";
+		mes "Ha ha, você também está buscando novos conhecimentos?";
+		next;
+		mes "[Mestre Velofos]";
+		mes "Sinto muito, mas meu conhecimento não diz respeito a você.";
+		close;
+	}
+	if (getskilllv(2230) < 1) {
+		mes "[Mestre Velofos]";
+		mes "Bom, você possui todos os requisitos exceto um: você precisa do feitiço Libertar.";
+		next;
+		mes "[Mestre Velofos]";
+		mes "Aprenda o feitiço primeiro. Tenho tantas coisas para te contar.";
+		close;
+	}
+	mes "[Mestre Velofos]";
+	mes "Bem-vindo, meu amigo.";
+	mes "Parabéns por entrar em um mundo totalmente novo de magia.";
+	next;
+	mes "[Mestre Velofos]";
+	mes "Nós, praticantes da magia, estamos sempre sedentos por novos conhecimentos e poder.";
+	next;
+	mes "[Mestre Velofos]";
+	mes "Nós suportamos grandes dificuldades e dores para alcançar o que desejamos. Quando finalmente conseguimos, a sensação de realização é indescritível. Por isso, tanto você quanto eu escolhemos o caminho da magia.";
+	next;
+	mes "[Mestre Velofos]";
+	mes "A propósito, o que o traz até mim hoje?";
+	next;
+	switch (select("Nada.:A Leitura de Grimórios?:O que é Estudo Arcano Avançado?:Posso pegar um Grimório?:Leitura de Livros sem Estudo Arcano Avançado?:Sobre Grimórios Avançado.")) {
+	case 1:
+		mes "[Mestre Velofos]";
+		mes "Hah! Que tolice.";
+		close;
+	case 2:
+		mes "[Mestre Velofos]";
+		mes "Leitura de Grimórios significa literalmente 'ler um livro de feitiços'. Você sabe como usar Grimórios?";
+		next;
+		switch (select("Sim, sei.:Não, não sei.")) {
+		case 1:
+			mes "[Mestre Velofos]";
+			mes "Então você não precisa de uma explicação adicional.";
+			close;
+		case 2:
+			mes "[Mestre Velofos]";
+			mes "Grimórios são um tipo avançado de pergaminho mágico. Enquanto os feitiços nos pergaminhos desaparecem após um único uso, os dos Grimórios podem ser conjurados várias vezes.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Vamos comparar um feitiço em um pergaminho com um fio. Quando o fio é usado para abrir uma porta ou fazer outra coisa, ele se entorta e se amassa, perdendo sua forma original. Um feitiço de um Grimório é mais como uma liga com memória de forma.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Hã, você não sabe o que é uma liga com memória de forma? Bem, só lembre disso: um fio feito de liga com memória de forma volta ao seu formato original com o tempo.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Assim como essa liga, um feitiço em um Grimório permanece após ser usado, embora reutilizá-lo exija um tempo de espera para que ele se restaure.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "...Ah, eu não queria falar por tanto tempo. Enfim, você pode usar Grimórios para conjurar feitiços que você já aprendeu. O conceito é diferente dos feitiços normais.";
+			next;
+			select("Qual é a diferença?");
+			mes "[Mestre Velofos]";
+			mes "Você perguntou por que precisa escrever seus feitiços existentes em Grimórios?";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Essa é uma boa pergunta. Isso está relacionado à Memorizar.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Você já aprendeu Lançar Magia, que permite manter a energia dos quatro elementos diferentes antes da conjuração real. Memorizar é parecida com Lançar Magia.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Como você aprendeu Lançar Magia, você também é capaz de usar Memorizar. Bom, vamos falar disso depois.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Você sabe como manter um feitiço existente e então conjurá-lo no momento desejado usando Lançar Magia.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Carregar os orbes dos quatro elementos também está relacionado à Memorizar.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Como você sabe, os quatro elementos são Fogo, Água, Vento e Terra. Ser capaz de utilizá-los livremente é o princípio essencial da magia.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Nós, Humanos, usamos tochas para manter o fogo, leques para soprar o vento e tigelas para conter água. Também usamos argila para fazer cerâmica.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Essas atividades podem ser diferentes da magia, mas ambas são iguais no sentido de utilizar os quatro elementos.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Quando você usa feitiços complexos para invocar uma tempestade, lançar relâmpagos ou incendiar uma área, isso consome muita energia, tanto física quanto mental.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Quando você falha ao vincular feitiços mágicos tão poderosos ou falha em controlá-los, pode sofrer danos irreparáveis na mente e no corpo.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Por isso usamos Grimórios para reduzir essa carga. Eles ajudam a invocar feitiços pré-conjurados enquanto você se concentra em vincular seu poder mágico.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Porém existe uma desvantagem: Grimórios não podem ser usados para feitiços que você ainda não aprendeu.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Como eu disse antes, os feitiços nos Grimórios tendem a voltar ao seu estado original.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Dito isso, como um Circulador, você não pode alterar ou criar feitiços em Grimórios.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Mesmo que você crie um, seu poder estará além da sua capacidade.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Para usar a Leitura de Livros de Feitiço, você precisa aprender o Estudo Arcano Avançado para vincular magia.";
+			close;
+		}
+	case 3:
+		mes "[Mestre Velofos]";
+		mes "O Estudo Arcano Avançado é usado para Memorizar. Ele ajuda você a inserir um feitiço em um círculo.";
+		next;
+		mes "[Mestre Velofos]";
+		mes "Os círculos de magia funcionam organicamente entre si. Quando você usa o Estudo Arcano Avançado para vincular um feitiço, ele não será ativado até que você conjure o feitiço Libertar.";
+		next;
+		mes "[Mestre Velofos]";
+		mes "É claro que vincular um feitiço continuamente consome sua mana, mas consome menos mana do que feitiços mágicos convencionais.";
+		next;
+		mes "[Mestre Velofos]";
+		mes "A habilidade Memorizar se torna mais difícil quando você usa feitiços mais poderosos.";
+		next;
+		mes "[Mestre Velofos]";
+		mes "Para feitiços fracos, você pode vincular dois ou três deles no seu círculo. Para feitiços mais poderosos, talvez um ou dois sejam possíveis.";
+		next;
+		mes "[Mestre Velofos]";
+		mes "Tudo depende da sua habilidade de controlar seus feitiços. Você terá que tentar e vivenciar a habilidade Memorizar depois de aprendê-la para realmente entender.";
+		close;
+	case 4:
+		mes "[Mestre Velofos]";
+		mes "Sinto muito, mas eu só tenho Grimórios para iniciantes, e obviamente eles não são adequados para você. Ainda assim quer um?";
+		next;
+		switch (select("Com certeza.:Onde encontro livros avançados?")) {
+		case 1:
+			mes "[Mestre Velofos]";
+			mes "Por favor, vá falar com [Lea] no Arquivo. Diga a ela que você precisa de um dos Grimórios que deixei guardados lá.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Para sua informação, ela não vai te entregar sem nada em troca. Espere que ela te peça alguma coisa!";
+			if (wm_book < 1) set wm_book, 1;
+			close;
+		case 2:
+			mes "[Mestre Velofos]";
+			mes "Sinto muito, mas nossa administração decidiu recentemente limitar a disponibilidade de Grimórios para Multicirculadores. Isso porque o número deles está aumentando mais rápido do que esperávamos.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Você poderia encontrar um se se esforçar bastante, mas eu não tenho nenhum comigo.";
+			next;
+			mes "[Mestre Velofos]";
+			mes "Se nossa administração remover a restrição, você será o primeiro a saber. Não se preocupe.";
+			close;
+		}
+	case 5:
+		mes "[Mestre Velofos]";
+		mes "Nada acontecerá se você tentar vincular magia sem usar Memorizar, porque você não tem nada para conter a magia.";
+		next;
+		mes "[Mestre Velofos]";
+		mes "É como água que precisa de uma tigela para permanecer no lugar.";
+		next;
+		mes "[Mestre Velofos]";
+		mes "O problema é quando você tenta forçar a conjuração de um feitiço que não aprendeu. Isso certamente vai dar errado.";
+		next;
+		mes "[Mestre Velofos]";
+		mes "Claro, o dano não será severo: você pode adormecer ou ficar confuso. Tudo isso acontece por causa do conflito entre seu Grimório e a força da Memorizar quando você tenta invocar e manter um feitiço não aprendido.";
+		next;
+		mes "[Mestre Velofos]";
+		mes "Não tente só para ver o que acontece! Dormir enquanto conjura um feitiço? Não existe nada mais humilhante do que isso para praticantes da magia como nós.";
+		close;
+	case 6:
+		if ((BaseLevel > 139) && (getskilllv(2217) > 0 || getskilllv(2213) > 0)) {
+			if (mac_book < 1) {
+				mes "[Mestre Velofos]";
+				mes "Desculpe, mas você poderia pedir para outra pessoa? Estou um pouco ocupado agora.";
+				close;
+			}
+			if (mac_book == 1) {
+				mes "[Mestre Velofos]";
+				mes "Hã, você está procurando o Grimório Avançado? Quem te enviou?";
+				next;
+				select("Srta. Lea.");
+				mes "[Mestre Velofos]";
+				mes "Sinto muito, mas restam poucas informações sobre o Grimório Avançado.";
+				next;
+				mes "[Mestre Velofos]";
+				mes "Alguns estudiosos do Continente de Midgard tentaram coletar Grimórios antigos e reproduzir aquele livro, mas...";
+				next;
+				select("Mas o quê?");
+				mes "[Mestre Velofos]";
+				mes "Ah sim, talvez ele saiba de algo.";
+				next;
+				select("Sim, eu sabia que isso ia acontecer!");
+				mes "[Mestre Velofos]";
+				mes "Meu irmão é igual a você. Ele tem muito interesse em recriar o Grimório Avançado.";
+				next;
+				mes "[Mestre Velofos]";
+				mes "O nome dele é Galfos.";
+				mes "Ele tem se interessado muito pelos Grimórios antigos.";
+				next;
+				mes "[Mestre Velofos]";
+				mes "Eu não o apoiei nem dei conselhos para a pesquisa dele, pois achei que ele desistiria rapidamente, mas...";
+				next;
+				mes "[Mestre Velofos]";
+				mes "Se ele descobriu algo útil, talvez isso possa te ajudar.";
+				next;
+				select("Onde Galfos está agora?");
+				mes "[Mestre Velofos]";
+				mes "Ouvi dizer que ele está perto do Acampamento da Expedição além da Fenda Dimensional, buscando informações sobre os Grimórios antigos.";
+				next;
+				mes "[Mestre Velofos]";
+				mes "Se você quiser vê-lo, deve se preparar para uma longa jornada.";
+				set mac_book,2;
+				close;
+			}
+			if (mac_book > 1) {
+				mes "[Mestre Velofos]";
+				mes "Galfos está perto do Acampamento da Expedição além da Fenda Dimensional.";
+				next;
+				mes "[Mestre Velofos]";
+				mes "Se você quiser vê-lo, deve se preparar para uma longa jornada.";
+				close;
+			}
+		}
+		mes "[Mestre Velofos]";
+		mes "Ha ha, sinto muito, mas você deveria focar em fortalecer seu corpo ao invés de criar Grimórios.";
+		close;
+	}
+}
+
+geffen_in,175,112,4	script	Lea	2_F_MAGICMASTER,{
+	if (checkweight(1201,1) == 0) {
+		mes "Você está carregando itens demais. Por favor, libere espaço na sua mochila primeiro.";
+		close;
+	}
+	if ((MaxWeight - Weight) < 1000) {
+		mes "Você está com excesso de peso. Por favor, reduza o peso dos itens primeiro.";
+		close;
+	}
+	if (wm_book > 0 && ((eaclass()&EAJ_THIRDMASK)==EAJ_WARLOCK)) {
+		mes "[Lea]";
+		mes "Como posso ajudar você?";
+		next;
+		select("O Mestre Velofos pediu para eu pegar o Grimório dele.");
+		mes "[Lea]";
+		mes "Você vai pegar um livro emprestado?";
+		next;
+		switch (select("Deixe-me pensar.:Quero Grimórios Iniciantes.:Quero Grimórios Intermediários.:Quero Grimórios Avançados.")) {
+		case 1:
+			mes "[Lea]";
+			mes "Sem problemas.";
+			close;
+		case 2:
+			mes "[Lea]";
+			mes "Ah, então você quer os Grimórios Iniciantes. Se você pagar um ^4d4dffdepósito de 100.000z^000000, nós lhe emprestaremos um Grimório Intermediário.";
+			next;
+			mes "[Lea]";
+			mes "Qual Grimório você quer?";
+			next;
+			set .@i, select("Deixe-me pensar.:Grimório (Nevasca):Grimório (Ira de Thor):Grimório (Chuva de Meteoros)")-1;
+			mes "[Lea]";
+			if (!.@i) {
+				mes "Sem problemas.";
+				close;
+			}
+			setarray .@Books[0],100065,100066,100067;
+			if (countitem(.@Books[.@i-1])) {
+				mes "Você já tem esse Grimório. Você não pode pegar um novo até devolver o atual.";
+				next;
+				mes "[Lea]";
+				mes "Você não sabe quantas outras pessoas gostariam do livro que você já tem? É um pouco egoísta querer mais de um, sabia.";
+				close;
+			}
+			if (Zeny > 99999) {
+				mes "Obrigado pelo depósito. A data de devolução do livro está escrita no cartão de empréstimo na contracapa. Por favor, tente não perder ou danificar o livro e evite pagar indenização.";
+				next;
+				mes "[Lea]";
+				mes "Os Grimórios Iniciante e Intermediário devem ser devolvidos ao pegar um Grimório Avançado. Lembre-se de que você está apenas pegando emprestado, então cuide bem desses livros.";
+				Zeny -= 100000;
+				getitem .@Books[.@i-1],1; //WL_MB_SG, WL_MB_LOV, WL_MB_MS
+				close;
+			}
+			mes "O ^4d4dffdepósito de empréstimo é de 100.000z^000000. O valor do depósito foi ajustado conforme o Grimório mudou.";
+			close;
+		case 3:
+			mes "[Lea]";
+			mes "Oh, você quer os Grimórios Intermediários? A política foi alterada para aceitar depósitos de empréstimo incondicionalmente, ao invés das antigas exigências de condições para empréstimo.";
+			mes "O ^4d4dffdepósito de empréstimo do Grimório Intermediário é de 500.000z^000000.";
+			next;
+			mes "[Lea]";
+			mes "Qual Grimório você quer?";
+			next;
+			set .@i, select("Deixe-me pensar.:Grimório (Drenar Vida):Grimório (Esquife de Gelo):Grimório (Abalo Sísmico):Grimório (Meteoro Escarlate):Grimório (Corrente Elétrica)")-1;
+			mes "[Lea]";
+			if (!.@i) {
+				mes "Sem problemas.";
+				close;
+			}
+			setarray .@Books[0],100068,100069,100070,100071,100072;
+			if (countitem(.@Books[.@i-1])) {
+				mes "Você já possui esse Grimório. Você não pode pegar um novo livro emprestado até devolver o atual.";
+				next;
+				mes "[Lea]";
+				mes "Você não sabe quantas outras pessoas gostariam de ter o livro que você já tem? É um pouco egoísta querer mais de um, sabia?";
+				close;
+			}
+			if (Zeny > 499999) {
+				mes "Obrigada pelo seu depósito. A data de devolução do livro está escrita no cartão de empréstimo na contracapa. Por favor, tente não perder ou danificar o livro e evite pagar indenização.";
+				next;
+				mes "[Lea]";
+				mes "Os Grimórios Iniciante e Intermediário devem ser devolvidos ao pegar emprestado o Grimório Avançado. Lembre-se de que você está apenas pegando emprestado, então cuide bem desses livros.";
+				Zeny -= 500000;
+				getitem .@Books[.@i-1],1; //WL_MB_DL, WL_MB_JF, WL_MB_ES, WL_MB_CR, WL_MB_CL
+				close;
+			}
+			mes "O ^4d4dffdepósito do empréstimo é de 500.000z^000000. O depósito foi ajustado conforme o Grimório mudou.";
+			close;
+		case 4:
+			if ((BaseLevel > 139) && (mac_book < 1) && ((getskilllv(2217) > 0) || (getskilllv(2213) > 0))) {
+				mes "[Lea]";
+				mes "Você... Você acabou de dizer o Grimório Avançado?";
+				next;
+				mes "[Lea]";
+				mes "Oh, meu...";
+				mes "Não acredito que alguém realmente queira esse livro.";
+				next;
+				select("Por favor, não diga que você não tem ele.");
+				mes "[Lea]";
+				mes "Para ser sincera, eu nunca nem vi o Grimório Avançado.";
+				next;
+				mes "[Lea]";
+				mes "Você deveria perguntar ao Mestre Velofos se quiser saber mais sobre esse livro.";
+				next;
+				mes "[Lea]";
+				mes "Sinto muito por não poder ajudar mais do que isso.";
+				set mac_book,1;
+				close;
+			}
+			if ((BaseLevel > 139) && (mac_book > 0) && ((getskilllv(2217) > 0) || (getskilllv(2213) > 0))) {
+				mes "[Lea]";
+				mes "Você deveria perguntar ao Mestre Velofos por algumas informações sobre esse livro.";
+				close;
+			}
+			mes "[Lea]";
+			mes "Bem... que tal praticar um pouco mais antes disso?";
+			next;
+			mes "[Lea]";
+			mes "Para obter o Grimório Avançado, você deve alcançar o Nível 140 e aprender Tetra Vortex e Cometa.";
+			next;
+			mes "[Lea]";
+			mes "Esse livro não pode ser usado por qualquer um, sabia?";
+			close;
+		}
+	}
+	mes "[Lea]";
+	mes "Bem-vindo ao Arquivo de Magia. Você pode ler e pegar livros emprestados aqui sob certas condições.";
+	close;
+}
+
+mid_camp,255,244,4	script	Galfos	4_M_JOB_WIZARD,{
+	if (checkweight(1201,1) == 0) {
+		mes "Você está carregando itens demais. Por favor, primeiro abra espaço na sua bolsa.";
+		close;
+	}
+	if ((MaxWeight - Weight) < 1000) {
+		mes "Você está com peso demais. Por favor, diminua o peso dos itens primeiro.";
+		close;
+	}
+	if ((Upper == 2) && (Class != Job_Baby_Warlock)) {
+		mes "[Galfos]";
+		mes "O que você é, um bebê?";
+		mes "Eu não estou aqui pra cuidar de criança. Some daqui!";
+		close;
+	}
+	if ((eaclass()&EAJ_THIRDMASK)!=EAJ_WARLOCK) {
+		mes "[Galfos]";
+		mes "Meu braço direito está quente enquanto meu braço esquerdo está frio. Eu nunca me acostumo com esse clima estranho!";
+		close;
+	}
+	if (getskilllv(2230) < 1) {
+		mes "[Galfos]";
+		mes "Ah, eu vou me meter em problemas se ficar aqui por mais tempo. Talvez eu já esteja...";
+		close;
+	}
+	if (BaseLevel < 140 || (getskilllv(2217) < 1 && getskilllv(2213) < 1)) {
+		mes "[Galfos]";
+		mes "Desculpe, mas eu não falo com pessoas que nem estão prontas pra isso.";
+		close;
+	}
+	if (mac_book < 2) {
+		mes "[Galfos]";
+		mes "Você parece forte, mas não parece ter nenhum assunto comigo.";
+		close;
+	}
+	if (mac_book == 2) {
+		mes "[Galfos]";
+		mes "O que te trouxe até mim?";
+		next;
+		select("Ouvi dizer que você estudou o Grimório Avançado.");
+		mes "[Galfos]";
+		mes "Por quê, você também está interessado?";
+		mes "Eu não sabia que alguém realmente se interessaria por esse livro. Sim, eu estou estudando esse Grimório. Como você descobriu isso?";
+		next;
+		select("Você é o irmão do Velof, certo?");
+		mes "[Galfos]";
+		mes "Sim, eu sou Galfos, e Velofos é meu irmão.";
+		next;
+		mes "[Galfos]";
+		mes "Espere um pouco,";
+		mes "foi o velho que te recomendou vir até mim?";
+		next;
+		select("Isso mesmo.");
+		mes "[Galfos]";
+		mes "Uau!";
+		mes "Isso é surpreendente. Ele nunca levou minhas pesquisas muito a sério. Fico feliz que ele finalmente tenha mudado de ideia.";
+		next;
+		mes "[Galfos]";
+		mes "Heh! Seu timing não poderia ser melhor: eu estava procurando um objeto de teste.";
+		next;
+		select("Um objeto de teste?");
+		mes "[Galfos]";
+		mes "Para ser sincero, eu só tenho interesse em criar o Grimório Avançado.";
+		next;
+		mes "[Galfos]";
+		mes "Eu não sou bom em usar magia, sem falar que prefiro lutar com os punhos. Mesmo assim, acho os Grimórios incrivelmente intrigantes.";
+		next;
+		mes "[Galfos]";
+		mes "O problema é que eu não posso usar o Grimório Avançado, mesmo que eu crie um. É por isso que eu não consigo testá-lo por conta própria.";
+		next;
+		mes "[Galfos]";
+		mes "Por isso eu estava esperando por um verdadeiro praticante de magia como você, que possa me ajudar a testar meu Grimório Avançado.";
+		next;
+		select("(Do que ele está falando?)");
+		mes "[Galfos]";
+		mes "Minha pesquisa está quase concluída,";
+		mes "e eu preciso resolver um último problema para criar o Grimório.";
+		next;
+		mes "[Galfos]";
+		mes "Para fazer o antigo Grimório Avançado, eu preciso de um artefato e de algumas magias para fundir nele.";
+		next;
+		mes "[Galfos]";
+		mes "Eu restaurei perfeitamente as magias com base nos documentos antigos, mas ainda não tenho nenhuma informação sobre o artefato necessário.";
+		next;
+		mes "[Galfos]";
+		mes "Ah, mas há uma luz no fim do túnel!";
+		next;
+		select("(Agora estamos chegando em algum lugar!)");
+		mes "[Galfos]";
+		mes "Ha ha...";
+		mes "Existe um grande arquivo em El Dicastes, a Cidade Capital dos Gigantes Malignos, onde todo o conhecimento deste mundo é armazenado.";
+		next;
+		mes "[Galfos]";
+		mes "Talvez seja lá o lugar para encontrar alguma informação sobre o artefato para esse Grimório Avançado.";
+		next;
+		mes "[Galfos]";
+		mes "Você sabe o que fazer, não sabe? Encontre informações sobre o artefato no arquivo de El Dicastes, usando tudo ao seu alcance.";
+		next;
+		mes "[Galfos]";
+		mes "Depois disso, crie e traga o artefato para mim. Nós conversaremos sobre criar o Grimório depois.";
+		set mac_book,3;
+		close;
+	}
+	if (mac_book == 3) {
+		mes "[Galfos]";
+		mes "Você sabe o que fazer, não sabe? Encontre informações sobre o artefato no arquivo de El Dicastes, usando tudo ao seu alcance.";
+		next;
+		mes "[Galfos]";
+		mes "Depois disso, crie e traga o artefato para mim. Nós conversaremos sobre criar o Grimório depois.";
+		close;
+	}
+	if (mac_book == 4) {
+		mes "[Galfos]";
+		mes "Oh, você encontrou";
+		mes "algo útil?";
+		next;
+		set .@i, select("Eu descobri tudo sobre Cometa.:Eu dominei o ápice do Tetra Vortex.");
+		mes "[Galfos]";
+		if ((.@i == 1 && countitem(100073)) || (.@i == 2 && countitem(100074))) {
+			mes "Você está brincando comigo? Você já tem o livro!";
+			close;
+		}
+		if ((.@i == 1 && checkquest(12218) == 2) || (.@i == 2 && checkquest(12219) == 2 && checkquest(12220) == 2 && checkquest(12221) == 2 && checkquest(12222) == 2)) {
+			mes "Oh, nossa, eu sinto uma energia incrível vindo de você. Isso é ótimo! Agora estamos prontos para fazer o Grimório Avançado.";
+			next;
+			mes "[Galfos]";
+			mes "Mas tem um problema: eu estou tão quebrado que nem tenho dinheiro suficiente para comprar as ferramentas para fazer o livro.";
+			next;
+			mes "[Galfos]";
+			mes "Eu preciso de pelo menos ^0000aa500.000 zenys^000000 para comprar todas as ferramentas necessárias. Você tem o dinheiro?";
+			next;
+			if(select("O-o quê? Não!:Claro.") == 1) {
+				mes "[Galfos]";
+				mes "Ah, não tem? É decepcionante, mas não tem nada que eu possa fazer. Volte quando tiver dinheiro suficiente, ok?";
+				close;
+			}
+			mes "[Galfos]";
+			if (Zeny >= 500000) {
+				mes "Certo então, vamos começar!";
+				next;
+				specialeffect2 EF_DISPELL;
+				progressbar "ffff00",4;
+				specialeffect2 EF_LORD;
+				set Zeny, Zeny - 500000;
+				getitem 100072+.@i,1; //WL_MB_CM, WL_MB_TV
+				mes "[Galfos]";
+				mes "Cara, eu quase perdi o controle com essa energia mágica incrível! Aqui está seu Grimório.";
+				next;
+				mes "[Galfos]";
+				mes "Obrigado por realizar meu sonho. Sinta-se à vontade para voltar se precisar de outro desses livros.";
+				close;
+			}
+			mes "Ei, o que eu te falei? Eu não posso comprar as ferramentas para fazer o livro sem dinheiro!";
+			close;
+		}
+		mes "Tem certeza de que encontrou alguma coisa? Não parece que você aprendeu o que precisamos...";
+		close;
+	}
+	mes "[Galfos]";
+	mes "Você precisa de mais alguma coisa?";
+	close;
+}
+
+dic_in01,25,190,0	script	Documentos Misteriosos	CLEAR_NPC,{
+	if (isequipped(2782) < 1) {
+		mes "É melhor eu não esquecer de equipar meu anel.";
+		close;
+	}
+	if (ep13_3_invite < 5) {
+		mes "Quando você se aproxima dos documentos, um Gigante Maligno que parece ser o gerente do arquivo tenta chamar o Guarda Galton. É melhor você sair daqui rapidamente.";
+		close;
+	}
+	if (checkquest(12165,PLAYTIME) == 1) {
+		mes "Os documentos estão te deixando enjoado. Você deveria voltar mais tarde, depois que seu estômago melhorar.";
+		close;
+	}
+	if (checkquest(12165,PLAYTIME) == 2) {
+		mes "Você não está mais sentindo tanto enjoo. Deve ser seguro prosseguir agora.";
+		erasequest 12165;
+		close;
+	}
+	if ((BaseLevel < 140) || (getskilllv(2217) < 1) && (getskilllv(2213) < 1)) {
+		mes "Os documentos neste recipiente não são legíveis. Não adianta tentar lê-los.";
+		close;
+	}
+	specialeffect2 EF_DISPELL;
+	progressbar "ffff00",4;
+	if (mac_book < 3) {
+		mes "Você descobriu registros sobre magia, aceleração e ondas de partículas.";
+		close;
+	}
+	if (mac_book == 3) {
+		mes "Você descobriu registros sobre magia, aceleração e ondas de partículas. Esses documentos devem ser os que o Galfos está procurando.";
+		set mac_book, 4;
+		close;
+	}
+	if (mac_book == 4) {
+		set .@r, rand(1,10);
+		if (.@r == 1) {
+			if (getskilllv(2213) > 0) {
+				if (checkquest(12218) == 1) {
+					mes "Você já possui este documento.";
+					close;
+				}
+				mes "^660066Para criar o Elixir de Lava, você deve refinar 40 Corações Incandescentes no lugar mais quente do 2º andar do Vulcão de Thor.^000000";
+				mes "^660066Você deve fazer isso usando o maior poder desse local. Os Humanos usam esse método desde a antiguidade para estudar a aceleração de partículas mágicas.^000000";
+				next;
+				mes "Você descobriu o ^990099Método de Criação do Elixir de Lava^000000. Por favor, verifique sua janela de Missões para mais detalhes.";
+				specialeffect2 EF_STEAL;
+				close2;
+				setquest 12218;
+				end;
+			}
+			mes "Nada neste documento parece útil.";
+			close;
+		}
+		if (.@r == 2) {
+			if (getskilllv(2217) > 0) {
+				if (checkquest(12219) == 1) {
+					mes "Você já possui este documento.";
+					close;
+				}
+				mes "^660066O Elixir das Chamas pode ser refinado em solo estável no 1º andar do Vulcão de Thor. São necessários 10 Lenhas em Brasa para refinar o lixo.^000000";
+				mes "^660066De acordo com as informações dos Humanos, essa essência constitui um dos quatro elementos naturais.^000000";
+				next;
+				mes "Você descobriu o ^990099Método de Criação do Elixir das Chamas^000000. Por favor, verifique sua janela de Missões para mais detalhes.";
+				specialeffect2 EF_STEAL;
+				close2;
+				setquest 12219;
+				end;
+			}
+			mes "Nada neste documento parece útil.";
+			close;
+		}
+		if (.@r == 3) {
+			if (getskilllv(2217) > 0) {
+				if (checkquest(12220) == 1) {
+					mes "Você já possui este documento.";
+					close;
+				}
+				mes "^660066Eu consegui refinar o Elixir Gelado bem no fundo do 3º andar da Caverna de Gelo. Se quiser tentar, prepare 10 Corações de Gelo e vá até o seguinte local.^000000";
+				next;
+				mes "Você descobriu o ^990099Método de Criação do Elixir Gelado^000000. Por favor, verifique sua janela de Missões para mais detalhes.";
+				specialeffect2 EF_STEAL;
+				close2;
+				setquest 12220;
+				end;
+			}
+			mes "Nada neste documento parece útil.";
+			close;
+		}
+		if (.@r == 4) {
+			if (getskilllv(2217) > 0) {
+				if (checkquest(12221) == 1) {
+				mes "Você já possui este documento.";
+				close;
+				}
+				mes "^660066Eu consegui refinar o Elixir de Fósseis a partir de rochas antigas no 2º andar da Mina Abandonada. Até agora, aquele lugar é o mais estável entre todos os campos de teste.";
+				mes "Se quiser tentar, prepare 10 Jubileus e vá até a caverna. Boa sorte.^000000";
+				next;
+				mes "Você descobriu o ^990099Método de Criação do Elixir de Fósseis^000000. Por favor, verifique sua janela de Missões para mais detalhes.";
+				specialeffect2 EF_STEAL;
+				close2;
+				setquest 12221;
+				end;
+			}
+			mes "Nada neste documento parece útil.";
+			close;
+		}
+		if (.@r == 5) {
+			if (getskilllv(2217) > 0) {
+				if (checkquest(12222) == 1) {
+					mes "Você já possui este documento.";
+					close;
+				}
+				mes "^660066Para refinar o Elixir da Tempestade, eu visitei o Tabuleiro de Xadrez do Eremita em Kunlun, onde reside o espírito do vento.";
+				mes "O processo de refinamento foi fácil, mas eu tive dificuldade para encontrar o catalisador, que são as Presas de Dragão.^000000";
+				next;
+				mes "Você descobriu o ^990099Método de Criação do Elixir da Tempestade^000000. Por favor, verifique sua janela de Missões para mais detalhes.";
+				specialeffect2 EF_STEAL;
+				close2;
+				setquest 12222;
+				end;
+			}
+			mes "Nada neste documento parece útil.";
+			close;
+		}
+		if (.@r == 10) {
+			mes "Você de repente se sente mal, e esse enjoo não vai passar tão facilmente. Você deveria tentar procurar os documentos que precisa mais tarde.";
+			setquest 12165;
+			close;
+		}
+		mes "Nada aqui parece especial.";
+		close;
+	}
+	mes "Você não precisa mais procurar neste lugar.";
+	close;
+}
+
+function	script	Magic_Book_Essence	{
+	if (MaxWeight - Weight < 1000) {
+		mes "Por favor, alivie o peso da sua bolsa.";
+		close;
+	}
+	.@item_req = getarg(1);
+	.@req_amount = getarg(2);
+	if (checkquest(getarg(0)) == 1 && countitem(.@item_req) >= .@req_amount) {
+		specialeffect2 EF_BLIND;
+		specialeffect2 EF_BEGINSPELL;
+		progressbar "ffff00",4;
+		delitem .@item_req,.@req_amount;
+		if (rand(2)) {
+			mes "Você usou "+ callfunc("F_InsertPlural",.@req_amount,getitemname(.@item_req)) +" para criar o ^999900Elixir "+ getarg(3) +"^000000.";
+			next;
+			mes "^008800A Essência de "+getarg(3)+" durará permanentemente, a menos que haja algum problema.^000000";
+			completequest getarg(0);
+			specialeffect2 EF_LORD;
+			close;
+		}
+		mes "^008888Você falhou ao refinar o Elixir usando "+ callfunc("F_InsertPlural",.@req_amount,getitemname(.@item_req)) +".^000000";
+		close;
+	}
+	if (checkquest(getarg(0)) == 2) {
+		mes "Você já criou o Elixir "+getarg(3)+" nesta área.";
+		close;
+	}
+	mes "Alguém já usou esta área.";
+	close;
+}
+thor_v02,163,104,0	script	Energia de Lava Poderosa#33	CLEAR_NPC,{ callfunc "Magic_Book_Essence",12218,7097,40,"Lava"; end; }
+thor_v01,185,91,0	script	Energia de Chamas Poderosa#33	CLEAR_NPC,{ callfunc "Magic_Book_Essence",12219,7098,10,"Chamas"; end; }
+ice_dun03,137,148,0	script	Energia Gelada Poderosa	CLEAR_NPC,{ callfunc "Magic_Book_Essence",12220,7561,10,"Gelado"; end; }
+ein_dun02,181,124,0	script	Energia Fóssil Poderosa	CLEAR_NPC,{ callfunc "Magic_Book_Essence",12221,7312,10,"Fóssil"; end; }
+gon_dun02,252,198,0	script	Energia da Tempestade Poderosa#33	CLEAR_NPC,{ callfunc "Magic_Book_Essence",12222,7266,10,"Tempestade"; end; }

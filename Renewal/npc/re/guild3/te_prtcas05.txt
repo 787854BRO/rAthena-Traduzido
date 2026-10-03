@@ -1,0 +1,63 @@
+//===== rAthena Script =======================================
+//= War of Emperium (Prontera) - Gloria 5
+//===== Description: =========================================
+//= [Official Conversion]
+//= NPCs that relate to Prontera Training Guild Castle 5
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+// Bandeiras Simples (sem mensagens)
+//============================================================
+prt_gld,128,155,4	duplicate(flag_te)	Nerius#te_prtcas05	GUILD_FLAG
+
+// Bandeiras de Informações Simples
+//============================================================
+te_prtcas05,19,247,4	duplicate(simple_info_TE)	Nerius#1	GUILD_FLAG
+te_prtcas05,19,243,4	duplicate(simple_info_TE)	Nerius#2	GUILD_FLAG
+te_prtcas05,26,247,4	duplicate(simple_info_TE)	Nerius#3	GUILD_FLAG
+te_prtcas05,26,243,4	duplicate(simple_info_TE)	Nerius#4	GUILD_FLAG
+te_prtcas05,249,289,4	duplicate(simple_info_TE)	Nerius#5	GUILD_FLAG
+te_prtcas05,256,289,4	duplicate(simple_info_TE)	Nerius#6	GUILD_FLAG
+te_prtcas05,253,271,4	duplicate(simple_info_TE)	Nerius#7	GUILD_FLAG
+te_prtcas05,273,257,4	duplicate(simple_info_TE)	Nerius#8	GUILD_FLAG
+
+// Bandeiras de Informações + Portal do Mestre da Guilda no Interior.
+//============================================================
+te_prt_gld,199,243,2	script	Nerius#9	GUILD_FLAG,{
+	callfunc( "F_flag_woe_TE",1,"te_prtcas05",52,41 );
+OnFlagTENerius:
+	flagemblem getcastledata( "te_prtcas05",1 );
+	end;
+}
+te_prt_gld,199,236,2	duplicate(Nerius#9)	Nerius#10	GUILD_FLAG
+te_prt_gld,197,243,2	duplicate(Nerius#9)	Nerius#11	GUILD_FLAG
+te_prt_gld,197,236,2	duplicate(Nerius#9)	Nerius#12	GUILD_FLAG
+
+// Kafra da Guilda
+//============================================================
+te_prtcas05,52,41,4	duplicate(Kafra_Staff_TE)	Funcionária Kafra#te_prt05	4_F_KAFRA1
+
+// Nível 1 (portal para o tesouro externo)
+//============================================================
+te_prtcas05,280,177,0	duplicate(lever1_TE)	#lever1_te_prtcas05	HIDDEN_NPC
+
+// Nível 2 (portal para o calabouço)
+//============================================================
+te_prtcas05,212,95,0	duplicate(lever2_TE)	#lever2_te_prtcas05	HIDDEN_NPC
+
+// Investimento econômico / defesa / guardião
+//============================================================
+te_prtcas05,36,37,4	duplicate(invest_TE)	Pisaro	1_M_JOBTESTER
+
+// Invocação do Tesouro
+//============================================================
+te_prtcas05,1,1,0	duplicate(treasure_TE)	treasure_TE#te_prtcas05	-1
+
+// Npc de Aluguel de Itens.
+//============================================================
+te_prt_gld,203,243,3	duplicate(rental_woe_TE)	Gerente de Aluguel#pg05	4_F_HUWOMAN
+
+// Administração GdE
+//============================================================
+te_prtcas05,1,1,0	duplicate(Manager_TE)	Manager_TE#Nerius	-1

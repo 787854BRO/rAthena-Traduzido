@@ -1,0 +1,1107 @@
+//===== rAthena Script =======================================
+//= 2010 Headgear Quests
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Fairy Flower, Necktie, Hair Brush, Statue Of Baby Angel,
+//= Frog Hat, Soloplay Boxes (Indifferent/Angry Solo Hat)
+//=
+//= Although the variables include '2009', this quest is
+//= actually for 2010 headgears, and is Renewal-only.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//=     Original variable names: 2009_hat, 2009_1_hat
+//============================================================
+
+// Missão Principal :: 2010_hat_0405
+//============================================================
+gonryun,149,189,0	script	Yotang#Flower_Of_Fairy	50,{
+	mes "[Yotang]";
+	mes "Há uma fada que vive em um 3º andar em Kunlun.";
+	mes "Ela é tão famosa por sua beleza";
+	mes "que até tem um fã clube.";
+	next;
+	mes "[Yotang]";
+	mes "Claro, eu sou o mestre do fã clube.";
+	mes "Que tal entrar para o fã clube da fada?";
+	next;
+	if(select("Não estou tão interessado!!:Vou entrar agora mesmo!!") == 1) {
+		mes "[Yotang]";
+		mes "O quê! Eu vou contar para ela!";
+		close;
+	}
+	if (countitem(7165) > 99 && countitem(7166) > 99 && countitem(745) > 0 && countitem(981) > 0 && countitem(2211) > 0) {
+		mes "[Yotang]";
+		mes "Oh, isso são....!";
+		mes "os materiais para a Flor de Moscóvia?";
+		mes "Já nos conhecemos antes? Você já sabe de tudo...";
+		next;
+		mes "[Yotang]";
+		mes "De qualquer forma, quer que eu faça a Flor de Moscóvia?";
+		next;
+		mes "[Yotang]";
+		mes "^FF0000Por favor, saiba que";
+		mes "o refino dos materiais será perdido";
+		mes "assim que você os combinar.^000000";
+		next;
+		if(select("Não, outra hora.:Faça agora mesmo!!") == 1) {
+			mes "[Yotang]";
+			mes "Você vai se arrepender!";
+			close;
+		}
+		callsub L_CheckWeight;
+		mes "[Yotang]";
+		mes "Você é rápido!";
+		mes "Você merece ser o mestre do fã clube na próxima temporada.";
+		next;
+		emotion ET_SWEAT;
+		mes "Combinando... ... ...";
+		next;
+		if (countitem(7165) > 99 && countitem(7166) > 99 && countitem(745) > 0 && countitem(981) > 0 && countitem(2211) > 0) {
+			callsub L_CheckWeight;
+			mes "[Yotang]";
+			mes "Aqui está, a Flor de Moscóvia.";
+			delitem 7165,100; //Manto Cerimonial Celestial
+			delitem 7166,100; //Seda Macia
+			delitem 745,1; //Buquê de Casamento
+			delitem 981,1; //Tintura Violeta
+			delitem 2211,1; //Bandana
+			getitem 5437,1; //Flor de Moscóvia
+			emotion ET_BEST;
+			next;
+			mes "[Yotang]";
+			mes "Nos vemos no encontro de fãs!";
+			close;
+		}
+		mes "[Yotang]";
+		mes "Hã? Você não tem";
+		mes "materiais suficientes para isso..";
+		mes "Você não está usando uma Bandana?";
+		mes "Dê uma olhada!";
+		next;
+		mes "[Yotang]";
+		mes "Traga todos os materiais,";
+		mes "se quiser obter a Flor de Moscóvia.";
+		next;
+		mes "[Yotang]";
+		mes "Se você me trouxer ^0000FF100 Manto Cerimonial Celestial, 100 Seda Macia,";
+		mes "1 Buquê de Casamento, 1 Tintura Violeta";
+		mes "e ^0000FF1 Bandana^000000 que você pode encontrar em uma loja,";
+		mes "eu farei uma ^0000FFFlor de Moscóvia^000000 para você.";
+		close;
+	}
+	mes "[Yotang]";
+	mes "Você poderá encontrar a fada em breve";
+	mes "pois haverá um encontro de fãs";
+	mes "em breve.";
+	mes "A Flor de Moscóvia é necessária";
+	mes "para participar do encontro. Todos a usam.";
+	next;
+	mes "[Yotang]";
+	mes "Se você me trouxer alguns materiais";
+	mes "eu a farei para você.";
+	next;
+	mes "[Yotang]";
+	mes "Se você me trouxer ^0000FF100 Manto Cerimonial Celestial, 100 Seda Macia,";
+	mes "1 Buquê de Casamento, 1 Tintura Violeta";
+	mes "e ^0000FF1 Bandana^000000 que você pode encontrar em uma loja.";
+	next;
+	mes "[Yotang]";
+	mes "Se você me trouxer ^0000FF100 Manto Cerimonial Celestial, 100 Seda Macia,";
+	mes "1 Buquê de Casamento, 1 Tintura Violeta";
+	mes "e ^0000FF1 Bandana^000000 que você pode encontrar em uma loja,";
+	mes "eu farei uma ^0000FFFlor de Moscóvia^000000 para você.";
+	next;
+	mes "[Yotang]";
+	mes "^FF0000Por favor, saiba que";
+	mes "o refino dos materiais será perdido";
+	mes "assim que você os combinar.^000000";
+	next;
+	if(select("Não vou fazer isso.:Aqui estão os materiais!") == 1) {
+		mes "[Yotang]";
+		mes "Você vai se arrepender!";
+		close;
+	}
+	mes "[Yotang]";
+	mes "Hã? Está brincando comigo?";
+	next;
+	mes "[Yotang]";
+	mes "Eu preciso de ^0000FF100 Manto Cerimonial Celestial, 100 Seda Macia,";
+	mes "1 Buquê de Casamento, 1 Tintura Violeta";
+	mes "e ^0000FF1 Bandana^000000 que você pode encontrar em uma loja,";
+	mes "para fazer uma ^0000FFFlor de Moscóvia^000000.";
+	close;
+
+L_CheckWeight:
+	if (MaxWeight - Weight < 200) {
+		mes "[Yotang]";
+		mes "Sua mochila está muito pesada, não está?";
+		mes "Volte aqui";
+		mes "depois de esvaziá-la.";
+		close;
+	}
+	if (checkweight(5437,1) == 0) {
+		mes "- Espere !! -";
+		mes "- Você tem muitos itens, então -";
+		mes "- é impossível carregar mais. -";
+		mes "- Volte aqui -";
+		mes "- depois de esvaziar alguns. -";
+		close;
+	}
+	return;
+}
+
+lhz_in02,276,281,1	script	Homem Bêbado#Gravata	748,{
+	mes "[Homem Bêbado]";
+	mes "Ei... quer brigar?!";
+	next;
+	mes "Ele parece estar completamente bêbado. O que devo fazer?";
+	next;
+	if(select("Apenas ignorá-lo.:Lutar!") == 1) {
+		mes "[Homem Bêbado]";
+		mes "Por que está me ignorando?";
+		mes "Está com medo de mim?";
+		close;
+	}
+	if (BaseLevel < 65) {
+		mes "[Homem Bêbado]";
+		mes "O quê... você é mais fraco que eu.";
+		mes "Vá subir de nível primeiro!";
+		emotion ET_GO;
+		close;
+	}
+	mes "[Homem Bêbado]";
+	mes "Espere! Preciso de uma armadura para vestir.";
+	mes "É isso... Gravata, Gravata...";
+	next;
+	mes "[Homem Bêbado]";
+	mes "Assim que eu colocar a Gravata na cabeça,";
+	mes "não serei páreo para você!";
+	mes "Você deve estar nervoso.";
+	mes "Hmm! Onde está a Gravata?";
+	next;
+	if (countitem(978) > 0 && countitem(7151) > 29 && countitem(1059) > 99 && countitem(7217) > 19) {
+		mes "[Homem Bêbado]";
+		mes "Oh, você tem os materiais para a Gravata! Me dá agora!!";
+		next;
+		if(select("De jeito nenhum!:Aqui está.") == 1) {
+			mes "[Homem Bêbado]";
+			mes "Ohh, está com medo!";
+			mes "Ganhei de novo!!";
+			close;
+		}
+		callsub L_CheckWeight;
+		mes "[Homem Bêbado]";
+		mes "Ótimo, espere um momento!";
+		next;
+		mes "Combinando... ch...ch... ...";
+		emotion ET_SWEAT;
+		next;
+		mes "[Homem Bêbado]";
+		mes "Bêbado... bêbado.... Zzzzz...";
+		emotion ET_QUESTION, playerattached();
+		next;
+		if (countitem(978) > 0 && countitem(7151) > 29 && countitem(1059) > 99 && countitem(7217) > 19) {
+			callsub L_CheckWeight;
+			mes "Ele desmaiou assim que";
+			mes "terminou de fazer.";
+			mes "Vamos apenas pegar a Gravata.";
+			delitem 978,1; //Tintura Azul
+			delitem 7151,30; //Papel Amarelado
+			delitem 1059,100; //Tecido
+			delitem 7217,20; //Carretel
+			getitem 5442,1; //Gravata Azul
+			close;
+		}
+		mes "[Homem Bêbado]";
+		mes "Hã? Onde foram parar todos os materiais?";
+		mes "Você os pegou de volta porque está com medo de mim?";
+		close;
+	}
+	mes "[Homem Bêbado]";
+	mes "Ei, vá buscar";
+	mes "^FF00001 Tintura Azul, 30 Papéis Amarelados, 100 Tecidos, 20 Carretéis^000000!";
+	next;
+	mes "[Homem Bêbado]";
+	mes "Vou acabar com você usando a lendária Gravata!";
+	next;
+	if(select("Não vou.:Vamos buscá-los.") == 1) {
+		mes "[Homem Bêbado]";
+		mes "Está desistindo?";
+		mes "Ganhei de novo?";
+		close;
+	}
+	mes "[Homem Bêbado]";
+	mes "Vou te dizer mais uma vez";
+	mes "para você não esquecer, cabeçudo!";
+	next;
+	mes "[Homem Bêbado]";
+	mes "^FF00001 Tintura Azul, 30 Papéis Amarelados, 100 Tecidos, 20 Carretéis^000000!";
+	mes "Rápido! Vou ficar enrolando com outros.";
+	emotion ET_GO;
+	close;
+
+L_CheckWeight:
+	if (MaxWeight - Weight < 100) {
+		mes "A Gravata é mais pesada do que eu pensava.";
+		mes "Parece mesmo a lendária Gravata.";
+		close;
+	}
+	if (checkweight(5442,1) == 0) {
+		mes "- Espere !! -";
+		mes "- Você tem itens demais, então está -";
+		mes "- impossível de carregar mais. -";
+		mes "- Volte aqui depois -";
+		mes "- de esvaziar um pouco seu peso. -";
+		close;
+	}
+	return;
+}
+
+comodo,236,164,0	script	Garota do Chapéu#Escova_de_Cabelo	69,{
+	mes "[Garota do Chapéu]";
+	mes "Um chapéu estiloso não é muito melhor";
+	mes "do que essas faixas de cabelo comuns?";
+	next;
+	if(select("Ainda prefiro Faixas de Cabelo!:Chapéu é o melhor!") == 1) {
+		mes "[Garota do Chapéu]";
+		mes "Use sua faixa de cabelo sem graça para sempre então!";
+		emotion ET_HNG;
+		close;
+	}
+	mes "[Garota do Chapéu]";
+	mes "Você tem bom gosto!";
+	mes "Estava pensando em fazer";
+	mes "um chapéu da moda.";
+	next;
+	mes "[Garota do Chapéu]";
+	mes "Vou te dar a honra";
+	mes "de se tornar uma superestrela da moda,";
+	mes "se você me trouxer os materiais.";
+	next;
+	if (countitem(974) > 0 && countitem(975) > 0 && countitem(943) > 49 && countitem(985) > 4 && countitem(1302) > 0) {
+		mes "[Garota do Chapéu]";
+		mes "Oh! Você trouxe os ^0000FFmateriais para a Escova de Cabelo^000000.";
+		mes "Quer que eu a faça agora?";
+		next;
+		if(select("Acho que a faixa é melhor...:Sim, por favor, faça!") == 1) {
+			mes "[Garota do Chapéu]";
+			mes "Use sua faixa de cabelo sem graça para sempre então!";
+			emotion ET_HNG;
+			close;
+		}
+		callsub L_CheckWeight;
+		mes "[Garota do Chapéu]";
+		mes "Certo, vou fazer agora mesmo!";
+		next;
+		mes "Ch ch ch... combinando... ch ch.";
+		emotion ET_PROFUSELY_SWEAT, playerattached();
+		next;
+		mes "[Garota do Chapéu]";
+		mes "Pronto, está feito!";
+		mes "Agora você é uma fashionista!";
+		next;
+		if (countitem(974) > 0 && countitem(975) > 0 && countitem(943) > 49 && countitem(985) > 4 && countitem(1302) > 0) {
+			callsub L_CheckWeight;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Consegui a Escova de Cabelo.";
+			mes "...mas isso me deixa triste.";
+			delitem 974,1; // Mistura
+			delitem 975,1; // Tintura Vermelha
+			delitem 943,50; // Casca Rija
+			delitem 985,5; // Elunium
+			delitem 1302,1; // Machado
+			getitem 5444,1; // Pente Vermelho
+			close;
+		}
+		mes "[Garota do Chapéu]";
+		mes "Hã? Você não quer ser";
+		mes "a melhor fashionista?";
+		mes "Você está sem materiais?";
+		close;
+	}
+	mes "[Garota do Chapéu]";
+	mes "Para fazer o item da última moda, o ^0000FFPente Vermelho^000000,";
+	mes "eu preciso de ^0000FF1 Mistura, 1 Tintura Vermelha,";
+	mes "50 Cascas Rija, 5 Eluniums,^000000";
+	mes "e também 1 ^0000FFMachado^000000 com 4 slots.";
+	next;
+	mes "[Garota do Chapéu]";
+	mes "O que está esperando? Vá logo!";
+	next;
+	mes "[Garota do Chapéu]";
+	mes "Aqui vai uma dica para você.";
+	mes "Você pode conseguir Cascas Rija e Eluniums facilmente com monstros.";
+	close;
+
+L_CheckWeight:
+	if (MaxWeight - Weight < 100) {
+		mes "[Garota do Chapéu]";
+		mes "Você está carregando coisas demais.";
+		mes "Volte depois de esvaziar a mochila.";
+		close;
+	}
+	if (checkweight(5443,1) == 0) {
+		mes "- Espere !! -";
+		mes "- Você tem itens demais, então -";
+		mes "- é impossível carregar mais. -";
+		mes "- Volte aqui -";
+		mes "- depois de liberar espaço. -";
+		close;
+	}
+	return;
+}
+
+alberta,151,78,0	script	Bebete#Baby_Angel	96,{
+		if (isequipped(5074) > 0 || isequipped(2254) > 0 || isequipped(5210) > 0) {
+			if (BaseLevel < 65) {
+				mes "[Bebete]";
+				mes "Um anjo falso? Cai fora!";
+				next;
+				mes "[Bebete]";
+				mes "O verdadeiro anjo";
+				mes "não é tão fraco assim.";
+				close;
+			}
+			if (isequipped(5443) > 0) {
+				mes "[Bebete]";
+				mes "Oh, o anjo voltou de novo.";
+				mes "Você está bem feliz com a ^FF0000Estátua de Bebê Anjo^000000, né?";
+				close;
+			}
+			if (countitem(523) > 0 && countitem(916) > 499 && countitem(7292) > 9 && countitem(2282) > 0 && countitem(640) > 0) {
+				mes "[Bebete]";
+				mes "Ah! Ei, anjo~ anjo~";
+				next;
+				mes "[Bebete]";
+				mes "Me mostra a Estátua de Bebê Anjo!";
+				mes "Ouvi dizer que todo anjo tem uma!";
+				next;
+				select("Estátua de Bebê Anjo?");
+				mes "[Bebete]";
+				mes "Perdeu ela?";
+				mes "Quer que eu faça outra para você?";
+				next;
+				if(select("Não, obrigado.:Sim, quero agora.") == 1) {
+					mes "[Bebete]";
+					mes "Ah... não é fácil ganhar a vida!";
+					close;
+				}
+				callsub L_CheckWeight;
+				mes "[Bebete]";
+				mes "Uau, você já sabe todos os materiais, anjo.";
+				emotion ET_BIGTHROB;
+				next;
+				mes "[Bebete]";
+				mes "Você deu sorte. Eu já tô fazendo uma estátua.";
+				mes "Então não vai precisar esperar muito.";
+				next;
+				if (countitem(523) > 0 && countitem(916) > 499 && countitem(7292) > 9 && countitem(2282) > 0 && countitem(640) > 0) {
+					callsub L_CheckWeight;
+					mes "Você recebeu a ^FF0000Estátua de Bebê Anjo^000000.";
+					delitem 916,500; // Plumas de Ave
+					delitem 523,1; // Água Benta
+					delitem 7292,10; // Moscovita
+					delitem 2282,1; // Auréola
+					delitem 640,1; // Pedra Brilhante
+					getitem 5443,1; // Estátua de Bebê Anjo
+					next;
+					mes "[Bebete]";
+					mes "Até logo, meu anjinho~!";
+					emotion ET_THANKS;
+					next;
+					mes "[" + strcharinfo(0) + "]";
+					mes "... ...";
+					next;
+					mes "[" + strcharinfo(0) + "]";
+					mes "Hmm... acho que fui enganado por aquela pirralha.";
+					close;
+				}
+				mes "[Bebete]";
+				mes "Ei, não vejo";
+				mes "nenhum material na sua bolsa...";
+				emotion ET_CRY;
+				close;
+			}
+			mes "[Bebete]";
+			mes "Ei, anjo...";
+			next;
+			mes "[Bebete]";
+			mes "Uau, o anjo!";
+			emotion ET_HUK;
+			next;
+			mes "[Bebete]";
+			mes "Você é um anjo de verdade? Já foi pro céu?";
+			next;
+			if(select("Que bobagem!:Vamos manter a inocência!") == 1) {
+				mes "[" + strcharinfo(0) + "]";
+				mes "Anjo e céu? Tudo invenção!";
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "Não existe nada disso. Tudo é mentira!";
+				emotion ET_KIK, playerattached();
+				next;
+				mes "[Bebete]";
+				mes "Você é um demônio! Um monstro! Um idiota!";
+				emotion ET_OHNO;
+				close;
+			}
+			mes "[" + strcharinfo(0) + "]";
+			mes "Claro. Eu dançava com dragões e zebras";
+			mes "nas nuvens com gosto de baunilha.";
+			next;
+			mes "[Bebete]";
+			mes "Isso é exatamente o que eu imaginava!";
+			next;
+			mes "[Bebete]";
+			mes "Me mostra a Estátua de Bebê Anjo!";
+			mes "Ouvi dizer que todo anjo tem uma!";
+			next;
+			mes "[Bebete]";
+			mes "Ops, perdeu ela?";
+			mes "Quer que eu faça outra?";
+			next;
+			mes "[Bebete]";
+			mes "Já fiz várias antes";
+			mes "para anjos como você.";
+			next;
+			mes "[Bebete]";
+			mes "Eu posso fazer com ^FF0000500 Plumas de Ave, 1 Água Benta, 10 Moscovitas, 1 Auréola e 1 Pedra Brilhante^000000.";
+			next;
+			mes "[Bebete]";
+			mes "Beleza, corre aí!";
+			close;
+		} else {
+			mes "[Bebete]";
+			mes "Um anjo falso? Cai fora!!";
+			next;
+			mes "[Bebete]";
+			mes "O verdadeiro anjo tem";
+			mes "asas na cabeça!";
+			close;
+		}
+		end;
+
+	L_CheckWeight:
+		if (MaxWeight - Weight < 600) {
+			mes "[Bebete]";
+			mes "Tá carregando coisa demais, anjo?";
+			mes "Não posso te dar o item";
+			mes "porque sua bolsa tá cheia.";
+			close;
+		}
+		if (checkweight(5443,1) == 0) {
+			mes "- Espera aí !! -";
+			mes "- Você tem itens demais, então -";
+			mes "- não dá para carregar mais. -";
+			mes "- Volta depois -";
+			mes "- de esvaziar um pouco seu peso. -";
+			close;
+		}
+		return;
+}
+
+gef_fild07,108,161,4	script	Sapo de Roda#Frog_Cap	1012,1,1,{
+	if (!.Active) end;
+	if (hat_2009 == 0) {
+		mes "[???]";
+		mes "Hmm..Hm..";
+		mes "Parece que minha transformação para a aparência de uma criança foi bem-sucedida.";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "... ... ... ...";
+		next;
+		mes "[???]";
+		mes "Humano! Estou aqui para pedir sua ajuda.";
+		next;
+		if (BaseLevel < 65) {
+			mes "[???]";
+			mes "... ... ...";
+			next;
+			mes "[???]";
+			mes "Eu sou o grande Rei Froggie VII!";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "mas acho que você não é forte o suficiente para nos ajudar.";
+			mes "Vá treinar mais!";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Um humano acima do nível 65 seria ideal para nós.";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		} else {
+			mes "[???]";
+			mes "Eu sou o grande rei, Froggie VII..";
+			mes "Preciso da sua ajuda!";
+			next;
+			if(select("Ignorar.:Vamos ajudá-lo.") == 1) {
+				mes "[" + strcharinfo(0) + "]";
+				mes "Um sapo falante...";
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "Agora eu vi de tudo.";
+				next;
+				mes "[Rei Froggie VII]";
+				mes "Crocitando... Crocitando...";
+				close2;
+				donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+				end;
+			}
+			mes "[" + strcharinfo(0) + "]";
+			mes "Como posso ajudar?";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Nossa grande raça de sapos está em perigo porque muitos viajantes vêm aqui e pegam nossos ovos como lembranças. Ouvi dizer que há muitos espalhados pelo chão. Por favor, traga de volta ^FF0000100 Ovos de Sapo^000000.";
+			setquest 5000;
+			set hat_2009,1;
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Claro, eu trarei.";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Estarei esperando por você!";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		}
+	} else if (hat_2009 == 1) {
+		if (countitem(908) < 100) {
+			mes "[Rei Froggie VII]";
+			mes "O que está fazendo aqui?";
+			mes "Vá buscar ^FF0000100 Ovas de Sapo^000000!";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		} else {
+			mes "[Rei Froggie VII]";
+			mes "Oh, você trouxe todos!";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Muito obrigado, " + strcharinfo(0) + ".";
+			emotion ET_THANKS;
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Mas temos outro problema urgente. Gostaria de pedir mais uma ajuda.";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Sapos são uma comida saudável para as cobras.";
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Eu sei bem.";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Ótimo. Você não sente pena da nossa raça?";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Portanto, peço que se vingue por nós. Mate ^FF000050 Sorrateiros^000000.";
+			delitem 908,100; //Ova de Sapo
+			changequest 5000,5001;
+			set hat_2009,2;
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Estarei aguardando notícias suas!";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		}
+	} else if (hat_2009 == 2) {
+		set .@hunting, checkquest(5001,HUNTING);
+		if (.@hunting == 0 || .@hunting == 1) {
+			mes "[Rei Froggie VII]";
+			mes "Estou esperando boas notícias.";
+			mes "Será fácil para você";
+			mes "derrotar ^FF000050 Sorrateiros^000000. Continue assim!";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		} else if (.@hunting == 2) {
+			mes "[" + strcharinfo(0) + "]";
+			mes "Voltei.";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Você aparentemente derrotou todos os Sorrateiros!";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Você se tornou um exemplo para os jovens sapos. Obrigado novamente.";
+			emotion ET_THANKS;
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Portanto, estou considerando adicionar sua façanha ao livro de história dos sapos. Mas preciso de provas do seu feito.";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Por favor, traga-me ^FF0000100 Caninos Venenosos^000000 das cobras.";
+			changequest 5001,5002;
+			set hat_2009,3;
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Ficarei feliz em ser adicionado ao livro de história. Vou buscá-los.";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Obediente, trabalhador... Gostaria de ter um sapo leal como você.";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		}
+	} else if (hat_2009 == 3) {
+		if (countitem(937) < 100) {
+			mes "[Rei Froggie VII]";
+			mes "E quanto a ^FF0000100 Caninos Venenosos^000000?";
+			mes "Rápido, é uma oportunidade rara de ser adicionado ao livro da história dos sapos!";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		} else {
+			mes "[Rei Froggie VII]";
+			mes "Oh, você trouxe Caninos Venenosos! Agora, posso colocá-lo oficialmente no livro da história dos sapos.";
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Isso é bom para mim.";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Tenho uma notícia melhor!";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Encontrei um ótimo método para preservar nossa raça enquanto consultava o livro da história!";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "A resposta estava no livro da história dos sapos. Antigamente, o grande Rei Froggie III criou um remédio secreto que nos permitia usar uma habilidade de esconderijo contra as cobras.";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Eu devia ter sabido disso antes...";
+			mes "Por favor, traga-me ^FF000050 Cascas Escamadas^000000.";
+			delitem 937,100; //Canino Venenoso
+			changequest 5002,5003;
+			set hat_2009,4;
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Não é fácil de conseguir, mas tenho certeza de que você pode fazê-lo.";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		}
+	} else if (hat_2009 == 4) {
+		if (countitem(936) < 50) {
+			mes "[Rei Froggie VII]";
+			mes "Ainda aqui? Vá buscar ^FF000050 Cascas Escamadas^000000! Por favor, depressa!";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		} else {
+			mes "[Rei Froggie VII]";
+			mes "Excelente!";
+			mes "Você é como o grande Rei Froggie III em seus dias de juventude!";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Você já é o herói dos nossos sapos! Se eu tivesse um filho, casaria você com ele.";
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Ah... Não, obrigado.";
+			mes "^FF0000(Você está me pedindo para casar com um sapo???)^000000";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Graças a você, a população de sapos aumentou, mas estamos com falta de comida.";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "A melhor comida para nós é ^FF0000Argiope^000000.";
+			next;
+			mes "[Rei Froggie VII]";
+			mes "Agora, o que está fazendo, nosso herói?";
+			mes "Vá buscar ^FF000050 Argiopes^000000!";
+			delitem 936,50; //Casca Escamada
+			set hat_2009,5;
+			changequest 5003,5004;
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		}
+	} else if (hat_2009 == 5) {
+		set .@hunting, checkquest(5004,HUNTING);
+		if (.@hunting == 0 || .@hunting == 1) {
+			mes "[Rei Sapo VII]";
+			mes "Meu herói, você vai nos deixar morrer de fome?";
+			mes "Vá e traga ^FF000050 Argiopes^000000!";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		} else if (.@hunting == 2) {
+			mes "[Rei Sapo VII]";
+			mes "Acho que te vi há pouco tempo, mas agora você se tornou o herói dos sapos...";
+			next;
+			mes "[Rei Sapo VII]";
+			mes "Foi realmente uma sorte ter pedido esse favor para você.";
+			next;
+			if (MaxWeight - Weight < 500) {
+				mes "[Rei Sapo VII]";
+				mes "Gostaria de te dar uma recompensa, nosso herói. Mas sua bolsa está muito pesada.";
+				close2;
+				donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+				end;
+			}
+			if (checkweight(5447,1) == 0) {
+				mes "- Espere !! -";
+				mes "- Você tem itens demais, dessa forma é -";
+				mes "- impossível carregar mais. -";
+				mes "- Volte aqui -";
+				mes "- depois de esvaziar um pouco seu peso. -";
+				close;
+			}
+			mes "[Rei Sapo VII]";
+			mes "Sapos, alguém se opõe";
+			mes "a dar ao nosso herói, " + strcharinfo(0) + "";
+			mes "um Chapéu de Sapo, um de nossos tesouros mais preciosos?";
+			next;
+			mes "[Vozes ao fundo]";
+			mes "Croac...croac...";
+			mes "croaaaac~~~~";
+			mes "Croac croac";
+			next;
+			mes "[Rei Sapo VII]";
+			mes "Hmm, ninguém se opõe.";
+			next;
+			mes "[Rei Sapo VII]";
+			mes "Eu concedo a você, " + strcharinfo(0) + ", nosso herói, este Chapéu de Sapo.";
+			specialeffect2 EF_MAPPILLAR2;
+			specialeffect2 EF_BLESSING;
+			erasequest 5004;
+			set hat_2009,6;
+			getitem 5447,1; //Chapéu de Sapo
+			next;
+			mes "[Rei Sapo VII]";
+			mes "Você será sempre bem-vindo.";
+			mes "Visite-nos a qualquer momento.";
+			close2;
+			donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+			end;
+		}
+	} else if (hat_2009 == 6) {
+		mes "[Rei Sapo VII]";
+		mes "Todos os sapos do mundo, louvem " + strcharinfo(0) + ", nosso herói eterno!";
+		emotion ET_THANKS;
+		close2;
+		donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+		end;
+	}
+	end;
+//OnInit:
+//	setnpcdisplay "Sapo de Roda#Frog_Cap",1012; //RODA_FROG
+//	end;
+OnEnable:
+	setnpcdisplay "Sapo de Roda#Frog_Cap",716; //4_M_KID2
+	set .Active,1;
+	end;
+OnDisable:
+	set .Active,0;
+	disablenpc "Sapo de Roda#Frog_Cap";
+	initnpctimer;
+	end;
+OnReset:
+	setnpcdisplay "Sapo de Roda#Frog_Cap",1012; //RODA_FROG
+	enablenpc "Sapo de Roda#Frog_Cap";
+	end;
+OnTimer2000:
+	donpcevent "Sapo de Roda#Frog_Cap::OnReset";
+	stopnpctimer;
+	end;
+OnTouch:
+	if (.Active) end;
+	mes "Há um sapo aqui. O que devo fazer?";
+	next;
+	switch(select("Atirar uma pedra.:Conversar.")) {
+	case 1:
+		donpcevent "Sapo de Roda#Frog_Cap::OnDisable";
+		mes "Ai~";
+		close;
+	case 2:
+		donpcevent "Sapo de Roda#Frog_Cap::OnEnable";
+		if (hat_2009 > 0) {
+			emotion ET_THINK, playerattached();
+			mes "[" + strcharinfo(0) + "]";
+			mes "É tão impressionante ver";
+			mes "o sapo que se transforma.";
+			close;
+		} else {
+			emotion ET_HUK, playerattached();
+			mes "[" + strcharinfo(0) + "]";
+			mes "Oh céus... o sapo se transformou em uma criança...";
+			close;
+		}
+	}
+	end;
+}
+
+alberta,120,206,3	script	Alonie#Solo_Play_Box	787,{
+		if (hat_1_2009 == 0) {
+			mes "[Alonie]";
+			mes "Sou especialista em brincar sozinho.";
+			mes "Estou fazendo o meu melhor para brincar sozinho!";
+			next;
+			mes "[Alonie]";
+			mes "Huhu, Yapyap!";
+			mes "Sinto sua admiração por mim.";
+			mes "Quer ser meu aluno?";
+			next;
+			switch(select("Você está maluco!:Por favor, me aceite como discípulo!")) {
+			case 1:
+				mes "[Alonie]";
+				mes "Sim, eu sou maluco.";
+				mes "Huhu, Yapyap!";
+				close;
+			case 2:
+				mes "[Alonie]";
+				mes "Sinto que você carece de afeto. Tudo bem!";
+				mes "Agora, vamos começar o treinamento!";
+				next;
+				mes "[Alonie]";
+				mes "O treinamento especial para brincar sozinho na Masmorra de Sphinx!";
+				mes "Para que seja";
+				mes "um treinamento proveitoso,";
+				mes "ande por aí e mate";
+				mes "^FF000020 Zeroms e 20 Réquiems^000000!";
+				mes "Rápido!";
+				next;
+				switch(select("Que bobagem!:Vamos nessa!")) {
+				case 1:
+					mes "[Alonie]";
+					mes "Claro, não me importo.";
+					mes "Huhu, Yapyap!";
+					close;
+				case 2:
+					mes "[Alonie]";
+					mes "Apresse-se, meu aluno.";
+					mes "Sou tão imprevisível";
+					mes "que nem sei o que vou";
+					mes "te dar como recompensa!";
+					setquest 1100;
+					setquest 1101;
+					set hat_1_2009,1;
+					close;
+				}
+			}
+		} else if (hat_1_2009 == 1) {
+			if (checkquest(1100,HUNTING) == 2 && checkquest(1101,HUNTING) == 2) {
+				mes "[Alonie]";
+				mes "Já terminou?";
+				mes "Bom, aqui está o próximo treinamento";
+				mes "para se tornar um especialista em brincar sozinho!";
+				next;
+				mes "[Alonie]";
+				mes "O treinamento especial para brincar sozinho na Torre do Relógio!";
+				mes "Para que seja";
+				mes "um treinamento proveitoso,";
+				mes "ande por aí e mate";
+				mes "^FF000040 Arclouses e 30 Grand Orcs^000000!";
+				next;
+				switch(select("Que bobagem!:Vamos nessa!")) {
+				case 1:
+					mes "[Alonie]";
+					mes "Claro, não me importo.";
+					mes "Huhu, Yapyap!";
+					close;
+				case 2:
+					mes "[Alonie]";
+					mes "Apresse-se, meu aluno.";
+					mes "Sou tão imprevisível";
+					mes "que nem sei o que vou";
+					mes "te dar como recompensa!";
+					changequest 1100,1102;
+					changequest 1101,1103;
+					set hat_1_2009,2;
+					close;
+				}
+			} else {
+				mes "[Alonie]";
+				mes "Hmm, ainda não é suficiente.";
+				mes "Brincar sozinho não é tão fácil!";
+				mes "Vá e mate";
+				mes "^FF000020 Zeroms e 20 Réquiems^000000!";
+				close;
+			}
+		} else if (hat_1_2009 == 2) {
+			if (checkquest(1102,HUNTING) == 2 && checkquest(1103,HUNTING) == 2) {
+				mes "[Alonie]";
+				mes "Você é realmente bom em brincar sozinho...!";
+				mes "Está se sentindo sozinho?";
+				mes "Bem, aqui está o próximo treinamento";
+				mes "para se tornar um especialista em brincar sozinho!";
+				next;
+				mes "[Alonie]";
+				mes "O treinamento especial para brincar sozinho em Luoyang!";
+				mes "Para que seja";
+				mes "um treinamento proveitoso,";
+				mes "ande por aí e mate";
+				mes "^FF000020 Donzelas Verdes e 50 Mao Guais^000000!";
+				next;
+				switch(select("Que bobagem!:Vamos nessa!")) {
+				case 1:
+					mes "[Alonie]";
+					mes "Claro, não me importo.";
+					mes "Huhu, Yapyap!";
+					close;
+				case 2:
+					mes "[Alonie]";
+					mes "Apresse-se, meu aluno.";
+					mes "Sou tão imprevisível";
+					mes "que nem sei o que vou";
+					mes "te dar como recompensa!";
+					changequest 1102,1108;
+					changequest 1103,1105;
+					set hat_1_2009,3;
+					close;
+			}
+		} else {
+			mes "[Alonie]";
+			mes "Hmm, ainda não é suficiente.";
+			mes "Brincar sozinho não é tão fácil!";
+			mes "Vá e mate";
+			mes "^FF000040 Arclouses e 30 Grand Orcs^000000!";
+			close;
+		}
+	} else if (hat_1_2009 == 3) {
+		if (checkquest(1108,HUNTING) == 2 && checkquest(1105,HUNTING) == 2) {
+			mes "[Alonie]";
+			mes "Ótimo trabalho.";
+			mes "Como você está solitário!";
+			mes "Certo, aqui está o último treinamento";
+			mes "para ser um verdadeiro especialista em brincar sozinho!";
+			next;
+			mes "[Alonie]";
+			mes "O treinamento especial para brincar sozinho na Masmorra de Amatsu!";
+			mes "Para que seja";
+			mes "um treinamento proveitoso,";
+			mes "ande por aí e mate";
+			mes "^FF000020 Papéis e 40 Zumbis Atiradores^000000!";
+			next;
+			switch(select("Que bobagem!:Vamos nessa!")) {
+			case 1:
+				mes "[Alonie]";
+				mes "Claro, não me importo.";
+				mes "Huhu, Yapyap!";
+				close;
+			case 2:
+				mes "[Alonie]";
+				mes "Apresse-se, meu aluno!";
+				mes "Sou tão imprevisível";
+				mes "que nem sei o que vou";
+				mes "te dar como recompensa!";
+				changequest 1108,1106;
+				changequest 1105,1107;
+				set hat_1_2009,4;
+				close;
+			}
+		} else if (checkquest(1104,HUNTING) == 2 && checkquest(1105,HUNTING) == 2) {
+			mes "[Alonie]";
+			mes "Ótimo trabalho.";
+			mes "Como você está solitário!";
+			mes "Certo, aqui está o último treinamento";
+			mes "para ser um verdadeiro especialista em brincar sozinho!";
+			next;
+			mes "[Alonie]";
+			mes "O treinamento especial para brincar sozinho na Masmorra de Amatsu!";
+			mes "Para que seja";
+			mes "um treinamento proveitoso,";
+			mes "ande por aí e mate";
+			mes "^FF000020 Papéis e 40 Zumbis Atiradores^000000!";
+			next;
+			switch(select("Que bobagem!:Vamos nessa!")) {
+			case 1:
+				mes "[Alonie]";
+				mes "Claro, não me importo.";
+				mes "Huhu, Yapyap!";
+				close;
+			case 2:
+				mes "[Alonie]";
+				mes "Apresse-se, meu aluno!";
+				mes "Sou tão imprevisível";
+				mes "que nem sei o que vou";
+				mes "te dar como recompensa!";
+				changequest 1104,1106;
+				changequest 1105,1107;
+				set hat_1_2009,4;
+				close;
+			}
+		} else {
+			mes "[Alonie]";
+			mes "Hmm, ainda não é suficiente.";
+			mes "Brincar sozinho não é tão fácil!";
+			mes "Vá e mate";
+			mes "^FF000020 Donzelas Verdes e 50 Mao Guais^000000!";
+			if (checkquest(1104,HUNTING) == 1) {
+				erasequest 1104;
+				setquest 1108;
+			}
+			close;
+		}
+	} else if (hat_1_2009 == 4) {
+		if (MaxWeight - Weight < 300) {
+			mes "[Alonie]";
+			mes "Brincar por aí com essa mochila pesada?";
+			mes "Você é mesmo";
+			mes "um especialista em brincar sozinho!";
+			next;
+			mes "[Alonie]";
+			mes "Se quiser a recompensa, esvazie sua mochila primeiro!";
+			close;
+		}
+		if (checkquest(1106,HUNTING) == 2 && checkquest(1107,HUNTING) == 2) {
+			mes "[Alonie]";
+			mes "Finalmente você conseguiu.";
+			mes "Meu aluno carente de afeto!";
+			mes "Este é o fim do seu treinamento!";
+			next;
+			if (gettime(DT_HOUR) < 12) {
+				set .@item,5448; //Caixa para Brincar Só
+				set .@time$,"AM";
+			} else {
+				set .@item,5449; //Caixa para Brincar Sozinho
+				set .@time$,"PM";
+			}
+			if (checkweight(.@item,1) == 0) {
+				mes "[Alonie]";
+				mes "Brincar por aí com essa mochila pesada?";
+				mes "Você é mesmo";
+				mes "um especialista em brincar sozinho!";
+				next;
+				mes "[Alonie]";
+				mes "Se quiser a recompensa, esvazie sua mochila primeiro!";
+				close;
+			}
+			mes "[Alonie]";
+			mes "Aqui! A Caixa do Jogo Solo";
+			mes "é mais eficaz durante a " + .@time$ + "!";
+			mes "Depois de colocar essa caixa,";
+			mes "você será o ser mais solitário!";
+			next;
+			mes "[Alonie]";
+			emotion ET_BEST;
+			mes "Lute contra as lágrimas!";
+			mes "Huhu, Yapyap!";
+			completequest 1106;
+			completequest 1107;
+			set hat_1_2009,5;
+			getitem .@item,1;
+			close;
+		} else {
+			mes "[Alonie]";
+			mes "Hmmm, ainda não é suficiente.";
+			mes "Brincar sozinho não é tão fácil!";
+			mes "Vá e mate";
+			mes "^FF000020 Papéis e 40 Zumbis Atiradores^000000!";
+			close;
+		}
+	} else if (hat_1_2009 == 5) {
+		mes "[Alonie]";
+		mes "Eu sou o especialista em brincar sozinho.";
+		mes "Sempre tentando dar o meu melhor!";
+		next;
+		mes "[Alonie]";
+		mes "Huhu, Yapyap!";
+		close;
+	}
+	end;
+}

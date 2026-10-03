@@ -1,0 +1,14 @@
+//===== rAthena Script =======================================
+//= Cool Event Corp. Staff
+//===== Description: =========================================
+//= Cool Event Corp. Staff (Save, Storage & Pushcart Service)
+//===== Changelogs: ==========================================
+//= 1.0 Added Verus. [Capuche]
+//============================================================ 
+
+verus04,121,243,4	script	Corp. Eventos Incríveis::CoolEventCorpStaffVerus	4_M_ZONDAMAN,{
+	callfunc "F_CoolEventCorp",
+		"Salvar Ponto de Retorno:Usar Armazém::Alugar Carrinho::Cancelar",
+		"in Verus","verus04",121,246;
+	end;
+}

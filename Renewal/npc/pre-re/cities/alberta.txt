@@ -1,0 +1,43 @@
+//===== rAthena Script ======================================= 
+//= Alberta Town Pre-Renewal
+//===== By: ================================================== 
+//= Euphy
+//===== Current Version: ===================================== 
+//= 1.0
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Alberta town NPCs.
+//===== Additional Comments: ================================= 
+//= 1.0 First Version.
+//============================================================
+
+// Cidades/amatsu.txt
+//============================================================
+alberta,245,93,3	duplicate(Sea_Captain_amatsu)	Capitão#ama1	709
+
+// Cidades/ayothaya.txt
+//============================================================
+alberta,247,42,3	duplicate(Aibakthing_ayothaya)	Aibakthing#ayo	843
+
+// Cidades/gonryun.txt
+//============================================================
+alberta,245,69,3	duplicate(Kunlun_Envoy_gonryun)	Barqueiro de Kunlun#gon	776
+
+// Cidades/louyang.txt
+//============================================================
+alberta,245,45,3	duplicate(Girl_louyang)	Garota#0lou	815
+
+// Cidades/moscovia.txt
+//============================================================
+alberta,245,66,4	duplicate(PR_Officer_moscovia)	R. Públicas de Moscóvia#1	960
+
+// Missoes/missoes_alberta.txt
+//============================================================
+alberta,247,122,4	duplicate(Barqueiro_de_Alberta)	Barqueiro#tur	709
+alberta,248,89,4	duplicate(Estudante_da_Ilha)	Estudante da Tartaruga	121
+
+// Missoes/Habilidades/habilidades_mercador.txt
+//============================================================
+alberta,232,106,6	duplicate(Gershaun_alberta)	Gershaun	57

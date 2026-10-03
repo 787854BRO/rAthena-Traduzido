@@ -1,0 +1,272 @@
+//===== rAthena Script ======================================= 
+//= Hair Dyer
+//===== By: ================================================== 
+//= kobra_k88; L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.5
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Hair Dyer with standard palletes
+//===== Additional Comments: ================================= 
+//= Fully working
+//= 1.1 Bugfix: fixed missing menu label LEnd->M_End [Lupus]
+//= 1.2 Rescripted to Aegis 10.3 standards. [L0ne_W0lf]
+//= 1.3 Fixed problem what "freezes" the NPC. (bugreport:509) [Samuray22]
+//= 1.4 Fixed getlook checking the wrong color. (bugreport:2392) [L0ne_W0lf]
+//= 1.5 Added Lighthalzen Hair Dying NPC. [L0ne_W0lf]
+//= 1.6 Moving NPC Jovovich to Pre-Renewal [JohnnyPlayy]
+//============================================================ 
+
+// Lighthalzen
+lhz_in02,100,134,3	script	Cabeleireira#lich	850,{
+	mes "[Rossa]";
+	if (Sex == SEX_MALE) {
+		mes "Bem-vind"+((Sex) ? "o":"a")+", entre~";
+		mes "Oh, vejo que você";
+		mes "cuidar bem melhor do seu";
+		mes "cabelo do que os outros meninos.";
+		mes "Agora você gostaria de tingir";
+		mes "seu cabelo com outra cor?";
+	}
+	else {
+		mes "Oh, uau~ Onde é que";
+		mes "você arruma seu cabelo?";
+		mes "Eu amei ele! Você irá";
+		mes "ficar ainda mais bonit"+((Sex) ? "o":"a")+"";
+		mes "se pintar seu cabelo.";
+		mes "Você pensa em faser isso?";
+	}
+	while (.@choose_success != 2) {
+		next;
+		switch(select("Tintura de cabelo:Informações sobre tinturas:Cancelar")) {
+		case 1:
+			mes "[Rossa]";
+			mes "Ho-ho-ho-ho~";
+			mes "Então, qual cor que";
+			mes "você gostaria de experimentar?";
+			mes "Algo claro ou sombrio? Sexy ou fofo?";
+			next;
+			while (.@choose_success != 2) {
+				if (.@choose_success == 1) {
+					mes "[Rossa]";
+					mes "Ahhh, eu gosto dessa cor!";
+					mes "Mas você gostaria de";
+					mes "tentar uma diferente?";
+					next;
+					switch(select("Sim:Não")) {
+					case 1:
+						mes "[Rossa]";
+						mes "Por favor, selecione";
+						mes "outra cor~";
+						next;
+						break;
+					case 2:
+						mes "[Rossa]";
+						mes "Uma excelente escolha~";
+						mes "Tudo bem então, obrigada";
+						mes "por utilizar meus serviços e";
+						mes "espero que você volte novamente!";
+						close2;
+						set .@choose_success,2;
+						break;
+					}
+				}
+				while (.@choose_success != 2) {
+					switch(select("Vermelho, por favor.:Amarelo, por favor.:Violeta, por favor.:Laranja, por favor.:Verde, por favor.:Azul, por favor.:Branco, por favor.:Preto, por favor.:Gosto da cor do meu cabelo.")) {
+					case 1:
+						set .@headpalette,8;
+						break;
+					case 2:
+						set .@headpalette,1;
+						break;
+					case 3:
+						set .@headpalette,2;
+						break;
+					case 4:
+						set .@headpalette,3;
+						break;
+					case 5:
+						set .@headpalette,4;
+						break;
+					case 6:
+						set .@headpalette,5;
+						break;
+					case 7:
+						set .@headpalette,6;
+						break;
+					case 8:
+						set .@headpalette,7;
+						break;
+					case 9:
+						if (.@choose_success != 0) {
+							mes "[Rossa]";
+							mes "Tem certeza?";
+							mes "Tudo bem então, você";
+							mes "sabe o que é melhor para";
+							mes "sua beleza e para ser";
+							mes "sincera, eu concordo com você~";
+							close2;
+							set .@choose_success,2;
+						}
+						else {
+							mes "[Rossa]";
+							mes "Oh, entendo. Ainda assim, não consigo";
+							mes "ajudar, me sinto tão decepcionada.";
+							mes "Você ficaria tão bonit"+((Sex) ? "o":"a")+" se tingisse";
+							mes "seu cabelo com uma cor diferente~";
+							close2;
+							set .@choose_success,2;
+						}
+						break;
+					}
+					if (getlook(VAR_HEADPALETTE) == .@headpalette) {
+						mes "[Rossa]";
+						mes "Hum, a cor do seu cabelo";
+						mes "ainda está boa, então";
+						mes "não há necessidade de tingi-lo com a";
+						mes "mesma cor novamente, se é isso";
+						mes "que "+((Sex) ? "o":"a")+" preocupado.";
+						next;
+					}
+					else {
+						if ((.@headpalette == 8) && (countitem(975) == 0)) {
+							mes "[Rossa]";
+							mes "Ah, me desculpe, querid"+((Sex) ? "o":"a")+",";
+							mes "mas eu não posso tingir o seu";
+							mes "cabelo se você não trouxer";
+							mes "a Tintura Vermelha com você...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 1) && (countitem(976) == 0)) {
+							mes "[Rossa]";
+							mes "Ah, me desculpe, querid"+((Sex) ? "o":"a")+",";
+							mes "mas eu não posso tingir o seu";
+							mes "cabelo se você não trouxer";
+							mes "a Tintura Amarela com você...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 2) && (countitem(981) == 0)) {
+							mes "[Rossa]";
+							mes "Ah, me desculpe, querid"+((Sex) ? "o":"a")+",";
+							mes "mas eu não posso tingir o seu";
+							mes "cabelo se você não trouxer";
+							mes "a Tintura Violeta com você...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 3) && (countitem(980) == 0)) {
+							mes "[Rossa]";
+							mes "Ah, me desculpe, querid"+((Sex) ? "o":"a")+",";
+							mes "mas eu não posso tingir o seu";
+							mes "cabelo se você não trouxer";
+							mes "a Tintura Laranja com você...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 4) && (countitem(979) == 0)) {
+							mes "[Rossa]";
+							mes "Ah, me desculpe, querid"+((Sex) ? "o":"a")+",";
+							mes "mas eu não posso tingir o seu";
+							mes "cabelo se você não trouxer";
+							mes "a Tintura Verde";
+							mes "com você. Você voltaria";
+							mes "depois de conseguir algumas?";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 5) && (countitem(978) == 0)) {
+							mes "[Rossa]";
+							mes "Ah, me desculpe, querid"+((Sex) ? "o":"a")+",";
+							mes "mas eu não posso tingir o seu";
+							mes "cabelo se você não trouxer";
+							mes "a Tintura Azul";
+							mes "com você. Você voltaria";
+							mes "depois de conseguir algumas?";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 6) && (countitem(982) == 0)) {
+							mes "[Rossa]";
+							mes "Ah, me desculpe, querid"+((Sex) ? "o":"a")+",";
+							mes "mas eu não posso tingir o seu";
+							mes "cabelo se você não trouxer";
+							mes "a Tintura Branca com você...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 7) && (countitem(983) == 0)) {
+							mes "[Rossa]";
+							mes "Ah, me desculpe, querid"+((Sex) ? "o":"a")+",";
+							mes "mas eu não posso tingir o seu";
+							mes "cabelo se você não trouxer";
+							mes "a Tintura Preta com você...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						if (Zeny < 1000) {
+							mes "[Rossa]";
+							mes "Ah, sinto muito, querid"+((Sex) ? "o":"a")+",";
+							mes "mas minha taxa de serviço é";
+							mes "de 1.000 zeny. Você esqueceu de";
+							mes "trazer o dinheiro com você?";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						if (.@headpalette == 8) delitem 975,1; //Tintura Vermelha
+						else if (.@headpalette == 1) delitem 976,1; //Tintura Amarela
+						else if (.@headpalette == 2) delitem 981,1; //Tintura Violeta
+						else if (.@headpalette == 3) delitem 980,1; //Titura Laranja
+						else if (.@headpalette == 4) delitem 979,1; //Tintura Verde
+						else if (.@headpalette == 5) delitem 978,1; //Tintura Azul
+						else if (.@headpalette == 6) delitem 982,1; //Tintura Branca
+						else if (.@headpalette == 7) delitem 983,1; //Tintura Preta
+						set Zeny, Zeny-1000;
+						setlook VAR_HEADPALETTE,.@headpalette;
+						set .@choose_success,1;
+						break;
+					}
+				}
+			}
+			break;
+		case 2:
+			mes "[Rossa]";
+			mes "Quando você estiver se sentindo";
+			mes "para baixo, quando quiser";
+			mes "ficar mais bonit"+((Sex) ? "o":"a")+" para quem você";
+			mes "ama, ou se você quiser apenas";
+			mes "um visual diferente, por que";
+			mes "não pinta o cabelo?";
+			next;
+			mes "[Rossa]";
+			mes "Tudo que você precisará";
+			mes "me trazer é uma Tintura da";
+			mes "cor que você deseja";
+			mes "pintar o cabelo, bem como";
+			mes "uma taxa de serviço de 1.000 zeny.";
+			mes "Estarei aqui para ajudar nas suas necessidades de beleza~";
+			break;
+		case 3:
+			mes "[Rossa]";
+			mes "Sabe, quando você";
+			mes "se esforça para melhorar";
+			mes "a aparência, você não";
+			mes "apenas ficará melhor,";
+			mes "mas também se sentirá melhor";
+			mes "consigo mesm"+((Sex) ? "o":"a")+". Faz sentido, certo?";
+			close;
+		}
+	}
+	close;
+}

@@ -1,0 +1,109 @@
+//===== rAthena Script =======================================
+//= Insurance Exchanger
+//===== Description: =========================================
+//= Exchange items for New_Insurance item.
+//===== Changelogs: ==========================================
+//= 1.0 Initial release. [Balfear]
+//============================================================
+
+prontera,82,108,5	script	Mercador do Coração#life01	4_M_NFDEADMAN2,5,5,{
+	.@old_item = 12209;  //Seguro de Vida
+	.@new_item = 6413;  //Seguro Estendido
+	.@old_item_name$ = getitemname(.@old_item);
+	.@new_item_name$ = getitemname(.@new_item);
+
+	if (!checkweight(1201,1) || (MaxWeight - Weight) < 500) {
+		mes "Você não pode continuar a conversa porque está carregando muitos itens.";
+		mes "Por favor, reduza e organize seus itens e tente novamente.";
+		close;
+	}
+	mes "[Mercador do Coração]";
+	mes "Olá! Vejo que você é um aventureiro que entrega seu coração às viagens, navega de barco pelo continente e adora a emoção do perigo!";
+	next;
+	if(!countitem(.@old_item)){
+		mes "[Mercador do Coração]";
+		mes "Você tem algum <ITEM>Seguro de Vida<INFO>.@old_item</INFO></ITEM> no seu armazém?";
+		next;
+		mes "[Mercador do Coração]";
+		mes "Se você me trouxer um " + .@old_item_name$ + ", eu trocarei por <ITEM>Seguro Estendido<INFO>.@new_item</INFO></ITEM>. O que acha? Tem ideia do que esse item faz?";
+	} else {
+		mes "[Mercador do Coração]";
+		mes "Já pensou em trocar seu <ITEM>Seguro de Vida<INFO>.@old_item</INFO></ITEM> por algo melhor? Por exemplo... <ITEM>Seguro Estendido<INFO>.@new_item</INFO></ITEM>. O que acha?";
+	}
+	next;
+	switch(select("O que é isso?",(countitem(.@old_item)?" Trocar, por favor!":""),"Não tenho interesse.")) {
+	case 1:
+		mes "[Mercador do Coração]";
+		mes "O <ITEM>Seguro de Vida<INFO>.@old_item</INFO></ITEM> é um item que evita a perda de EXP uma vez dentro dos 30 minutos de duração após o uso.";
+		next;
+		mes "[Mercador do Coração]";
+		mes "Mas muita gente fica triste com o limite de tempo, né? Então eu pesquisei e preparei o <ITEM>Seguro Estendido<INFO>.@new_item</INFO></ITEM>.";
+		next;
+		mes "[Mercador do Coração]";
+		mes "O <ITEM>Seguro Estendido<INFO>.@new_item</INFO></ITEM> é um item que evita a perda de EXP uma vez apenas por ^EE0000estar no inventário, independentemente da duração^000000. Claro, após a morte, o "+.@new_item_name$+" é consumido.";
+		next;
+		select("Por que está fazendo essa troca?");
+		mes "[Mercador do Coração]";
+		mes "Está curioso? Eu sou um Mercador. Comprar e vender coisas é meu destino, mesmo quando se trata de vida ou morte. Você acha que eu deixaria passar a chance de ganhar dinheiro? Eu lucro, e quem vive ganha um alívio da dor da morte. Não é um bom negócio?";
+		next;
+		mes "[Mercador do Coração]";
+		mes "A taxa de troca é de 5 <ITEM>Seguro de Vida<INFO>.@old_item</INFO></ITEM> por 1 <ITEM>Seguro Estendido<INFO>.@new_item</INFO></ITEM>. Alguma dúvida?";
+		next;
+		mes "[Mercador do Coração]";
+		mes "Hm~ O que acha? Não é uma troca justa? Vai querer continuar se preocupando com o tempo? É item essencial para aventureiros que gostam de emoções fortes.";
+		close;
+		
+	case 2:	
+		mes "[Mercador do Coração]";
+		mes "Isso mesmo. Boa decisão. É melhor trocar por algo superior, não é?";
+		next;
+		mes "[Mercador do Coração]";
+		mes "Posso trocar seus ^0000cd5 "+.@old_item_name$+" por 1 "+.@new_item_name$+".";
+		next;
+		mes "[Mercador do Coração]";
+		mes "Contudo, ^EE0000" + .@old_item_name$ + " [Não comercializável] não é elegível para troca^000000, então não adianta trazê-lo e pedir para trocar.";
+		next;
+		mes "[Mercador do Coração]";
+		mes "Vamos fazer a troca agora?";
+		next;
+		if (select("Trocar, por favor!:Não quero trocar.") == 2)
+			break;
+		mes "[Mercador do Coração]";
+		mes "Quantos deseja trocar? ^0000cdVocê pode trocar até 10 "+.@new_item_name$+" por vez^000000.";
+		next;
+		input .@amount;
+		if (.@amount == 0) {
+			mes "[Mercador do Coração]";
+			mes "Hm? Não está interessado? Esse item é ótimo, perfeito para alguém como você. Mas se não quiser se proteger, também não vou forçar.";
+			close;
+		}
+		if (.@amount > 10) {
+			mes "[Mercador do Coração]";
+			mes "Como eu disse, ^0000cdvocê só pode trocar até 10 por vez^000000. Verifique a quantidade novamente.";
+			close;
+		}
+		if (countitem(.@old_item) < (.@amount*5)) {
+			mes "[Mercador do Coração]";
+			mes "Com licença, mas... você não tem " +.@old_item_name$+ " suficientes, né? São 5 <ITEM>Seguro de Vida<INFO>.@old_item</INFO></ITEM> para 1 <ITEM>Seguro Estendido<INFO>.@new_item</INFO></ITEM>. Verifique a quantidade.";
+			close;
+		}
+		mes "[Mercador do Coração]";
+		mes "Pronto, com isso, troquei seus ^0000cd" + .@old_item_name$ + "^000000 pelo ^EE0000" + .@new_item_name$ + "^000000!! Foi um bom negócio, não foi? Quando conseguir mais "+.@old_item_name$+", venha me ver de novo!";
+		delitem .@old_item,.@amount*5;
+		getitem .@new_item,.@amount;
+		close;
+	case 3:
+		break;
+	}
+	mes "[Mercador do Coração]";
+	mes "Essa troca é ótima! Aventureiro, é um item essencial para quem se arrisca em lugares perigosos!";
+	next;
+	mes "[Mercador do Coração]";
+	mes "Se se interessar, volte para fazer a troca, ok?";
+	close;
+	
+OnTouch:
+	if(countitem(12209))
+		npctalk "Você tem algo bom aí. Que tal trocar seu " + getitemname(12209) + " por algo melhor?", "", bc_self;
+	end;
+}

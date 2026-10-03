@@ -1,0 +1,202 @@
+//===== rAthena Script ======================================= 
+//= Dye Maker
+//===== By: ================================================== 
+//= rAthena Dev Team
+//===== Current Version: ===================================== 
+//= 1.4
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Quests to create the eight colored Dyestuffs.
+//===== Additional Comments: ================================= 
+//= 1.0 Fully working [kobra_k88]
+//= 1.1 Spell Checked [Nexon] 
+//= 1.2 Rescripted to Aegis 10.3 standard. [L0ne_W0lf]
+//= 1.2b Fixed typos in variable names [ultramage]
+//= 1.3 Made the checks more dynamic [ultramage]
+//= 1.3b Fixed incorrect checking loop structure [ultramage]
+//= 1.4 Added a checkweight. [L0ne_W0lf]
+//============================================================ 
+
+morocc_in,146,99,3	script	Java Dullihan	58,{
+	if ((MaxWeight-Weight) < 200 || checkweight(1201,1) == 0) {
+		mes "- Espere um momento! -";
+		mes "- Atualmente você está carregando -";
+		mes "- muitos itens com você. -";
+		mes "- Por favor, volte mais tarde -";
+		mes "- depois de colocar alguns itens no armazém da kafra. -";
+		close;
+	}
+	mes "[Java Dullihan]";
+	mes "Uau...";
+	mes "Que lindo dia... Dias como estes são perfeitos para fazer Tinturas!";
+	next;
+	switch(select("Conversar:Fazer Tinturas:Cancelar")) {
+	case 1:
+		mes "[Java Dullihan]";
+		mes "Eu não tenho muito a dizer. Mas se você quiser saber sobre meu passado. Estou certo que tenho algumas histórias para contar. Gostaria de ouvir alguma?";
+		next;
+		if (select("Por favor me conte:Quem sabe depois") == 1) {
+			mes "[Java Dullihan]";
+			mes "Desde que me lembro, meu pai fazia tinturas. Ele passava inúmeras horas fazendo tinturas de cores diferentes. Mesmo quando minha mãe faleceu, ele nunca parou.";
+			next;
+			mes "[Java Dullihan]";
+			mes "Em certo momento da minha vida, eu me tornei rebelde e fugi de casa. Eu não queria ficar preso aos negócios da família e queria tentar outras coisas.";
+			next;
+			mes "[Java Dullihan]";
+			mes "De qualquer forma...";
+			mes "Acabei voltando para casa para continuar a tradição da família, fazendo tinturas há 15 anos. Acho que isso estava realmente no meu sangue.";
+			next;
+			mes "[Java Dullihan]";
+			mes "Algo que percebi ultimamente é que agora posso entender meu pai. O porquê que meu pai se dedicou tanto a fazer tinturas...";
+			next;
+			mes "[Java Dullihan]";
+			mes "No meio de todo aquele trabalho tedioso e árduo, ele provavelmente sentiu a magia daquelas cores transmitindo tantos sonhos para outras pessoas.";
+			next;
+			mes "[Java Dullihan]";
+			mes "Provavelmente foi por causa desses sonhos que ele se esforçou tanto para fazer tinturas para seus clientes...";
+			next;
+			mes "[Java Dullihan]";
+			mes "Heh... Como eu sei disso? Bem, é assim que me sinto agora. Já fas alguns anos, que venho conseguindo ouvir o que as cores dizem...";
+			next;
+			mes "[Dye Maker Java Dullian]";
+			mes "Apenas observe. Algum dia, terei sucesso em fazer a cor que meu pai queria, mas nunca teve a chance de fazer.";
+			close;
+		}
+		mes "[Java Dullihan]";
+		mes "Ahahahaha...";
+		mes "Bem, acho que ninguém iria querer ouvir a história de um mísero tintureiro de qualquer maneira. Hahaha....";
+		close;
+
+	case 2:
+		mes "[Java Dullihan]";
+		mes "Ótimo! Se você quiser, eu farei isso para você. Eu prometo que farei a cor que você quiser. Mas que cor de tinta você gostaria de fazer? A taxa é diferente dependendo da cor.";
+		next;
+		mes "[Java Dullihan]";
+		mes "Por que, você pergunta? Apenas lembre-se que existem cores que são fáceis de fazer e outras que exigem mais esforço e trabalho. Por favor, não pense que a taxa é muito cara.";
+		next;
+		mes "[Java Dullihan]";
+		mes "A cor da tintura é especial, feita com todo meu coração e alma.";
+		next;
+		switch(select("Tintura Vermelha:Tintura Amarela:Tintura Azul:Tintura Verde:Tintura Laranja:Tintura Violeta:Tintura Branca:Tintura Preta:Cancelar")) {
+		case 1: callsub S_MakeDye,1,1; break;
+		case 2: callsub S_MakeDye,2,1; break;
+		case 3: callsub S_MakeDye,3,2; break;
+		case 4: callsub S_MakeDye,4,3; break;
+		case 5: callsub S_MakeDye,5,4; break;
+		case 6: callsub S_MakeDye,6,4; break;
+		case 7: callsub S_MakeDye,7,4; break;
+		case 8: callsub S_MakeDye,8,4; break;
+		case 9:
+			mes "[Java Dullihan]";
+			mes "Aaaahhhh!! O que é isso? Você mudou de ideia agora!? Tão decepcionante...";
+			close;
+		}
+
+	case 3:
+		mes "[Java Dullihan]";
+		mes "Não estou me gabando nem nada. Mas tenho a habilidade de fazer tinturas. Se você precisar de tinturas, por favor, venha até mim. Farei para você por um preço razoável.";
+		close;
+	}
+
+S_MakeDye:
+	mes "[Java Dullihan]";
+	switch(getarg(0)) {
+	case 1:
+		mes "Hmm... Para fazer uma Tintura Vermelha, precisarei de ^0000ff30 Ervas Vermelhas, 1 Antígeno e 1 Garrafa Vazia^000000. O custo da minha mão-de-obra será de 3.000 Zeny.";
+		setarray .@item[0], 507, 973, 713;
+		setarray .@count[0], 30,   1,   1;
+		set .@cost,3000;
+		set .@dyestuff,975;
+		break;
+	case 2:
+		mes "Hmm... Para fazer uma Tintura Amarela, precisarei de ^0000ff30 Ervas Amarelas, 1 Antígeno, e 1 Garrafa Vazia^000000. O custo da minha mão de obra será de 3.000 Zeny.";
+		setarray .@item[0], 508, 973, 713;
+		setarray .@count[0], 30,   1,   1;
+		set .@cost,3000;
+		set .@dyestuff,976;
+		break;
+	case 3:
+		mes "Hmm... Para fazer uma Tintura Azul, precisarei de ^0000ff20 Ervas Azuis, 1 Antígeno, e 1 Garrafa Vazia^000000. Trabalhar com ervas azuis é mais difícil, então o custo da minha mão-de-obra será de 3.500 Zeny";
+		setarray .@item[0], 510, 973, 713;
+		setarray .@count[0], 20,   1,   1;
+		set .@cost,3500;
+		set .@dyestuff,978;
+		break;
+	case 4:
+		mes "Hmm... Para fazer uma Tintura Verde, precisarei de ^0000ff5 Ervas Azuis, 20 Ervas Verdes, 20 Ervas Amarelas, 1 Antígeno, 1 Mistura, e 1 Garrafa Vazia^000000. O custo da minha mão-de-obra será de 5.000 Zeny.";
+		setarray .@item[0], 510, 511, 508, 974, 973, 713;
+		setarray .@count[0],  5,  20,  20,   1,   1,   1;
+		set .@cost,5000;
+		set .@dyestuff,979;
+		break;
+	case 5:
+		mes "Hmm... Para fazer uma Tintura Laranja, precisarei de ^0000ff20 Ervas Vermelha, 20 Ervas Amarelas, 1 Antígeno, 1 Mistura, e 1 Garrafa Vazia^000000. O custo da minha mão-de-obra será de 5.000 Zeny.";
+		setarray .@item[0], 507, 508, 974, 973, 713;
+		setarray .@count[0], 20,  20,   1,   1,   1;
+		set .@cost,5000;
+		set .@dyestuff,980;
+		break;
+	case 6:
+		mes "Hmm... Para fazer uma Tintura Violeta, precisarei de ^0000ff10 Ervas Azuis, 30 Ervas Vermelhas, 1 Antígeno, 1 Mistura, e 1 Garrafa Vazia^000000. O custo da minha mão-de-obra será de 5.000 Zeny.";
+		setarray .@item[0], 510, 507, 974, 973, 713;
+		setarray .@count[0], 10,  30,   1,   1,   1;
+		set .@cost,5000;
+		set .@dyestuff,981;
+		break;
+	case 7:
+		mes "Hmm... Para fazer uma Tintura Branca, precisarei de ^0000ff30 Ervas Brancas, 1 Antígeno, e 1 Garrafa Vazia^000000. O custo da minha mão-de-obra será de 3.000 Zeny.";
+		setarray .@item[0], 509, 973, 713;
+		setarray .@count[0], 30,   1,   1; 
+		set .@cost,3000;
+		set .@dyestuff,982;
+		break;
+	case 8:
+		mes "Hmm... Para fazer uma Tintura Preta, precisarei de ^0000ff30 Ervas Vermelhas, Amarelas, e Verdes, 5 Ervas Azuis, 1 Antígeno, 1 Mistura, e 1 Garrafa Vazia^000000. Esta é a tintura que consome mais tempo e a mais difícil de se fazer. Terei que cobrar uma taxa-de-mão de obra de 7.000 Zeny.";
+		setarray .@item[0], 507, 508, 511, 510, 974, 973, 713;
+		setarray .@count[0], 30,  30,  30,   5,   1,   1,   1;
+		set .@cost,7000;
+		set .@dyestuff,983;
+		break;
+	}
+	next;
+	mes "[Java Dullihan]";
+	switch(getarg(1)) {
+	case 1: mes "Ah! Eu acho que você tem tudo pronto. Gostaria de iniciar o processo?"; break;
+	case 2: mes "Ok! Eu acho que você tem tudo pronto. Gostaria de iniciar o processo?"; break;
+	case 3: mes "Ok! Eu acho que você tem tudo pronto. Podemos começar o processo?"; break;
+	case 4: mes "Ok! Eu acho que você tem tudo pronto. Gostaria de iniciar o processo?"; break;
+	}
+	next;
+	if (select("Criar Tinturas:Cancelar") == 1) {
+		set .@size, getarraysize(.@item);
+		// checa requerimentos
+		for( set .@i,0 ; .@i < .@size ; set .@i,.@i+1 )
+			if( countitem(.@item[.@i]) < .@count[.@i] )
+				break;
+		if( .@i < .@size || Zeny < .@cost ) {
+			mes "[Java Dullihan]";
+			mes "Hmm. Insuficiente...";
+			mes "Eu não posso fazer o que você quer sem os materiais necessários. Porque você não traz tudo certo da próxima vez?";
+			close;
+		}
+		// deleta itens
+		for (set .@i, 0; .@i < .@size ; set .@i, .@i+1)
+			delitem .@item[.@i], .@count[.@i];
+		set Zeny, Zeny-.@cost;
+		// dar corante
+		getitem .@dyestuff,1;
+		
+		mes "[Java Dullihan]";
+		mes "Hmm... Ficou muito bom. Uma cor muito rica. Claro que vou me esforçar mais para fazer uma cor mais charmosa...";
+		next;
+		mes "[Java Dullihan]";
+		mes "Ok, então. Fale comigo quando precisa de mais Tinturas!";
+		close;
+	}
+	mes "[Java Dullihan]";
+	mes "Aaaahhhh!! O que é isso?";
+  	mes "Você mudou de ideia agora!? Tão decepcionante...";
+	return;
+}

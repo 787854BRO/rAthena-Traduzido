@@ -1,0 +1,93 @@
+//===== rAthena Script ======================================= 
+//= PvP NPCs
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= PvP NPCs that are found in the Inns in major cities.
+//= Includes Yoyo Mode, Nightmare Mode, and Event Mode.
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal.
+//============================================================
+
+// Portais PVP 
+//============================================================
+pvp_y_room,30,85,4	script	Recepção de Luta#1	105,{ //5,5
+	callfunc "F_PVP_FSRS",50,69;
+	end;
+
+OnInit:
+	waitingroom "LV 50 ~ LV 69",0;
+	end;
+}
+
+pvp_y_room,38,85,4	script	Recepção de Luta#2	105,{ //5,5
+	callfunc "F_PVP_FSRS",70,89;
+	end;
+
+OnInit:
+	waitingroom "LV 70 ~ LV 89",0;
+	end;
+}
+
+pvp_y_room,46,85,4	script	Recepção de Luta#3	105,{ //5,5
+	callfunc "F_PVP_FSRS",90,99;
+	end;
+
+OnInit:
+	waitingroom "LV 90 ~ LV 99",0;
+	end;
+}
+
+pvp_y_room,54,85,4	script	Recepção de Luta#8	105,{
+	callfunc "F_PVP_FSRS";
+	end;
+
+OnInit:
+	waitingroom "Grátis para Todos!",0;
+	end;
+}
+
+pvp_y_room,62,85,4	script	Recepção de Luta#4	105,{
+	//if (ADVJOB > 0) {
+	if (Upper == 1) {
+		mes "[Equipe de Registro PVP]";
+		mes "Você é um Transcendental.";
+		mes "Você não tem permissão para entrar.";
+		close;
+	}
+	callfunc "F_PVP_FSRS";
+	end;
+
+OnInit:
+	waitingroom "Só Classes Normais!",0;
+	end;
+}
+
+pvp_y_room,70,85,4	script	Recepção de Luta#5	105,{
+	//if (ADVJOB == 0) {
+	if (Upper != 1) {
+		mes "[Equipe de Registro PVP]";
+		mes "Você não é um Transcendental.";
+		mes "Você não tem permissão para entrar.";
+		close;
+	}
+	callfunc "F_PVP_FSRS";
+	end;
+
+OnInit:
+	waitingroom "Só Trans Classes!",0;
+	end;
+}
+
+pvp_n_room,86,85,4	script	Recepção de Luta#n	105,{
+	callfunc "F_PVP_FSRS";
+	end;
+
+OnInit:
+	waitingroom "Grátis para Todos!",0;
+	end;
+}

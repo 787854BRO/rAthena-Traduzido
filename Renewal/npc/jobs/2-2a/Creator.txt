@@ -1,0 +1,138 @@
+//===== rAthena Script ======================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== By: ==================================================
+//= Nana
+//= finished, optimized and tested by Lupus
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== Additional Comments: ================================= 
+//= 1.1 Made all into functions, additional checks, etc. [Lupus]
+//= 1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus]
+//= 1.4 Creators did not get their homunculus skills [Lemongrass]
+//============================================================ 
+
+valkyrie,53,50,3	script	Criador#Valquiria	122,{
+	if (Class == Job_Creator && bioeth == 13 && getskilllv("AM_BIOETHICS") == 0) {
+		mes "[Criador]";
+		mes "Ah, você veio para";
+		mes "recuperar suas memórias";
+		mes "perdidas? Sim, você";
+		mes "deve estar aqui para os";
+		mes "segredos da vida que";
+		mes "um dia foram seus...";
+		next;
+		if (select("Sim.:Não") == 1) {
+			mes "[Criador]";
+			mes "Feche os olhos e";
+			mes "coloque sua mente em repouso.";
+			mes "Nós retornaremos ao seu";
+			mes "passado para recuperar os";
+			mes "fragmentos de suas";
+			mes "memórias perdidas.";
+			next;
+			mes "[Criador]";
+			mes "Quando você abrir os olhos,";
+			mes "você se lembrará claramente";
+			mes "dos segredos da vida. Você";
+			mes "também se lembrará do peso da";
+			mes "responsabilidade em usar estes";
+			mes "segredos para os fins certos...";
+			next;
+			skill "AM_BIOETHICS",1,SKILL_PERM;
+			mes "[Criador]";
+			mes "Abra os olhos...";
+			mes "Agora que você";
+			mes "lembrou como";
+			mes "criar vida artificial, eu apenas";
+			mes "pedirei que você trate todas as suas";
+			mes "criações com respeito.";
+			close;
+		}
+		mes "[Criador]";
+		mes "Se você deseja";
+		mes "recuperar suas";
+		mes "memórias perdidas, por favor,";
+		mes "volte até mim.";
+		mes "O segredo para criar";
+		mes "a vida não é uma coisa insignificante...";
+		close;
+	}
+	else if (ADVJOB == 0 || Upper != 1) {
+		set .@karma_d,rand(1,10);
+		if (.@karma_d > 4) {
+			mes "[Criador]";
+			mes "Parabéns!";
+			mes "Honra aos guerreiros!";
+			close;
+		}
+		mes "[Criador]";
+		mes "É estranho que";
+		mes "alguém como eu esteja aqui.";
+		mes "Mas mesmo alguém hábilidoso";
+		mes "em ciência poderia";
+		mes "torna-se um herói.";
+		next;
+		mes "[Criador]";
+		mes "Neste caso,";
+		mes "não é necessariamente";
+		mes "os meios que usei, mas";
+		mes "os fins pelos quais";
+		mes "lutei que me renderam";
+		mes "um lugar em Valhalla...";
+		close;
+	}
+	else if (ADVJOB == Job_Creator && Class == Job_Merchant_High && JobLevel > 39) {
+		mes "[Criador]";
+		mes "Sim...";
+		mes "Já era hora.";
+		mes "Precisamos de mais gênios";
+		mes "como você em Midgard.";
+		next;
+		mes "[Criador]";
+		mes "Você gostaria de";
+		mes "se tornar um Criador?";		
+		next;
+		if (select("Não.:Sim.") == 1) {
+			mes "[Criador]";
+			mes "Quando estiver pronto,";
+			mes "sinta-se à vontade para voltar.";
+			mes "Honra aos guerreiros!";
+			close;
+		}
+		if (SkillPoint) {
+			mes "[Criador]";
+			mes "Você ainda tem pontos de habilidades. Por favor,";
+			mes "use todos os seus pontos de habilidade restantes, e depois volte aqui.";
+			close;
+		}
+		jobchange Job_Creator;
+		if (bioeth == 13)
+			skill "AM_BIOETHICS",1,SKILL_PERM;
+		set ADVJOB,0;
+		mes "[Criador]";
+		mes "Parabéns!";
+		mes "Como Criador,";
+		mes "Eu espero que você use seu";
+		mes "vasto conhecimento para";
+		mes "as finalidades certas.";
+		close;
+	}
+	else {
+		mes "[Criador]";
+		mes "Bem-vind"+(Sex?"o":"a")+"";
+		mes "à Valhalla,";
+		mes "o Salão da Honra.";
+		next;
+		mes "[Criador]";
+		mes "Por favor, sinta-se";
+		mes "confortável enquanto";
+		mes "estiver por aqui.";
+		mes "Honra aos guerreiros!";
+		close;
+	}
+}

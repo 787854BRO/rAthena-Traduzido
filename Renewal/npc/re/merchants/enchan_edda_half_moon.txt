@@ -1,0 +1,273 @@
+//===== rAthena Script =======================================
+//= Half Moon in the Daylight Enchanter
+//===== Description: =========================================
+//= [Walkthrough Conversion]
+//= Half Moon in the Daylight related enchanter
+//===== Changelog: ===========================================
+//= 1.0 Initial release [Everade]
+//= 1.1 Clean-up [Capuche]
+//============================================================
+
+rachel,177,139,3	script	Gerente de Itens#0hmoon	4_M_TRAINEE,{
+	disable_items;
+	if (MaxWeight - Weight < 1000 || checkweight(5819,1) == 0) {
+		npctalk "Por favor, reduza o peso da sua bagagem.",getnpcid(0),bc_self;
+		end;
+	}
+	mes "[Gerente de Itens do Templo]";
+	mes "Se você tiver 1 ^0000cdColar da Papisa^000000 e um ^0000cdFragmento de Sonho^000000, eu lhe concederei o poder da Deusa.";
+	next;
+	mes "[Gerente de Itens do Templo]";
+	mes "Farei um bom trabalho. Deixe isso comigo.";
+	next;
+	switch (select("O que é o poder da Deusa?:Vamos lá, por favor.:Deixa para lá.")) {
+	case 1:
+		mes "[Gerente de Itens do Templo]";
+		mes "O que é o poder da Deusa? Você realmente perguntou sobre o poder da Deusa?";
+		next;
+		switch (select("Não.", "Sim, eu perguntei.")) {
+		case 1:
+			mes "[Gerente de Itens do Templo]";
+			mes "Gostaria de conversar com você, por favor, escute.";
+			close;
+		case 2:
+			mes "[Gerente de Itens do Templo]";
+			mes "Poder da Deusa!!! Eu amo a Deusa! Deusa, você é incrível!!!";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Há uma história que precisa ser contada primeiro.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Sempre fui fã da ^0000cdDeusa^000000. Quando entrei para o templo e comecei minha vida como devoto, minha vida começou a florescer.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Um dia, antes de dormir, tive um ^0000cdsonho^000000 enquanto orava para a Deusa.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Ouvi a ^0000cdvoz^000000 da Deusa Freya em plena luz.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Mas infelizmente, assim que acordei, esqueci tudo sobre o sonho. É assim que são os sonhos.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Chorei sem parar porque fiquei triste com isso. Mas se a Deusa me deixou ouvir sua voz em um sonho, será que também não poderíamos alcançá-la através dos sonhos?";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Comecei a estudar os sonhos com toda minha paixão. Achei que era a vontade da Deusa me transmitindo algo.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Enquanto me dedicava à pesquisa, criei a ^0000cdPassagem dos Sonhos^000000 a pedido de nossa tia, a Alta Sacerdotisa Niren, que está bem ao lado. Foi o resultado de toda a minha dedicação.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Ainda não consigo alcançar a Deusa... Mas poucas pessoas encontram a Deusa em seus sonhos... como eu...";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "De qualquer forma, quando recebi o pedido da Alta Sacerdotisa Niren, fiquei surpreso.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Você ousaria entrar no sonho da Papisa...? A Alta Sacerdotisa me convenceu a entrar, mas no fim não consegui ajudá-la.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "E a persuasão foi surpreendentemente convincente.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Então, o que é o Poder da Deusa?";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Quando entrei no sonho da Papisa, fiquei impressionado.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Por quê?";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Por causa do meu ^0000cdgênio^000000.";
+			emotion ET_SWEAT;
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Existe alguém no mundo que possa criar um dispositivo que permite entrar nos sonhos alheios e vivenciá-los intensamente? Kya- Afinal, sou o cordeiro amado da Deusa.";
+			emotion ET_SWEAT;
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Enquanto caminhava pelo sonho da Papisa, encontrei um ^0000cdColar da Papisa^000000 de um padre e um ^0000cdFragmento^000000 especial de um santuário sem rosto.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Tentei descobrir mais coisas em meus sonhos, mas quando a Papisa me encontrou, me rejeitou com medo.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Não sou um confidente próximo da Papisa, então devo ter parecido apenas um estranho.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Fui expulso do sonho da Papisa.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Mas, ao acordar, eu ainda estava segurando o Colar da Papisa e o estranho fragmento. O que acha disso?";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Incrível.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Oh, Deusa, tenha piedade da sensibilidade de um aventureiro que resume tudo isso em apenas uma palavra: incrível—";
+			emotion ET_SWEAT;
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Consegui trazer objetos dos sonhos alheios para a realidade. Isso é incrível! Vamos ao que interessa, já que você não parece empolgado.";
+			emotion ET_SWEAT;
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Comecei a estudar o colar e o fragmento estranho. Chamei o fragmento de ^0000cdFragmento de Sonho^000000, pois foi obtido em um sonho. Kyah—Que criatividade!";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Separadamente, pareciam normais, mas juntos, senti uma energia sutil.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Desde então, comecei a entrar nos sonhos da Papisa e coletar esses itens sem ser notado.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Descobri que ao reunir cerca de ^0000cd100 Fragmentos de Sonho^000000, compactá-los com força e inseri-los no ^0000cdColar da Papisa^000000, posso conceder ^0000cdpoderes especiais^000000 ao colar.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Com muita pesquisa, consegui separar esses poderes em três categorias.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Esses poderes ajudam nos ataques ^0000cdfísicos^000000, ^0000cdmágicos^000000 ou ^0000cdà distância^000000 do usuário. Sem efeitos colaterais!";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Nomeei esses poderes de ^0000cdDeusa da Justiça, Deusa da Misericórdia e Deusa da Percepção^000000. Impressionante, não?";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Mas mais surpreendente ainda: se você usar cerca de ^0000cd1000 Fragmentos de Sonho^000000, é possível aplicar um ^0000cdpoder ainda mais forte^000000.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Mais do que isso, o colar não aguenta e todos os itens que coletei foram destruídos. Ainda estou trabalhando nisso, um dia vou conseguir.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Resuma isso tudo em três linhas.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Ai, ai, o que fazer com você? Ainda assim, sou um Cordeiro gentil da Deusa, então aqui vai:";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Se você me trouxer ^0000cd1 Colar da Papisa e 100 Fragmentos de Sonho^000000 obtidos em sonhos, seu ^0000cdColar da Papisa será encantado com o Poder da Deusa^000000.";
+			next;
+			mes "E se você trouxer um ^0000ffColar da Papisa com o Poder da Deusa^000000 encantado e ^0000ff1000 Fragmentos de Sonho^000000, você receberá um poder ainda maior.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "É isso!";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Ah, obrigado.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Você gostaria de ouvir isso mais uma vez?";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Ah não, está tudo certo.";
+			next;
+			mes "[Gerente de Itens do Templo]";
+			mes "Ah, que pena. Eu ia entrar em mais detalhes desta vez.";
+			close;
+		}
+	case 2:
+		mes "[Gerente de Itens do Templo]";
+		mes "Ótima decisão! Você quer que seja no lado ^0000cdesquerdo^000000? Ou no lado ^0000cdireito^000000? Estou confiante de qualquer maneira!...";
+		next;
+		switch (select("Esquerdo.:Direito.:Cancelar.")) {
+		case 1:
+			.@part = EQI_ACC_L;
+			break;
+		case 2:
+			.@part = EQI_ACC_R;
+			break;
+		case 3:
+			mes "Ah, por quê!!! Estou sendo legal com você!!!";
+			close;
+		}
+		.@itemid = getequipid(.@part);
+		if (.@itemid != 28387) {
+			mes "Espera aí! Esse não é o ^0000cd<ITEM>"+getitemname(28387)+"<INFO>"+28387+"</INFO></ITEM>^000000, é? Pode verificar de novo?";
+			close;
+		}
+		.@card = getequipcardid(.@part,3);
+		if (getiteminfo(.@card, ITEMINFO_SUBTYPE) == CARD_ENCHANT) {
+			npctalk "Esse seu colar já está encantado.";
+			close;
+		}
+		mes "Quais habilidades especiais você gostaria de encantar em seu colar?";
+		next;
+		.@menu$ = "";
+		setarray .@enhance_n$,"Deusa da Justiça","Deusa da Misericórdia","Deusa da Percepção";
+		for (.@i=0; .@i<getarraysize(.@enhance_n$); .@i++) {
+			.@menu$ += .@enhance_n$[.@i]+":";
+		}
+		.@menu$ += "Cancelar.";
+		.@select = select(.@menu$) -1;
+		if (.@select==getarraysize(.@enhance_n$)+1) {
+			callsub S_Cancel;
+		}
+		setarray .@enhance_a,29121,29123,29125;
+		setarray .@enhance_s,29122,29124,29126;
+		mes "[Gerente de Itens do Templo]";
+		mes "Você selecionou o encantamento "+.@enhance_n$[.@select]+".";
+		mes "Por favor, selecione a classe:";
+		mes "<ITEM>"+getitemname(.@enhance_a[.@select])+"<INFO>"+.@enhance_a[.@select]+"</INFO></ITEM>";
+		mes "<ITEM>"+getitemname(.@enhance_s[.@select])+"<INFO>"+.@enhance_s[.@select]+"</INFO></ITEM>";
+		next;
+		.@class = select("Classe A:Classe S");
+		.@enchant = .@class==1?.@enhance_a[.@select]:.@enhance_s[.@select];
+		.@cost = .@class==1?100:1000;
+		mes "[Gerente de Itens do Templo]";
+		mes "O colar será encantado com <ITEM>"+getitemname(.@enchant)+"<INFO>"+.@enchant+"</INFO></ITEM>.";
+		mes "Tem certeza de que deseja prosseguir com esse processo de encantamento?";
+		next;
+		if (select("Não, preciso pensar melhor.","Sim, por favor.") == 1) {
+			callsub S_Cancel;
+		}
+		mes "[Gerente de Itens do Templo]";
+		if (!getequipisequiped(.@part) || isequipped(28387) < 1) {
+			mes "Você não está usando o <ITEM>"+getitemname(28387)+"<INFO>"+28387+"</INFO></ITEM>...!";
+			close;
+		}
+		if (.@enchant == .@card) {
+			mes "Seu <ITEM>"+getitemname(28387)+"<INFO>"+28387+"</INFO></ITEM> já possui este encantamento.";
+			close;
+		}
+		if (countitem(25088) < .@cost) {
+			mes "Você não trouxe <ITEM>"+getitemname(25088)+"<INFO>"+25088+"</INFO></ITEM> suficiente!";
+			close;
+		}
+		if (.@class == 2) {
+			if (.@enchant == 29122 && .@card != 29121 ||.@enchant == 29124 && .@card != 29123 || .@enchant == 29126 && .@card != 29125 ) {
+				mes "Você precisa primeiro encantar o colar com <ITEM>"+getitemname(.@enhance_a[.@select])+"<INFO>"+.@enhance_a[.@select]+"</INFO></ITEM>.";
+				close;
+			}
+		}
+		specialeffect2 182;
+		specialeffect2 205;
+		specialeffect2 102;
+		specialeffect2 104;
+		mes "O colar foi encantado conforme as suas especificações.";
+		delitem 25088,.@cost; //Fragmento de Sonho
+		delequip .@part;
+		getitem2 28387,1,1,0,0,0,0,0,.@enchant; //Colar da Papisa
+		close;
+	case 3:
+		callsub S_Cancel;
+	}
+
+S_Cancel:
+	mes "[Gerente de Itens do Templo]";
+	mes "Nada? Esqueceu o que ia dizer?";
+	next;
+	mes "[Gerente de Itens do Templo]";
+	mes "Se você não estiver ocupado agora, gostaria de comer comigo?";
+	next;
+	mes "[Gerente de Itens do Templo]";
+	mes "Por que não aproveitamos esse tempo para falar sobre sonhos, ciência e a deusa?";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Bem, estou ocupado então...";
+	next;
+	mes "[Gerente de Itens do Templo]";
+	mes "Mesmo que você não tenha nada para dizer, apenas me ouça!!!";
+	close;
+}

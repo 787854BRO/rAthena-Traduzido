@@ -1,0 +1,100 @@
+//===== rAthena Script ======================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== By: ==================================================
+//= Nana
+//= finished, optimized and tested by Lupus
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== Additional Comments: ================================= 
+//= 1.1 Made all into functions, additional checks, etc. [Lupus]
+//= 1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus]
+//============================================================ 
+
+valkyrie,44,58,5	script	Algoz#Valkyrie	725,{
+	if (ADVJOB == 0 || Upper != 1) {
+		set .@karma_d,rand(1,10);
+		if (.@karma_d > 4) {
+			mes "[Algoz]";
+			mes "Parabéns...";
+			next;
+			mes "[Algoz]";
+			mes "...";
+			next;
+			mes "[Algoz]";
+			mes "...";
+			mes "......";
+			next;
+			mes "[Algoz]";
+			mes "...";
+			mes "......";
+			mes "Honra aos";
+			mes "guerreiros.";
+			close;
+		}
+		mes "[Algoz]";
+		mes "Nós somos os guerreiros";
+		mes "do deserto. Ninguém";
+		mes "pode nos desprezar.";
+		mes "Ninguém...";
+		close;
+	}
+	else if (ADVJOB == Job_Assassin_Cross && Class == Job_Thief_High && JobLevel > 39) {
+		mes "[Algoz]";
+		mes "O momento chegou.";
+		mes "O mundo precisa de você...";
+		mes "Mais do que nunca.";
+		next;
+		mes "[Algoz]";
+		mes "Eu peço que você continue vivendo nas sombras, mas como um assassino melhor e com nova aparência.";
+		next;
+		mes "[Algoz]";
+		mes "Você deseja se";
+		mes "tornar um Algoz?";
+		next;
+		if (select("Não.:Sim.") == 1) {
+			mes "[Algoz]";
+			mes "Quando você estiver";
+			mes "pronto, volte aqui.";
+			next;
+			mes "[Algoz]";
+			mes "Honra aos";
+			mes "guerreiros.";
+			close;
+		}
+		if (SkillPoint) {
+			mes "[Algoz]";
+			mes "Você ainda não aprendeu";
+			mes "tudo que é necessário";
+			mes "para se tornar um Algoz.";
+			next;
+			mes "[Algoz]";
+			mes "Use todos os seus";
+			mes "Pontos de Habilidade";
+			mes "e depois volte a falar comigo.";
+			close;
+		}
+		jobchange Job_Assassin_Cross;
+		set ADVJOB,0;
+		mes "[Algoz]";
+		mes "Parabéns!";
+		mes "Como um Algoz,";
+		mes "espero que você lute por um futuro melhor em meio às sombras.";
+		close;
+	}
+	mes "[Algoz]";
+	mes "Bem-vind"+((Sex) ? "o":"a")+"";
+	mes "à Valhalla,";
+	mes "o Salão de Honras.";
+	next;
+	mes "[Algoz]";
+	mes "Por favor, sinta-se";
+	mes "a vontade enquanto";
+	mes "estiver por aqui.";
+	mes "Honra aos guerreiros.";
+	close;
+}
